@@ -1,0 +1,42 @@
+{
+  "userId": "YOUR_USER_ID",
+  "providers": {
+    "replicate": {
+      "apiToken": "YOUR_REPLICATE_API_TOKEN"
+    },
+    "openai": {
+      "apiKey": "YOUR_OPENAI_API_KEY"
+    },
+    "google": {
+      "apiKey": "YOUR_GOOGLE_API_KEY"
+    },
+    "fal": {
+      "apiKey": "YOUR_FAL_API_KEY"
+    }
+  },
+  "billing": {
+    "polar": {
+      "accessToken": "YOUR_POLAR_ACCESS_TOKEN",
+      "organizationId": "YOUR_POLAR_ORGANIZATION_ID",
+      "server": "production"
+    }
+  },
+  "storage": {
+    "gcs": {
+      "bucketName": "YOUR_GCS_BUCKET_NAME",
+      "projectId": "YOUR_GCP_PROJECT_ID",
+      "credentialsPath": "/path/to/gcs-credentials.json"
+    }
+  },
+  "defaults": {
+    "image": {
+      "width": 1024,
+      "height": 1024,
+      "quality": "standard",
+      "numImages": 1
+    }
+  },
+  "logging": {
+    "level": "info"
+  }
+}
