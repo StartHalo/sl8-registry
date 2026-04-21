@@ -1,12 +1,12 @@
 # Changelog
 
+All notable changes to `bot-007-restaurant-logo-gen` are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions are tagged in `StartHalo/sl8-registry` as `bot-007-restaurant-logo-gen/vMAJOR.MINOR.PATCH`.
+
 ## [Unreleased]
 ### Changed
 - (next version's changes)
 
 ## [v1.0.0] — 2026-04-21
-All notable changes to `bot-007-restaurant-logo-gen` are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions are tagged in `StartHalo/sl8-registry` as `bot-007-restaurant-logo-gen/vMAJOR.MINOR.PATCH`.
-
 ### Added
 - Initial registry release of the BOT-007 Restaurant Logo Generator skill.
 - Generates restaurant logo concepts across three AI model families with design-informed, model-specific prompts.
