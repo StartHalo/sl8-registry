@@ -3,7 +3,7 @@ name: bot-007-restaurant-logo-gen
 description: Generates restaurant logo concepts by parsing restaurant details, classifying cuisine, composing a 6-dimension base concept (≥100 words), naming the cliché being avoided, then producing model-specific prompts and logo images across multiple AI model families (Recraft V4, Google Nano Banana Pro, Ideogram V3, FLUX) with fallback chains. Use when creating restaurant logos, food-service brand marks, or any cuisine-specific logo concepts.
 metadata:
   author: sl8
-  version: 1.0.0
+  version: 1.2.0
   type: bot
 ---
 
@@ -17,13 +17,14 @@ Copy this checklist into your reasoning and tick each item as you complete it. S
 Run progress:
 - [ ] Step 1  Parse restaurant details (extract every word; clean error if name missing)
 - [ ] Step 2  Fill defaults ONLY for fields marked "not provided"
-- [ ] Step 3  Compose base concept (≥100 words, all 6 dimensions) → work/base-concept.md
+- [ ] Step 3  Compose base concept (≥100 words, all 6 dimensions, declared Wheeler type, favicon + B&W self-checks) → work/base-concept.md
 - [ ] Step 4  Anti-cliché statement (named trope + named fresher reference) → work/anti-cliche.md
 - [ ] Step 5  Per-model prompts (Recraft V4 / Nano Banana Pro / Ideogram V3 / FLUX 2 Pro) — no copy-paste, single iconography
-- [ ] Step 5b Save logo-concept.md (7 required sections) → artifacts/<project-name>/
+- [ ] Step 5b Save logo-concept.md (8 required sections) → artifacts/<project-name>/
 - [ ] Step 6  Discover models (ai-gen models --type image --format json)
-- [ ] Step 7  Generate via 3-slot × 3-fallback chain → artifacts/<project-name>/logos/
+- [ ] Step 7  Generate via 3-slot × 3-fallback chain — STRICT DROP, no out-of-chain improvisation → artifacts/<project-name>/logos/
 - [ ] Step 8  Score each surviving image against 9-dimension rubric → work/scoring.md
+- [ ] Step 8b Logo critique pass — favicon test, B&W test, single-mark-clarity test verdicts per surviving model → comparison.md § Per-Model Observations
 - [ ] Step 9  Write comparison.md (Generation Details, Models Used, Per-Model Observations, 9-dim table, Recommendation, text-rendering disclaimer)
 ```
 
@@ -38,6 +39,62 @@ The principles in this skill are distilled from the SL8 knowledge base. The KB p
 - BOT-004 `poster-prompt-gen` — sibling structural template (parse → defaults → base concept → per-model prompts → generate → compare)
 
 Inside the E2B sandbox the bot does not have KB access; the cuisine taxonomy and prompt dialects are embedded inline below for self-contained execution.
+
+## Logo Design Vocabulary
+
+The bot must use these terms with precision. Vague substitutes are a quality-loss signal that grading will catch.
+
+### Logo anatomy (the parts of a logo)
+
+- **Mark / symbol** — the iconographic element. Exactly ONE primary mark per logo.
+- **Wordmark** — the typographic element bearing the brand name.
+- **Tagline** — secondary descriptor below or beside the wordmark.
+- **Lockup** — the fixed spatial relationship between mark and wordmark.
+- **Signature** — the canonical lockup variant a brand uses as its default.
+- **Letterform / counterform** — individual letter shape / negative space inside enclosed letters.
+- **Ornamental frame** — enclosing shape on emblems / crests / badges.
+- **Stroke weight** — primary mark stroke, secondary detail stroke, typographic stroke; at favicon scale, hairlines disappear first.
+- **Negative space** — structural design tool; not leftover.
+
+### Wheeler's 7 Canonical Logo Types
+
+Every concept must declare its Wheeler type in Step 3.
+
+1. **Wordmark (logotype)** — brand name as primary mark; font-based.
+2. **Lettermark (monogram)** — stylized initial(s).
+3. **Pictorial mark** — recognizable symbol, no text.
+4. **Abstract mark** — organic shapes/geometry, no explicit imagery.
+5. **Mascot** — character representing the brand.
+6. **Combination mark** — wordmark + pictorial/abstract/mascot. **Default for restaurants** unless taxonomy says otherwise — most versatile.
+7. **Emblem (badge / crest / seal)** — typography enclosed within a frame. **Default for heritage / artisanal** — BBQ, brewery, traditional Italian, coffee shops.
+
+### Universal Legibility Tests
+
+Step 8b operationalizes these as tests, not afterthoughts. For each surviving image, record a one-line verdict per test in `comparison.md` § Per-Model Observations.
+
+- **Favicon test (16×16 / 32×32)** — silhouette recognizable; thin strokes don't disappear; characters don't collapse.
+- **B&W test** — strip color; logo works through form alone.
+- **Single-mark-clarity test** — exactly ONE primary mark visible; no competing secondary marks; no multi-icon ambiguity.
+
+Favicon discipline: 3 colors max (2 better, 1 perfect). Designs simple and uncluttered.
+
+### Design discipline
+
+- **Golden ratio (φ ≈ 1.618)** — proportional system for sizing rectangles and circles. Grid is a guide, not a rule — designer's eye wins on optical alignment vs mathematical alignment.
+- **Stroke weight hierarchy** — at favicon scale, hairlines disappear first.
+- **Counterform balance** — negative space inside letterforms balances solid counterparts.
+
+### Gestalt principles relevant to logos
+
+- **Closure** — eye completes incomplete shapes (WWF panda).
+- **Figure-ground** — mark and background read as intentional shapes (FedEx arrow in negative space).
+- **Proximity** — mark + wordmark feel like one unit, not two.
+- **Continuity** — baseline alignment between mark and wordmark.
+- **Similarity** — repeated shapes/weights bind elements.
+
+### Pentagram method (Paula Scher, professional context)
+
+The bot produces a *concept*; the persona's designer extends it into a kit. Six steps: research → series of solutions → simplify to essence → stretch to limits → output design kit → liquid identity. Three Scher principles: typography as image, serious play, environmental integration. **Step 9's recommendation must mention what kit-extension considerations the designer will need to derive from the chosen direction** (typography system, color palette, motion, iconography family).
 
 ## Purpose
 
@@ -115,13 +172,15 @@ Defaults applied (will surface in Assumptions):
 - [list every field that came from a default, not the user]
 ```
 
-### Step 3: Compose the Base Concept (≥100 words, all 6 dimensions)
+### Step 3: Compose the Base Concept (≥100 words, all 6 dimensions, declared Wheeler type)
 
 Write the core creative concept. Save to `work/base-concept.md` BEFORE writing per-model prompts.
 
-The base concept must address all 6 dimensions explicitly. Aim for ≥100 words; 150–250 is the sweet spot.
+The base concept must declare its Wheeler type AND address all 6 dimensions AND pass favicon + B&W self-checks. Aim for ≥100 words; 150–250 is the sweet spot.
 
 ```
+**Wheeler type:** [Pick ONE of: Wordmark, Lettermark, Pictorial mark, Abstract mark, Mascot, Combination mark, Emblem. Default for restaurants: Combination mark, unless cuisine taxonomy says Emblem (heritage/artisanal) or Wordmark/Monogram (fine dining).]
+
 **Subject:** [What exactly is being created — brand type, layout family, primary mark in one sentence]
 
 **Composition:** [Layout style with rationale — negative space allocation, mark placement relative to brand name, baseline relationship, alignment]
@@ -133,9 +192,13 @@ The base concept must address all 6 dimensions explicitly. Aim for ≥100 words;
 **Typography:** [Font characteristics — weight, case, serif/sans-serif, treatment, tracking. How does typography interact with the mark? How does the brand name read at favicon scale?]
 
 **Mood/Atmosphere:** [Emotional tone, what the viewer should feel, cultural reference if relevant]
+
+**Favicon-test self-check:** [One sentence — at 32×32, what reads? what disappears? does the silhouette pass?]
+
+**B&W-test self-check:** [One sentence — strip color; does the hierarchy still read? does the mark distinguish from background through form alone?]
 ```
 
-**Quality target**: The base concept must be **≥100 words** and address all 6 dimensions explicitly. **If your base concept is under 100 words, add more design specificity** before proceeding.
+**Quality target**: The base concept must be **≥100 words**, address all 6 dimensions explicitly, declare its Wheeler type, and include both legibility self-checks. **If your base concept is under 100 words, add more design specificity** before proceeding.
 
 **CRITICAL — User input priority**: The user's stated cuisine, vibe, color, and style guidance is the #1 input for art direction. If the user says "warm and heritage feel, deep red and cream", the concept MUST reflect warmth and heritage with a deep-red + cream palette — NOT default to whatever the cuisine taxonomy suggests. Defaults only fill gaps.
 
@@ -159,7 +222,9 @@ Adapt the base concept into prompts optimized for each model family's strengths.
 
 #### Recraft V4 SVG / V4 Raster Prompt
 
-Recraft V4 rewards **paragraph briefs** with text as a composition primitive. 200–500 words is the sweet spot; the model accepts up to 10,000 characters.
+> **Build-time KB pointer:** see `kb/wiki/topics/prompting-recraft-v4.md` for full paragraph-brief depth, SVG variant rules, "type as composition primitive" technique, and per-variant cost/speed/resolution tables. Sandbox Claude can't read KB at runtime, so the essentials are embedded below.
+
+Recraft V4 rewards **paragraph briefs** with text as a composition primitive. 200–500 words is the sweet spot; the model accepts up to 10,000 characters. Five required slots in every paragraph brief: (1) visual hierarchy + composition structure, (2) material properties + lighting conditions, (3) typography placement + styling, (4) color palette + mood, (5) design constraints (stroke weights, accent colors, style references). **Anti-pattern:** keyword-list prompts. **Anti-pattern:** treating typography as overlay — describe how text *relates* to the rest of the composition, not "logo with text below".
 
 Structure (5 required slots):
 
@@ -175,7 +240,9 @@ For the SVG variant (`recraft-ai/recraft-v4-svg`), append: `Flat vector design, 
 
 #### Nano Banana Pro Prompt
 
-Nano Banana Pro uses Google's five frameworks. Use **Framework 1 (text-to-image)** for new logos. Positive framing only — Gemini-family models break on negation.
+> **Build-time KB pointer:** see `kb/wiki/topics/prompting-nano-banana-pro.md` for the full five frameworks (text-to-image, multimodal, editing, real-time search, text rendering + localization), per-line font spec syntax, type-as-shape technique, and conversational editing patterns.
+
+Nano Banana Pro uses Google's five frameworks. Use **Framework 1 (text-to-image)** for new logos: `[Subject] + [Action] + [Location/context] + [Composition] + [Style]`. Positive framing only — Gemini-family models break on negation. Iterate conversationally for refinements (follow-up edits are first-class in this model). Text rendering rules: (a) wrap exact strings in quotes, (b) specify font per line, (c) add "translate the text into [language]" as a final instruction for non-Latin co-rendering.
 
 Structure:
 
@@ -195,7 +262,9 @@ The composition uses the palette [hex codes with role descriptions]. [Anti-clich
 
 #### Ideogram V3 Prompt
 
-Ideogram V3 excels at quoted text rendering but garbles ≥3 quoted text blocks. Use ≤2 text blocks. Lead with the brand name in quotes.
+> **Build-time KB pointer:** see `kb/wiki/topics/image-generation-models.md` § Ideogram catalog row. KB does NOT yet have a dedicated `prompting-ideogram.md` (flagged as backflow candidate row 7 in `research/kb-backflow-candidates.md`); essentials embedded inline below.
+
+Ideogram V3 excels at quoted text rendering but garbles ≥3 quoted text blocks. Use ≤2 text blocks. Lead with the brand name in quotes. End with `typography logo, text-based design` to trigger Ideogram's typographic mode. Hex codes respected.
 
 Structure:
 
@@ -205,7 +274,9 @@ A [style] logo for a [cuisine + vibe] restaurant. Brand name "[BRAND NAME]" in [
 
 #### FLUX 2 Pro Prompt
 
-FLUX 2 Pro garbles secondary text — use the primary brand name only, no subtitles. Use a 2–3 sentence narrative paragraph.
+> **Build-time KB pointer:** see `kb/wiki/topics/image-generation-models.md` § FLUX catalog rows. KB does NOT yet have a dedicated `prompting-flux.md` (flagged as backflow candidate row 6 in `research/kb-backflow-candidates.md`); essentials embedded inline below.
+
+FLUX 2 Pro garbles secondary text — use the primary brand name only, no subtitles. Use a 2–3 sentence narrative paragraph (NOT keyword list, NOT structured framework). Front-load the most important elements (subject + composition come first). End with `artistic logo concept, creative design, brand mark` to trigger artistic mode. **Anti-pattern:** including a tagline like "EST. 1972" or "Italian Trattoria" as secondary text — FLUX will produce gibberish for it. Save the descriptor for Recraft / Nano Banana / Ideogram prompts where text rendering is reliable.
 
 Structure:
 
@@ -219,7 +290,7 @@ Before saving `logo-concept.md`, scan each prompt for the regex `\bor\b` between
 
 ### Step 5b: Save logo-concept.md
 
-Write `artifacts/<project-name>/logo-concept.md` with this structure (7 required sections):
+Write `artifacts/<project-name>/logo-concept.md` with this structure (8 required sections — the new "Logo Classification & Legibility" block was added in v1.2.0):
 
 ```markdown
 # Logo Concept: <Restaurant Name>
@@ -227,23 +298,28 @@ Write `artifacts/<project-name>/logo-concept.md` with this structure (7 required
 ## 1. Assumptions
 - [List every default or assumption made — every "not provided" field that fell to a default, plus any rejection of multi-icon ambiguity, plus any cultural-substitution log entries]
 
-## 2. Base Concept
+## 2. Logo Classification & Legibility
+**Wheeler type:** [The declared Wheeler type from Step 3 — one of: Wordmark, Lettermark, Pictorial mark, Abstract mark, Mascot, Combination mark, Emblem]
+**Favicon-test self-check:** [The one-sentence verdict from Step 3]
+**B&W-test self-check:** [The one-sentence verdict from Step 3]
+
+## 3. Base Concept
 [The 6-dimension base concept block from Step 3, ≥100 words]
 
-## 3. Anti-Cliché Statement
+## 4. Anti-Cliché Statement
 **Avoided trope**: [from Step 4]
 **Fresher reference**: [from Step 4]
 
-## 4. Recraft V4 Prompt
+## 5. Recraft V4 Prompt
 [The Recraft prompt from Step 5]
 
-## 5. Nano Banana Pro Prompt
+## 6. Nano Banana Pro Prompt
 [The Nano Banana Pro prompt from Step 5]
 
-## 6. Ideogram V3 Prompt
+## 7. Ideogram V3 Prompt
 [The Ideogram prompt from Step 5]
 
-## 7. FLUX 2 Pro Prompt
+## 8. FLUX 2 Pro Prompt
 [The FLUX prompt from Step 5]
 ```
 
@@ -301,7 +377,15 @@ Where `<slot>` ∈ `{vector, text, artistic}` and `<family>` ∈ `{recraft, recr
 
 **SVG handling**: When `recraft-ai/recraft-v4-svg` is used, request `output_format=svg` if the proxy honors pass-through. If the proxy normalizes to PNG/WebP, log the substitution in `comparison.md § Generation Details`: "SVG requested; proxy returned raster; downstream design tooling cannot use this output as a vector source."
 
-**Hard ceiling**: 9 model attempts total. After 9 failed attempts across all slots, write the failure report (Step 9 alternate path) and exit non-zero.
+**STRICT FALLBACK DISCIPLINE — no out-of-chain improvisation.** Walk the documented chain top-down per slot. The bot must NOT invoke models outside this table. If all 3 levels fail for a slot:
+
+- Write an empty-slot row to `models-used.md` listing all 3 attempted models with their failure reasons
+- Log the slot exhaustion in `comparison.md § Generation Details` with text: *"Slot `<slot>` chain exhausted — `<model 1>`, `<model 2>`, `<model 3>` all failed. Slot drops; comparison covers `<N>` of 3 slots."*
+- **Proceed with surviving slots** — do NOT pick alternates from outside this table
+
+The SD 3.5 Large incident on 2026-04-27 (v1.1.0 run) — where the bot improvised `fal-ai/stable-diffusion-v35-large` after slot 2's chain exhausted — is a documented anti-pattern. The improvised output happened to score highest, which masked the discipline violation. v1.2.0 hard-enforces strict drop. If you find yourself considering an out-of-chain model, the slot drops instead.
+
+**Hard ceiling**: 9 model attempts total (3 slots × 3 levels). After 9 failed attempts across all slots, the run still produces `comparison.md` documenting the failure (see Step 9 alternate path) and exits non-zero.
 
 ### Step 8: Score Each Surviving Image (9-Dimension Rubric)
 
@@ -320,6 +404,20 @@ Save scoring to `work/scoring.md`. Rate each surviving model output 1–5 on eac
 | Overall | Holistic — is this a starting point a designer can use? |
 
 For Freshness: **explicitly name** whether each output drifted into the avoided cliché OR honored the anti-cliché statement. One sentence of justification per model. This is the autoresearch loop's anchor; vague Freshness scoring breaks the ratchet.
+
+### Step 8b: Logo Critique Pass (Universal Legibility Tests)
+
+Before writing the comparison summary, evaluate each surviving image against three operationalized legibility tests. Record a one-line verdict per test, per surviving model. These verdicts feed into `comparison.md § Per-Model Observations` (Step 9).
+
+**Three tests:**
+
+1. **Favicon test (32×32 / 16×16 readability)** — Imagine the silhouette at 32×32 px. What reads? What disappears? Does the mark's silhouette pass? Verdict format: *"Passes / fails / partial — [one-sentence justification naming what reads or what disappears]"*. Example: *"Passes — the olive bough silhouette is recognizable at 32×32; the wordmark drops away gracefully but the mark stands alone"*.
+
+2. **B&W test (monochrome readability)** — Strip color in your mind. Does the hierarchy still read? Does the mark distinguish from the background through form alone? Verdict format same as above. Example: *"Partial — wordmark and mark hierarchy still read in B&W, but the espresso linework against cream background loses its tonal separation; the wreath becomes a flat shape"*.
+
+3. **Single-mark-clarity test** — Is exactly ONE primary mark visible? No competing secondary marks? No multi-icon ambiguity in the rendered image (vs the prompt)? Verdict format same. Example: *"Fails — Recraft V3 added a small spandrel medallion that reads as a chef-hat figure, creating a secondary mark that competes with the primary olive bough"*.
+
+The Step 8b verdicts strengthen the Step 8 9-dim scoring by giving operational criteria to the otherwise-subjective Freshness, Mark Singularity, and Scale-down Legibility dimensions.
 
 ### Step 9: Write the Comparison Summary
 
@@ -351,14 +449,23 @@ Write `artifacts/<project-name>/comparison.md`:
 ### <Model Family 1>
 **Strengths**: [≥1 strength sentence]
 **Weaknesses**: [≥1 weakness sentence]
+**Favicon test**: [Step 8b verdict: passes / fails / partial — one-sentence justification]
+**B&W test**: [Step 8b verdict]
+**Single-mark-clarity test**: [Step 8b verdict]
 
 ### <Model Family 2>
 **Strengths**: [≥1]
 **Weaknesses**: [≥1]
+**Favicon test**: [Step 8b verdict]
+**B&W test**: [Step 8b verdict]
+**Single-mark-clarity test**: [Step 8b verdict]
 
 ### <Model Family 3>
 **Strengths**: [≥1]
 **Weaknesses**: [≥1]
+**Favicon test**: [Step 8b verdict]
+**B&W test**: [Step 8b verdict]
+**Single-mark-clarity test**: [Step 8b verdict]
 
 ## 9-Dimension Scoring
 
@@ -378,6 +485,8 @@ Write `artifacts/<project-name>/comparison.md`:
 
 **Recommended direction**: [SINGLE model name and one-sentence rationale referencing the scoring table — e.g., "Recraft V4 SVG — highest combined Composition (5/5) + Freshness (5/5) and the only output that produced a true vector path the designer can pick up."]
 
+**Design-kit extension considerations** (Pentagram-method handoff to the persona's designer): [List 3–5 things the designer will need to derive from the chosen direction to produce a complete brand kit — e.g., "(1) Typography system: pair the Cormorant Garamond all-caps with a humanist sans for body copy; (2) Color palette extension: add a tertiary cool tone for digital UI accents; (3) Iconography family: extend the olive bough mark into a small set of menu-section icons; (4) Motion: define how the wreath leaves animate on web hover; (5) Signage scale: confirm linework holds up at 36-inch storefront width."]
+
 ## Text Rendering Disclaimer
 
 AI image generation models cannot reliably render text. Text visible in these logo images is approximate and likely contains errors. Among the models used, Nano Banana Pro and Ideogram V3 typically render text more accurately than FLUX. These images are visual concepts — not print-ready designs. For production use, overlay accurate text using a design tool (Figma, Illustrator, or — for SVG outputs — directly edit the vector paths).
@@ -392,7 +501,7 @@ AI image generation models cannot reliably render text. Text visible in these lo
 
 Save all deliverables to `artifacts/<project-name>/`:
 
-- `artifacts/<project-name>/logo-concept.md` — Base concept + anti-cliché statement + per-model prompts with assumptions documented (7 required sections)
+- `artifacts/<project-name>/logo-concept.md` — Wheeler classification + favicon/B&W self-checks + base concept + anti-cliché statement + per-model prompts with assumptions documented (8 required sections)
 - `artifacts/<project-name>/logos/<slot>-<family>.<ext>` — Generated logo image(s), one per surviving slot
 - `artifacts/<project-name>/models-used.md` — Manifest of every model attempt with status (success / failure / fallback) and model ID
 - `artifacts/<project-name>/comparison.md` — 9-dimension scoring table with per-model observations, recommendation, text-rendering disclaimer
@@ -400,15 +509,21 @@ Save all deliverables to `artifacts/<project-name>/`:
 ## Quality Criteria
 
 - [ ] Base concept is ≥100 words and explicitly addresses all 6 dimensions (subject, composition, style/aesthetic, color palette, typography, mood)
+- [ ] **Wheeler type declared** in base concept — one of: Wordmark, Lettermark, Pictorial mark, Abstract mark, Mascot, Combination mark, Emblem (v1.2.0)
+- [ ] **Favicon-test self-check** present in base concept with one-sentence verdict (v1.2.0)
+- [ ] **B&W-test self-check** present in base concept with one-sentence verdict (v1.2.0)
 - [ ] Color palette names ≥3 specific colors with hex codes
 - [ ] Anti-cliché statement names ≥1 specific trope avoided AND ≥1 fresher reference substituted
 - [ ] Each per-model prompt uses the documented dialect for that model family (paragraph for Recraft, framework for Nano Banana, ≤2 quoted blocks for Ideogram, narrative for FLUX) — no copy-paste across models
 - [ ] Exactly ONE primary mark / iconography choice per prompt (no "X or Y" ambiguity)
 - [ ] ≥1 image generated successfully (target: 3 from 3 families)
-- [ ] `models-used.md` logs every model attempt with status and ID
+- [ ] **No out-of-chain models invoked** — only models from the documented Step 7 fallback table appear in `models-used.md` (v1.2.0 strict-drop discipline)
+- [ ] `models-used.md` logs every model attempt with status and ID; if a slot drops, all 3 attempted models are listed with failure reasons
 - [ ] `comparison.md` 9-dimension scoring table populated for every surviving model
+- [ ] **Per-Model Observations include favicon-test, B&W-test, and single-mark-clarity-test verdicts per surviving model** (v1.2.0 Step 8b output)
 - [ ] Per-Model Observations section names ≥1 strength + ≥1 weakness per surviving model
 - [ ] Freshness column has substantive 1-sentence-per-model justification naming cliché-honored or cliché-violated status
 - [ ] Recommendation block names a SINGLE primary direction with rationale referencing the scoring table
+- [ ] **Recommendation block lists ≥3 design-kit-extension considerations** for the persona's designer (Pentagram-method handoff) (v1.2.0)
 - [ ] Text-rendering disclaimer present (literal phrase: "AI image generation models cannot reliably render text")
 - [ ] All files saved to the correct project folder structure under `artifacts/<project-name>/`
