@@ -1,0 +1,22 @@
+This skill vendors source files from:
+
+  Pixel Art Studio
+  https://github.com/Synero/pixel-art-studio
+  Copyright (c) Synero
+  Licensed under the MIT License.
+
+Files vendored verbatim from upstream (snapshot 2026-05-05):
+  - scripts/pixelart.py
+  - scripts/pixelart_image.py
+
+Local additions:
+  - SKILL.md (adapted from upstream SKILL.md; trimmed to text+photo flows
+    only, dropped video flow + GitHub-workflow sections; reformatted for
+    the SL8 bot framework's `## Outputs` convention)
+  - requirements.txt (subset of upstream; ffmpeg dropped since video is out
+    of scope for this skill version)
+  - NOTICE (this file)
+  - CHANGELOG.md
+  - iteration-charter.md (SL8-specific)
+
+Upstream MIT License terms continue to apply to vendored files.
