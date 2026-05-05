@@ -20,7 +20,10 @@ import urllib.parse
 from datetime import datetime
 from pathlib import Path
 
+import io
+
 import requests
+from PIL import Image
 
 # ── Artistic styles ──────────────────────────────────────────────────────────
 
@@ -159,10 +162,17 @@ def generate(prompt, tech_style=DEFAULT_TECH, artistic_style="auto",
         art = f"_{artistic_style}" if artistic_style != "auto" else ""
         output = os.path.join(OUTPUT_DIR, f"{slug}_{tech_style}{art}_{W}x{H}.png")
 
-    with open(output, "wb") as f:
-        f.write(resp.content)
+    # Pollinations returns JPEG bytes regardless of the .png filename we use.
+    # Decode and re-encode as PNG so the file extension matches the content
+    # (matters for strict consumers; browsers tolerate either).
+    if output.lower().endswith(".png"):
+        img = Image.open(io.BytesIO(resp.content)).convert("RGB")
+        img.save(output, format="PNG", optimize=True)
+    else:
+        with open(output, "wb") as f:
+            f.write(resp.content)
 
-    kb = len(resp.content) / 1024
+    kb = os.path.getsize(output) / 1024
     print(f"  OK: {output} ({kb:.0f}KB)")
     return output
 

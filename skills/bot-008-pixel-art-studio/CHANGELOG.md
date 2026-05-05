@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `bot-008-pixel-art-s
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-05-05
+### Fixed
+- `pixelart_image.py` now decodes Pollinations' JPEG response and re-encodes it as a real PNG when the output path ends in `.png`. Previously the file was named `.png` but contained JPEG bytes — valid as an image but a content/extension mismatch that broke strict consumers and tripped Stage 4 PNG-header checks.
+
 ## [v1.0.0] — 2026-05-05
 ### Added
 - Initial v1.0.0 — vendored from [Synero/pixel-art-studio](https://github.com/Synero/pixel-art-studio) (MIT, snapshot 2026-05-05).
