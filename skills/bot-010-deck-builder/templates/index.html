@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!--
+  Single-file HTML slide deck — starter template for bot-010-deck-builder.
+  Topic-agnostic. Replace the TITLE, the slide content, and the theme variables.
+  Everything is inline: no external CSS, JS, fonts, or images. Keep it that way.
+
+  HOW TO USE:
+  - Each slide is <section class="slide" data-slide="N">. Number sequentially from 1.
+  - Section dividers add class "section-slide" and may set data-level="..." when the
+    deck uses progress-style journey-levels.
+  - Navigation: arrow keys / space / Home / End, on-screen arrows, or goToSlide(n).
+  - totalSlides is computed from the DOM — never hardcode the slide count.
+  - PROGRESS STYLE: set the <body> data-progress attribute to "none", "percentage"
+    (default), or "journey-levels". The script shows/hides indicators accordingly.
+  - JOURNEY LEVELS: when data-progress="journey-levels", list the ordered level names
+    in the JOURNEY_LEVELS array below; assign data-level on section dividers.
+-->
+<html lang="en" data-progress="percentage">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deck Title</title>
+<style>
+  :root {
+    /* THEME — edit these to restyle the whole deck */
+    --bg: #1e1e2e;
+    --surface: #27293d;
+    --fg: #e6e6f0;
+    --muted: #a6a6c0;
+    --accent: #7c9cff;
+    --good: #4ec9a8;
+    --bad: #e06c75;
+    --warn: #e0a14e;
+    --border: #3a3c52;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--fg); font-family: var(--font);
+    overflow: hidden; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Progress bar (percentage style) ---- */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px; width: 0;
+    background: var(--accent); transition: width .3s ease; z-index: 50;
+  }
+  body[data-progress="none"] .progress-bar { display: none; }
+
+  /* ---- Journey bar (journey-levels style) ---- */
+  .journey-bar {
+    position: fixed; top: 4px; left: 0; right: 0; height: 26px;
+    display: flex; align-items: stretch; background: var(--surface);
+    border-bottom: 1px solid var(--border); z-index: 49; font-size: 12px;
+  }
+  .journey-bar.hidden { display: none; }
+  body:not([data-progress="journey-levels"]) .journey-bar { display: none; }
+  .journey-seg {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); border-right: 1px solid var(--border);
+  }
+  .journey-seg:last-child { border-right: none; }
+  .journey-seg.reached { color: var(--bg); font-weight: 600; }
+
+  /* ---- Slides ---- */
+  .slide {
+    position: absolute; inset: 0; display: none;
+    flex-direction: column; justify-content: center;
+    padding: 6vh 9vw; overflow-y: auto;
+  }
+  .slide.active { display: flex; }
+  .slide h1 { font-size: 2.6rem; line-height: 1.15; margin-bottom: .8rem; }
+  .slide h2 { font-size: 1.5rem; color: var(--muted); font-weight: 500; }
+  .slide h4 { font-size: 1.05rem; margin-bottom: .4rem; }
+  .slide p  { font-size: 1.15rem; line-height: 1.6; color: var(--fg); margin: .5rem 0; }
+  .slide ul { margin: .6rem 0 .6rem 1.4rem; }
+  .slide li { font-size: 1.1rem; line-height: 1.7; }
+  .slide .eyebrow {
+    text-transform: uppercase; letter-spacing: .12em; font-size: .8rem;
+    color: var(--accent); margin-bottom: .6rem;
+  }
+
+  /* Title slide */
+  .title-slide { align-items: flex-start; }
+  .title-slide h1 { font-size: 3.6rem; }
+  .title-slide .meta { color: var(--muted); margin-top: 1.4rem; font-size: 1rem; }
+
+  /* Section divider */
+  .section-slide {
+    align-items: flex-start;
+    background: linear-gradient(135deg, var(--surface), var(--bg));
+  }
+  .section-slide h1 { font-size: 3rem; }
+  .section-slide .eyebrow { font-size: 1rem; }
+
+  /* ---- Layout components ---- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 1rem; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 1rem; }
+  .col-card, .info-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem 1.2rem;
+  }
+  .col-card.good { border-color: var(--good); }
+  .col-card.bad  { border-color: var(--bad); }
+
+  /* ---- Content blocks ---- */
+  .trigger-box {
+    background: var(--surface); border-left: 4px solid var(--border);
+    border-radius: 6px; padding: 1rem 1.2rem; margin: 1rem 0;
+  }
+  .how-to-trigger {
+    background: rgba(78,201,168,.1); border: 1px solid var(--good);
+    border-radius: 6px; padding: 1rem 1.2rem; margin: 1rem 0;
+  }
+  .warning-box {
+    background: rgba(224,161,78,.1); border: 1px solid var(--warn);
+    border-radius: 6px; padding: 1rem 1.2rem; margin: 1rem 0;
+  }
+  .code-block {
+    background: #11121c; border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem 1.2rem; margin: 1rem 0; font-family: var(--mono);
+    font-size: .95rem; line-height: 1.6; white-space: pre-wrap; color: var(--fg);
+  }
+  .code-block .comment { color: #6a9955; }
+  .code-block .key     { color: #9cdcfe; }
+  .code-block .string  { color: #ce9178; }
+  .code-block .cmd     { color: #dcdcaa; }
+
+  /* ---- Lists ---- */
+  .use-cases { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
+  .use-case-item { display: flex; gap: .9rem; align-items: flex-start; }
+  .use-case-icon { font-size: 1.5rem; line-height: 1; }
+  .use-case-text { display: flex; flex-direction: column; }
+  .use-case-text strong { font-size: 1.05rem; }
+  .use-case-text span { color: var(--muted); font-size: .98rem; }
+  .feature-list { list-style: none; margin-left: 0; }
+  .feature-list li {
+    border-bottom: 1px solid var(--border); padding: .55rem 0;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+
+  /* ---- Tags ---- */
+  .matcher-tag {
+    display: inline-block; background: var(--surface); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: .15rem .7rem; font-size: .82rem; margin: .15rem .25rem .15rem 0;
+  }
+
+  /* ---- Navigation ---- */
+  .nav {
+    position: fixed; bottom: 18px; right: 22px; display: flex; gap: 8px; z-index: 50;
+  }
+  .nav button {
+    background: var(--surface); color: var(--fg); border: 1px solid var(--border);
+    border-radius: 8px; width: 40px; height: 40px; font-size: 1.1rem;
+    cursor: pointer;
+  }
+  .nav button:hover { border-color: var(--accent); }
+  .slide-counter {
+    position: fixed; bottom: 26px; left: 22px; color: var(--muted);
+    font-size: .9rem; z-index: 50;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="journey-bar" id="journeyBar"></div>
+
+<!-- ============ SLIDES ============ -->
+
+<!-- Slide 1 — Title (opening; no progress weight) -->
+<section class="slide title-slide active" data-slide="1">
+  <div class="eyebrow">Eyebrow / category</div>
+  <h1>Deck Title Goes Here</h1>
+  <h2>A one-line subtitle that frames the deck</h2>
+  <div class="meta">Presenter name &middot; Date</div>
+</section>
+
+<!-- Slide 2 — Hook / context -->
+<section class="slide" data-slide="2">
+  <div class="eyebrow">Why this matters</div>
+  <h1>The hook slide</h1>
+  <p>State the problem, stakes, or opportunity the deck resolves. Make the audience
+     want the rest of the deck.</p>
+  <div class="trigger-box">
+    <h4>Key tension</h4>
+    <p>One sentence the whole deck answers.</p>
+  </div>
+</section>
+
+<!-- Slide 3 — Section divider (set data-level when using journey-levels) -->
+<section class="slide section-slide" data-slide="3" data-level="">
+  <div class="eyebrow">Section 1</div>
+  <h1>First body section</h1>
+</section>
+
+<!-- Slide 4 — Content slide with two columns (good vs bad example) -->
+<section class="slide" data-slide="4">
+  <h1>A two-column comparison</h1>
+  <div class="two-col">
+    <div class="col-card bad">
+      <h4>Before</h4>
+      <p>The weaker option.</p>
+    </div>
+    <div class="col-card good">
+      <h4>After</h4>
+      <p>The stronger option.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5 — Content slide with a code block -->
+<section class="slide" data-slide="5">
+  <h1>A slide with code</h1>
+  <div class="code-block"><span class="comment"># example</span>
+<span class="key">field</span>: <span class="string">"value"</span>
+<span class="cmd">$ run a command</span></div>
+</section>
+
+<!-- Slide 6 — Icon list -->
+<section class="slide" data-slide="6">
+  <h1>An icon list</h1>
+  <div class="use-cases">
+    <div class="use-case-item">
+      <span class="use-case-icon">🎯</span>
+      <div class="use-case-text"><strong>Point one</strong><span>Supporting detail.</span></div>
+    </div>
+    <div class="use-case-item">
+      <span class="use-case-icon">⚡</span>
+      <div class="use-case-text"><strong>Point two</strong><span>Supporting detail.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7 — Closing / call to action -->
+<section class="slide" data-slide="7">
+  <div class="eyebrow">Takeaway</div>
+  <h1>The closing slide</h1>
+  <p>State the resolution, recommendation, or call to action — the one thing to
+     remember and the next step.</p>
+</section>
+
+<!-- ============ /SLIDES ============ -->
+
+<div class="slide-counter" id="slideCounter">1 / 1</div>
+<div class="nav">
+  <button onclick="prevSlide()" aria-label="Previous slide">&#8249;</button>
+  <button onclick="nextSlide()" aria-label="Next slide">&#8250;</button>
+</div>
+
+<script>
+  /* Ordered journey level names — used only when data-progress="journey-levels".
+     Must match the data-level values set on section dividers. */
+  const JOURNEY_LEVELS = []; // e.g. ["Beginner", "Intermediate", "Advanced"]
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const totalSlides = slides.length;          // computed from the DOM — never hardcode
+  let current = 0;
+
+  const progressMode = document.body.parentElement.getAttribute('data-progress')
+                       || document.documentElement.getAttribute('data-progress')
+                       || 'percentage';
+
+  function buildJourneyBar() {
+    if (progressMode !== 'journey-levels' || JOURNEY_LEVELS.length === 0) return;
+    const bar = document.getElementById('journeyBar');
+    bar.innerHTML = '';
+    JOURNEY_LEVELS.forEach((name, i) => {
+      const seg = document.createElement('div');
+      seg.className = 'journey-seg';
+      seg.dataset.level = name.toLowerCase();
+      seg.textContent = name;
+      bar.appendChild(seg);
+    });
+  }
+
+  /* Each slide inherits the level of the last section divider with data-level set. */
+  function levelForSlideIndex(idx) {
+    let level = '';
+    for (let i = 0; i <= idx; i++) {
+      const lv = slides[i].getAttribute('data-level');
+      if (lv) level = lv;
+    }
+    return level;
+  }
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+
+    // Percentage progress bar
+    const pct = totalSlides > 1 ? (current / (totalSlides - 1)) * 100 : 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    // Journey bar
+    const jbar = document.getElementById('journeyBar');
+    if (progressMode === 'journey-levels' && JOURNEY_LEVELS.length) {
+      jbar.classList.toggle('hidden', current === 0); // hidden on the title slide
+      const reached = levelForSlideIndex(current).toLowerCase();
+      const reachedIdx = JOURNEY_LEVELS.findIndex(n => n.toLowerCase() === reached);
+      Array.from(jbar.children).forEach((seg, i) => {
+        seg.classList.toggle('reached', reachedIdx >= 0 && i <= reachedIdx);
+      });
+    }
+
+    // Counter
+    document.getElementById('slideCounter').textContent =
+      (current + 1) + ' / ' + totalSlides;
+  }
+
+  /* goToSlide takes a 1-based data-slide number. */
+  function goToSlide(n) {
+    const idx = slides.findIndex(s => Number(s.getAttribute('data-slide')) === n);
+    if (idx >= 0) { current = idx; render(); }
+  }
+  function nextSlide() { if (current < totalSlides - 1) { current++; render(); } }
+  function prevSlide() { if (current > 0) { current--; render(); } }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { nextSlide(); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { prevSlide(); e.preventDefault(); }
+    else if (e.key === 'Home') { current = 0; render(); }
+    else if (e.key === 'End') { current = totalSlides - 1; render(); }
+  });
+
+  buildJourneyBar();
+  render();
+</script>
+</body>
+</html>
