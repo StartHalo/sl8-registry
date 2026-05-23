@@ -1,0 +1,19 @@
+bot-009-manim-ce
+================
+
+The `rules/`, `examples/`, and `templates/` directories in this skill are vendored
+verbatim from the `manimce-best-practices` skill of the `adithya-s-k/manim_skill`
+repository (https://github.com/adithya-s-k/manim_skill), commit cef0450.
+
+That material is licensed MIT:
+
+    Copyright (c) 2026 Adithya S Kolavi (adithyaskolavi@gmail.com)
+
+The full MIT license text is in `LICENSE.txt` in this folder.
+
+`SKILL.md`, `NOTICE`, `CHANGELOG.md`, and `iteration-charter.md` are original work
+authored for SL8 BOT-009 (Manim Animator) and are not part of the vendored material.
+
+Note: the `manimgl-best-practices` skill from the same upstream repository is
+licensed CC BY-NC-SA 4.0 (NonCommercial) and was deliberately NOT vendored. The
+sibling `bot-009-manim-gl` skill is original work authored from scratch.
