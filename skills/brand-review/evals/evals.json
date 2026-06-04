@@ -1,0 +1,19 @@
+{
+  "skill_name": "brand-review",
+  "_comment": "Charter LIGHT (Assemble track) — objective expectations derived from BOT-011/1-requirements.md JTBD (phase 2 brand review). Graded by skill-creator's grader over the captured E2B run. No rubric.md. Never hand-coded in test-bot.ts.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run a brand review on 01-draft.md against the brand voice in context.md (which lists 'leverage' as an avoid term), then advance the project state.",
+      "expected_output": "A severity-graded brand and compliance review (02-brand-review.md) with before/after fixes for the top issues, and state.md advanced to the next phase.",
+      "files": [],
+      "expectations": [
+        "artifacts/<project>/02-brand-review.md grades each finding by severity (High / Medium / Low)",
+        "the review screens for legal / compliance flags (unsubstantiated superlatives, missing disclaimers, comparative claims, unattributed testimonials)",
+        "the review catches any avoid-listed term declared in context.md (e.g. it flags 'leverage' if the draft used it)",
+        "the review provides before / after revisions for the highest-severity issues",
+        "state.md is advanced after the review phase (phase 2 marked done, the next phase set, next_action refreshed)"
+      ]
+    }
+  ]
+}

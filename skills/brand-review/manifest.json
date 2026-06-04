@@ -1,0 +1,29 @@
+{
+  "name": "brand-review",
+  "version": "v1.0.0",
+  "description": "Review content against your brand voice, style guide, and messaging pillars, flagging deviations by severity with specific before/after fixes. Use when checking a draft before it ships, when auditing copy for voice consistency and terminology, or when screening for unsubstantiated claims, missing disclaimers, and other legal flags.",
+  "inputs": [
+    {
+      "name": "content",
+      "type": "markdown",
+      "description": "The draft to review (read from 01-draft.md, a file, a URL, or pasted)",
+      "required": true
+    },
+    {
+      "name": "brand-guidelines",
+      "type": "markdown",
+      "description": "Brand voice / style guide (read from the project context.md or pasted); falls back to a generic clarity/consistency/professionalism review",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "review",
+      "type": "markdown",
+      "description": "Summary + findings table (issue/location/severity/suggestion) + before/after revisions + legal/compliance flags",
+      "path": "artifacts/<project-name>/02-brand-review.md"
+    }
+  ],
+  "generated_at": "2026-06-04T23:28:38.405Z",
+  "skill_md_sha256": "046777287a17a84e327ff2702022a10a57ddd58b30bb8ee09c94d7baab4bc998"
+}
