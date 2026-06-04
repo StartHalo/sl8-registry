@@ -1,0 +1,4 @@
+This skill is adapted from Anthropic's knowledge-work-plugins (marketing plugin).
+Source: https://github.com/anthropics/knowledge-work-plugins  (Apache-2.0)
+Upstream skill: marketing/skills/brand-review
+Adapted for the SL8 marketplace (BOT-011 content-marketer): runs on user-provided data, no MCP connectors.
