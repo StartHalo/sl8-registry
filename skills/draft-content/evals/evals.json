@@ -1,0 +1,20 @@
+{
+  "skill_name": "draft-content",
+  "_comment": "Charter LIGHT (Assemble track) — objective expectations derived from BOT-011/1-requirements.md JTBDs (phases 0 onboard, 1 draft). Graded by skill-creator's grader (agents/grader.md) over the captured E2B run -> grading.json. No rubric.md (that's Tune / Quality-sensitive). Never hand-coded as regex in test-bot.ts.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new project called saas-onboarding-blog. I am a content marketer at a B2B SaaS. Brand voice: clear, practical, confident, no hype; avoid the words best and fastest; use sentence case for headings. Audience: growth leads at Series A to B SaaS companies. Set up the project context and the phase state ledger, then draft an 800 word blog post about why SaaS teams should audit their onboarding flow. Use clearly labelled placeholders for any metrics you do not have.",
+      "expected_output": "The project is set up (context.md brief + state.md phase ledger) and a channel-correct 01-draft.md is written with headline options, SEO notes, and labelled placeholders instead of invented data.",
+      "files": [],
+      "expectations": [
+        "artifacts/<project>/context.md exists and captures the brand voice, audience, and the project goal (written by onboarding in PROJECT mode)",
+        "the project goal lives in context.md (Strategic question / objective), NOT in setup.md <GOAL>",
+        "artifacts/<project>/state.md is a phase ledger: a phase table with per-phase status (done / in-progress / next), reads and writes columns, and a single next_action line",
+        "artifacts/<project>/01-draft.md is a channel-correct blog post with 2-3 headline options and SEO keyword / meta-description suggestions",
+        "the draft uses clearly-labelled placeholders (e.g. [metric TBD]) for any figures the user did not provide — no fabricated numbers, statistics, or quotes",
+        "the draft respects the brand-voice constraints captured in context.md (sentence-case headings; avoids the prohibited words)"
+      ]
+    }
+  ]
+}

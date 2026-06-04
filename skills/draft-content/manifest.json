@@ -1,0 +1,29 @@
+{
+  "name": "draft-content",
+  "version": "v1.0.0",
+  "description": "Draft blog posts, social media, email newsletters, landing pages, press releases, and case studies with channel-specific formatting and SEO recommendations. Use when writing any marketing content, when you need headline or subject line options, or when adapting a message for a specific platform, audience, and brand voice.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "text",
+      "description": "Content type, topic, target audience, 2-4 key messages, tone, and target length",
+      "required": true
+    },
+    {
+      "name": "brand-context",
+      "type": "markdown",
+      "description": "Brand voice / style guide (read from the project context.md or pasted); falls back to a neutral professional tone",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "draft",
+      "type": "markdown",
+      "description": "Channel-specific marketing copy with headline/subject options and SEO notes",
+      "path": "artifacts/<project-name>/01-draft.md"
+    }
+  ],
+  "generated_at": "2026-06-04T23:28:19.712Z",
+  "skill_md_sha256": "82cee7b89a9e1bb38ea9b49e2e6d03a24283c91c5b389cd99c2550a7ce9090f7"
+}
