@@ -1,0 +1,29 @@
+{
+  "name": "onboarding",
+  "version": "v1.0.0",
+  "description": "Collect user identity, role, objective, and preferences; write a structured profile to /home/user/bot/user.md so future sessions are personalized.",
+  "inputs": [
+    {
+      "name": "conversation",
+      "type": "chat",
+      "description": "Free-form Q&A with the user covering 3–5 short onboarding questions",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "user-profile",
+      "type": "bot-file",
+      "description": "GLOBAL mode — structured profile (identity, objective, preferences), captured once",
+      "path": "bot/user.md"
+    },
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "description": "PROJECT mode — per-project brief, written once at project start (plus state.md init)",
+      "path": "artifacts/<project-name>/context.md"
+    }
+  ],
+  "generated_at": "2026-06-05T02:18:26.825Z",
+  "skill_md_sha256": "ac0e0cd219d62bd48f4fd3d59dc5fa410c685e90147f2b68f3f733eccc77006a"
+}
