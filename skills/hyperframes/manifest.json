@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes",
+  "version": "v1.0.1",
+  "description": "Produce MP4 video from HTML/CSS compositions with the HyperFrames CLI in the sl8-animation sandbox. Use when a user asks to build a programmatic web/HTML video, motion graphics, an animated intro/explainer, or render an HTML composition to MP4. Triggers: hyperframes, HTML to video, render a web composition, code-driven video, animated intro from HTML.",
+  "generated_at": "2026-06-07T17:22:02.143Z",
+  "skill_md_sha256": "8ff4b8cd22b39168ea40b56b5d2f4b77e42bb7b81b6f2a33b8dd4b3e401b9673"
+}
