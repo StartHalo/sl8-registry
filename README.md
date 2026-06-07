@@ -6,13 +6,25 @@ Official skills registry for the `@starthalo/skills-cli`. This repository contai
 
 | Skill | Version | Description |
 |-------|---------|-------------|
-| [ai-image-generation](skills/ai-image-generation/) | v1.0.0 | AI-powered image generation using DALL-E, Stable Diffusion, Imagen, Flux |
-| [ai-video-generation](skills/ai-video-generation/) | v1.0.0 | AI-powered video generation using Veo, Runway, Kling |
-| [pdf](skills/pdf/) | v1.0.0 | PDF document creation and manipulation |
-| [canvas](skills/canvas/) | v1.0.0 | HTML5 Canvas-based visualization and graphics |
-| [docx](skills/docx/) | v1.0.0 | Microsoft Word document generation |
-| [xlsx](skills/xlsx/) | v1.0.0 | Excel spreadsheet generation |
-| [pptx](skills/pptx/) | v1.0.0 | PowerPoint presentation generation |
+| [ai-image-generation](skills/ai-image-generation/) | v1.0.0 | Text-to-image via the `ai-gen` CLI (FLUX, Stable Diffusion, Imagen, Ideogram, Recraft, …) |
+| [ai-video-generation](skills/ai-video-generation/) | v1.0.0 | Text/image-to-video via the `ai-gen` CLI (MiniMax, Kling, Wan, HunyuanVideo, …) |
+| [remotion-best-practices](skills/remotion-best-practices/) | v1.0.0 | Remotion (React/HTML → MP4) domain knowledge — rule files for captions, audio, sequencing, transitions, fonts |
+| [hyperframes](skills/hyperframes/) | v1.0.1 | HyperFrames (HTML/CSS → MP4) authoring for the `sl8-animation` sandbox |
+| [bot-009-manim-ce](skills/bot-009-manim-ce/) | v1.0.0 | Manim Community Edition math/diagram animation (legacy name — pending rename to `manim-ce`) |
+| [bot-009-manim-gl](skills/bot-009-manim-gl/) | v1.0.0 | ManimGL (3Blue1Brown engine) animation (legacy name — pending rename to `manim-gl`) |
+| [brand-review](skills/brand-review/) | v1.0.0 | Review content against a brand voice / style guide, flagging deviations with before/after fixes |
+| [draft-content](skills/draft-content/) | v1.0.0 | Draft marketing content from user-provided data (no connectors) |
+| [onboarding](skills/onboarding/) | v1.0.0 | Collect user identity/objective and write a structured profile for personalized sessions |
+| [bot-007-restaurant-logo-gen](skills/bot-007-restaurant-logo-gen/) | v1.2.0 | Restaurant logo generation (legacy name) |
+| [bot-008-pixel-art-studio](skills/bot-008-pixel-art-studio/) | v1.0.1 | Pixel-art studio (legacy name) |
+| [bot-010-deck-builder](skills/bot-010-deck-builder/) | v1.0.0 | Slide-deck builder (legacy name) |
+| [bot-010-narrative-design](skills/bot-010-narrative-design/) | v1.0.0 | Narrative design (legacy name) |
+| [bot-test-echo](skills/bot-test-echo/) | v1.0.0 | Test skill — echo (legacy name — pending rename to `test-echo`) |
+| [bot-test-write-file](skills/bot-test-write-file/) | v1.1.0 | Test skill — write file (legacy name — pending rename to `test-write-file`) |
+
+> Each skill directory carries a generated `manifest.json` (name, version, description, inputs/outputs,
+> `skill_md_sha256`) and a `CHANGELOG.md`. Legacy `bot-NNN-*` names are tracked for a future rename
+> migration — new skills follow the kebab-case capability-name convention.
 
 ---
 
