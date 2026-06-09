@@ -1,0 +1,59 @@
+{
+  "name": "manim-gl",
+  "version": "v1.0.0",
+  "description": "Creates an animated explainer video with ManimGL, the OpenGL-based 3Blue1Brown engine (manimlib import, manimgl CLI). Plans a storyboard from a described concept, writes a ManimGL scene, and renders it headless to MP4. Use this skill ONLY when the user explicitly asks for ManimGL, manimgl, manimlib, the 3Blue1Brown engine, or 3b1b — for any other animation request the manim-ce skill is the default. Covers math derivations, algorithm walkthroughs, concept explainers, function and data plots, 3D camera scenes, and title cards rendered through the ManimGL pipeline.",
+  "inputs": [
+    {
+      "name": "concept",
+      "type": "text",
+      "required": true,
+      "description": "Plain-language description of what to animate or explain"
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Target video length in seconds; bot picks ~20-40s from complexity if absent"
+    },
+    {
+      "name": "quality",
+      "type": "text",
+      "required": false,
+      "description": "Render quality low|medium|high; defaults to medium (720p30)"
+    },
+    {
+      "name": "aspect",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect landscape|portrait|square; defaults to landscape (16:9)"
+    },
+    {
+      "name": "style-notes",
+      "type": "text",
+      "required": false,
+      "description": "Optional look-and-feel notes (background color, accent color, mood)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "video",
+      "type": "video",
+      "path": "artifacts/<project>/<project>.mp4",
+      "description": "The rendered animation as an H.264 MP4"
+    },
+    {
+      "name": "scene-source",
+      "type": "text",
+      "path": "artifacts/<project>/scene.py",
+      "description": "The ManimGL scene that produced the video"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project>/summary.md",
+      "description": "Storyboard beats, engine and settings used, and suggested next edits"
+    }
+  ],
+  "generated_at": "2026-06-09T08:04:26.494Z",
+  "skill_md_sha256": "9f42870de6bdc447fed17fe9c85b3cf7719a581c35467a2e4f5ec28495de4833"
+}
