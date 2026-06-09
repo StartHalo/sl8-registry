@@ -1,0 +1,59 @@
+{
+  "name": "manim-ce",
+  "version": "v1.0.0",
+  "description": "Creates an animated explainer video with Manim Community Edition. Plans a storyboard from a described concept, writes a Manim CE scene, and renders it headless to MP4. Use for any request to animate, visualize, or explain something with video unless the user explicitly asks for ManimGL — math derivations, algorithm walkthroughs, concept explainers, function/data plots, 3D visualizations, title cards.",
+  "inputs": [
+    {
+      "name": "concept",
+      "type": "text",
+      "required": true,
+      "description": "Plain-language description of what to animate or explain"
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Target video length in seconds; bot picks ~20-40s from complexity if absent"
+    },
+    {
+      "name": "quality",
+      "type": "text",
+      "required": false,
+      "description": "Render quality low|medium|high; defaults to medium (720p30)"
+    },
+    {
+      "name": "aspect",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect landscape|portrait|square; defaults to landscape (16:9)"
+    },
+    {
+      "name": "style-notes",
+      "type": "text",
+      "required": false,
+      "description": "Optional look-and-feel notes (background color, accent color, mood)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "video",
+      "type": "video",
+      "path": "artifacts/<project>/<project>.mp4",
+      "description": "The rendered animation as an H.264 MP4"
+    },
+    {
+      "name": "scene-source",
+      "type": "text",
+      "path": "artifacts/<project>/scene.py",
+      "description": "The Manim Community Edition scene that produced the video"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project>/summary.md",
+      "description": "Storyboard beats, engine and settings used, and suggested next edits"
+    }
+  ],
+  "generated_at": "2026-06-09T08:04:04.284Z",
+  "skill_md_sha256": "ef3508d8a15e094db685e1690ecfabcb3422d815065f6a9ff5b6fa8cff8eeaaa"
+}
