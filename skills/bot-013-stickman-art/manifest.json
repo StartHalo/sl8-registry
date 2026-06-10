@@ -1,0 +1,65 @@
+{
+  "name": "bot-013-stickman-art",
+  "version": "v1.0.0",
+  "description": "Locks a reusable hand-drawn stickman character (source image, turnaround sheet, frozen written spec) and generates character-consistent pencil-sketch scene stills for every episode beat — frozen prompt blocks, fixed seed, pinned image-model fallback chains, and fal.media URL capture for the downstream image-to-video phase. Use for phase 2 (lock-character) and phase 3 (generate-stills) of a stickman episode project, whenever asked to create or reuse a stickman character, or to produce stickman scene stills.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — topic, aspect ratio, character/style hints, new-character flag"
+    },
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "required": false,
+      "description": "artifacts/<project-name>/01-episode-plan.md — beats with scene blocks; REQUIRED for phase 3, optional prop-hint source for phase 2 (standalone character requests run on defaults)"
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "required": false,
+      "description": "artifacts/<project-name>/02-character/character-spec.md — written by phase 2; REQUIRED input to phase 3; if it already exists, phase 2 skips regeneration (series project)"
+    },
+    {
+      "name": "seed",
+      "type": "number",
+      "required": false,
+      "description": "Generation seed; defaults to 4242 and is recorded in character-spec.md for all later phases"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "character-source",
+      "type": "png",
+      "path": "artifacts/<project-name>/02-character/source.png",
+      "description": "Canonical source image — the locked character standing next to a cardboard box labeled \"TASK\""
+    },
+    {
+      "name": "character-turnaround",
+      "type": "png",
+      "path": "artifacts/<project-name>/02-character/turnaround.png",
+      "description": "Turnaround sheet — front, three-quarter, profile, and back views of the same figure, same seed"
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-character/character-spec.md",
+      "description": "Frozen character block (≥40 words), frozen style stack, seed, and per-asset model + local path + fal.media URL"
+    },
+    {
+      "name": "beat-stills",
+      "type": "png",
+      "path": "artifacts/<project-name>/03-stills/NN-<beat-slug>.png",
+      "description": "One pencil-sketch still per episode beat, character block copied verbatim from the spec"
+    },
+    {
+      "name": "stills-log",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/03-stills/stills-log.md",
+      "description": "Per-beat ledger — model actually used, full prompt, fal.media URL (the i2v input contract), self-check verdicts, recorded skips"
+    }
+  ],
+  "generated_at": "2026-06-10T00:52:57.009Z",
+  "skill_md_sha256": "45f39fcb141e83e6b1245be3bb1866647966ef9cc12c35106a61c2b6032a5aac"
+}

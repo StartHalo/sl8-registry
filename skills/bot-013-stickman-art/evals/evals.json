@@ -1,0 +1,40 @@
+{
+  "skill_name": "bot-013-stickman-art",
+  "_comment": "Tier-1 objective gates derived from JTBD-1 and JTBD-3 (1-requirements.md). Visual expectations are graded by the grader READING the actual PNGs (vision) - never from filenames or descriptions.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Lock the stickman character for the project ikea-deadline. Use the default character and style.",
+      "expected_output": "artifacts/ikea-deadline/02-character/ with source.png (one minimal capped stick figure next to a box labeled TASK, pencil-sketch on white), turnaround.png (3+ views of the same figure), and character-spec.md (frozen character block 40+ words, style stack, seed, per-asset model + local path + fal.media URL).",
+      "files": [],
+      "expectations": [
+        "artifacts/ikea-deadline/02-character/source.png exists and depicts exactly ONE minimal stick figure with a cap in hand-drawn pencil-sketch style on a white/paper background (verified by viewing the image)",
+        "artifacts/ikea-deadline/02-character/turnaround.png exists and shows at least 3 distinct views (front, three-quarter or profile, back) of the SAME figure with consistent cap, proportions, and stroke style (verified by viewing the image)",
+        "artifacts/ikea-deadline/02-character/character-spec.md contains a frozen character block of 40+ words, the frozen style stack, the seed, and for each asset the model used plus a fal.media URL",
+        "generation used the documented model chain via scripts/gen-image.sh (models recorded in the spec are from the pinned chains, in order attempted)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate the scene stills for the project ikea-deadline from its episode plan and locked character.",
+      "expected_output": "artifacts/ikea-deadline/03-stills/ with one numbered PNG per plan beat (NN-<beat-slug>.png) and stills-log.md recording per still the model used, the full composed prompt, the fal.media URL, and a self-check result.",
+      "files": [],
+      "expectations": [
+        "artifacts/ikea-deadline/03-stills/ contains one still per plan beat (at least 80% of beats; any skipped beat is recorded in stills-log.md with its error)",
+        "stills-log.md records for EVERY kept still: beat, model used, full prompt, fal.media URL, and a self-check result",
+        "every composed prompt in stills-log.md contains the character block VERBATIM from character-spec.md (no paraphrase) and the frozen style stack",
+        "the stills depict the SAME capped minimal figure as 02-character/ in a uniform pencil-sketch style, each readable as ONE action with a realistically rendered environment (verified by viewing the images)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The project monday-coffee-run already has a locked character in 02-character/. Generate its character phase again.",
+      "expected_output": "Phase 2 detects the existing character-spec.md and skips regeneration, recording the reuse; the existing spec and assets are untouched.",
+      "files": [],
+      "expectations": [
+        "no new character assets are generated; the existing 02-character/ files are byte-identical to before the run",
+        "the reuse decision is recorded (state.md or the phase notes) rather than silently skipped"
+      ]
+    }
+  ]
+}
