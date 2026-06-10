@@ -6,6 +6,21 @@ All notable changes to the `bot-013-stickman-art` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.2] — 2026-06-09
+### Fixed
+
+- `scripts/gen-image.sh` + `scripts/check-set.sh` — hosted-URL detection now accepts
+  any `*.fal.media` subdomain (the proxy serves `https://v3b.fal.media/...`; the old
+  `startswith("https://fal.media")` rejected every real URL — found live in run 1,
+  where the bot had to ship wrapper scripts in work/ to proceed).
+
+### Changed
+
+- DEFAULT_CHARACTER_BLOCK pins the torso construction ("one soft solid teardrop
+  shape") + an every-image-same-construction closing sentence, fixing run-1 identity
+  drift between stills (solid vs line body).
+
+
 ## [v1.0.1] — 2026-06-09
 ### Fixed
 

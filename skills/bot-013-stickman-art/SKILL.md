@@ -75,7 +75,7 @@ Hand-drawn pencil sketch animation style, visible graphite grain, subtle smudgin
 ### DEFAULT_CHARACTER_BLOCK (frozen — the default character when the user gives no hints)
 
 ```
-An extremely minimal hand-drawn stick figure: single-stroke arms and legs, a plain circle head, two small dot eyes, a simple curved smile, and a small baseball cap worn slightly tilted. No other facial features, no clothing besides the cap, no fingers — simple line hands. Proportions: head about one fifth of total height, limbs slightly longer than the torso.
+An extremely minimal hand-drawn stick figure: a plain circle head, two small dot eyes, a simple curved smile, a small baseball cap worn slightly tilted, a small plain rounded torso drawn as one soft solid teardrop shape, and single-stroke arms and legs. No other facial features, no clothing besides the cap, no fingers — simple line hands. Proportions: head about one fifth of total height, limbs slightly longer than the torso. Every image of this character uses this exact same body construction.
 ```
 
 ### DISCIPLINE_BLOCK (frozen — fourth block of every still prompt)
