@@ -1,0 +1,47 @@
+{
+  "name": "bot-013-clip-assembly",
+  "version": "v1.0.0",
+  "description": "Animate beat stills into image-to-video clips and assemble the finished stickman episode MP4 — runtime video-model discovery, clip-prompt dialects (single-shot Kling/MiniMax/Wan by default, Seedance when routed), still-as-segment fallback so no beat is ever dropped, ffmpeg normalize+concat with room tone and an optional punchline caption card, ffprobe verification, and an honest production summary. Use for phase 4 (clips-and-assembly) of a stickman episode project, or whenever asked to animate stills into clips, stitch clips into an episode, re-render or re-assemble episode.mp4, or report what was actually generated.",
+  "inputs": [
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/01-episode-plan.md — per-beat motion prompt, duration (5|10s), camera note, plus episode aspect, target-length, punchline line, and room-tone setting"
+    },
+    {
+      "name": "stills-log",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/03-stills/stills-log.md — per beat the local PNG path, hosted fal.media URL (the i2v input contract), and model used"
+    },
+    {
+      "name": "room-tone",
+      "type": "boolean",
+      "required": false,
+      "description": "Brown-noise room-tone bed under the episode; sourced from the plan's `room-tone:` header (on|off); default ON only when the header is absent (off → pass assemble.sh --no-roomtone)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "beat-clips",
+      "type": "mp4",
+      "path": "artifacts/<project-name>/04-clips/NN-<beat-slug>.mp4",
+      "description": "One clip per kept beat, in plan order (still-as-segment fallbacks included and flagged)"
+    },
+    {
+      "name": "episode",
+      "type": "mp4",
+      "path": "artifacts/<project-name>/episode.mp4",
+      "description": "Assembled episode at the project root — normalized, concatenated in beat order, room tone, optional caption card, ffprobe-verified"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/05-summary.md",
+      "description": "Honest production summary — per clip model/dialect/prompt/duration/fallbacks; episode duration, aspect, audio treatment, limitations"
+    }
+  ],
+  "generated_at": "2026-06-10T00:53:07.226Z",
+  "skill_md_sha256": "e72e106ac70162dab8bb03c8aec72fe01291eb77dac0f6bb67925ba965e0a4c5"
+}
