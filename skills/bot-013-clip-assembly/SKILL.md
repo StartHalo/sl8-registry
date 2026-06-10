@@ -15,16 +15,16 @@ metadata:
       required: true
       description: artifacts/<project-name>/03-stills/stills-log.md — per beat the local PNG path, hosted fal.media URL (the i2v input contract), and model used
     - name: room-tone
-      type: boolean
+      type: text
       required: false
-      description: Brown-noise room-tone bed under the episode; sourced from the plan's `room-tone:` header (on|off); default ON only when the header is absent (off → pass assemble.sh --no-roomtone)
+      description: Brown-noise room-tone bed under the episode, on|off; sourced from the plan's `room-tone:` header; default on only when the header is absent (off → pass assemble.sh --no-roomtone)
   outputs:
     - name: beat-clips
-      type: mp4
+      type: video
       path: artifacts/<project-name>/04-clips/NN-<beat-slug>.mp4
       description: One clip per kept beat, in plan order (still-as-segment fallbacks included and flagged)
     - name: episode
-      type: mp4
+      type: video
       path: artifacts/<project-name>/episode.mp4
       description: Assembled episode at the project root — normalized, concatenated in beat order, room tone, optional caption card, ffprobe-verified
     - name: summary

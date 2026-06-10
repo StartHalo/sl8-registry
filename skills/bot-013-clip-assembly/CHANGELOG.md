@@ -4,6 +4,16 @@
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-09
+### Fixed
+
+- Frontmatter manifest compliance: `inputs[].type: boolean` (room-tone) and
+  `outputs[].type: mp4` (beat-clips, episode) are not in the manifest type
+  vocabulary and made the test harness skip this skill's manifest.json.
+  room-tone is now `type: text` (on|off) and the video outputs are `type: video`.
+  No behavior change.
+
+
 ## [v1.0.0] — 2026-06-09
 ### Fixed
 - `scripts/gen-clip.sh` — removed the `jq` dependency (jq is not installed in the
