@@ -1,7 +1,7 @@
 {
   "name": "bot-test-echo",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "Test skill — echo the user's prompt to an artifact file and update memory. Use only for W18 verification; produces no real output. Cheapest possible execution path.",
-  "generated_at": "2026-06-10T21:23:03.672Z",
+  "generated_at": "2026-06-10T21:42:18.727Z",
   "skill_md_sha256": "914335ba7bfa7965ffbceb3631a90efd634ebcd5414d7166ce46622953e0fb2b"
 }
