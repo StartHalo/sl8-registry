@@ -1,0 +1,24 @@
+{
+  "name": "news-video",
+  "private": true,
+  "version": "1.0.0",
+  "description": "BOT-012 News Presenter — bundled Remotion project. Renders a NewsDoc as a styled news video (4 styles x 3 aspect ratios). Style is chosen via props; the engine/ folder is the shared contract every style obeys.",
+  "scripts": {
+    "render": "remotion render",
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.475",
+    "@remotion/google-fonts": "^4.0.475",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.475",
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}
