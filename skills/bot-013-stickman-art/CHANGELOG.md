@@ -6,6 +6,15 @@ All notable changes to the `bot-013-stickman-art` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-09
+### Fixed
+
+- Frontmatter manifest compliance: `inputs[].type: number` (seed) is not in the
+  manifest type vocabulary (markdown/text/json/image/.../x-*) and made the test
+  harness skip this skill's manifest.json. Seed is now `type: text` (integer as
+  text). No behavior change.
+
+
 ## [v1.0.0] — 2026-06-09
 ### Fixed
 

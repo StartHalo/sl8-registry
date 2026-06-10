@@ -19,9 +19,9 @@ metadata:
       required: false
       description: artifacts/<project-name>/02-character/character-spec.md — written by phase 2; REQUIRED input to phase 3; if it already exists, phase 2 skips regeneration (series project)
     - name: seed
-      type: number
+      type: text
       required: false
-      description: Generation seed; defaults to 4242 and is recorded in character-spec.md for all later phases
+      description: Generation seed (integer as text); defaults to 4242 and is recorded in character-spec.md for all later phases
   outputs:
     - name: character-source
       type: png
