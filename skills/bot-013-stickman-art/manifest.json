@@ -1,6 +1,6 @@
 {
   "name": "bot-013-stickman-art",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Locks a reusable hand-drawn stickman character (source image, turnaround sheet, frozen written spec) and generates character-consistent pencil-sketch scene stills for every episode beat — frozen prompt blocks, fixed seed, pinned image-model fallback chains, and fal.media URL capture for the downstream image-to-video phase. Use for phase 2 (lock-character) and phase 3 (generate-stills) of a stickman episode project, whenever asked to create or reuse a stickman character, or to produce stickman scene stills.",
   "inputs": [
     {
@@ -23,9 +23,9 @@
     },
     {
       "name": "seed",
-      "type": "number",
+      "type": "text",
       "required": false,
-      "description": "Generation seed; defaults to 4242 and is recorded in character-spec.md for all later phases"
+      "description": "Generation seed (integer as text); defaults to 4242 and is recorded in character-spec.md for all later phases"
     }
   ],
   "outputs": [
@@ -60,6 +60,6 @@
       "description": "Per-beat ledger — model actually used, full prompt, fal.media URL (the i2v input contract), self-check verdicts, recorded skips"
     }
   ],
-  "generated_at": "2026-06-10T00:52:57.009Z",
-  "skill_md_sha256": "45f39fcb141e83e6b1245be3bb1866647966ef9cc12c35106a61c2b6032a5aac"
+  "generated_at": "2026-06-10T01:05:34.841Z",
+  "skill_md_sha256": "3e8cc26e17a1a9b3e33e67130e5d57a712088e23af3aacef35df921bfbbb44c9"
 }
