@@ -52,7 +52,7 @@ for n in $(seq 1 "$BEATS"); do
       problems+=("beat $nn: still file exists but no '## Beat $nn' block in stills-log.md")
       continue
     fi
-    if ! grep -q 'https://fal\.media' <<<"$block"; then
+    if ! grep -Eq 'https://([a-z0-9-]+\.)*fal\.media/' <<<"$block"; then
       problems+=("beat $nn: kept still has no fal.media URL in its log block (phase 4 cannot animate it)")
     fi
   else

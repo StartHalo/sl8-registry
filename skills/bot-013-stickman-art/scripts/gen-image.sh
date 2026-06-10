@@ -62,15 +62,15 @@ PROMPT_LEN=${#PROMPT}
 
 # Hosted-URL extraction (python3 — jq is NOT available in the sandbox): walk the
 # WHOLE parsed response depth-first and print the first string anywhere in it that
-# starts with https://fal.media. Shape-proof: works whether .data is an object, an
+# is on a fal.media host (any subdomain, e.g. v3b.fal.media). Shape-proof: works whether .data is an object, an
 # array of {url}, or the URL lives somewhere else entirely.
 extract_url() {
   python3 -c '
-import json, sys
+import json, re, sys
 
 def walk(node):
     if isinstance(node, str):
-        if node.startswith("https://fal.media"):
+        if re.match(r"https://([a-z0-9-]+\.)*fal\.media/", node):
             yield node
     elif isinstance(node, dict):
         for v in node.values():
