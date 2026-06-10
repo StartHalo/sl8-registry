@@ -6,6 +6,15 @@ All notable changes to the `bot-013-episode-design` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-09
+### Changed
+
+- DEFAULT_CHARACTER_BLOCK (frozen, shared with bot-013-stickman-art) now pins the
+  torso construction explicitly ("one soft solid teardrop shape") and ends with an
+  every-image-same-construction sentence. Run-1 vision grading showed body-construction
+  drift between stills (solid vs line torso) because the block was silent on the torso.
+
+
 ## [v1.0.0] — 2026-06-09
 ### Fixed
 
