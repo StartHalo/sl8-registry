@@ -1,0 +1,59 @@
+{
+  "name": "bot-012-news-video",
+  "version": "v1.0.0",
+  "description": "Render a structured NewsDoc as a short news VIDEO with Remotion, in one of four styles (Headline Highlight, Breaking News, Kinetic Typography, Minimal Editorial) at one or more aspect ratios (16:9, 9:16, 1:1). Use this AFTER bot-012-news-structure has written newsdoc.json. Also use to RESTYLE/RESIZE an existing project (new style or aspect ratio) without re-extracting the news. Bundles a complete, pre-built Remotion project; you only choose the style, write props.json, and render — you never hand-write React.",
+  "inputs": [
+    {
+      "name": "newsdoc",
+      "type": "json",
+      "required": true,
+      "description": "artifacts/<project-name>/newsdoc.json (written by bot-012-news-structure)."
+    },
+    {
+      "name": "style",
+      "type": "text",
+      "required": false,
+      "description": "headline-highlight | breaking-news | kinetic-typography | minimal-editorial. Default = the NewsDoc's recommended_style, else minimal-editorial."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = onboarding default, else 9:16."
+    },
+    {
+      "name": "duration-seconds",
+      "type": "text",
+      "required": false,
+      "description": "Seconds (8-15) as a number. Default 12."
+    },
+    {
+      "name": "brand",
+      "type": "json",
+      "required": false,
+      "description": "Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-storyboard.md",
+      "description": "Scenes + frame ranges + on-screen text + style/AR/defaults used."
+    },
+    {
+      "name": "videos",
+      "type": "video",
+      "path": "artifacts/<project-name>/exports/<style>-<ar>.mp4",
+      "description": "One rendered MP4 per requested aspect ratio."
+    },
+    {
+      "name": "project",
+      "type": "x-dir",
+      "path": "artifacts/<project-name>/video/",
+      "description": "The reproducible Remotion project (bundled template + props.json)."
+    }
+  ],
+  "generated_at": "2026-06-10T19:39:26.887Z",
+  "skill_md_sha256": "115fc99e5c13565572745c651afa32f864dc60258bf680926e84f4d98344418b"
+}
