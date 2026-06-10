@@ -1,0 +1,32 @@
+{
+  "skill_name": "bot-013-episode-design",
+  "_comment": "Tier-1 objective gates derived from JTBD-2 (1-requirements.md). Graded by skill-creator's grader into grading.json {text,passed,evidence}. Structural floor is scripts/validate-plan.sh; these expectations add the semantic gates.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan a stickman episode for the project ikea-deadline. Topic: assembling flat-pack furniture before guests arrive. Aspect 16:9, about 30 seconds.",
+      "expected_output": "artifacts/ikea-deadline/01-episode-plan.md - a validated beat sheet: logline, aspect 16:9, a punchline of 10 words or fewer, room-tone setting, and 4-6 beats each carrying name, scene block, motion prompt, duration 5 or 10, and camera note, summing to 15-60 seconds, ending in a visual punchline.",
+      "files": [],
+      "expectations": [
+        "artifacts/ikea-deadline/01-episode-plan.md exists and scripts/validate-plan.sh exits 0 on it",
+        "the plan has 4-6 beats, each with all 5 fields (name, scene, motion, duration, camera) and durations only 5 or 10, total 15-60s",
+        "the beats form an escalating arc (setup, complication, escalation) ending in a visual punchline or anticlimax on the final beat",
+        "every scene block describes exactly ONE concrete action in a domestic/everyday setting with close or medium framing, and does NOT restate the frozen style stack or character description",
+        "every motion prompt contains exactly one action and at most one camera move, with no music or narration directives",
+        "the punchline line is 10 words or fewer and the header carries aspect and room-tone settings"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Plan a stickman episode for the project everyday-life-skit. Topic: life. Vertical 9:16 for Shorts.",
+      "expected_output": "artifacts/everyday-life-skit/01-episode-plan.md - the vague topic is concretized into one specific everyday scenario (e.g. snoozing alarms, doom-scrolling at midnight), with the assumption recorded in a Notes section; otherwise a fully valid 9:16 plan.",
+      "files": [],
+      "expectations": [
+        "artifacts/everyday-life-skit/01-episode-plan.md exists and commits to ONE concrete everyday scenario rather than an abstract theme",
+        "a Notes section records the concretization assumption made from the vague topic",
+        "the plan header declares aspect 9:16 and the plan passes scripts/validate-plan.sh",
+        "no real people, brands, or copyrighted characters appear anywhere in the plan"
+      ]
+    }
+  ]
+}

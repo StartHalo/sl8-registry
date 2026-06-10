@@ -1,0 +1,29 @@
+{
+  "name": "bot-013-episode-design",
+  "version": "v1.0.0",
+  "description": "Turn an episode topic into a validated stickman beat-sheet plan — logline, aspect, a ≤10-word punchline, room-tone setting, and 3-8 beats each carrying a kebab-case name, a still scene block, an i2v motion prompt, a 5|10s duration, and a camera note — written so every downstream generation phase runs unattended. Use as phase 1 of every BOT-013 episode project, right after onboarding, whenever 01-episode-plan.md is missing or fails validation, or when asked to plan, re-plan, or rework a stickman episode.",
+  "inputs": [
+    {
+      "name": "topic",
+      "type": "text",
+      "required": true,
+      "description": "Episode topic or brief, read from artifacts/<project-name>/context.md; absence is a recorded failure, never an invented topic"
+    },
+    {
+      "name": "episode-preferences",
+      "type": "text",
+      "required": false,
+      "description": "Optional target length, beat count, aspect ratio, and punchline line from context.md; defaults are ~30s, 4-6 beats, 16:9, and a bot-written ≤10-word punchline"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/01-episode-plan.md",
+      "description": "Machine-checkable beat-sheet plan (logline, aspect, punchline, room tone, 3-8 beats x 5 fields) that phases 2-4 consume"
+    }
+  ],
+  "generated_at": "2026-06-10T00:52:36.111Z",
+  "skill_md_sha256": "65b61b400694ff5a063f82b30a2cb6a3eacfd5eb44c77667e63152493ab079ae"
+}
