@@ -1,7 +1,9 @@
 # Single-shot i2v clip dialects (the dependable default)
 
 The default video models (`fal-ai/kling-i2v` → `fal-ai/minimax-i2v` →
-`fal-ai/wan-i2v`) animate ONE input image into ONE continuous 5–10s shot. They
+`fal-ai/wan-i2v` → `fal-ai/runway-gen3` as deprecated last resort — the only i2v
+model the proxy actually routed on 2026-06-10; disclose its use in the summary)
+animate ONE input image into ONE continuous 5–10s shot. They
 honor no `[CUT]`, no timecodes, and produce **no audio**. The PDF's multi-shot
 patterns are recovered *above* the model: one beat = one still = one clip, and
 the cuts happen at ffmpeg assembly. (Multi-shot inside one generation is the
