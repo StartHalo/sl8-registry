@@ -1,0 +1,29 @@
+{
+  "skill_name": "bot-013-clip-assembly",
+  "_comment": "Tier-1 objective gates derived from JTBD-4 (1-requirements.md). Video expectations are graded by viewing extracted keyframes of the actual MP4s - never from filenames or text descriptions.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate the clips and assemble the episode for the project ikea-deadline from its plan and stills log.",
+      "expected_output": "artifacts/ikea-deadline/04-clips/ with one MP4 per kept beat, an assembled artifacts/ikea-deadline/episode.mp4 (15-60s, planned aspect, beats in order, room tone per plan), and 05-summary.md reporting per clip the model, dialect, prompt, duration, and any fallbacks.",
+      "files": [],
+      "expectations": [
+        "artifacts/ikea-deadline/04-clips/ contains one MP4 per kept beat in plan order (NN-<beat-slug>.mp4)",
+        "artifacts/ikea-deadline/episode.mp4 exists, is playable, and ffprobe-reported duration is 15-60s at the planned aspect ratio (the verification output is recorded)",
+        "05-summary.md lists for EVERY clip: model used, dialect (single-shot or seedance), composed prompt, duration, and fallbacks taken; episode-level audio treatment and limitations are stated plainly",
+        "video model discovery ran first (ai-gen models --type video) and the chosen dialect follows from what was actually routed - never the CLI default model",
+        "the episode's beats appear in plan order and the character/sketch style visibly persists across clips (verified by viewing extracted keyframes)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the project missing-url-test, beat 2 has no fal.media URL in the stills log. Generate clips and assemble the episode anyway.",
+      "expected_output": "Beat 2 becomes a still-as-segment (subtle zoom on the local still) so the episode keeps every beat; the fallback is flagged in 05-summary.md.",
+      "files": [],
+      "expectations": [
+        "the episode contains every beat including beat 2 (as a still-as-segment), not a silently shortened cut",
+        "05-summary.md explicitly flags beat 2 as a still-segment fallback with the reason (missing hosted URL)"
+      ]
+    }
+  ]
+}
