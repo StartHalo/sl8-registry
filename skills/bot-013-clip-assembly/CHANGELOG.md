@@ -4,6 +4,15 @@
 ### Changed
 - (next version's changes)
 
+## [v1.0.2] — 2026-06-09
+### Changed
+
+- Default i2v chain gains `fal-ai/runway-gen3` as a documented LAST resort
+  (deprecated upstream, but the only i2v model the proxy actually routed in run 1 —
+  the chain otherwise produced zero clips). Its use must be disclosed in
+  05-summary.md. Updated in gen-clip.sh, SKILL.md Step 1, and references/clip-dialects.md.
+
+
 ## [v1.0.1] — 2026-06-09
 ### Fixed
 

@@ -74,7 +74,10 @@ esac
 [[ "$DURATION" == "5" || "$DURATION" == "10" ]] \
   || { err "duration must be 5 or 10 (model granularity): $DURATION"; exit 2; }
 
-CHAIN=${CLIP_CHAIN:-"fal-ai/kling-i2v fal-ai/minimax-i2v fal-ai/wan-i2v"}
+# runway-gen3 is deprecated upstream but has been the ONLY i2v model the proxy
+# actually routes (run 2026-06-10) — kept as documented LAST resort; its use is a
+# disclosure item in 05-summary.md.
+CHAIN=${CLIP_CHAIN:-"fal-ai/kling-i2v fal-ai/minimax-i2v fal-ai/wan-i2v fal-ai/runway-gen3"}
 PROMPT=$(<"$PROMPT_FILE")
 WORKDIR=$(mktemp -d)
 trap 'rm -rf "$WORKDIR"' EXIT

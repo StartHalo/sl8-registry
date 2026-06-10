@@ -92,8 +92,11 @@ ai-gen models --type video --format json > work/clips/discovery.json
   prompt, and prepend the discovered id to the chain:
   `export CLIP_CHAIN="<seedance-id> fal-ai/kling-i2v fal-ai/minimax-i2v fal-ai/wan-i2v"`.
 - Otherwise (the expected default) → **single-shot dialect** on the pinned chain
-  `fal-ai/kling-i2v → fal-ai/minimax-i2v → fal-ai/wan-i2v`. Leave `CLIP_CHAIN`
-  unset; `scripts/gen-clip.sh` defaults to exactly this chain.
+  `fal-ai/kling-i2v → fal-ai/minimax-i2v → fal-ai/wan-i2v → fal-ai/runway-gen3`.
+  Leave `CLIP_CHAIN` unset; `scripts/gen-clip.sh` defaults to exactly this chain.
+  `runway-gen3` is deprecated upstream but has been the only i2v model the proxy
+  actually routes (2026-06-10 run) — it is the documented LAST resort, never the
+  default, and using it is a disclosure item in `05-summary.md`.
 - Discovery failing or returning empty does **not** halt the phase: attempt the
   pinned chain anyway (the proxy has served unlisted models before). Keep the
   discovery output in `work/` either way.
