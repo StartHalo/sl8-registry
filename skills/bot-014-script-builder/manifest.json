@@ -1,0 +1,47 @@
+{
+  "name": "bot-014-script-builder",
+  "version": "v1.0.0",
+  "description": "Turn any short message — an announcement, product update, quote, stat, or headline (pasted text OR a URL) — into a faithful, structured MessageDoc for an animated-text video. Use this FIRST whenever the user gives text or a link and wants it presented as a Kinetic Text video. Extracts the headline, dek, key facts, a quote, a stat, the dateline and source, picks 1-3 highlight phrases, and recommends a style + mood — writing 01-newsdoc.md (human) and newsdoc.json (the render contract). It NEVER fabricates facts — every field traces to the input or is null.",
+  "inputs": [
+    {
+      "name": "message-text",
+      "type": "text",
+      "required": false,
+      "description": "Pasted text of the message — a headline and/or body. One of text/url is required."
+    },
+    {
+      "name": "source-url",
+      "type": "text",
+      "required": false,
+      "description": "A URL to the message/article; fetched + readability-extracted. One of text/url is required."
+    },
+    {
+      "name": "highlight-hints",
+      "type": "text",
+      "required": false,
+      "description": "Optional phrases the user wants emphasized; otherwise the skill picks 1-3."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "newsdoc-human",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/01-newsdoc.md",
+      "description": "Human-readable structured story for the user to review before rendering."
+    },
+    {
+      "name": "newsdoc-machine",
+      "type": "json",
+      "path": "artifacts/<project-name>/newsdoc.json",
+      "description": "The NewsDoc — the read-only contract consumed by bot-014-text-animator."
+    },
+    {
+      "name": "raw-input",
+      "type": "text",
+      "path": "artifacts/<project-name>/inputs/source.txt",
+      "description": "The verbatim pasted text or fetched extract + URL, saved unchanged."
+    }
+  ],
+  "generated_at": "2026-06-11T22:58:43.144Z",
+  "skill_md_sha256": "089af743c4b4b784e34b6b6c9f06624b4023c154af18634a85fbb992194e26ba"
+}

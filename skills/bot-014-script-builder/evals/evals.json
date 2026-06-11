@@ -1,0 +1,42 @@
+{
+  "skill_name": "bot-014-script-builder",
+  "notes": "Expectations are graded by skill-creator's grader (agents/grader.md -> grading.json), NOT hand-coded regex in test-bot.ts. Derived from 1-requirements.md JTBD-1.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "pasted-funding-release",
+      "prompt": "Structure this announcement into a NewsDoc for a video project 'acme-series-b':\n\n\"SAN FRANCISCO, June 9, 2026 — Acme Robotics announced today it has raised $40 million in a Series B round led by Foundry Capital, valuing the company at $300 million. The funding will scale Acme's warehouse-automation platform to 50 new facilities this year. 'This is the most important milestone in our history,' said CEO Maria Chen. The round brings Acme's total funding to $72 million.\"",
+      "files": [],
+      "expectations": [
+        "writes artifacts/acme-series-b/newsdoc.json and artifacts/acme-series-b/01-newsdoc.md and artifacts/acme-series-b/inputs/source.txt",
+        "newsdoc.json validates with the bundled validator (exit 0): headline non-empty, >=3 body_beats, key_phrases are verbatim substrings",
+        "every figure in the NewsDoc ($40M, $300M, 50, $72 million) appears verbatim or as a faithful compression of the input — NO invented or altered numbers (e.g. no '$112M total' computed, no '$40M+')",
+        "the quote text is verbatim ('the most important milestone in our history') and attributed only to CEO Maria Chen",
+        "source is set (Acme / press release / SAN FRANCISCO dateline preserved with date 2026-06-09); dateline.date is NOT defaulted to a different day",
+        "recommended_style is one of the four styles with a one-line reason in 01-newsdoc.md (a fundable stat-led release plausibly -> kinetic-typography or breaking-news)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "headline-only-thin",
+      "prompt": "Make a news video from this for project 'eu-ai-act': 'EU passes landmark AI Act amendment.' (that's all I have)",
+      "files": [],
+      "expectations": [
+        "produces a headline-only NewsDoc WITHOUT inventing body facts, figures, quotes, a dateline, or a source that were not provided",
+        "newsdoc.json has the headline and meta.extraction_confidence set to thin or headline_only; absent fields are null (not padded)",
+        "01-newsdoc.md notes the input was thin and (if it cannot proceed to a good video) state.md next_action asks the user to paste more detail — it does NOT fabricate beats"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "url-ingest",
+      "prompt": "Present this announcement as a video for project 'partnership-news': https://example.com/newsroom/acme-globex-partnership",
+      "files": [],
+      "expectations": [
+        "attempts curl + the bundled extract.mjs; saves the URL (and any extract) to inputs/",
+        "if extraction succeeds, builds a faithful NewsDoc from the extracted text with source set to the publisher/hostname; if extraction is thin/blocked, degrades to a clean request for pasted text rather than fabricating a story",
+        "does not invent partnership terms, figures, or quotes not present in the fetched content"
+      ]
+    }
+  ]
+}
