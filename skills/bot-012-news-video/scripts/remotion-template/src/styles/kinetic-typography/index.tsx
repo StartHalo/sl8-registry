@@ -1,214 +1,170 @@
-// Kinetic Typography — bold word-by-word animated text on a deterministic per-beat
-// gradient. Social-first; shines at 9:16. The headline and each body beat are split
-// into word tokens that spring in on a staggered delay; emphasis tokens (those in
-// doc.keyPhrases) color-pop. If doc.primaryStat exists it gets a hero <Counter> moment.
-// A credit line (doc.source.name) holds at the end.
+// Kinetic Typography — bold word-by-word news video that PROGRESSES through the story:
+// headline → key facts → the hero stat → an end credit, with smooth cross-scene
+// transitions (slide / fade / wipe via @remotion/transitions) over a continuously
+// evolving backdrop. Persistent kicker chip + progress bar frame it like a broadcast cut.
 //
 // Hard rules honored:
 //  - Exactly `export const Root: React.FC<StyleRootProps>`.
-//  - All sizes from useStyleConfig()/useVideoConfig(); layout branches on orientation.
-//  - Whole timeline fits within durationInFrames; trimming drops trailing beats, never
-//    the lede (headline is always scene 0).
-//  - 100% frame-driven; no CSS transition/animation, no timers, no Math.random.
+//  - Sizes from useStyleConfig()/useVideoConfig(); layout branches on orientation.
+//  - The <TransitionSeries> total equals durationInFrames (scene durations padded by the
+//    transition overlap), so trimming drops trailing beats, never the lede (headline = scene 0).
+//  - 100% frame-driven; no CSS transition/animation, no timers, no runtime randomness.
 //  - Every optional RenderDoc field is guarded.
 
 import React from "react";
 import {
   AbsoluteFill,
-  Sequence,
+  Easing,
   interpolate,
   spring,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import type { StyleRootProps } from "../../engine/types";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import type { TransitionPresentation } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
+import { wipe } from "@remotion/transitions/wipe";
+import type { RenderDoc, StyleRootProps } from "../../engine/types";
 import { StyleProvider, useStyleConfig } from "../../engine/StyleConfig";
 import { SafeZone } from "../../engine/SafeZone";
 import { Counter, parseStat } from "../../engine/primitives";
-import { beatsThatFit, layoutBeats } from "../../engine/pacing";
-import { FPS, STAGGER } from "../../engine/tokens";
+import { beatsThatFit } from "../../engine/pacing";
+import { FPS } from "../../engine/tokens";
 import { buildPalette, STAGE } from "./palette";
 import { buildEmphasisSet, KineticLine } from "./KineticLine";
-import { GradientBg } from "./GradientBg";
+import { Backdrop } from "./Backdrop";
 
-// ---- Timeline planning ---------------------------------------------------------------
+const TRANS = 9; // cross-scene transition length (frames)
 
-interface PlannedBeat {
-  from: number;
-  durationInFrames: number;
-  text: string;
-  beatIndex: number; // stable index for the gradient (0 = headline)
+type Scene =
+  | { kind: "headline"; text: string }
+  | { kind: "beat"; text: string }
+  | { kind: "stat"; value: string; label: string }
+  | { kind: "credit" };
+
+const words = (s: string): string[] => s.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+
+// The headline scene already carries the lede, so drop a leading body beat that mostly
+// repeats the headline — the scenes should show DISTINCT elements, not the same line twice.
+// Measure how much of the HEADLINE the beat restates (a lede usually contains the whole hed).
+function distinctBeats(headline: string, beats: string[]): string[] {
+  if (beats.length <= 1) return beats;
+  const hwords = words(headline);
+  if (!hwords.length) return beats;
+  const bset = new Set(words(beats[0]));
+  const coverage = hwords.filter((w) => bset.has(w)).length / hwords.length;
+  return coverage >= 0.6 ? beats.slice(1) : beats;
 }
 
-interface Plan {
-  beats: PlannedBeat[];
-  stat: { from: number; durationInFrames: number; beatIndex: number } | null;
+// Build the ordered scene list + per-scene durations so the TransitionSeries total
+// equals durationInFrames exactly (sceneDurations sum to D + (n-1)*TRANS).
+function planScenes(doc: RenderDoc, durationInFrames: number): { scenes: Scene[]; durs: number[] } {
+  const hasStat = doc.primaryStat !== null && Boolean(doc.primaryStat?.value);
+  const beats = beatsThatFit(distinctBeats(doc.headline || "", doc.bodyBeats), durationInFrames, 4);
+
+  const scenes: Scene[] = [{ kind: "headline", text: doc.headline || "" }];
+  for (const b of beats) scenes.push({ kind: "beat", text: b });
+  if (hasStat && doc.primaryStat) scenes.push({ kind: "stat", value: doc.primaryStat.value, label: doc.primaryStat.label });
+  scenes.push({ kind: "credit" });
+
+  const weightOf = (s: Scene): number =>
+    s.kind === "headline" ? 2.0
+    : s.kind === "beat" ? Math.max(1.5, s.text.split(/\s+/).filter(Boolean).length / 2.5)
+    : s.kind === "stat" ? 2.3
+    : 1.5;
+
+  const weights = scenes.map(weightOf);
+  const n = scenes.length;
+  const target = durationInFrames + (n - 1) * TRANS; // so series total == durationInFrames
+  const sum = weights.reduce((a, b) => a + b, 0) || 1;
+  const MIN = Math.round(1.1 * FPS);
+  const durs = weights.map((w) => Math.max(MIN, Math.round((w / sum) * target)));
+  // Absorb rounding into the longest scene so the total is exact.
+  const diff = target - durs.reduce((a, b) => a + b, 0);
+  const maxi = durs.indexOf(Math.max(...durs));
+  durs[maxi] = Math.max(MIN, durs[maxi] + diff);
+
+  return { scenes, durs };
 }
 
-const MIN_DWELL = Math.round(1.4 * FPS); // per-beat pacing floor (~42 frames)
-const HEADLINE_DWELL = Math.round(2.0 * FPS); // headline gets a touch more
+// ---- Scenes (each renders inside a TransitionSeries.Sequence with a LOCAL frame) -------
 
-// Build a single plan that always fits inside `total` frames. The headline is scene 0
-// and is never dropped; body beats are fitted by reading time; the stat (if any) claims
-// a dedicated tail block. Trimming pressure removes trailing body beats first.
-function buildPlan(
-  total: number,
-  headline: string,
-  bodyBeats: string[],
-  hasStat: boolean,
-  maxBodyBeats: number,
-): Plan {
-  // Reserve a stat block at the end if a stat exists.
-  const statDur = hasStat ? Math.min(Math.round(2.4 * FPS), Math.max(MIN_DWELL, Math.floor(total * 0.28))) : 0;
-
-  // Headline claims the front; clamp so the rest of the timeline survives.
-  const headlineDur = Math.min(
-    Math.max(MIN_DWELL, HEADLINE_DWELL),
-    Math.max(MIN_DWELL, total - statDur - (bodyBeats.length ? MIN_DWELL : 0)),
-  );
-
-  let cursor = 0;
-  const beats: PlannedBeat[] = [
-    { from: cursor, durationInFrames: headlineDur, text: headline, beatIndex: 0 },
-  ];
-  cursor += headlineDur;
-
-  // Frames left for body beats (everything before the stat block).
-  const bodyAvail = Math.max(0, total - cursor - statDur);
-
-  if (bodyBeats.length > 0 && bodyAvail >= MIN_DWELL) {
-    // How many leading beats fit, then lay them out proportionally to reading time.
-    const fitted = beatsThatFit(bodyBeats, bodyAvail, maxBodyBeats).slice(0, maxBodyBeats);
-    const segs = layoutBeats(fitted, bodyAvail, { lead: 0, tail: 0 });
-    for (const s of segs) {
-      // Enforce the dwell floor; if a segment can't fit at the floor, stop (drop trailing).
-      const remaining = total - statDur - cursor;
-      if (remaining < MIN_DWELL) break;
-      const dur = Math.max(MIN_DWELL, Math.min(s.durationInFrames, remaining));
-      beats.push({ from: cursor, durationInFrames: dur, text: s.text, beatIndex: beats.length });
-      cursor += dur;
-    }
-  }
-
-  let stat: Plan["stat"] = null;
-  if (hasStat) {
-    const statFrom = cursor;
-    const statLen = Math.max(MIN_DWELL, total - statFrom);
-    if (statLen >= Math.round(0.8 * FPS)) {
-      stat = { from: statFrom, durationInFrames: statLen, beatIndex: beats.length };
-    }
-  }
-
-  return { beats, stat };
-}
-
-// ---- Scenes --------------------------------------------------------------------------
-
-const useScrim = (): React.CSSProperties => ({
-  // A soft bottom-up scrim keeps the credit + lower type legible on any gradient.
-  position: "absolute",
-  inset: 0,
-  background: "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.45) 100%)",
-  pointerEvents: "none",
-});
-
-const TextBeat: React.FC<{
-  text: string;
-  beatIndex: number;
-  emphasisSet: Set<string>;
-  seed: number;
-  isHeadline: boolean;
-}> = ({ text, beatIndex, emphasisSet, seed, isHeadline }) => {
-  const { palette, font, orientation, size, shortEdge } = useStyleConfig();
-
-  // Word size derives from the type scale, scaled up for the kinetic "huge type" look,
-  // and reduced on landscape (wider, more wrap room) vs portrait (tall, big type).
+const TextScene: React.FC<{ text: string; emphasisSet: Set<string>; seed: number; isHeadline?: boolean }> = ({
+  text,
+  emphasisSet,
+  seed,
+  isHeadline = false,
+}) => {
+  const { palette, font, orientation, shortEdge, size } = useStyleConfig();
   const heroPx = size("hero");
-  const scale = orientation === "portrait" ? 1.7 : orientation === "square" ? 1.45 : 1.25;
-  const headlineScale = isHeadline ? 1.12 : 1;
-  let fontSize = Math.round(heroPx * scale * headlineScale);
-  // Never let a single huge word overflow: cap by short-edge fraction.
-  const cap = Math.round(shortEdge * (orientation === "landscape" ? 0.11 : 0.16));
-  fontSize = Math.min(fontSize, cap);
-
-  // Stagger tightens slightly on portrait so the rhythm reads as punchy.
-  const stagger = orientation === "portrait" ? Math.max(4, STAGGER - 3) : Math.max(4, STAGGER - 2);
-
+  const arScale = orientation === "portrait" ? 1.7 : orientation === "square" ? 1.45 : 1.25;
+  const cap = Math.round(shortEdge * (orientation === "landscape" ? 0.11 : 0.155));
+  // Clamp so the LONGEST single (non-wrapping) word fits the content width — long compound
+  // words like "WAREHOUSE-AUTOMATION" otherwise overflow the safe zone at full size.
+  const longest = Math.max(1, ...text.split(/\s+/).filter(Boolean).map((w) => w.length));
+  const contentW = shortEdge * (orientation === "landscape" ? 0.78 : 0.86);
+  const fitByWord = Math.floor(contentW / (longest * 0.52)); // ~condensed avg char width
+  const floor = Math.round(shortEdge * 0.05);
+  const fontSize = Math.max(floor, Math.min(cap, fitByWord, Math.round(heroPx * arScale * (isHeadline ? 1.1 : 1))));
+  const stagger = orientation === "portrait" ? 6 : 7;
   return (
-    <AbsoluteFill>
-      <GradientBg beatIndex={beatIndex} top={STAGE.gradientTop} bottom={STAGE.gradientBottom} accent={palette.accent} />
-      <div style={useScrim()} />
-      <SafeZone justify="center" align={orientation === "landscape" ? "flex-start" : "center"}>
-        <KineticLine
-          text={text}
-          emphasisSet={emphasisSet}
-          color={palette.text}
-          accent={palette.accent}
-          fontFamily={font.condensed}
-          fontSize={fontSize}
-          seed={seed + beatIndex * 101}
-          stagger={stagger}
-          startDelay={isHeadline ? 2 : 0}
-          align={orientation === "landscape" ? "flex-start" : "center"}
-        />
-      </SafeZone>
-    </AbsoluteFill>
+    <SafeZone justify="center" align="center">
+      <KineticLine
+        text={text}
+        emphasisSet={emphasisSet}
+        color={palette.text}
+        accent={palette.accent}
+        fontFamily={font.condensed}
+        fontSize={fontSize}
+        seed={seed}
+        stagger={stagger}
+        startDelay={isHeadline ? 2 : 0}
+        align="center"
+      />
+    </SafeZone>
   );
 };
 
-const StatBeat: React.FC<{
-  value: string;
-  label: string;
-  beatIndex: number;
-}> = ({ value, label, beatIndex }) => {
-  const { palette, font, orientation, size, shortEdge } = useStyleConfig();
-  const parsed = parseStat(value);
-
-  // Big number scaled to the short edge; cap so multi-digit + prefix/suffix never overflow.
-  const numScale = orientation === "portrait" ? 0.24 : orientation === "square" ? 0.22 : 0.2;
-  const numPx = Math.min(size("stat"), Math.round(shortEdge * numScale));
-  const labelPx = Math.max(size("meta"), Math.round(numPx * 0.18));
-
-  // Spring pop on the whole stat block (frame-driven).
+const StatScene: React.FC<{ value: string; label: string }> = ({ value, label }) => {
+  const { palette, font, shortEdge, size } = useStyleConfig();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const p = spring({ frame: frame - 6, fps, config: { damping: 200 } });
-  const pop = interpolate(p, [0, 0.85, 1], [0.6, 1.06, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const opacity = interpolate(p, [0, 0.4], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const labelOpacity = interpolate(p, [0.45, 1], [0, 0.9], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const parsed = parseStat(value);
 
-  const numberNode =
-    parsed.num !== null ? (
-      <>
-        {parsed.prefix}
-        <Counter to={parsed.num} delay={8} durationInFrames={Math.round(0.9 * fps)} />
-        {parsed.suffix}
-      </>
-    ) : (
-      value
-    );
+  const numPx = Math.round(shortEdge * 0.26);
+  const ringR = Math.round(shortEdge * 0.3);
+  const stroke = Math.max(5, Math.round(shortEdge * 0.007));
+  const box = ringR * 2 + stroke * 2 + 12;
+  const circ = 2 * Math.PI * ringR;
+  const draw = interpolate(frame, [6, 6 + Math.round(1.1 * fps)], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.out(Easing.cubic),
+  });
+  const pop = spring({ frame: frame - 4, fps, config: { damping: 200 } });
+  const scale = interpolate(pop, [0, 1], [0.72, 1]);
+  const labelO = interpolate(frame, [16, 30], [0, 0.92], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill>
-      <GradientBg beatIndex={beatIndex} top={STAGE.gradientTop} bottom={STAGE.gradientBottom} accent={palette.accent} />
-      <div style={useScrim()} />
-      <SafeZone justify="center" align="center">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: Math.round(numPx * 0.08),
-            transform: `scale(${pop})`,
-            opacity,
-          }}
-        >
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: numPx * 0.12, transform: `scale(${scale})` }}>
+        <div style={{ position: "relative", width: box, height: box, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width={box} height={box} viewBox={`0 0 ${box} ${box}`} style={{ position: "absolute", inset: 0 }}>
+            <circle cx={box / 2} cy={box / 2} r={ringR} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth={stroke} />
+            <circle
+              cx={box / 2}
+              cy={box / 2}
+              r={ringR}
+              fill="none"
+              stroke={palette.accent}
+              strokeWidth={stroke}
+              strokeLinecap="round"
+              strokeDasharray={circ}
+              strokeDashoffset={circ * (1 - draw)}
+              transform={`rotate(-90 ${box / 2} ${box / 2})`}
+            />
+          </svg>
           <span
             style={{
               fontFamily: font.condensed,
@@ -218,155 +174,199 @@ const StatBeat: React.FC<{
               fontVariantNumeric: "tabular-nums",
               letterSpacing: "-0.02em",
               lineHeight: 1,
-              textShadow: "0 6px 30px rgba(0,0,0,0.5)",
+              textShadow: `0 0 ${numPx * 0.35}px ${palette.accent}66`,
               whiteSpace: "nowrap",
             }}
           >
-            {numberNode}
+            {parsed.num !== null ? (
+              <>
+                {parsed.prefix}
+                <Counter to={parsed.num} delay={8} durationInFrames={Math.round(0.9 * fps)} />
+                {parsed.suffix}
+              </>
+            ) : (
+              value
+            )}
           </span>
-          {label ? (
-            <span
-              style={{
-                fontFamily: font.body,
-                fontWeight: 700,
-                fontSize: labelPx,
-                color: palette.text,
-                opacity: labelOpacity,
-                textTransform: "uppercase",
-                letterSpacing: "0.12em",
-                textAlign: "center",
-                maxWidth: "90%",
-              }}
-            >
-              {label}
-            </span>
-          ) : null}
         </div>
-      </SafeZone>
+        {label ? (
+          <span
+            style={{
+              fontFamily: font.body,
+              fontWeight: 700,
+              fontSize: size("meta"),
+              color: palette.text,
+              opacity: labelO,
+              textTransform: "uppercase",
+              letterSpacing: "0.16em",
+              textAlign: "center",
+              maxWidth: "85%",
+            }}
+          >
+            {label}
+          </span>
+        ) : null}
+      </div>
     </AbsoluteFill>
   );
 };
 
-// Persistent credit footer (only when source.name exists). Fades in near the end and holds.
-const CreditLine: React.FC<{ name: string; byline: string | null; appearAt: number }> = ({
-  name,
-  byline,
-  appearAt,
-}) => {
-  const { palette, font, orientation, size } = useStyleConfig();
+const CreditScene: React.FC<{ doc: RenderDoc }> = ({ doc }) => {
+  const { palette, font, size } = useStyleConfig();
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [appearAt, appearAt + 12], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const px = size("meta");
-  const pad = orientation === "portrait" ? { bottom: 200, x: 64 } : orientation === "square" ? { bottom: 64, x: 80 } : { bottom: 70, x: 120 };
-
+  const t = interpolate(frame, [4, 18], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
+  const name = doc.source.name || doc.headline;
+  const dateline = [doc.dateline.location, doc.dateline.dateDisplay].filter((s): s is string => Boolean(s)).join(" · ");
   return (
-    <AbsoluteFill
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        paddingBottom: pad.bottom,
-        paddingLeft: pad.x,
-        paddingRight: pad.x,
-        opacity,
-        pointerEvents: "none",
-      }}
-    >
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div
         style={{
+          opacity: t,
+          transform: `translateY(${interpolate(t, [0, 1], [22, 0])}px)`,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          gap: Math.round(px * 0.5),
-          fontFamily: font.body,
-          color: palette.textMuted,
-          fontSize: px,
-          fontWeight: 600,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
+          gap: size("meta") * 0.55,
+          textAlign: "center",
+          padding: "0 8%",
         }}
       >
         <span
           style={{
-            width: Math.round(px * 0.55),
-            height: Math.round(px * 0.55),
+            width: size("meta") * 0.95,
+            height: size("meta") * 0.95,
             borderRadius: 999,
-            backgroundColor: palette.accent,
-            display: "inline-block",
+            background: palette.accent,
+            boxShadow: `0 0 ${size("meta") * 1.2}px ${palette.accent}99`,
           }}
         />
-        <span style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}>
+        <span
+          style={{
+            fontFamily: font.condensed,
+            fontWeight: 700,
+            fontSize: size("headline"),
+            color: palette.text,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            lineHeight: 1.05,
+          }}
+        >
           {name}
-          {byline ? ` · ${byline}` : ""}
+        </span>
+        {dateline ? (
+          <span
+            style={{
+              fontFamily: font.body,
+              fontWeight: 600,
+              fontSize: size("meta"),
+              color: palette.textMuted,
+              textTransform: "uppercase",
+              letterSpacing: "0.16em",
+            }}
+          >
+            {dateline}
+          </span>
+        ) : null}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---- Persistent overlays (GLOBAL frame; outside the TransitionSeries) ------------------
+
+const KickerChip: React.FC<{ label: string }> = ({ label }) => {
+  const { palette, font, size, orientation } = useStyleConfig();
+  const frame = useCurrentFrame();
+  const o = interpolate(frame, [6, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const topPad = orientation === "portrait" ? 150 : orientation === "square" ? 84 : 70;
+  return (
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: topPad, opacity: o, pointerEvents: "none" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: size("kicker") * 0.5,
+          padding: `${size("kicker") * 0.42}px ${size("kicker") * 0.85}px`,
+          border: `2px solid ${palette.accent}`,
+          borderRadius: 999,
+          background: "rgba(0,0,0,0.28)",
+        }}
+      >
+        <span style={{ width: size("kicker") * 0.5, height: size("kicker") * 0.5, borderRadius: 999, background: palette.accent }} />
+        <span style={{ fontFamily: font.body, fontWeight: 800, fontSize: size("kicker"), color: palette.text, textTransform: "uppercase", letterSpacing: "0.2em" }}>
+          {label}
         </span>
       </div>
     </AbsoluteFill>
   );
 };
 
-// ---- Inner (inside provider, so hooks can read orientation/size) ---------------------
-
-const KineticInner: React.FC<StyleRootProps> = ({ doc, seed }) => {
+const ProgressBar: React.FC = () => {
+  const { palette, orientation } = useStyleConfig();
+  const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
-  const { orientation } = useStyleConfig();
-
-  const emphasisSet = React.useMemo(() => buildEmphasisSet(doc.keyPhrases), [doc.keyPhrases]);
-
-  const hasStat = doc.primaryStat !== null && Boolean(doc.primaryStat?.value);
-  // Fewer beats on landscape (wider lines, more wrap), more on portrait.
-  const maxBodyBeats = orientation === "landscape" ? 4 : 5;
-
-  const plan = React.useMemo(
-    () => buildPlan(durationInFrames, doc.headline || "", doc.bodyBeats, hasStat, maxBodyBeats),
-    [durationInFrames, doc.headline, doc.bodyBeats, hasStat, maxBodyBeats],
-  );
-
-  const sourceName = doc.source.name;
-  // Credit appears once the last visual beat (stat or final text beat) has begun.
-  const lastFrom = plan.stat
-    ? plan.stat.from
-    : plan.beats.length
-      ? plan.beats[plan.beats.length - 1].from
-      : 0;
-  const creditAppearAt = Math.min(durationInFrames - 12, lastFrom + Math.round(0.6 * FPS));
-
+  const p = interpolate(frame, [0, Math.max(1, durationInFrames)], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const bottomPad = orientation === "portrait" ? 180 : orientation === "square" ? 72 : 64;
+  const sidePad = orientation === "portrait" ? 64 : 84;
   return (
-    <>
-      {plan.beats.map((b) => (
-        <Sequence key={`b-${b.beatIndex}`} from={b.from} durationInFrames={b.durationInFrames}>
-          <TextBeat
-            text={b.text}
-            beatIndex={b.beatIndex}
-            emphasisSet={emphasisSet}
-            seed={seed}
-            isHeadline={b.beatIndex === 0}
-          />
-        </Sequence>
-      ))}
-
-      {plan.stat && doc.primaryStat ? (
-        <Sequence from={plan.stat.from} durationInFrames={plan.stat.durationInFrames}>
-          <StatBeat
-            value={doc.primaryStat.value}
-            label={doc.primaryStat.label}
-            beatIndex={plan.stat.beatIndex}
-          />
-        </Sequence>
-      ) : null}
-
-      {sourceName ? (
-        <Sequence from={0} durationInFrames={durationInFrames}>
-          <CreditLine name={sourceName} byline={doc.source.byline} appearAt={creditAppearAt} />
-        </Sequence>
-      ) : null}
-    </>
+    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: bottomPad, pointerEvents: "none" }}>
+      <div style={{ width: `calc(100% - ${sidePad * 2}px)`, height: 6, borderRadius: 999, background: "rgba(255,255,255,0.14)", overflow: "hidden" }}>
+        <div style={{ width: `${p * 100}%`, height: "100%", background: palette.accent, boxShadow: `0 0 12px ${palette.accent}`, borderRadius: 999 }} />
+      </div>
+    </AbsoluteFill>
   );
 };
 
-// ---- Root ----------------------------------------------------------------------------
+// ---- Inner + Root ---------------------------------------------------------------------
+
+const renderScene = (s: Scene, emphasisSet: Set<string>, seed: number, doc: RenderDoc): React.ReactNode => {
+  if (s.kind === "headline") return <TextScene text={s.text} emphasisSet={emphasisSet} seed={seed} isHeadline />;
+  if (s.kind === "beat") return <TextScene text={s.text} emphasisSet={emphasisSet} seed={seed} />;
+  if (s.kind === "stat") return <StatScene value={s.value} label={s.label} />;
+  return <CreditScene doc={doc} />;
+};
+
+const KineticInner: React.FC<StyleRootProps> = ({ doc, seed }) => {
+  const { durationInFrames } = useVideoConfig();
+  const { palette } = useStyleConfig();
+  const emphasisSet = React.useMemo(() => buildEmphasisSet(doc.keyPhrases), [doc.keyPhrases]);
+  const { scenes, durs } = React.useMemo(() => planScenes(doc, durationInFrames), [doc, durationInFrames]);
+
+  const seq: React.ReactNode[] = [];
+  scenes.forEach((s, i) => {
+    seq.push(
+      <TransitionSeries.Sequence key={`s-${i}`} durationInFrames={durs[i]}>
+        {renderScene(s, emphasisSet, seed, doc)}
+      </TransitionSeries.Sequence>,
+    );
+    if (i < scenes.length - 1) {
+      const next = scenes[i + 1];
+      const presentation = (
+        next.kind === "stat"
+          ? wipe({ direction: "from-left" })
+          : next.kind === "credit"
+            ? fade()
+            : i % 2 === 0
+              ? slide({ direction: "from-bottom" })
+              : fade()
+      ) as TransitionPresentation<Record<string, unknown>>;
+      seq.push(
+        <TransitionSeries.Transition key={`t-${i}`} presentation={presentation} timing={linearTiming({ durationInFrames: TRANS })} />,
+      );
+    }
+  });
+
+  const kicker = doc.category && doc.category !== "other" ? doc.category : "News";
+
+  return (
+    <>
+      <Backdrop top={STAGE.gradientTop} bottom={STAGE.gradientBottom} accent={palette.accent} accentAlt={palette.accentAlt} seed={seed} />
+      <TransitionSeries>{seq}</TransitionSeries>
+      <KickerChip label={kicker} />
+      <ProgressBar />
+    </>
+  );
+};
 
 export const Root: React.FC<StyleRootProps> = ({ doc, brand, seed }) => {
   const palette = buildPalette({ accent: brand.accent, accentAlt: brand.accentAlt ?? null });

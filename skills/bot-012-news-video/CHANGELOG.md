@@ -6,6 +6,11 @@ All notable changes to this skill. Versions are git tags (`bot-012-news-video/vX
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-10
+### Changed
+- **Kinetic Typography redesign** — now transitions smoothly between news elements (headline -> key facts -> hero stat -> credit) via `@remotion/transitions` (slide/fade/wipe) instead of hard cuts. Added a continuously-evolving aurora `Backdrop` (replaces per-beat gradient jumps + adds film grain), a persistent kicker chip + progress bar, accent underline-draw on emphasis words, a stat moment with a drawing accent ring + counter, and an end-credit card. Drops a redundant lede beat that repeats the headline (distinct scenes). Adaptive font clamp so long compound words never overflow. Tuned for 1:1.
+- Added `@remotion/transitions` to the bundled Remotion project + `render.sh` install list.
+
 ## [v1.0.0] — 2026-06-10
 ### Added
 - Initial skill: render a NewsDoc as a styled news MP4 (4 styles × 3 aspect ratios).
