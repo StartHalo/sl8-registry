@@ -1,0 +1,71 @@
+{
+  "name": "bot-014-text-animator",
+  "version": "v1.0.0",
+  "description": "Render a structured MessageDoc as a short animated-TEXT VIDEO with Remotion — the Kinetic Text renderer. Nine styles (Headline Highlight, Breaking News, Kinetic Typography, Minimal Editorial, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel) at one or more aspect ratios (16:9, 9:16, 1:1); every style progresses through the whole message and carries an optional mood-based background score. Use this AFTER bot-014-script-builder has written the message doc. Also use to RESTYLE / RESIZE / RE-SCORE an existing project without re-extracting the message. Bundles a complete, pre-built Remotion project; you only choose the style, write props.json, and render — you never hand-write React.",
+  "inputs": [
+    {
+      "name": "messagedoc",
+      "type": "json",
+      "required": true,
+      "description": "artifacts/<project-name>/newsdoc.json — the structured MessageDoc written by bot-014-script-builder."
+    },
+    {
+      "name": "style",
+      "type": "text",
+      "required": false,
+      "description": "headline-highlight | breaking-news | kinetic-typography | minimal-editorial | box-reveal | giant-word | perspective-3d | pixel-reveal | blur-carousel. Default = the doc's recommended_style, else minimal-editorial."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = onboarding default, else 9:16."
+    },
+    {
+      "name": "duration-seconds",
+      "type": "text",
+      "required": false,
+      "description": "Seconds (8-15) as a number. Default 12."
+    },
+    {
+      "name": "mood",
+      "type": "text",
+      "required": false,
+      "description": "calm | dramatic | upbeat | tech — the background-score bed. Default = derived from the chosen style and the message tone."
+    },
+    {
+      "name": "music",
+      "type": "text",
+      "required": false,
+      "description": "on or off — whether to include the background score. Default on."
+    },
+    {
+      "name": "brand",
+      "type": "json",
+      "required": false,
+      "description": "Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-storyboard.md",
+      "description": "Scenes + frame ranges + on-screen text + style/AR/defaults used."
+    },
+    {
+      "name": "videos",
+      "type": "video",
+      "path": "artifacts/<project-name>/exports/<style>-<ar>.mp4",
+      "description": "One rendered MP4 per requested aspect ratio."
+    },
+    {
+      "name": "project",
+      "type": "x-dir",
+      "path": "artifacts/<project-name>/video/",
+      "description": "The reproducible Remotion project (bundled template + props.json)."
+    }
+  ],
+  "generated_at": "2026-06-11T22:59:40.645Z",
+  "skill_md_sha256": "2714d3bcd5c6cf3d4de4078f1ece76f3fcbb0e94a4f90a84f8a97073a15a5867"
+}

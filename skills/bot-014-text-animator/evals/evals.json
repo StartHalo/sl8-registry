@@ -1,0 +1,74 @@
+{
+  "skill_name": "bot-014-text-animator",
+  "notes": "Graded by skill-creator's grader; the visual expectations are MEDIA-JUDGE dimensions (the in-session model Reads the rendered MP4 / a sampled frame and scores the pixels — never the filename/size). Derived from 1-requirements.md JTBD-2/JTBD-3. Assumes a valid newsdoc.json from bot-014-script-builder exists.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "breaking-news-three-ARs",
+      "prompt": "Render the acme-series-b news video in the breaking-news style at all three aspect ratios (16:9, 9:16, 1:1).",
+      "files": [],
+      "expectations": [
+        "writes exports/breaking-news-16x9.mp4, exports/breaking-news-9x16.mp4, exports/breaking-news-1x1.mp4 — each non-empty and playable",
+        "each MP4 has the correct dimensions (1920x1080, 1080x1920, 1080x1080) and a non-zero duration within +/-15% of the target",
+        "[media-judge] the video faithfully shows the headline and key facts from newsdoc.json (no invented text or numbers) and is legible (text inside the safe zone, high contrast, no clipping/overlap)",
+        "[media-judge] it is recognizably the BREAKING NEWS style: a lower-third banner AND a scrolling ticker are present; broadcast palette (red accent)",
+        "02-storyboard.md lists scenes with frame ranges + on-screen text and records style/ARs/defaults"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "headline-highlight-marker",
+      "prompt": "Render the acme-series-b story in the headline-highlight style at 1:1.",
+      "files": [],
+      "expectations": [
+        "writes exports/headline-highlight-1x1.mp4 (non-empty, 1080x1080)",
+        "[media-judge] a highlighter marker sweeps left-to-right BEHIND the key_phrases (e.g. \"$40M\", \"Series B\") and sits behind the text, not over it",
+        "[media-judge] the article card is legible with a subtle 3D drift and an initial blur-in reveal; faithful to the NewsDoc"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "restyle-no-refetch",
+      "prompt": "Now give me the minimal-editorial version of acme-series-b as a 16:9.",
+      "files": [],
+      "expectations": [
+        "adds exports/minimal-editorial-16x9.mp4 WITHOUT overwriting the prior breaking-news/headline-highlight exports",
+        "newsdoc.json is byte-identical to its prior version (no re-extraction; facts unchanged)",
+        "[media-judge] a calm premium editorial card: serif headline, dateline + source credit, a divider, slow drift; faithful to the NewsDoc",
+        "02-storyboard.md gains a dated revision note naming the change"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "kinetic-stat-default-9x16",
+      "prompt": "Make a punchy social video of the acme-series-b story for TikTok.",
+      "files": [],
+      "expectations": [
+        "defaults to kinetic-typography (stat-led) at 9:16 when the user names a social platform, OR honors a stated choice; writes exports/<style>-9x16.mp4 (1080x1920)",
+        "[media-judge] bold word-by-word typography; if a primary_stat exists it gets an animated counter; emphasis on key_phrases; legible at vertical",
+        "[media-judge] a source credit line appears; nothing on screen is absent from the NewsDoc"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "new-style-with-score",
+      "prompt": "Render the acme-series-b story in the giant-word style at 1:1.",
+      "files": [],
+      "expectations": [
+        "writes exports/giant-word-1x1.mp4 (non-empty, 1080x1080) WITH an audio stream (the background score is muxed in)",
+        "[media-judge] one enormous word/line at a time slams in from center over a soft radial accent glow; emphasis on key_phrases and a giant animated stat",
+        "[media-judge] it PROGRESSES through the message (headline -> beats -> stat -> credit), not a held headline; faithful to the NewsDoc, legible"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "mood-and-mute",
+      "prompt": "Give me a calm perspective-3d 16:9 of acme-series-b, and also a silent box-reveal 1:1.",
+      "files": [],
+      "expectations": [
+        "writes exports/perspective-3d-16x9.mp4 (with a calm score audio stream) AND exports/box-reveal-1x1.mp4 (music off -> no audio stream, or a silent track)",
+        "[media-judge] perspective-3d is a cinematic tilted-3D serif that drifts; box-reveal sweeps a block across each word to reveal it; both faithful + legible + progress through the message"
+      ]
+    }
+  ]
+}
