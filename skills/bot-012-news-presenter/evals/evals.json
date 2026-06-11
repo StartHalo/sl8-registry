@@ -1,0 +1,39 @@
+{
+  "skill_name": "bot-012-news-presenter",
+  "notes": "End-to-end orchestrator. Graded by skill-creator's grader; visual expectations are media-judge (the in-session model Reads the rendered MP4/frames). Derived from the bot's JTBDs (structure + render in one). Reuses the granular skills' bundled scripts — no duplication.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "text-to-video-one-shot",
+      "prompt": "Make a news video for project 'globex-launch'. Kinetic style, 1:1. Announcement: SAN FRANCISCO, June 11, 2026 - Globex today launched Orbit, an AI assistant that has reached 2 million users in its first week. The company said Orbit cuts support costs by 35 percent. CEO Dana Lee called it the fastest launch in Globex history.",
+      "files": [],
+      "expectations": [
+        "in ONE invocation, structures the announcement into a faithful newsdoc.json AND renders exports/kinetic-typography-1x1.mp4 (non-empty, 1080x1080)",
+        "every figure (2 million users, 35 percent), the CEO name (Dana Lee), and the product (Orbit) trace to the input — no fabrication",
+        "[media-judge] the 1:1 kinetic video PROGRESSES through the news (headline -> key facts -> the stat -> credit) with smooth transitions; legible; recognizably kinetic-typography",
+        "all artifacts (newsdoc.json, 01-newsdoc.md, 02-storyboard.md, exports/*.mp4) live in artifacts/globex-launch/"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "url-to-video-one-shot",
+      "prompt": "Present this as a news video for project 'partnership-clip': https://example.com/newsroom/acme-globex-partnership . 9:16, breaking-news style.",
+      "files": [],
+      "expectations": [
+        "fetches + extracts the URL (or degrades to a clean request for pasted text if extraction is thin), structures a faithful NewsDoc, then renders exports/breaking-news-9x16.mp4",
+        "does not invent partnership terms, figures, or quotes not present in the fetched content",
+        "[media-judge] the breaking-news 9:16 video is legible and recognizably the breaking-news style"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "restyle-existing",
+      "prompt": "For the existing globex-launch project, also give me a minimal-editorial 16:9 cut.",
+      "files": [],
+      "expectations": [
+        "re-renders from the EXISTING newsdoc.json (no re-extraction; facts unchanged); adds exports/minimal-editorial-16x9.mp4 beside the prior exports",
+        "[media-judge] a calm premium editorial cut faithful to the same NewsDoc"
+      ]
+    }
+  ]
+}

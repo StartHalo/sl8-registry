@@ -1,0 +1,65 @@
+{
+  "name": "bot-012-news-presenter",
+  "version": "v1.0.0",
+  "description": "Make a news video end-to-end from a single request. Take a news announcement (pasted text OR a URL), structure it into a faithful NewsDoc, then render a styled MP4 (Headline Highlight, Breaking News, Kinetic Typography, or Minimal Editorial) at any aspect ratio (16:9, 9:16, 1:1). This is the ONE do-everything entry point for the news-presenter bot — use it whenever someone wants a news video and does not want to think about steps. It orchestrates the granular skills (bot-012-news-structure then bot-012-news-video) and never fabricates facts.",
+  "inputs": [
+    {
+      "name": "announcement-text",
+      "type": "text",
+      "required": false,
+      "description": "Pasted headline and/or body of the announcement. One of text/url is required."
+    },
+    {
+      "name": "source-url",
+      "type": "text",
+      "required": false,
+      "description": "A URL to the announcement; fetched + extracted. One of text/url is required."
+    },
+    {
+      "name": "style",
+      "type": "text",
+      "required": false,
+      "description": "headline-highlight | breaking-news | kinetic-typography | minimal-editorial. Default = the NewsDoc's recommended style, else minimal-editorial."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = onboarding default, else 9:16."
+    },
+    {
+      "name": "duration-seconds",
+      "type": "text",
+      "required": false,
+      "description": "Seconds (8-15) as a number. Default 12."
+    },
+    {
+      "name": "brand",
+      "type": "json",
+      "required": false,
+      "description": "Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "newsdoc",
+      "type": "json",
+      "path": "artifacts/<project-name>/newsdoc.json",
+      "description": "The structured, provenance-tracked NewsDoc (the render contract)."
+    },
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-storyboard.md",
+      "description": "Scenes + frame ranges + on-screen text + style/AR/defaults used."
+    },
+    {
+      "name": "videos",
+      "type": "video",
+      "path": "artifacts/<project-name>/exports/<style>-<ar>.mp4",
+      "description": "One rendered MP4 per requested aspect ratio."
+    }
+  ],
+  "generated_at": "2026-06-11T03:42:06.203Z",
+  "skill_md_sha256": "f4f5ba9875eb25a6c03c0a01f76112462b51d9484c16d4632244456bc4817407"
+}
