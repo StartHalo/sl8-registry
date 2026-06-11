@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+.remotion/
+package-lock.json
+public/music/
+exports/
+props.json
