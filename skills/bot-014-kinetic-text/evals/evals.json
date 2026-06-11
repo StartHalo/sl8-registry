@@ -1,0 +1,39 @@
+{
+  "skill_name": "bot-014-kinetic-text",
+  "notes": "End-to-end orchestrator for the Kinetic Text bot. Graded by skill-creator's grader; visual expectations are media-judge (the in-session model Reads the rendered MP4/frames). Derived from the bot's JTBDs (structure + render any short message in one). Reuses the granular skills' bundled scripts — no duplication. Every render carries a background score.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "message-to-video-one-shot",
+      "prompt": "Make a Kinetic Text video for project 'globex-launch'. Giant Word style, 1:1, upbeat. Message: AUSTIN, June 11, 2026 - Globex today launched Orbit, an AI copilot for warehouses that reaches 2 million workers. The company said Orbit cuts picking errors by 35 percent and rolls out to 200 sites this fall. COO Dana Lee called it the biggest leap her floor teams have ever felt.",
+      "files": [],
+      "expectations": [
+        "in ONE invocation, structures the message into a faithful newsdoc.json AND renders exports/giant-word-1x1.mp4 (non-empty, 1080x1080, with an audio stream)",
+        "every figure (2 million workers, 35 percent, 200 sites), the COO name (Dana Lee), and the product (Orbit) trace to the input — no fabrication",
+        "[media-judge] the 1:1 giant-word video PROGRESSES through the message (headline -> beats -> the 35% stat -> credit) with the slam-in motion; legible; recognizably giant-word; a background score is audible",
+        "all artifacts (newsdoc.json, 01-newsdoc.md, 02-storyboard.md, exports/*.mp4) live in artifacts/globex-launch/"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "url-to-video-one-shot",
+      "prompt": "Present this as a video for project 'partnership-clip': https://example.com/newsroom/acme-globex-partnership . 9:16, breaking-news style.",
+      "files": [],
+      "expectations": [
+        "fetches + extracts the URL (or degrades to a clean request for pasted text if extraction is thin), structures a faithful MessageDoc, then renders exports/breaking-news-9x16.mp4 (with an audio stream)",
+        "does not invent partnership terms, figures, or quotes not present in the fetched content",
+        "[media-judge] the breaking-news 9:16 video advances through the message (lower-third beats -> stat panel -> sign-off) and is recognizably the breaking-news style"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "restyle-rescore-existing",
+      "prompt": "For the existing globex-launch project, also give me a perspective-3d 16:9 cut with a calm score.",
+      "files": [],
+      "expectations": [
+        "re-renders from the EXISTING newsdoc.json (no re-extraction; facts unchanged); adds exports/perspective-3d-16x9.mp4 beside the prior exports",
+        "[media-judge] a cinematic tilted-3D cut faithful to the same MessageDoc, with a calmer background score"
+      ]
+    }
+  ]
+}
