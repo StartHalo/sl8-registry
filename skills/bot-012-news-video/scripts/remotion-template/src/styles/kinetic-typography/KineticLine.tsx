@@ -107,10 +107,16 @@ export const KineticLine: React.FC<KineticLineProps> = ({
         });
         const tokenColor = isEmph ? (blend >= 0.5 ? accent : color) : color;
 
+        // Emphasis tokens get an accent underline that DRAWS in (scaleX) once the word lands.
+        const underline = isEmph
+          ? interpolate(enter, [0.5, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+          : 0;
+
         return (
           <span
             key={i}
             style={{
+              position: "relative",
               display: "inline-block",
               transform: `translateY(${translateY}px) scale(${scale})`,
               transformOrigin: "center bottom",
@@ -127,6 +133,22 @@ export const KineticLine: React.FC<KineticLineProps> = ({
             }}
           >
             {tok}
+            {isEmph ? (
+              <span
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: "-0.04em",
+                  height: "0.1em",
+                  borderRadius: 999,
+                  background: accent,
+                  transform: `scaleX(${underline})`,
+                  transformOrigin: "left center",
+                  boxShadow: `0 0 ${Math.round(fontSize * 0.25)}px ${accent}aa`,
+                }}
+              />
+            ) : null}
           </span>
         );
       })}

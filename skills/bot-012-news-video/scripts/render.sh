@@ -44,7 +44,7 @@ if [ ! -d node_modules/remotion ]; then
   RV="$(npm view remotion version 2>/dev/null || echo 4.0.474)"
   echo ">> Installing Remotion $RV + deps ..."
   npm install --no-audit --no-fund \
-    "remotion@${RV}" "@remotion/cli@${RV}" "@remotion/google-fonts@${RV}" \
+    "remotion@${RV}" "@remotion/cli@${RV}" "@remotion/google-fonts@${RV}" "@remotion/transitions@${RV}" \
     "react@^19" "react-dom@^19" "roughjs@^4.6.0" || { echo "!! npm install failed"; exit 1; }
   npm install --no-audit --no-fund -D \
     "@types/react@^19" "@types/react-dom@^19" "typescript@^5" 2>/dev/null || true
