@@ -6,6 +6,10 @@ All notable changes to this skill. Versions are git tags (`bot-014-text-animator
 ### Changed
 - (next version's changes)
 
+## [v1.1.1] — 2026-06-12
+### Changed
+- **Score robustness — never silently mute.** `make-scores.mjs` now degrades the ffmpeg encode (full EQ → highpass+lowpass → none) and tries libmp3lame then native mp3, so it produces a bed wherever mp3 encoding works (the audibility is baked into the Node synth, not the EQ). `render.sh` skips synthesis when `music:false`, verifies a bed was actually produced (else mutes + warns loudly), and **asserts the rendered MP4 carries an audio stream** when music is on — surfacing a silent render instead of passing it. (Verified in-sandbox: sl8-animation's ffmpeg has libmp3lame/equalizer/alimiter, so the full chain is used there; sandbox skill output measures −14.6 LUFS, identical to host.)
+
 ## [v1.1.0] — 2026-06-11
 ### Added
 - **Font packs (typography is now a parameter).** New `fontPack` prop — `modern` (default, Inter/Fraunces/Oswald) · `editorial` (Manrope/Playfair Display) · `bold` (Anton/Bebas Neue) · `tech` (Space Grotesk/DM Serif). Threaded via a `FontProvider` context so every style picks up the chosen pairing with zero style-code changes; all packs are loaded deterministically at module level. Brand color (`brand.accent`) + font pack are documented as a first-class **brand kit**, resolved from `context.md` with stated defaults, and reported back to the user after each render.
