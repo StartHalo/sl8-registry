@@ -1,6 +1,6 @@
 {
   "name": "bot-014-text-animator",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Render a structured MessageDoc as a short animated-TEXT VIDEO with Remotion — the Kinetic Text renderer. Nine styles (Headline Highlight, Breaking News, Kinetic Typography, Minimal Editorial, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel) at one or more aspect ratios (16:9, 9:16, 1:1); every style progresses through the whole message and carries an optional mood-based background score. Use this AFTER bot-014-script-builder has written the message doc. Also use to RESTYLE / RESIZE / RE-SCORE an existing project without re-extracting the message. Bundles a complete, pre-built Remotion project; you only choose the style, write props.json, and render — you never hand-write React.",
   "inputs": [
     {
@@ -66,6 +66,6 @@
       "description": "The reproducible Remotion project (bundled template + props.json)."
     }
   ],
-  "generated_at": "2026-06-11T22:59:40.645Z",
-  "skill_md_sha256": "2714d3bcd5c6cf3d4de4078f1ece76f3fcbb0e94a4f90a84f8a97073a15a5867"
+  "generated_at": "2026-06-12T02:35:21.613Z",
+  "skill_md_sha256": "5cd31634edca46e1f632e2c8afbfc1ad6589f48179619f9c0b8edb5226ef572f"
 }

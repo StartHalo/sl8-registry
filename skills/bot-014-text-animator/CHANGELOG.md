@@ -6,6 +6,10 @@ All notable changes to this skill. Versions are git tags (`bot-014-text-animator
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-11
+### Changed
+- **Louder, fuller background score.** The muxed bed was too quiet for a music-only clip (~-25 dB mean). Raised `BackgroundScore` volume 0.42 → 0.85 and made the synth beds fuller (shallower tremolo/pulse, more headroom) so the bed now lands ~-18 dB mean / -6 dB peak — clearly audible, no clipping. Also hardened `giant-word`'s hero stat to auto-fit a long `primary_stat.value` (no overflow garble).
+
 ## [v1.0.0] — 2026-06-11
 ### Added
 - Initial skill (the Kinetic Text renderer): render a MessageDoc as a styled animated-text MP4 — **nine styles × three aspect ratios (16:9/9:16/1:1)** with a **background score**. Style + aspect ratio + mood are parameters; you never hand-write React.

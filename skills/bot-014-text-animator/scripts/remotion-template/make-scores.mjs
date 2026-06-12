@@ -42,38 +42,38 @@ const saw = (f, a, harmonics = 4) =>
 // Mood voices. Frequencies are musical (equal-temperament); amplitudes hand-balanced so
 // the pad sits low and warm. All snapped to the loop grid by grid().
 const MOODS = {
-  // Cmaj9 pad — open, gentle, unhurried.
+  // Cmaj9 pad — open, gentle, unhurried. (Fuller/louder: shallower tremolo, more headroom.)
   calm: {
-    gain: 0.82,
+    gain: 0.9,
     tremHz: 0.25,
-    tremDepth: 0.16,
+    tremDepth: 0.1,
     voices: [p(65.41, 0.5), p(130.81, 0.9), p(196.0, 0.55), p(329.63, 0.5), p(493.88, 0.32), p(587.33, 0.28)],
   },
   // A-minor with a low drone + a slow swell — tension without being grim.
   dramatic: {
-    gain: 0.9,
+    gain: 0.92,
     tremHz: 0.125,
-    tremDepth: 0.28,
+    tremDepth: 0.16,
     voices: [p(55.0, 0.55), p(110.0, 0.9), p(164.81, 0.6), p(220.0, 0.5), p(261.63, 0.4), p(349.23, 0.34), p(220.0 * 1.004, 0.18)],
   },
   // C-major triad over a bass, with an eighth-note pulse — bright and forward.
   upbeat: {
-    gain: 0.86,
+    gain: 0.9,
     tremHz: 0.5,
-    tremDepth: 0.1,
+    tremDepth: 0.06,
     pulseHz: 2,
-    pulseDepth: 0.55,
-    pulseSharp: 6,
+    pulseDepth: 0.4,
+    pulseSharp: 5,
     voices: [p(130.81, 0.7), p(261.63, 0.85), p(329.63, 0.6), p(392.0, 0.55), p(523.25, 0.4)],
   },
   // D Dorian-ish retro synth: a saw stack + a bright high + a fast pulse — clean/techy.
   tech: {
-    gain: 0.8,
+    gain: 0.88,
     tremHz: 0.375,
-    tremDepth: 0.1,
+    tremDepth: 0.06,
     pulseHz: 4,
-    pulseDepth: 0.6,
-    pulseSharp: 8,
+    pulseDepth: 0.44,
+    pulseSharp: 6,
     voices: [...saw(146.83, 0.6, 4), p(220.0, 0.4), p(349.23, 0.3), p(220.0 * 1.005, 0.16), p(1046.5, 0.1)],
   },
 };
