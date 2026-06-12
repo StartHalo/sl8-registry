@@ -6,6 +6,12 @@ All notable changes to this skill. Versions are git tags (`bot-014-kinetic-text/
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-11
+### Added
+- `font-pack` input (modern / editorial / bold / tech) + an explicit **brand kit** (accent color + font pack) in the render step, resolved from `context.md` with stated defaults.
+### Changed
+- Step 3/4 now resolve EVERY parameter up front and **report the resolved values** (style, AR, duration, brand color, font pack, mood, music — choices vs defaults) back to the user; audio-stream check on verify.
+
 ## [v1.0.0] — 2026-06-11
 ### Added
 - Initial all-in-one orchestrator skill: any short message (pasted text or URL) -> faithful MessageDoc -> styled animated-text MP4 with a background score, in ONE invocation.

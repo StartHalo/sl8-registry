@@ -1,6 +1,6 @@
 {
   "name": "bot-014-kinetic-text",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Make a Kinetic Text video end-to-end from a single request. Take any short message (pasted text OR a URL) — an announcement, product update, quote, stat, or headline — structure it into a faithful MessageDoc, then render a styled animated-text MP4 in one of nine styles (Kinetic Typography, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel, Breaking News, Headline Highlight, Minimal Editorial) with a background score, at any aspect ratio (16:9, 9:16, 1:1). This is the ONE do-everything entry point for the Kinetic Text bot — use it whenever someone wants an animated-text video and does not want to think about steps. It orchestrates the granular skills (bot-014-script-builder then bot-014-text-animator) and never fabricates facts.",
   "inputs": [
     {
@@ -46,10 +46,16 @@
       "description": "on or off — whether to include the background score. Default on."
     },
     {
+      "name": "font-pack",
+      "type": "text",
+      "required": false,
+      "description": "modern | editorial | bold | tech — the typography pairing. Default = brand font pack from context.md, else modern."
+    },
+    {
       "name": "brand",
       "type": "json",
       "required": false,
-      "description": "Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral."
+      "description": "Brand kit — accent color (hex), optional accentAlt + label, and fontPack. Default from context.md, else a neutral accent + the modern font pack."
     }
   ],
   "outputs": [
@@ -72,6 +78,6 @@
       "description": "One rendered MP4 (with a background score) per requested aspect ratio."
     }
   ],
-  "generated_at": "2026-06-11T23:00:15.273Z",
-  "skill_md_sha256": "29c3a57870c570b27be12250a07ad1e3568694601e0394acd5eda79b90e0823f"
+  "generated_at": "2026-06-12T05:42:54.341Z",
+  "skill_md_sha256": "e265953bd7a41f0ca87dde26cc4afc6bb03a525607b4bd86c8f8f1121ef022ca"
 }
