@@ -6,6 +6,12 @@ All notable changes to this skill. Versions are git tags (`bot-014-text-animator
 ### Changed
 - (next version's changes)
 
+## [v1.1.0] — 2026-06-11
+### Added
+- **Font packs (typography is now a parameter).** New `fontPack` prop — `modern` (default, Inter/Fraunces/Oswald) · `editorial` (Manrope/Playfair Display) · `bold` (Anton/Bebas Neue) · `tech` (Space Grotesk/DM Serif). Threaded via a `FontProvider` context so every style picks up the chosen pairing with zero style-code changes; all packs are loaded deterministically at module level. Brand color (`brand.accent`) + font pack are documented as a first-class **brand kit**, resolved from `context.md` with stated defaults, and reported back to the user after each render.
+### Changed
+- **Audible, mid-forward score.** The beds were bass-heavy (energy <200 Hz), so they measured "loud" but vanished on phone/laptop speakers. Re-voiced them mid-forward, added a **melodic arpeggio** (a clear pluck line, not just a pad), a presence EQ (sub-bass cut + 1.5–5 kHz boost) and raised volume to 0.92 → the muxed track is now ~-14 LUFS with the speaker-band (300–3500 Hz) within ~2 dB of full. Clearly audible on small speakers.
+
 ## [v1.0.1] — 2026-06-11
 ### Changed
 - **Louder, fuller background score.** The muxed bed was too quiet for a music-only clip (~-25 dB mean). Raised `BackgroundScore` volume 0.42 → 0.85 and made the synth beds fuller (shallower tremolo/pulse, more headroom) so the bed now lands ~-18 dB mean / -6 dB peak — clearly audible, no clipping. Also hardened `giant-word`'s hero stat to auto-fit a long `primary_stat.value` (no overflow garble).

@@ -14,6 +14,18 @@ A "style" is a folder under `scripts/remotion-template/src/styles/`; it's chosen
 | `headline-highlight` | Editorial light cards with a subtle 3D drift; a seeded **rough.js highlighter** sweeps behind each `keyPhrase` per scene; ordinal pips on beats; pull-quote | `headline`, `keyPhrases`, `dek`, `bodyBeats`, `primaryStat`, `quote`, `source` | a quotable line or crisp announcement to annotate (1:1, 16:9) |
 | `minimal-editorial` | Premium & calm: **serif headline, running head, folio markers, a divider that wipes in**, an understated figure, and a **pull-quote centerpiece**; slow eased fades, lots of whitespace | `headline`, `dek`, `bodyBeats`, `quote`, `primaryStat`, `dateline`, `source`, `category` | brand-calm / premium, or the **safe default** when nothing else clearly fits |
 
+## Font packs (typography)
+Every style draws with three roles — **body** (sans), **display** (headline), **condensed** (caps) — read from the chosen pack, never hardcoded. Pick one via `props.fontPack`; default **modern**. The developer can set a brand font pack in `context.md` so every render uses it.
+
+| pack | body / display / condensed | character |
+|---|---|---|
+| **modern** (default) | Inter / Fraunces / Oswald | clean grotesque + premium serif + broadcast condensed |
+| **editorial** | Manrope / Playfair Display / Oswald | refined magazine; high-contrast serif headlines |
+| **bold** | Inter / Anton / Bebas Neue | high-impact; heavy display + tall caps |
+| **tech** | Space Grotesk / DM Serif Display / Oswald | modern/techy with a dramatic serif accent |
+
+A pack changes only personality — every style stays legible in any pack (roles are kept consistent). Styles that lean on a serif `display` (minimal-editorial, perspective-3d, headline-highlight, blur-carousel) look most "premium" in **modern**/**editorial**; **bold** maximizes punch (giant-word, box-reveal, breaking-news).
+
 ## Background score (mood)
 Every style carries an optional bed, chosen by `props.mood` (`calm` / `dramatic` / `upbeat` / `tech`) or derived from the style + the message `tone`. The score is generated in-project by `make-scores.mjs` (run by `render.sh`) and muxed into the MP4 with frame-driven fades at a background level (~0.42). Set `props.music = false` to render silent. Default beds: kinetic/box-reveal/headline-highlight → `upbeat`, breaking-news/giant-word → `dramatic`, minimal-editorial/perspective-3d/blur-carousel → `calm`, pixel-reveal → `tech`; strong tones (urgent/celebratory/technical) override.
 
