@@ -15,8 +15,9 @@ import { FPS } from "./tokens";
 export const BackgroundScore: React.FC<{ mood: Mood; volume?: number }> = ({
   mood,
   // Music-only clip (no voiceover), so the bed should be clearly audible, not a faint
-  // undertone. ~0.85 lands the muxed track around -16 to -18 dB mean with headroom.
-  volume = 0.85,
+  // undertone. The beds are mid-forward + carry a melodic arp (engine make-scores.mjs), so
+  // ~0.92 lands the muxed track around -14 LUFS — clearly audible on phone/laptop speakers.
+  volume = 0.92,
 }) => {
   const { durationInFrames } = useVideoConfig();
   const fadeIn = Math.min(Math.round(0.8 * FPS), Math.floor(durationInFrames / 4));

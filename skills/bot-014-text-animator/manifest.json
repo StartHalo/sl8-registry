@@ -1,6 +1,6 @@
 {
   "name": "bot-014-text-animator",
-  "version": "v1.0.1",
+  "version": "v1.1.0",
   "description": "Render a structured MessageDoc as a short animated-TEXT VIDEO with Remotion — the Kinetic Text renderer. Nine styles (Headline Highlight, Breaking News, Kinetic Typography, Minimal Editorial, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel) at one or more aspect ratios (16:9, 9:16, 1:1); every style progresses through the whole message and carries an optional mood-based background score. Use this AFTER bot-014-script-builder has written the message doc. Also use to RESTYLE / RESIZE / RE-SCORE an existing project without re-extracting the message. Bundles a complete, pre-built Remotion project; you only choose the style, write props.json, and render — you never hand-write React.",
   "inputs": [
     {
@@ -40,10 +40,16 @@
       "description": "on or off — whether to include the background score. Default on."
     },
     {
+      "name": "font-pack",
+      "type": "text",
+      "required": false,
+      "description": "modern | editorial | bold | tech — the typography pairing (body + display + condensed). Default = brand font pack from context.md, else modern."
+    },
+    {
       "name": "brand",
       "type": "json",
       "required": false,
-      "description": "Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral."
+      "description": "Brand kit — accent color (hex) plus optional accentAlt (secondary hex), a short label, and fontPack. Default from context.md, else a neutral accent + the modern font pack."
     }
   ],
   "outputs": [
@@ -66,6 +72,6 @@
       "description": "The reproducible Remotion project (bundled template + props.json)."
     }
   ],
-  "generated_at": "2026-06-12T02:35:21.613Z",
-  "skill_md_sha256": "5cd31634edca46e1f632e2c8afbfc1ad6589f48179619f9c0b8edb5226ef572f"
+  "generated_at": "2026-06-12T05:42:30.150Z",
+  "skill_md_sha256": "e59d399a30f3ad12c92b4d1151eaa432f2414b0bd288e6768dbda03a14d31d24"
 }

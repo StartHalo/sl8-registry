@@ -17,6 +17,8 @@ import { Root as PixelReveal } from "./styles/pixel-reveal";
 import { Root as BlurCarousel } from "./styles/blur-carousel";
 import { BackgroundScore } from "./engine/BackgroundScore";
 import { moodForStyle } from "./engine/moods";
+import { resolveFontPack } from "./engine/fonts";
+import { FontProvider } from "./engine/StyleConfig";
 import { DEFAULT_BRAND, normalizeDoc, type ClipProps, type StyleName, type StyleRootProps } from "./engine/types";
 
 const ROOTS: Partial<Record<StyleName, React.FC<StyleRootProps>>> = {
@@ -31,7 +33,7 @@ const ROOTS: Partial<Record<StyleName, React.FC<StyleRootProps>>> = {
   "blur-carousel": BlurCarousel,
 };
 
-export const NewsVideo: React.FC<ClipProps> = ({ style, doc, brand, seed, music, mood }) => {
+export const NewsVideo: React.FC<ClipProps> = ({ style, doc, brand, seed, music, mood, fontPack }) => {
   const StyleRoot = ROOTS[style] ?? MinimalEditorial;
   const renderDoc = normalizeDoc(doc);
   const resolvedBrand = {
@@ -40,9 +42,12 @@ export const NewsVideo: React.FC<ClipProps> = ({ style, doc, brand, seed, music,
     label: brand?.label ?? null,
   };
   const resolvedMood = mood ?? moodForStyle(style, renderDoc.tone);
+  const fonts = resolveFontPack(fontPack);
   return (
     <AbsoluteFill>
-      <StyleRoot doc={renderDoc} brand={resolvedBrand} seed={seed ?? 1} />
+      <FontProvider fonts={fonts}>
+        <StyleRoot doc={renderDoc} brand={resolvedBrand} seed={seed ?? 1} />
+      </FontProvider>
       {music === false ? null : <BackgroundScore mood={resolvedMood} />}
     </AbsoluteFill>
   );

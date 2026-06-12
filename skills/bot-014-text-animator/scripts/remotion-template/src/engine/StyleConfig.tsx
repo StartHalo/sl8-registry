@@ -3,9 +3,17 @@
 
 import React, { createContext, useContext } from "react";
 import { useVideoConfig } from "remotion";
-import { FONT } from "./fonts";
+import { FONT_PACKS, type FontSet } from "./fonts";
 import type { Orientation } from "./types";
 import { sizeFor, type TypeKey } from "./tokens";
+
+// Font context — NewsVideo resolves the chosen pack (props.fontPack) and provides it here, so
+// every style's useStyleConfig().font reflects the developer's choice with zero style changes.
+const FontCtx = createContext<FontSet>(FONT_PACKS.modern);
+export const FontProvider: React.FC<{ fonts: FontSet; children: React.ReactNode }> = ({ fonts, children }) => (
+  <FontCtx.Provider value={fonts}>{children}</FontCtx.Provider>
+);
+export const useFonts = (): FontSet => useContext(FontCtx);
 
 export interface Palette {
   bg: string;
@@ -18,7 +26,7 @@ export interface Palette {
 
 export interface StyleConfigValue {
   palette: Palette;
-  font: typeof FONT;
+  font: FontSet;
   orientation: Orientation;
   shortEdge: number; // min(width,height) — base for the type scale
   size: (k: TypeKey) => number;
@@ -31,12 +39,13 @@ export const StyleProvider: React.FC<{ palette: Palette; children: React.ReactNo
   children,
 }) => {
   const { width, height } = useVideoConfig();
+  const font = useFonts();
   const ar = width / height;
   const orientation: Orientation = ar > 1.2 ? "landscape" : ar < 0.85 ? "portrait" : "square";
   const shortEdge = Math.min(width, height);
   const value: StyleConfigValue = {
     palette,
-    font: FONT,
+    font,
     orientation,
     shortEdge,
     size: (k) => sizeFor(shortEdge, k),

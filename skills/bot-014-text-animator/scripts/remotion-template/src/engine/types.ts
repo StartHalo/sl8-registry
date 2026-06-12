@@ -24,6 +24,10 @@ export type StyleName =
 // Background-score mood. One bundled bed per mood (see engine/moods.ts + make-scores.mjs).
 export type Mood = "calm" | "dramatic" | "upbeat" | "tech";
 
+// Typography pack — a {body, display, condensed} pairing (see engine/fonts.ts FONT_PACKS).
+// The developer picks one; "modern" is the default when unset.
+export type FontPack = "modern" | "editorial" | "bold" | "tech";
+
 export type Orientation = "landscape" | "portrait" | "square";
 
 export interface Brand {
@@ -119,6 +123,8 @@ export type ClipProps = {
   // Background score. `music: false` mutes; `mood` overrides the style/tone-derived default.
   music?: boolean;
   mood?: Mood;
+  // Typography pack. Default "modern" when unset (engine/fonts.ts).
+  fontPack?: FontPack;
 };
 
 // Back-compat name (BOT-012). New code prefers ClipProps.
