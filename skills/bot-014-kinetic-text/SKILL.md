@@ -3,7 +3,7 @@ name: bot-014-kinetic-text
 description: Make a Kinetic Text video end-to-end from a single request. Take any short message (pasted text OR a URL) — an announcement, product update, quote, stat, or headline — structure it into a faithful MessageDoc, then render a styled animated-text MP4 in one of nine styles (Kinetic Typography, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel, Breaking News, Headline Highlight, Minimal Editorial) with a background score, at any aspect ratio (16:9, 9:16, 1:1). This is the ONE do-everything entry point for the Kinetic Text bot — use it whenever someone wants an animated-text video and does not want to think about steps. It orchestrates the granular skills (bot-014-script-builder then bot-014-text-animator) and never fabricates facts.
 metadata:
   author: sl8
-  version: 1.0.0
+  version: 1.0.1
   references-skills: [bot-014-script-builder, bot-014-text-animator]
   inputs:
     - name: message-text
@@ -34,10 +34,14 @@ metadata:
       type: text
       required: false
       description: on or off — whether to include the background score. Default on.
+    - name: font-pack
+      type: text
+      required: false
+      description: modern | editorial | bold | tech — the typography pairing. Default = brand font pack from context.md, else modern.
     - name: brand
       type: json
       required: false
-      description: Brand accent color (hex) plus optional accentAlt and a short label. Default from context.md, else neutral.
+      description: Brand kit — accent color (hex), optional accentAlt + label, and fontPack. Default from context.md, else a neutral accent + the modern font pack.
   outputs:
     - name: messagedoc
       type: json
@@ -87,18 +91,18 @@ Produce the **MessageDoc** exactly as that skill specifies:
 
 ### 3. Render (per `bot-014-text-animator`)
 Render the MP4(s) exactly as that skill specifies:
-- Choose `style` (explicit → MessageDoc `recommended_style` → `minimal-editorial`), `aspect_ratios` (→ onboarding default → `9:16`), and `mood` (explicit → `recommended_mood` → engine-derived). Write `02-storyboard.md` (the scene plan) first.
+- Resolve EVERY render parameter (see `$VD` SKILL.md **Parameters & defaults**): `style` (explicit → `recommended_style` → `minimal-editorial`), `aspect_ratios` (→ onboarding default → `9:16`), `durationSeconds` (→ 12), the **brand kit** (`accent`, `accentAlt`, `label`, `fontPack`) from `context.md` else defaults (neutral accent + `modern` pack), `mood` (explicit → `recommended_mood` → derived), `music` (on unless silent). Write `02-storyboard.md` (the scene plan + the resolved parameters) first.
   ```bash
   VD=~/.claude/skills/bot-014-text-animator
   mkdir -p artifacts/<project-name>/exports
   rm -rf artifacts/<project-name>/video && cp -r "$VD/scripts/remotion-template" artifacts/<project-name>/video
-  # write artifacts/<project-name>/video/props.json = { style, durationSeconds, seed:1, music, mood, brand, doc:<newsdoc.json> }
+  # write artifacts/<project-name>/video/props.json = { style, durationSeconds, seed:1, music, mood, fontPack, brand:{accent,accentAlt,label}, doc:<newsdoc.json> }
   cd artifacts/<project-name>/video && bash "$VD/scripts/render.sh" "<ARs e.g. 1x1>" ../exports
   ```
   `render.sh` installs Remotion, generates the score beds (`make-scores.mjs`), uses the template's pre-installed Chrome shell on `sl8-animation`, and writes `exports/<style>-<ar>.mp4` with the score muxed in. See `$VD/references/rendering.md` for troubleshooting.
 
-### 4. Verify (vision) + summarize
-**Read** a rendered MP4 (or a sampled frame) and judge the pixels: faithful to the MessageDoc, legible, recognizably the chosen style, and that it **progresses through the message** (not a held headline). Confirm an audio stream is present (`ffprobe`). Never judge from filename/size. Append a short summary to `02-storyboard.md`; remember.
+### 4. Verify (vision + audio) + report the parameters
+**Read** a rendered MP4 (or a sampled frame) and judge the pixels: faithful to the MessageDoc, legible, recognizably the chosen style + the chosen font pack, and that it **progresses through the message** (not a held headline). Confirm an audio stream is present (`ffprobe -select_streams a:0`) unless `music:false`. Never judge from filename/size. Then **tell the user the resolved parameters** — style, aspect ratio(s), duration, brand color (accent), font pack, mood, music — flagging which were their choices vs defaults, so it's obvious what to tweak. Append the summary to `02-storyboard.md`; remember.
 
 ## Restyle / resize / re-score
 A follow-up ("now the giant-word version", "a 1:1 cut", "make it calmer") re-runs **only** step 3 on the existing `newsdoc.json` (unchanged facts) → new `exports/<new-style>-<ar>.mp4` beside the old. Never alter MessageDoc facts on a restyle.
