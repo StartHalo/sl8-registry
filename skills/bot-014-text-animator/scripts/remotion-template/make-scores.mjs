@@ -18,7 +18,7 @@
 // Remotion's <Audio loop> repeats it without a click. Fully deterministic.
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -121,20 +121,27 @@ function synth(mood) {
 }
 
 function encode(pcm, outPath) {
-  // Cut inaudible sub-bass (frees headroom), boost the 1.5-5 kHz "presence" band where small
-  // speakers live, and limit so the EQ boosts can't clip. This is what makes the bed audible
-  // on a phone/laptop instead of a "loud" measurement that vanishes on small drivers.
-  const filter =
-    "highpass=f=95,equalizer=f=1800:width_type=q:w=1.4:g=3.5,equalizer=f=4200:width_type=q:w=2:g=2.5,alimiter=limit=0.95,lowpass=f=15000";
-  // Try libmp3lame first, then ffmpeg's native mp3 encoder as a fallback.
-  const base = ["-hide_banner", "-loglevel", "error", "-y", "-f", "s16le", "-ar", String(SR), "-ac", "1", "-i", "pipe:0",
-    "-af", filter];
-  for (const codec of ["libmp3lame", "mp3"]) {
-    const r = spawnSync("ffmpeg", [...base, "-c:a", codec, "-b:a", "128k", outPath], {
-      input: pcm,
-      stdio: ["pipe", "ignore", "inherit"],
-    });
-    if (r.status === 0 && existsSync(outPath)) return true;
+  // The AUDIBILITY (mid-forward voicing + the melodic arp) is baked into the Node synth above,
+  // so a bed is clearly audible even with no ffmpeg shaping. The filters below only POLISH it
+  // (sub-bass cut + a 1.5-5 kHz presence boost + a limiter). A minimal ffmpeg build (e.g. on a
+  // sandbox) may lack `equalizer`/`alimiter` — so we degrade gracefully: full chain → basic
+  // (highpass+lowpass, universally available) → none. As long as mp3 encoding works at all, a
+  // good bed is produced; we NEVER want a silent fallback that mutes the whole video.
+  const FILTERS = [
+    "highpass=f=95,equalizer=f=1800:width_type=q:w=1.4:g=3.5,equalizer=f=4200:width_type=q:w=2:g=2.5,alimiter=limit=0.95,lowpass=f=15000",
+    "highpass=f=90,lowpass=f=15000",
+    "anull",
+  ];
+  for (const filter of FILTERS) {
+    for (const codec of ["libmp3lame", "mp3"]) {
+      const args = ["-hide_banner", "-loglevel", "error", "-y", "-f", "s16le", "-ar", String(SR), "-ac", "1",
+        "-i", "pipe:0", "-af", filter, "-c:a", codec, "-b:a", "128k", outPath];
+      const r = spawnSync("ffmpeg", args, { input: pcm, stdio: ["pipe", "ignore", "ignore"] });
+      if (r.status === 0 && existsSync(outPath) && statSync(outPath).size > 2000) {
+        if (filter !== FILTERS[0] || codec !== "libmp3lame") console.log(`     (encoded via codec=${codec}, filter=${filter.split(",")[0]}…)`);
+        return true;
+      }
+    }
   }
   return false;
 }
