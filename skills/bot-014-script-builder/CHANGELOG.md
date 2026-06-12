@@ -6,9 +6,10 @@ All notable changes to this skill. Versions are git tags (`bot-014-script-builde
 ### Changed
 - (next version's changes)
 
-## [v1.0.0] — 2026-06-11
+## [v1.0.1] — 2026-06-11
 ### Changed
-- (next version's changes)
+- **`primary_stat.value` must be the compact FIGURE** (number + unit, e.g. `2M` / `35%`), with descriptive words in `label` — a long phrase blows up the hero-stat layout. Schema field-rule + examples updated.
+- `style-selection.md` adds a **font-pack** suggestion per register (brand kit is a render-time choice, defaulting to `modern`).
 
 ## [v1.0.0] — 2026-06-11
 ### Added

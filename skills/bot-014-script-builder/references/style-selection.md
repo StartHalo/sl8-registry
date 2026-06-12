@@ -33,4 +33,7 @@ Map the message `tone` to one of `calm` / `dramatic` / `upbeat` / `tech`:
 
 If you don't set `recommended_mood`, the render engine derives a sensible bed from the style + tone — so it's optional. Always state the one-line style (and mood, if notable) reason in `01-newsdoc.md`.
 
+## Font pack (a brand choice, not content)
+Color + fonts are the developer's **brand kit** (in `context.md`), not derived from the message — the render skill resolves them with defaults. If the developer has no preference, a fitting default per register is: premium/editorial → **modern** or **editorial**; punchy/launch/social → **bold**; dev/tech/product → **tech**. The default is **modern**. (Full packs: the render skill's `references/styles.md`.)
+
 If the user named a platform, default to its native aspect ratio (9:16 social, 16:9 desktop/YouTube, 1:1 feed) and let that nudge the style.

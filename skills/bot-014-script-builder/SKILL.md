@@ -3,7 +3,7 @@ name: bot-014-script-builder
 description: Turn any short message — an announcement, product update, quote, stat, or headline (pasted text OR a URL) — into a faithful, structured MessageDoc for an animated-text video. Use this FIRST whenever the user gives text or a link and wants it presented as a Kinetic Text video. Extracts the headline, dek, key facts, a quote, a stat, the dateline and source, picks 1-3 highlight phrases, and recommends a style + mood — writing 01-newsdoc.md (human) and newsdoc.json (the render contract). It NEVER fabricates facts — every field traces to the input or is null.
 metadata:
   author: sl8
-  version: 1.0.0
+  version: 1.0.1
   references-skills: []
   inputs:
     - name: message-text
