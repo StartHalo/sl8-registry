@@ -1,14 +1,11 @@
 #!/usr/bin/env node
-// make-scores.mjs — generate the four license-clean background-score beds used by
-// engine/BackgroundScore.tsx. Pure offline synthesis (no network, no samples, no
-// copyrighted material): a chord pad built from summed sine partials, with a periodic
-// tremolo + (for the energetic moods) a rhythmic pulse gate. PCM is piped to ffmpeg and
-// encoded to public/music/<mood>.mp3.
-//
-// We run this from render.sh (cwd = the Remotion project root) BEFORE rendering, so the
-// beds are produced fresh in the sandbox — this sidesteps the test harness' utf-8 file
-// upload (which would corrupt a bundled binary mp3). It is idempotent: existing beds are
-// kept unless --force is passed.
+// make-scores.mjs — FALLBACK score generator. The PRIMARY score library is the real, produced
+// tracks bundled at assets/audio/ (announcement-1/2.mp3), which render.sh stages into
+// public/music/. This script only runs when those are absent, and writes the SAME filenames so
+// engine/moods.ts MOOD_FILE still resolves. Pure offline synthesis (no network, no samples, no
+// copyrighted material): a mid-forward chord pad + a melodic arpeggio, piped to ffmpeg and
+// encoded to public/music/announcement-1.mp3 / announcement-2.mp3. Deterministic + idempotent
+// (existing files kept unless --force). Kept as a safety net + a reusable offline-synth utility.
 //
 //   node make-scores.mjs            # generate any missing beds
 //   node make-scores.mjs --force    # regenerate all
@@ -146,31 +143,38 @@ function encode(pcm, outPath) {
   return false;
 }
 
+// FALLBACK generator: the PRIMARY score library is the real tracks bundled at
+// assets/audio/ (announcement-1/2.mp3), staged by render.sh. This synth only runs when those
+// are absent, and writes the SAME filenames so the engine's MOOD_FILE pointers still resolve.
+const OUTPUTS = [
+  { name: "announcement-1.mp3", mood: "upbeat" }, // brighter/forward bed
+  { name: "announcement-2.mp3", mood: "dramatic" }, // warmer/weightier bed
+];
+
 function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   let ok = 0;
-  const moods = Object.keys(MOODS);
-  for (const mood of moods) {
-    const outPath = join(OUT_DIR, `${mood}.mp3`);
+  for (const { name, mood } of OUTPUTS) {
+    const outPath = join(OUT_DIR, name);
     if (!FORCE && existsSync(outPath)) {
-      console.log(`>> ${mood}.mp3 exists — skipping (use --force to regenerate)`);
+      console.log(`>> ${name} exists — skipping (use --force to regenerate)`);
       ok++;
       continue;
     }
-    process.stdout.write(`>> synth ${mood} ... `);
+    process.stdout.write(`>> synth ${name} (${mood}) ... `);
     const pcm = synth(mood);
     if (encode(pcm, outPath)) {
       console.log(`OK -> ${outPath}`);
       ok++;
     } else {
-      console.error(`FAILED to encode ${mood}.mp3 (ffmpeg/libmp3lame unavailable?)`);
+      console.error(`FAILED to encode ${name} (ffmpeg/libmp3lame unavailable?)`);
     }
   }
-  if (ok < moods.length) {
-    console.error(`!! make-scores: ${ok}/${moods.length} beds ready`);
+  if (ok < OUTPUTS.length) {
+    console.error(`!! make-scores: ${ok}/${OUTPUTS.length} fallback beds ready`);
     process.exit(1);
   }
-  console.log(`>> all ${moods.length} score beds ready in public/music/`);
+  console.log(`>> ${OUTPUTS.length} fallback score beds ready in public/music/`);
 }
 
 main();

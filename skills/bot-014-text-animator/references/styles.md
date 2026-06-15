@@ -27,7 +27,13 @@ Every style draws with three roles — **body** (sans), **display** (headline), 
 A pack changes only personality — every style stays legible in any pack (roles are kept consistent). Styles that lean on a serif `display` (minimal-editorial, perspective-3d, headline-highlight, blur-carousel) look most "premium" in **modern**/**editorial**; **bold** maximizes punch (giant-word, box-reveal, breaking-news).
 
 ## Background score (mood)
-Every style carries an optional bed, chosen by `props.mood` (`calm` / `dramatic` / `upbeat` / `tech`) or derived from the style + the message `tone`. The score is generated in-project by `make-scores.mjs` (run by `render.sh`) and muxed into the MP4 with frame-driven fades at a background level (~0.42). Set `props.music = false` to render silent. Default beds: kinetic/box-reveal/headline-highlight → `upbeat`, breaking-news/giant-word → `dramatic`, minimal-editorial/perspective-3d/blur-carousel → `calm`, pixel-reveal → `tech`; strong tones (urgent/celebratory/technical) override.
+Every style carries an optional score, chosen by `props.mood` (`calm` / `dramatic` / `upbeat` / `tech`) or derived from the style + the message `tone`. Set `props.music = false` to render silent.
+
+**Score library (bundled, reusable):** real produced tracks live in `scripts/remotion-template/assets/audio/` — `announcement-1.mp3` (brighter/forward) and `announcement-2.mp3` (warmer/weightier), both ~−14 LUFS, 60 s, stereo. `render.sh` stages them into `public/music/`; `<BackgroundScore>` resolves a track per mood (`engine/moods.ts` `MOOD_FILE`), skips the track's quiet intro (`SCORE_START_SECONDS` ≈ 10 s) to ride the main groove, and muxes it under the clip with quick fades at near-unity volume. The four moods map onto the two tracks (`upbeat`/`calm` → announcement-1, `dramatic`/`tech` → announcement-2).
+
+**To add or swap a track:** drop an mp3 in `assets/audio/`, add it to `MOOD_FILE`, and point a mood at it. **Fallback:** if no bundled track is present, `make-scores.mjs` synthesizes stand-in beds under the same filenames (a deterministic offline synth — kept as a safety net, not the default).
+
+Per-style default mood: kinetic/box-reveal/headline-highlight → `upbeat`, breaking-news/giant-word → `dramatic`, minimal-editorial/perspective-3d/blur-carousel → `calm`, pixel-reveal → `tech`; strong tones (urgent/celebratory/technical) override.
 
 ## Notes
 - Every style renders gracefully when optional fields are `null` (the engine + sequencer guard them). `minimal-editorial` is the safe default precisely because it reads well from a headline alone.

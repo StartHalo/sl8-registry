@@ -6,6 +6,14 @@ All notable changes to this skill. Versions are git tags (`bot-014-text-animator
 ### Changed
 - (next version's changes)
 
+## [v1.2.1] — 2026-06-15
+### Changed
+- (next version's changes)
+
+## [v1.2.0] — 2026-06-15
+### Added
+- **Real, produced score tracks (replacing the synth as the primary score).** Bundled two mastered ~−14 LUFS tracks in `scripts/remotion-template/assets/audio/` (`announcement-1.mp3`, `announcement-2.mp3`) as the reusable score library; `render.sh` stages them into `public/music/` and `<BackgroundScore>` muxes the mood-mapped track. `<BackgroundScore>` now skips the track's quiet intro (`SCORE_START_SECONDS` ≈ 10 s) to ride the main groove and runs near unity volume. `make-scores.mjs` is retained as a synth FALLBACK that writes the same filenames. The test harness uploads binary assets (mp3/png/fonts) as raw Buffers so the tracks reach the sandbox intact. To add/swap a track: drop an mp3 in `assets/audio/` + point a mood at it (`engine/moods.ts`).
+
 ## [v1.1.1] — 2026-06-12
 ### Changed
 - **Score robustness — never silently mute.** `make-scores.mjs` now degrades the ffmpeg encode (full EQ → highpass+lowpass → none) and tries libmp3lame then native mp3, so it produces a bed wherever mp3 encoding works (the audibility is baked into the Node synth, not the EQ). `render.sh` skips synthesis when `music:false`, verifies a bed was actually produced (else mutes + warns loudly), and **asserts the rendered MP4 carries an audio stream** when music is on — surfacing a silent render instead of passing it. (Verified in-sandbox: sl8-animation's ffmpeg has libmp3lame/equalizer/alimiter, so the full chain is used there; sandbox skill output measures −14.6 LUFS, identical to host.)
