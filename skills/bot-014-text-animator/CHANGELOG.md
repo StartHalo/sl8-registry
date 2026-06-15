@@ -3,6 +3,10 @@
 All notable changes to this skill. Versions are git tags (`bot-014-text-animator/vX.Y.Z`); first publish is v1.0.0.
 
 ## [Unreleased]
+### Changed
+- (next version's changes)
+
+## [v1.2.4] — 2026-06-15
 ### Added
 - **Real, produced score tracks (replacing the synth as the primary score).** Bundled two mastered ~−14 LUFS tracks in `scripts/remotion-template/assets/audio/` (`announcement-1.mp3`, `announcement-2.mp3`) as the reusable score library; `render.sh` stages them into `public/music/` and `<BackgroundScore>` muxes the mood-mapped track. `<BackgroundScore>` now skips the track's quiet intro (`SCORE_START_SECONDS` ≈ 10 s) to ride the main groove and runs near unity volume. `make-scores.mjs` is retained as a synth FALLBACK that writes the same filenames. The test harness uploads binary assets (mp3/png/fonts) as raw Buffers so the tracks reach the sandbox intact. To add/swap a track: drop an mp3 in `assets/audio/` + point a mood at it (`engine/moods.ts`).
 ### Fixed
