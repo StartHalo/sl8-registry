@@ -1,18 +1,24 @@
-// Background-score mood mapping. One bundled bed per mood, generated offline by
-// make-scores.mjs into public/music/<mood>.mp3 and loaded via staticFile() at render time.
-// `mood` is a render parameter: the script-builder may recommend one; otherwise it is
-// derived from the chosen style (and nudged by the message tone).
+// Background-score mood mapping. The score library is the set of REAL, produced tracks
+// bundled at scripts/remotion-template/assets/audio/ (the reusable resources); render.sh
+// stages them into public/music/ and BackgroundScore loads them via staticFile(). `mood` is
+// a render parameter (the script-builder may recommend one; otherwise it's derived from the
+// chosen style + tone) and resolves to one of the bundled tracks.
+//
+// To ADD or SWAP a track: drop an mp3 in assets/audio/, add it here, and (optionally) point a
+// mood at it. To regenerate synthetic fallback beds under the same names, see make-scores.mjs.
 
 import type { Mood, StyleName } from "./types";
 
 export const ALL_MOODS: Mood[] = ["calm", "dramatic", "upbeat", "tech"];
 
-// staticFile() paths (relative to the Remotion project's public/ dir).
+// staticFile() paths (relative to public/). Two bundled "Clear Announcement" tracks; the four
+// moods map onto them (announcement-1 = the brighter/forward bed, announcement-2 = the warmer/
+// weightier bed). Swap freely — these are just file pointers.
 export const MOOD_FILE: Record<Mood, string> = {
-  calm: "music/calm.mp3",
-  dramatic: "music/dramatic.mp3",
-  upbeat: "music/upbeat.mp3",
-  tech: "music/tech.mp3",
+  upbeat: "music/announcement-1.mp3",
+  calm: "music/announcement-1.mp3",
+  dramatic: "music/announcement-2.mp3",
+  tech: "music/announcement-2.mp3",
 };
 
 // Per-style default mood, so every style is musical out of the box.

@@ -3,7 +3,7 @@ name: bot-014-text-animator
 description: Render a structured MessageDoc as a short animated-TEXT VIDEO with Remotion — the Kinetic Text renderer. Nine styles (Headline Highlight, Breaking News, Kinetic Typography, Minimal Editorial, Box Reveal, Giant Word, Perspective 3D, Pixel Reveal, Blur Carousel) at one or more aspect ratios (16:9, 9:16, 1:1); every style progresses through the whole message and carries an optional mood-based background score. Use this AFTER bot-014-script-builder has written the message doc. Also use to RESTYLE / RESIZE / RE-SCORE an existing project without re-extracting the message. Bundles a complete, pre-built Remotion project; you only choose the style, write props.json, and render — you never hand-write React.
 metadata:
   author: sl8
-  version: 1.1.1
+  version: 1.2.1
   references-skills: [bot-014-script-builder]
   inputs:
     - name: messagedoc
@@ -117,7 +117,7 @@ Write `artifacts/<project-name>/video/props.json` — the whole NewsDoc plus the
   "doc": { ...the exact contents of newsdoc.json... }
 }
 ```
-Keep `seed` fixed (1) so renders are reproducible. `style` MUST be one of the **nine** ids (see `references/styles.md`). `music` defaults to `true`; omit `mood` to let the engine pick a bed from the style + tone, or set it to `calm` / `dramatic` / `upbeat` / `tech`. The score is generated in-project by `make-scores.mjs` (run automatically by `render.sh`) and muxed into the MP4.
+Keep `seed` fixed (1) so renders are reproducible. `style` MUST be one of the **nine** ids (see `references/styles.md`). `music` defaults to `true`; omit `mood` to let the engine pick a track from the style + tone, or set it to `calm` / `dramatic` / `upbeat` / `tech`. The score uses the **bundled produced tracks** in `scripts/remotion-template/assets/audio/` (`announcement-1/2.mp3`) — `render.sh` stages them into `public/music/` and muxes the chosen one into the MP4 (a synth fallback in `make-scores.mjs` covers the rare case the tracks are missing). See `references/styles.md` → Background score for the library + how to add/swap a track.
 
 ### 5. Render
 ```bash
@@ -128,7 +128,7 @@ bash "$SKILL/scripts/render.sh" "16x9 9x16 1x1" ../exports     # list only the A
 
 ### 6. Verify (structural + VISION + AUDIO)
 - **Structural:** each `exports/<style>-<ar>.mp4` exists and is non-empty; if `ffprobe` is present, confirm dimensions (16x9=1920×1080, 9x16=1080×1920, 1x1=1080×1080) and a non-zero duration.
-- **Audio:** unless `music:false`, confirm the MP4 carries an audio stream (`ffprobe -select_streams a:0`). The score is muxed automatically by `render.sh` (via `make-scores.mjs`).
+- **Audio:** unless `music:false`, confirm the MP4 carries an audio stream (`ffprobe -select_streams a:0`). The bundled score track is staged + muxed automatically by `render.sh`.
 - **Vision (the real gate):** **Read** one of the rendered MP4s (or a sampled frame) and judge the pixels yourself — confirm the headline + key facts are present and legible, text is inside the safe zone (no clipping/overlap), the chosen **font pack** is applied, and the style is recognizably the chosen one (e.g. breaking-news shows a lower-third + ticker; headline-highlight shows the marker sweeping behind the key phrases). Never judge from the filename or file size. If it looks wrong, diagnose (prompt/data vs component) and fix `props.json` or re-render; only escalate to a component change if the NewsDoc + props are correct.
 
 ### 7. Summarize + advance (state the parameters used)

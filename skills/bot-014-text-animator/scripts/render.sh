@@ -56,20 +56,25 @@ if [ -z "$BROWSER_FLAG" ]; then
   npx remotion browser ensure || echo "!! browser ensure reported an issue (continuing)"
 fi
 
-# 2b. Generate the background-score beds (public/music/<mood>.mp3) with the offline synth.
-#     They are produced fresh here (not bundled) so the test harness' utf-8 upload can't
-#     corrupt a binary. make-scores degrades across ffmpeg builds (full EQ -> basic -> none),
-#     so it should succeed wherever mp3 encoding works. Only if it genuinely can't produce the
-#     beds do we render MUTE (music=false) — and we say so loudly.
+# 2b. Stage the background-score tracks into public/music/ (what <BackgroundScore> loads).
+#     PRIMARY: the real, produced tracks bundled at assets/audio/ (the reusable score library).
+#     FALLBACK: synthesize beds with make-scores.mjs only if no bundled tracks are present.
+#     If neither yields a track, render MUTE (music=false) — and say so loudly.
 MUSIC_REQUESTED="$(node -e 'try{const p=require("./props.json");process.stdout.write(p.music===false?"0":"1")}catch(e){process.stdout.write("1")}')"
-if [ -f make-scores.mjs ] && [ "$MUSIC_REQUESTED" = "1" ]; then
-  echo ">> Generating background-score beds ..."
-  node make-scores.mjs || true
+if [ "$MUSIC_REQUESTED" = "1" ]; then
+  mkdir -p public/music
+  if ls assets/audio/*.mp3 >/dev/null 2>&1; then
+    echo ">> Staging bundled score tracks (assets/audio -> public/music) ..."
+    cp assets/audio/*.mp3 public/music/ 2>/dev/null || true
+  elif [ -f make-scores.mjs ]; then
+    echo ">> No bundled tracks found; synthesizing fallback beds (make-scores.mjs) ..."
+    node make-scores.mjs || true
+  fi
   BEDS="$(ls public/music/*.mp3 2>/dev/null | wc -l | tr -d ' ')"
   if [ "${BEDS:-0}" -ge 1 ]; then
-    echo "   scores ready (${BEDS} beds in public/music/)."
+    echo "   score ready (${BEDS} track(s) in public/music/)."
   else
-    echo "   !! SCORE SYNTHESIS FAILED — no beds produced; rendering MUTE (music=false). Check ffmpeg/libmp3lame on this host."
+    echo "   !! NO SCORE TRACK available — rendering MUTE (music=false). Expected assets/audio/*.mp3 or a working make-scores.mjs."
     node -e 'try{const fs=require("fs");const p=JSON.parse(fs.readFileSync("./props.json","utf8"));p.music=false;fs.writeFileSync("./props.json",JSON.stringify(p,null,2))}catch(e){}' || true
     MUSIC_REQUESTED=0
   fi
