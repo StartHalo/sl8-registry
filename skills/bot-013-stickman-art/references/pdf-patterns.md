@@ -2,13 +2,16 @@
 
 The source technique ("STICKMAN FOR YOUTUBE Prompt Sheet v2", steps 1–6) builds
 character identity assets with an image model before any animation. The sheet assumed
-a reference-image-capable model (Nano Banana Pro class); the SL8 proxy routes none, so
-each pattern is rewritten here for **text-only prompting**: the reference image is
-replaced by the frozen character block + style stack + seed, and the "input: previous
-image" steps become "repeat the frozen blocks verbatim". The 5-block prompt anatomy
-(STYLE_STACK · character block · scene · DISCIPLINE_BLOCK · negatives) applies to
-every template — these patterns supply the **scene block** and, for grids, an
-instruction wrapper.
+a reference-image-capable model (Nano Banana Pro class) — and as of ai-gen v2.1.0 the
+proxy **routes exactly that** (`fal-ai/nano-banana-pro`, ≤14 image refs). So the PDF's
+original method is restored: the reference image (`source.png`) is the **primary**
+identity carrier, passed as `--ref source.png` on the turnaround and every beat; the
+"input: previous image" steps mean literally that. The frozen character block + style
+stack + seed are reinforcement (they hold the figure if the chain ever falls past
+nano-banana-pro, which is ref-blind). The 5-block prompt anatomy (STYLE_STACK ·
+character block · scene · DISCIPLINE_BLOCK · negatives) still applies to every
+template — these patterns supply the **scene block** and, for grids, an instruction
+wrapper.
 
 ## Pattern 1 — Source image (PDF step 1)
 
@@ -33,7 +36,9 @@ chain) and record the drop.
 ## Pattern 2 — Character turnaround (PDF step 2)
 
 The PDF feeds the source image back in ("Show me a character turnaround of this stick
-figure..."). Without reference input, the views are *described*:
+figure...") — and now we do exactly that: generate with `--ref source.png` so the four
+views are the same locked figure. The scene block still *describes* the views (the ref
+fixes identity, the prompt fixes layout):
 
 ```
 A character turnaround sheet: the same figure drawn four times in a row on a white
@@ -80,8 +85,9 @@ believable; communicate narrative through posture and spatial composition alone.
 </INSTRUCTION>
 ```
 
-Note: a filled 3×3 prompt always exceeds recraft-v3's length cap — `gen-image.sh`
-will skip recraft automatically; expect FLUX to carry it.
+Note: nano-banana-pro carries grid prompts cleanly (no length cap concern now that
+recraft has left the chain). Pass `--ref source.png` so the panels share the locked
+figure.
 
 ## Pattern 4 — 2×2 grid micro-storyboard (PDF step 5)
 
@@ -103,8 +109,9 @@ models animate ONE still per beat, not a grid.
 
 ## Pattern 5 — Individual scene stills (PDF step 4) — THE phase-3 workhorse
 
-The PDF's "Show me this stickman [doing this thing]" with the turnaround as input
-becomes: frozen blocks verbatim + a scene block authored to this discipline:
+The PDF's "Show me this stickman [doing this thing]" with the source/turnaround as
+input is now literal: pass `--ref source.png` + frozen blocks verbatim + a scene block
+authored to this discipline. The ref locks identity; the prompt directs the action:
 
 - **One action**, stated as a posture the body can hold ("mops the floor with both
   hands on the handle, leaning forward"), not an abstraction ("is busy").
@@ -117,12 +124,15 @@ becomes: frozen blocks verbatim + a scene block authored to this discipline:
   arms crossed") — never facial expressions (the face is two dots and a curve).
 - No text in the scene (labels route to the `text` chain as their own decision).
 
-## Pattern 6 — Collage donor frame (PDF step 6) — parked
+## Pattern 6 — Collage donor frame (PDF step 6) — available as an upgrade
 
 The PDF assembles several stills on one 16:9 canvas and uses the screenshot as a video
 model's input image ("donor shot" for `[CUT]`-style multi-shot prompts). That trick
-needs a reference-to-video / multi-shot model (Seedance class) — none is routed today.
-If phase 4's runtime discovery ever finds a `fal-ai/bytedance/seedance/*` model, this
-pattern reactivates on the clip side; on the art side nothing changes (stills are
-already individually generated and URL-logged). Kept here so the upgrade costs a
-dialect, not a redesign.
+needs a reference-to-video / multi-shot model (Seedance class) — and v2.1.0 **routes
+it**: `bytedance/seedance-2.0/reference-to-video` accepts ≤9 image refs with
+`@Image1`-style addressing. The **shipped default is per-beat i2v** (one still →
+`bytedance/seedance-2.0/fast/image-to-video` → one clip; see bot-013-clip-assembly),
+which is simpler and cheaper. Reference-to-video multishot is the documented upgrade:
+when it's wanted, the art side feeds source.png + the per-beat stills as refs and the
+clip side issues one multishot call. Kept here so the upgrade costs a dialect, not a
+redesign.
