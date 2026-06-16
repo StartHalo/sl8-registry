@@ -6,6 +6,25 @@ All notable changes to the `bot-013-stickman-art` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.4] — 2026-06-16
+### Changed
+- ai-gen v2.1.0 re-pin. Both chains now lead with **`fal-ai/nano-banana-pro`** (the only
+  reference-capable model + clean in-image text), backed by `fal-ai/flux-dev` →
+  `fal-ai/stable-diffusion-v35-large` (stills) and `fal-ai/ideogram/v3` (text).
+  `fal-ai/flux-pro` and `fal-ai/recraft-v3` removed from the chains.
+- **Reference-image character lock (the #1 prior-failure fix — identity drift).**
+  `source.png` is generated first and passed as `--ref` on the turnaround AND on every
+  beat still (the PDF's "show me THIS stickman" method). character-spec.md records a
+  "Reference anchor" (source.png path + hosted URL); frozen blocks + fixed seed remain as
+  reinforcement. references/pdf-patterns.md + still-dialects.md updated accordingly.
+
+### Fixed
+- `scripts/gen-image.sh` updated to the ai-gen v2.1.0 JSON contract: parses
+  `files[0].local_path` (entries are now objects, not strings) and the stable
+  `hosted_urls[0]` field. Adds repeatable `--ref`, plus `--max-cost` (credits) and
+  `--aspect-ratio` passthrough; shapes args per-model (nano-banana-pro → `--aspect-ratio`
+  + `--ref`; diffusion fallbacks → `-s`). Keeps the `.webp→.png` finalize safety net.
+
 ## [v1.0.2] — 2026-06-09
 ### Fixed
 

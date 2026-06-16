@@ -57,14 +57,26 @@ This bot runs **headless**. Never ask the user anything. Missing optional input 
 the documented default. Missing required input → record a clean failure in the
 project's `state.md` and stop.
 
-## Why the frozen blocks exist (read before generating anything)
+## How identity is locked (read before generating anything)
 
-No reference-image model is routed on the SL8 proxy — there is no "use this picture of
-the character" input. Identity and style are carried entirely by **language plus seed**.
-The moment a block is paraphrased ("a small stick figure with a hat" instead of the
-frozen block), the model re-rolls the character and the episode looks like different
-videos spliced together. So: the blocks below are pasted **character-for-character**,
-never retyped from memory, never "improved".
+Identity is carried by **three reinforcing mechanisms**, in priority order:
+
+1. **The reference image (primary).** `source.png` is generated first, then passed as
+   `--ref source.png` on the turnaround **and on every beat still**. This is the PDF's
+   "show me THIS stickman" method — nano-banana-pro accepts ≤14 image refs and renders
+   the *same* figure rather than re-rolling it. The reference anchor is the single
+   biggest fix for the #1 prior failure (identity drift between beats), so it is not
+   optional: every later generation carries `--ref` to the locked source.
+2. **The frozen prompt blocks (reinforcement).** The blocks below are pasted
+   **character-for-character**, never retyped from memory, never "improved". The moment
+   a block is paraphrased ("a small stick figure with a hat" instead of the frozen
+   block), even with a ref the model drifts toward the looser description.
+3. **The fixed seed (tie-breaker).** Same seed across assets keeps low-level rendering
+   choices stable.
+
+If `source.png` generation fails outright (no asset to anchor on), the chain still
+falls back to language-plus-seed — but that is the degraded path the prior runs proved
+insufficient, so treat a missing reference anchor as a real defect, not a shrug.
 
 ### STYLE_STACK (frozen — first block of every still prompt)
 
@@ -105,25 +117,32 @@ substitute the matching variant. Everything else in the prompt stays frozen.
   would fight a multi-view sheet:
   `No color, no photorealism, no text, no watermarks, no extra limbs. The same single character repeated once per view; no other characters.`
 
-## Model chains (pinned 2026-06-09 — walk in order, never improvise)
+## Model chains (pinned 2026-06-15 for ai-gen v2.1.0 — walk in order, never improvise)
 
 | Chain | Order | When |
 |---|---|---|
-| `stills` | `fal-ai/flux-dev` → `fal-ai/flux-pro` → `fal-ai/recraft-v3` → `fal-ai/stable-diffusion-v35-large` | turnaround + every beat still without a planned label |
-| `text` | `fal-ai/ideogram/v3` → `fal-ai/stable-diffusion-v35-large` | source.png ("TASK" box) + any beat with a planned one-word label |
+| `stills` | `fal-ai/nano-banana-pro` → `fal-ai/flux-dev` → `fal-ai/stable-diffusion-v35-large` | turnaround + every beat still without a planned label |
+| `text` | `fal-ai/nano-banana-pro` → `fal-ai/ideogram/v3` | source.png ("TASK" box) + any beat with a planned one-word label |
 
-`scripts/gen-image.sh` owns the walking — it tries each model in order, handles the
-per-model quirks (recraft's prompt-length cap, .webp output), and prints which model
-actually produced the asset. The chain order is the documented fallback contract from
-requirements; inventing an out-of-chain model mid-run is how BOT-007's "SD 3.5
+**`fal-ai/nano-banana-pro` leads both chains** — it is the only reference-capable model
+(it consumes `--ref source.png` for the character lock) and renders clean in-image text,
+so it serves the labeled assets too. The diffusion models behind it (`flux-dev`,
+`stable-diffusion-v35-large`, `ideogram/v3`) are availability insurance only; they
+**ignore `--ref`**, so if the chain ever falls past nano-banana-pro the figure is held
+by language-plus-seed alone — a degraded result to flag, not the norm.
+
+`scripts/gen-image.sh` owns the walking — it tries each model in order, shapes args
+per-model (nano-banana-pro takes `--aspect-ratio` + `--ref`; the diffusion fallbacks
+take `-s` presets), handles `.webp` conversion, retries once on a missing hosted URL,
+and prints which model actually produced the asset. The chain order is the documented
+fallback contract; inventing an out-of-chain model mid-run is how BOT-007's "SD 3.5
 incident" happened — don't. **Record the actual producing model for every asset** in
 character-spec.md / stills-log.md. Per-model prompt adjustments and quirks:
 `references/still-dialects.md`.
 
-> Reality check: the frozen blocks alone are ~900 chars, so most composed 5-block
-> prompts exceed recraft's limit and the script skips it (logged). In practice the
-> stills chain is flux-dev → flux-pro → SD3.5, with recraft serving only short
-> special-case prompts. The skip is correct behavior, not a failure.
+> Cost note: nano-banana-pro is ~38 credits (~$0.15) per 1K image. Pass `--max-cost 60`
+> on every call as a guard (the script forwards it). The `credits_used` field in JSON is
+> unreliable for some models — trust `ai-gen estimate` / `ai-gen balance` for true cost.
 
 ---
 
@@ -160,11 +179,13 @@ and finish the phase.
 
 Choose the seed: from `context.md` if given, else **4242**.
 
-### 4. Generate source.png (text-bearing → `text` chain)
+### 4. Generate source.png FIRST (text-bearing → `text` chain) — this is the reference anchor
 
-The canonical source image: the character standing in a simple relaxed pose next to a
-cardboard box with the word "TASK" written on its side. Compose the 5-block prompt and
-save it to `work/<project-name>/prompt-source.txt`:
+`source.png` must be generated **before** everything else: it becomes the `--ref`
+anchor that locks the figure on the turnaround and every beat. The canonical source
+image: the character standing in a simple relaxed pose next to a cardboard box with the
+word "TASK" written on its side. Compose the 5-block prompt and save it to
+`work/<project-name>/prompt-source.txt`:
 
 1. STYLE_STACK · 2. character block · 3. scene: `He is standing in a simple relaxed
 pose next to a plain cardboard box with the word "TASK" hand-written on its side in
@@ -173,18 +194,21 @@ simple capital letters.` · 4. DISCIPLINE_BLOCK · 5. TEXT_NEGATIVES
 ```bash
 scripts/gen-image.sh work/<project-name>/prompt-source.txt \
   artifacts/<project-name>/02-character source.png \
-  --seed <seed> --chain text --size square_hd
+  --seed <seed> --chain text --size square_hd --max-cost 60
 ```
 
 Inspect the result (Read the PNG): if the "TASK" label is garbled, regenerate once on
 the same chain. **If the label fails twice, drop it** — rewrite the scene block without
 the label ("next to a plain cardboard box"), regenerate on the `stills` chain with the
 standard NEGATIVES_BLOCK, and record the dropped label in character-spec.md's
-Deviations section. A clean box beats a garbled word.
+Deviations section. A clean box beats a garbled word. Record the produced `source.png`
+hosted URL — it (or the local path) is the reference anchor for all later generations.
 
-### 5. Generate turnaround.png (same seed, `stills` chain)
+### 5. Generate turnaround.png (same seed, `stills` chain, `--ref source.png`)
 
-Prompt to `work/<project-name>/prompt-turnaround.txt` — a character turnaround sheet:
+Prompt to `work/<project-name>/prompt-turnaround.txt` — a character turnaround sheet.
+Pass the just-made `source.png` as `--ref` so the four views are the **same** figure,
+not a re-roll:
 
 1. STYLE_STACK · 2. character block · 3. scene: `A character turnaround sheet: the
 same figure drawn four times in a row on a white background — front view,
@@ -194,7 +218,8 @@ and cap in every view.` · 4. DISCIPLINE_BLOCK · 5. TURNAROUND_NEGATIVES
 ```bash
 scripts/gen-image.sh work/<project-name>/prompt-turnaround.txt \
   artifacts/<project-name>/02-character turnaround.png \
-  --seed <seed> --chain stills --size landscape_16_9
+  --seed <seed> --chain stills --size landscape_16_9 \
+  --ref artifacts/<project-name>/02-character/source.png --max-cost 60
 ```
 
 ### 6. Self-check both images
@@ -221,6 +246,10 @@ This file is the contract phases 3 and 4 read. Exact shape:
 ## Seed
 <seed>
 
+## Reference anchor (pass as --ref on the turnaround and EVERY beat still)
+- local path: artifacts/<project-name>/02-character/source.png
+- hosted URL: <source.png fal.media URL>
+
 ## Assets
 | asset | model | local path | fal.media URL |
 |---|---|---|---|
@@ -228,7 +257,7 @@ This file is the contract phases 3 and 4 read. Exact shape:
 | turnaround.png | <model> | artifacts/<project-name>/02-character/turnaround.png | <url> |
 
 ## Deviations
-- <"TASK" label dropped after two garbled attempts / off-style best-attempt kept / none>
+- <"TASK" label dropped after two garbled attempts / off-style best-attempt kept / reference anchor missing (degraded to language-only) / none>
 ```
 
 ### 8. Update state.md
@@ -280,16 +309,20 @@ action here and record the trim in the stills-log notes.
 3. scene block (from the plan, trimmed per the base concept if needed) ·
 4. DISCIPLINE_BLOCK · 5. NEGATIVES_BLOCK (or TEXT_NEGATIVES for a planned-label beat)
 
-**c. Generate:**
+**c. Generate** — always with `--ref` to the spec's reference anchor (the character lock):
 
 ```bash
 scripts/gen-image.sh work/<project-name>/prompt-NN.txt \
   artifacts/<project-name>/03-stills NN-<beat-slug>.png \
-  --seed <spec seed> --chain stills --size <by plan aspect>
+  --seed <spec seed> --chain stills --size <by plan aspect> \
+  --ref <reference anchor from character-spec.md> --max-cost 60
 ```
 
 Use `--chain text` for a planned-label beat. Size by the plan's aspect: 16:9 →
-`landscape_16_9`, 9:16 → `portrait_16_9`.
+`landscape_16_9`, 9:16 → `portrait_16_9`. The `--ref` is the reference anchor recorded
+in character-spec.md (local `02-character/source.png` or its hosted URL) — pass it on
+**every** beat so the figure stays the same one across the set. Only nano-banana-pro
+consumes it; if the chain falls past it, note the lost lock in the beat's stills-log notes.
 
 **d. Log it.** Append a block to `03-stills/stills-log.md` in this exact shape
 (`scripts/check-set.sh` parses it):
@@ -365,10 +398,11 @@ under `artifacts/`.
 
 ## Scripts
 
-- `scripts/gen-image.sh <prompt-file> <out-dir> <stable-name> [--seed N] [--chain stills|text] [--size SIZE]`
-  — walks the chain in order, handles recraft's length cap (skips, never truncates)
-  and .webp conversion, retries once on a missing hosted URL, prints
-  `model<TAB>local-path<TAB>url` on success.
+- `scripts/gen-image.sh <prompt-file> <out-dir> <stable-name> [--seed N] [--chain stills|text] [--size SIZE] [--aspect-ratio AR] [--ref P ...] [--max-cost CREDITS]`
+  — walks the chain in order, shapes args per-model (nano-banana-pro: `--aspect-ratio`
+  + `--ref`; diffusion fallbacks: `-s`), converts `.webp`, retries once on a missing
+  hosted URL, prints `model<TAB>local-path<TAB>url` on success. `--ref` (repeatable) is
+  the character lock — only nano-banana-pro consumes it.
 - `scripts/check-set.sh <project-dir>` — structural gate for the phase-3 set (beat
   coverage, URL presence, 80% threshold).
 
