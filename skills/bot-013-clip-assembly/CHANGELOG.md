@@ -4,6 +4,26 @@
 ### Changed
 - (next version's changes)
 
+## [v1.0.4] — 2026-06-16
+### Changed
+- ai-gen v2.1.0 re-pin. **`bytedance/seedance-2.0/fast/image-to-video`** is now the
+  DEFAULT i2v engine (was opportunistic), with **native ambient audio** (`--audio on`,
+  720p); fallback `fal-ai/kling-video/v3/pro/image-to-video`. The dead
+  `kling-i2v / minimax-i2v / wan-i2v / runway-gen3` chain is removed.
+- Fixed the discovery gate to match the **bare** `bytedance/seedance-2.0` namespace (the
+  old `fal-ai/bytedance/seedance/*` form 404s upstream). seedance-dialect.md promoted to
+  the default dialect; clip-dialects.md demoted to the fallback path.
+- `scripts/assemble.sh` room-tone is now **AUTO** — the brown-noise bed is added only when
+  no clip carries native audio (avoids doubling under Seedance's native audio). Every clip
+  prompt carries the `NO MUSIC, ONLY AMBIENT SOUND. NO TALKING.` audio directive.
+- bot-013-episode-design pairs with this: `room-tone` default flips to off.
+
+### Fixed
+- `scripts/gen-clip.sh` updated to the ai-gen v2.1.0 contract: parses `files[0].local_path`
+  (entries are objects now, not strings); accepts a **local still path** as i2v input (v2
+  uploads it transparently) in addition to an https URL; adds `--resolution`, `--audio`,
+  and `--max-cost` (credits) passthrough. Keeps the 15-min timeout + one timeout retry.
+
 ## [v1.0.2] — 2026-06-09
 ### Changed
 

@@ -1,7 +1,7 @@
 {
   "name": "bot-013-clip-assembly",
-  "version": "v1.0.3",
-  "description": "Animate beat stills into image-to-video clips and assemble the finished stickman episode MP4 — runtime video-model discovery, clip-prompt dialects (single-shot Kling/MiniMax/Wan by default, Seedance when routed), still-as-segment fallback so no beat is ever dropped, ffmpeg normalize+concat with room tone and an optional punchline caption card, ffprobe verification, and an honest production summary. Use for phase 4 (clips-and-assembly) of a stickman episode project, or whenever asked to animate stills into clips, stitch clips into an episode, re-render or re-assemble episode.mp4, or report what was actually generated.",
+  "version": "v1.0.4",
+  "description": "Animate beat stills into image-to-video clips and assemble the finished stickman episode MP4 — Seedance 2.0 fast i2v as the default engine (native ambient audio), pinned fallback chain, still-as-segment fallback so no beat is ever dropped, ffmpeg normalize+concat with an optional punchline caption card (room tone only when a clip has no native audio), ffprobe verification, and an honest production summary. Use for phase 4 (clips-and-assembly) of a stickman episode project, or whenever asked to animate stills into clips, stitch clips into an episode, re-render or re-assemble episode.mp4, or report what was actually generated.",
   "inputs": [
     {
       "name": "episode-plan",
@@ -19,7 +19,7 @@
       "name": "room-tone",
       "type": "text",
       "required": false,
-      "description": "Brown-noise room-tone bed under the episode, on|off; sourced from the plan's `room-tone:` header; default on only when the header is absent (off → pass assemble.sh --no-roomtone)"
+      "description": "Brown-noise room-tone bed, on|off; sourced from the plan's `room-tone:` header. Default OFF — Seedance clips carry native ambient audio, so a tone bed would double up. Only turn it on (header `on`, or all clips fell back to silent still-segments) when the episode would otherwise be silent."
     }
   ],
   "outputs": [
@@ -42,6 +42,6 @@
       "description": "Honest production summary — per clip model/dialect/prompt/duration/fallbacks; episode duration, aspect, audio treatment, limitations"
     }
   ],
-  "generated_at": "2026-06-16T17:53:29.578Z",
-  "skill_md_sha256": "6b72a26db59ceb8dc759ac68073f1baf72d9668df2a50babf5c5492c239cfdf9"
+  "generated_at": "2026-06-16T18:04:09.117Z",
+  "skill_md_sha256": "f7bff6664cfa72a53c597de117987fba1df62c9e7a03719b85c4da5ee4ec110a"
 }

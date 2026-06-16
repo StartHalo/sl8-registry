@@ -5,13 +5,17 @@
 # verify with ffprobe, and write episode.mp4 at the PROJECT ROOT.
 #
 # Usage:
-#   assemble.sh <project-dir> [--no-roomtone] [--aspect 16:9|9:16] [--caption "TEXT"]
+#   assemble.sh <project-dir> [--roomtone|--no-roomtone] [--aspect 16:9|9:16] [--caption "TEXT"]
 #
 #   <project-dir>   artifacts/<project-name> — clips are read from
 #                   <project-dir>/04-clips/*.mp4 in lexicographic (= beat) order;
 #                   episode.mp4 is written to <project-dir>/episode.mp4.
-#   --no-roomtone   skip the brown-noise bed (default: ON at -38dB — silent i2v
-#                   clips read better with a faint bed than with digital silence)
+#   --roomtone      force the brown-noise bed ON at -38dB.
+#   --no-roomtone   force it OFF.
+#                   Default is AUTO: a Seedance clip already carries native ambient
+#                   audio, so a tone bed would double up. AUTO adds the bed ONLY when
+#                   no clip has a native audio stream (e.g. the whole episode fell
+#                   back to silent still-segments) — otherwise it stays off.
 #   --aspect        target canvas (default 16:9 → 1920x1080; 9:16 → 1080x1920)
 #   --caption       punchline text → 2s paper-white hand-written-style card
 #                   appended after the final beat (omit for no card)
@@ -34,11 +38,12 @@ done
 PROJECT_DIR=${1%/}
 shift
 
-ROOMTONE=yes
+ROOMTONE=auto
 ASPECT="16:9"
 CAPTION=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --roomtone)    ROOMTONE=yes; shift ;;
     --no-roomtone) ROOMTONE=no; shift ;;
     --aspect)      ASPECT=${2:?--aspect needs a value}; shift 2 ;;
     --caption)     CAPTION=${2:?--caption needs text}; shift 2 ;;
@@ -70,16 +75,19 @@ VNORM="fps=${FPS},scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:
 
 # --- 1. Normalize every clip to a uniform format -----------------------------
 # Uniform re-encode BEFORE concat is what makes the concat demuxer reliable:
-# mixed fps/size/SAR/codec params are the #1 concat failure. Clips without an
-# audio stream (all current i2v models are silent) get a silent stereo track so
-# every segment has an identical stream layout.
+# mixed fps/size/SAR/codec params are the #1 concat failure. Seedance clips carry
+# a native audio stream; still-segment fallbacks are silent and get a silent stereo
+# track so every segment has an identical stream layout. NATIVE_AUDIO counts how
+# many clips arrived with real audio — that drives the AUTO room-tone decision.
 i=0
+NATIVE_AUDIO=0
 for CLIP in "${CLIPS[@]}"; do
   i=$(( i + 1 ))
   NORM=$(printf '%s/norm/%03d.mp4' "$TMP" "$i")
   HAS_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 "$CLIP" | head -n1 || true)
   err "normalizing $(basename "$CLIP") (audio: ${HAS_AUDIO:-none})"
   if [[ -n "$HAS_AUDIO" ]]; then
+    NATIVE_AUDIO=$(( NATIVE_AUDIO + 1 ))
     ffmpeg -y -hide_banner -loglevel error -i "$CLIP" \
       -filter_complex "[0:v]${VNORM}[v]" -map "[v]" -map 0:a:0 \
       -c:v libx264 -preset medium -crf 20 -c:a aac -ar 48000 -ac 2 \
@@ -141,6 +149,16 @@ if ! ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i "$LIST" -c copy
 fi
 
 # --- 4. Room-tone bed ----------------------------------------------------------
+# Resolve AUTO: add the bed only if the episode would otherwise be fully silent
+# (no clip carried native audio). Seedance clips have native ambient audio, so a
+# bed there would double up.
+if [[ "$ROOMTONE" == auto ]]; then
+  if [[ "$NATIVE_AUDIO" -eq 0 ]]; then
+    ROOMTONE=yes; err "room-tone AUTO → ON (no clip had native audio — avoiding dead silence)"
+  else
+    ROOMTONE=no;  err "room-tone AUTO → OFF (${NATIVE_AUDIO}/${#CLIPS[@]} clips carry native audio)"
+  fi
+fi
 if [[ "$ROOMTONE" == yes ]]; then
   err "mixing brown-noise room tone at -38dB under the episode"
   ffmpeg -y -hide_banner -loglevel error -i "$CONCAT" \
