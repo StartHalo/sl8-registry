@@ -54,7 +54,7 @@ state.md (see "Failure handling") and stop the phase.
 | beat count | no | 4–6 (3–8 allowed) |
 | aspect ratio | no | `16:9` (`9:16` for Shorts-first briefs that say so) |
 | punchline line | no | write one yourself: ≤10 words, deadpan, rendered later as a caption card |
-| room tone | no | `on` |
+| room tone | no | `off` — the default i2v engine (Seedance 2.0) generates **native ambient audio** per clip, so a tone bed would double up. Use `on` only for a deliberately silent treatment where you still want a faint bed. |
 
 Every default you apply and every assumption you make gets a bullet in the plan's
 `## Notes` section — downstream phases and the run summary rely on that honesty.
@@ -127,7 +127,7 @@ logline: <one sentence: who + want + obstacle + how it lands>
 aspect: 16:9
 target-length: 30
 punchline: <the ≤10-word caption-card line>
-room-tone: on
+room-tone: off
 
 ## Beats
 

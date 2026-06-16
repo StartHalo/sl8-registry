@@ -30,9 +30,9 @@ the Shorts sweet spot. Totals must stay within 15–60s (linter-enforced).
 ## 2. The composition contract (worked)
 
 The plan's `scene` and `motion` fields are fragments. Downstream phases assemble them
-with frozen blocks that must always appear EXACTLY as below — they are the bot's only
-consistency mechanism (no reference-image model is available, so identity and style are
-carried purely by repeated verbatim language plus a fixed seed).
+with frozen blocks that must always appear EXACTLY as below — they reinforce the
+consistency lock (the primary lock is the `--ref source.png` reference image carried on
+every generation; the frozen verbatim language plus a fixed seed back it up).
 
 Still prompt = five blocks in order:
 
@@ -124,7 +124,7 @@ logline: A stickman races to assemble a flat-pack wardrobe before his guests arr
 aspect: 16:9
 target-length: 30
 punchline: Some assembly required.
-room-tone: on
+room-tone: off
 
 ## Beats
 
@@ -182,7 +182,7 @@ logline: A stickman keeps snoozing his morning alarm until the day quietly disap
 aspect: 9:16
 target-length: 25
 punchline: Just five more minutes.
-room-tone: on
+room-tone: off
 
 ## Beats
 

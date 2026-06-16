@@ -6,6 +6,14 @@ All notable changes to the `bot-013-episode-design` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.3] — 2026-06-16
+### Changed
+- ai-gen v2.1.0 alignment: the `room-tone` header default flips to **off**. The default
+  clip engine (Seedance 2.0 fast i2v, in bot-013-clip-assembly) now generates native
+  ambient audio, so a brown-noise room-tone bed would double up. Example plans updated to
+  `room-tone: off`; the default-table guidance explains when to keep it `on` (silent
+  fallback-only episodes). `validate-plan.sh` is unchanged (still accepts `on|off`).
+
 ## [v1.0.1] — 2026-06-09
 ### Changed
 
