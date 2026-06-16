@@ -1,6 +1,6 @@
 ---
 name: bot-013-clip-assembly
-description: Animate beat stills into image-to-video clips and assemble the finished stickman episode MP4 — runtime video-model discovery, clip-prompt dialects (single-shot Kling/MiniMax/Wan by default, Seedance when routed), still-as-segment fallback so no beat is ever dropped, ffmpeg normalize+concat with room tone and an optional punchline caption card, ffprobe verification, and an honest production summary. Use for phase 4 (clips-and-assembly) of a stickman episode project, or whenever asked to animate stills into clips, stitch clips into an episode, re-render or re-assemble episode.mp4, or report what was actually generated.
+description: Animate beat stills into image-to-video clips and assemble the finished stickman episode MP4 — Seedance 2.0 fast i2v as the default engine (native ambient audio), pinned fallback chain, still-as-segment fallback so no beat is ever dropped, ffmpeg normalize+concat with an optional punchline caption card (room tone only when a clip has no native audio), ffprobe verification, and an honest production summary. Use for phase 4 (clips-and-assembly) of a stickman episode project, or whenever asked to animate stills into clips, stitch clips into an episode, re-render or re-assemble episode.mp4, or report what was actually generated.
 metadata:
   author: sl8
   version: 1.0.0
@@ -17,7 +17,7 @@ metadata:
     - name: room-tone
       type: text
       required: false
-      description: Brown-noise room-tone bed under the episode, on|off; sourced from the plan's `room-tone:` header; default on only when the header is absent (off → pass assemble.sh --no-roomtone)
+      description: Brown-noise room-tone bed, on|off; sourced from the plan's `room-tone:` header. Default OFF — Seedance clips carry native ambient audio, so a tone bed would double up. Only turn it on (header `on`, or all clips fell back to silent still-segments) when the episode would otherwise be silent.
   outputs:
     - name: beat-clips
       type: video
@@ -67,52 +67,61 @@ audit them:
 - `01-episode-plan.md` or `stills-log.md` missing/empty → write a failure note in
   `state.md` (`status: blocked`, `next_action: re-run phase 1/3 — <file> missing`)
   and stop. Do not invent beats or URLs.
-- A beat whose still exists locally but has **no fal.media URL** in the log →
-  i2v is impossible for that beat (the models accept hosted URLs only). Skip
-  straight to the still-as-segment fallback (Step 2.3) and FLAG it.
+- A beat with **neither** a fal.media URL **nor** a local still on disk → there is
+  nothing to animate; skip the beat and FLAG it. (Under v2.1.0 a beat that has a local
+  still but no URL is still animatable — pass the local path to `gen-clip.sh`; prefer
+  the URL when both exist.)
 - A beat phase 3 marked skipped → stays skipped here; say so in the summary.
 
-**Defaults for optional inputs:** room tone from the plan's `room-tone:` header
-(`off` → pass `--no-roomtone` to assemble.sh); ON only when the header is absent
-(brown noise at −38dB). Aspect from the plan, else 16:9; caption card rendered
-iff the plan has a punchline line; clip duration per beat from the plan, else 5s.
+**Defaults for optional inputs:** room tone **OFF** by default (Seedance clips
+carry native ambient audio; pass `--roomtone` to assemble.sh only when the plan's
+`room-tone:` header is `on`, or when every clip fell back to a silent
+still-segment). Aspect from the plan, else 16:9; caption card rendered iff the plan
+has a punchline line; clip duration per beat from the plan, else 5s.
 
-## Step 1 — Discover video models, pick the dialect
+## Step 1 — Confirm the engine (Seedance 2.0 is the default)
 
-The model catalog is volatile (listed models 404, unlisted models work), and the
-CLI's default video model is the **deprecated `runway-gen3`** — so discover at
-runtime and always pass `-m` explicitly (the scripts do).
+As of ai-gen v2.1.0 the proxy routes **`bytedance/seedance-2.0/fast/image-to-video`**
+— the default i2v engine. It animates the still AND generates **native ambient
+audio**, so it replaces the old silent single-shot chain. Always pass `-m`
+explicitly (the scripts do); the CLI's bare default is not what we want.
 
 ```bash
 ai-gen models --type video --format json > work/clips/discovery.json
+ai-gen estimate bytedance/seedance-2.0/fast/image-to-video resolution=720p duration=5 aspect_ratio=16:9
 ```
 
-- If any model id matches `fal-ai/bytedance/seedance/*` → the **Seedance dialect
-  is AVAILABLE**. Read `references/seedance-dialect.md` before composing any
-  prompt, and prepend the discovered id to the chain:
-  `export CLIP_CHAIN="<seedance-id> fal-ai/kling-i2v fal-ai/minimax-i2v fal-ai/wan-i2v"`.
-- Otherwise (the expected default) → **single-shot dialect** on the pinned chain
-  `fal-ai/kling-i2v → fal-ai/minimax-i2v → fal-ai/wan-i2v → fal-ai/runway-gen3`.
-  Leave `CLIP_CHAIN` unset; `scripts/gen-clip.sh` defaults to exactly this chain.
-  `runway-gen3` is deprecated upstream but has been the only i2v model the proxy
-  actually routes (2026-06-10 run) — it is the documented LAST resort, never the
-  default, and using it is a disclosure item in `05-summary.md`.
+- The discovery + estimate are a **reachability check**, not a gate that changes
+  the engine: confirm `bytedance/seedance-2.0` appears (matching the bare
+  `bytedance/seedance-2.0` namespace — NOT `fal-ai/bytedance/seedance`) and the
+  estimate returns a figure (~303 cr ≈ $1.21 for 720p/5s). Read
+  `references/seedance-dialect.md` — it is the **default** dialect now.
+- `scripts/gen-clip.sh` already defaults to the chain
+  `bytedance/seedance-2.0/fast/image-to-video → fal-ai/kling-video/v3/pro/image-to-video`
+  and forwards `--resolution 720p --audio on --max-cost 360`. Leave `CLIP_CHAIN`
+  unset to use it; override only to add/replace a model (e.g. a non-fast Seedance
+  tier for 1080p).
+- If discovery or estimate shows Seedance **unreachable** (exit 8 upstream-404, or
+  not listed): do **not** silently substitute. Attempt the pinned chain once; if the
+  primary 404s, the fallback (kling v3 pro) and then still-segment carry the beat —
+  and you FLAG the degraded audio/motion in the summary. A wholesale engine swap is a
+  STOP-and-ask, per the model-reachability gate.
 - Discovery failing or returning empty does **not** halt the phase: attempt the
   pinned chain anyway (the proxy has served unlisted models before). Keep the
   discovery output in `work/` either way.
 
-Record the dialect decision and the effective chain — the summary reports both.
-Walk fallback chains **in order**; never improvise an out-of-chain model mid-run
-(that is how BOT-007's "SD 3.5 Large incident" happened).
+Record the engine + effective chain — the summary reports both. Walk fallback chains
+**in order**; never improvise an out-of-chain model mid-run (that is how BOT-007's
+"SD 3.5 Large incident" happened).
 
 ## Step 2 — One clip per beat
 
 One beat = one still = one clip; the *edit* happens at assembly. For each kept
 beat `NN` in plan order:
 
-**2.1 Compose the clip prompt** — exactly three lines, in order. Save it to
+**2.1 Compose the clip prompt** — exactly four lines, in order. Save it to
 `work/clips/NN-<beat-slug>.prompt.txt` (per-model depth:
-`references/clip-dialects.md`).
+`references/seedance-dialect.md`).
 
 - Line 1 — style lock, **verbatim, always the first line**:
 
@@ -125,28 +134,38 @@ beat `NN` in plan order:
   compressed cinematography note (`framing, angle; behaviour`) used only as a
   **cross-check**: if the motion text contradicts it, trust the motion text and
   flag the mismatch in the summary.
-- Line 3 — negatives, **verbatim, always the last line** of every
-  single-shot prompt:
+- Line 3 — negatives, **verbatim**:
 
   > Single continuous shot, no cuts. No morphing, no extra limbs, no text. The character keeps exactly the same proportions and cap.
 
-Why verbatim: with no reference-image model on the proxy, these frozen lines
-(plus the still itself as the i2v anchor) are the only identity mechanism the
-bot has. Paraphrasing them is how style drift starts — "different videos
-spliced together" is the genre's most-cited failure.
+- Line 4 — audio directive, **verbatim, always the last line** (Seedance
+  generates native audio; steer it to ambient SFX, not a music bed or VO):
+
+  > NO MUSIC, ONLY AMBIENT SOUND. NO TALKING.
+
+Why verbatim: the still is the i2v anchor (the figure the model animates), and
+these frozen lines are the motion/identity/audio discipline around it.
+Paraphrasing them is how style drift starts — "different videos spliced
+together" is the genre's most-cited failure. (`gen-clip.sh` also appends the
+audio directive defensively if it is missing, but author it explicitly.)
 
 **2.2 Generate** via the chain walker (queue-aware, 15-min timeout, retries
-once on timeout, never leaves the chain):
+once on timeout, never leaves the chain). It defaults to Seedance 2.0 fast at
+720p with native audio on and a `--max-cost 360` guard:
 
 ```bash
-scripts/gen-clip.sh work/clips/NN-<beat-slug>.prompt.txt "<fal.media URL>" <5|10> \
+scripts/gen-clip.sh work/clips/NN-<beat-slug>.prompt.txt "<fal.media URL or local still path>" <5|10> \
   artifacts/<project-name>/04-clips/NN-<beat-slug>.mp4
 ```
 
-On success it prints `model<TAB>path` — record which model actually produced
-every clip (the summary depends on it). Its stderr notes anything the summary
-must disclose (timeout retries, a model that rejected the `duration` parameter
-and ran at its default length).
+The image input may be the hosted `fal.media` URL from stills-log.md **or** the
+local PNG path (v2.1.0 uploads locals transparently) — prefer the URL when
+present. On success it prints `model<TAB>path` — record which model actually
+produced every clip and that it carries native audio (the summary depends on
+it). Its stderr notes anything the summary must disclose (timeout retries, a
+model that rejected the `duration` parameter and ran at its default length).
+Tune with env knobs if needed: `CLIP_RESOLUTION` (480p to halve cost),
+`CLIP_AUDIO` (off), `CLIP_MAX_COST`.
 
 **2.3 All models fail for a beat → still-as-segment fallback.** The episode
 never silently loses a beat; it degrades to a slow push-in on the still:
@@ -163,20 +182,23 @@ FLAG every still-segment in the summary — hiding one is a graded failure.
 
 ```bash
 scripts/assemble.sh artifacts/<project-name> \
-  [--aspect 16:9|9:16] [--caption "<punchline line from the plan>"] [--no-roomtone]
+  [--aspect 16:9|9:16] [--caption "<punchline line from the plan>"] [--roomtone|--no-roomtone]
 ```
 
-Pass `--no-roomtone` exactly when the plan's `room-tone:` header is `off`.
+**Room tone is AUTO by default — usually pass neither flag.** Seedance clips carry
+native ambient audio, so the script adds a brown-noise bed only when *no* clip has a
+native audio stream (e.g. the whole episode fell back to silent still-segments).
+Override only on an explicit signal: `--roomtone` if the plan's `room-tone:` header is
+`on`, `--no-roomtone` if it is `off`.
 
 The script (recipes and why in `references/assembly.md`): normalizes every clip
 to a uniform format (24fps, planned canvas 1920x1080 / 1080x1920, H.264,
-yuv420p, uniform audio track) — uniform re-encode *before* concat is what makes
-concat reliable; concatenates in beat order; appends a 2s paper-white punchline
-caption card when `--caption` is given; mixes the room-tone bed under the whole
-episode (default ON — the current i2v models are silent, and a faint bed reads
-better than digital silence; pass `--no-roomtone` to skip); writes
+yuv420p, uniform audio track — Seedance audio preserved, silent fallbacks get a
+silent track) — uniform re-encode *before* concat is what makes concat reliable;
+concatenates in beat order; appends a 2s paper-white punchline caption card when
+`--caption` is given; applies the AUTO/forced room-tone decision above; writes
 `episode.mp4` at the **project root**; verifies with ffprobe and prints a JSON
-verdict (duration 15–60s, planned aspect).
+verdict (duration 15–60s, planned aspect, resolved `roomtone`).
 
 A `FLAG` verdict (e.g. under 15s after skipped beats) still delivers — flag it
 prominently in the summary and `state.md`; never withhold the episode.
@@ -191,19 +213,18 @@ re-render based on this file. Cite earlier artifacts; don't restate them.
 # Episode Summary — <project-name>
 
 ## Clips
-| beat | file | model | dialect | duration | prompt (file) | fallbacks taken |
-| 01-... | 04-clips/01-....mp4 | fal-ai/kling-i2v | single-shot | 5s | work/clips/01-....prompt.txt | none |
-| 03-... | 04-clips/03-....mp4 | still-segment | — | 10s | — | all i2v models failed → still-as-segment (FLAG) |
+| beat | file | model | audio | duration | prompt (file) | fallbacks taken |
+| 01-... | 04-clips/01-....mp4 | bytedance/seedance-2.0/fast/image-to-video | native ambient | 5s | work/clips/01-....prompt.txt | none |
+| 03-... | 04-clips/03-....mp4 | still-segment | silent | 10s | — | all i2v models failed → still-as-segment (FLAG) |
 
 ## Episode
 - file: episode.mp4 · duration: NNs (ffprobe) vs plan target-length NNs · aspect: 16:9 (1920x1080)
-- audio: clips are silent (current i2v models produce no audio); brown-noise
-  room tone at −38dB mixed under | room tone disabled
+- audio: Seedance native ambient audio per clip; room tone <on −38dB | off (native audio present) | on (all clips were silent)>
 - caption card: "<punchline>" (2s, appended after the final beat) | none
-- model discovery: <dialect chosen> · effective chain: <...>
+- engine: bytedance/seedance-2.0/fast/image-to-video · effective chain: <...>
 
 ## Limitations & flags
-- <every still-segment, skipped beat, duration deviation, FLAG verdict — plainly>
+- <every still-segment, skipped beat, duration deviation, lost-audio clip, FLAG verdict — plainly>
 ```
 
 ## Update state.md (the ledger is how phases chain)
@@ -235,7 +256,7 @@ Plus working files under `work/clips/` (prompts, discovery JSON) — never under
 | Situation | Action |
 |---|---|
 | Plan or stills log missing/empty | Record failure in `state.md`, stop. No invented inputs. |
-| Beat has no fal.media URL | Still-as-segment fallback for that beat + FLAG. |
+| Beat has no fal.media URL **and** no local still | Still-as-segment is impossible too → skip the beat + FLAG. (A local still alone is fine — v2 uploads it; prefer the URL when present.) |
 | i2v model fails | Next model in chain, in order. Never out-of-chain. |
 | Generation timeout | `gen-clip.sh` retries that model once (queue congestion is transient), then falls back. |
 | Model rejects `duration` param | `gen-clip.sh` retries without it; clip runs at model default — disclose in summary. |
@@ -246,9 +267,11 @@ Plus working files under `work/clips/` (prompts, discovery JSON) — never under
 
 ## References
 
-- `references/clip-dialects.md` — single-shot prompt anatomy per model family,
-  per-model duration/parameter notes, ai-gen video mechanics.
-- `references/seedance-dialect.md` — the multi-shot dialect ([CUT], timecodes,
-  @ImageN, audio directives). Read ONLY when discovery routed a Seedance model.
+- `references/seedance-dialect.md` — **the default dialect** (Seedance 2.0 fast i2v):
+  prompt anatomy, native-audio directives, duration/resolution envelope, ai-gen video
+  mechanics. Read this first.
+- `references/clip-dialects.md` — single-shot prompt anatomy for the older fallback
+  model families and the still-segment fallback; consult only when the chain falls
+  past Seedance.
 - `references/assembly.md` — ffmpeg recipes explained, verification, failure
   triage.

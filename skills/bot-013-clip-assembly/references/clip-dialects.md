@@ -1,13 +1,19 @@
-# Single-shot i2v clip dialects (the dependable default)
+# Single-shot i2v clip dialects (FALLBACK only)
 
-The default video models (`fal-ai/kling-i2v` → `fal-ai/minimax-i2v` →
-`fal-ai/wan-i2v` → `fal-ai/runway-gen3` as deprecated last resort — the only i2v
-model the proxy actually routed on 2026-06-10; disclose its use in the summary)
-animate ONE input image into ONE continuous 5–10s shot. They
-honor no `[CUT]`, no timecodes, and produce **no audio**. The PDF's multi-shot
-patterns are recovered *above* the model: one beat = one still = one clip, and
-the cuts happen at ffmpeg assembly. (Multi-shot inside one generation is the
-Seedance dialect — `seedance-dialect.md` — used only when discovery routes it.)
+> **The default engine is now Seedance 2.0 fast i2v — see `seedance-dialect.md`.**
+> This file covers the *silent, single-shot fallback* path used only when the chain
+> falls past Seedance. The specific slugs once listed here — `fal-ai/kling-i2v`,
+> `fal-ai/minimax-i2v`, `fal-ai/wan-i2v`, `fal-ai/runway-gen3` — are **confirmed dead**
+> (all 404 upstream). The live fallback behind Seedance is
+> `fal-ai/kling-video/v3/pro/image-to-video`. The per-model notes below are retained as
+> legacy single-shot dialect intelligence; apply the same anatomy to whatever
+> single-shot model the chain reaches.
+
+Single-shot models animate ONE input image into ONE continuous 5–10s shot. They honor
+no `[CUT]`, no timecodes, and (unlike Seedance) typically produce **no audio**. The
+PDF's multi-shot patterns are recovered *above* the model: one beat = one still = one
+clip, cuts happen at ffmpeg assembly. (Multi-shot inside one generation, and native
+audio, are the Seedance dialect — the default — in `seedance-dialect.md`.)
 
 ## Prompt anatomy — exactly three lines
 
@@ -25,31 +31,34 @@ The stickman mops the kitchen floor with steady strokes; the bucket beside him w
 Single continuous shot, no cuts. No morphing, no extra limbs, no text. The character keeps exactly the same proportions and cap.
 ```
 
-Why the frozen lines matter: there is no reference-image conditioning on these
-models — identity is carried by (a) the input still and (b) language. The
-frozen style lock and negatives are the same consistency mechanism the still
-prompts use; paraphrase them and the episode starts reading as "different
-videos spliced together".
+Why the frozen lines matter: these single-shot fallback models do not take a
+separate character reference — identity rides on (a) the input still (already
+character-locked, since phase 3 generated it with `--ref source.png`) and (b)
+language. The frozen style lock and negatives are the same consistency mechanism the
+still prompts use; paraphrase them and the episode starts reading as "different videos
+spliced together". (The default Seedance engine *does* support reference inputs — see
+`seedance-dialect.md`.)
 
-## ai-gen video mechanics (what gen-clip.sh automates)
+## ai-gen video mechanics (v2.1.0 — what gen-clip.sh automates)
 
-- `ai-gen video "<prompt>" --image <https-url> -m <model-id> -o <dir> --format json --timeout 900000`
-- `--image` takes a **hosted URL only** (no local paths, no uploads). The
-  fal.media URL captured per still in `03-stills/stills-log.md` is the contract.
-- All i2v models are `queueRequired`; the CLI blocks until done. Default
-  timeout is 10 min; kling's worst case ≈ 6 min, so the scripts pin
+- `ai-gen video "<prompt>" --image <url|local-path> -m <model-id> -o <dir> --format json --timeout 900000 [--resolution 720p] [--audio on] [--max-cost N]`
+- `--image` takes a **hosted URL OR a local path** in v2.1.0 (locals upload
+  transparently via fal storage, FR-4). Prefer the fal.media URL from
+  `03-stills/stills-log.md` when present.
+- i2v models are queue-backed; the CLI blocks until done. The scripts pin
   `--timeout 900000` (15 min) and retry once on timeout (queue congestion is
   transient; a second timeout means fall back).
-- Extra `key=value` args pass through raw to the model API: `duration=5`,
-  `duration=10`, `cfg_scale=0.5`. Unknown keys can be rejected — see per-model
-  notes.
-- Success JSON: `{"success":true,"files":["/local/path.mp4"],"credits_used":N,...}`.
-  Always `mv` the file to its stable `NN-<beat-slug>.mp4` name immediately.
-- **Never run without `-m`.** The CLI's default video model is
-  `fal-ai/runway-gen3`, which is deprecated (`deprecated: true` in the
-  catalog). Relying on the default is a known anti-pattern.
-- Failed generations can still charge credits — one disciplined attempt per
-  chain step beats retry-loops.
+- Extra `key=value` args pass through to the model: `duration=5`, `duration=10`.
+  Unknown keys can be rejected → gen-clip.sh retries without `duration=`.
+- Success JSON (v2.1.0 stable contract): `files[]` entries are **OBJECTS**
+  (`files[0].local_path`), and `hosted_urls[0]` is the fixed hosted-URL field — NOT
+  bare strings (the v1 string parser was a bug). `mv` `files[0].local_path` to the
+  stable `NN-<beat-slug>.mp4` name immediately.
+- `--max-cost` is in **credits** (1 cr ≈ $0.004) and aborts before submitting if the
+  estimate exceeds it. `credits_used` over-reports for i2v — trust `estimate`/`balance`.
+- **Never run without `-m`.** Always pass the model explicitly.
+- Failed generations are **not** charged in v2.1.0 — one disciplined attempt per chain
+  step beats retry-loops.
 
 ## Per-model notes
 
