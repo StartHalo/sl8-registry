@@ -1,0 +1,7 @@
+{
+  "name": "ai-image-generation",
+  "version": "v1.1.0",
+  "description": "Generate and edit images with the ai-gen CLI — text-to-image, image edit, and multi-reference composition across the full fal.ai catalog (FLUX, Imagen, SD3, Recraft, Ideogram, nano-banana, Seedream, and more) via the SL8 proxy. Use when the user asks to create, generate, make, or edit an image, picture, logo, poster, illustration, photo, icon, or any visual asset. Triggers: generate an image, make a picture/logo/poster, text-to-image, AI art, edit this photo, image variations, flux, imagen, ideogram, recraft, nano-banana.",
+  "generated_at": "2026-06-17T19:29:22.365Z",
+  "skill_md_sha256": "e592cdaedda44f3c4eaa13c0bae689eea3797ed38d1d2e80aa92441b5e4ebf45"
+}

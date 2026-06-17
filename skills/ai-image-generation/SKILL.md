@@ -1,225 +1,100 @@
 ---
 name: ai-image-generation
-description: "Generate images using ai-gen CLI with FLUX, Stable Diffusion, Ideogram, Recraft and 7+ models via SL8 proxy. Use when user asks to create, generate, or make images, illustrations, photos, art, or visual content. Triggers: image generation, text-to-image, create image, generate picture, AI art, flux, stable diffusion, ideogram, recraft."
+description: "Generate and edit images with the ai-gen CLI — text-to-image, image edit, and multi-reference composition across the full fal.ai catalog (FLUX, Imagen, SD3, Recraft, Ideogram, nano-banana, Seedream, and more) via the SL8 proxy. Use when the user asks to create, generate, make, or edit an image, picture, logo, poster, illustration, photo, icon, or any visual asset. Triggers: generate an image, make a picture/logo/poster, text-to-image, AI art, edit this photo, image variations, flux, imagen, ideogram, recraft, nano-banana."
+license: MIT
 metadata:
-  author: StartHalo
-  version: 1.0.0
-  tags: image, generation, ai-gen, flux, stable-diffusion
-  category: content-generation
+  author: sl8
+  category: media
+  tags: image, generation, image-edit, text-to-image, ai-gen, fal
+  references-skills: [ai-gen]
 ---
 
 # AI Image Generation
 
-## Overview
+## Purpose
 
-Generate images from text prompts using the `ai-gen` CLI. Supports 7 curated models including FLUX (fastest), Stable Diffusion 3.5, Ideogram (best text rendering), and Recraft (illustration style). All generation happens via the SL8 service proxy.
+Generate and edit images with `ai-gen image` (and `ai-gen run` for any endpoint). This skill covers
+**model choice, prompt craft, and parameters** for images; the CLI mechanics (output envelope, exit
+codes, inputs) live in the **`ai-gen`** skill — load it for the contract.
 
-Use this skill when the user asks to create, generate, or make any kind of image, illustration, photo, artwork, or visual content.
+`ai-gen image` defaults to `fal-ai/flux/schnell` (fast, live-verified) and runs **sync**, downloading
+to `/home/user/artifacts`. Pick a stronger model with `-m` when quality, text rendering, or editing
+demands it.
 
-## Quick Start
+## Pick the job
 
+| The user wants… | Branch | Command shape |
+|---|---|---|
+| An image from a description | **text-to-image** | `ai-gen image "<prompt>" [-m <id>]` |
+| To modify an existing image | **edit** | `ai-gen image "<edit instruction>" --image <path\|url> -m <edit-model>` |
+| To combine/condition on several images | **multi-reference** | `ai-gen image "@Image1 … @Image2 …" -m <ref-model> --ref a.png --ref b.png` |
+
+### Text-to-image
 ```bash
-ai-gen image "a sunset over mountains with golden light"
+ai-gen image "a watercolor fox in a misty forest, soft morning light" --aspect-ratio 16:9 --format json
+ai-gen image "minimalist logo, a folded paper crane, flat vector" -m fal-ai/recraft/v3 --format json
 ```
 
-This uses the default model (`fal-ai/flux-schnell`) and saves the image to the current output directory.
-
-## Available Models
-
-| Model ID | Credits | Speed | Best For |
-|----------|---------|-------|----------|
-| `fal-ai/flux-schnell` | 2 | ~5s | **Recommended.** Fastest generation, good quality |
-| `fal-ai/flux-dev` | 13 | ~15s | High-quality general purpose |
-| `fal-ai/flux-pro` | 20 | ~30s | Premium quality, fine details |
-| `fal-ai/flux-realism` | 18 | ~20s | Photorealistic images |
-| `fal-ai/ideogram-v2` | 10 | ~10s | Text rendering in images, logos, design |
-| `fal-ai/stable-diffusion-v35-large` | 8 | ~10s | Open-source, good balance |
-| `fal-ai/recraft-v3` | 12 | ~15s | Illustration and vector-style |
-
-Credit costs are at default 1024x1024 resolution. Higher resolutions cost more.
-
-## Usage Examples
-
-### Basic generation (default model)
-
+### Edit (instruction + source image)
+Edit/inpaint models take the source via `--image` (local path, URL, or data URI) and an instruction
+prompt. The right model matters — verify it's an edit model with `ai-gen info`.
 ```bash
-ai-gen image "a cute cat sitting on a windowsill"
+ai-gen image "put a red wool hat on the cat, keep everything else" --image cat.png -m fal-ai/nano-banana/edit --format json
 ```
 
-### Choose a specific model
-
+### Multi-reference (compose from several inputs)
+Repeatable `--ref` inputs are addressed in the prompt as `@Image1`, `@Image2`, … The per-model cap
+comes from the schema (`ai-gen info`).
 ```bash
-ai-gen image "a portrait photograph" -m fal-ai/flux-realism
+ai-gen image "@Image1 wearing the jacket from @Image2, studio backdrop" -m <ref-model> --ref person.png --ref jacket.png --format json
 ```
 
-### Custom image size
+## Choose a model
 
+Don't hard-code ids from memory — the catalog is live. Match the job to a family, then confirm:
 ```bash
-ai-gen image "a wide landscape" -s landscape_16_9
+ai-gen models --category text-to-image --format json
+ai-gen models --search "edit"
+ai-gen info fal-ai/flux/dev          # status, params, enums, defaults, caps, est. credits
 ```
+See `references/model-picks.md` for family-by-use-case guidance (fast drafts vs premium, text
+rendering, photoreal, illustration/vector, editing, multi-ref). The forthcoming `fal-model-catalog`
+skill deepens this; until then `references/model-picks.md` is self-sufficient.
 
-### Generate multiple images
+## Prompt craft
 
+Strong image prompts state **visual facts** (subject, composition, lens/medium, light, palette),
+not adjectives. See `references/prompt-craft.md`. (The forthcoming `ai-gen-prompting` skill covers
+per-family craft in depth.)
+
+## Parameters
+
+Set size/aspect/seed/count via typed flags; everything else is `key=value` per the model schema.
 ```bash
-ai-gen image "abstract art" -n 4
+ai-gen image "abstract poster art" -s landscape_16_9 -n 4 --seed 42 --format json
+ai-gen image "a forest path" -m fal-ai/flux/dev guidance_scale=7.5 num_inference_steps=30 --format json
 ```
+- `--aspect-ratio` / `-s/--size` (image-size preset; `ai-gen info` lists the enum), `-n/--num-images`,
+  `--seed` (reproducibility). Param names and enums vary per model — **`ai-gen info` is the truth**;
+  use `--strict-params` to catch typos. Details: `references/parameters.md`.
 
-### Pass model-specific parameters
+## Read the output
 
-```bash
-ai-gen image "a forest path" -m fal-ai/flux-dev guidance_scale=7.5 num_inference_steps=30
-```
+`--format json` → read `hosted_urls[]` (the stable `*.fal.media` URLs — they **expire**, so persist)
+and `files[].local_path` (downloaded). Multiple images → multiple `files[]` entries. Full envelope:
+the `ai-gen` skill's `references/json-contract.md`.
 
-### Use a JSON params file
+## Iterate fast → final
 
-```bash
-ai-gen image --params-file request.json -m fal-ai/flux-pro
-```
+1. Draft on a fast/cheap model (`fal-ai/flux/schnell`) to lock composition and prompt.
+2. Fix the `--seed` once you like a layout, then change one variable at a time.
+3. Re-render the winner on a premium model (`fal-ai/flux/pro`, Imagen, …) for the final.
+4. Batch variations with `-n`; estimate first if the model is pricey (`ai-gen estimate <id>`).
 
-Where `request.json` contains:
-```json
-{
-  "prompt": "a cyberpunk cityscape at night",
-  "image_size": "landscape_16_9",
-  "num_images": 2
-}
-```
+## Quality criteria
 
-### Reproducible output with seed
-
-```bash
-ai-gen image "a red rose" --seed 42
-```
-
-## Size Options
-
-Use `-s` or `--size` to set the image dimensions:
-
-| Size | Dimensions | Aspect Ratio |
-|------|-----------|--------------|
-| `square_hd` | 1024x1024 | 1:1 (high quality) |
-| `square` | 512x512 | 1:1 |
-| `portrait_4_3` | 768x1024 | 3:4 |
-| `portrait_16_9` | 576x1024 | 9:16 |
-| `landscape_4_3` | 1024x768 | 4:3 |
-| `landscape_16_9` | 1024x576 | 16:9 |
-
-Default is model-dependent (typically 1024x1024).
-
-## Prompt Engineering Tips
-
-### Be specific and descriptive
-- **Good:** "A golden retriever puppy playing in autumn leaves, soft afternoon sunlight, shallow depth of field, professional photography"
-- **Weak:** "a dog"
-
-### Style keywords
-- **Photorealistic:** "photograph", "DSLR", "35mm lens", "bokeh", "natural lighting"
-- **Illustration:** "digital illustration", "concept art", "watercolor", "oil painting"
-- **Design:** "flat design", "vector art", "minimalist", "isometric"
-- **3D:** "3D render", "octane render", "unreal engine", "ray tracing"
-
-### Composition
-- Specify camera angle: "aerial view", "close-up", "wide shot", "eye-level"
-- Describe lighting: "golden hour", "studio lighting", "dramatic shadows", "backlit"
-- Set mood: "moody", "vibrant", "pastel", "high contrast"
-
-### Text in images
-Use `fal-ai/ideogram-v2` for images that need readable text — it handles text rendering far better than other models.
-
-```bash
-ai-gen image "a coffee shop sign reading 'Morning Brew' in elegant script" -m fal-ai/ideogram-v2
-```
-
-## Advanced Parameters
-
-Pass any model-specific parameter as `key=value` after the prompt:
-
-```bash
-ai-gen image "a landscape" guidance_scale=7.5 num_inference_steps=28
-```
-
-Common advanced parameters:
-- `guidance_scale` — How closely to follow the prompt (higher = more literal, default varies by model)
-- `num_inference_steps` — Number of denoising steps (higher = more detail, slower)
-- `seed` — Random seed for reproducible results (also available via `--seed`)
-
-### Params file
-
-For complex configurations, use `--params-file`:
-
-```bash
-ai-gen image --params-file params.json
-```
-
-Use `-` to read from stdin:
-
-```bash
-echo '{"prompt": "a sunset", "image_size": "landscape_16_9"}' | ai-gen image --params-file -
-```
-
-## Output Handling
-
-### Default behavior
-Images are downloaded to the output directory (default: `/home/user/artifacts` in sandbox, or current directory locally).
-
-### URL only (no download)
-
-```bash
-ai-gen image "a sunset" --url-only
-```
-
-### JSON output
-
-```bash
-ai-gen image "a sunset" --format json
-```
-
-Returns:
-```json
-{
-  "success": true,
-  "files": ["./image-20260303-120000.jpg"],
-  "model": "fal-ai/flux-schnell",
-  "credits_used": 2,
-  "data": { }
-}
-```
-
-### Custom output directory
-
-```bash
-ai-gen image "a sunset" -o ./my-images
-```
-
-## Troubleshooting
-
-### Authentication error
-```
-Error: Missing session token
-```
-Ensure `SL8_SESSION_TOKEN` is set in the environment.
-
-### Insufficient credits
-```
-Error: Insufficient credits
-```
-The account doesn't have enough credits for the selected model. Try a cheaper model like `fal-ai/flux-schnell` (2 credits).
-
-### Request timeout
-```
-Error: Request timed out
-```
-Use `--timeout` to increase the timeout (in milliseconds):
-```bash
-ai-gen image "a detailed scene" --timeout 120000
-```
-
-### Model not found
-```
-Error: Model not found
-```
-Check the model ID with `ai-gen models --type image` to list available image models.
-
-## Related Skills
-
-- **ai-video-generation** — Generate videos from text prompts or images using `ai-gen video`
+- [ ] The model id came from `ai-gen models`/`info`, not memory; params validated against the schema.
+- [ ] The prompt states visual facts (composition, light, medium), not vague adjectives.
+- [ ] Output was read from `hosted_urls` / `files[].local_path`; artifacts persisted (URLs expire).
+- [ ] For edits/multi-ref, the source images resolved (≤ 3 MB local, else a URL) and `@ImageN` matched.
+- [ ] Failures handled by exit code (see the `ai-gen` skill) — no blind retry on exit 7.
