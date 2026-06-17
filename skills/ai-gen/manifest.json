@@ -1,0 +1,7 @@
+{
+  "name": "ai-gen",
+  "version": "v1.0.0",
+  "description": "How to drive the ai-gen CLI — the foundational substrate every SL8 media skill runs on. Covers finding fal.ai models (ai-gen models/info), the sync and queue run lifecycle, cost estimation and budgets, the versioned JSON result envelope, local-file and reference inputs, and the 14 exit codes. Load this whenever you call ai-gen directly, target a fal.ai endpoint id, need the CLI's output or error contract, debug an exit code, manage a queued request_id, or estimate generation cost — and it is the shared contract the image, video, and audio skills build on, so reach for it instead of guessing how the CLI behaves. Triggers: ai-gen, fal.ai model id, ai-gen models/info/estimate/status/result/doctor, hosted_urls, request id, exit code 6 7 10, queue a generation, how does ai-gen work.",
+  "generated_at": "2026-06-17T19:28:51.028Z",
+  "skill_md_sha256": "e26bc37969aa0ed73386b54bc2e4bc817e012491e9c51aa43ab4e8229c369f7c"
+}
