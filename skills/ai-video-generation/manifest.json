@@ -1,0 +1,7 @@
+{
+  "name": "ai-video-generation",
+  "version": "v1.1.0",
+  "description": "Generate video with the ai-gen CLI — text-to-video, image-to-video, first-to-last-frame, reference-to-video, and extend — across the full fal.ai catalog (Veo, Seedance, Kling, Wan, Hailuo, Luma, and more) via the SL8 proxy. Use when the user asks to create, generate, make, or animate a video, clip, reel, short, or motion graphic, or to bring a still image to life. Triggers: make a video/clip, text-to-video, image-to-video, animate this image, reel/short, drone shot, cinematic clip, veo, seedance, kling, wan, hailuo, luma.",
+  "generated_at": "2026-06-17T19:29:34.244Z",
+  "skill_md_sha256": "69b2db2017cf781eea8119a915c9e57917eab22e59507ef185f1bad438310e56"
+}
