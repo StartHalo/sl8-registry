@@ -1,0 +1,7 @@
+{
+  "name": "ai-audio-generation",
+  "version": "v1.0.0",
+  "description": "Generate and transcribe audio with the ai-gen CLI — text-to-speech (voiceover), sound effects and short music, video-to-audio foley, and speech-to-text transcription — across the fal.ai catalog (Kokoro, ElevenLabs, MMAudio, Wizper, and more) via the SL8 proxy. Use when the user asks for a voiceover, narration, text-to-speech, a sound effect, foley, background audio for a clip, or to transcribe/caption audio or video. Triggers: text to speech, voiceover, narrate this, sound effect, foley, add audio to this video, transcribe, captions, speech to text, tts, stt.",
+  "generated_at": "2026-06-17T19:29:10.435Z",
+  "skill_md_sha256": "5a0b0e65711f59fce7eab259a8303a244229c1d7815d25d8466d191fd50e84ff"
+}
