@@ -1,0 +1,58 @@
+{
+  "skill_name": "hf-storyboard",
+  "notes": "Structural gates, graded by skill-creator's grader. hf-storyboard is a planning skill: it produces the per-beat build contract (03-storyboard.md), NOT pixels and NOT HTML. The gates check that every beat names a block/component, a transition out, a track layout, and a frame range; that on-screen text is verbatim from 02-script.md (no invented copy, no VO lines); and that overlays sit on their own track indices. Assumes 01-concept.md + 02-script.md (and optionally 04-timing.json) already exist in the project. Derived from 1-requirements.md JTBD-1 (storyboard row: 'each beat names blocks/transition/track'), JTBD-2 (data-viz mapping), JTBD-3 (caption grouping + overlays), and the composition contract (track-overlap rule).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "narrated-teaser-full-contract",
+      "prompt": "Write the storyboard for the api-rate-limit-teaser project from its concept and script (16:9).",
+      "files": [],
+      "expectations": [
+        "writes artifacts/api-rate-limit-teaser/03-storyboard.md and nothing else",
+        "there is exactly one storyboard beat row per beat in 02-script.md, in the same order",
+        "every beat row names at least one registry block or component (or an explicit 'hand-author' + motion rule), a transition out (or '— (final)' on the last beat), a track layout (which data-track-index each element is on), and a frame range given in BOTH seconds and frames",
+        "the on-screen text in each row is copied verbatim from 02-script.md (no VO/narration lines used as on-screen text, no invented copy)",
+        "overlays (lower-third / caption / transition) are each on their own track index, separate from the scene track; no two same-track clips share a boundary (slot durations gapped, e.g. 5.97 for a 6s slot)",
+        "a Composition header records the root size (1920x1080 for 16:9), the total duration in seconds and frames, and the palette hex + display/text fonts taken from 01-concept.md",
+        "only the FINAL beat has no transition out; non-final beats each name a transition"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "data-viz-series-mapped",
+      "prompt": "Storyboard the q4-revenue data video (4 quarterly figures) from its concept and script (16:9).",
+      "files": [],
+      "expectations": [
+        "writes artifacts/q4-revenue/03-storyboard.md with one beat row per script beat",
+        "at least one beat maps the quarterly series onto a data-viz block (e.g. bar-racer or metric-grid) and/or a stat-counter, named explicitly in the block column",
+        "the exact figures from 02-script.md (values and units) appear verbatim in the on-screen-text column for the data beats (no rounded-away or invented numbers)",
+        "every beat still names block(s)/component, transition out (or '— final'), track layout, and frame range",
+        "a source-credit / lower-third (if used) is placed on its own overlay track index, not the scene track"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "caption-cut-overlay-tracks-9x16",
+      "prompt": "Storyboard a 9:16 caption-synced social cut for the founder-clip project from its script and 04-timing.json.",
+      "files": [],
+      "expectations": [
+        "writes artifacts/founder-clip/03-storyboard.md; the Composition header root is 1080x1920 (9:16) with a vertical safe-zone note (captions in the lower third, clear of platform UI)",
+        "the media is on the scene track and a caption block (caption-rail or caption-embed) reading 04-timing.json is on its OWN overlay track index, plus any social-overlay block on a further track index",
+        "beat frame ranges are snapped to the spoken phrases from 04-timing.json (a beat's range tracks when its line is spoken)",
+        "every beat names block(s)/component, transition out (or '— final'), track layout, and frame range (seconds + frames); on-screen/caption text is verbatim from the script, not invented"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "multi-AR-and-default-pacing",
+      "prompt": "Storyboard the launch-promo project at 16:9 AND 9:16 (no 04-timing.json available yet).",
+      "files": [],
+      "expectations": [
+        "writes artifacts/launch-promo/03-storyboard.md with a SEPARATE composition header + track layout per orientation (16:9 root 1920x1080 and 9:16 root 1080x1920), each with its own safe-zone notes (a different orientation is a re-authored composition)",
+        "because 04-timing.json is absent, beats are paced by word count (~ max(0.9, words/2.5) seconds per beat, ~3-4 beats per 5s) and the storyboard states this default was applied",
+        "every beat (in every orientation block) names block(s)/component, transition out (or '— final'), track layout, and a frame range in seconds and frames",
+        "the Notes-for-hf-build section lists the theming (palette + literal font families from 01-concept.md) and which blocks to reuse vs add"
+      ]
+    }
+  ]
+}
