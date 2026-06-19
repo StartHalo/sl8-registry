@@ -1,0 +1,47 @@
+{
+  "name": "hf-brand-extract",
+  "version": "v1.0.0",
+  "description": "Extract a brand kit from a website URL (or a brand screenshot) and write it into a project's context.md — accent + alt color, a font pack, a short brand label, and a transparent logo cutout. Uses hyperframes capture for design tokens/fonts/colors and ai-gen bria for the logo background removal. Use as an OPTIONAL onboarding asset, before or alongside onboarding, when the user gives a brand URL/site/screenshot or asks to \"use my brand\", \"pull our colors and logo\", \"match our site\", or \"brand this from a URL\". Local capture + keyless ai-gen; no HeyGen cloud/auth.",
+  "inputs": [
+    {
+      "name": "brand-source",
+      "type": "text",
+      "required": true,
+      "description": "A brand website URL (e.g. https://acme.com) OR a path to a brand screenshot/logo image. The thing the kit is derived from."
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "required": false,
+      "description": "The active project slug (the artifacts/<project-name>/ folder). Default = the active project in state.md, else a slug derived from the brand domain."
+    },
+    {
+      "name": "font-pack-hint",
+      "type": "text",
+      "required": false,
+      "description": "modern | editorial | bold | tech — override the auto-mapped font pack. Default = mapped from the captured fonts, else modern."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "brand-block",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/context.md",
+      "description": "A \"## Brand\" section appended/merged into context.md — accent (hex), accentAlt (hex), fontPack, label, and the logo cutout path. Read by every later phase (concept, build) and graded by the rubric's brand-application dimension."
+    },
+    {
+      "name": "logo-cutout",
+      "type": "png",
+      "path": "artifacts/<project-name>/assets/cutouts/logo.png",
+      "description": "The brand logo with its background removed (transparent PNG) via ai-gen bria, for use as a composition asset."
+    },
+    {
+      "name": "capture",
+      "type": "json",
+      "path": "artifacts/<project-name>/assets/captures/brand-capture.json",
+      "description": "The raw hyperframes capture output (design tokens, fonts, palette, screenshot paths) the brand block was derived from — kept for provenance."
+    }
+  ],
+  "generated_at": "2026-06-19T19:06:33.808Z",
+  "skill_md_sha256": "3ca236dcdaa6cf7b67a764e9a9a6e228057769afb0ed23ebd2273f872fd73b5f"
+}
