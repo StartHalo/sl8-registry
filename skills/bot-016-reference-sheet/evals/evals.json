@@ -1,0 +1,53 @@
+{
+  "skill_name": "bot-016-reference-sheet",
+  "_comment": "Objective gates derived from JTBD-2 (1-requirements.md). Visual expectations are graded by the grader READING the actual PNGs (vision) - never from filenames, descriptions, or regex. The frozen blocks come FROM character-spec.md verbatim; the eval supplies a complete spec so the skill has something to read.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate the turnaround reference sheet and hero portrait for the project vyre from its locked character-spec.md. Use the default views, aspect ratio, and resolution.",
+      "expected_output": "artifacts/vyre/ with reference-sheet.png (a multi-view turnaround — front, three-quarter, side, back — of ONE consistent character matching the spec's CHARACTER_BLOCK, clean neutral background, no in-image text), hero.png (a clean front-facing portrait of that same character, usable as an i2v start frame), and generation-log.md (per asset: producing model, the spec seed, the full composed prompt, fallbacks taken, and a fal.media URL).",
+      "files": [
+        {
+          "path": "artifacts/vyre/character-spec.md",
+          "content": "# Character Spec: Vyre\n\n## Identity Tokens\n- face: matte black-violet skin\n- hair: silver-white braided hair\n- eyes: glowing violet eyes\n- outfit/props: obsidian-and-crimson lamellar armor\n\n## Seed\n7777\n\n## Palette\nObsidian-violet-crimson — a dark-fantasy palette that reads as a single identity across views.\n\n## STYLE_STACK\n\"cinematic concept-art realism, photorealistic render, dramatic rim light, volumetric atmosphere, sharp focus\"\n\n## CHARACTER_BLOCK\n\"matte black-violet skin, silver-white braided hair, glowing violet eyes, obsidian-and-crimson lamellar armor\"\n\n## Reference image\nnone\n\n## Provenance\nbrief source: text-only brief; defaults applied: seed, palette; date: 2026-06-19; model used for the sheet: (recorded by phase 2)\n\n## Downstream use\nfront-frame: hero.png · identity reference: reference-sheet.png · tokens: CHARACTER_BLOCK\n"
+        }
+      ],
+      "expectations": [
+        "artifacts/vyre/reference-sheet.png exists and is a single turnaround sheet that shows the requested views (front, three-quarter, side, and back) of ONE character with consistent face, hair, outfit, and color palette across every view — no drift or warping between views (verified by viewing the image)",
+        "the character in reference-sheet.png is on-brief for the spec's CHARACTER_BLOCK (matte black-violet skin, silver-white braided hair, glowing violet eyes, obsidian-and-crimson lamellar armor) on a clean neutral background with no readable text printed in the image (verified by viewing the image)",
+        "artifacts/vyre/hero.png exists and is a single clean front-facing portrait of the SAME character as the sheet, on-brief, usable as an i2v start frame — one figure only, no in-image text (verified by viewing the image)",
+        "artifacts/vyre/generation-log.md records for EACH asset (reference-sheet.png and hero.png): the producing model (a slug from the pinned chain fal-ai/nano-banana-pro -> openai/gpt-image-2 -> fal-ai/nano-banana-2), the seed 7777, the full composed prompt, any fallbacks taken, and a fal.media URL",
+        "the composed prompt logged for each asset reuses the spec's CHARACTER_BLOCK and STYLE_STACK VERBATIM (byte-identical, no paraphrase or synonym substitution) and appends a no-text-in-the-image constraint",
+        "the same seed (7777, from the spec) is recorded for both reference-sheet.png and hero.png"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate the reference sheet and hero for the project lumen from its character-spec.md, which cites a reference image at inputs/ref.png.",
+      "expected_output": "Both assets are generated with the reference image passed to the model as --ref, and generation-log.md records that the reference image was used for each asset (path on the ref: line) plus the producing model, seed, full prompt, fallbacks, and fal.media URL.",
+      "_note": "Test setup must materialize artifacts/lumen/inputs/ref.png (a small valid PNG) before this run so the --ref path is exercised. gen-image.sh skips a missing LOCAL ref and degrades to the language+seed lock; without the placeholder, expectations 1-2 (ref passed/logged) are N/A. Create the placeholder at Test wiring time.",
+      "files": [
+        {
+          "path": "artifacts/lumen/character-spec.md",
+          "content": "# Character Spec: Lumen\n\n## Identity Tokens\n- face: porcelain-pale freckled face\n- hair: copper-red short braid\n- eyes: amber eyes\n- outfit/props: teal-and-brass aviator jacket\n\n## Seed\n4242\n\n## Palette\nCopper-amber-teal — warm skin against cool jacket, a single recognizable identity.\n\n## STYLE_STACK\n\"cinematic concept-art realism, photorealistic render, soft key light, shallow depth of field, sharp focus\"\n\n## CHARACTER_BLOCK\n\"porcelain-pale freckled face, copper-red short braid, amber eyes, teal-and-brass aviator jacket\"\n\n## Reference image\ninputs/ref.png\n\n## Provenance\nbrief source: brief + reference image; defaults applied: seed; date: 2026-06-19; model used for the sheet: (recorded by phase 2)\n\n## Downstream use\nfront-frame: hero.png · identity reference: reference-sheet.png · tokens: CHARACTER_BLOCK\n"
+        }
+      ],
+      "expectations": [
+        "the reference image inputs/ref.png was passed to the generation as a --ref argument for both reference-sheet.png and hero.png (the spec's Reference image field names a path, not 'none')",
+        "artifacts/lumen/generation-log.md records on the ref: line the reference image path (inputs/ref.png) for each asset, not 'none'",
+        "artifacts/lumen/reference-sheet.png and artifacts/lumen/hero.png both exist and depict ONE consistent character on-brief for the spec's CHARACTER_BLOCK with no in-image text (verified by viewing the images)",
+        "generation-log.md records the producing model, the seed 4242, the full verbatim-block prompt, and a fal.media URL for each asset"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate the reference sheet for the project ghost, whose character-spec.md is missing.",
+      "expected_output": "The skill detects that character-spec.md does not exist, records a clean failure in state.md naming the missing required input, and generates no images and no fabricated character.",
+      "files": [],
+      "expectations": [
+        "no reference-sheet.png or hero.png is generated for artifacts/ghost/ (no character was invented in the absence of the required spec)",
+        "the missing required input (character-spec.md) is recorded as a clean failure (state.md is marked blocked and names the missing file) rather than silently skipped or worked around"
+      ]
+    }
+  ]
+}
