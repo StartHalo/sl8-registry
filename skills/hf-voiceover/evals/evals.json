@@ -1,0 +1,45 @@
+{
+  "skill_name": "hf-voiceover",
+  "notes": "STRUCTURAL gates graded by skill-creator's grader. hf-voiceover is NOT a visual skill — it produces audio + a timing JSON, so there are no [media-judge] expectations; the grader checks files on disk, the JSON shape, and fidelity to the script. Assumes a valid 02-script.md from hf-script and a reachable ai-gen audio proxy (keyless). Derived from 1-requirements.md JTBD-1 (voiceover+timing row: 'word-level timestamps present' [structural]) and JTBD-4 (re-voice, facts preserved). The TTS-unreachable case exercises the documented silent fallback (never fail / never prompt).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "voiceover-and-word-timing",
+      "prompt": "Generate the voiceover and word-level timing for the api-rate-limit-teaser from its 02-script.md.",
+      "files": [],
+      "expectations": [
+        "writes one non-empty wav per script beat under artifacts/api-rate-limit-teaser/assets/vo/ (e.g. beat-01.wav, beat-02.wav) plus a concatenated narration.wav",
+        "writes artifacts/api-rate-limit-teaser/04-timing.json with a non-empty top-level words[] track, each entry having text/start/end (and a beat tag)",
+        "04-timing.json has a beats[] array, one entry per beat, each with beat/wav/duration/timing_method and a words[] (timing_method is wizper when per-word timestamps were returned, else even)",
+        "the narration text is exactly the VO lines from 02-script.md, in order — no sentences invented, dropped, or paraphrased",
+        "the flat words[] track is in absolute timeline time (later beats' word starts are offset past earlier beats; total_duration equals the sum of beat durations)",
+        "the reply states the resolved voice (e.g. am_michael) and model (fal-ai/kokoro/american-english) and notes whether word timings are real (wizper) or even/estimated; state.md phase 4 is marked done",
+        "no HeyGen auth/TTS/ASR is used; the run is keyless via ai-gen and does not prompt the user"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "re-voice-different-voice-facts-preserved",
+      "prompt": "Re-voice the api-rate-limit-teaser with the af_nova voice.",
+      "files": [],
+      "expectations": [
+        "re-reads the UNCHANGED 02-script.md (does not call hf-script; narration text is identical to the prior version)",
+        "re-generates assets/vo/*.wav and 04-timing.json using voice af_nova; the word strings in 04-timing.json are the same as before (only timings/audio differ)",
+        "appends a dated note to state.md recording the re-voice (am_michael -> af_nova) and that the script facts were unchanged",
+        "the reply reports the new voice af_nova was used"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "tts-unreachable-silent-fallback",
+      "prompt": "Generate the voiceover for the offline-demo project (ai-gen TTS is unreachable in this environment).",
+      "files": [],
+      "expectations": [
+        "does NOT fail the project and does NOT prompt the user when ai-gen TTS returns no wav / success:false",
+        "still writes artifacts/offline-demo/04-timing.json with one beat entry per script beat using script-estimated pacing (timing_method estimated, wav null), so beat pacing is still available downstream",
+        "records the silent fallback in state.md (which beats fell back and why) so hf-render knows there is no audio stream to mux",
+        "the reply honestly reports that the voiceover fell back to silent because ai-gen TTS was unreachable"
+      ]
+    }
+  ]
+}
