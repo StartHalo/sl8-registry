@@ -1,0 +1,55 @@
+{
+  "skill_name": "hf-render",
+  "notes": "Structural + media gates, graded by skill-creator's grader. The [media-judge] expectations are graded by the in-session model READING the extracted frames (exports/frames/*.png) or the MP4 — never the filename/size. hf-render renders a VALIDATED composition; it does not author or fix it. Assumes a composition/ that passed hf-validate. Derived from 1-requirements.md JTBD-1 (rendered-video row: correct dims/fps/duration; legible, on-brand, varied easing + transitions), JTBD-2 (data-viz values match), JTBD-4 (re-render / resize, facts preserved).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "render-16x9-verified-and-legible",
+      "prompt": "Render the api-rate-limit-teaser at 16:9 in draft quality and verify it.",
+      "files": [],
+      "expectations": [
+        "writes artifacts/api-rate-limit-teaser/exports/api-rate-limit-teaser-16x9.mp4 — non-empty and playable",
+        "ffprobe confirms codec h264, dimensions 1920x1080, a frame rate (e.g. 30/1), and a non-zero duration",
+        "extracts at least one key frame per scene into exports/frames/",
+        "[media-judge] the rendered frames are legible and faithful: the headline and key facts are present and readable, high contrast, text inside the safe zone (no clipping/overlap)",
+        "[media-judge] the composition is on-brand (the concept palette and fonts are applied, not generic defaults) and composed (clear hierarchy, edge-anchored, not a centered single element)",
+        "[media-judge] across frames around the scene transition, the motion shows varied easing and a real transition (a wipe/flash/iris), not just flat cross-fades",
+        "no HeyGen cloud/lambda/auth was used; the render ran locally"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "data-viz-numbers-match-input",
+      "prompt": "Render the q4-revenue data-viz at 16:9 and verify the figures.",
+      "files": [],
+      "expectations": [
+        "writes a verified exports/q4-revenue-16x9.mp4 (h264, 1920x1080, non-zero duration)",
+        "[media-judge] the numbers shown in the rendered frames exactly match the input quarterly figures (no fabricated or rounded-away values); digits do not jitter (tabular-nums)",
+        "[media-judge] the data-viz animates (a counter and/or a bar/ring fills) and the final figures are correct and legible"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "resize-different-orientation-routes-to-build",
+      "prompt": "Now give me the api-rate-limit-teaser as a 9:16.",
+      "files": [],
+      "expectations": [
+        "recognizes that the existing composition is 16:9 (landscape) and a 9:16 (portrait) export is a RE-AUTHORED composition, not a --resolution flag",
+        "render.sh fails the 9:16 AR cleanly with a message that --resolution cannot rotate and routes the fix to hf-build (re-author the root to 1080x1920)",
+        "does NOT produce a stretched/letterboxed or wrongly-dimensioned 9:16 file",
+        "after a portrait composition is authored, a re-render writes a verified exports/<name>-9x16.mp4 at 1080x1920 with the on-screen facts unchanged"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "render-4k-same-orientation",
+      "prompt": "Render the api-rate-limit-teaser at 16:9 and a 4k 16:9 in one pass.",
+      "files": [],
+      "expectations": [
+        "writes a verified exports/<name>-16x9.mp4 (1920x1080) AND exports/<name>-16x9-4k.mp4 (3840x2160) using --resolution landscape-4k for the 4k pass",
+        "both are h264 with non-zero duration; the 4k is an integer upscale of the same landscape composition",
+        "[media-judge] the 4k frame is sharp and legible at the larger size; the brand palette/fonts are applied"
+      ]
+    }
+  ]
+}
