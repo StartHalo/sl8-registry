@@ -1,0 +1,57 @@
+{
+  "skill_name": "hf-script",
+  "notes": "Graded by skill-creator's grader. hf-script is a TEXT/authoring skill — its expectations are read off the written 02-script.md, NOT off pixels (no media-judge here; on-screen text fidelity is verified as TEXT, the rendered frames are graded downstream by hf-render). Derived from 1-requirements.md JTBD-1 (script: beats faithful to brief, no invented facts), JTBD-2 (data narrative — figures exact), and JTBD-4 (re-script is the only phase that changes facts). Each eval assumes an onboarded project with a context.md brief and a 01-concept.md base concept already present.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "api-teaser-faithful-beats",
+      "prompt": "Write the script for the api-rate-limit teaser project. The brief: a 15-second teaser for our new API rate-limiting feature aimed at developers; the one fact we have is that we cut p99 latency by 47%.",
+      "files": [],
+      "expectations": [
+        "writes artifacts/<project>/02-script.md (and only that numbered artifact) — it does NOT write a storyboard, composition, or render",
+        "the script is beat-structured: it names a narrative arc (e.g. hook -> context -> proof -> payoff/CTA) and breaks into ~4-5 beats for the 15s target, roughly one beat per 3-5 seconds, one idea per beat",
+        "every beat has BOTH a VO (narration) line AND a separate on-screen-text distillation; the on-screen text is a headline/keyword/number (e.g. '47% faster' or 'p99 -47%'), NOT the VO sentence copied verbatim",
+        "the only concrete fact used is the 47% p99 latency cut from the brief — there are NO invented numbers, named customers, superlatives, offers, or claims the brief did not provide",
+        "a provenance table maps every fact (the 47% figure, the feature name) to its source in the brief; connective/framing lines are marked as framing (no new fact)",
+        "per-beat seconds are estimated and sum to ~15 s; assumptions/defaults (duration, audience) are stated at the top"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "revenue-csv-data-narrative-exact-figures",
+      "prompt": "Write the script for the q4-revenue data video. The brief carries four quarterly revenue figures: Q1 $0.8M, Q2 $1.0M, Q3 $1.1M, Q4 $1.2M. Tell the growth story.",
+      "files": [],
+      "expectations": [
+        "writes artifacts/<project>/02-script.md with a data-narrative arc (e.g. hook -> per-quarter stat beats -> takeaway), one quarter per stat beat",
+        "the four figures appear EXACTLY as given ($0.8M, $1.0M, $1.1M, $1.2M) — no rounding the brief did not ask for, no invented totals, growth percentages, or projections the brief did not state",
+        "each stat beat's on-screen text is the bare figure (the distillation) while the VO line speaks the number naturally; the figures are NOT pasted as full VO sentences into the on-screen text",
+        "the provenance table lists all four figures traced to the CSV/brief; any growth framing is marked as framing (carries no fabricated number)",
+        "beats are paced with estimated seconds summing to ~the target duration; assumptions stated"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "rescript-changes-fact-not-restyle",
+      "prompt": "For the api-rate-limit teaser, change the latency stat from 47% to 52%.",
+      "files": [],
+      "expectations": [
+        "recognizes this CHANGES A FACT, so it re-runs the script phase (rewrites 02-script.md) rather than treating it as a restyle/re-voice/resize",
+        "updates the proof beat's VO line, on-screen text, and the provenance row to 52%; the 47% figure no longer appears anywhere in the script",
+        "the narrative arc and the other beats stay intact (only the changed fact is edited); no NEW facts are introduced beyond the requested 52%",
+        "notes that downstream phases (storyboard/voiceover/build) must re-run from the new facts"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "thin-brief-no-fabrication",
+      "prompt": "Write the script for the launch-day project. The brief is just: 'short launch video for our new mobile app, keep it upbeat.' No other facts.",
+      "files": [],
+      "expectations": [
+        "does NOT fabricate any concrete facts (no invented user counts, ratings, prices, dates, feature names, or superlatives) — the brief has no figures, so none appear",
+        "builds a short, faithful arc out of the topic + tone alone, using clearly-marked framing/connective language for beats that carry no fact",
+        "records in the assumptions block that the brief was thin (topic + tone only) and that no CTA/figures were given, so it ended on a takeaway rather than inventing an offer",
+        "writes artifacts/<project>/02-script.md with per-beat VO + distilled on-screen text and a provenance table where framing lines are marked as framing"
+      ]
+    }
+  ]
+}

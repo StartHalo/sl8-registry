@@ -1,0 +1,29 @@
+{
+  "name": "hf-script",
+  "version": "v1.0.0",
+  "description": "Write a faithful, beat-structured video script for a motion-graphics project — one beat per idea, each carrying a voiceover (VO) line and a short on-screen-text distillation, with every fact traced to the brief. Reads the project brief (context.md) and the base concept (01-concept.md); writes 02-script.md. On-screen text is the headline/keyword distillation, NOT the narration verbatim. Never invents facts, numbers, names, or quotes. Use during the SCRIPT phase (phase 2) of a narrated/data-viz video, after hf-concept and before hf-storyboard. Also use to RE-SCRIPT when the user wants to change the message (this is the only phase allowed to change facts).",
+  "inputs": [
+    {
+      "name": "context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the project brief (topic/script, audience, brand kit, source facts, requested duration/aspect ratio, voice/music defaults)."
+    },
+    {
+      "name": "concept",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/01-concept.md — the 6-dimension base concept (subject, composition, style, palette, typography, mood) the script's tone and pacing align to."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "script",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-script.md",
+      "description": "A beat-structured script — narrative arc, per-beat VO line + on-screen text + estimated seconds, plus a provenance table mapping every fact to its source. Faithful to the brief; no invented facts."
+    }
+  ],
+  "generated_at": "2026-06-19T19:05:47.322Z",
+  "skill_md_sha256": "9f24d7088cb1031163822438c51817e67a2d1da6a164ec3b567a9bf55bcc18f4"
+}
