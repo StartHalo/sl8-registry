@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- Vendored GSAP (relative path) — NEVER a CDN. Render runs offline. -->
+    <script src="./assets/gsap.min.js"></script>
+    <!-- System fonts wired via @font-face local() lookups (see assets/fonts.css). -->
+    <link rel="stylesheet" href="./assets/fonts.css" />
+    <style>
+      /* IMPORTANT: declare font-family with the LITERAL family string (matching the
+         @font-face names in fonts.css) — NOT a CSS var(). hyperframes lint resolves the
+         family statically and cannot follow var(), so var()-based font-family raises
+         font_family_without_font_face. Keep a generic fallback after each family. */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px; height: 1080px; overflow: hidden;
+        /* Radial (not linear) base wash — radial avoids H.264 banding on dark bg. */
+        background: radial-gradient(120% 120% at 30% 20%, #14213d 0%, #0a1124 60%, #050811 100%);
+        font-family: "Inter", system-ui, sans-serif;
+        color: #f5f7fb;
+      }
+      /* Brand palette tokens — a scene-authoring run overrides these to the base concept. */
+      :root {
+        --accent: #5b8cff;       /* primary accent   */
+        --accent-2: #38e1c4;     /* secondary accent */
+        --ink: #f5f7fb;          /* foreground ink   */
+        --muted: #9fb0d0;        /* muted label ink  */
+        --safe: 96px;            /* edge safe-zone   */
+      }
+
+      /* Scenes are full-frame layers; the .clip runtime shows one at a time by data-start.
+         Animate opacity + transforms ONLY — never display/visibility/layout props. */
+      .scene {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        padding: var(--safe);
+        will-change: transform, opacity;
+      }
+
+      /* ---- Scene 1: title card (edge-anchored brand grid) ---- */
+      #s1 { justify-content: center; }
+      #s1 .kicker {
+        font-family: "Space Grotesk", ui-monospace, monospace;
+        font-size: 30px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent-2);
+      }
+      #s1 .title {
+        font-family: "Anton", "Outfit", sans-serif;
+        font-size: 168px; line-height: 0.96; font-weight: 800; max-width: 1400px; margin-top: 18px;
+      }
+      #s1 .title em { color: var(--accent); font-style: normal; }
+      #s1 .rule { width: 220px; height: 8px; background: var(--accent); margin-top: 40px; border-radius: 4px; }
+      #s1 .brand-chip {
+        position: absolute; left: var(--safe); bottom: var(--safe);
+        font-family: "Inter", system-ui, sans-serif; font-size: 28px; font-weight: 600; color: var(--muted);
+        display: flex; align-items: center; gap: 14px;
+      }
+      #s1 .brand-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-2); }
+
+      /* ---- Scene 2: stat reveal (data-viz) ---- */
+      #s2 { justify-content: center; }
+      #s2 .stat-label {
+        font-family: "Outfit", system-ui, sans-serif; font-size: 44px; font-weight: 600; color: var(--muted);
+      }
+      #s2 .stat-value {
+        font-family: "Anton", "Outfit", sans-serif; font-size: 300px; line-height: 1; color: var(--accent);
+        font-variant-numeric: tabular-nums; /* no digit jitter while counting */
+      }
+      #s2 .bar-track {
+        margin-top: 36px; width: 1100px; height: 26px; border-radius: 13px; background: rgba(159, 176, 208, 0.18);
+      }
+      #s2 .bar-fill {
+        height: 100%; width: 100%; transform-origin: left center; border-radius: 13px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+      #s2 .caption {
+        margin-top: 30px; font-family: "Inter", system-ui, sans-serif; font-size: 34px; color: var(--ink); max-width: 1200px;
+      }
+
+      /* ---- Scene 3: outro / CTA ---- */
+      #s3 { justify-content: center; align-items: flex-start; }
+      #s3 .outro-line {
+        font-family: "Fraunces", Georgia, serif; font-size: 96px; line-height: 1.05; font-weight: 600; max-width: 1400px;
+      }
+      #s3 .outro-line b { color: var(--accent); }
+      #s3 .cta {
+        margin-top: 48px; font-family: "Inter", system-ui, sans-serif; font-size: 40px; font-weight: 700;
+        padding: 24px 48px; border-radius: 14px; background: var(--accent); color: #050811; display: inline-block;
+      }
+
+      /* Transition overlay (scene 2 -> scene 3): a vertical liquid wipe. */
+      #wipe {
+        position: absolute; inset: 0; z-index: 50; transform-origin: top center;
+        background: linear-gradient(180deg, var(--accent-2), var(--accent)); transform: scaleY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Root composition: explicitly sized, standalone (no template wrapper). 18s at 1920x1080. -->
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="18"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Track 0 = scene layers; same track => the runtime never overlaps them in time.
+           Durations end a hair before the next clip starts (5.97 not 6) so the lint
+           does not flag a shared-boundary overlap; the GSAP timeline + wipe cover the seam. -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="5.97" data-track-index="0">
+        <div class="kicker">MOTION STUDIO</div>
+        <div class="title">Ship motion graphics<br /><em>without a designer.</em></div>
+        <div class="rule"></div>
+        <div class="brand-chip"><span class="brand-dot"></span>ACME — Brand Template</div>
+      </div>
+
+      <div id="s2" class="scene clip" data-start="6" data-duration="5.97" data-track-index="0" style="opacity: 0">
+        <div class="stat-label">Render time per second of 1080p video</div>
+        <div class="stat-value"><span id="num">0</span><span style="font-size: 140px">×</span></div>
+        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="caption">Deterministic, local, keyless — one Chrome, one timeline.</div>
+      </div>
+
+      <div id="s3" class="scene clip" data-start="12" data-duration="6" data-track-index="0" style="opacity: 0">
+        <div class="outro-line">Brief in.<br /><b>Branded MP4 out.</b></div>
+        <div class="cta">Start a project &rarr;</div>
+      </div>
+
+      <!-- Track 1 = transition overlay (separate track so it sits over the scene swap). -->
+      <div id="wipe" class="clip" data-start="11.4" data-duration="1.2" data-track-index="1"></div>
+    </div>
+
+    <script>
+      // ONE paused timeline, built synchronously at load, registered on window.__timelines.
+      // (hyperframes lint emits an informational gsap_studio_edit_blocked warning for a manual
+      //  timeline — expected and benign for a render-only workflow; it only affects Studio drag-edit.)
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { duration: 0.9 } });
+
+      // --- Scene 1 (0s..6s): entrances journey TO the CSS end-state (layout-before-animation).
+      tl.from("#s1 .kicker", { opacity: 0, y: -30, ease: "power2.out" }, 0.2);
+      tl.from("#s1 .title", { opacity: 0, y: 60, ease: "power4.out", duration: 1.1 }, 0.35); // ease #1
+      tl.from("#s1 .rule", { scaleX: 0, transformOrigin: "left center", ease: "expo.out" }, 0.9); // ease #2
+      tl.from("#s1 .brand-chip", { opacity: 0, x: -40, ease: "back.out(1.6)" }, 1.0); // ease #3
+      // Scene 1 exit (only because the next scene takes over the same track).
+      tl.to("#s1", { opacity: 0, y: -40, ease: "power2.in", duration: 0.6 }, 5.6);
+
+      // --- Scene 2 (6s..12s): stat reveal with a counting tween + bar fill.
+      tl.set("#s2", { opacity: 1 }, 6.0);
+      tl.from("#s2 .stat-label", { opacity: 0, y: 30, ease: "power3.out" }, 6.2);
+      // Counting animation — animate a proxy object, write the integer into the DOM (tabular-nums).
+      const counter = { v: 0 };
+      const numEl = document.getElementById("num");
+      tl.to(
+        counter,
+        {
+          v: 60,
+          duration: 1.4,
+          ease: "expo.out", // ease #4 (counter feel)
+          onUpdate: () => { numEl.textContent = Math.round(counter.v); },
+        },
+        6.4,
+      );
+      tl.from("#s2 .bar-fill", { scaleX: 0, ease: "power3.inOut", duration: 1.2 }, 6.5); // ease #5
+      tl.from("#s2 .caption", { opacity: 0, y: 24, ease: "power2.out" }, 7.4);
+
+      // --- Transition (11.4s..12.6s): liquid wipe down, then up — covers the scene swap.
+      tl.to("#wipe", { scaleY: 1, transformOrigin: "top center", ease: "power3.in", duration: 0.55 }, 11.4);
+      tl.set("#s2", { opacity: 0 }, 11.95);
+      tl.set("#s3", { opacity: 1 }, 11.95);
+      tl.to("#wipe", { scaleY: 0, transformOrigin: "bottom center", ease: "power3.out", duration: 0.55 }, 12.0);
+
+      // --- Scene 3 (12s..18s): outro / CTA.
+      tl.from("#s3 .outro-line", { opacity: 0, y: 50, ease: "power4.out", duration: 1.0 }, 12.3);
+      tl.from("#s3 .cta", { opacity: 0, scale: 0.8, ease: "back.out(1.8)", duration: 0.8 }, 13.1);
+
+      // Duration is owned by data-duration (18s), not the timeline length.
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

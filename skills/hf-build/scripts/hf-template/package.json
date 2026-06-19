@@ -1,0 +1,11 @@
+{
+  "name": "hf-composition",
+  "private": true,
+  "type": "module",
+  "description": "Motion Studio HyperFrames composition (vendored GSAP + system fonts, offline-safe). Copied into artifacts/<project>/composition/ by hf-build.",
+  "scripts": {
+    "lint": "npx --yes hyperframes@0.6.112 lint",
+    "snapshot": "npx --yes hyperframes@0.6.112 snapshot",
+    "render": "npx --yes hyperframes@0.6.112 render"
+  }
+}

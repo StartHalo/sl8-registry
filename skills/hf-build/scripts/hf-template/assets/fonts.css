@@ -1,0 +1,57 @@
+/* fonts.css — wire the runtime's system fonts (fontconfig) for offline-safe render.
+ *
+ * The sl8-animation sandbox ships these families via fontconfig: Inter, Outfit,
+ * Anton, Fraunces, Space Grotesk (+ DejaVu Sans, Comic Neue). There are NO font
+ * FILES to embed — the families resolve by NAME. We declare each via @font-face
+ * with a local() source so the browser binds the installed face; if a family is
+ * absent (e.g. a dev host) the CSS no-ops and the generic fallback chain applies.
+ * NEVER reference a webfont CDN here — render runs offline.
+ *
+ * Use the families by name in your scene CSS, always with a generic fallback chain:
+ *   font-family: "Inter", system-ui, sans-serif;            UI / body
+ *   font-family: "Outfit", system-ui, sans-serif;           geometric headings
+ *   font-family: "Anton", "Outfit", sans-serif;             heavy display
+ *   font-family: "Fraunces", Georgia, serif;                editorial display
+ *   font-family: "Space Grotesk", ui-monospace, monospace;  technical / numerals
+ * For animated numbers also set `font-variant-numeric: tabular-nums;` to stop digit jitter.
+ */
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"), local("Inter-Regular");
+  font-weight: 100 900;
+  font-display: block;
+}
+@font-face {
+  font-family: "Outfit";
+  src: local("Outfit"), local("Outfit-Regular");
+  font-weight: 100 900;
+  font-display: block;
+}
+@font-face {
+  font-family: "Anton";
+  src: local("Anton"), local("Anton-Regular");
+  font-weight: 400;
+  font-display: block;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: local("Fraunces"), local("Fraunces-Regular");
+  font-weight: 100 900;
+  font-display: block;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: local("Space Grotesk"), local("SpaceGrotesk-Regular");
+  font-weight: 300 700;
+  font-display: block;
+}
+
+:root {
+  /* Type ramp — swap the family per the base concept's typography dimension. */
+  --font-ui: "Inter", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-display-heavy: "Anton", "Outfit", sans-serif;
+  --font-editorial: "Fraunces", Georgia, serif;
+  --font-mono: "Space Grotesk", ui-monospace, "SFMono-Regular", monospace;
+}
