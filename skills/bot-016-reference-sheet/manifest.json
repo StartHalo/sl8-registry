@@ -1,0 +1,53 @@
+{
+  "name": "bot-016-reference-sheet",
+  "version": "v1.0.0",
+  "description": "Turns a locked character-spec.md into the visual half of a character bible — a multi-view turnaround reference sheet (front / three-quarter / side / back, ONE consistent identity) plus a clean front hero portrait usable as an i2v start frame, then records every asset's model, seed, full prompt, fallbacks, and fal.media URL in a generation log. Pastes the spec's STYLE_STACK + CHARACTER_BLOCK VERBATIM into every prompt, walks the pinned image-model fallback chain, passes the reference image on every call, and self-checks the pixels. Use for phase 2 (turnaround) of a character-bible project, or whenever asked to generate a turnaround / reference sheet / hero portrait from a character spec.",
+  "inputs": [
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "description": "artifacts/<project-name>/character-spec.md — the locked spec from phase 1 (Identity Tokens, Seed, Palette, STYLE_STACK, CHARACTER_BLOCK, Reference image). The frozen blocks + seed are taken from here VERBATIM; missing → clean recorded failure, stop.",
+      "required": true
+    },
+    {
+      "name": "views",
+      "type": "text",
+      "description": "Comma list of turnaround angles; defaults to \"front view, three-quarter view, side profile, back view\".",
+      "required": false
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "description": "Aspect ratio for the sheet and hero; defaults to 16:9 (a video-storyboard reference).",
+      "required": false
+    },
+    {
+      "name": "resolution",
+      "type": "text",
+      "description": "Resolution preset for the sheet on nano-banana-pro (1K/2K/4K); defaults to 2K for a crisp, inspectable sheet.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "reference-sheet",
+      "type": "png",
+      "description": "Multi-view turnaround sheet — the requested angles of ONE consistent character (face, hair, outfit, palette agree across views), clean neutral background, no in-image text.",
+      "path": "artifacts/<project-name>/reference-sheet.png"
+    },
+    {
+      "name": "hero-portrait",
+      "type": "png",
+      "description": "Clean front-facing hero portrait of the same character — the canonical i2v start frame the downstream director bots feed first.",
+      "path": "artifacts/<project-name>/hero.png"
+    },
+    {
+      "name": "generation-log",
+      "type": "markdown",
+      "description": "Per-asset ledger — producing model + slug, seed, the full composed prompt, any fallbacks taken, and the fal.media URL; plus the post-generation self-check verdict for each asset.",
+      "path": "artifacts/<project-name>/generation-log.md"
+    }
+  ],
+  "generated_at": "2026-06-19T20:08:33.094Z",
+  "skill_md_sha256": "42e541ca537e2707ddf035ed0641255652e63d25c10b81ff79840d1c25d48b98"
+}
