@@ -1,0 +1,41 @@
+{
+  "name": "hf-storyboard",
+  "version": "v1.0.0",
+  "description": "Turn a base concept and a beat-structured script into a per-beat build contract for a HyperFrames motion-graphics video. For each beat it names the registry block(s)/component(s) to use, the scene transition out of it, the track layout (which track index each element sits on), and the frame/second ranges — the exact plan hf-build authors from. Use during the STORYBOARD phase (phase 3) of a motion-graphics project, after hf-script wrote the script, before hf-build authors the composition. Maps narrative beats and data series onto the contract-compliant block library; offline, deterministic, no HeyGen.",
+  "inputs": [
+    {
+      "name": "concept",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/01-concept.md — the 6-dimension base concept (subject, composition, style, palette+hex, typography, mood) the storyboard themes to."
+    },
+    {
+      "name": "script",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/02-script.md — the beat-structured script (VO line + on-screen text + any stat/quote/credit per beat)."
+    },
+    {
+      "name": "timing",
+      "type": "json",
+      "required": false,
+      "description": "artifacts/<project-name>/04-timing.json — word-level timestamps. Optional; when present, snap beat frame ranges to the VO so captions and beats align."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = onboarding/context default, else 16:9. Drives safe-zone + track-layout notes per orientation."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/03-storyboard.md",
+      "description": "Per-beat build contract — for every beat the block/component ids, the transition out, the track layout, the frame/second range, and the verbatim on-screen text, plus the composition header (root size per AR, duration, palette/type from the concept)."
+    }
+  ],
+  "generated_at": "2026-06-19T19:05:59.237Z",
+  "skill_md_sha256": "d20d3226e9304a6fc898fbc91bab6a138d0cb641d2e20e11d77f92b76aa02bb6"
+}
