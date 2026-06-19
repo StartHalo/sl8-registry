@@ -1,0 +1,54 @@
+{
+  "skill_name": "hf-brand-extract",
+  "notes": "Graded by skill-creator's grader. hf-brand-extract is a STRUCTURAL skill (an optional onboarding asset): the assertions check that a real brand block was DERIVED (not invented) and written to artifacts/<project>/context.md with the exact keys concept/build read, plus the capture/cutout provenance files. There is no rendered media here, so there are no [media-judge] assertions — the one frame check on the logo cutout is a structural transparency check, not a quality grade. Derived from 1-requirements.md (the brand-kit precondition shared by JTBD-1..4) and the §5 artifact-path map. Assumes ai-gen (bria) + hyperframes capture are reachable in-sandbox; an unreachable source must be a clean recorded failure, never a fabricated kit.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "brand-from-url-full-kit",
+      "prompt": "Brand a new project from https://acme.com so the video matches our site.",
+      "files": [],
+      "expectations": [
+        "runs hyperframes capture on the URL and writes artifacts/<project>/assets/captures/brand-capture.json with a source, a non-empty colors[] (hex), fonts[], and screenshots[]",
+        "appends (or merges) a '## Brand' section to artifacts/<project>/context.md containing accent (a 6-digit hex), accentAlt (a 6-digit hex), fontPack (one of modern|editorial|bold|tech), and label",
+        "the accent is a saturated brand color (not body grey, pure black, or pure white) drawn from brand-capture.json — not invented",
+        "fontPack maps to a runtime-supported family set (Inter / Outfit / Anton / Fraunces / Space Grotesk); no CDN font or var() family is written",
+        "runs ai-gen fal-ai/bria/background/remove and writes a transparent artifacts/<project>/assets/cutouts/logo.png, then records 'logo: assets/cutouts/logo.png' in the brand block",
+        "the reply states the resolved accent/accentAlt/fontPack/label and notes any default/derived value; no HeyGen auth or cloud is used"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "brand-from-screenshot-no-url",
+      "prompt": "Here's a screenshot of our brand — pull the colors, fonts, and logo from it.",
+      "files": ["brand-screenshot.png"],
+      "expectations": [
+        "uses screenshot mode (does NOT call hyperframes capture): Reads the image and writes brand-capture.json with source set to the image path and the dominant colors + visible typeface",
+        "writes a '## Brand' section to artifacts/<project>/context.md with accent (hex), accentAlt (hex), fontPack, and label derived from the screenshot — not fabricated",
+        "runs ai-gen bria on the logo region and writes a transparent artifacts/<project>/assets/cutouts/logo.png (or, if no logo is found, omits the 'logo:' line and says so)",
+        "the brand fields use only runtime-supported font families and real hex colors"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "unreachable-source-clean-failure",
+      "prompt": "Brand it from https://this-domain-does-not-resolve.invalid",
+      "files": [],
+      "expectations": [
+        "capture.sh exits non-zero and writes a brand-capture.json carrying an 'error' (no fabricated colors or fonts)",
+        "records the failure in artifacts/<project>/state.md and does NOT write an invented '## Brand' section (or writes none) — the kit falls back to neutral",
+        "does not prompt the user (headless); the reply explains the source was unreachable and onboarding can proceed with a neutral kit"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "bria-unavailable-still-writes-kit",
+      "prompt": "Brand from https://acme.com (the logo cutout service may be down).",
+      "files": [],
+      "expectations": [
+        "still writes the '## Brand' section with accent/accentAlt/fontPack/label from the capture even when ai-gen bria exits non-zero",
+        "omits the 'logo:' line (no fabricated cutout path) and notes 'no logo cutout' in the reply",
+        "brand-capture.json is still written for provenance; the extract is NOT failed just because the logo cutout failed"
+      ]
+    }
+  ]
+}
