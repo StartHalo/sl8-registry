@@ -1,0 +1,29 @@
+{
+  "name": "hf-concept",
+  "version": "v1.0.0",
+  "description": "Write the mandatory BASE CONCEPT for a motion-graphics video — a 100-plus-word visual contract across 6 dimensions (subject, composition, style, color palette with hex, typography, mood). Reads the project context.md (brief + brand kit) and fixes the look every later phase themes to. Use at the CONCEPT phase (phase 1) of a motion-graphics project, before any script, storyboard, or HTML is authored, or when restarting a project's creative direction. Produces 01-concept.md, the anchor the rubric grades brand application against. No rendering, no code.",
+  "inputs": [
+    {
+      "name": "context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the project brief plus brand kit (accent hex, fonts, label) and defaults written by onboarding."
+    },
+    {
+      "name": "brief",
+      "type": "text",
+      "required": false,
+      "description": "An inline brief, topic, or one-line description in the request. Used to sharpen the Subject when context.md is thin. Default = whatever context.md already carries."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "concept",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/01-concept.md",
+      "description": "The base concept — 100-plus words across the 6 dimensions (subject, composition, style, color palette with hex, typography, mood); the visual contract every later phase reads."
+    }
+  ],
+  "generated_at": "2026-06-19T19:05:35.559Z",
+  "skill_md_sha256": "36703dd1f51e04c247a7fa5baa97ea1da8cb48cf53dfacd4615048b4a59c44ef"
+}

@@ -1,0 +1,47 @@
+{
+  "skill_name": "hf-concept",
+  "notes": "Structural + gradable gates, graded by skill-creator's grader. hf-concept writes prose (01-concept.md), not pixels — there is NO media-judge dimension here (the rendered-frame quality is graded downstream by hf-render). The structural gates check the artifact exists at the right path, totals 100+ words, and covers all 6 dimensions with valid hex + wired-set fonts; the gradable gate checks the concept is specific and coherent (not generic). Assumes context.md exists in the project (written by onboarding). Derived from 1-requirements.md JTBD-1 (base-concept row, [structural]) and the creative-output base-concept requirement; the coherence dimension also serves JTBD-4 (restyle keeps subject/facts).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "teaser-base-concept-all-6-dims",
+      "prompt": "Write the base concept for the api-rate-limit-teaser project: a 15-second launch teaser for our API rate-limiting feature, aimed at backend developers.",
+      "files": [],
+      "expectations": [
+        "writes exactly to artifacts/api-rate-limit-teaser/01-concept.md (the phase-1 path)",
+        "the six dimension sections together total at least 100 words",
+        "all 6 dimensions are present and labelled: Subject, Composition, Style/Aesthetic, Color Palette, Typography, Mood/Atmosphere",
+        "the Color Palette section lists 2-4 colors plus a neutral, each with a valid hex code (e.g. #0E1116) and a one-line rationale",
+        "the Typography section names a display face AND a text face drawn only from the wired set (Inter, Outfit, Anton, Fraunces, Space Grotesk) — no Google/CDN font",
+        "the Subject is specific: it names the audience (backend developers) and a single takeaway, not a generic 'promo'",
+        "any value defaulted because context.md was thin is listed under a 'Defaults applied' note and stated back to the user"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "data-video-concept-fixes-look-not-data",
+      "prompt": "Create the base concept for the q4-revenue project — turn our quarterly revenue into a data-viz growth-story video for investors.",
+      "files": [],
+      "expectations": [
+        "writes artifacts/q4-revenue/01-concept.md with all 6 dimensions present and at least 100 words across them",
+        "the Composition is a named system suited to data (e.g. full-bleed data canvas / one figure focal at a time) with a stated focal hierarchy",
+        "the Typography notes tabular-nums for counters/columns and pairs a wired-set display + text face",
+        "the concept fixes the LOOK only — it does NOT invent specific revenue figures (facts come later in script/storyboard), and it says so or simply omits numbers",
+        "the palette reserves the accent for the growth metric and gives each color a hex"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "specific-and-coherent-not-generic",
+      "prompt": "Draft the base concept for the calm-onboarding-explainer project: a 30-second calm product-onboarding explainer for new SaaS users, neutral brand (no brand kit on file).",
+      "files": [],
+      "expectations": [
+        "writes artifacts/calm-onboarding-explainer/01-concept.md covering all 6 dimensions, 100+ words",
+        "because no brand kit is on file, it applies the documented neutral default kit (background #0E1116, text #F5F6F8, accent #5B8CFF; Outfit + Inter) and lists those under 'Defaults applied'",
+        "the Mood is calm AND maps to motion (gentle eases, long holds, soft transitions) rather than being a bare adjective",
+        "the concept reads as a single coherent direction (the style, palette, typography, and mood reinforce one another) and resolves choices instead of offering a menu",
+        "the Subject names the audience (new SaaS users) and the takeaway; nothing in the concept invents a fact, color, or font outside the resolved kit"
+      ]
+    }
+  ]
+}
