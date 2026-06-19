@@ -1,0 +1,47 @@
+{
+  "name": "hf-assets",
+  "version": "v1.0.0",
+  "description": "Prepare visual source assets for a HyperFrames composition. Cuts the background out of a subject/product/logo image via ai-gen (fal-ai/bria/background/remove) into a transparent cutout, and ingests a brand site or screen with hyperframes capture (screenshots + extracted design tokens + downloaded assets). Use during the asset-prep phase before hf-build, whenever the storyboard calls for a subject cutout/matte, a product shot on transparency, or captured brand frames/screenshots. Local and keyless (ai-gen via the SL8 proxy; capture via the pinned Chrome) — no HeyGen cloud, lambda, or auth.",
+  "inputs": [
+    {
+      "name": "source-image",
+      "type": "image",
+      "required": false,
+      "description": "A readable PNG/JPG/WebP to background-remove (a subject, product shot, or logo). Required for a cutout; omit if only capturing."
+    },
+    {
+      "name": "capture-url",
+      "type": "text",
+      "required": false,
+      "description": "A website/brand/screen URL to ingest with hyperframes capture. Required for a capture; omit if only cutting out."
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "required": true,
+      "description": "The active project slug — outputs land under artifacts/<project-name>/assets/. From state.md/context.md, never invented."
+    },
+    {
+      "name": "out-name",
+      "type": "text",
+      "required": false,
+      "description": "Output stem for a cutout (assets/cutouts/<out-name>.png) or folder slug for a capture (assets/captures/<slug>/). Default = the source image basename / the URL host."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "cutouts",
+      "type": "png",
+      "path": "artifacts/<project-name>/assets/cutouts/<out-name>.png",
+      "description": "Transparent-background matte (RGBA PNG) of the subject/product/logo, ready to layer in the composition."
+    },
+    {
+      "name": "captures",
+      "type": "x-dir",
+      "path": "artifacts/<project-name>/assets/captures/<slug>/",
+      "description": "Captured brand frames (screenshots/*.png + contact-sheet.jpg) plus extracted design tokens (palette/fonts/text) and any downloaded site assets."
+    }
+  ],
+  "generated_at": "2026-06-19T19:06:22.093Z",
+  "skill_md_sha256": "5caab95ad0759921065b171436abe9e7490d29afafcc0d11a51b50bc5da23fc4"
+}
