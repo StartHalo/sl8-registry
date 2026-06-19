@@ -1,0 +1,44 @@
+{
+  "skill_name": "hf-assets",
+  "notes": "Structural gates (matte/capture files produced at the right paths) plus a light media-judge on the cutout/capture pixels, graded by skill-creator's grader. hf-assets PREPARES source assets — it background-removes an image via ai-gen (fal-ai/bria/background/remove → assets/cutouts/<name>.png) and ingests a site via hyperframes capture (→ assets/captures/<slug>/ with screenshots + extracted tokens). It never authors the composition (hf-build) or makes voiceover (hf-voiceover). The [media-judge] expectations are graded by the in-session model READING the produced PNGs, never the filename/size. ai-gen is keyless (sl8-animation runtime) and absent on host — if unreachable, the run records the failure in state.md and stops (no fabricated matte). Derived from 1-requirements.md JTBD-1 (subject/product cutouts + brand capture to theme the video) and JTBD-3 (subject matte for a social caption cut + optional background removal input).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "background-removal-produces-transparent-cutout",
+      "prompt": "Cut the background out of ~/uploads/founder.jpg for the launch-teaser project and save it as a cutout named founder.",
+      "files": [],
+      "expectations": [
+        "runs ai-gen run fal-ai/bria/background/remove --image ~/uploads/founder.jpg (the positional model id + --image input) — no HeyGen, no local ML weights",
+        "parses files[0].local_path from the ai-gen v2 JSON and fails cleanly if success:false or the file is missing",
+        "writes the matte to artifacts/launch-teaser/assets/cutouts/founder.png as an RGBA PNG (alpha channel present)",
+        "[media-judge] the cutout shows the subject cleanly isolated on a transparent background — no leftover background fill, no obvious halo, no hard-cropped subject",
+        "reports the resolved cutout path and notes that the work was keyless via the ai-gen proxy"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "capture-site-produces-frames-and-tokens",
+      "prompt": "Capture acme.com for the launch-teaser project so we can match its brand look, slug acme.",
+      "files": [],
+      "expectations": [
+        "runs hyperframes capture \"https://acme.com\" with --json and a max-screenshots cap (positional URL, local Chrome, no auth)",
+        "parses ok + projectDir from the capture JSON and fails cleanly on ok:false",
+        "copies at least one screenshot PNG plus the contact-sheet into artifacts/launch-teaser/assets/captures/acme/screenshots/",
+        "copies the extracted design tokens (extracted/tokens.json with palette colors + fonts) into artifacts/launch-teaser/assets/captures/acme/extracted/",
+        "[media-judge] the captured contact-sheet / screenshots are real, non-blank frames of the requested page (not an error page or blank canvas)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "missing-source-records-failure-no-fabrication",
+      "prompt": "Cut out the product shot at ~/uploads/missing-product.png for the launch-teaser project.",
+      "files": [],
+      "expectations": [
+        "detects that the source image is missing/unreadable before calling ai-gen",
+        "records the failure in state.md and stops cleanly — it does NOT prompt the user",
+        "does NOT fabricate or substitute a cutout; no file is written to assets/cutouts/",
+        "the message names the missing source path so the user knows exactly what to provide"
+      ]
+    }
+  ]
+}
