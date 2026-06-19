@@ -75,7 +75,7 @@ clean front view, not a multi-pose sheet.
 
 | Order | Model | fal slug | Role | Notes |
 |---|---|---|---|---|
-| 1 | Nano Banana Pro | `fal-ai/nano-banana-pro` | primary sheet + hero | best identity + text/no-text control; `--aspect-ratio` + `--resolution` + `--ref` (≤14 refs) |
+| 1 | Nano Banana Pro | `fal-ai/nano-banana-pro` | primary sheet + hero | best identity + text/no-text control; `--aspect-ratio` + `--ref` (≤14 refs); renders at model-default resolution (no `--resolution` flag — see quirks) |
 | 2 | GPT Image 2 | `openai/gpt-image-2` | fallback 1 | Thinking Mode; ≤16 refs; "no text" gotcha is strongest here |
 | 3 | Nano Banana 2 | `fal-ai/nano-banana-2` | fallback 2 | cheaper Flash sibling; fixed-seed 5-person consistency; `--ref` supported |
 
@@ -92,9 +92,11 @@ incident" — don't.
 
 - **Reference-capable** — `--ref <path|url>` (≤14 image refs) carries the locked figure.
   Local paths and hosted URLs both work (the CLI uploads locals via fal storage).
-- **Takes `--aspect-ratio`** (one-of incl. `16:9`) plus a **`--resolution` preset**
-  (`1K`/`2K`/`4K`, default `1K`). The skill defaults the sheet to `2K` for a crisp,
-  inspectable turnaround; `1K` is fine for drafts. The hero can stay `1K`/`2K`.
+- **Takes `--aspect-ratio`** (one-of incl. `16:9`). The model *has* a `1K`/`2K`/`4K`
+  resolution parameter, but the ai-gen CLI does **not** expose a `--resolution` flag for it
+  — Test 2026-06-19 showed passing `--resolution` makes nano-banana-pro exit non-zero and
+  the chain skip the primary. So `gen-image.sh` passes NO resolution flag; every model
+  renders at its own default (16:9 was crisp at default in the Step-0 PoC).
 - **Positive framing only** (Gemini image models break on negation) — but "no text in the
   image" is the one sanctioned constraint the recipes keep, because it reliably suppresses
   the printed-name failure. Phrase the rest of the prompt positively (e.g. "clean neutral
@@ -142,7 +144,7 @@ The command shape `gen-image.sh` issues (same flags to all three models):
 
 ```bash
 ai-gen image "<prompt>" -m fal-ai/nano-banana-pro \
-  --aspect-ratio 16:9 --resolution 2K \
+  --aspect-ratio 16:9 \
   --ref <inputs/ref.png|url> --seed 7777 \
   -o <artifacts/<project>> --format json --max-cost 80
 ```

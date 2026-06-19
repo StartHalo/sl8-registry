@@ -167,12 +167,14 @@ attempt_model() {
   local args=(image "$PROMPT" -m "$model" -o "$OUT_DIR" --format json)
   # All three models take aspect_ratio (none of them want the -s size preset).
   args+=(--aspect-ratio "$ASPECT")
-  # nano-banana-pro additionally takes a resolution preset (1K/2K/4K). Forward it only
-  # to that model; if a model that doesn't accept it ever receives it, it just falls
-  # through to the next (the runtime-confirm fall-through contract).
-  case "$model" in
-    *nano-banana-pro*) if [ -n "$RESOLUTION" ]; then args+=(--resolution "$RESOLUTION"); fi ;;
-  esac
+  # Resolution: the ai-gen CLI does NOT accept a --resolution flag for the bible-chain
+  # models. Test 2026-06-19 proved nano-banana-pro REJECTS `--resolution` as an unknown
+  # option (exit non-zero) and the whole chain fell through to nano-banana-2 — i.e. the
+  # PRIMARY model was skipped on every run by this one flag. So we do NOT forward
+  # --resolution; every model renders at its own default (16:9 was crisp at default in the
+  # Step-0 PoC, where nano-banana-pro ran with just --aspect-ratio). The arg is still
+  # accepted for forward-compat but intentionally ignored.
+  : "${RESOLUTION:-}"  # accepted-but-ignored (see note above)
   # Reference images: ALL THREE models in this chain consume them (the character lock
   # survives a fallback here, unlike BOT-013's ref-blind diffusion fallbacks). The exact
   # --ref flag name for gpt-image-2 is runtime-confirm; a model that rejects it falls

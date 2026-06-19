@@ -123,7 +123,7 @@ From the spec, take **verbatim**:
 Resolve the optional inputs (defaults applied silently, headless):
 - **views** → default `front view, three-quarter view, side profile, back view`
 - **aspect-ratio** → default `16:9`
-- **resolution** → default `2K`
+- **resolution** → accepted but **ignored** (Test 2026-06-19: the ai-gen CLI rejects `--resolution` for the bible-chain models and the whole chain fell through, skipping the primary; each model now renders at its own default — 16:9 was crisp at default in the Step-0 PoC)
 
 ### 2. Compose the turnaround prompt (frozen blocks VERBATIM + A1 instruction)
 
@@ -151,7 +151,7 @@ Pass the spec's reference image as `--ref` when it is a path (not `none`):
 ```bash
 scripts/gen-image.sh work/<project-name>/prompt-sheet.txt \
   artifacts/<project-name> reference-sheet.png \
-  --seed <spec seed> --aspect-ratio <aspect> --resolution <resolution> \
+  --seed <spec seed> --aspect-ratio <aspect> \
   --ref <spec reference image, if a path> --max-cost 80
 ```
 
@@ -168,7 +168,7 @@ in the image.") + the aspect ratio. Pass the same `--ref` and the **same seed**:
 ```bash
 scripts/gen-image.sh work/<project-name>/prompt-hero.txt \
   artifacts/<project-name> hero.png \
-  --seed <spec seed> --aspect-ratio <aspect> --resolution <resolution> \
+  --seed <spec seed> --aspect-ratio <aspect> \
   --ref <spec reference image, if a path> --max-cost 80
 ```
 
