@@ -6,6 +6,14 @@ All notable changes to the `bot-016-reference-sheet` skill.
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-19
+### Fixed
+- `gen-image.sh` no longer forwards `--resolution` to the bible chain. Test 2026-06-19 showed the
+  ai-gen CLI rejects `--resolution` for `fal-ai/nano-banana-pro` (exit non-zero), which made the
+  chain skip the PRIMARY model on every run and fall through to `nano-banana-2`. Every model now
+  renders at its own default (16:9 was crisp at default in the Step-0 PoC). SKILL.md + `references/nbp-dialect.md`
+  updated to match (the arg is accepted-but-ignored for forward-compat).
+
 ## [v1.0.0] — 2026-06-19
 ### Added
 - Initial release (BOT-016 Full Build). JTBD-2, phase 2: read the locked `character-spec.md` and

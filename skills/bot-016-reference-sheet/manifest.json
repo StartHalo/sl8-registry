@@ -1,6 +1,6 @@
 {
   "name": "bot-016-reference-sheet",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turns a locked character-spec.md into the visual half of a character bible — a multi-view turnaround reference sheet (front / three-quarter / side / back, ONE consistent identity) plus a clean front hero portrait usable as an i2v start frame, then records every asset's model, seed, full prompt, fallbacks, and fal.media URL in a generation log. Pastes the spec's STYLE_STACK + CHARACTER_BLOCK VERBATIM into every prompt, walks the pinned image-model fallback chain, passes the reference image on every call, and self-checks the pixels. Use for phase 2 (turnaround) of a character-bible project, or whenever asked to generate a turnaround / reference sheet / hero portrait from a character spec.",
   "inputs": [
     {
@@ -48,6 +48,6 @@
       "path": "artifacts/<project-name>/generation-log.md"
     }
   ],
-  "generated_at": "2026-06-19T20:08:33.094Z",
-  "skill_md_sha256": "42e541ca537e2707ddf035ed0641255652e63d25c10b81ff79840d1c25d48b98"
+  "generated_at": "2026-06-19T20:40:08.765Z",
+  "skill_md_sha256": "12c2c7e72899ef8d1b90ca09b3f4fbe96544ca708905d0476cdd7910444388a2"
 }
