@@ -1,0 +1,30 @@
+{
+  "skill_name": "hf-validate",
+  "notes": "Structural gate, graded by skill-creator's grader. hf-validate runs lint (strict 0-error gate) + headless-seek snapshot and writes 05-validation.md. It must PASS a clean composition (frames captured) and BLOCK a composition with lint errors. Assumes a composition/ authored by hf-build. Derived from 1-requirements.md JTBD-1..4 (the 0-errors-before-render gate) and the non-functional 'composition lints with 0 errors before render'.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "clean-composition-passes-with-frames",
+      "prompt": "Validate the composition for the api-rate-limit-teaser project, snapshotting one frame per scene.",
+      "files": [],
+      "expectations": [
+        "runs hyperframes lint and records errorCount 0 in artifacts/api-rate-limit-teaser/05-validation.md",
+        "captures one key-frame PNG per requested timestamp into artifacts/api-rate-limit-teaser/snapshots/ (plus contact-sheet.jpg)",
+        "05-validation.md ends with a PASS verdict naming the error/warning counts and the captured-frame paths",
+        "[media-judge] the captured frames are real and legible (not blank/black) — the headline and key facts are visible, text is inside the safe zone, and the concept palette/fonts are applied"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "lint-errors-block-the-render",
+      "prompt": "Validate the broken-overlap project whose composition has two clips overlapping on the same track.",
+      "files": [],
+      "expectations": [
+        "hyperframes lint reports at least one error (e.g. overlapping_clips_same_track); the strict gate fails",
+        "05-validation.md ends with a BLOCKED verdict that names the error code(s) and does NOT claim the project is render-ready",
+        "no full render is attempted; the verdict routes the fix back to hf-build",
+        "the script exits non-zero on the blocked composition"
+      ]
+    }
+  ]
+}
