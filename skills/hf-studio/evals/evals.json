@@ -1,0 +1,54 @@
+{
+  "skill_name": "hf-studio",
+  "notes": "End-to-end ORCHESTRATOR evals, graded by skill-creator's grader. hf-studio walks the full 7-phase chain (concept->script->storyboard->voiceover->build->validate->render) by running each granular hf-* skill's scripts and reading their artifacts — it does NOT re-implement them. Two gate types: STRUCTURAL (every phase artifact 01-05 + composition/ + the MP4 + 06-summary.md present at its artifacts/<project>/ path; validate PASSED before render) and [media-judge] (the in-session model READS exports/frames/*.png or the MP4 and judges the pixels — never the filename/size). Derived from 1-requirements.md JTBD-1 (default brief->narrated MP4), JTBD-2 (data-viz numbers match), JTBD-3 (caption cut), JTBD-4 (re-entry on frozen facts). Assumes an onboarded project (context.md) and the sl8-animation runtime (Node 22 + hyperframes + pinned Chrome).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "brief-to-narrated-mp4-end-to-end",
+      "prompt": "Make a 15-second teaser for our API rate-limit feature, aimed at developers, in 16:9.",
+      "files": [],
+      "expectations": [
+        "walks the full chain and writes every phase artifact under artifacts/api-rate-limit-teaser/: 01-concept.md, 02-script.md, 03-storyboard.md, 04-timing.json (+ assets/vo/*.wav), composition/, 05-validation.md, and exports/<name>-16x9.mp4",
+        "hf-validate reported PASS (0 lint errors) BEFORE the render ran (05-validation.md shows the PASS verdict); the composition was never rendered unvalidated",
+        "the final exports/<name>-16x9.mp4 is a verified H.264 video at 1920x1080 with a non-zero duration; key frames were extracted to exports/frames/",
+        "[media-judge] the rendered frames are legible and faithful to the brief: the headline + key facts are present, readable, high-contrast, inside the safe zone (no clipping/overlap); nothing on screen is invented",
+        "[media-judge] the video is on-brand (the 01-concept.md palette + display/text fonts are applied, not generic defaults), composed (clear hierarchy, edge-anchored, not a centered single element), and the motion shows varied easing + a real scene transition (a wipe/flash/iris), not flat cross-fades",
+        "06-summary.md records the resolved parameters (voice, style/concept, palette hex, fonts, AR, quality, music) and any fallback taken; no HeyGen cloud/lambda/auth was used"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "multi-aspect-export-safe-zones",
+      "prompt": "Produce the api-rate-limit teaser in both 16:9 and 9:16.",
+      "files": [],
+      "expectations": [
+        "produces two verified MP4s — exports/<name>-16x9.mp4 (1920x1080) and exports/<name>-9x16.mp4 (1080x1920) — recognizing that the portrait AR is a RE-AUTHORED composition (root re-set to 1080x1920 in hf-build), not a --resolution flag",
+        "[media-judge] each export is safe-zone-correct for its aspect ratio: the headline and key facts are not clipped at the edges in either the landscape or the portrait frame",
+        "[media-judge] the two cuts carry the SAME facts (the on-screen text/numbers match across ARs); both are legible and on-brand"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "csv-to-data-video-numbers-match",
+      "prompt": "Turn this quarterly-revenue CSV into a 16:9 data video.",
+      "files": [],
+      "expectations": [
+        "routes to the data front-end (JTBD-2): the storyboard maps the quarterly series to data-viz blocks (a counter and/or bar-racer/ring) and hf-build binds the EXACT input values; writes all phase artifacts + a verified exports/<name>-16x9.mp4",
+        "[media-judge] the numbers shown in the rendered frames exactly match the input quarterly figures (no fabricated or rounded-away values) and the digits do not jitter (tabular-nums)",
+        "[media-judge] the data-viz animates (a counter and/or a bar/ring fills) and the final figures are correct and legible"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "restyle-reentry-frozen-facts",
+      "prompt": "Now make the api-rate-limit teaser 9:16 and bolder.",
+      "files": [],
+      "expectations": [
+        "re-enters the chain at phase 5 (build) — re-authoring composition/ to a 1080x1920 root with the bolder concept fonts — and does NOT re-run script (the facts did not change)",
+        "02-script.md and 03-storyboard.md are byte-identical to their prior versions (facts frozen)",
+        "writes a new exports/<name>-9x16.mp4 (1080x1920) ALONGSIDE the prior 16:9 export (nothing overwritten); 06-summary.md gains a dated revision note naming the change",
+        "[media-judge] the 9:16 cut is recognizably bolder (heavier display type) yet the on-screen headline text and numbers are identical to the original 16:9 render; legible and safe-zone-correct at vertical"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "name": "hf-studio",
+  "version": "v1.0.0",
+  "description": "The all-in-one orchestrator for Motion Studio — take a plain-language brief (or data, or an existing clip) and produce a finished, on-brand MP4 by walking the full 7-phase production chain (concept then script then storyboard then voiceover then build then validate then render). It runs each granular hf-* skill's scripts in order and reads their numbered artifacts; it does NOT re-implement them. Use this as the DEFAULT entry point for \"make me a video / explainer / data video / social cut\" requests, and for re-entry on a finished project (restyle, re-voice, re-render) on frozen upstream facts. Local and keyless — no HeyGen cloud, lambda, or auth.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "text",
+      "required": true,
+      "description": "The video request — a plain-language brief/script/topic, a source URL, a data file (CSV/JSON), or an existing media clip path. This sets which JTBD front-end the chain starts with."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = the onboarding/context default, else 16:9."
+    },
+    {
+      "name": "voice",
+      "type": "text",
+      "required": false,
+      "description": "A Kokoro voice id (e.g. am_michael, af_nova) for the voiceover. Default = the context default voice."
+    },
+    {
+      "name": "music",
+      "type": "text",
+      "required": false,
+      "description": "on or off — whether to add a background music bed. Default = the context default, else off."
+    },
+    {
+      "name": "quality",
+      "type": "text",
+      "required": false,
+      "description": "draft | standard | high — the render quality. Default draft for previews; standard for the final deliverable."
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "required": false,
+      "description": "Output file stem for the MP4s (exports/<name>-<ar>.mp4). Default = the project slug."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "concept",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/01-concept.md",
+      "description": "The 6-dimension base concept (subject, composition, style, palette+hex, typography, mood) produced by hf-concept."
+    },
+    {
+      "name": "script",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/02-script.md",
+      "description": "The beat-structured VO + on-screen text (provenance-faithful) produced by hf-script."
+    },
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/03-storyboard.md",
+      "description": "Per-beat blocks / transitions / track layout + frame ranges produced by hf-storyboard."
+    },
+    {
+      "name": "timing",
+      "type": "json",
+      "path": "artifacts/<project-name>/04-timing.json",
+      "description": "Word-level voiceover timestamps produced by hf-voiceover (alongside assets/vo/*.wav)."
+    },
+    {
+      "name": "composition",
+      "type": "html",
+      "path": "artifacts/<project-name>/composition/",
+      "description": "The lint-clean HyperFrames project authored by hf-build (vendored GSAP + system fonts + scenes)."
+    },
+    {
+      "name": "validation",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/05-validation.md",
+      "description": "The lint + snapshot pass/block report produced by hf-validate (plus key frames in snapshots/)."
+    },
+    {
+      "name": "videos",
+      "type": "video",
+      "path": "artifacts/<project-name>/exports/<name>-<ar>.mp4",
+      "description": "One verified, on-brand H.264 MP4 per requested aspect ratio — the finished deliverable, rendered by hf-render."
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/06-summary.md",
+      "description": "The run summary hf-studio writes — the resolved parameters (voice, style, palette, ARs), per-phase artifact paths, and any fallback taken."
+    }
+  ],
+  "generated_at": "2026-06-19T19:06:45.837Z",
+  "skill_md_sha256": "34d33136834bb3f3702213b3605230c9df74f8cc158d3d5d56ce051429074f83"
+}
