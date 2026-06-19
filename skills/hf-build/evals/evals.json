@@ -1,0 +1,45 @@
+{
+  "skill_name": "hf-build",
+  "notes": "Structural + contract gates, graded by skill-creator's grader. hf-build authors the composition; it does NOT render (that is hf-render). The gates check that the project lints with 0 errors and honors the composition contract, and that on-screen text is faithful to the upstream storyboard. Assumes 01-concept.md + 03-storyboard.md (and optionally 04-timing.json) already exist in the project. Derived from 1-requirements.md JTBD-1 (composition row), JTBD-2 (data-viz), JTBD-4 (restyle / fact preservation).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "build-from-storyboard-lints-clean",
+      "prompt": "Build the composition for the api-rate-limit-teaser project from its storyboard.",
+      "files": [],
+      "expectations": [
+        "scaffolds artifacts/api-rate-limit-teaser/composition/ from the bundled hf-template (assets/gsap.min.js and assets/fonts.css are present; index.html exists)",
+        "`npx --yes hyperframes@0.6.112 lint` on the composition reports 0 errors (a single gsap_studio_edit_blocked warning is acceptable)",
+        "the root div has data-composition-id, numeric data-width, data-height, and data-duration; exactly one paused gsap.timeline is registered on window.__timelines",
+        "every timed element carries class=\"clip\" plus data-start/data-duration/data-track-index; no two clips on the same track overlap or share a boundary",
+        "GSAP loads from the vendored ./assets/gsap.min.js (no cdn.jsdelivr / unpkg / googleapis URL anywhere in the composition); font-family declarations use literal family names, not var()",
+        "the composition contains no Math.random, Date.now, performance.now, or repeat: -1",
+        "on-screen text matches the storyboard/script beats (no invented facts or numbers)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "data-viz-values-bound-exactly",
+      "prompt": "Build the data-viz composition for the q4-revenue project (4 quarterly figures) from its storyboard.",
+      "files": [],
+      "expectations": [
+        "the composition lints with 0 errors and includes a data-viz scene (counter and/or bar) per the storyboard",
+        "the numeric values rendered in the markup exactly equal the input quarterly figures from 03-storyboard.md (no rounded-away or fabricated numbers)",
+        "animated numbers use a proxy-object counter written into a tabular-nums element (no digit jitter); bars animate via a transform (scaleX), not by animating width",
+        "at least 3 distinct GSAP eases are used across the scenes and every element has an entrance"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "restyle-preserves-facts",
+      "prompt": "Restyle the api-rate-limit-teaser composition to a bolder, darker look at 9:16 (1080x1920) without changing the message.",
+      "files": [],
+      "expectations": [
+        "re-authors composition/ in place (or re-scaffolds with --force); the root is now 1080x1920 and still lints with 0 errors",
+        "the on-screen headline text and any numbers are byte-identical to the prior version (facts unchanged on a restyle)",
+        "the palette/typography changed toward the requested bolder/darker direction (different accent and/or heavier display font) while the contract still holds",
+        "02-script.md and 03-storyboard.md are unchanged (a restyle re-runs build only, never the script)"
+      ]
+    }
+  ]
+}
