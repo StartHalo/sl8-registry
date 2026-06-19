@@ -1,0 +1,44 @@
+{
+  "skill_name": "bot-016-consistency-check",
+  "_comment": "Tier-1 objective gates derived from JTBD-3 (1-requirements.md). The grade is on the PIXELS: visual expectations are graded by the grader READING reference-sheet.png (keyless in-session vision), never from filenames, the spec text, or the generation log. Each project folder ships a locked character-spec.md + reference-sheet.png the skill consumes.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run the consistency check and package the bible for the project vyre. Its character-spec.md and reference-sheet.png are already in artifacts/vyre/.",
+      "expected_output": "artifacts/vyre/consistency-check.md — a per-trait verdict for every spec token graded against the sheet pixels, an overall 0-10 identity-consistency score, and an explicit pass or regenerate recommendation. artifacts/vyre/character-bible.md — a manifest indexing the spec, sheet, hero, and generation log with their paths, the seed, and a downstream-use paragraph.",
+      "files": [],
+      "expectations": [
+        "artifacts/vyre/consistency-check.md exists and contains a per-trait verdict that names EACH identity token from character-spec.md (face, hair, eyes, outfit/props, palette) and marks each one consistent, drift, or absent",
+        "artifacts/vyre/consistency-check.md states an overall identity-consistency score as a single number out of 10",
+        "artifacts/vyre/consistency-check.md states an explicit verdict of exactly 'pass' or 'regenerate'",
+        "the per-trait verdicts in consistency-check.md match what reference-sheet.png actually shows across its views — each token marked consistent really is the same across the views, each drift really differs in some view (verified by viewing the image)",
+        "artifacts/vyre/character-bible.md exists and indexes character-spec.md, reference-sheet.png, hero.png, and generation-log.md, each with its path",
+        "artifacts/vyre/character-bible.md states the fixed seed (read from character-spec.md) and a paragraph on downstream use naming hero.png as the front-frame, reference-sheet.png as the identity reference, and CHARACTER_BLOCK as the tokens"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run the consistency check and package the bible for the project drifty. Its reference-sheet.png in artifacts/drifty/ changes the character's hair between the front and side views; character-spec.md locks the hair token.",
+      "expected_output": "consistency-check.md flags the drifting hair trait, scores the sheet below 7/10, recommends a targeted regenerate that keeps the same seed and tightens only the hair token (not a synonym), and the verdict is 'regenerate'.",
+      "files": [],
+      "expectations": [
+        "consistency-check.md marks the hair trait as drift, citing the specific difference between the views (verified by viewing reference-sheet.png)",
+        "the overall identity-consistency score is below 7 out of 10 and the verdict is 'regenerate'",
+        "the regenerate instruction reuses the SAME seed from character-spec.md (unchanged) and names exactly ONE tightened token — the drifting hair token, sharpened to be more specific rather than replaced with a synonym",
+        "the run does NOT rubber-stamp the sheet as pass despite the visible drift"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Run the consistency check and package the bible for the project solid. Its reference-sheet.png in artifacts/solid/ holds one consistent character across all four views and matches character-spec.md.",
+      "expected_output": "consistency-check.md scores the sheet at or above 7/10 with a 'pass' verdict and no fabricated drift; character-bible.md is assembled indexing every artifact.",
+      "files": [],
+      "expectations": [
+        "consistency-check.md scores the sheet at or above 7 out of 10 with a verdict of 'pass' (verified by viewing reference-sheet.png — the character genuinely holds across the views)",
+        "no trait is falsely marked drift or absent — every token the sheet actually holds is marked consistent (the grade does not invent problems to look thorough)",
+        "the regenerate-instruction section records no regenerate (the pass case), and no re-run of phase 2 is recommended",
+        "character-bible.md is written, indexing character-spec.md, reference-sheet.png, hero.png, and generation-log.md with paths, the seed, and the downstream-use paragraph"
+      ]
+    }
+  ]
+}

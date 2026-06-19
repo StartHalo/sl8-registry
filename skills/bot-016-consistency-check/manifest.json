@@ -1,0 +1,35 @@
+{
+  "name": "bot-016-consistency-check",
+  "version": "v1.0.0",
+  "description": "Vision-grade a character turnaround sheet against its locked spec and package the portable character bible. READS the reference-sheet PNG (keyless in-session vision), scores each trait token against the actual pixels, gives an overall 0-10 identity-consistency score with an explicit pass/regenerate verdict, then assembles character-bible.md — a manifest indexing every bible artifact (spec, sheet, hero, log) with paths, the seed, and a one-paragraph downstream-consumption handoff. Use as phase 3 (check-package) of a character-bible project, whenever asked to consistency-check a turnaround sheet, verify a character bible holds one identity, or package the bible for the downstream director bots.",
+  "inputs": [
+    {
+      "name": "reference-sheet",
+      "type": "png",
+      "description": "artifacts/<project-name>/reference-sheet.png — the multi-view turnaround written by phase 2; the pixels graded in this phase (missing → clean recorded failure, never grade from the filename)",
+      "required": true
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "description": "artifacts/<project-name>/character-spec.md — the locked trait tokens, seed, palette, and frozen blocks written by phase 1; the contract every trait verdict is graded against (missing → clean recorded failure)",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "consistency-check",
+      "type": "markdown",
+      "description": "Per-trait verdict (each spec token graded against the sheet pixels), an overall 0-10 identity-consistency score, and an explicit pass or regenerate recommendation with the single tightened token if it regenerates",
+      "path": "artifacts/<project-name>/consistency-check.md"
+    },
+    {
+      "name": "character-bible",
+      "type": "markdown",
+      "description": "The portable bible manifest — indexes every bible artifact (spec, sheet, hero, generation log, consistency check) with its path, states the seed, and carries the fixed one-paragraph downstream-consumption handoff",
+      "path": "artifacts/<project-name>/character-bible.md"
+    }
+  ],
+  "generated_at": "2026-06-19T20:08:44.769Z",
+  "skill_md_sha256": "74b5bf9e149a4b4b18d30543764f60bc3ab97c4ddeb6f88d7462ffaa58f9e74d"
+}
