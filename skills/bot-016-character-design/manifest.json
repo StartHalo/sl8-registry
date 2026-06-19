@@ -1,0 +1,47 @@
+{
+  "name": "bot-016-character-design",
+  "version": "v1.0.0",
+  "description": "Turn a character brief into a locked, verbatim trait-lock spec — 5-7 distinctive identity tokens in face→hair→eyes→outfit/props order, a fixed integer seed, a named palette with reasoning, and a frozen STYLE_STACK + CHARACTER_BLOCK — written into character-spec.md, the fleet interface every downstream director bot parses. This is THE bible step; identity drift downstream is caused by skipping it or by paraphrasing a locked token. Run as phase 1 of every BOT-016 character project, right after onboarding, whenever character-spec.md is missing or fails validate-spec.sh, or when asked to lock, re-lock, or refine a character's identity. Do this BEFORE any image is generated.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "description": "artifacts/<project-name>/context.md — the character brief (text description and/or a reference-image path). Absence is a recorded failure, never an invented character.",
+      "required": true
+    },
+    {
+      "name": "reference-image",
+      "type": "image",
+      "description": "An uploaded reference image cited in context.md (e.g. inputs/ref.png). Copied into artifacts/<project-name>/inputs/ and recorded as the PRIMARY identity anchor; tokens reinforce it. Default — none (text-only spec).",
+      "required": false
+    },
+    {
+      "name": "style-preference",
+      "type": "text",
+      "description": "Art style / render / lighting / camera look for the STYLE_STACK, from context.md. Default — \"cinematic concept-art realism, photorealistic render, dramatic rim light\".",
+      "required": false
+    },
+    {
+      "name": "seed",
+      "type": "text",
+      "description": "Fixed generation seed (integer as text), reused across every asset in the project. Default — 7777. Recorded in character-spec.md so phases 2-3 use the same one.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "description": "The locked character bible spec — Identity Tokens (5-7 verbatim, face→hair→eyes→outfit/props order), Seed (one integer), Palette (named + reasoning), frozen STYLE_STACK + CHARACTER_BLOCK, Reference image, Provenance, Downstream use. The stable contract BOT-017/BOT-018 parse by fixed section name.",
+      "path": "artifacts/<project-name>/character-spec.md"
+    },
+    {
+      "name": "reference-image-copy",
+      "type": "png",
+      "description": "Only written when context.md supplies a reference image — the uploaded reference copied into the project so downstream phases carry the same primary anchor. Absent for text-only briefs.",
+      "path": "artifacts/<project-name>/inputs/ref.png"
+    }
+  ],
+  "generated_at": "2026-06-19T20:08:10.636Z",
+  "skill_md_sha256": "3364f2ab8ac547b6107b6e64d7461461f28d099838bdcc2f60523d19c70be179"
+}

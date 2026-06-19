@@ -1,0 +1,34 @@
+{
+  "skill_name": "bot-016-character-design",
+  "_comment": "Tier-1 objective gates derived from JTBD-1 (1-requirements.md). Graded by skill-creator's grader into grading.json {text,passed,evidence}. The structural floor is scripts/validate-spec.sh (token count, face->hair->eyes ordering, single-integer seed, non-empty frozen blocks, all contract sections, and the byte-identical CHARACTER_BLOCK no-synonym lock); these expectations add the semantic gates that a reader of the file can verify. No regex assertions — discipline is checked by reading character-spec.md.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Lock the character bible spec for the project vyre-darkelf. Brief: a dark-elf warrior, matte-black skin with a violet cast, silver-white braided hair, glowing violet eyes, obsidian-and-crimson lamellar armor, a jagged scar across the left cheekbone. No reference image. Cinematic dark-fantasy look.",
+      "expected_output": "artifacts/vyre-darkelf/character-spec.md — a validated character spec in the contract shape: 5-7 verbatim Identity Tokens ordered face -> hair -> eyes -> outfit/props, exactly one integer Seed (7777 default), a named Palette with one line of reasoning, a frozen STYLE_STACK and a frozen CHARACTER_BLOCK whose comma-joined tokens are byte-identical to the token list, a Reference image line of 'none', and Provenance and Downstream use sections.",
+      "files": [],
+      "expectations": [
+        "artifacts/vyre-darkelf/character-spec.md exists and scripts/validate-spec.sh exits 0 on it",
+        "the Identity Tokens section lists 5-7 distinctive trait tokens, with the first three keyed face, hair, eyes (in that order) and an outfit/props token present",
+        "the Seed section contains exactly one integer and nothing else",
+        "the Palette section names a palette and gives one line of reasoning tied to the character's traits",
+        "STYLE_STACK is a single non-empty double-quoted line carrying only style/render/lighting/camera (no identity tokens), and CHARACTER_BLOCK is a single non-empty double-quoted line carrying only the identity tokens (no style words)",
+        "every comma-separated token inside CHARACTER_BLOCK appears byte-identical as a token value in the Identity Tokens list (no-synonym discipline: no token is paraphrased between the list and the block)",
+        "all eight contract sections are present in order (Identity Tokens, Seed, Palette, STYLE_STACK, CHARACTER_BLOCK, Reference image, Provenance, Downstream use), the Reference image line reads 'none', and no image was generated"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Lock the character bible spec for the project coffee-mascot. Brief: a friendly robot mascot for a coffee app. (Deliberately sparse — face, hair, and outfit are unspecified.)",
+      "expected_output": "artifacts/coffee-mascot/character-spec.md — the sparse brief is filled to at least 5 distinctive tokens by adding neutral, on-genre defaults, with every invented token flagged in a 'Defaults applied' note; otherwise a fully valid spec (one integer seed, named palette with reasoning, frozen STYLE_STACK + CHARACTER_BLOCK that pass the no-synonym byte-identity check, all contract sections).",
+      "files": [],
+      "expectations": [
+        "artifacts/coffee-mascot/character-spec.md exists and scripts/validate-spec.sh exits 0 on it",
+        "the spec reaches at least 5 distinctive Identity Tokens by adding neutral defaults for the unspecified face/hair/outfit, rather than emitting fewer than 5 tokens or inventing exotic detail not implied by the brief",
+        "a 'Defaults applied' note (in or alongside Provenance) explicitly flags every invented neutral default so the creator can refine it",
+        "the Seed defaults to a single integer (7777) and the Palette names a coffee-appropriate palette with one line of reasoning",
+        "CHARACTER_BLOCK tokens are byte-identical to the Identity Tokens list and no real brand or trademarked mascot appears anywhere in the spec"
+      ]
+    }
+  ]
+}
