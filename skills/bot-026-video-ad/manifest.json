@@ -1,0 +1,71 @@
+{
+  "name": "bot-026-video-ad",
+  "version": "v1.0.0",
+  "description": "Turn an approved packshot or hero still into a short 9:16 product video ad with ONE tasteful slow camera move and in-pass audio, holding the product identity stable. The reachable image-to-video models have NO geometry lock, so identity is held by a strict-product motion prompt (one slow safe move only, name what stays stable, no extra text) and a BLOCKING video-qc vision pass that confirms the clip shows the REAL input product with a stable logo before any variant fan-out or paid spend. Seedance 2.0 image-to-video is primary (multi-shot, in-pass dual-channel audio, the start frame via --image); Kling 3.0 standard is the logo-stays-sharper alternative (needs start_image_url). Aggressive camera moves melt geometry and are auto-substituted with safe ones. Use for phase 1 (the base clip) of a product-video-ad project, or whenever asked to make a product video ad, animate a packshot, turn a product photo into a TikTok or Reels or Shorts clip, or fan out ad-test video variants.",
+  "inputs": [
+    {
+      "name": "hero",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<project>/inputs/hero.<jpg|png> — the approved packshot / hero still that is the image-to-video START FRAME and the identity ground-truth every clip is QC'd against. Ideally the compliant hero from the product-photo sibling bot. A missing hero is a clean recorded failure, never an invented product from text."
+    },
+    {
+      "name": "product-name",
+      "type": "text",
+      "required": false,
+      "description": "Short product name/description for the motion prompt (e.g. a matte black water bottle), from context.md. Used only to anchor the prompt and the QC judge — never to invent detail the hero does not show. Default — inferred from the hero and recorded as an assumption."
+    },
+    {
+      "name": "engine",
+      "type": "text",
+      "required": false,
+      "description": "Which i2v engine — seedance (primary, multi-shot + in-pass audio), seedance-fast (cheaper tier), or kling (logo-stays-sharper alt). Default seedance."
+    },
+    {
+      "name": "move",
+      "type": "text",
+      "required": false,
+      "description": "One SAFE camera move — push-in, subtle orbit, gentle pull-out, soft light sweep, or static. Aggressive moves (fast, whip-pan, crash-zoom, shake) are auto-substituted with the closest safe move and the substitution is recorded. Default push-in."
+    },
+    {
+      "name": "variants",
+      "type": "text",
+      "required": false,
+      "description": "How many ad-test variants to fan out after the base clip PASSES video-qc, changing exactly one variable each. Default 0 (base clip only). Fan-out only happens after the base clip passes QC."
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Clip length in seconds (Seedance 4-15, Kling 3-15). Default 5 — short clips drift less and cost less."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "base-clip",
+      "type": "video",
+      "path": "artifacts/<project>/01-ad/base.mp4",
+      "description": "The 9:16 product video ad — one slow safe camera move, in-pass audio, the real product with a stable logo. Downloaded from files[0].local_path (fal URLs expire). Never auto-published."
+    },
+    {
+      "name": "variants-set",
+      "type": "video",
+      "path": "artifacts/<project>/01-ad/NN-<variant>.mp4",
+      "description": "Optional ad-test variants, each changing one variable (camera move / lighting / multi-shot), each generated only after the base clip passed video-qc and each itself passed the blocking video-qc. Drifted variants are dropped/flagged, never shipped."
+    },
+    {
+      "name": "video-qc",
+      "type": "markdown",
+      "path": "artifacts/<project>/01-ad/video-qc.md",
+      "description": "The blocking vision compare of every clip vs the input hero (product identity, logo/label stability, motion safety/no-artifacts, audio), per-clip verdict (pass / drift-dropped / low-confidence-human-review) with reasons. The gate that precedes any fan-out or spend."
+    },
+    {
+      "name": "video-manifest",
+      "type": "json",
+      "path": "artifacts/<project>/01-ad/video-manifest.json",
+      "description": "Per-clip record emitted by gen-video.sh (out, engine, model, prompt_file, note_file, gen_ok, has_audio, variant, needs_qc). The list the bot reads to run the blocking video-qc on every clip."
+    }
+  ],
+  "generated_at": "2026-06-20T18:15:00.134Z",
+  "skill_md_sha256": "ffe37b58a47203f624bb3878e9c61301bc4876089ba879a7fb482efc9301f840"
+}
