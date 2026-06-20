@@ -133,7 +133,7 @@ scripts/gen-edit.sh \
   artifacts/<listing>/inputs/<room>.jpg \
   artifacts/<listing>/03-restyle/<room>-restyle.jpg \
   --model fal-ai/nano-banana-pro --fallback fal-ai/qwen-image-edit \
-  --aspect landscape_4_3 --max-cost 60 --resolution 2K --work work/restyle
+   --max-cost 60 --resolution 2K --work work/restyle
 ```
 
 **(b) finish-swap** — one named element only. Parameterize the named element; the tail
@@ -146,7 +146,7 @@ scripts/gen-edit.sh \
   artifacts/<listing>/inputs/<room>.jpg \
   artifacts/<listing>/03-restyle/<room>-finish-swap.jpg \
   --model fal-ai/nano-banana-pro --fallback fal-ai/qwen-image-edit \
-  --aspect landscape_4_3 --max-cost 60 --resolution 2K --work work/restyle
+   --max-cost 60 --resolution 2K --work work/restyle
 ```
 
 **(c) renovation-concept** — a fixer "after" that implies a not-yet-real condition.
@@ -161,7 +161,7 @@ layout and lighting unchanged; realistic PBR textures. \
   artifacts/<listing>/inputs/<room>.jpg \
   artifacts/<listing>/03-restyle/<room>-renovation-concept.jpg \
   --model fal-ai/nano-banana-pro --fallback fal-ai/qwen-image-edit \
-  --aspect landscape_4_3 --max-cost 60 --resolution 2K --work work/restyle
+   --max-cost 60 --resolution 2K --work work/restyle
 ```
 
 `resolution=2K` is a POSITIONAL nano-banana-only param (there is no `--resolution`

@@ -23,7 +23,7 @@
 # Usage:
 #   gen-edit.sh <prompt> <source-image (jpg|png|url)> <out.jpg> \
 #     [--model fal-ai/nano-banana-pro] [--fallback fal-ai/qwen-image-edit] \
-#     [--aspect landscape_4_3] [--max-cost 60] [--resolution 2K] [--work work/edit]
+#     [--aspect 16:9|9:16|1:1] [--max-cost 60] [--resolution 2K] [--work work/edit]
 #
 # Exit:
 #   0  edit written to <out.jpg> (model id printed to stdout as "<model>\t<out>")
@@ -52,7 +52,8 @@ PROMPT=$1; SRC=$2; OUT=$3; shift 3
 
 MODEL="fal-ai/nano-banana-pro"
 FALLBACK=""
-ASPECT="landscape_4_3"
+ASPECT=""            # empty = omit --aspect-ratio (preserve the SOURCE framing — best for
+                     # geometry preservation). Valid values if set: 16:9 | 9:16 | 1:1.
 MAX_COST="60"
 RESOLUTION="2K"
 WORK="work/edit"
@@ -107,7 +108,10 @@ attempt() {
   # Build the arg array. resolution=2K is POSITIONAL and only for nano-banana (qwen carries
   # the source resolution itself and may reject an unknown positional).
   local args=(image "$PROMPT" -m "$model" --image "$SRC" -o "$WORK"
-              --format json --aspect-ratio "$ASPECT" --max-cost "$MAX_COST")
+              --format json --max-cost "$MAX_COST")
+  # Only force an aspect-ratio when explicitly requested; default omits it so the model
+  # preserves the SOURCE framing (forcing a ratio would crop/pad and harm geometry).
+  [[ -n "$ASPECT" ]] && args+=(--aspect-ratio "$ASPECT")
   case "$model" in
     *nano-banana*) args+=("resolution=${RESOLUTION}") ;;
   esac
@@ -115,6 +119,9 @@ attempt() {
   err "attempt: ai-gen ${args[*]}"
   if ! ai-gen "${args[@]}" >"$gen_json" 2>"$log"; then
     err "model $model failed/unreachable — see $log"
+    err "--- $model error (tail) ---"
+    tail -n 6 "$log" >&2 2>/dev/null || true
+    err "--- end error ---"
     return 1
   fi
   local raw; raw="$(first_local_path <"$gen_json" || true)"

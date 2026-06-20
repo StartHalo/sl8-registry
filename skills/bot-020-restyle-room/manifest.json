@@ -1,6 +1,6 @@
 {
   "name": "bot-020-restyle-room",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Restyle a dated real-estate room, swap a single finish/material, or render a fixer-upper \"after\" renovation concept (fal-ai/nano-banana-pro, --image) — keeping the room's layout, walls, windows, doors, ceiling and camera exactly, changing only decor/finishes. One change per turn, the original re-fed each turn; every edit passes a BLOCKING geometry-QC against the unaltered original. Restyle/finish-swap lean \"better, not different\"; a renovation \"after\" is inherently different and MUST carry the conspicuous \"Conceptual rendering — not the current condition\" label. Every altered image is routed through the shared disclosure-stamp skill. Use for the 'restyle' phase, or whenever asked to \"restyle this room\", \"new cabinets/finishes\", \"change the floor/paint\", or \"show the renovated / after version\".",
   "inputs": [
     {
@@ -48,6 +48,6 @@
       "description": "The disclosure-stamp output set (stamped render + original/altered pair + disclosure-assets.md with the MLS remark + AB-723 line). Produced by the shared disclosure-stamp skill — the mandatory final step on every altered render."
     }
   ],
-  "generated_at": "2026-06-20T18:11:45.781Z",
-  "skill_md_sha256": "578ae634ebe9715965dc4b6f6233fe4fe7553410a76f4906685147395f189194"
+  "generated_at": "2026-06-20T18:28:48.453Z",
+  "skill_md_sha256": "08c216ec543b7ba0c7991698385d4b8abaab7b30aafb12ee3d245148e377fe11"
 }
