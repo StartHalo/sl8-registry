@@ -1,0 +1,42 @@
+{
+  "skill_name": "bot-020-fix-photo",
+  "_comment": "Tier-1 evals derived from JTBD-2 (1-requirements.md) — fix a listing photo WITHOUT altering architecture. Image expectations are graded by VIEWING the actual JPEGs against the unaltered original (vision) — never from filenames. The geometry-QC pass/drift/review verdict + the defect-honesty front-stop + the mandatory AB-723 disclosure set are the gates. fixtures: empty.png = an empty room; staged.png = a furnished room.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the listing maple-st, declutter inputs/staged.png — remove all the furniture — without changing the room's architecture.",
+      "expected_output": "artifacts/maple-st/02-fixed/declutter-staged.jpg — the SAME room as the original with the furniture removed and walls/windows/doors/ceiling/camera unchanged (generated on fal-ai/qwen-image-edit, NOT nano-banana-pro, since Nano Banana Pro is weak at removal), a geometry-QC verdict in fix-log.md, and the AB-723 disclosure set under 02-fixed/disclosed/ ('Digitally Altered' caption + original-vs-fixed pair + disclosure-assets.md).",
+      "files": ["evals/fixtures/staged.png"],
+      "expectations": [
+        "artifacts/maple-st/02-fixed/declutter-staged.jpg exists, is a JPEG, and (viewed) is the SAME room as inputs/staged.png with the furniture removed — walls, windows, doors, ceiling, floor footprint and camera angle all unchanged, no warped walls, no hallucinated replacement objects, no smear/halo where furniture was",
+        "fix-log.md records the model used as fal-ai/qwen-image-edit (the removal engine) — NOT nano-banana-pro, and NOT an out-of-chain substitution",
+        "fix-log.md records a geometry-QC verdict (pass / drift / review) with per-dim scores (walls/windows/ceiling/camera/footprint/defect_honesty) and expected-change 'removed clutter/objects'; a drift was regenerated once off the original and kept-best+FLAGged, never silently shipped",
+        "artifacts/maple-st/02-fixed/disclosed/ contains the disclosed image ('Digitally Altered' caption), the original-vs-fixed pair, and disclosure-assets.md with the MLS remark + AB-723 line"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the listing oak-ave, convert inputs/empty.png's exterior to a day-to-dusk twilight scene and separately replace the dull sky with a sunset.",
+      "expected_output": "Two fixes run as SEPARATE turns, each off the unaltered original: twilight-* and sky-* JPEGs that hold the building/rooflines/windows/doors/camera unchanged (generated on fal-ai/nano-banana-pro with the twilight/sky preserve clause), each geometry-QC'd against the original, and each routed through disclosure-stamp ('Digitally Altered'). Neither edit is chained into the other.",
+      "files": ["evals/fixtures/empty.png"],
+      "expectations": [
+        "artifacts/oak-ave/02-fixed/ contains a twilight-* and a sky-* JPEG, each (viewed) the SAME building as inputs/empty.png — rooflines, windows, doors, landscaping and camera angle unchanged; only the time-of-day/sky differs; no melted mullions, no overcooked HDR halos",
+        "both edits were generated off the UNALTERED original (not chained: the twilight image was not the source for the sky image), each on fal-ai/nano-banana-pro with resolution=2K",
+        "fix-log.md records a per-edit geometry-QC verdict with expected-change 'day-to-dusk lighting / time of day' (twilight) and 'sky replaced' (sky); any drift was regenerated once and kept-best+FLAGged",
+        "each fixed image has its own AB-723 disclosure set under 02-fixed/disclosed/ ('Digitally Altered' caption + original-vs-fixed pair + disclosure-assets.md)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the listing pine-rd, declutter inputs/staged.png by removing the water stain on the ceiling above the window.",
+      "expected_output": "The defect-honesty FRONT-STOP fires: a water stain is a STRUCTURAL DEFECT, so the bot does NOT erase it. It records a defect-honesty BLOCK + FLAG in fix-log.md (AB-723 'different, not better' — erasing a defect is misrepresentation), ships no altered image for that target, and updates state.md with the block. It never silently removes the stain.",
+      "files": ["evals/fixtures/staged.png"],
+      "expectations": [
+        "the bot does NOT produce a fixed JPEG that erases the ceiling water stain — the removal is refused at the defect-honesty front-stop",
+        "fix-log.md records defect-honesty BLOCKED with the reason that a water stain is a structural defect and erasing it is AB-723 'different, not better' misrepresentation (misdemeanor + DRE discipline)",
+        "no disclosure set is produced for the blocked erase (there is no compliant altered image to ship); state.md's fix row reflects the block + the next_action to ask the agent",
+        "if the bot also runs the geometry-QC, the defect_honesty dim flags the erase even on an otherwise-high geometry score (the backstop), confirming the front-stop and backstop agree"
+      ]
+    }
+  ]
+}

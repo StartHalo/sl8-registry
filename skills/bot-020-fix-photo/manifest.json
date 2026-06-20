@@ -1,0 +1,53 @@
+{
+  "name": "bot-020-fix-photo",
+  "version": "v1.0.0",
+  "description": "Fix a real-estate listing photo WITHOUT altering the architecture — declutter / object-removal (remove furniture, cars, bins, clutter), day-to-dusk twilight, sky replacement, and exposure/HDR enhancement — one operation per turn, the original re-fed each turn so walls/windows/doors/ceiling/camera are provably unchanged. Removals route to fal-ai/qwen-image-edit (Nano Banana Pro is weak at removal); twilight/sky/enhance route to fal-ai/nano-banana-pro. Every edit passes a BLOCKING geometry-QC vs the unaltered original, a defect-honesty front-stop (NEVER erase a structural defect or permanent fixture — AB-723 \"different, not better\"), and a mandatory AB-723 disclosure stamp. Use for the 'fix' phase, or whenever asked to \"remove the clutter/cars/bins\", \"make this dusk/twilight\", \"swap the sky\", or \"brighten / enhance this listing photo\".",
+  "inputs": [
+    {
+      "name": "source-photo",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<listing>/inputs/<photo>.<jpg|png> — the unaltered listing photo to fix (interior or exterior). This is the geometry ground-truth re-fed every turn and re-attached for the geometry-QC compare and the AB-723 disclosure pairing. Missing/unreadable → clean recorded failure, never an invented room."
+    },
+    {
+      "name": "operation",
+      "type": "text",
+      "required": true,
+      "description": "ONE of declutter | twilight | sky | enhance. Exactly one operation per turn (single-change-per-turn SOP). Missing/unrecognized → clean recorded failure, do not guess."
+    },
+    {
+      "name": "removal-target",
+      "type": "text",
+      "required": false,
+      "description": "REQUIRED when operation=declutter — what to remove in plain words (e.g. 'the cars on the driveway and the rubbish bins', 'all the furniture'). MUST name movable clutter only; if it names a structural defect or permanent fixture the defect-honesty rule STOPS the erase. For non-declutter operations this is ignored. Default — none (declutter with no target is a clean recorded failure)."
+    },
+    {
+      "name": "preserve-note",
+      "type": "text",
+      "required": false,
+      "description": "Optional extra geometry/feature to call out explicitly in the preserve clause (e.g. 'keep the bay window and the fireplace exactly'). Default — the standard preserve clause from references/geometry-discipline.md only."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "fixed-image",
+      "type": "image",
+      "path": "artifacts/<listing>/02-fixed/<op>-<name>.jpg",
+      "description": "The fixed photo — same property/architecture as the original, only the intended change applied. Generated single-source off the unaltered original (declutter→qwen-image-edit; twilight/sky/enhance→nano-banana-pro), geometry-QC passed (or kept-best+FLAG), defect-honesty clean."
+    },
+    {
+      "name": "fix-log",
+      "type": "markdown",
+      "path": "artifacts/<listing>/02-fixed/fix-log.md",
+      "description": "Per-operation log: model used, prompt, the geometry-QC verdict (pass/drift/review) + per-dim scores, the defect-honesty decision, cost (balance delta), and any FLAG. The honesty record — drift is never silently shipped."
+    },
+    {
+      "name": "disclosed-set",
+      "type": "image",
+      "path": "artifacts/<listing>/02-fixed/disclosed/<name>-disclosed.jpg",
+      "description": "The AB-723 disclosure set from disclosure-stamp — the conspicuously-captioned image, the original↔fixed pair (<name>-pair.jpg), and disclosure-assets.md (MLS remark + AB-723 line). Every fix exits as a disclosed set, never a bare altered file."
+    }
+  ],
+  "generated_at": "2026-06-20T18:11:33.455Z",
+  "skill_md_sha256": "53ecf477f1858c4cd40b3422c9c973304e7cf4a0e751316b4e16952ac067dc71"
+}
