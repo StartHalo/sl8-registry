@@ -1,0 +1,53 @@
+{
+  "name": "disclosure-stamp",
+  "version": "v1.0.0",
+  "description": "Stamp the legally-required California AB-723 / MLS \"digitally altered\" disclosure onto a real-estate listing photo or video — a conspicuous on-media caption/watermark plus the ready-to-paste MLS remark, the AB-723 disclosure line, and an original+altered side-by-side pairing. Use this whenever a real estate agent has an AI-altered or digitally-edited listing image/video (virtual staging, twilight/dusk, sky replacement, decluttering, restyle, or a renovation-concept render) that will be published to the MLS, Zillow, a portal, or social — even if they don't say the word \"disclosure\" — because undisclosed altered listing media is a California AB-723 misdemeanor. Also use it as the shared disclosure step for any bot that produces altered listing visuals (it is the one stamping skill the photo-studio and video bots reuse).",
+  "inputs": [
+    {
+      "name": "media",
+      "type": "path",
+      "required": true,
+      "description": "the altered listing image (.png/.jpg/.webp) or video (.mp4/.mov) to disclose"
+    },
+    {
+      "name": "alteration_type",
+      "type": "enum",
+      "required": false,
+      "description": "one of: virtual-staging | twilight | sky | declutter | restyle | renovation-concept (default virtual-staging)"
+    },
+    {
+      "name": "original",
+      "type": "path",
+      "required": false,
+      "description": "the unaltered original (enables the AB-723 adjacent pairing)"
+    },
+    {
+      "name": "jurisdiction",
+      "type": "enum",
+      "required": false,
+      "description": "CA-AB723 (default) | CA-CRMLS | other"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "stamped_media",
+      "type": "file",
+      "path": "artifacts/<project-name>/disclosed/<name>-disclosed.jpg",
+      "description": "the media re-saved with the conspicuous disclosure caption"
+    },
+    {
+      "name": "disclosure_assets",
+      "type": "file",
+      "path": "artifacts/<project-name>/disclosed/disclosure-assets.md",
+      "description": "caption text + MLS remark + AB-723 line + pairing order"
+    },
+    {
+      "name": "pair",
+      "type": "file",
+      "path": "artifacts/<project-name>/disclosed/<name>-pair.jpg",
+      "description": "ORIGINAL+ALTERED side-by-side (when an original is supplied)"
+    }
+  ],
+  "generated_at": "2026-06-20T02:00:46.677Z",
+  "skill_md_sha256": "68e1c552e3212f63b19fd3666deab06ea7f6116b39655df0e77477472e504897"
+}
