@@ -1,0 +1,40 @@
+{
+  "skill_name": "bot-028-kling-cinematic",
+  "_comment": "Objective gates for the Kling per-shot render (JTBD-3, BOT-028). The episode.mp4 visual expectations are graded by the grader SAMPLING KEYFRAMES of the actual MP4 (media-judge) - never from filenames or text. Structural expectations are graded from the ffprobe output recorded in summary.md. Eval 1 supplies a complete shotlist.md plus small valid reference-sheet.png + hero.png stubs so the skill has real inputs; Test wiring MUST materialize the two PNGs (the bible images) before the run - every per-shot keyframe conditions on them. Eval 2 omits the bible images to prove the clean-failure path. NEVER hand-code regex - the grader judges the artifacts. This is the Kling sibling of bot-027-seedance-cinematic: per-shot Kling image-to-video + ffmpeg concat + an ADDED room-tone bed (NOT native audio); the summary must disclose that architecture honestly.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Render the cinematic for the project robot-meadow from its shotlist.md and character bible (reference-sheet.png + hero.png). Use the defaults.",
+      "expected_output": "artifacts/robot-meadow/episode.mp4 — a multi-shot cinematic assembled from per-shot Kling image-to-video clips (each started from a per-shot nano-banana-pro keyframe of the bible character), concatenated in shot order, with an ADDED room-tone ambient bed, in which the SAME character appears across every shot. ffprobe shows a video stream and an audio stream and a duration within +/-1s of the summed per-shot durations. Plus artifacts/robot-meadow/summary.md recording the per-shot keyframe model + the Kling slug actually used, the concat, the room-tone bed (stated as an added ambient bed NOT native audio), the verified duration + aspect, the cost basis (ai-gen estimate), and the architecture note.",
+      "files": [
+        {
+          "path": "artifacts/robot-meadow/shotlist.md",
+          "content": "# Shotlist: robot-meadow\n\nMulti-shot cinematic 3D-animated short, Pixar-style animation, bright cheerful color grading, soft warm lighting, shallow depth of field, polished render.\n@Image1 is the character turnaround reference and @Image2 is the hero reference for a small round friendly cartoon robot (glossy white and warm-orange rounded body, one big glowing cyan eye on a smooth screen face) — maintain the EXACT same character identity in every shot.\nA sunlit green meadow with wildflowers under a bright blue sky, a playful adventure.\n[0-5s]: wide establishing shot, gentle push-in, the little robot wakes up and stretches in the meadow, blinking its big cyan eye, morning light and floating pollen.\n[5-10s]: medium tracking shot, the robot chases a glowing butterfly through the wildflowers, stubby legs pumping, joyful, petals scattering.\n[10-15s]: close-up, the robot lies in the grass looking up in wonder as the butterfly lands on its eye-screen, a warm happy moment.\nTotal: 15s / 3 shots / 16:9. Audio: whimsical playful orchestral score, gentle nature ambience, soft robotic chirps and a happy beep.\nMaintain character identity, avoid identity drift, avoid jitter, smooth animation, stable picture, no flicker.\n"
+        }
+      ],
+      "_note": "Test wiring MUST materialize artifacts/robot-meadow/reference-sheet.png and artifacts/robot-meadow/hero.png (small valid PNGs of the friendly robot, ideally from a real bible run) BEFORE this eval runs - every per-shot keyframe conditions on both as --ref. Without them the skill correctly records a clean failure (no episode), so the visual/structural expectations would be N/A.",
+      "expectations": [
+        "artifacts/robot-meadow/episode.mp4 exists and is a coherent multi-shot cinematic: the SAME character (the friendly glossy white-and-orange one-cyan-eye robot from the bible) is recognizable across every sampled shot - no identity drift between cuts (verified by sampling the video keyframes)",
+        "the sampled keyframes show the shot-list executed in order - an establishing wake-up, a chase through the meadow, and a close-up payoff - reading as a directed cinematic with shot variety and camera movement, not one static clip (verified by sampling the video keyframes)",
+        "ffprobe of episode.mp4 shows BOTH a video stream and an audio stream present, and a format duration within +/-1s of the summed per-shot durations (the verification output is recorded in summary.md)",
+        "summary.md records the per-shot keyframe model (fal-ai/nano-banana-pro, or the image-chain fallback that produced it) AND the Kling slug actually used (fal-ai/kling-video/v3/pro/image-to-video), the per-shot route (one keyframe + one Kling image-to-video call per shot), the ffmpeg concat, and a cost basis derived from ai-gen estimate (NOT the JSON credits_used field)",
+        "summary.md states clearly that the audio is an ADDED room-tone ambient bed, NOT native Kling audio, and carries the one-line architecture note that this is per-shot Kling image-to-video + ffmpeg concat - a different architecture from Seedance's single-pass native-audio render, scored head-to-head in the KB results-log"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Render the cinematic for the project no-bible from its shotlist.md. The character bible images (reference-sheet.png and hero.png) are missing.",
+      "expected_output": "The skill detects that the required bible reference images do not exist, records a clean failure in state.md naming the missing required input and routing back to phase 1 (character-bible), and produces no episode.mp4 and no fabricated/placeholder MP4.",
+      "files": [
+        {
+          "path": "artifacts/no-bible/shotlist.md",
+          "content": "# Shotlist: no-bible\n\nMulti-shot cinematic, dark-fantasy look, volumetric god rays, cinematic lighting, gritty textures.\n@Image1 is the character turnaround reference and @Image2 is the hero reference for a dark-elf rogue (matte black-violet skin, silver-white braided hair, glowing violet eyes) — maintain the EXACT same character identity in every shot.\nA ruined stone courtyard at dusk, a tense duel.\n[0-5s]: wide establishing shot, slow push-in, the dark elf draws a curved blade, rim light against the mist.\n[5-10s]: medium tracking shot, the elf lunges with a spinning strike, cloak billowing.\n[10-15s]: close-up, the elf stands victorious, rim light separating the figure from the mist.\nTotal: 15s / 3 shots / 16:9. Audio: epic orchestral score, sword impacts, wind, stone grinding.\nMaintain character identity, avoid identity drift, avoid jitter, smooth motion, stable picture, no flicker.\n"
+        }
+      ],
+      "expectations": [
+        "no episode.mp4 is produced for artifacts/no-bible/ (every per-shot keyframe conditions on the bible images and no MP4 was fabricated in their absence)",
+        "the missing required input (reference-sheet.png and/or hero.png) is recorded as a clean failure - state.md is marked blocked, names the missing file(s), and routes back to phase 1 (character-bible) - rather than silently skipped, worked around, or rendered without the references"
+      ]
+    }
+  ]
+}

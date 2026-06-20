@@ -1,0 +1,59 @@
+{
+  "name": "bot-028-kling-cinematic",
+  "version": "v1.0.0",
+  "description": "Render a validated cinematic shot-list into one episode.mp4 with the Kling 3.0 engine — for EACH numbered time-coded shot, generate a per-shot start keyframe with nano-banana-pro (the shot scene composed with the bible CHARACTER_BLOCK tokens, the reference-sheet + hero passed as refs so the SAME character appears), then run a Kling image-to-video call on that keyframe, uniform-normalize every clip and concat with ffmpeg, add a subtle room-tone ambient bed (Kling clips are silent — added, NOT native), and ffprobe-verify. This is per-shot Kling i2v + ffmpeg concat — a DIFFERENT architecture from the Seedance sibling's single-pass native-audio render, and the PRIMARY path here, not a fallback. Run as phase 3, after the shot-list, reading shotlist.md + reference-sheet.png + hero.png, whenever episode.mp4 is missing or a re-render is asked.",
+  "inputs": [
+    {
+      "name": "shotlist",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/shotlist.md — the validated cinematic shot-list (a header; the @Image1/@Image2 identity line; numbered time-coded [Xs-Ys] shots each with one camera move plus one action; a Total / Audio footer). Parsed for the shots, the aspect ratio, and the Audio line. Absence is a recorded failure; no MP4 is ever fabricated."
+    },
+    {
+      "name": "reference-sheet",
+      "type": "png",
+      "required": true,
+      "description": "artifacts/<project-name>/reference-sheet.png — the bible character turnaround sheet. Passed as a --ref into every per-shot keyframe so the SAME character recurs across shots. If missing on disk, route back to phase 1 (character-bible); never render without it."
+    },
+    {
+      "name": "hero",
+      "type": "png",
+      "required": true,
+      "description": "artifacts/<project-name>/hero.png — the bible hero portrait, the canonical look. Passed as a second --ref into every per-shot keyframe alongside the turnaround sheet. If missing on disk, route back to phase 1 (character-bible)."
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Total cinematic length in seconds as an integer in text form. Default is read from the shot-list time-codes; per-shot lengths come from each [Xs-Ys] span snapped to Kling granularity. Used only to cross-check the assembled total."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the keyframes, the Kling calls, and the normalize canvas. Default is read from the shot-list Total footer; common values are 16:9, 9:16, 1:1. Overrides the footer only when explicitly supplied."
+    },
+    {
+      "name": "tier",
+      "type": "text",
+      "required": false,
+      "description": "Cost posture, economy or quality. Default economy (a lower per-call cap; 720p). quality raises the per-call cap. Recorded in summary.md; affects only the credit cap, not the model slug."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<project-name>/episode.mp4",
+      "description": "The assembled cinematic — per-shot Kling image-to-video clips, each started from a per-shot nano-banana-pro keyframe carrying the bible character, uniform-normalized (24fps, aspect canvas, h264/yuv420p) and concatenated in shot order, with a subtle added room-tone ambient bed (NOT native audio). ffprobe-verified for a video stream, an audio stream, and a duration near the sum of shot durations."
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/summary.md",
+      "description": "An honest production log — per-shot keyframe model plus Kling slug, the concat, the room-tone bed (stated clearly as an added ambient bed, NOT native audio), the ffprobe verdict, and per-shot plus total cost via ai-gen estimate. Carries the one-line note that this is per-shot Kling i2v + ffmpeg concat, a different architecture from Seedance's single-pass native-audio render, scored head-to-head in the KB results-log."
+    }
+  ],
+  "generated_at": "2026-06-20T04:10:36.879Z",
+  "skill_md_sha256": "dbfff712866d1387ea84bb1c9f3ab0a1b56a362e0be8a4f3743b0fa643ffba51"
+}
