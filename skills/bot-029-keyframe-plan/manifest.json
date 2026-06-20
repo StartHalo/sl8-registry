@@ -1,0 +1,35 @@
+{
+  "name": "bot-029-keyframe-plan",
+  "version": "v1.0.0",
+  "description": "Turn a story brief into a validated keyframe plan that pins BOTH the first and last frame of every scene — a global style/look header, 5-7 frozen CHARACTER tokens (face/body/color/eyes/signature reused verbatim), a sequence of K+1 numbered KEYFRAME STATES (state 0..state K) each a full standalone image of the character in that exact pose/moment, and K continuity-chained SCENES where scene i animates state[i-1] into state[i] with one motion/transition line, closed by a Total / Audio footer. The character is SELF-CONTAINED in the keyframes (no separate bible). This is THE first-last-frame step; precise reveals, transformations, and morphs come from pinning before-and-after frames so the render only interpolates the motion between them. Run as phase 1 of every BOT-029 keyframe project whenever keyframe-plan.md is missing or fails validate-keyframe-plan.sh, or when asked to plan, re-plan, or rework a keyframe short. Pure-LLM; no generation, no network.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the story brief (the character, the transformation, the world, the genre). Absence is a recorded failure, never an invented story."
+    },
+    {
+      "name": "scene-count",
+      "type": "text",
+      "required": false,
+      "description": "Target number of scenes as an integer in text form; this is K. Default 4; valid 3-6. The plan then has K+1 keyframe states (state 0..state K) and K scenes; each scene is ~6s, so 4 scenes is ~24s."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the states, scenes, and footer. Default 16:9; common alternatives 9:16, 1:1, 21:9. Written into the Total footer verbatim so the render phase reads it back."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "keyframe-plan",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/keyframe-plan.md",
+      "description": "The keyframe plan — a"
+    }
+  ],
+  "generated_at": "2026-06-20T18:18:17.631Z",
+  "skill_md_sha256": "cd5e29ce4295bd7a03719185b5a5bd372d40bf5aa9dfed4ab3f0e1d4b5683d91"
+}

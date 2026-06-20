@@ -1,0 +1,47 @@
+{
+  "skill_name": "bot-029-keyframe-plan",
+  "_comment": "Tier-1 objective gates derived from the JTBD (the keyframe plan IS the render contract). Graded by skill-creator's grader into grading.json {text,passed,evidence}. Structural floor is scripts/validate-keyframe-plan.sh; these expectations add the semantic gates (the K+1-for-K state arithmetic, the continuity chain with no jump cuts, the verbatim frozen-token lock, the self-contained character, and the silent-clip audio disclosure). keyframe-plan.md is a TEXT output — no media judge needed.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write the keyframe plan for the project baby-dragon. context.md brief: a friendly baby dragon hatches from a glowing crystal egg in a mossy nest and takes its first joyful flight — the egg cracks, the dragon peeks out, climbs out and unfurls its wings, then lifts into a first hover. scene-count 4, aspect-ratio 16:9.",
+      "expected_output": "artifacts/baby-dragon/keyframe-plan.md — a validated keyframe plan: a ## Style header, 5-7 frozen ## Character tokens for a cute baby dragon, ## Keyframe States with 5 numbered standalone states (State 0 a glowing crystal egg in a mossy nest, State 1 the egg cracking with light spilling out, State 2 the dragon peeking from the shell, State 3 the dragon standing and unfurling its wings, State 4 the dragon lifting into a joyful hover), ## Scenes with 4 continuity-chained scenes (scene 1 state 0 -> state 1 ... scene 4 state 3 -> state 4) each with one motion/transition line, and a Total: 4 scenes, ~6s each, 16:9. Audio: ... footer disclosing an added ambient bed.",
+      "files": [],
+      "expectations": [
+        "artifacts/baby-dragon/keyframe-plan.md exists and scripts/validate-keyframe-plan.sh exits 0 on it",
+        "the ## Style header pairs a genre with concrete look words (a medium plus lighting plus a color/palette phrase) rather than the bare word 'cinematic' or 'epic'",
+        "the ## Character section lists 5-7 frozen trait tokens covering at least face, body, color, eyes, and a signature feature, and the character is a friendly stylized creature with no realistic identifiable human face",
+        "## Keyframe States contains exactly 5 numbered states (State 0 through State 4) numbered contiguously, each a full standalone image description of the dragon in that exact moment, and every frozen Character token text reappears verbatim across the state descriptions",
+        "## Scenes contains exactly 4 scenes, each declaring its continuity chain as 'state (i-1) -> state i' (scene 1 state 0 -> state 1, scene 2 state 1 -> state 2, scene 3 state 2 -> state 3, scene 4 state 3 -> state 4) with no skipped states, and each scene gives exactly one motion/transition describing how the earlier state becomes the later state",
+        "there are exactly K+1 states for K scenes (5 states for 4 scenes), the state sequence reads as a clean dormant-to-payoff transformation (closed egg -> cracking egg -> peeking -> standing+wings -> hovering) where each state has a visibly distinct silhouette (verified by sampling the planned keyframes)",
+        "the footer reads 'Total: 4 scenes, ~6s each, 16:9.' followed by an 'Audio:' clause that describes an ambient music bed and explicitly discloses it as an added ambient bed because the clips are silent"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write the keyframe plan for the project seedling-sprout using all defaults. context.md brief: a tiny smiling seed in dark soil sprouts, pushes up a green shoot, unfurls its first two leaves, and blooms into a cheerful little flower with a happy face. No scene-count or aspect-ratio given.",
+      "expected_output": "artifacts/seedling-sprout/keyframe-plan.md — a validated keyframe plan built on the documented defaults (scene-count 4, aspect-ratio 16:9): a ## Style header, 5-7 frozen ## Character tokens for the cute seed/sprout character, 5 numbered keyframe states walking seed -> shoot -> leaves -> bud -> bloom, 4 continuity-chained scenes, the Total: 4 scenes, ~6s each, 16:9. Audio: ... footer, and a ## Notes section recording that the defaults were applied.",
+      "files": [],
+      "expectations": [
+        "artifacts/seedling-sprout/keyframe-plan.md exists and passes scripts/validate-keyframe-plan.sh",
+        "the plan applies the documented defaults (scene-count 4 and aspect-ratio 16:9) and the footer reads 'Total: 4 scenes, ~6s each, 16:9.'",
+        "a ## Notes section records that the defaults (scene-count 4, aspect-ratio 16:9) were applied because those inputs were absent",
+        "there are 5 numbered keyframe states (State 0 through State 4) and 4 continuity-chained scenes, the states reuse the frozen Character tokens verbatim, and each scene declares its 'state (i-1) -> state i' chain with one motion/transition line",
+        "the character is fully self-contained in the keyframe states with no separate character-bible artifact referenced, and the footer's Audio clause discloses the bed as added because the clips are silent"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write the keyframe plan for the project robot-unfolds. context.md brief: a friendly cube-shaped toy robot starts folded into a sleeping cube on a workbench, then transforms — panels rotate out, arms and legs extend, its single eye lights up, and it stands fully unfolded with a cheerful wave. scene-count 5, aspect-ratio 9:16.",
+      "expected_output": "artifacts/robot-unfolds/keyframe-plan.md — a validated keyframe plan with 6 numbered keyframe states (State 0 the folded sleeping cube through State 5 the fully unfolded waving robot), 5 continuity-chained scenes animating each transformation step, frozen Character tokens reused verbatim, and a Total: 5 scenes, ~6s each, 9:16. Audio: ... footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/robot-unfolds/keyframe-plan.md exists and scripts/validate-keyframe-plan.sh exits 0 on it",
+        "there are exactly 6 numbered keyframe states (State 0 through State 5) for 5 scenes, satisfying the K+1-states-for-K-scenes rule, numbered contiguously from State 0",
+        "each of the 5 scenes declares its continuity chain 'state (i-1) -> state i' so consecutive scenes share an end/start frame with no jump cuts, and each scene describes exactly one transformation step (one panel/limb/eye change) rather than stacking multiple beats",
+        "the frozen Character tokens for the toy robot reappear verbatim in the state descriptions and the character is a friendly stylized robot with no realistic human face",
+        "the footer aspect ratio is 9:16, its scene count is 5 and equals the number of written scenes, and the Audio clause discloses an added ambient bed because the clips are silent"
+      ]
+    }
+  ]
+}
