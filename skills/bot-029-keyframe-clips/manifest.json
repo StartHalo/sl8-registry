@@ -1,0 +1,35 @@
+{
+  "name": "bot-029-keyframe-clips",
+  "version": "v1.0.0",
+  "description": "Render a pinned-keyframe journey into one episode.mp4 with Hailuo 02 first-last-frame control. Phase 2 (the RENDER engine); phase 1 wrote keyframe-plan.md with K+1 pinned states, K motion prompts, an aspect ratio, and an Audio line. For each state 0..K, generate a keyframe with nano-banana-pro carrying the FROZEN character tokens and chaining --ref state[i-1] so the SAME character carries; capture both the local png AND its hosted url. For each scene i, run Hailuo image-to-video that MORPHS state[i] into state[i+1] — --image is the start, end_image_url is the hosted url of the end keyframe — so START and END are both pinned. A failed scene falls back to a still segment from the two keyframes (never dropped); exit non-zero only if every scene fails. Then uniform-normalize, concat, ALWAYS add an ambient bed (Hailuo is silent), and ffprobe-verify. Run whenever episode.mp4 is missing or a re-render is asked; reads keyframe-plan.md.",
+  "inputs": [
+    {
+      "name": "keyframe-plan",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/keyframe-plan.md — the pinned-keyframe plan from phase 1. Carries a look header; a Character line (the FROZEN identity tokens); an Aspect ratio line; K+1 numbered pinned states (State 0..K, each a still description); K motion prompts (Motion 0..K-1, the camera and action between consecutive states); and an Audio line. Parsed for the states, the motion prompts, the aspect ratio, the character tokens, and the Audio line. Absence is a clean recorded failure; no MP4 is ever fabricated."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the keyframes, the Hailuo calls, and the normalize canvas. Default is read from the plan Aspect line; common values are 16:9, 9:16, 1:1. Overrides the plan only when explicitly supplied."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<project-name>/episode.mp4",
+      "description": "The assembled pinned-keyframe journey — per-scene Hailuo first-last-frame clips, each morphing one nano-banana-pro keyframe into the next (start AND end pinned), uniform-normalized at 24fps on the aspect canvas with h264 and yuv420p, concatenated in scene order, with a subtle added ambient room-tone bed (NOT native audio). ffprobe-verified for a video stream, an audio stream, and a duration near the sum of scene durations."
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/summary.md",
+      "description": "An honest production log — per-scene keyframe pair plus the Hailuo slug; the added ambient bed stated plainly as non-native; per-scene and total cost via ai-gen estimate; any still-segment fallback that stood in for a failed scene; and the note that this is precise first-last-frame control with a pinned START and a pinned END per scene."
+    }
+  ],
+  "generated_at": "2026-06-20T18:18:32.781Z",
+  "skill_md_sha256": "33bd6608c74430e74725b15fbc92b8b851478d57b08bb7e5c8dc5605c4b8a9db"
+}

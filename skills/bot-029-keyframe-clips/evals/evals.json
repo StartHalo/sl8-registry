@@ -1,0 +1,35 @@
+{
+  "skill_name": "bot-029-keyframe-clips",
+  "_comment": "Objective, regex-free gates for the phase-2 RENDER engine. The episode.mp4 visual expectations are graded by the grader SAMPLING KEYFRAMES of the actual MP4 (media-judge) - never from filenames or text. Structural expectations are graded from the ffprobe output recorded in summary.md. Eval 1 supplies a complete keyframe-plan.md (K+1 pinned states + K motion prompts + a Character line + an Aspect line + an Audio line) so the skill has a real plan to render; the skill itself generates the K+1 keyframes (it does NOT depend on pre-supplied images, unlike the Seedance/Kling siblings - the keyframes ARE produced here). NEVER hand-code regex - the grader judges the artifacts.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Render the pinned-keyframe journey for the project robot-morning from its keyframe-plan.md. Use the default aspect, scene duration, and resolution.",
+      "expected_output": "artifacts/robot-morning/episode.mp4 - a single pinned-keyframe journey in which the SAME character appears across every scene, the plan's states are executed in order via Hailuo first-last-frame morphs (each scene pinned on a start keyframe AND an end keyframe), an audio stream (the added ambient bed) is present, and the ffprobe duration is within +/-2s of the sum of the scene durations (3 scenes x 6s = 18s). Plus artifacts/robot-morning/summary.md recording, per scene, the start+end keyframe pair, the Hailuo slug, whether the scene rendered as a morph or a still-segment fallback, the added (non-native) ambient bed, the cost basis (ai-gen estimate), and the first-last-frame architecture note.",
+      "files": [
+        {
+          "path": "artifacts/robot-morning/keyframe-plan.md",
+          "content": "# Keyframe Plan: robot-morning\n\nA cinematic 3D-animated short, Pixar-style animation, bright cheerful color grading, soft warm lighting, shallow depth of field, polished render.\nCharacter: a small round friendly cartoon robot, glossy white and warm-orange rounded body, one big glowing cyan eye on a smooth screen face - maintain the EXACT same character identity across every state\nAspect ratio: 16:9\nAudio: whimsical playful orchestral score, gentle nature ambience, soft robotic chirps and a happy beep.\n\n## Pinned states\n\nState 0: the little robot is curled asleep in a sunlit green meadow at dawn, its cyan eye dark, dew on the wildflowers, soft morning mist.\nState 1: the robot's cyan eye flickers on and it lifts its head, blinking, the morning light warming its glossy white shell.\nState 2: the robot stands fully upright in the meadow and stretches its stubby arms, a glowing butterfly drifting into the frame.\nState 3: the robot reaches one stubby arm toward the butterfly, head tilted in wonder, petals floating around it.\n\n## Motion prompts\n\nMotion 0->1: slow push-in as the robot wakes, the cyan eye glowing to life, gentle dawn light spreading across the meadow.\nMotion 1->2: the robot rises and stretches, the camera tilts up with it, a glowing butterfly drifts into the frame.\nMotion 2->3: the robot reaches toward the butterfly, a slow dolly forward, joyful curiosity, petals floating.\n",
+          "_note": "K+1 = 4 states, K = 3 motion prompts -> 3 Hailuo first-last scenes. The skill generates all 4 keyframes itself (nano-banana-pro, chained --ref), so NO pre-supplied images are needed - this is the difference from the Seedance/Kling siblings whose render conditions on a pre-built bible. If the image or video models are unreachable, the skill records a clean failure (or still-segment fallbacks) and the visual/structural expectations are judged against whatever it honestly produced."
+        }
+      ],
+      "expectations": [
+        "artifacts/robot-morning/episode.mp4 exists and is a single coherent pinned-keyframe journey: the SAME character (the friendly glossy white-and-orange one-cyan-eye robot from the plan's Character line) is recognizable across every sampled scene - no identity drift between scenes (verified by sampling the video keyframes)",
+        "the sampled keyframes show the plan's states executed in order - asleep at dawn, eye waking, standing and stretching as a butterfly appears, reaching toward the butterfly - reading as a directed pinned-keyframe journey where each scene morphs from one composed state to the next, not one static clip (verified by sampling the video keyframes)",
+        "ffprobe of episode.mp4 shows BOTH a video stream and an audio stream present (the audio is the added ambient bed), and a format duration within +/-2s of the summed scene target (3 scenes x 6s = 18s); the verification output is recorded in summary.md",
+        "summary.md records, per scene, the start+end keyframe pair and the Hailuo slug (fal-ai/minimax/hailuo-02/standard/image-to-video) actually used, whether each scene rendered as a Hailuo morph or fell back to a still segment (and why), the verified duration and aspect, and a cost basis derived from ai-gen estimate (NOT the JSON credits_used field)",
+        "summary.md states plainly that the audio is an ADDED ambient bed derived from the Audio line and is NOT native Hailuo audio, and carries the first-last-frame note that each scene is pinned on a START keyframe AND an END keyframe (precise first-last-frame control) - the engine is never misreported and any still-segment fallback is disclosed, never silent"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Render the pinned-keyframe journey for the project no-plan. The keyframe-plan.md does not exist.",
+      "expected_output": "The skill detects that the required keyframe-plan.md does not exist, records a clean failure in state.md naming the missing required input and routing back to phase 1, and produces no episode.mp4 and no fabricated or placeholder MP4.",
+      "files": [],
+      "expectations": [
+        "no episode.mp4 is produced for artifacts/no-plan/ (the render conditions on keyframe-plan.md and no MP4 was fabricated in its absence)",
+        "the missing required input (keyframe-plan.md) is recorded as a clean failure - state.md is marked blocked, names the missing file, and routes back to phase 1 - rather than silently skipped, worked around, or rendered from an invented plan"
+      ]
+    }
+  ]
+}
