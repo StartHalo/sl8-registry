@@ -1,0 +1,44 @@
+{
+  "skill_name": "bot-019-compliance-audit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "audit-staged-no-disclosure-no-original",
+      "prompt": "I'm about to put this virtually-staged photo (fixtures/staged.png) on my California MLS listing. It has no caption and I haven't attached the original. Am I compliant?",
+      "expected_output": "A compliance-report.md that marks the staged photo FIX, cites AB-723 for (a) the missing conspicuous disclosure and (b) the missing/unpaired unaltered original, and lists both concrete fixes; OVERALL = FIX; nothing published.",
+      "files": ["fixtures/staged.png"],
+      "assertions": [
+        {"text": "compliance-report.md is produced", "type": "file_exists"},
+        {"text": "The staged photo is marked FIX (not PASS)", "type": "content"},
+        {"text": "The report cites AB-723 for a missing conspicuous disclosure", "type": "content"},
+        {"text": "The report flags the missing/unpaired unaltered original", "type": "content"},
+        {"text": "The report states it never publishes and is not legal advice", "type": "content"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "audit-compliant-pass",
+      "prompt": "Check this listing photo set for California AB-723 compliance. The altered file is fixtures/staged-disclosed.jpg (it already has a 'Virtually Staged' caption), its unaltered original is fixtures/empty.png, and I'll publish them adjacent in this order: empty.png, staged-disclosed.jpg.",
+      "expected_output": "A compliance-report.md that marks the altered photo PASS — disclosure present (vision), original present + adjacent + public, and the edit is 'better not different' (staging an empty room).",
+      "files": ["fixtures/staged-disclosed.jpg", "fixtures/empty.png"],
+      "assertions": [
+        {"text": "The altered photo is marked PASS", "type": "content"},
+        {"text": "The disclosure-present check passes via vision (caption is visible)", "type": "vision"},
+        {"text": "The original-pairing check passes (present + adjacent)", "type": "content"},
+        {"text": "The better-not-different judge returns BETTER for staging an empty room", "type": "content"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "audit-misrepresentation-different",
+      "prompt": "Audit this edit for compliance. fixtures/empty.png is the original; fixtures/staged.png is the edited version I want to post (treat any change that hides a defect or alters a permanent feature as a problem).",
+      "expected_output": "The better-not-different judge compares the two; if the edit only stages/decorates it returns BETTER, but the report explains the DIFFERENT criteria (hidden defects, changed dimensions, added/removed permanent features) and would FIX a misrepresentation.",
+      "files": ["fixtures/staged.png", "fixtures/empty.png"],
+      "assertions": [
+        {"text": "The report applies the better-not-different judge over the original/edited pair", "type": "content"},
+        {"text": "The report explains what would make an edit DIFFERENT/misrepresentation (defect-hiding, dimensions, permanent features)", "type": "content"},
+        {"text": "Defaults toward FIX/REVIEW rather than silently passing when uncertain", "type": "content"}
+      ]
+    }
+  ]
+}
