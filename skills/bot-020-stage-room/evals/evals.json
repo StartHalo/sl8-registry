@@ -1,0 +1,43 @@
+{
+  "skill_name": "bot-020-stage-room",
+  "_comment": "Tier-1 objective gates derived from JTBD-1 (1-requirements.md) + the geometry-discipline. Image expectations are graded by VIEWING the actual staged JPEG against the original room photo (vision) — never from filenames or text. The geometry-preserve and defect-honesty assertions require comparing the staged output to the original input (walls/windows/ceiling/camera/footprint unchanged; only furniture added; no defect erased). Fixtures: evals/fixtures/empty.png is an empty room; evals/fixtures/staged.png is a furnished room.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the listing maple-st, virtually stage the empty living room photo at inputs/livingroom.png in a modern style, geometry preserved.",
+      "expected_output": "artifacts/maple-st/01-staged/livingroom-staged.jpg — the SAME room as the original, now furnished in a modern style with the walls/windows/ceiling/camera/footprint unchanged; geometry-qc.md recording a per-axis pass (only furniture changed); and the disclosure set (disclosed/livingroom-staged-disclosed.jpg with a 'Virtually Staged' caption, livingroom-staged-pair.jpg original<->staged side-by-side, and disclosure-assets.md with the MLS remark + AB-723 line). The staged image is never shipped bare.",
+      "files": ["evals/fixtures/empty.png"],
+      "expectations": [
+        "artifacts/maple-st/01-staged/livingroom-staged.jpg exists, is a JPEG, and (viewed) is the SAME room as the original — same walls, windows, ceiling, floor footprint, and camera angle, with believable modern furniture added and nothing structural moved or invented",
+        "the staging used fal-ai/nano-banana-pro via gen-edit.sh (the original re-fed as --image / image_url), and the model that produced the asset is recorded",
+        "geometry-qc.md records a per-axis verdict (walls/windows/ceiling/camera/footprint/defect_honesty) against the unaltered original with --expected-change 'added furniture and decor / virtual staging', and a pass/drift/review verdict; any structural drift is FLAGGED, never silently shipped",
+        "the disclosed/ set exists: livingroom-staged-disclosed.jpg carries a conspicuous 'Virtually Staged' caption, livingroom-staged-pair.jpg is the original<->staged pair, and disclosure-assets.md has the MLS remark + AB-723 disclosure line (produced via the disclosure-stamp skill, --type virtual-staging)",
+        "the staged image never exits as a bare altered file — it always exits paired with its disclosure + preserved original"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the listing oak-ave, stage the empty bedroom at inputs/bedroom.png. The room has a visible water stain on the ceiling and an old radiator under the window.",
+      "expected_output": "A staged bedroom is delivered with furniture added in the default broad-appeal style, but the water stain and the radiator are NOT erased (AB-723 'better not different' / defect-honesty). geometry-qc.md FLAGS that staging must not hide the structural defect or remove the permanent fixture; if the generated result erased either, it is dropped/flagged, not shipped. The disclosure set is produced.",
+      "files": ["evals/fixtures/empty.png"],
+      "expectations": [
+        "artifacts/oak-ave/01-staged/bedroom-staged.jpg is produced with believable furniture added in a broad-appeal style, geometry preserved",
+        "the water stain on the ceiling and the radiator under the window are STILL VISIBLE (viewed) — staging added furniture but did NOT erase the structural defect or remove the permanent fixture",
+        "geometry-qc.md's defect_honesty dimension explicitly addresses the stain + radiator: if the generation erased either, the bot STOPS and FLAGS it (AB-723 better-not-different) and does not ship the 'cleaned' version",
+        "the disclosure set (disclosed/ with the 'Virtually Staged' caption, the original<->staged pair, and disclosure-assets.md) is produced; the unaltered original is preserved as the honesty anchor"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the listing pine-rd, stage this room at inputs/den.png in a farmhouse style — make sure the bay window stays exactly where it is.",
+      "expected_output": "A farmhouse-staged den where the bay window is unchanged in position, count, and size. The geometry-preserve clause holds the window; geometry-qc.py blocking-compares the staged image to the original and, if the window moved/was added/removed (drift, exit 4), the bot regenerates ONCE with the reinforced preserve clause then keeps-best + FLAGS the residual drift. The staged image is disclosed.",
+      "files": ["evals/fixtures/staged.png"],
+      "expectations": [
+        "artifacts/pine-rd/01-staged/den-staged.jpg is (viewed) the same room with farmhouse furniture added and the bay window unchanged — same position, same count, same size, none invented",
+        "geometry-qc.md's windows dimension confirms the bay window held against the original; if geometry-qc.py returned drift (exit 4), the bot regenerated ONCE with the reinforced geometry-preserve clause and recorded the keep-best + FLAG decision (never a silent ship)",
+        "the camera/framing/footprint also held (no re-perspective); only furniture changed",
+        "the disclosure set is produced via disclosure-stamp (--type virtual-staging): 'Virtually Staged' caption + original<->staged pair + disclosure-assets.md with the AB-723 line"
+      ]
+    }
+  ]
+}
