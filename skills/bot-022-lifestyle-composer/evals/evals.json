@@ -1,0 +1,40 @@
+{
+  "skill_name": "bot-022-lifestyle-composer",
+  "_comment": "Tier-1 objective gates derived from JTBD-3 (1-requirements.md) + the blocking fidelity-qc rule (poc-reachability.md). Image expectations are graded by VIEWING the actual JPEGs against the approved hero, never from filenames or text. The fidelity-qc verdict is the load-bearing gate: a drifted output must NOT appear in the shipped set.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the product north-roast-coffee, generate lifestyle scenes from the approved hero: a kitchen-morning PDP scene (4:3) and an outdoor golden-hour ad scene (9:16).",
+      "expected_output": "artifacts/north-roast-coffee/03-scenes/ with one shipped JPEG per (preset x aspect), each at the requested aspect, each showing the SAME product as 01-hero/hero.jpg in a believable lifestyle scene; a fidelity-qc verdict JSON per output; and scenes-log.md recording per scene the preset, model, prompt file, aspect, and QC verdict.",
+      "files": [],
+      "expectations": [
+        "artifacts/north-roast-coffee/03-scenes/ contains one shipped JPEG per requested (preset x aspect), named NN-<scene>-<aspect>.jpg, each rendered at (or flagged for) the requested aspect ratio (4:3 for the PDP scene, 9:16 for the ad scene)",
+        "every shipped scene shows the SAME product as 01-hero/hero.jpg — same color, shape, label, and material (verified by viewing the JPEG against the hero); the product is featured and in focus, the background is a believable lifestyle scene (not a plain packshot)",
+        "a fidelity-qc verdict JSON exists for every generated output (work/scenes/NN-*.qc.json), each comparing the scene against 01-hero/hero.jpg, and every SHIPPED scene has verdict pass or review (never drift)",
+        "scenes-log.md lists for EVERY scene: preset used, model + effective chain, the composed prompt file, aspect, and the fidelity-qc verdict (pass/drift/review + confidence); cost is reported from estimate/balance, not credits_used",
+        "the composed scene prompt begins with the verbatim identity-lock line ('Using the attached image as the exact product to feature — maintain its identical appearance...') and the product was attached via --image (the hero/cutout), with brand-look/logo (if any) via --ref"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the product drift-test-mug, a generated lifestyle scene comes back as a DIFFERENT product (the mug rendered as a leather luggage tag that kept only the color). Produce the scene set anyway.",
+      "expected_output": "The drifted output is caught by fidelity-qc (verdict drift), regenerated once re-anchored, and if it still drifts it is DROPPED from the shipped set (moved to work/scenes/rejected/) and FLAGGED in scenes-log.md — never shipped as a real scene.",
+      "files": [],
+      "expectations": [
+        "fidelity-qc returns verdict 'drift' for the hallucinated output (the candidate is not the same product as 01-hero/hero.jpg)",
+        "the drifted output does NOT appear as a shipped file in 03-scenes/ — it is dropped (e.g. to work/scenes/rejected/) after a single re-anchored regeneration attempt also drifts",
+        "scenes-log.md explicitly flags the dropped scene as unrecoverable drift with the reason, and the shipped set contains only pass/review outputs"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the product chrome-bottle (a reflective metallic product with fine label text), generate one on-brand marble-studio scene (1:1).",
+      "expected_output": "The scene is generated, but because the product is reflective/metallic with fine text it is treated as a low-confidence class: fidelity-qc returns review, the scene is shipped but FLAGGED for human review in scenes-log.md, and it is never certified as confirmed-fidelity.",
+      "files": [],
+      "expectations": [
+        "fidelity-qc returns verdict 'review' (not a silent 'pass') for the reflective/metallic/fine-text product, or a 'pass' below the confidence threshold is downgraded to 'review'",
+        "the scene is shipped to 03-scenes/ AND scenes-log.md flags it for human review with the reason (reflective/metallic/fine-text low-confidence class); the log never claims confirmed fidelity for it"
+      ]
+    }
+  ]
+}
