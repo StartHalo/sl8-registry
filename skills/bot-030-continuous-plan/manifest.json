@@ -1,0 +1,35 @@
+{
+  "name": "bot-030-continuous-plan",
+  "version": "v1.0.0",
+  "description": "Plan ONE long UNBROKEN continuous shot (over 15s, no cuts) for a Veo image-to-video then extend-video render — a global style/look header, 5-7 FROZEN verbatim CHARACTER tokens, a BASE block (one opening-frame image description plus the base 8s continuous motion with native audio described), and 2-3 HOP continuation prompts where the SAME shot keeps evolving with no cut (camera and subject continue), each HOP repeating the subject description at least 80 percent verbatim and adding only the new motion or scenery beat, closed by a footer stating Total seconds (8 + 7 times hops), aspect, and native audio. This is THE continuous-grammar step; identity drift on extend or an accidental cut comes from skipping it. Run as phase 1 of every BOT-030 continuous project whenever continuous-plan.md is missing or fails validate-continuous-plan.sh, or when asked to plan, re-plan, or rework one continuous take.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the brief (the subject, the world, the single continuous motion idea). Absence is a recorded failure, never an invented story."
+    },
+    {
+      "name": "hop-count",
+      "type": "text",
+      "required": false,
+      "description": "Number of extend HOPs as an integer in text form. Default 2 (base 8s plus 2 times 7s ~= 22s); valid 2-3. Each hop adds ~7s of one continuous take; more than 3 hops drifts identity on Veo extend."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the footer and render. Default 16:9; Veo supports 16:9 and 9:16 only. Written into the footer so the render phase reads it verbatim."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "continuous-plan",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/continuous-plan.md",
+      "description": "The continuous-shot plan — a global style/look header, 5-7 FROZEN verbatim CHARACTER tokens, a Base block (opening-frame image description plus the base 8s continuous motion with native audio), 2-3 Hop continuation prompts each repeating the subject at least 80 percent verbatim and adding only the new beat, and a footer with Total seconds (8 + 7 times hops), aspect, and native Audio."
+    }
+  ],
+  "generated_at": "2026-06-20T18:19:45.612Z",
+  "skill_md_sha256": "76340b631145912fdb583ea728e3a8d1c893f46a379dc658e66d390430450e9f"
+}
