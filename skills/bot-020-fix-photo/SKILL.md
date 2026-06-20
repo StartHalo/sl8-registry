@@ -93,7 +93,7 @@ Read, in this order:
 
 **Defaults for optional inputs:** `removal-target` — none (declutter without one is a
 recorded failure, above); `preserve-note` — the standard preserve clause only; aspect
-— inherit the source photo's aspect (exteriors are usually `landscape_4_3`); output
+— inherit the source photo's aspect (exteriors are usually `source aspect (omit --aspect to preserve it; valid: 16:9|9:16|1:1)`); output
 name — derived from the source filename.
 
 ## Step 0 — Reachability check (attempt, don't gate the engine)
@@ -131,7 +131,7 @@ scripts/gen-edit.sh \
   "remove the cars on the driveway, and the rubbish bins next to the house, improve the overall photo quality — keeping the architectural integrity of the room — preserve all walls, windows, doors, ceiling, floor, built-in fixtures, the camera angle/framing and the room's proportions exactly; do not invent, move, resize, add or delete any structural element." \
   artifacts/<listing>/inputs/<photo>.jpg \
   artifacts/<listing>/02-fixed/declutter-<name>.jpg \
-  --model fal-ai/qwen-image-edit --aspect landscape_4_3 --max-cost 60 --work work/fix
+  --model fal-ai/qwen-image-edit  --max-cost 60 --work work/fix
 ```
 
 (For an interior declutter use the interior removal prompt + interior preserve clause
@@ -144,7 +144,7 @@ scripts/gen-edit.sh \
   "Convert this daytime photo to a beautiful dusk/twilight scene. dramatic sunset sky, turn on all interior and exterior lights — Keep the building, architecture, rooflines, windows, doors, landscaping and the exact camera angle/framing unchanged — only change the time of day / sky. Preserve accurate reflections and proportions." \
   artifacts/<listing>/inputs/<photo>.jpg \
   artifacts/<listing>/02-fixed/twilight-<name>.jpg \
-  --model fal-ai/nano-banana-pro --aspect landscape_4_3 --resolution 2K --max-cost 60 --work work/fix
+  --model fal-ai/nano-banana-pro  --resolution 2K --max-cost 60 --work work/fix
 ```
 
 **(c) sky replacement → `fal-ai/nano-banana-pro`:**
@@ -154,7 +154,7 @@ scripts/gen-edit.sh \
   "replace the sky with a sunset — Keep the building, architecture, rooflines, windows, doors, landscaping and the exact camera angle/framing unchanged — only change the time of day / sky. Preserve accurate reflections and proportions." \
   artifacts/<listing>/inputs/<photo>.jpg \
   artifacts/<listing>/02-fixed/sky-<name>.jpg \
-  --model fal-ai/nano-banana-pro --aspect landscape_4_3 --resolution 2K --max-cost 60 --work work/fix
+  --model fal-ai/nano-banana-pro  --resolution 2K --max-cost 60 --work work/fix
 ```
 
 **(d) enhancement (exposure / white-balance / HDR-tone, content identical) →
@@ -165,7 +165,7 @@ scripts/gen-edit.sh \
   "improve the overall photo quality — lift exposure and apply an HDR-style enhancement (balanced highlights/shadows, accurate white balance, natural color), without changing any content of the scene — pure color/exposure/tone edit only; content must be identical." \
   artifacts/<listing>/inputs/<photo>.jpg \
   artifacts/<listing>/02-fixed/enhance-<name>.jpg \
-  --model fal-ai/nano-banana-pro --aspect landscape_4_3 --resolution 2K --max-cost 60 --work work/fix
+  --model fal-ai/nano-banana-pro  --resolution 2K --max-cost 60 --work work/fix
 ```
 
 `gen-edit.sh` prints `<model>\t<out>` on success (record the model in `fix-log.md`);
