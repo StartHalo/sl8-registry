@@ -1,0 +1,44 @@
+{
+  "skill_name": "bot-022-packshot-studio",
+  "_comment": "Tier-1 objective gates derived from JTBD-1/JTBD-2 (1-requirements.md) + the build PoC (research/poc-reachability.md). Image expectations are graded by VIEWING the actual JPEGs against the original snap (vision) — never from filenames or text. The exact-255 / fill / resolution gates are mechanically checkable from compliance.json. The fidelity expectations require comparing the output pixels to the input snap.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make an Amazon-compliant hero image for the project mug-test from its snap at inputs/snap.jpg (a sage-green ceramic mug photographed on a wooden table).",
+      "expected_output": "artifacts/mug-test/01-hero/hero.jpg — a pure-white-background main image of the SAME mug as the snap, plus compliance.json (bg_pass exact-255, fill >=0.85, res_ok >=1600px) and fidelity-qc.md recording the hero as PIXEL-FAITHFUL (deterministic RMBG + flatten, no generative re-background).",
+      "files": [],
+      "expectations": [
+        "artifacts/mug-test/01-hero/hero.jpg exists, is a JPEG, and (viewed) is the SAME product as inputs/snap.jpg — same color, shape, label, and surface, with NO invented reflection/texture/detail",
+        "artifacts/mug-test/01-hero/compliance.json shows bg_pass==true with all 8 corner/edge samples == [255,255,255] (an off-white 254 or 250 must FAIL this gate)",
+        "compliance.json shows fill >= 0.85 and res_ok == true (long side >= 1600px); the hero is 1:1 square",
+        "the hero background, viewed, reads as a clean true-white sweep with no halo around the product and no embedded color cast",
+        "fidelity-qc.md records the hero as produced by the deterministic path (Bria RMBG + Pillow flatten) and labels it PIXEL-FAITHFUL — it does NOT claim a generative model re-rendered the product"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the project mug-test, generate 3 alternate angles (side, top, 3/4) from the approved hero.",
+      "expected_output": "Up to 3 angle JPEGs under artifacts/mug-test/02-angles/, each generated off the APPROVED hero (not the raw snap), each exact-255 compliant, and each passed through the blocking fidelity-qc compare; any drifted angle is dropped and flagged in fidelity-qc.md, never silently shipped.",
+      "files": [],
+      "expectations": [
+        "artifacts/mug-test/02-angles/ contains at most 4 angle JPEGs (NN-<angle>.jpg); the requested side/top/3-4 are attempted, re-anchored off 01-hero/hero.jpg",
+        "every shipped angle is (viewed) the SAME mug as the hero — color/proportions/label/surface hold; no drift to a different product, no invented detail",
+        "each shipped angle's compliance JSON shows bg_pass==true (exact-255) and the angle is 1:1 square",
+        "fidelity-qc.md records a per-angle verdict (pass / drift-dropped / low-confidence-human-review) with a reason; any angle that drifted from the hero is DROPPED and flagged, not shipped",
+        "no more than 4 angles are produced even if more were requested (the anti-drift cap), and the drop is flagged"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the project tiny-snap, inputs/snap.jpg is only 900px on its long side and the product fills only ~40% of the frame. Produce the compliant hero anyway.",
+      "expected_output": "A hero is delivered (never withheld): the product is re-centered/re-padded toward >=85% fill on exact-255 white, and the under-resolution / under-fill condition is FLAGGED honestly in fidelity-qc.md (re-shoot closer / higher-res) rather than upscaling-inventing pixels.",
+      "files": [],
+      "expectations": [
+        "artifacts/tiny-snap/01-hero/hero.jpg is still produced (the bot never withholds the deliverable) with an exact-255 background",
+        "the product is re-centered and re-padded toward the >=85% fill target rather than left tiny in the frame",
+        "fidelity-qc.md (or compliance.json + the summary) FLAGS the resolution shortfall (long side < 1600px) honestly — the bot does NOT fabricate/upscale-invent resolution to fake res_ok==true",
+        "the hero remains the SAME product as the snap (no generative re-background was used to 'fix' the small/low-res input)"
+      ]
+    }
+  ]
+}
