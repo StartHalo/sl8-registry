@@ -1,0 +1,65 @@
+{
+  "name": "bot-024-tryon-studio",
+  "version": "v1.0.0",
+  "description": "Turn a seller's flat-lay or ghost-mannequin garment photo plus a model photo into catalog-ready on-model shots with the fabric, print, buttons and fit preserved. The transfer runs on the dedicated VTON endpoint fal-ai/fashn/tryon/v1.6 (Leffa fallback) called with REQUIRED named args garment_image plus model_image via \"ai-gen run\" — never --image. EVERY try-on output passes a BLOCKING tryon-qc vision compare against the real garment that catches both drift (a changed/different garment) AND flattery (a cheap fabric rendered luxe, a fit slimmed, a hem lengthened — the misrepresentation that drives returns), then is upscaled to marketplace resolution. Use to make on-model / virtual try-on photos, put a flat-lay garment on a model, or produce catalog model shots from a product photo.",
+  "inputs": [
+    {
+      "name": "garment",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<project>/inputs/garment.<jpg|png> — the seller's real flat-lay or ghost-mannequin/dress-form photo of the garment (or the supplier product photo). This is the fidelity ground-truth every try-on is checked against. A cluttered background is fine (optionally cleaned with Bria RMBG first)."
+    },
+    {
+      "name": "model",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<project>/inputs/model.<jpg|png> — the model photo (or base-body image) the garment is put onto. Re-use the same model image across a catalog to approximate face-consistency. Required for the VTON path (FASHN model_image / Leffa human_image_url)."
+    },
+    {
+      "name": "fabric",
+      "type": "text",
+      "required": false,
+      "description": "The declared fabric type (e.g. ribbed cotton, washed denim, silk satin), from context.md. REQUIRED only for the general-model fallback path (it raises texture fidelity ~3/10 to ~8/10); the bot ASKS for it there and never invents it. The dedicated VTON path takes no prompt."
+    },
+    {
+      "name": "category",
+      "type": "text",
+      "required": false,
+      "description": "Garment category — tops, bottoms, one-pieces, or auto. Default auto. Maps to FASHN category and to Leffa garment_type (tops to upper_body, bottoms to lower_body, one-pieces to dresses)."
+    },
+    {
+      "name": "variants",
+      "type": "text",
+      "required": false,
+      "description": "How many on-model variants to attempt (pose/model/background). Default 2. Each is generated, QC'd, and upscaled independently; failed ones are dropped/flagged, never silently shipped."
+    },
+    {
+      "name": "target-marketplace",
+      "type": "text",
+      "required": false,
+      "description": "Marketplace whose image resolution to target on upscale. Default amazon (recommends 2000px+ on the long side). Recorded in the QC report."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "tryon-set",
+      "type": "image",
+      "path": "artifacts/<project>/01-tryon/NN-<variant>.png",
+      "description": "The QC-passed on-model try-on variants, upscaled to marketplace resolution. Each one was checked against the real garment (fabric/print/color/trim/cut-fit) and is NOT flattered beyond the real item. Drifted or flattered variants are dropped/escalated, not shipped."
+    },
+    {
+      "name": "qc-report",
+      "type": "markdown",
+      "path": "artifacts/<project>/01-tryon/qc-report.md",
+      "description": "The per-variant tryon-qc verdict (pass / drift-dropped / flatter-escalated / low-confidence-review) with a reason, plus any resolution shortfall flag and the don't-mislead escalation note. The honest production log."
+    },
+    {
+      "name": "tryon-meta",
+      "type": "json",
+      "path": "artifacts/<project>/01-tryon/NN-<variant>.png.meta.json",
+      "description": "Per-variant generation metadata — which model produced it (FASHN primary or Leffa fallback), category, mode, and the source garment/model images. Read to audit the run."
+    }
+  ],
+  "generated_at": "2026-06-20T18:14:47.517Z",
+  "skill_md_sha256": "746ba09ad402593b6016904d7cb613c18fc386d20ce0538e257da0121cc1245e"
+}
