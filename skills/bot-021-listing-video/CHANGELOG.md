@@ -6,6 +6,10 @@ All notable changes to this skill. Versions are git tags (`bot-021-listing-video
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-20
+### Fixed
+- Fix `scripts/assemble-listing.sh`: scale the burned-in first-frame AB-723 disclosure caption by WIDTH (`fontsize=w/42`) instead of height (`h/26`) so the full disclosure line fits within the frame on 9:16 (it overflowed the right edge at 1080×1920) and 16:9 — the disclosure must be fully legible to be AB-723-conspicuous.
+
 ## [v1.0.0] — 2026-06-20
 ### Changed
 - (next version's changes)

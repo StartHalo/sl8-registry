@@ -77,7 +77,7 @@ FONTFILE=""; for f in /System/Library/Fonts/Supplemental/Arial.ttf /usr/share/fo
 VF=""
 if [[ "$DISCLOSURE" != "none" && -n "$FONTFILE" ]]; then
   printf '%s' "$DISCLOSURE" >"$TMP/disc.txt"
-  VF="drawtext=textfile=${TMP}/disc.txt:fontfile=${FONTFILE}:fontcolor=white:fontsize=h/26:box=1:boxcolor=black@0.6:boxborderw=12:x=24:y=24:enable='lt(t,3)'"
+  VF="drawtext=textfile=${TMP}/disc.txt:fontfile=${FONTFILE}:fontcolor=white:fontsize=w/42:box=1:boxcolor=black@0.6:boxborderw=10:x=24:y=28:enable='lt(t,3)'"
 elif [[ "$DISCLOSURE" != "none" ]]; then
   err "WARNING: no font for the first-frame disclosure card — disclose this gap (run disclosure-stamp on the output)"
 fi
