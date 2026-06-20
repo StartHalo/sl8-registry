@@ -1,0 +1,45 @@
+{
+  "skill_name": "bot-027-shotlist",
+  "_comment": "Tier-1 objective gates derived from JTBD-2 (1-requirements.md). Graded by skill-creator's grader into grading.json {text,passed,evidence}. Structural floor is scripts/validate-shotlist.sh; these expectations add the semantic gates (escalation arc, time-code arithmetic, identity-lock + audio footer). shotlist.md is a TEXT output — no media judge needed.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design the cinematic shot-list for the project meadow-robot. context.md brief: a cheerful little robot's adventure in a sunlit meadow — it wakes, spots a glowing butterfly, chases it, leaps after it, and lands in wonder as the butterfly settles on its eye-screen. character-spec.md is locked: Name 'the meadow robot', Identity Tokens include 'glossy white-and-warm-orange body' and 'one big glowing cyan eye'. Profile story, 5 shots, 15 seconds, 16:9.",
+      "expected_output": "artifacts/meadow-robot/shotlist.md — a validated cinematic shot-list: a global Multi-shot cinematic style/look header, the @Image1/@Image2 identity-lock line naming the meadow robot, and 5 numbered time-coded [Xs-Ys]: shots tiling 0-15s, each with one camera move + one action, forming a wide-establishing -> tighter -> climax -> resolve arc with a slow-mo ramp on the leap, closed by a Total: 15s / 5 shots / 16:9. Audio: ... footer with the positive-constraint suffix.",
+      "files": [],
+      "expectations": [
+        "artifacts/meadow-robot/shotlist.md exists and scripts/validate-shotlist.sh exits 0 on it",
+        "the file has a global style/look header line that pairs 'cinematic' with concrete look words (lighting and/or color grading and/or a medium) rather than the bare word 'cinematic' or 'epic'",
+        "an identity line is present that names @Image1 and @Image2, references the meadow robot with at least one verbatim identity token, and instructs to maintain the EXACT same character identity in every shot",
+        "there are 5 numbered time-coded [Xs-Ys]: shots whose time-codes tile [0..15] with no gaps or overlaps (shot 1 starts at 0s, each shot's start equals the previous shot's end, the last shot ends at 15s)",
+        "each shot names exactly ONE camera move and ONE concrete action, and the shots form an escalating arc (wide/establishing -> tighter framing -> a climax beat -> a closing resolve) with a slow-motion ramp on the leap/climax beat",
+        "the footer line reads 'Total: 15s / 5 shots / 16:9.' followed by an 'Audio:' clause describing native score + SFX + ambience and the positive-constraint suffix ('avoid identity drift ... stable picture, no flicker'), and contains no negative-prompt 'no X' lists inside any shot"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Design the cinematic shot-list for the project obsidian-duel. context.md brief: a dark-elf warrior duels a towering stone golem in a rain-slicked ruined courtyard at dusk. character-spec.md is locked: Name 'the dark-elf warrior', Identity Tokens include 'matte-charcoal skin', 'silver-white braided hair', 'twin curved daggers'. Profile fight, 15 seconds, 21:9.",
+      "expected_output": "artifacts/obsidian-duel/shotlist.md — a validated fight shot-list led by the E2 dark-fantasy style/look header, the @Image1/@Image2 identity-lock line naming the dark-elf warrior, and 4-6 time-coded shots forming a standoff -> first clash -> escalation -> counter -> final-strike arc with a slow-mo ramp on the final strike, closed by a Total: 15s / K shots / 21:9. Audio: ... footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/obsidian-duel/shotlist.md exists and scripts/validate-shotlist.sh exits 0 on it",
+        "the global header uses a dark-fantasy / blockbuster style block (lighting-first plus color grading, e.g. the E2 'IMAX ... Photorealistic ... DaVinci advanced color grading, dark battlefield atmosphere' shape) rather than a bare 'cinematic, epic' line",
+        "the shots form a fight escalation arc (standoff -> first clash -> escalation -> counter -> final strike) with a single slow-motion ramp on the climactic strike and 'fast' never used unqualified across the whole frame",
+        "the identity line locks @Image1/@Image2 to the dark-elf warrior with verbatim tokens, and no realistic identifiable human face is described anywhere (stylized characters/creatures only, per Seedance's face policy)",
+        "the Total footer's aspect is 21:9, its shot count equals the number of time-coded shots, and the time-codes end at 15s within 1s"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Design the cinematic shot-list for the project fox-snowfield using all defaults. context.md brief: a russet fox crosses a snowy pine forest at first light, chases a sparrow, pounces, and lets it fly free. character-spec.md is locked: Name 'the fox', Identity Tokens include 'russet fur', 'white-tipped tail'. No shot-count, duration, aspect, or profile given.",
+      "expected_output": "artifacts/fox-snowfield/shotlist.md — a validated shot-list built entirely on the documented defaults (5 shots, 15 seconds, 16:9, story profile), with the defaults applied recorded in a Notes section; otherwise a fully valid story shot-list with the identity lock and the Total/Audio footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/fox-snowfield/shotlist.md exists and passes scripts/validate-shotlist.sh",
+        "the shot-list applies the documented defaults (5 shots, 15s, 16:9, story profile) and the footer reads 'Total: 15s / 5 shots / 16:9.'",
+        "a Notes section records that the defaults (shot-count 5, duration 15s, aspect 16:9, profile story) were applied because the inputs were absent",
+        "the time-codes tile [0..15] exactly, each shot has one camera move + one action, and the footer carries the Audio clause plus the positive-constraint suffix"
+      ]
+    }
+  ]
+}
