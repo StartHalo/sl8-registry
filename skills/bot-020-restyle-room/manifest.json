@@ -1,0 +1,53 @@
+{
+  "name": "bot-020-restyle-room",
+  "version": "v1.0.0",
+  "description": "Restyle a dated real-estate room, swap a single finish/material, or render a fixer-upper \"after\" renovation concept (fal-ai/nano-banana-pro, --image) — keeping the room's layout, walls, windows, doors, ceiling and camera exactly, changing only decor/finishes. One change per turn, the original re-fed each turn; every edit passes a BLOCKING geometry-QC against the unaltered original. Restyle/finish-swap lean \"better, not different\"; a renovation \"after\" is inherently different and MUST carry the conspicuous \"Conceptual rendering — not the current condition\" label. Every altered image is routed through the shared disclosure-stamp skill. Use for the 'restyle' phase, or whenever asked to \"restyle this room\", \"new cabinets/finishes\", \"change the floor/paint\", or \"show the renovated / after version\".",
+  "inputs": [
+    {
+      "name": "source-photo",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<listing>/inputs/<room>.<jpg|png> — the unaltered listing photo of the room as it actually is (occupied, dated finishes expected). This is the geometry/condition ground-truth every render is QC'd against, kept and re-attached for disclosure pairing — never fabricated."
+    },
+    {
+      "name": "brief",
+      "type": "text",
+      "required": true,
+      "description": "What to render: the named target style (e.g. 'Scandinavian cozy'), OR the named finish/material to swap (e.g. 'cabinets to light oak'), OR the renovation finish list for a concept 'after'. From context.md / the task. A missing brief is a clean recorded failure, not a question."
+    },
+    {
+      "name": "mode",
+      "type": "text",
+      "required": false,
+      "description": "restyle | finish-swap | renovation-concept. Default restyle. restyle = whole-room decor/finish vibe change; finish-swap = one named element only; renovation-concept = a fixer 'after' that implies a not-yet-real condition (highest disclosure risk; forces the conceptual stamp)."
+    },
+    {
+      "name": "scope",
+      "type": "text",
+      "required": false,
+      "description": "What may change. Default 'finishes only, keep layout + structure'. The preserve clause is non-negotiable regardless of scope — walls/windows/ceiling/footprint/camera always hold."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "render",
+      "type": "image",
+      "path": "artifacts/<listing>/03-restyle/<room>-<mode>.jpg",
+      "description": "The restyled / finish-swapped / renovation-concept render — one change per turn, geometry-preserved, geometry-QC-passed (or kept-best + FLAG). Always the SAME room envelope and camera as the source."
+    },
+    {
+      "name": "restyle-log",
+      "type": "markdown",
+      "path": "artifacts/<listing>/03-restyle/restyle-log.md",
+      "description": "The per-render record: mode, the named change, the verbatim prompt + preserve clause, the geometry-QC verdict (pass/drift/review) with findings, the defect-honesty check, cost (balance delta), and the disclosure --type used."
+    },
+    {
+      "name": "disclosed-set",
+      "type": "image",
+      "path": "artifacts/<listing>/03-restyle/disclosed/<room>-<mode>-disclosed.jpg",
+      "description": "The disclosure-stamp output set (stamped render + original/altered pair + disclosure-assets.md with the MLS remark + AB-723 line). Produced by the shared disclosure-stamp skill — the mandatory final step on every altered render."
+    }
+  ],
+  "generated_at": "2026-06-20T18:11:45.781Z",
+  "skill_md_sha256": "578ae634ebe9715965dc4b6f6233fe4fe7553410a76f4906685147395f189194"
+}

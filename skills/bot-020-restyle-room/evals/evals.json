@@ -1,0 +1,24 @@
+{
+  "skill_name": "bot-020-restyle-room",
+  "_comment": "Realistic eval prompts derived from JTBD-3 (restyle a dated room / finish-swap / renovation 'after' concept). Image expectations are graded by VIEWING the actual render against the unaltered original (vision) — never from filenames. The geometry-preserve, defect-honesty, and disclosure behaviors are the load-bearing checks. Assertions are intentionally left out for now (prompts only). Fixtures are provisioned by the orchestrator.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the listing maple-st, restyle the living room at inputs/empty.png into a Scandinavian cozy style. It is destined for a live listing.",
+      "expected_output": "artifacts/maple-st/03-restyle/livingroom-restyle.jpg — the SAME room (walls, windows, ceiling, footprint, camera all identical to inputs/empty.png) restyled with Scandinavian cozy decor/finishes only, geometry-QC-passed (--expected-change 'decor/finishes/styling'); restyle-log.md records the verbatim single-style prompt + preserve clause + QC verdict + cost; and a disclosed/ set (stamp --type restyle 'Digitally Altered' + original/altered pair + disclosure-assets.md with the AB-723 line, since it touches a live listing).",
+      "files": ["evals/fixtures/empty.png"]
+    },
+    {
+      "id": 2,
+      "prompt": "For the listing maple-st, change the white floating shelves in inputs/staged.png to light oak — keep everything else the same.",
+      "expected_output": "artifacts/maple-st/03-restyle/livingroom-finish-swap.jpg — ONLY the shelves recolored to light oak; all other furniture, the walls/windows/ceiling, lighting, and camera unchanged from inputs/staged.png; geometry-QC-passed (--expected-change 'one named finish/material'). restyle-log.md records the verbatim finish-swap prompt with the load-bearing 'keep everything else the same' tail + the QC verdict, and a disclosed/ set (--type restyle). One change this turn, the original re-fed.",
+      "files": ["evals/fixtures/staged.png"]
+    },
+    {
+      "id": 3,
+      "prompt": "For the listing maple-st, render a fixer-upper renovation 'after' concept of inputs/empty.png — new oak flooring, white cabinetry, linen upholstery — to pitch a fix-and-flip investor. There is a visible water stain on the ceiling.",
+      "expected_output": "artifacts/maple-st/03-restyle/livingroom-renovation-concept.jpg — the listed finishes applied while the room envelope + camera hold exactly (geometry-QC --expected-change 'renovation finishes (concept) — room envelope + camera must hold'); the bot does NOT erase the ceiling water stain (defect-honesty: structural defect must remain — STOP + FLAG if the render removed it). The render carries the MANDATORY non-removable 'Conceptual Rendering - Not Actual Condition' stamp (disclosure --type renovation-concept) plus the AB-723 disclosure + reachable-original link; restyle-log.md records the defect-honesty check and flags any over-glamorization.",
+      "files": ["evals/fixtures/empty.png"]
+    }
+  ]
+}
