@@ -1,0 +1,43 @@
+{
+  "skill_name": "disclosure-stamp",
+  "evals": [
+    {
+      "id": 1,
+      "name": "stage-with-original",
+      "prompt": "I virtually staged this empty living room for an MLS listing in California. Here's the staged photo (fixtures/staged.png) and the unaltered original (fixtures/empty.png). Make it compliant to publish.",
+      "expected_output": "The staged photo re-saved with a conspicuous 'Virtually Staged' caption; a disclosure-assets.md with the ready-to-paste MLS remark + the AB-723 disclosure line (with an original-URL slot); and a side-by-side ORIGINAL+ALTERED pair image.",
+      "files": ["fixtures/staged.png", "fixtures/empty.png"],
+      "assertions": [
+        {"text": "A stamped output image is produced under a disclosed/ folder", "type": "file_exists"},
+        {"text": "The stamped image carries a legible, conspicuous 'Virtually Staged' caption (vision)", "type": "vision"},
+        {"text": "disclosure-assets.md exists and contains a ready-to-paste MLS remark mentioning virtual staging", "type": "content"},
+        {"text": "disclosure-assets.md contains the AB-723 line with an unaltered-original URL/QR slot", "type": "content"},
+        {"text": "A side-by-side pair image (original + altered) is produced", "type": "file_exists"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "twilight-no-original",
+      "prompt": "Add the required disclosure to this day-to-dusk twilight exterior I edited with AI (fixtures/staged.png). I don't have the original file handy right now.",
+      "expected_output": "The photo stamped with a 'Digitally Altered' caption, and a disclosure-assets.md that includes an explicit ACTION REQUIRED note that AB-723 still requires hosting the unaltered original at a public, login-free URL/QR.",
+      "files": ["fixtures/staged.png"],
+      "assertions": [
+        {"text": "The stamped image carries a conspicuous 'Digitally Altered' caption (vision)", "type": "vision"},
+        {"text": "disclosure-assets.md includes an ACTION REQUIRED note about hosting the unaltered original", "type": "content"},
+        {"text": "No original pair image is fabricated when no original is supplied", "type": "content"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "video-first-frame-card",
+      "prompt": "This is an AI-generated listing tour video (fixtures/tour.mp4) built from a property's photos. Make the disclosure compliant for posting.",
+      "expected_output": "Recognizes it is video, provides the first-frame disclosure card text ('Video created from listing photos using AI motion technology'), a ready ffmpeg command to burn it in, and the MLS remark.",
+      "files": ["fixtures/tour.mp4"],
+      "assertions": [
+        {"text": "Produces the first-frame card text 'Video created from listing photos using AI motion technology'", "type": "content"},
+        {"text": "Provides a runnable ffmpeg drawtext command to burn the card into frame one", "type": "content"},
+        {"text": "disclosure-assets.md includes the MLS remark for the video", "type": "content"}
+      ]
+    }
+  ]
+}
