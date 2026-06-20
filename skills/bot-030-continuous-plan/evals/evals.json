@@ -1,0 +1,45 @@
+{
+  "skill_name": "bot-030-continuous-plan",
+  "_comment": "Tier-1 objective gates for the pure-LLM continuous-plan phase. Graded by skill-creator's grader into grading.json {text,passed,evidence}. Structural floor is scripts/validate-continuous-plan.sh; these expectations add the semantic gates (one evolving shot with no cuts, the >=80%-verbatim subject repeat across hops, the 8+7*hops length, native-audio footer). continuous-plan.md is a TEXT output — no media judge needed (no MP4 is rendered in this phase).",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design the continuous-shot plan for the project dawn-owl. context.md brief: a friendly fluffy round owl glides low over a misty dawn forest — it lifts from a pine and glides over the treetops as mist drifts, then keeps going lower along a winding silver stream as dawn light warms, then rises toward the rising sun with its wings catching gold. Friendly stylized character. hop-count 2, aspect-ratio 16:9.",
+      "expected_output": "artifacts/dawn-owl/continuous-plan.md — a validated continuous-shot plan: a global one-continuous-take style/look header, a CHARACTER block of 5-7 frozen verbatim owl tokens, one Base block (the opening-frame image of the owl on a pine plus the base 8s glide over the treetops with native audio), and 2 Hop continuation prompts (lower along the stream, then rising toward the sun) that each repeat the owl subject at least 80 percent verbatim and add only the one new beat with no cut, closed by a Total: ~22s (one continuous take, no cuts) / 16:9. Audio: ... footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/dawn-owl/continuous-plan.md exists and scripts/validate-continuous-plan.sh exits 0 on it",
+        "the file has a global style/look header line that pairs cinematic-quality look words (a medium plus lighting and/or color grading) and marks it as one continuous take, rather than the bare word cinematic or epic",
+        "a CHARACTER block lists 5-7 frozen verbatim trait tokens for the owl (body shape, feather color/material, eyes, beak, wings, body) that are reused verbatim later",
+        "there is exactly ONE Base block that describes the opening frame (the owl in its world with the look and framing) AND a single continuous base motion over ~8 seconds AND a native-audio phrase",
+        "there are exactly 2 numbered Hop lines, each of which repeats the owl subject description at least 80 percent verbatim from the base (re-stating the frozen tokens), adds exactly ONE new motion or scenery beat (lower along the stream, then rising toward the sun), uses continuity language and a continuous camera move, and contains NO cut-language (no cut to, no next shot, no meanwhile)",
+        "the footer reads Total: ~22s (one continuous take, no cuts) / 16:9. followed by an Audio: clause naming a native score + SFX + ambience and the positive-constraint suffix (avoid identity drift ... one continuous shot, no cuts ... stable picture, no flicker), and no negative no-X list appears inside the Base or any Hop"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Design the continuous-shot plan for the project meadow-rover with hop-count 3 and aspect-ratio 9:16. context.md brief: a tiny friendly round rover trundles through a sunlit flower meadow in one unbroken take — it rolls out from under a leaf, trundles between the flowers, climbs a small mossy stone, and pauses at the top to watch a butterfly. Friendly stylized character.",
+      "expected_output": "artifacts/meadow-rover/continuous-plan.md — a validated continuous-shot plan with a CHARACTER block of 5-7 frozen rover tokens, one Base block (the rover under a leaf plus the base 8s trundle with native audio), and 3 Hop continuation prompts (between the flowers, up the mossy stone, pause at the top) that each repeat the rover subject at least 80 percent verbatim and add only the one new beat with no cut, closed by a Total: ~29s (one continuous take, no cuts) / 9:16. Audio: ... footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/meadow-rover/continuous-plan.md exists and scripts/validate-continuous-plan.sh exits 0 on it",
+        "the CHARACTER block has 5-7 frozen verbatim tokens for the rover and each of the 3 Hop lines repeats at least half of those tokens verbatim (the >=80%-verbatim subject-repeat rule that holds identity across a Veo extend)",
+        "there are exactly 3 numbered Hop lines, each adding exactly ONE new beat (between the flowers, up the mossy stone, pause at the top) with continuity language and a continuous camera move, and none of them leaks cut-language or opens with a negative no-X / avoid phrase",
+        "the footer length is ~29s because 3 hops imply 8 + 7*3 = 29s, the aspect in the footer is 9:16 matching the requested aspect, and the take is marked one continuous take, no cuts",
+        "no realistic identifiable human face is described anywhere — the subject is a friendly stylized rover"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Design the continuous-shot plan for the project fox-glade using all defaults. context.md brief: a friendly russet fox lopes through a snowy pine glade at first light in one continuous shot, the camera gliding with it as snow drifts down. No hop-count or aspect-ratio given.",
+      "expected_output": "artifacts/fox-glade/continuous-plan.md — a validated continuous-shot plan built entirely on the documented defaults (hop-count 2, aspect-ratio 16:9), with the defaults applied recorded in a Notes section; otherwise a fully valid plan with a CHARACTER block of 5-7 frozen fox tokens, one Base block, 2 Hops each repeating the subject >=80 percent verbatim, and the Total: ~22s (one continuous take, no cuts) / 16:9. Audio: ... footer.",
+      "files": [],
+      "expectations": [
+        "artifacts/fox-glade/continuous-plan.md exists and passes scripts/validate-continuous-plan.sh",
+        "the plan applies the documented defaults (hop-count 2, aspect 16:9) and the footer reads Total: ~22s (one continuous take, no cuts) / 16:9.",
+        "a Notes section records that the defaults (hop-count 2, aspect 16:9) were applied because the inputs were absent",
+        "there are exactly 2 Hop lines, each repeats the fox subject description at least 80 percent verbatim and adds one new continuous beat with no cut, and the footer carries the Audio clause plus the positive-constraint suffix including one continuous shot, no cuts"
+      ]
+    }
+  ]
+}
