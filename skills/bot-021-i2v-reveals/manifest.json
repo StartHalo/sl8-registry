@@ -1,0 +1,59 @@
+{
+  "name": "bot-021-i2v-reveals",
+  "version": "v1.0.0",
+  "description": "Generate OPTIONAL generative cinematic i2v reveal clips from real real-estate listing photos for a cinematic listing video — each clip animates ONE real photo as the start frame so only the virtual camera moves (slow push-in / pull-out / bounded ≤30° orbit), never the property's geometry. Seedance 2.0 fast i2v is the default engine (native audio, cheaper) with a Kling v3 pro fallback (silent interior-reveal workhorse), and a deterministic Ken-Burns still-segment as the regen-on-failure degrade so a warped/melted clip is never silently shipped. Use for the \"reveals\" phase of a listing video, or whenever asked to add cinematic motion / a moving reveal / a hero shot / drone-style push to a listing photo, animate a room photo, make a generative B-roll clip, or upgrade the slideshow with AI motion. These clips are consumed by bot-021-listing-video assembly; the final export's disclosure routes through the shared disclosure-stamp skill (AB-723).",
+  "inputs": [
+    {
+      "name": "photo",
+      "type": "path",
+      "required": true,
+      "description": "a real listing photo to animate (it becomes the i2v start frame; .jpg/.png or an https URL)"
+    },
+    {
+      "name": "motion",
+      "type": "enum",
+      "required": false,
+      "description": "push-in | orbit | aerial — the motion-only recipe (Default push-in, the 5s slow push-in)"
+    },
+    {
+      "name": "model",
+      "type": "string",
+      "required": false,
+      "description": "i2v model slug (Default bytedance/seedance-2.0/fast/image-to-video; fallback fal-ai/kling-video/v3/pro/image-to-video)"
+    },
+    {
+      "name": "duration",
+      "type": "enum",
+      "required": false,
+      "description": "5 | 10 seconds — i2v models snap to these (Default 5)"
+    },
+    {
+      "name": "aspect",
+      "type": "enum",
+      "required": false,
+      "description": "16:9 | 9:16 (Default 16:9)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "reveal_clip",
+      "type": "video",
+      "path": "artifacts/<listing>/clips/NN-reveal-<slug>.mp4",
+      "description": "the generated (or still-fallback) reveal clip, consumed by bot-021-listing-video assembly"
+    },
+    {
+      "name": "clip_log",
+      "type": "markdown",
+      "path": "artifacts/<listing>/clips/NN-reveal-<slug>.log.md",
+      "description": "per-clip log: model used, cost (balance delta), warp/melt vision verdict, fallback flag"
+    },
+    {
+      "name": "disclosure",
+      "type": "markdown",
+      "path": "artifacts/<listing>/disclosure.md",
+      "description": "AB-723 card text + MLS remark + reachable-original note from disclosure-stamp (written when this skill finalizes an export)"
+    }
+  ],
+  "generated_at": "2026-06-20T18:49:04.241Z",
+  "skill_md_sha256": "6b4706918492516216c7b6b16cbc73a559bb29f851bb94427de51b50b88a04bd"
+}
