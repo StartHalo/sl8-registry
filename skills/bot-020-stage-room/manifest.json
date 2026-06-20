@@ -1,0 +1,53 @@
+{
+  "name": "bot-020-stage-room",
+  "version": "v1.0.0",
+  "description": "Virtually stage an EMPTY or SPARSE real-estate listing room photo in a chosen style (modern, mid-century, Scandinavian, farmhouse, contemporary-neutral) WITHOUT moving a wall, inventing a window, or changing the camera. Room structure (walls/windows/doors/ceiling/floor + camera) is held by a verbatim geometry-preserve clause (reachable fal edit models have NO hard geometry lock — preservation is prompt-only), every staged image passes a BLOCKING geometry-QC vision compare against the unaltered original, and the result is routed through the shared disclosure-stamp skill (\"Virtually Staged\" caption + preserved original + MLS pairing). Uses fal-ai/nano-banana-pro (--image), fal-ai/qwen-image-edit fallback. Use for the 'stage' phase, or whenever asked to \"virtually stage this room\", \"furnish this empty room\", \"stage this living room in a modern style\", or \"put furniture in this listing photo\".",
+  "inputs": [
+    {
+      "name": "room-photo",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<listing>/inputs/<room>.<jpg|png> — the empty or sparse room photo to stage. This is the geometry ground-truth every staged output is QC'd against and the original re-attached for disclosure pairing. If the room is CLUTTERED (not empty/sparse), declutter to an empty plate FIRST via bot-020-fix-photo (Qwen), then stage."
+    },
+    {
+      "name": "style",
+      "type": "text",
+      "required": false,
+      "description": "The interior style words (e.g. modern transitional, mid-century, Scandinavian, farmhouse). Parameterizes the staging prompt. Default 'contemporary neutral broad-appeal' — the safest broad-buyer-appeal style."
+    },
+    {
+      "name": "room-type",
+      "type": "text",
+      "required": false,
+      "description": "Living room / bedroom / dining room / kitchen — drives the furniture set. Default — inferred from the photo and recorded as an assumption."
+    },
+    {
+      "name": "style-reference",
+      "type": "image",
+      "required": false,
+      "description": "artifacts/<listing>/inputs/<style-ref>.<jpg|png> — an optional furniture/style reference image to anchor the palette and materials. Nano Banana Pro accepts multiple reference images, but the multi-ref forwarding syntax is UNVERIFIED: smoke-test it, else fall back to the text-only style prompt. Default — none (text-only style)."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "staged-image",
+      "type": "image",
+      "path": "artifacts/<listing>/01-staged/<room>-staged.jpg",
+      "description": "The staged room — furniture and decor added in the chosen style, room geometry (walls/windows/doors/ceiling/floor footprint + camera) preserved exactly. Requested aspect honored; resolution >= source."
+    },
+    {
+      "name": "geometry-qc",
+      "type": "markdown",
+      "path": "artifacts/<listing>/01-staged/geometry-qc.md",
+      "description": "The blocking vision compare of the staged image vs the unaltered original — per-axis verdict (walls/windows/ceiling/camera/footprint/defect_honesty), confidence, and the honest flags. Any structural drift => FAIL + flag; never silently shipped."
+    },
+    {
+      "name": "disclosed-set",
+      "type": "image",
+      "path": "artifacts/<listing>/01-staged/disclosed/",
+      "description": "The disclosure set from disclosure-stamp: <room>-staged-disclosed.jpg (conspicuous 'Virtually Staged' caption), <room>-staged-pair.jpg (original<->staged side-by-side), and disclosure-assets.md (MLS remark + AB-723 line). The staged image NEVER exits as a bare altered file."
+    }
+  ],
+  "generated_at": "2026-06-20T18:11:13.313Z",
+  "skill_md_sha256": "30900858781ee2792d2a8365490d9732ba7b8b041c0b3ea8c693358f96904539"
+}
