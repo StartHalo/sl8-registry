@@ -1,0 +1,59 @@
+{
+  "name": "bot-022-packshot-studio",
+  "version": "v1.0.0",
+  "description": "Turn a seller's raw phone snap of a product into a pure-white, RGB-255 Amazon-compliant HERO image plus up to 4 identity-locked alternate angles — fidelity-first. The HERO main-image path is DETERMINISTIC (Bria RMBG to preserve the real product pixels → Pillow exact-255 flatten + ≥85% frame-fill + ≥1600px), never a generative re-background (a generative edit hallucinated a different product in the build PoC). Alternate angles REQUIRE generation (nano-banana-pro re-anchored off the approved hero, capped at ≤4) and EVERY generative output passes a blocking fidelity-qc vision compare before it ships. Use for phase 1 (hero) of a product-photo project, or whenever asked to make a compliant main image, white-background packshot, hero shot, or alternate product angles from a phone photo.",
+  "inputs": [
+    {
+      "name": "snap",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<product>/inputs/snap.<jpg|png> — the seller's raw phone photo of the real product (clutter, mixed lighting, non-white background are expected). This is the fidelity ground-truth every output is checked against."
+    },
+    {
+      "name": "product-name",
+      "type": "text",
+      "required": false,
+      "description": "Short product name (e.g. a sage-green ceramic mug), from context.md. Used only to label outputs and to anchor the fidelity-qc judge — never to invent detail the snap does not show. Default — inferred from the snap and recorded as an assumption."
+    },
+    {
+      "name": "angles",
+      "type": "text",
+      "required": false,
+      "description": "How many alternate angles to attempt and which (e.g. 3 of side/top/3-4). HARD CAP 4 — the anti-drift SOP. Default 3 = side/top/3-4 (front = the hero). 0 = hero only."
+    },
+    {
+      "name": "target-marketplace",
+      "type": "text",
+      "required": false,
+      "description": "Marketplace whose main-image spec to enforce. Default amazon (the strictest — exact RGB 255,255,255, ≥85% fill, ≥1600px long side, 1:1). Recorded in compliance.json."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "hero",
+      "type": "image",
+      "path": "artifacts/<product>/01-hero/hero.jpg",
+      "description": "The compliant main image — exact RGB(255,255,255) background, ≥85% frame fill, ≥1600px long side, 1:1, sRGB JPEG with metadata stripped. Deterministically produced (Bria RMBG cutout of the REAL snap → Pillow flatten). Pixel-faithful to the product."
+    },
+    {
+      "name": "angles-set",
+      "type": "image",
+      "path": "artifacts/<product>/02-angles/NN-<angle>.jpg",
+      "description": "Up to 4 identity-locked alternate angles, each generated off the APPROVED hero and each passed through fidelity-qc + white-bg-enforce. Drifted/failed angles are dropped or flagged, never silently shipped."
+    },
+    {
+      "name": "compliance",
+      "type": "json",
+      "path": "artifacts/<product>/01-hero/compliance.json",
+      "description": "enforce_packshot verdict per image — bg_pass (exact-255), fill + fill_pass (≥0.85), res_ok (≥1600px), sampled pixels. The objective gate."
+    },
+    {
+      "name": "fidelity-qc",
+      "type": "markdown",
+      "path": "artifacts/<product>/01-hero/fidelity-qc.md",
+      "description": "The vision compare of every generated output vs the original snap (color/shape/label/surface), per-image confidence verdict, and the honest flags (reflective/metallic/fine-text → human review; any drift → drop/flag). The hero (deterministic) records PIXEL-FAITHFUL."
+    }
+  ],
+  "generated_at": "2026-06-20T02:39:28.803Z",
+  "skill_md_sha256": "95e2efc818316c6785ef7cbab4a81b3e5675268f9bb455f5a283e294a39947ce"
+}
