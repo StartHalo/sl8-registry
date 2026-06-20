@@ -1,0 +1,71 @@
+{
+  "name": "bot-025-ad-creative-pack",
+  "version": "v1.0.0",
+  "description": "Turn a product photo plus feature bullets plus a brand kit into a pack of listing and ad creatives with READABLE on-image text — a benefit/feature graphic, an us-vs-alternative comparison chart, Amazon A+/EBC modules, and per-channel sized social ad variants (Meta 1:1 and 4:5, TikTok 9:16). Text is the deliverable, so the load-bearing rule is routing — every text-bearing surface goes to a text-specialist model (ideogram/v4 for headlines, fal-ai/recraft v3/v4 for palette-locked charts and editable SVG, fal-ai/nano-banana-pro for text-in-rich-scene); FLUX and Seedream are HARD-BLOCKED for embedded text because they garble it. Per-channel sizing is DETERMINISTIC (Pillow crop/pad from one master). Every final creative routes through the compliance-guard for the Meta AI-label mandate plus C2PA; the bot never auto-publishes. Use it to make benefit graphics, comparison charts, Amazon A+ modules, or sized Meta/TikTok ad variants from a product photo and bullets.",
+  "inputs": [
+    {
+      "name": "product-photo",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<project>/inputs/hero.<jpg|png> — a clean product photo (ideally the BOT-022-style compliant hero). Used as the --image source for any text-in-scene composite and as the fidelity ground-truth for product-bearing surfaces. Pure-text surfaces (a headline on a plain canvas) do not require it but it strengthens them."
+    },
+    {
+      "name": "bullets",
+      "type": "text",
+      "required": true,
+      "description": "The product's feature bullets / selling points (from context.md or the prompt). The bot writes the on-image copy (headline + feature labels + comparison rows) FROM these — short, punchy, correctly spelled. Without bullets there is no text to render."
+    },
+    {
+      "name": "brand-kit",
+      "type": "text",
+      "required": false,
+      "description": "Brand palette (hex), font name, and logo path (artifacts/<project>/inputs/logo.png), e.g. via a brand.json. Drives brand-kit.py — the Recraft colors= palette lock + the prepended brand clause + the logo --ref. Default — neutral clean palette, a generic sans-serif, no logo; the partial-lock note is recorded."
+    },
+    {
+      "name": "surfaces",
+      "type": "text",
+      "required": false,
+      "description": "Which creatives to produce — any of benefit-graphic, comparison-chart, aplus-module, social-variants. Default all four. Each text-bearing surface is routed per references/text-routing.md."
+    },
+    {
+      "name": "channels",
+      "type": "text",
+      "required": false,
+      "description": "Which social channels to size for — any of meta-1-1, meta-4-5, tiktok-9-16 (plus aplus-std, aplus-ovl for Amazon). Default meta-1-1,meta-4-5,tiktok-9-16. Sizing is deterministic via resize-variants.py."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "benefit-graphic",
+      "type": "image",
+      "path": "artifacts/<project>/01-benefit/benefit-graphic.png",
+      "description": "A clean benefit/feature graphic — one legible headline plus 3-4 feature callouts — rendered by ideogram/v4 (best text). The master other variants resize from. Passes the text-legibility check (every word spelled, readable at thumbnail)."
+    },
+    {
+      "name": "comparison-chart",
+      "type": "image",
+      "path": "artifacts/<project>/02-comparison/comparison-chart.png",
+      "description": "An us-vs-alternative feature grid with checks/x-marks, palette-locked via Recraft colors=. Readable column labels, brand-consistent palette."
+    },
+    {
+      "name": "aplus-modules",
+      "type": "image",
+      "path": "artifacts/<project>/03-aplus/NN-<module>.jpg",
+      "description": "Amazon A+/EBC modules sized to the hard spec (970x600 standard image+text, 970x300 overlay), RGB sRGB, under 2MB, with text kept well inside the frame. Handed to compliance-guard for the A+ spec check."
+    },
+    {
+      "name": "social-variants",
+      "type": "image",
+      "path": "artifacts/<project>/04-variants/<channel>.jpg",
+      "description": "Per-channel sized ad creatives (meta-1-1 1080x1080, meta-4-5 1080x1350, tiktok-9-16 1080x1920) produced DETERMINISTICALLY by Pillow crop/pad from the master — the exact text preserved, no per-channel regeneration."
+    },
+    {
+      "name": "legibility-qc",
+      "type": "markdown",
+      "path": "artifacts/<project>/qc.md",
+      "description": "Per-surface verdict — text legibility (every word spelled + readable), brand consistency (palette/font/logo applied), on-channel sizing, no-AI-slop, and (for product-bearing surfaces) the blocking product-fidelity compare. Drift/garble is dropped or flagged, never silently shipped."
+    }
+  ],
+  "generated_at": "2026-06-20T18:15:58.491Z",
+  "skill_md_sha256": "419aca73856b7dbfe67301897c8661175246baa59ddc46698c8c2daf382c3a48"
+}
