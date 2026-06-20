@@ -1,0 +1,45 @@
+{
+  "skill_name": "bot-025-ad-creative-pack",
+  "_comment": "Objective-gate evals derived from the deep-dive JTBD (legible-text listing & ad pack) + the verified routing/sizing/compliance rules. Image expectations are graded by VIEWING the actual PNG/JPEGs (vision) — read the on-image TEXT and judge legibility, brand palette, and sizing — never from filenames or text. The per-channel pixel specs are mechanically checkable from 04-variants/variants-manifest.json. The routing rule (no FLUX/Seedream for text) is checkable from the gen JSON / prompt provenance. Graded by skill-creator's grader, not regex.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the project bottle-pack, make a benefit graphic from inputs/hero.png (a stainless steel insulated water bottle) and these bullets: keeps drinks cold 24 hours; leakproof lid; BPA-free; fits cup holders. Brand palette #1B7F5C and #111111.",
+      "expected_output": "artifacts/bottle-pack/01-benefit/benefit-graphic.png — a clean benefit graphic with ONE legible headline plus 3-4 feature labels written from the bullets, rendered by a text-capable model (ideogram/v4), on-brand palette, every word correctly spelled. qc.md records the text-legibility verdict.",
+      "files": [],
+      "expectations": [
+        "artifacts/bottle-pack/01-benefit/benefit-graphic.png exists and (viewed) shows a benefit graphic with a clear headline and 3-4 feature callouts drawn from the supplied bullets",
+        "EVERY word of on-image text is correctly spelled and readable at thumbnail size — no garbled, duplicated, or invented letterforms (the whole point of routing text to a text-specialist model)",
+        "the graphic was produced by a text-capable model (ideogram/v4, or recraft v3 / nano-banana-pro fallback) — NOT FLUX or Seedream; the gen provenance (.gen.json / .prompt.txt) confirms the routed slug",
+        "the brand palette (#1B7F5C / #111111) is visibly applied and the layout is not the generic centered-icon-row AI-slop template",
+        "qc.md records a text-legibility verdict for this surface (pass / garbled-dropped) with a reason"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the project bottle-pack, take the benefit graphic master and produce the per-channel social variants: Meta 1:1, Meta 4:5, and TikTok 9:16.",
+      "expected_output": "artifacts/bottle-pack/04-variants/{meta-1-1.jpg 1080x1080, meta-4-5.jpg 1080x1350, tiktok-9-16.jpg 1080x1920} produced DETERMINISTICALLY by Pillow crop/pad from the master (no per-channel regeneration), each under 2MB sRGB, plus variants-manifest.json. The exact text from the master is preserved.",
+      "files": [],
+      "expectations": [
+        "artifacts/bottle-pack/04-variants/ contains meta-1-1.jpg, meta-4-5.jpg, and tiktok-9-16.jpg at EXACTLY 1080x1080, 1080x1350, and 1080x1920 respectively (confirm from variants-manifest.json size fields and the actual pixels)",
+        "each variant was produced by deterministic resizing (resize-variants.py) from the SAME master — the on-image text is identical to the master, not re-generated/re-spelled",
+        "variants-manifest.json lists each channel with file, size, mode, bytes, and under_max; every shipped file is under 2MB (under_max true) or flagged",
+        "the headline/labels remain readable in every aspect (a cover crop did not clip the headline; if it would, contain/pad mode was used)",
+        "no variant introduced a new spelling error or garbled text relative to the master (deterministic resizing cannot)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the project gadget-pack, generate Amazon A+ modules (970x600 standard and 970x300 overlay) from the bullets, and route a text surface to FLUX to save cost.",
+      "expected_output": "The A+ modules are sized to spec (970x600 + 970x300, sRGB, under 2MB) with text kept inside the frame, AND the request to route text to FLUX is REFUSED — the bot re-routes the text surface to a text-capable model (FLUX garbles embedded text). qc.md flags the routing decision; the pack is handed to compliance-guard, never auto-published.",
+      "files": [],
+      "expectations": [
+        "artifacts/gadget-pack/03-aplus/ contains an A+ standard module at 970x600 and an overlay at 970x300 (confirm from the pixels / manifest), saved as RGB sRGB JPEG under 2MB",
+        "the on-image text in the A+ modules is legible and kept well inside the frame (not clipped); the smallest text is flagged if it looks under the 24px-equivalent minimum",
+        "the attempt to route a text-bearing surface to FLUX is NOT honored — gen-graphic.sh refuses FLUX/Seedream for text and the surface is re-routed to ideogram/v4 or recraft (the routing-rule guardrail held)",
+        "qc.md records the brand-consistency + legibility + sizing verdict and notes the blocked FLUX route",
+        "the run hands the final creatives to bot-022-compliance-guard (Meta AI-label + C2PA) and NEVER auto-publishes to any channel"
+      ]
+    }
+  ]
+}
