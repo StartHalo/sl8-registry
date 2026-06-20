@@ -1,0 +1,62 @@
+{
+  "skill_name": "bot-027-character-bible",
+  "_comment": "Objective gates derived from JTBD-1 (1-requirements.md). This is a TWO-PHASE skill (lock the spec, then render the turnaround + hero), so the evals cover both: the full brief->bible run (eval 1, with media-judged images), the spec-discipline + sparse-default path (eval 2, validated by scripts/validate-spec.sh), the reference-image path (eval 3), and the missing-brief clean-failure (eval 4). Visual expectations are graded by the grader READING the actual PNGs (vision) - never from filenames, descriptions, or regex. The structural floor for the spec is scripts/validate-spec.sh.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Lock the character bible and render its turnaround + hero for the project vyre. Brief: a dark-elf warrior — matte-black skin with a violet cast, silver-white braided hair, glowing violet eyes, obsidian-and-crimson lamellar armor, a jagged scar across the left cheekbone. No reference image. Cinematic dark-fantasy look. Use the default views, aspect ratio, and seed.",
+      "expected_output": "artifacts/vyre/ with character-spec.md (a validated trait-lock spec in the contract shape), reference-sheet.png (a multi-view turnaround — front, three-quarter, side, back — of ONE consistent character matching the spec's CHARACTER_BLOCK, clean neutral background, no in-image text), hero.png (a clean front-facing portrait of that same character, usable as an i2v start frame), and bible-log.md (per asset: producing model, the spec seed, the full composed prompt with the frozen blocks verbatim, fallbacks taken, and a fal.media URL).",
+      "files": [],
+      "expectations": [
+        "artifacts/vyre/character-spec.md exists and scripts/validate-spec.sh exits 0 on it (5-7 verbatim Identity Tokens ordered face -> hair -> eyes -> outfit/props, exactly one integer Seed, named Palette with reasoning, frozen STYLE_STACK + CHARACTER_BLOCK whose tokens are byte-identical to the token list, all eight contract sections)",
+        "artifacts/vyre/reference-sheet.png exists and is a single turnaround sheet that shows the requested views (front, three-quarter, side, and back) of ONE character with consistent face, hair, outfit, and color palette across every view — no drift or warping between views (verified by viewing the image)",
+        "the character in reference-sheet.png is on-brief for the spec's CHARACTER_BLOCK (matte black-violet skin, silver-white braided hair, glowing violet eyes, obsidian-and-crimson lamellar armor) on a clean neutral background with no readable text printed in the image (verified by viewing the image)",
+        "artifacts/vyre/hero.png exists and is a single clean front-facing portrait of the SAME character as the sheet, on-brief, usable as an i2v start frame — one figure only, no in-image text (verified by viewing the image)",
+        "artifacts/vyre/bible-log.md records for EACH asset (reference-sheet.png and hero.png): the producing model (a slug from the pinned chain fal-ai/nano-banana-pro -> openai/gpt-image-2 -> fal-ai/nano-banana-2), the spec seed, the full composed prompt, any fallbacks taken, and a fal.media URL",
+        "the composed prompt logged for each asset reuses the spec's CHARACTER_BLOCK and STYLE_STACK VERBATIM (byte-identical, no paraphrase or synonym substitution) and appends a no-text-in-the-image constraint",
+        "the same seed (the spec's seed) is recorded for both reference-sheet.png and hero.png"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Lock the character bible spec for the project coffee-mascot. Brief: a friendly robot mascot for a coffee app. (Deliberately sparse — face, hair, and outfit are unspecified.)",
+      "expected_output": "artifacts/coffee-mascot/character-spec.md — the sparse brief is filled to at least 5 distinctive tokens by adding neutral, on-genre defaults, with every invented token flagged in a 'Defaults applied' note; otherwise a fully valid spec (one integer seed, named palette with reasoning, frozen STYLE_STACK + CHARACTER_BLOCK that pass the no-synonym byte-identity check, all contract sections).",
+      "files": [],
+      "expectations": [
+        "artifacts/coffee-mascot/character-spec.md exists and scripts/validate-spec.sh exits 0 on it",
+        "the spec reaches at least 5 distinctive Identity Tokens by adding neutral defaults for the unspecified face/hair/outfit, rather than emitting fewer than 5 tokens or inventing exotic detail not implied by the brief",
+        "a 'Defaults applied' note (in or alongside Provenance) explicitly flags every invented neutral default so the creator can refine it",
+        "the Seed defaults to a single integer (7777) and the Palette names a coffee-appropriate palette with one line of reasoning",
+        "every comma-separated token inside CHARACTER_BLOCK appears byte-identical as a token value in the Identity Tokens list, and no real brand or trademarked mascot appears anywhere in the spec"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Lock the bible and render the turnaround + hero for the project lumen. Brief: a daring bush-pilot heroine, porcelain-pale freckled face, copper-red short braid, amber eyes, a teal-and-brass aviator jacket. A reference image is supplied at inputs/ref.png.",
+      "expected_output": "character-spec.md records the reference image at inputs/ref.png as the primary anchor; both bible assets are generated with the reference image passed to the model as --ref; and bible-log.md records that the reference image was used for each asset (path on the ref: line) plus the producing model, seed, full prompt, fallbacks, and fal.media URL.",
+      "_note": "Test setup must materialize artifacts/lumen/inputs/ref.png (a small valid PNG) before this run so the --ref path is exercised. gen-image.sh skips a missing LOCAL ref and degrades to the language+seed lock; without the placeholder, the ref-passed/logged expectations are N/A. Create the placeholder at Test wiring time.",
+      "files": [],
+      "expectations": [
+        "artifacts/lumen/character-spec.md exists, scripts/validate-spec.sh exits 0 on it, and its Reference image section names inputs/ref.png (not 'none')",
+        "the reference image inputs/ref.png was passed to the generation as a --ref argument for both reference-sheet.png and hero.png, and bible-log.md records inputs/ref.png on the ref: line for each asset (not 'none')",
+        "artifacts/lumen/reference-sheet.png and artifacts/lumen/hero.png both exist and depict ONE consistent character on-brief for the spec's CHARACTER_BLOCK (porcelain-pale freckled face, copper-red short braid, amber eyes, teal-and-brass aviator jacket) with no in-image text (verified by viewing the images)",
+        "bible-log.md records the producing model (from the pinned chain), the spec seed, the full verbatim-block prompt, and a fal.media URL for each asset"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Build the character bible for the project ghost, whose context.md has no character brief (no description and no reference image).",
+      "expected_output": "The skill detects there is no brief to lock, records a clean failure in state.md naming the missing required input, and generates no character-spec.md, no images, and no fabricated character.",
+      "files": [
+        {
+          "path": "artifacts/ghost/context.md",
+          "content": "# Project: ghost\n\n## What this project is\n(intentionally empty — no character description and no reference image were provided)\n\n## Strategic question / objective\n(none stated)\n"
+        }
+      ],
+      "expectations": [
+        "no character-spec.md, reference-sheet.png, or hero.png is generated for artifacts/ghost/ (no character was invented in the absence of a brief)",
+        "the missing brief is recorded as a clean failure (state.md is marked blocked and names the missing required input — a character description and/or a reference image) rather than silently skipped, invented, or worked around"
+      ]
+    }
+  ]
+}
