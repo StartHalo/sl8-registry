@@ -6,9 +6,10 @@ All notable changes to this skill. Versions are git tags (`bot-020-restyle-room/
 ### Changed
 - (next version's changes)
 
-## [v1.0.0] — 2026-06-20
-### Changed
-- (next version's changes)
+## [v1.0.1] — 2026-06-20
+### Fixed
+- Fix `scripts/gen-edit.sh`: omit `--aspect-ratio` by default so the model preserves the SOURCE framing — the prior `landscape_4_3` default was an invalid ai-gen enum (valid: 16:9|9:16|1:1) that made `fal-ai/nano-banana-pro` fail and silently fall back to qwen on every call; also surface the failing model's error-log tail.
+- Fix `scripts/geometry-qc.py`: use the `@<path>` + `--allowedTools Read` claude vision pattern (the in-sandbox `claude` CLI has no `--image` flag).
 
 ## [v1.0.0] — 2026-06-20
 ### Added

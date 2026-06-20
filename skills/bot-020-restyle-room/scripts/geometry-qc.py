@@ -92,13 +92,24 @@ Respond with ONLY a single JSON object, no prose, no code fences:
 
 
 def run_claude(claude_bin, model, reference, candidate, expected_change):
-    """Call the claude CLI with both images attached; return raw stdout text."""
-    # The claude CLI accepts image paths as arguments alongside -p. Order them so the
-    # prompt names REFERENCE then CANDIDATE; the prompt text states which is which.
-    prompt = JUDGE_PROMPT_TMPL.format(expected_change=expected_change or "an unspecified edit")
-    cmd = [claude_bin, "-p", prompt,
-           "--image", reference, "--image", candidate,
-           "--output-format", "text"]
+    """Call the claude CLI to vision-compare two images; return raw stdout text.
+
+    The in-sandbox `claude` CLI has no `--image` flag. The documented headless
+    vision pattern (slate-bot Mode-B grade) is to reference the image files with
+    `@<path>` tokens in the prompt and allow the Read tool so the model views them:
+        claude -p "...@/abs/ref.png ...@/abs/cand.png..." --allowedTools Read
+    We pass ABSOLUTE paths so the @-reference resolves regardless of CWD.
+    """
+    ref_abs = os.path.abspath(reference)
+    cand_abs = os.path.abspath(candidate)
+    body = JUDGE_PROMPT_TMPL.format(expected_change=expected_change or "an unspecified edit")
+    prompt = (
+        f"Read these two images with the Read tool, then judge them.\n"
+        f"REFERENCE (the unaltered original): @{ref_abs}\n"
+        f"CANDIDATE (the AI-edited version): @{cand_abs}\n\n"
+        + body
+    )
+    cmd = [claude_bin, "-p", prompt, "--allowedTools", "Read", "--output-format", "text"]
     if model:
         cmd += ["--model", model]
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)

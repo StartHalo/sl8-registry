@@ -148,8 +148,8 @@ these are the rules it encodes:
   of `1K|2K|4K`). There is **NO `--resolution` flag** to ai-gen (it errors).
   `gen-edit.sh`'s `--resolution 2K` maps to the positional param **for nano-banana
   only** (qwen does not take it).
-- **Aspect** via `--aspect-ratio` (e.g. `landscape_4_3` — rooms are landscape) or a
-  `-s/--size` preset. `gen-edit.sh`'s `--aspect landscape_4_3` maps to it.
+- **Aspect** via `--aspect-ratio` (e.g. `source aspect (omit --aspect to preserve it; valid: 16:9|9:16|1:1)` — rooms are landscape) or a
+  `-s/--size` preset. `gen-edit.sh`'s `` maps to it.
 - **Outputs:** read `files[0].local_path` from the `--format json` blob — entries are
   **objects**, not strings. The `*.fal.media` URL **expires**; `gen-edit.sh` downloads
   the local file immediately. Never `startswith("https://fal.media")` (it rejects every
