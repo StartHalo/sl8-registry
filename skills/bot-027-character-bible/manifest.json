@@ -1,0 +1,59 @@
+{
+  "name": "bot-027-character-bible",
+  "version": "v1.0.0",
+  "description": "Turn a cinematic brief into a locked character bible — first a verbatim trait-lock character-spec.md (5-7 distinctive identity tokens face→hair→eyes→outfit/props, a fixed integer seed, a named palette, frozen STYLE_STACK + CHARACTER_BLOCK), then the visual half — a multi-view turnaround reference-sheet.png and a clean hero.png of ONE consistent on-brief character — recorded with model/seed/prompt/fallback/url in bible-log.md. This is THE bible step — the reference-sheet + hero become the @Image1/@Image2 anchors the Seedance reference-to-video render reads to hold the SAME character across every shot; identity drift across the cinematic is caused by skipping this or by paraphrasing a locked token. Run as phase 1 of every BOT-027 cinematic project, right after onboarding, whenever character-spec.md is missing or the bible images are absent, or when asked to lock a character, build a character bible, or generate a turnaround / reference sheet / hero from a brief. Do this BEFORE the shotlist or the render.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the cinematic brief (a story/fight premise plus a character description, and/or a path to a reference image). Absence is a recorded failure, never an invented character."
+    },
+    {
+      "name": "reference-image",
+      "type": "image",
+      "required": false,
+      "description": "An uploaded reference image cited in context.md (e.g. inputs/ref.png). Copied into artifacts/<project-name>/inputs/, recorded as the PRIMARY identity anchor, and passed as --ref on every bible generation; tokens reinforce it. Default — none (text-only spec; the language+seed lock holds)."
+    },
+    {
+      "name": "style-preference",
+      "type": "text",
+      "required": false,
+      "description": "Art style / render / lighting / camera look for the STYLE_STACK, from context.md. Default — \"cinematic concept-art realism, dramatic lighting\"."
+    },
+    {
+      "name": "seed",
+      "type": "text",
+      "required": false,
+      "description": "Fixed generation seed (integer as text), reused across both bible images and recorded in the spec so phases 2-3 stay consistent. Default — 7777."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/character-spec.md",
+      "description": "The locked character bible spec in the fleet-contract shape — Identity Tokens (5-7 verbatim, face→hair→eyes→outfit/props order), Seed (one integer), Palette (named + reasoning), frozen STYLE_STACK + CHARACTER_BLOCK, Reference image, Provenance, Downstream use. The Seedance render (phase 3) and the Kling sibling parse it by fixed section name."
+    },
+    {
+      "name": "reference-sheet",
+      "type": "png",
+      "path": "artifacts/<project-name>/reference-sheet.png",
+      "description": "Multi-view turnaround sheet — the requested angles (front / three-quarter / side / back by default) of ONE consistent character (face, hair, outfit, palette agree across views), clean neutral background, no in-image text. The @Image1 identity reference the Seedance render reads."
+    },
+    {
+      "name": "hero",
+      "type": "png",
+      "path": "artifacts/<project-name>/hero.png",
+      "description": "Clean front-facing hero portrait of the same character — the canonical i2v start frame and @Image2 reference the Seedance render feeds first."
+    },
+    {
+      "name": "bible-log",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/bible-log.md",
+      "description": "Per-asset ledger — producing model + slug, the fixed seed, the full composed prompt (frozen blocks verbatim), any fallbacks taken in order, the fal.media URL, and the post-generation self-check verdict."
+    }
+  ],
+  "generated_at": "2026-06-20T03:24:23.806Z",
+  "skill_md_sha256": "3a96a50c21876dff2b1579a26366d6102575b240d42dd02b443e766b88cf7a6d"
+}
