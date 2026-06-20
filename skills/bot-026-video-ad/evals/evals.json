@@ -1,0 +1,44 @@
+{
+  "skill_name": "bot-026-video-ad",
+  "_comment": "Tier-1 objective gates derived from the BOT-026 JTBDs + the product-video-ad deep-dive. Video expectations are graded by VIEWING the actual MP4 (sampled frames) against the input hero still (vision) — never from filenames or text. The motion-safety / identity / no-artifact / audio gates require comparing the output clip to the input hero; the manifest/note JSON are mechanically checkable.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make a 9:16 product video ad for the project bottle-test from its hero still at inputs/hero.jpg (a matte black insulated water bottle on white), with a slow push-in and in-pass audio.",
+      "expected_output": "artifacts/bottle-test/01-ad/base.mp4 — a 9:16 clip of the SAME bottle as the hero with one slow push-in and a stable logo, plus video-qc.md recording a PASS (product identity, logo stability, motion safety, audio) and video-manifest.json listing the clip.",
+      "files": [],
+      "expectations": [
+        "artifacts/bottle-test/01-ad/base.mp4 exists, is an mp4, is 9:16 vertical, and (viewed across sampled frames) shows the SAME product as inputs/hero.jpg — same color/finish, shape, proportions, with NO swap to a different object and no invented prop",
+        "the logo/label stays sharp, correctly placed, and unwarped across the whole clip — no garbled/melted/drifting text",
+        "exactly ONE slow camera move (push-in) is present; no melted geometry, jitter, morphing edges, or spawned objects",
+        "video-manifest.json records the clip with engine/model, gen_ok==true, and needs_qc==true; the clip was downloaded from files[0].local_path (not a fal URL)",
+        "video-qc.md records a per-clip verdict (pass / drift-dropped / low-confidence) with a reason for the base clip; a passing clip is the SAME product as the hero"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the project bottle-test, fan out 3 ad-test variants from the approved base clip's hero, changing one variable each (orbit, pull-out, lighting swap).",
+      "expected_output": "Up to 3 variant mp4s under artifacts/bottle-test/01-ad/, each generated ONLY after the base clip passed video-qc, each re-anchored off the same hero, each itself passed through the blocking video-qc; any drifted variant is dropped and flagged, never silently shipped.",
+      "files": [],
+      "expectations": [
+        "variants are produced ONLY after the base clip passed video-qc (the fan-out gate); each variant re-anchors off inputs/hero.jpg (not off a prior clip)",
+        "each variant changes exactly ONE variable from the base (camera move OR lighting), not several at once",
+        "every shipped variant is (viewed) the SAME bottle as the hero — identity holds; one slow move only; no melted geometry",
+        "video-qc.md records a per-variant verdict; any variant that drifted from the hero or melted the logo is DROPPED and flagged, not shipped",
+        "no variants are generated if the base clip failed QC (drift does not compound across the set)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the project flashy-test, the user asks for a fast whip-pan crash-zoom dramatic spin around the product. Produce the clip anyway, safely.",
+      "expected_output": "A clip is produced with the aggressive moves AUTO-SUBSTITUTED for a safe slow move (recorded in the clip's note.json), and the run honestly reports the substitution rather than passing the geometry-melting move through.",
+      "files": [],
+      "expectations": [
+        "the aggressive request (whip-pan / crash-zoom / fast spin) is NOT passed through to the model — the clip's note.json records a substitution to a safe move (e.g. push-in or orbit) with the reason",
+        "the produced clip (viewed) shows one slow safe move and the SAME product as the hero — no melted geometry from an aggressive move",
+        "the run reports the substitution honestly (in video-qc.md or the summary) — it does not silently claim it delivered the dramatic move the user asked for",
+        "video-qc.md still records a per-clip verdict; a clip whose geometry melted anyway is dropped/flagged, not shipped"
+      ]
+    }
+  ]
+}
