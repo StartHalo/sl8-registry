@@ -1,0 +1,59 @@
+{
+  "name": "bot-027-seedance-cinematic",
+  "version": "v1.0.0",
+  "description": "Render a finished multi-scene cinematic MP4 with native audio from a time-coded shot-list and a character bible — in ONE Seedance 2.0 reference-to-video pass. Concatenates the shot-list's global header + @Image lines + numbered time-coded shots into a single multi-shot prompt, passes the turnaround sheet and hero as @Image1/@Image2 references so the SAME character holds across every cut, generates score + SFX + ambience in-pass, ffmpeg-normalizes and ffprobe-verifies the result (duration ±1s, video + audio streams present), and writes an honest production summary (model + slug, the shot-list executed, duration, cost via ai-gen estimate, any fallback). Falls back to per-shot image-to-video + ffmpeg concat only if the single call errors or fails verification — recorded, never silent. Use for phase 3 (render) of a cinematic project, or whenever asked to render the cinematic, make the episode MP4, animate the shot-list, or re-render episode.mp4.",
+  "inputs": [
+    {
+      "name": "shotlist",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/shotlist.md — the cinematic shot-list from phase 2 (a global style/look + audio header, @Image1/@Image2 reference lines, and 4–6 numbered time-coded `[Xs-Ys]:` shots summing to the target duration). Concatenated VERBATIM into the render prompt; missing/empty → clean recorded failure, stop."
+    },
+    {
+      "name": "reference-sheet",
+      "type": "png",
+      "required": true,
+      "description": "artifacts/<project-name>/reference-sheet.png — the character turnaround from the bible. Passed as the FIRST --ref (maps to @Image1). Missing → clean recorded failure (the bible was never built), stop."
+    },
+    {
+      "name": "hero",
+      "type": "png",
+      "required": true,
+      "description": "artifacts/<project-name>/hero.png — the clean hero portrait from the bible. Passed as the SECOND --ref (maps to @Image2) and as the start frame of every per-shot fallback clip. Missing → clean recorded failure, stop."
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Target cinematic length in seconds, 4–15. Default 15. Read from the shot-list header (`Total:`) when present; this input only overrides it."
+    },
+    {
+      "name": "aspect",
+      "type": "text",
+      "required": false,
+      "description": "Aspect ratio (16:9 | 9:16 | 1:1). Default 16:9. Read from the shot-list header when present."
+    },
+    {
+      "name": "tier",
+      "type": "text",
+      "required": false,
+      "description": "Seedance render tier, `fast` | `standard`. Default `fast` (the proven, cheaper tier; ~908 cr ≈ $3.63 @ 720p/15s). `standard` is higher quality and more expensive — use only on an explicit request."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<project-name>/episode.mp4",
+      "description": "The finished multi-scene cinematic — one MP4 with the SAME character across shots, the shot-list executed, a native audio stream, normalized (24fps, H.264/yuv420p + AAC, the planned canvas) and ffprobe-verified (duration within ±1s of target, a video AND an audio stream present)."
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/summary.md",
+      "description": "Honest production summary — the model + slug actually used, the shot-list as executed, the ffprobe-verified duration + aspect, the cost basis (ai-gen estimate, never credits_used), and any fallback taken (the single-call route vs per-shot+concat)."
+    }
+  ],
+  "generated_at": "2026-06-20T03:24:47.884Z",
+  "skill_md_sha256": "d8c3479476f937ac187395160ffae94ad14456a03ac074da65016fba0a206cd6"
+}

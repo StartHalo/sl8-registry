@@ -1,0 +1,40 @@
+{
+  "skill_name": "bot-027-seedance-cinematic",
+  "_comment": "Objective gates derived from JTBD-3 (1-requirements.md). The episode.mp4 visual expectations are graded by the grader SAMPLING KEYFRAMES of the actual MP4 (media-judge) - never from filenames or text descriptions. Structural expectations are graded from ffprobe output recorded in summary.md. Eval 1 supplies a complete shotlist.md plus small valid reference-sheet.png + hero.png stubs so the skill has real inputs; Test wiring must materialize the two PNGs (the bible images) before the run - the render conditions on them. NEVER hand-code regex - the grader judges the artifacts.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Render the cinematic for the project robot-meadow from its shotlist.md and character bible (reference-sheet.png + hero.png). Use the default duration, aspect, and tier.",
+      "expected_output": "artifacts/robot-meadow/episode.mp4 — a single multi-scene cinematic in which the SAME character appears across every shot, the shot-list's shots are executed in order, an audio stream is present, and the ffprobe duration is within +/-1s of 15s. Plus artifacts/robot-meadow/summary.md recording the model + slug actually used, the shot-list as executed, the verified duration + aspect, the cost basis (ai-gen estimate), and the render route (single-call reference-to-video, or the per-shot fallback and why).",
+      "files": [
+        {
+          "path": "artifacts/robot-meadow/shotlist.md",
+          "content": "# Shot-list: robot-meadow\n\nMulti-shot cinematic 3D-animated short, Pixar-style animation, bright cheerful color grading, soft warm lighting, shallow depth of field, polished render.\n@Image1 is the character turnaround reference and @Image2 is the hero reference for a small round friendly cartoon robot, glossy white and warm-orange rounded body, one big glowing cyan eye on a smooth screen face — maintain the EXACT same character identity in every shot.\nA sunlit green meadow with wildflowers under a bright blue sky, a playful adventure.\n[0-3s]: wide establishing shot, gentle push-in, the little robot wakes up and stretches in the meadow, blinking its big cyan eye, morning light and floating pollen.\n[3-6s]: medium shot, the robot spots a glowing butterfly and tilts its head in curiosity, a cheerful little bounce.\n[6-9s]: tracking shot, the robot chases the butterfly through the wildflowers, stubby legs pumping, joyful, petals scattering.\n[9-12s]: low-angle shot, the robot leaps into the air after the butterfly and the motion ramps into brief slow motion at the peak of the jump, then tumbles softly into the grass.\n[12-15s]: close-up, the robot lies in the grass looking up in wonder as the butterfly lands on its eye-screen, a warm happy moment.\nTotal: 15s / 5 shots / 16:9. Audio: whimsical playful orchestral score, gentle nature ambience, soft robotic chirps and a happy beep.\nMaintain character identity, avoid identity drift, avoid jitter, smooth animation, stable picture, no flicker.\n"
+        }
+      ],
+      "_note": "Test wiring MUST materialize artifacts/robot-meadow/reference-sheet.png and artifacts/robot-meadow/hero.png (small valid PNGs of the friendly robot, ideally from a real bible run) BEFORE this eval runs - the render conditions on both as --ref. Without them the skill correctly records a clean failure (no episode), so the visual/structural expectations would be N/A.",
+      "expectations": [
+        "artifacts/robot-meadow/episode.mp4 exists and is a single coherent multi-scene cinematic: the SAME character (the friendly glossy white-and-orange one-cyan-eye robot from the bible) is recognizable across every sampled shot - no identity drift between cuts (verified by sampling the video keyframes)",
+        "the sampled keyframes show the shot-list executed in order - an establishing wake-up, the robot noticing a butterfly, a chase through the meadow, a leap, and a close-up payoff - reading as a directed cinematic with shot variety and camera movement, not one static clip (verified by sampling the video keyframes)",
+        "ffprobe of episode.mp4 shows BOTH a video stream and an audio stream present, and a format duration within +/-1s of the 15s target (the verification output is recorded in summary.md)",
+        "summary.md records the producing model + slug (bytedance/seedance-2.0/<tier>/reference-to-video for the single-call route, or bytedance/seedance-2.0/fast/image-to-video for the per-shot fallback), the render route taken, the shot-list as executed, the verified duration and aspect, and a cost basis derived from ai-gen estimate (NOT the JSON credits_used field)",
+        "if the single reference-to-video call was abandoned for the per-shot+concat fallback, summary.md states that the fallback ran AND why (the single call errored or failed verification) - the route is never misreported and a fallback is never silent"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Render the cinematic for the project no-bible from its shotlist.md. The character bible images (reference-sheet.png and hero.png) are missing.",
+      "expected_output": "The skill detects that the required bible reference images do not exist, records a clean failure in state.md naming the missing required input and routing back to phase 1 (character-bible), and produces no episode.mp4 and no fabricated/placeholder MP4.",
+      "files": [
+        {
+          "path": "artifacts/no-bible/shotlist.md",
+          "content": "# Shot-list: no-bible\n\nMulti-shot cinematic, dark-fantasy look, volumetric god rays, cinematic lighting, gritty textures.\n@Image1 is the character turnaround reference and @Image2 is the hero reference for a dark-elf rogue, matte black-violet skin, silver-white braided hair, glowing violet eyes — maintain the EXACT same character identity in every shot.\nA ruined stone courtyard at dusk, a tense duel.\n[0-4s]: wide establishing shot, slow push-in, the dark elf draws a curved blade, rim light against the mist.\n[4-8s]: medium tracking shot, the elf lunges with a spinning strike, cloak billowing.\n[8-12s]: low-angle power shot, the strike lands and the motion ramps into slow motion, sparks scattering.\n[12-15s]: close-up, the elf stands victorious, rim light separating the figure from the mist.\nTotal: 15s / 4 shots / 16:9. Audio: epic orchestral score, sword impacts, wind, stone grinding.\nMaintain character identity, avoid identity drift, avoid jitter, smooth motion, stable picture, no flicker.\n"
+        }
+      ],
+      "expectations": [
+        "no episode.mp4 is produced for artifacts/no-bible/ (the render conditions on the bible images and no MP4 was fabricated in their absence)",
+        "the missing required input (reference-sheet.png and/or hero.png) is recorded as a clean failure - state.md is marked blocked, names the missing file(s), and routes back to phase 1 (character-bible) - rather than silently skipped, worked around, or rendered without the references"
+      ]
+    }
+  ]
+}
