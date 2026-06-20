@@ -1,0 +1,43 @@
+{
+  "skill_name": "bot-024-tryon-studio",
+  "_comment": "Tier-1 objective gates derived from the JTBD (deep-dive on-model-apparel-tryon.md §6) + the verified ai-gen named-arg contract. Image expectations are graded by VIEWING the actual try-on PNGs against the seller's real garment flat-lay (vision) — never from filenames or text. The fidelity AND the misrepresentation (flattery) axes are both graded by comparing the on-model output pixels to the input garment. tryon-qc verdicts and the resolution flag are checkable from qc-report.md + the .meta.json.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the project floral-linen-shirt, put the flat-lay garment at inputs/garment.jpg (a floral-print linen button shirt) onto the model at inputs/model.jpg and produce 1 catalog-ready on-model shot.",
+      "expected_output": "artifacts/floral-linen-shirt/01-tryon/01-front.png — an on-model image of a model wearing the SAME shirt as the flat-lay (same print, color, collar, buttons, fabric), produced via fal-ai/fashn/tryon/v1.6 (named args garment_image + model_image), passed through the blocking tryon-qc compare, and upscaled toward 2000px; plus qc-report.md recording a pass verdict and 01-front.png.meta.json naming the model used.",
+      "files": [],
+      "expectations": [
+        "artifacts/floral-linen-shirt/01-tryon/01-front.png exists, is an image, and (viewed) shows a model wearing the SAME garment as inputs/garment.jpg — same print pattern, color, collar, buttons, and fabric, with NO invented detail",
+        "01-front.png.meta.json records model == fal-ai/fashn/tryon/v1.6 (or the leffa fallback) and ok == true — the try-on came from the dedicated VTON endpoint via named args, not from a general --image re-render",
+        "qc-report.md records a tryon-qc verdict (pass) for the variant with a reason, comparing the on-model garment against the real flat-lay on fabric/print/color/trim/cut-fit",
+        "the shipped image is upscaled toward the marketplace target (long side approaching/at 2000px) OR the resolution shortfall is honestly FLAGGED in qc-report.md — never faked",
+        "the garment's cut, length, and fit match the real flat-lay; the fabric is NOT rendered more premium than the real linen (no flattery)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the project slimmed-knit, the try-on came back recognizably the same knit top but rendered with a noticeably slimmer fit, a smoothed-out luxe-looking fabric, and a lengthened hem versus the real flat-lay at inputs/garment.jpg. Run the QC and decide what ships.",
+      "expected_output": "tryon-qc returns a flatter (misrepresentation) verdict — the variant is NOT shipped as a catalog truth-claim; qc-report.md records the flatter verdict with the specific reason (fit slimmed / fabric upgraded / hem lengthened) and escalates to the seller. No silently shipped flattered image.",
+      "files": [],
+      "expectations": [
+        "qc-report.md records a flatter (or drift) verdict for the variant, NOT pass — the flattered output is caught, not certified",
+        "the specific misrepresentation is named (slimmed fit, upgraded/smoothed fabric, lengthened hem) — the gate distinguishes flattery from mere cosmetic defects",
+        "the flattered variant is NOT placed in 01-tryon as a shipped catalog shot; it is escalated to the seller / dropped, and qc-report.md states the don't-mislead-returns reason",
+        "if any variant is shipped, it is one that passed QC (same garment, not flattered); the report is honest about what was dropped/escalated"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "For the project swim-set, the model wears swimwear and the general-model fallback path keeps getting IMAGE_SAFETY-rejected; also no fabric was declared in context.md. Produce what you can and be honest about the rest.",
+      "expected_output": "The dedicated FASHN path (with its own moderation_level) is preferred; if the general fallback is reached it ASKS for the fabric rather than inventing it, applies the mannequin/dress-form reframe on IMAGE_SAFETY rejection with retries, and FLAGS any category that keeps refusing — never forcing or faking an output, never inventing the fabric.",
+      "files": [],
+      "expectations": [
+        "the run prefers the dedicated VTON endpoint (FASHN moderation_level) for swimwear before the general-model path",
+        "on the general-model fallback, the missing fabric is ASKED for / flagged, NOT invented (fabric-inject rejects generic terms) — the bot never fabricates a fabric type",
+        "on IMAGE_SAFETY rejection the prompt is reframed to the garment on a mannequin/dress form and retried, per tryon-discipline.md",
+        "if the category keeps refusing, qc-report.md / the summary FLAGS it honestly as not produced — no faked or forced on-model image is shipped"
+      ]
+    }
+  ]
+}
