@@ -124,7 +124,7 @@ scripts/gen-edit.sh \
   artifacts/<listing>/01-staged/<room>-staged.jpg \
   --model fal-ai/nano-banana-pro \
   --fallback fal-ai/qwen-image-edit \
-  --aspect landscape_4_3 \
+   \
   --max-cost 60 \
   --resolution 2K \
   --work work/stage

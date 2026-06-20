@@ -144,7 +144,7 @@ encodes:
   **nano-banana-only** — there is **NO `--resolution` flag** on ai-gen (it errors).
   `gen-edit.sh`'s `--resolution 2K` translates to the positional param and is omitted for
   the Qwen fallback.
-- Aspect via `--aspect-ratio` / size presets (`gen-edit.sh --aspect landscape_4_3`).
+- Aspect via `--aspect-ratio` / size presets (`gen-edit.sh `).
 - **Outputs:** read `files[0].local_path` from the `--format json` blob (entries are
   **objects**, not strings). The `*.fal.media` URL **expires** — `gen-edit.sh` downloads
   the local file immediately. Never `startswith("https://fal.media")` (the BOT-013 bug).

@@ -1,6 +1,6 @@
 {
   "name": "bot-020-stage-room",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Virtually stage an EMPTY or SPARSE real-estate listing room photo in a chosen style (modern, mid-century, Scandinavian, farmhouse, contemporary-neutral) WITHOUT moving a wall, inventing a window, or changing the camera. Room structure (walls/windows/doors/ceiling/floor + camera) is held by a verbatim geometry-preserve clause (reachable fal edit models have NO hard geometry lock — preservation is prompt-only), every staged image passes a BLOCKING geometry-QC vision compare against the unaltered original, and the result is routed through the shared disclosure-stamp skill (\"Virtually Staged\" caption + preserved original + MLS pairing). Uses fal-ai/nano-banana-pro (--image), fal-ai/qwen-image-edit fallback. Use for the 'stage' phase, or whenever asked to \"virtually stage this room\", \"furnish this empty room\", \"stage this living room in a modern style\", or \"put furniture in this listing photo\".",
   "inputs": [
     {
@@ -48,6 +48,6 @@
       "description": "The disclosure set from disclosure-stamp: <room>-staged-disclosed.jpg (conspicuous 'Virtually Staged' caption), <room>-staged-pair.jpg (original<->staged side-by-side), and disclosure-assets.md (MLS remark + AB-723 line). The staged image NEVER exits as a bare altered file."
     }
   ],
-  "generated_at": "2026-06-20T18:11:13.313Z",
-  "skill_md_sha256": "30900858781ee2792d2a8365490d9732ba7b8b041c0b3ea8c693358f96904539"
+  "generated_at": "2026-06-20T18:28:23.038Z",
+  "skill_md_sha256": "08058aff0165a62c9b55d5b04658c02a22b80448f19803974c1e6f062480ca0c"
 }
