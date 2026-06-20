@@ -1,0 +1,47 @@
+{
+  "name": "bot-030-extend-chain",
+  "version": "v1.0.0",
+  "description": "Render a validated continuous-plan into ONE continuous shot.mp4 with the Veo 3.1 engine — generate ONE base start frame with nano-banana-pro (the Base scene opening image; the plan FROZEN character tokens), run a Veo image-to-video base call on that frame (native audio; 8s), then for EACH hop run a Veo extend-video call on the PREVIOUS hosted url. extend-video RETURNS THE FULL grown video (base plus every extension so far), NOT a 7s segment, so there is NO concat — the final hop local file IS the finished continuous video. ffprobe-verify one file (a video stream, an audio stream, duration greater than the base) then mv to episode.mp4. This is i2v plus an extend chain with native audio and NO stitching — a DIFFERENT architecture from the Seedance single-pass sibling and the Kling per-shot concat sibling. Run as phase 2, after the continuous-plan, reading continuous-plan.md, whenever episode.mp4 is missing or a re-render is asked.",
+  "inputs": [
+    {
+      "name": "continuous-plan",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/continuous-plan.md — the validated continuous plan (a global look header; the frozen CHARACTER tokens identity line; a Base scene opening-image prompt plus a base motion prompt; numbered hop prompts each one continuation beat; an aspect-ratio plus Audio footer). Parsed for the base frame, the base motion, the hop prompts, and the aspect ratio. Absence is a clean recorded failure; no MP4 is ever fabricated."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the base frame, the Veo base call, and every extend hop. Veo supports only 16;9 and 9;16. Default is read from the plan footer (else 16;9). Overrides the footer only when explicitly supplied."
+    },
+    {
+      "name": "tier",
+      "type": "text",
+      "required": false,
+      "description": "Cost posture, economy or quality. Default economy (a 720p base; a per-call credit cap). quality raises the resolution toward 1080p. Recorded in summary.md; affects the resolution and the credit cap, not the model slug."
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Target continuous length in seconds as an integer in text form. Default is the base 8s plus the planned hops (about 7s each, up to a 30s Veo ceiling). Used only to cross-check the assembled total; the real length is whatever the final extend returns."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<project-name>/episode.mp4",
+      "description": "The finished continuous shot — ONE Veo 3.1 image-to-video base extended by N extend-video hops, each hop returning the FULL grown video (NO concat); native audio throughout (Veo generate_audio default true). The final extend-video local file moved to episode.mp4. ffprobe-verified for a video stream, an audio stream, and a duration greater than the base."
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/summary.md",
+      "description": "An honest production log — the base frame model, the Veo base slug, each extend hop with its slug and its continuation beat, the final continuous duration, the native-audio note, and per-step plus total cost via ai-gen estimate. States plainly that there is NO concat (extend returns the whole video) and carries the one-line architecture note (i2v plus extend chain) scored head-to-head in the KB results-log. Records any hop shortfall truthfully."
+    }
+  ],
+  "generated_at": "2026-06-20T18:18:48.834Z",
+  "skill_md_sha256": "58e45d8ca4258043b7b2313b52ac3cd72c64dfc0f36a59e4cf260304420af17a"
+}
