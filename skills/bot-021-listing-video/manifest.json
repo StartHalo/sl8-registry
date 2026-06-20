@@ -1,0 +1,53 @@
+{
+  "name": "bot-021-listing-video",
+  "version": "v1.0.0",
+  "description": "Turn a real-estate listing's REAL photos into a publish-ready cinematic listing/walkthrough video with a deterministic Ken-Burns slideshow — a branded intro card (address / price / beds·baths / agent), one slow single-axis virtual-camera move per photo (the photo itself is shipped verbatim — no pixel synthesis, no melting geometry, MLS-safe), a CTA outro card, an optional licensed music bed, and the mandatory first-frame California AB-723 disclosure burned in. Pure ffmpeg, KEYLESS (zero fal cost), always ships. Outputs both a 16:9 (YouTube/MLS) and a 9:16 (Reels/TikTok/Shorts) export, and routes through the shared disclosure-stamp skill for the MLS remark + AB-723 line. Use for the 'slideshow' phase, or whenever asked to \"make a listing video\", \"turn these listing photos into a video\", \"create a property walkthrough video\", \"build a real-estate reel from these photos\", \"make a 60-second listing tour\", or \"video from listing photos\".",
+  "inputs": [
+    {
+      "name": "listing-photos",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<listing>/inputs/*.jpg|*.png — the REAL listing photos. They are SACRED: shipped verbatim, only the virtual camera moves over them. Order is taken from listing.json (else lexicographic). At least one photo is required; a run with zero photos is a clean recorded failure, not a question."
+    },
+    {
+      "name": "listing-facts",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<listing>/inputs/listing.json — {address, price, beds, baths, sqft, agent, cta, music?}. Drives the intro/outro cards and the photo order. A missing or unreadable listing.json is a clean recorded failure (the cards have no truth to render); fields inside it have per-field defaults."
+    },
+    {
+      "name": "music",
+      "type": "markdown",
+      "required": false,
+      "description": "artifacts/<listing>/inputs/music.mp3 (or the path in listing.json.music) — an optional licensed background bed, mixed ~-15dB under and faded by assemble-listing.sh. Default — none (silent export; never auto-fetch a track, royalty risk)."
+    },
+    {
+      "name": "aspects",
+      "type": "markdown",
+      "required": false,
+      "description": "Which exports to render. Default — BOTH 16:9 (YouTube/MLS/web) and 9:16 (Reels/TikTok/Shorts). 1:1 is also supported on request. Each requested aspect is a full independent assemble pass."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "export-16x9",
+      "type": "video",
+      "path": "artifacts/<listing>/exports/listing-16x9.mp4",
+      "description": "The 16:9 cinematic slideshow (1920x1080, H.264, 24fps, music bed if supplied, first-frame AB-723 disclosure card burned in). The default web/MLS deliverable. Photos shipped verbatim — only the camera moved."
+    },
+    {
+      "name": "export-9x16",
+      "type": "video",
+      "path": "artifacts/<listing>/exports/listing-9x16.mp4",
+      "description": "The 9:16 vertical reel cut (1080x1920) of the same slideshow — intro hook in the first 0-2s, ~15-40s total, for Reels/TikTok/Shorts. Same first-frame AB-723 disclosure burned in."
+    },
+    {
+      "name": "disclosure",
+      "type": "markdown",
+      "path": "artifacts/<listing>/disclosure.md",
+      "description": "The AB-723 / MLS disclosure pack from disclosure-stamp: the verbatim first-frame CARD_TEXT, the ready-to-paste MLS remark, the AB-723 disclosure line, and the reachable-original note (the originals are the real listing photos — already publishable, no pixel synthesis to host separately). Every export ships paired with this."
+    }
+  ],
+  "generated_at": "2026-06-20T18:48:50.714Z",
+  "skill_md_sha256": "2c1eb73304316c6866d7d59302e98aab287e000570a1cfb980cf97bc3319049c"
+}
