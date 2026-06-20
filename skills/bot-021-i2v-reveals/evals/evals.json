@@ -1,0 +1,23 @@
+{
+  "skill_name": "bot-021-i2v-reveals",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a cinematic moving reveal to this living-room listing photo for the 123-Maple-St video — make it feel like a hero shot, not a static slide.",
+      "expected_output": "Picks the default push-in (5s) motion-only recipe from references/reveal-prompts.md (camera move only, room NOT re-described), runs scripts/gen-clip.sh with the photo as the start frame, default model bytedance/seedance-2.0/fast/image-to-video and fallback fal-ai/kling-video/v3/pro/image-to-video, --max-cost 400 --still-fallback. Writes artifacts/123-maple-st/clips/01-reveal-push-in.mp4 plus a clip log recording model used, cost from ai-gen balance delta (NOT credits_used), and a warp/melt vision verdict. Vision-grades the clip; if it warped, drops it and degrades to the still-segment with a FLAG. Updates the reveals row in state.md and hands clips back to bot-021-listing-video assembly.",
+      "files": ["evals/fixtures/photo1.png"]
+    },
+    {
+      "id": 2,
+      "prompt": "Make a bounded orbit reveal of this bedroom and a slow exterior approach shot for the front of the house, vertical 9:16 for social.",
+      "expected_output": "Selects the orbit (≤30°, 10s) recipe for the interior photo and the aerial/exterior dolly (8s) recipe for the exterior photo — both verbatim, motion-only. Runs scripts/gen-clip.sh per photo with --aspect 9:16, --duration 10 (orbit) / clamped valid token (aerial), --still-fallback. Writes artifacts/<listing>/clips/NN-reveal-orbit.mp4 and NN-reveal-aerial.mp4 with per-clip logs. Vision-grades each; any warp/melt is dropped + flagged and degraded to the deterministic still-segment, never silently shipped. Uses bare bytedance/seedance-2.0/... slug (not fal-ai/bytedance). Records counts and any fallbacks in the state.md reveals row.",
+      "files": ["evals/fixtures/photo1.png", "evals/fixtures/photo2.png"]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate a push-in reveal for this kitchen photo, then finalize the disclosed export for MLS.",
+      "expected_output": "Generates the push-in reveal clip into artifacts/<listing>/clips/ with a log, then (as the finalizing step) routes the export through the shared disclosure-stamp skill: python3 ../disclosure-stamp/stamp.py --media <export>.mp4 --type virtual-staging --out <export>-disclosed.mp4. Writes artifacts/<listing>/disclosure.md capturing the burned first-frame AB-723 card text, the MLS remark, and the ACTION REQUIRED note that the unaltered original photos must be hosted at a public login-free URL/QR. Does not claim full compliance when no original is hosted. references-skills includes disclosure-stamp.",
+      "files": ["evals/fixtures/photo2.png"]
+    }
+  ]
+}
