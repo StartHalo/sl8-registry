@@ -1,0 +1,43 @@
+{
+  "skill_name": "bot-021-listing-video",
+  "_comment": "Tier-1 objective gates derived from JTBD-1 (the deterministic, MLS-safe cinematic listing slideshow) + the ffmpeg-slideshow discipline. Video expectations are graded by ffprobe (duration / dimensions / streams) and by VIEWING sampled frames of the actual MP4 (vision) — never from filenames or text. The MLS-safety assertion requires confirming the listing photos appear VERBATIM (only the virtual camera moved; no melted/invented geometry, no pixel synthesis) and that the first-frame AB-723 disclosure card is burned into ~the first 3s. Fixtures: evals/fixtures/photo1.png + photo2.png are two real room photos.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "For the listing maple-st, make a cinematic listing video from the two photos in inputs/ (photo1.png, photo2.png). listing.json: {\"address\":\"123 Maple St\",\"price\":\"$899,000\",\"beds\":3,\"baths\":2,\"sqft\":1850,\"agent\":\"Jamie Rivera\",\"cta\":\"Schedule a tour today\"}.",
+      "expected_output": "Both exports/listing-16x9.mp4 (1920x1080) and exports/listing-9x16.mp4 (1080x1920) are produced by the keyless ffmpeg slideshow: a branded intro card (address '123 Maple St' as the accent title, price·beds·baths·sqft, agent), one slow single-axis Ken-Burns segment over EACH real photo (the photo shipped verbatim — only the camera moves), and a CTA outro ('Schedule a tour today'). The first-frame AB-723 disclosure card is burned into ~the first 3s of each export. disclosure.md is written from disclosure-stamp with the MLS remark + AB-723 line + the reachable-original note (the real photos ARE the unaltered originals). No fal/ai-gen call was made.",
+      "files": ["evals/fixtures/photo1.png", "evals/fixtures/photo2.png"],
+      "expectations": [
+        "artifacts/maple-st/exports/listing-16x9.mp4 exists, ffprobes as 1920x1080 H.264 with an audio stream, and (sampled frames viewed) is a slideshow of the TWO real input photos with a slow single-axis camera move over each — the photos appear VERBATIM (no melted, warped, or invented geometry; no pixel synthesis), plus an intro card showing '123 Maple St' and an outro CTA card",
+        "artifacts/maple-st/exports/listing-9x16.mp4 exists and ffprobes as 1080x1920 (the vertical reel cut of the same slideshow), intro hook within the first ~0-2s, total duration roughly 15-40s",
+        "the first ~3s of EACH export carries the burned first-frame AB-723 disclosure card (the 'Video created from listing photos using AI motion technology' text, viewed) — produced by assemble-listing.sh, not skipped",
+        "artifacts/maple-st/disclosure.md exists and was produced via the disclosure-stamp skill (stamp.py --type virtual-staging): it contains the verbatim first-frame CARD_TEXT, the ready-to-paste MLS remark, the AB-723 disclosure line, and the reachable-original note stating the real listing photos are the unaltered originals (camera-motion only, no separately-altered original to host)",
+        "the run was KEYLESS — no ai-gen / fal generative call was made (pure ffmpeg); the assembler's JSON verdict (PASS, or FLAG with reasons) is recorded in state.md"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For the listing oak-ave, build a vertical listing reel from inputs/photo1.png and inputs/photo2.png — no music, and the listing.json has no sqft and no cta. listing.json: {\"address\":\"88 Oak Ave\",\"price\":\"$1,250,000\",\"beds\":4,\"baths\":3,\"agent\":\"Priya Shah\"}.",
+      "expected_output": "A 9:16 reel (1080x1920) is produced as a SILENT export (no --music — no track was auto-fetched). The intro card shows '88 Oak Ave' + '$1,250,000 · 4 bd · 3 ba' (the missing sqft line is OMITTED, never rendered as 'undefined'). Because cta is missing, the outro CTA defaults to the agent name 'Priya Shah'. The first-frame AB-723 card is burned in and disclosure.md is written. The photos are shipped verbatim.",
+      "files": ["evals/fixtures/photo1.png", "evals/fixtures/photo2.png"],
+      "expectations": [
+        "artifacts/oak-ave/exports/listing-9x16.mp4 exists, ffprobes as 1080x1920, and is a SILENT slideshow (the audio stream is silence — no licensed/auto-fetched music was added because none was supplied)",
+        "the intro card (viewed) shows '88 Oak Ave' as the accent title and the facts line shows price/beds/baths but OMITS sqft entirely — the literal string 'undefined' never appears anywhere on screen",
+        "an outro card is present and its CTA falls back to the agent name 'Priya Shah' because listing.json had no cta field (the omission/default is recorded as an assumption)",
+        "the first ~3s carries the burned first-frame AB-723 disclosure card, and the two real photos appear verbatim with only a slow single-axis camera move (no synthesized geometry)",
+        "artifacts/oak-ave/disclosure.md is written via disclosure-stamp with the MLS remark + AB-723 line + reachable-original note"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Make a listing video for elm-ct from these photos, but inputs/ has the photos and NO listing.json at all.",
+      "expected_output": "A clean recorded FAILURE — not a question and not an invented listing. Because listing.json is the required facts source for the intro/outro cards, the skill records the missing-required-input in state.md (status: blocked, next_action: re-run onboarding — inputs/listing.json missing or unparseable) and stops. It does NOT fabricate an address/price, does NOT generate any video, and does NOT prompt the user (headless).",
+      "files": ["evals/fixtures/photo1.png", "evals/fixtures/photo2.png"],
+      "expectations": [
+        "no exports/*.mp4 is produced for elm-ct — the run stops at the required-input gate rather than guessing card text",
+        "state.md (or the run log) records a clean blocked failure for the slideshow phase with next_action pointing back to onboarding because inputs/listing.json is missing/unparseable",
+        "the skill did NOT invent an address, price, or agent, did NOT generate a video from text, and did NOT ask the user a question (it runs headless — a missing required input is a recorded failure, not a prompt)"
+      ]
+    }
+  ]
+}
