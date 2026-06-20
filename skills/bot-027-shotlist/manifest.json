@@ -1,0 +1,53 @@
+{
+  "name": "bot-027-shotlist",
+  "version": "v1.0.0",
+  "description": "Turn a story or fight brief plus a locked character spec into a validated cinematic shot-list — a global style/look header (genre + cinematic lighting + color grading), the @Image1/@Image2 identity-lock line, and 4-6 numbered time-coded [Xs-Ys] shots each carrying ONE camera move + ONE action with an escalation arc and a slow-mo ramp on the key beat, closed by a Total / Audio footer and the standard positive-constraint suffix — written so the render phase composes it into ONE Seedance reference-to-video call unattended. This is THE shot-grammar step; a flat single-clip render or identity drift across cuts is caused by skipping it. Run as phase 2 of every BOT-027 cinematic project, right after the character bible, whenever shotlist.md is missing or fails validate-shotlist.sh, or when asked to plan, re-plan, or rework a cinematic's shots.",
+  "inputs": [
+    {
+      "name": "project-context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/context.md — the story/fight brief (the scene, the beats, the world). Absence is a recorded failure, never an invented story."
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/<project-name>/character-spec.md — the locked bible (Identity Tokens, CHARACTER_BLOCK, palette). Read for the @Image1/@Image2 identity-lock line and the verbatim trait tokens that anchor each shot. If missing, route back to phase 1 (bot-027-character-bible); do not write a shot-list without it."
+    },
+    {
+      "name": "shot-count",
+      "type": "text",
+      "required": false,
+      "description": "Target number of shots as an integer in text form. Default 5; valid 4-6. The render model carries the whole list in one pass, so more than 6 shots in 15s starves each beat."
+    },
+    {
+      "name": "duration",
+      "type": "text",
+      "required": false,
+      "description": "Total cinematic length in seconds, as an integer in text form. Default 15; valid 4-15 (Seedance reference-to-video envelope). The shot time-codes must tile [0..duration] with no gaps or overlaps."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "Frame aspect for the footer and render. Default 16:9; common alternatives 9:16, 1:1, 21:9. Written into the Total footer so the render phase reads it verbatim."
+    },
+    {
+      "name": "profile",
+      "type": "text",
+      "required": false,
+      "description": "Genre arc, story or fight. Default story (wide establishing -> tighter -> climax -> resolve). fight selects the E2 dark-fantasy header and a standoff -> first clash -> escalation -> counter -> final strike arc with impact slow-mo. Recorded in the Notes section."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "shotlist",
+      "type": "markdown",
+      "path": "artifacts/<project-name>/shotlist.md",
+      "description": "The cinematic shot-list — a global style/look header, the @Image1/@Image2 identity-lock line, 4-6 numbered time-coded [Xs-Ys] shots (one camera + one action each, escalation arc, a slow-mo ramp on the key beat) tiling the target duration, and a Total / Audio footer with the positive-constraint suffix. The render phase (bot-027-seedance-cinematic) composes it into ONE Seedance reference-to-video prompt."
+    }
+  ],
+  "generated_at": "2026-06-20T03:24:35.904Z",
+  "skill_md_sha256": "5971099310301cec79afd76a4a38ebb54d71c94afec780eb328d300c42243e62"
+}
