@@ -1,0 +1,47 @@
+{
+  "name": "bot-022-lifestyle-composer",
+  "version": "v1.0.0",
+  "description": "Drop the approved compliant packshot (or its RMBG cutout) into on-brand and seasonal LIFESTYLE scenes for the PDP and ad creative — product identity locked. This is the GENERATIVE path (fal-ai/nano-banana-pro with the cutout passed via --image as the exact-product reference, plus an optional brand-look via --ref; Seedream v4.5 fallback), so it carries a MANDATORY blocking fidelity-qc gate on every output (a Claude vision compare of the scene against the cutout on product identity/color/shape/label — drop or FLAG drift; the reachable fal edit models have no hard fidelity lock, and a generative re-background once turned a mug into a luggage tag). Use for phase 3 (scenes) of a product project, or whenever asked to make lifestyle scenes, composite the product into a setting, generate seasonal/on-brand backdrops, or build PDP/ad-size scene variants.",
+  "inputs": [
+    {
+      "name": "hero",
+      "type": "image",
+      "required": true,
+      "description": "artifacts/<product>/01-hero/hero.jpg — the APPROVED, fidelity-QC-passed compliant hero (the single identity anchor). The hero is attached as the exact-product reference on EVERY scene. A clean RMBG cutout (work/cutout.png) is preferred as the --image source when present (transparent, composites cleaner); the hero is the fidelity-qc baseline either way."
+    },
+    {
+      "name": "scene-brief",
+      "type": "text",
+      "required": false,
+      "description": "Which scenes/seasons + channel/aspect to render, from context.md. Defaults — one neutral on-brand scene; channel PDP 4:3 + ad 9:16; pick presets from references/scene-presets.md. Headless — never ask; record the default taken in scenes-log.md."
+    },
+    {
+      "name": "brand-look",
+      "type": "image",
+      "required": false,
+      "description": "artifacts/<product>/inputs/brand-look.png — a brand \"look\" reference (palette/medium/mood) passed via --ref for dual-reference style transfer so the look carries across heterogeneous SKUs. Optional; absent → scene preset language carries the look. See references/brand-kit.md."
+    },
+    {
+      "name": "logo",
+      "type": "image",
+      "required": false,
+      "description": "artifacts/<product>/inputs/logo.png — brand logo, passed as an additional --ref only when a scene must carry the mark legibly (route text-bearing surfaces carefully; see references/brand-kit.md). Optional."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "scenes",
+      "type": "image",
+      "path": "artifacts/<product>/03-scenes/NN-<scene>-<aspect>.jpg",
+      "description": "One image per (scene × requested aspect), in scenes-log order. Every file shipped here has PASSED fidelity-qc; a drifted output is dropped (regenerated) or, if it cannot be recovered, FLAGGED and held out of the shipped set."
+    },
+    {
+      "name": "scenes-log",
+      "type": "markdown",
+      "path": "artifacts/<product>/03-scenes/scenes-log.md",
+      "description": "Per scene — preset used, model + effective chain, the composed prompt (file), aspect, fidelity-qc verdict (pass/drift + confidence), and any flag (held output, halo/edge artifact, human-review class). Honest production log; cost from estimate+balance, never credits_used."
+    }
+  ],
+  "generated_at": "2026-06-20T02:40:42.082Z",
+  "skill_md_sha256": "88e92a4f8644803abdb3add8a01dd82fcb61d54bbb910a4ee38d0993aee629e9"
+}
