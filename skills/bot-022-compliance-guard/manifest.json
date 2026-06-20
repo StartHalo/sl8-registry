@@ -1,0 +1,53 @@
+{
+  "name": "bot-022-compliance-guard",
+  "version": "v1.0.0",
+  "description": "Pre-publish marketplace compliance gate for AI-touched product images — audits and repairs an image against the EXACT Amazon main-image spec via Pillow (exact RGB 255,255,255 background, 85%+ frame fill, 1600px+, a text/logo/watermark flag), attaches a C2PA Content Credentials manifest and writes the correct PER-CHANNEL AI-disclosure text (Amazon substantially-modified note, Meta AI-Info label, TikTok AIGC) plus a dated EU/CA/NY jurisdiction note, and returns a per-channel PASS or FAIL linter answering \"will this get rejected or suppressed anywhere?\". Deterministic Pillow plus c2patool plus a Claude policy judge, with NO model dependency. Use it as the final pre-flight stage of any product-image project (phase 4), or whenever asked to compliance-check, pre-flight, disclosure-stamp, C2PA stamp, Amazon-spec-check, or check \"will this get rejected\" before a human publishes. Never auto-uploads.",
+  "inputs": [
+    {
+      "name": "image",
+      "type": "image",
+      "required": true,
+      "description": "The AI-touched product image to gate — a JPEG/PNG, typically artifacts/<product>/01-hero/hero.jpg (or any angle/scene). The main-image spec is audited on this exact file; the repaired/stamped copies are written alongside."
+    },
+    {
+      "name": "channels",
+      "type": "text",
+      "required": false,
+      "description": "Comma-separated target channels for the linter — any of amazon,etsy,meta,tiktok,shopify. Default `amazon` (the strictest image spec). Determines which per-channel rows the linter and disclosure-stamp emit."
+    },
+    {
+      "name": "jurisdictions",
+      "type": "text",
+      "required": false,
+      "description": "Comma-separated selling jurisdictions for the dated law note — any of us,eu,ca,ny. Default `us`. EU AI Act Art.50 / CA SB 942 are operative 2026-08-02; NY SB-8420A is live 2026-06-09 — the note is dated and scoped, never asserted as confirmed."
+    },
+    {
+      "name": "copy",
+      "type": "text",
+      "required": false,
+      "description": "Optional ad copy / review / testimonial text and a note on whether any person shown is AI-generated. Drives the FTC 16 CFR Part 465 fake-review / synthetic-spokesperson / AI-washing judge. Absent → the FTC gate runs on the image-origin signal only and reports `no_copy_supplied`."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "preflight",
+      "type": "json",
+      "path": "artifacts/<product>/04-preflight/preflight.json",
+      "description": "The per-channel PASS/FAIL verdict object — for each requested channel { spec checks, c2pa_ai, disclosure status }, plus the FTC verdict and the dated jurisdiction note. The single \"will this get rejected/suppressed anywhere?\" answer. Advisory rows (Amazon gen-AI threshold, channel sub-policies) are flagged confirmed=false."
+    },
+    {
+      "name": "stamped-image",
+      "type": "image",
+      "path": "artifacts/<product>/04-preflight/<name>-cc.jpg",
+      "description": "The image with a C2PA Content Credentials manifest signed onto it (c2patool `-m manifest.json -o`). One `-cc.jpg` per input image. Uses c2patool's dev test-cert unless a production private_key/sign_cert is provided — disclosed in the report."
+    },
+    {
+      "name": "disclosure",
+      "type": "markdown",
+      "path": "artifacts/<product>/04-preflight/disclosure.md",
+      "description": "Ready-to-paste per-channel AI-disclosure strings (Amazon / Meta / TikTok verbatim from the template pack) + the dated EU/CA/NY jurisdiction note, with the advisory caveats stated in-line. A human pastes these; the bot never posts them."
+    }
+  ],
+  "generated_at": "2026-06-20T02:39:48.340Z",
+  "skill_md_sha256": "f7372d7017c8a68c3aca79a607d9357b5f8db39de1133bf042706c67b030071e"
+}

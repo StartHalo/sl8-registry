@@ -1,0 +1,87 @@
+{
+  "skill_name": "bot-022-compliance-guard",
+  "_comment": "Tier-1 objective gates derived from JTBD-4 (1-requirements.md) + the compliance deep-dive. Deterministic + offline (no fal): Pillow spec verdicts, c2patool/disclosure outputs, and the FTC fake-review gate. Expectations are checkable against the JSON/markdown artifacts and the known-good/known-bad fixtures under evals/fixtures/.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run the Amazon main-image spec check on the known-GOOD packshot (evals/fixtures/good-packshot.jpg — pure white background, product fills ~88% of a 2000px frame, no text). Report the verdict.",
+      "expected_output": "A JSON verdict with overall_pass=true: bg_pass=true (exact RGB 255,255,255 at all 8 sample points), fill_pass=true (>=0.85), res_ok=true (>=1600px), text_flag=false.",
+      "files": ["fixtures/good-packshot.jpg"],
+      "expectations": [
+        "the verdict JSON has overall_pass=true",
+        "bg_pass=true with all 8 sampled pixels equal to [255,255,255]",
+        "fill_pass=true (product bbox >= 0.85 of the frame) and res_ok=true (longest side >= 1600)",
+        "text_flag=false (a single frame-filling product is NOT mis-flagged as a watermark)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run the Amazon main-image spec check on the known-BAD image (evals/fixtures/bad-offwhite.jpg — off-white RGB 250,252,253 background, small product, 800px). Report the verdict and what fails.",
+      "expected_output": "A JSON verdict with overall_pass=false: bg_pass=false (off-white 250 is NOT exact 255 and fails Amazon), fill_pass=false, res_ok=false. The reasons are stated; off-white is not silently passed.",
+      "files": ["fixtures/bad-offwhite.jpg"],
+      "expectations": [
+        "the verdict JSON has overall_pass=false",
+        "bg_pass=false specifically because the background is off-white (250,252,253), NOT exact (255,255,255) — 254/250 must fail",
+        "res_ok=false (800px < 1600) and fill_pass=false are both reported"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Run the spec check on the watermark fixture (evals/fixtures/watermark.jpg — a clean product PLUS a logo bar burned into the top-left corner). Does the text/logo/watermark flag fire?",
+      "expected_output": "text_flag=true with a reason naming a second ink element (watermark/logo/inset) separate from the product; the flag is advisory (heuristic, not OCR) and routes to human review.",
+      "files": ["fixtures/watermark.jpg"],
+      "expectations": [
+        "text_flag=true",
+        "the text_note explains a second ink element separate from the product was detected (possible watermark/logo/inset)",
+        "the verdict states the flag is a heuristic, not OCR, and never certifies the image is text-free"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Repair the transparent cutout (evals/fixtures/cutout-transparent.png — a product on a transparent background, what Bria RMBG outputs) into an Amazon-compliant main image, then re-check it.",
+      "expected_output": "The repaired JPEG flattens the cutout onto pure white; on re-check bg_pass=true and metadata is stripped. The repair preserves the product pixels and never re-backgrounds it generatively.",
+      "files": ["fixtures/cutout-transparent.png"],
+      "expectations": [
+        "a repaired JPEG is written and on re-check bg_pass=true (background is now exact 255,255,255)",
+        "the repair flattened the transparency onto pure white and stripped metadata (no generative re-background was used)",
+        "the product pixels are unchanged (the repair only composites over white)"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Generate the per-channel disclosure text and C2PA stamp for an AI-generated product image targeting channels amazon,meta,tiktok and jurisdictions us,eu,ny.",
+      "expected_output": "disclosure.md with the verbatim Amazon 'substantially modified' note (flagged advisory / G1881 login-gated), Meta 'AI-generated' label, TikTok AIGC note, and a dated EU (2026-08-02) + NY (2026-06-09) jurisdiction note; a <name>-cc.jpg with a C2PA manifest (or, if c2patool is absent, c2pa_signed=false recorded honestly).",
+      "files": [],
+      "expectations": [
+        "disclosure.md contains the correct disclosure string for EACH requested channel (Amazon substantially-modified note, Meta AI-generated, TikTok AIGC)",
+        "the Amazon gen-AI note is flagged ADVISORY with the G1881-login-gated / not-machine-confirmed caveat",
+        "the jurisdiction note is DATED: EU AI Act Art.50 operative 2026-08-02 and NY SB-8420A effective 2026-06-09 are stated with their dates",
+        "either a -cc.jpg with a c2patool-readable manifest is produced, OR c2pa_signed=false is recorded with 'vendor c2patool at build' (never silently claimed as signed)"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Run the multi-channel linter with ad copy that contains an AI-generated review ('review generated by our AI assistant' attributed to a named 'verified buyer'). What is the FTC verdict and the overall verdict?",
+      "expected_output": "The FTC 16 CFR Part 465 gate returns BLOCK (an AI-generated testimonial by a reviewer presented as a real customer is a hard block); the overall verdict is BLOCK; the hit cites 465.2.",
+      "files": [],
+      "expectations": [
+        "the ftc verdict is BLOCK (an AI-generated review/testimonial is never PASSed)",
+        "at least one hit cites rule 465.2 and explains the AI-generated / non-existent-reviewer violation",
+        "the overall_verdict is BLOCK and never_auto_publish=true (the verdict is never an instruction to publish)"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Run the full pre-flight (spec check -> disclosure stamp -> multi-channel lint) on the good packshot for channels amazon,etsy,meta,tiktok,shopify and jurisdictions us,eu,ca,ny with NO ad copy supplied. Report the per-channel verdict.",
+      "expected_output": "preflight.json with a PASS/FIX/FLAG row per channel keyed off the spec + C2PA result, ftc=no_copy_supplied (not a PASS), a dated 4-jurisdiction note, advisory rows flagged confirmed=false, and never_auto_publish=true.",
+      "files": [],
+      "expectations": [
+        "preflight.json has one verdict row for each of the 5 requested channels",
+        "ftc is reported as no_copy_supplied (NOT a PASS) when no copy is given",
+        "interpretive/advisory rows (Amazon gen-AI threshold, Etsy, channel sub-policies) carry confirmed=false",
+        "the jurisdiction_note covers all 4 requested jurisdictions with dates and never asserts a not-yet-operative rule (EU/CA 2026-08-02) as binding before its date",
+        "never_auto_publish=true and the output is a report, never an upload"
+      ]
+    }
+  ]
+}
