@@ -1,0 +1,41 @@
+{
+  "name": "bot-019-compliance-audit",
+  "version": "v1.0.0",
+  "description": "Audit a real-estate listing's photos and videos against California AB-723 and MLS disclosure rules BEFORE they are published, and produce a PASS/FIX compliance report. Use this whenever a real estate agent is about to put AI-altered or digitally-edited listing media on the MLS, Zillow, a portal, or social and wants to know if it is compliant — virtual staging, twilight/dusk, sky replacement, decluttering, restyle, or renovation-concept renders. It runs four checks per item (is it altered [c2patool C2PA provenance], does it carry a conspicuous disclosure, is the unaltered original present + adjacent + public, and does the edit only make the property look \"better, not different\"), cites the exact rule for every verdict, and lists the concrete fixes. It NEVER publishes anything — it is a pre-publish gate, not legal advice. Pair it with the `disclosure-stamp` skill to fix the flagged items.",
+  "inputs": [
+    {
+      "name": "media",
+      "type": "paths",
+      "required": true,
+      "description": "the listing media set (images/videos), ideally in publish order"
+    },
+    {
+      "name": "originals",
+      "type": "map",
+      "required": false,
+      "description": "altered-file -> unaltered original (local path or public URL) mappings"
+    },
+    {
+      "name": "declared_altered",
+      "type": "list",
+      "required": false,
+      "description": "which files the agent knows are altered (used when C2PA provenance is absent)"
+    },
+    {
+      "name": "jurisdiction",
+      "type": "enum",
+      "required": false,
+      "description": "CA-AB723 (default) | CA-CRMLS | other"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "compliance_report",
+      "type": "file",
+      "path": "artifacts/<project-name>/compliance-report.md",
+      "description": "per-item PASS/FIX verdicts with rule cites + concrete fixes + overall verdict"
+    }
+  ],
+  "generated_at": "2026-06-20T02:01:09.310Z",
+  "skill_md_sha256": "35537db30080de0dbfb9bdf15a9ce29dc10225e519120fe8a6a2e7ad9919cee5"
+}
