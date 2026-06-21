@@ -4,6 +4,14 @@
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-20
+### Fixed
+- Local garment/model files are now RE-HOSTED to a hosted URL (content-preserving
+  `ai-gen run fal-ai/clarity-upscaler --image <local> --url-only`) before the FASHN/Leffa
+  call. `ai-gen run` does NOT upload local files for named image params (garment_image/
+  model_image), and base64 data-URIs are rejected (HTTP 413) — only URLs/base64 work.
+  Verified live 2026-06-21 (local flat-lay + model → real on-model try-on).
+
 ## [v1.0.0] — 2026-06-20
 ### Planned
 - Full E2E sandbox confirmation on a real seller flat-lay + model pair (the host build

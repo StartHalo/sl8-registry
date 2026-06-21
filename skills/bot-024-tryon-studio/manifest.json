@@ -1,6 +1,6 @@
 {
   "name": "bot-024-tryon-studio",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turn a seller's flat-lay or ghost-mannequin garment photo plus a model photo into catalog-ready on-model shots with the fabric, print, buttons and fit preserved. The transfer runs on the dedicated VTON endpoint fal-ai/fashn/tryon/v1.6 (Leffa fallback) called with REQUIRED named args garment_image plus model_image via \"ai-gen run\" — never --image. EVERY try-on output passes a BLOCKING tryon-qc vision compare against the real garment that catches both drift (a changed/different garment) AND flattery (a cheap fabric rendered luxe, a fit slimmed, a hem lengthened — the misrepresentation that drives returns), then is upscaled to marketplace resolution. Use to make on-model / virtual try-on photos, put a flat-lay garment on a model, or produce catalog model shots from a product photo.",
   "inputs": [
     {
@@ -60,6 +60,6 @@
       "description": "Per-variant generation metadata — which model produced it (FASHN primary or Leffa fallback), category, mode, and the source garment/model images. Read to audit the run."
     }
   ],
-  "generated_at": "2026-06-20T18:14:47.517Z",
+  "generated_at": "2026-06-21T00:56:39.642Z",
   "skill_md_sha256": "746ba09ad402593b6016904d7cb613c18fc386d20ce0538e257da0121cc1245e"
 }

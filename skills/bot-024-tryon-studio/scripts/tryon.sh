@@ -68,7 +68,7 @@ NUM_SAMPLES=${NUM_SAMPLES:-1}
 WORK_DIR=${WORK_DIR:-work/tryon}
 MAX_COST=${MAX_COST:-60}
 
-# Each image must be a readable local file OR an https URL (v2.1.0 uploads locals).
+# Each image must be a readable local file OR an https URL.
 for img in "$GARMENT" "$MODEL_IMG"; do
   case "$img" in
     https://*) : ;;
@@ -77,6 +77,25 @@ for img in "$GARMENT" "$MODEL_IMG"; do
 done
 
 mkdir -p "$WORK_DIR" "$(dirname "$OUT")"
+
+# FASHN/Leffa take garment_image/model_image as a URL or base64. `ai-gen run` does NOT upload
+# local files for named params (only --image does, and only for a single image_url slot), and
+# base64 data-URIs are rejected (HTTP 413). So REHOST any LOCAL input to a hosted URL via a
+# content-preserving pass: `ai-gen run <upscaler> --image <local> --url-only` uploads the local
+# and returns a hosted fal URL. https inputs pass through unchanged. (Verified 2026-06-21.)
+REHOST_MODEL=${REHOST_MODEL:-fal-ai/clarity-upscaler}
+rehost() {
+  local src=$1
+  case "$src" in https://*) printf '%s' "$src"; return 0 ;; esac
+  local url
+  url=$(ai-gen run "$REHOST_MODEL" --image "$src" --url-only --max-cost 100 2>>"$WORK_DIR/rehost.log" \
+        | grep -oE 'https://[^ ]+' | head -1)
+  [[ -n "$url" ]] || { err "rehost failed for local file: $src (see $WORK_DIR/rehost.log)"; return 1; }
+  printf '%s' "$url"
+}
+err "rehosting any local inputs to URLs (FASHN/Leffa require URL/base64)..."
+GARMENT_URL=$(rehost "$GARMENT") || exit 1
+MODEL_URL=$(rehost "$MODEL_IMG") || exit 1
 
 # Print files[0].local_path from an ai-gen --format json blob (objects in v2.1.0).
 first_local_path() {
@@ -110,7 +129,7 @@ attempt() {
   case "$model" in
     *fashn*)
       # FASHN v1.6: required garment_image + model_image; key optionals are positional.
-      args+=("garment_image=$GARMENT" "model_image=$MODEL_IMG"
+      args+=("garment_image=$GARMENT_URL" "model_image=$MODEL_URL"
              "category=$CATEGORY" "mode=$MODE"
              "garment_photo_type=$GARMENT_PHOTO_TYPE"
              "moderation_level=$MODERATION_LEVEL"
@@ -124,7 +143,7 @@ attempt() {
         one-pieces|dresses) gtype=dresses ;;
         *) gtype=upper_body ;;
       esac
-      args+=("human_image_url=$MODEL_IMG" "garment_image_url=$GARMENT"
+      args+=("human_image_url=$MODEL_URL" "garment_image_url=$GARMENT_URL"
              "garment_type=$gtype")
       ;;
     *)
