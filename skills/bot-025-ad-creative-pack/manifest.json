@@ -1,6 +1,6 @@
 {
   "name": "bot-025-ad-creative-pack",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turn a product photo plus feature bullets plus a brand kit into a pack of listing and ad creatives with READABLE on-image text — a benefit/feature graphic, an us-vs-alternative comparison chart, Amazon A+/EBC modules, and per-channel sized social ad variants (Meta 1:1 and 4:5, TikTok 9:16). Text is the deliverable, so the load-bearing rule is routing — every text-bearing surface goes to a text-specialist model (ideogram/v4 for headlines, fal-ai/recraft v3/v4 for palette-locked charts and editable SVG, fal-ai/nano-banana-pro for text-in-rich-scene); FLUX and Seedream are HARD-BLOCKED for embedded text because they garble it. Per-channel sizing is DETERMINISTIC (Pillow crop/pad from one master). Every final creative routes through the compliance-guard for the Meta AI-label mandate plus C2PA; the bot never auto-publishes. Use it to make benefit graphics, comparison charts, Amazon A+ modules, or sized Meta/TikTok ad variants from a product photo and bullets.",
   "inputs": [
     {
@@ -66,6 +66,6 @@
       "description": "Per-surface verdict — text legibility (every word spelled + readable), brand consistency (palette/font/logo applied), on-channel sizing, no-AI-slop, and (for product-bearing surfaces) the blocking product-fidelity compare. Drift/garble is dropped or flagged, never silently shipped."
     }
   ],
-  "generated_at": "2026-06-20T18:15:58.491Z",
+  "generated_at": "2026-06-21T00:56:51.925Z",
   "skill_md_sha256": "419aca73856b7dbfe67301897c8661175246baa59ddc46698c8c2daf382c3a48"
 }

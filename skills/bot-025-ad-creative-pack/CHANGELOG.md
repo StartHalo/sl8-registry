@@ -4,6 +4,12 @@
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-20
+### Changed
+- Raised the default `--max-cost` from 40 to 700 so ideogram/v4 (V4.0q, ~570cr conservative
+  pre-submit estimate) clears the cost guard. Verified live 2026-06-21 (benefit graphic with
+  legible headline + benefit labels). Override per call with `-c`.
+
 ## [v1.0.0] — 2026-06-20
 ### Planned
 - Full E2E sandbox confirmation on a real seller hero + bullets (host authoring used the

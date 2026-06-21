@@ -62,7 +62,11 @@ SIZE=""
 RATIO=""
 IMAGE=""
 REFS=""
-MAX_COST=40
+# Default cap covers the text specialists' conservative pre-submit estimates: ideogram/v4 (V4.0q)
+# estimates ~570cr (the proxy estimator is conservative; actual charge is far lower). Recraft/
+# Nano-Banana are cheaper. Override per call with -c. (Raised from 40 after a 2026-06-21 live test
+# where ideogram/v4 aborted at max-cost 40/200.)
+MAX_COST=700
 PARAMS=()
 
 while [[ $# -gt 0 ]]; do
