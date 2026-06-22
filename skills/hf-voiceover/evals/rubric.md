@@ -13,13 +13,14 @@ dimensions:
     weight: 0.30
     jtbd_source: JTBD-1
     judge_prompt: |
-      Read the run report + the files on disk. Score 0-10 on producing the voiceover audio: one
-      non-empty wav per script beat exists under artifacts/<project>/assets/vo/ (plus a concatenated
-      narration.wav), generated keylessly via ai-gen TTS (Kokoro) — no HeyGen auth/TTS. When ai-gen TTS
-      was genuinely unreachable, the SILENT fallback is taken correctly instead (no failure, no user
-      prompt) and recorded — that is a PASS for this dimension's intent.
-      10 = every reachable beat has a real wav (or a correctly-handled, recorded silent fallback).
-      5 = some beats voiced but the set is incomplete with no explanation, or wavs are empty/0-byte.
+      Read the run report + the files on disk. Score 0-10 on producing the voiceover audio: ONE
+      non-empty continuous track artifacts/<project>/assets/vo/narration.wav exists, generated keylessly
+      via a SINGLE ai-gen TTS call (Kokoro) — no HeyGen auth/TTS, and no per-beat wavs are required (the
+      whole narration is one batched call). When ai-gen TTS was genuinely unreachable, the SILENT fallback
+      is taken correctly instead (no failure, no user prompt) and recorded — that is a PASS for this
+      dimension's intent.
+      10 = a real narration.wav exists (or a correctly-handled, recorded silent fallback).
+      5 = a wav exists but is empty/0-byte, or the report is unclear about whether audio was produced.
       0 = no audio and no silent-fallback handling (or it crashed / prompted the user).
 
   - id: timing-json-valid
@@ -28,11 +29,12 @@ dimensions:
     judge_prompt: |
       Inspect artifacts/<project>/04-timing.json. Score 0-10 on the timing track: it is valid JSON with
       a non-empty top-level words[] (each entry has text + numeric start/end), a beats[] array (one per
-      beat, each with beat/wav/duration/timing_method/words[]), and a total_duration. The flat words[]
-      are in ABSOLUTE timeline time (later beats offset past earlier ones, not all starting at 0). The
-      timing_method is recorded per beat (wizper when real per-word timestamps came back, else
-      even/estimated). 10 = complete, well-formed, absolute-time word track. 5 = present but local-time
-      (un-offset) or missing the beats[]/method metadata. 0 = missing, empty, or malformed.
+      script beat, split from the single transcript by order, each with beat/wav/duration/timing_method/words[]),
+      and a total_duration. The flat words[] are in ABSOLUTE timeline time (later beats' word starts are
+      past earlier ones, not all starting at 0). The timing_method is recorded per beat (wizper when real
+      per-word timestamps came back, else even/estimated). 10 = complete, well-formed, absolute-time word
+      track split into beats. 5 = present but not split into beats, or missing the beats[]/method metadata.
+      0 = missing, empty, or malformed.
 
   - id: script-fidelity
     weight: 0.25
@@ -72,6 +74,9 @@ guardrails:
 - Dead-ends already tried: (none yet)
 - This skill is STRUCTURAL — there is nothing to vision-grade. Fixes live in the wrappers
   (`tts.sh` / `words.sh`) and the SKILL instructions, not in any composition.
+- BATCHED (default): one `tts.sh full` call synthesizes the whole narration → `assets/vo/narration.wav`,
+  and one `words.sh full` ASR pass transcribes it and splits the words into beats by order (2 ai-gen calls
+  total, not 2×N). The legacy per-beat synth/concat and per-beat-dir ASR modes remain as a fallback.
 - Hard-won facts to keep (confirmed in-sandbox 2026-06-18, see `4-test-results.md`):
   `ai-gen audio tts ... -o <X>` treats `-o` as a DIRECTORY (wav lands at `<X>/american-english-<ts>.wav`) —
   `tts.sh` captures it via `ls <tmp>/*.wav`. `ai-gen audio stt <file> -m fal-ai/wizper` wants a real FILE.
