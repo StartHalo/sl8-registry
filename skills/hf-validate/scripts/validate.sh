@@ -18,7 +18,7 @@ set -uo pipefail
 COMP="${1:?usage: validate.sh <composition-dir> <project-artifacts-dir> [at-seconds-csv]}"
 PROJ="${2:?usage: validate.sh <composition-dir> <project-artifacts-dir> [at-seconds-csv]}"
 AT="${3:-}"
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 REPORT="$PROJ/05-validation.md"
 SNAPS="$PROJ/snapshots"
 mkdir -p "$PROJ" "$SNAPS"

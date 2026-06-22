@@ -1,6 +1,6 @@
 {
   "name": "hf-validate",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Validate a HyperFrames composition before rendering — run hyperframes lint (with a strict 0-errors gate), then headless-seek and capture key frames as PNGs for a quick vision check. Writes 05-validation.md with the lint findings, the pass/block verdict, and the captured frames. Use during the VALIDATE phase (phase 6), after hf-build and before hf-render, so a broken composition never wastes a full render. Local and offline; no HeyGen cloud.",
   "inputs": [
     {
@@ -30,6 +30,6 @@
       "description": "Key frames captured by headless seek (one per requested timestamp) plus a contact-sheet.jpg, for the pre-render vision check."
     }
   ],
-  "generated_at": "2026-06-19T19:05:11.189Z",
+  "generated_at": "2026-06-22T16:55:29.135Z",
   "skill_md_sha256": "5a23456d5b145f40554629ac1e4e4f9b8c28a05d77bf384b14fa493e2c865ddc"
 }
