@@ -18,7 +18,7 @@ set -uo pipefail
 
 URL="${1:?usage: capture.sh <brand-url> <captures-dir>}"
 DEST="${2:?usage: capture.sh <brand-url> <captures-dir>}"
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 OUT="$DEST/brand-capture.json"
 mkdir -p "$DEST"
 

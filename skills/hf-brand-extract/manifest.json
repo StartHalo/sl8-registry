@@ -1,6 +1,6 @@
 {
   "name": "hf-brand-extract",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Extract a brand kit from a website URL (or a brand screenshot) and write it into a project's context.md — accent + alt color, a font pack, a short brand label, and a transparent logo cutout. Uses hyperframes capture for design tokens/fonts/colors and ai-gen bria for the logo background removal. Use as an OPTIONAL onboarding asset, before or alongside onboarding, when the user gives a brand URL/site/screenshot or asks to \"use my brand\", \"pull our colors and logo\", \"match our site\", or \"brand this from a URL\". Local capture + keyless ai-gen; no HeyGen cloud/auth.",
   "inputs": [
     {
@@ -42,6 +42,6 @@
       "description": "The raw hyperframes capture output (design tokens, fonts, palette, screenshot paths) the brand block was derived from — kept for provenance."
     }
   ],
-  "generated_at": "2026-06-19T19:06:33.808Z",
+  "generated_at": "2026-06-22T16:56:09.640Z",
   "skill_md_sha256": "3ca236dcdaa6cf7b67a764e9a9a6e228057769afb0ed23ebd2273f872fd73b5f"
 }
