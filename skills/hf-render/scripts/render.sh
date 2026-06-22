@@ -23,7 +23,7 @@ NAME="${3:?missing name}"
 ARS="${4:-16:9}"
 QUALITY="${5:-draft}"
 VERIFY_AT="${6:-}"
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 CHROME_PIN="/etc/sl8/chrome-path"
 
 mkdir -p "$EXPORTS" "$EXPORTS/frames"
