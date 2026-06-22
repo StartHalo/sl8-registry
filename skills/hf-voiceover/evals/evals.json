@@ -8,13 +8,13 @@
       "prompt": "Generate the voiceover and word-level timing for the api-rate-limit-teaser from its 02-script.md.",
       "files": [],
       "expectations": [
-        "writes one non-empty wav per script beat under artifacts/api-rate-limit-teaser/assets/vo/ (e.g. beat-01.wav, beat-02.wav) plus a concatenated narration.wav",
+        "writes ONE non-empty continuous track artifacts/api-rate-limit-teaser/assets/vo/narration.wav via a single ai-gen TTS call (no per-beat wavs are produced by default)",
         "writes artifacts/api-rate-limit-teaser/04-timing.json with a non-empty top-level words[] track, each entry having text/start/end (and a beat tag)",
-        "04-timing.json has a beats[] array, one entry per beat, each with beat/wav/duration/timing_method and a words[] (timing_method is wizper when per-word timestamps were returned, else even)",
-        "the narration text is exactly the VO lines from 02-script.md, in order — no sentences invented, dropped, or paraphrased",
-        "the flat words[] track is in absolute timeline time (later beats' word starts are offset past earlier beats; total_duration equals the sum of beat durations)",
+        "04-timing.json has a beats[] array, one entry per script beat (split from the single transcript by order), each with beat/wav/duration/timing_method and a words[] (timing_method is wizper when per-word timestamps were returned, else even); each beat's wav points at assets/vo/narration.wav",
+        "the narration text is exactly the VO lines from 02-script.md, joined in order — no sentences invented, dropped, or paraphrased",
+        "the flat words[] track is in absolute timeline time (word starts increase monotonically across beats; total_duration covers the whole narration)",
         "the reply states the resolved voice (e.g. am_michael) and model (fal-ai/kokoro/american-english) and notes whether word timings are real (wizper) or even/estimated; state.md phase 4 is marked done",
-        "no HeyGen auth/TTS/ASR is used; the run is keyless via ai-gen and does not prompt the user"
+        "no HeyGen auth/TTS/ASR is used; the run is keyless via ai-gen (one TTS + one ASR call) and does not prompt the user"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "files": [],
       "expectations": [
         "re-reads the UNCHANGED 02-script.md (does not call hf-script; narration text is identical to the prior version)",
-        "re-generates assets/vo/*.wav and 04-timing.json using voice af_nova; the word strings in 04-timing.json are the same as before (only timings/audio differ)",
+        "re-generates assets/vo/narration.wav and 04-timing.json using voice af_nova; the word strings in 04-timing.json are the same as before (only timings/audio differ)",
         "appends a dated note to state.md recording the re-voice (am_michael -> af_nova) and that the script facts were unchanged",
         "the reply reports the new voice af_nova was used"
       ]
@@ -36,7 +36,7 @@
       "files": [],
       "expectations": [
         "does NOT fail the project and does NOT prompt the user when ai-gen TTS returns no wav / success:false",
-        "still writes artifacts/offline-demo/04-timing.json with one beat entry per script beat using script-estimated pacing (timing_method estimated, wav null), so beat pacing is still available downstream",
+        "still writes artifacts/offline-demo/04-timing.json with one beat entry per script beat using script-estimated pacing (timing_method estimated, empty words[]), so beat pacing is still available downstream",
         "records the silent fallback in state.md (which beats fell back and why) so hf-render knows there is no audio stream to mux",
         "the reply honestly reports that the voiceover fell back to silent because ai-gen TTS was unreachable"
       ]
