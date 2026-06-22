@@ -1,0 +1,22 @@
+{
+  "name": "ai-video-gen",
+  "version": "v1.0.0",
+  "description": "Generates AI video clips from text descriptions using the ai-video CLI. Use when the user wants photorealistic footage, cinematic B-roll, lifestyle shots, or any AI-generated video content that doesn't require precise text rendering.",
+  "inputs": [
+    {
+      "name": "description",
+      "type": "chat",
+      "required": true,
+      "description": "A text description of the footage, B-roll, or cinematic clip to generate."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "clip",
+      "type": "video/mp4",
+      "description": "An AI-generated video clip from the text description."
+    }
+  ],
+  "generated_at": "2026-06-22T16:36:13.965Z",
+  "skill_md_sha256": "9074830d9cb330a7784c84ded71d05bc3af9b10c191a55ccd5b0f74aa33e5f93"
+}
