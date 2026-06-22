@@ -14,7 +14,7 @@ set -uo pipefail
 
 DEST="${1:?usage: init.sh <composition-dir> [--force]}"
 FORCE="${2:-}"
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 # Resolve the template next to this script (works regardless of cwd).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE="$SCRIPT_DIR/hf-template"

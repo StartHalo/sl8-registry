@@ -104,7 +104,7 @@ the load-bearing rules:
 
 ### 5. Lint until clean (the gate)
 ```bash
-cd artifacts/<project-name>/composition && npx --yes hyperframes@0.6.112 lint
+cd artifacts/<project-name>/composition && hyperframes lint
 ```
 Fix every error to **0**. Common ones and fixes are in `references/composition-contract.md`
 (`timed_element_missing_clip_class` → add `class="clip"`; `overlapping_clips_same_track` → gap the
