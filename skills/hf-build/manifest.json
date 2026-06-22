@@ -1,6 +1,6 @@
 {
   "name": "hf-build",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Author a HyperFrames HTML/CSS/GSAP video composition from a storyboard and timing data. Copies a bundled, contract-compliant, lint-clean starter project (vendored GSAP + system fonts), then writes the scene HTML/CSS and the master GSAP timeline per 03-storyboard.md and 04-timing.json. Use during the BUILD phase (phase 5) of a motion-graphics project, or on a RESTYLE (re-author the composition from unchanged facts). Produces the composition/ directory that hf-validate and hf-render consume. Offline-safe and deterministic; no HeyGen cloud.",
   "inputs": [
     {
@@ -36,6 +36,6 @@
       "description": "A complete HyperFrames project (index.html + compositions/ + vendored gsap + system-font CSS) that lints with 0 errors and obeys the composition contract."
     }
   ],
-  "generated_at": "2026-06-19T19:04:58.553Z",
-  "skill_md_sha256": "21312313518d0578e24d0b528f4d80a4084410d851308e1ff1bdfbfa94b925da"
+  "generated_at": "2026-06-22T16:55:10.394Z",
+  "skill_md_sha256": "9c95957699330ec0a3f6240e6157ead834639d112a22573ffd1e0ae467ff3f4f"
 }
