@@ -1,6 +1,6 @@
 {
   "name": "hf-render",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Render a validated HyperFrames composition to one or more aspect ratios as deterministic local MP4s, then verify them. Runs hyperframes render with the pinned Chrome (self-healing to the system Chrome on host/dev), low-memory mode, and a chosen quality; ffprobe-verifies codec/dimensions/fps/duration; and extracts key frames for a vision grade. Use during the RENDER phase (phase 7), after hf-validate passes, or to RE-RENDER / RESIZE an existing project. 100% local and keyless — no HeyGen cloud, lambda, or auth.",
   "inputs": [
     {
@@ -42,6 +42,6 @@
       "description": "Key frames extracted from each rendered MP4 for the vision (media-judge) grade."
     }
   ],
-  "generated_at": "2026-06-19T19:05:23.249Z",
+  "generated_at": "2026-06-22T16:54:57.427Z",
   "skill_md_sha256": "7b6199cd519a246421d75afe580a76a33ecfead14ce33d797d2a34c25d6ef915"
 }
