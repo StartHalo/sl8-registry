@@ -6,6 +6,10 @@ All notable changes to this skill. Versions are git tags (`hf-validate/vX.Y.Z`);
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-06-22
+### Changed
+- Resolve the pre-installed `hyperframes` global binary (`command -v hyperframes`, with an `npx --yes hyperframes@0.6.112` fallback for host/dev) instead of invoking `npx --yes` on every call. Removes per-invocation npx resolve/download overhead — a production run made 25x `npx --yes hyperframes` calls before discovering the global `/usr/local/bin/hyperframes`.
+
 ## [v1.0.0] — 2026-06-19
 ### Added
 - Initial release — Validate a composition before rendering — hyperframes lint with a strict 0-error gate + headless snapshot key frames for a vision check. Writes 05-validation.md + snapshots.
