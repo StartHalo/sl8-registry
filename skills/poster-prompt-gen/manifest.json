@@ -1,0 +1,22 @@
+{
+  "name": "poster-prompt-gen",
+  "version": "v1.0.0",
+  "description": "Generates event poster concepts by crafting design-informed, model-specific prompts and producing image variations across multiple AI model families (Recraft, Ideogram, FLUX). Use when creating event posters, concert flyers, conference visuals, or any event promotional imagery.",
+  "inputs": [
+    {
+      "name": "event_details",
+      "type": "chat",
+      "required": true,
+      "description": "Event name, type, date, venue, vibe, and any must-have text or imagery for the poster."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "poster",
+      "type": "image/png",
+      "description": "Event poster image variations across multiple AI model families, plus the design-informed prompts used."
+    }
+  ],
+  "generated_at": "2026-06-22T16:35:46.481Z",
+  "skill_md_sha256": "f72c506ec8c3b8bbd42746600cbdc8d257ed4d7176789f242c556031579e007d"
+}
