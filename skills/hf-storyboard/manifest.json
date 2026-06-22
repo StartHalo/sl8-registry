@@ -1,6 +1,6 @@
 {
   "name": "hf-storyboard",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turn a base concept and a beat-structured script into a per-beat build contract for a HyperFrames motion-graphics video. For each beat it names the registry block(s)/component(s) to use, the scene transition out of it, the track layout (which track index each element sits on), and the frame/second ranges — the exact plan hf-build authors from. Use during the STORYBOARD phase (phase 3) of a motion-graphics project, after hf-script wrote the script, before hf-build authors the composition. Maps narrative beats and data series onto the contract-compliant block library; offline, deterministic, no HeyGen.",
   "inputs": [
     {
@@ -36,6 +36,6 @@
       "description": "Per-beat build contract — for every beat the block/component ids, the transition out, the track layout, the frame/second range, and the verbatim on-screen text, plus the composition header (root size per AR, duration, palette/type from the concept)."
     }
   ],
-  "generated_at": "2026-06-19T19:05:59.237Z",
+  "generated_at": "2026-06-22T16:55:42.233Z",
   "skill_md_sha256": "d20d3226e9304a6fc898fbc91bab6a138d0cb641d2e20e11d77f92b76aa02bb6"
 }
