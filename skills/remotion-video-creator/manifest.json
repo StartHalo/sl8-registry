@@ -1,0 +1,22 @@
+{
+  "name": "remotion-video-creator",
+  "version": "v1.0.0",
+  "description": "Creates animated motion graphics videos using Remotion (React-based framework). Handles explainers, product demos, data visualizations, and testimonial videos. Use when the user provides a topic, URL, data, or reviews and wants an animated video.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "chat",
+      "required": true,
+      "description": "A topic, URL, dataset, or reviews plus the desired video style and aspect ratio."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "video",
+      "type": "video/mp4",
+      "description": "A rendered animated motion-graphics MP4 (explainer, product demo, data-viz, or testimonial)."
+    }
+  ],
+  "generated_at": "2026-06-22T16:35:59.456Z",
+  "skill_md_sha256": "c32fd459447c7c9a6167a44da31e7d854182b12f2d01a2c43f27fe341ea33b4c"
+}
