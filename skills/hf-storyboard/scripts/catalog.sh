@@ -15,7 +15,7 @@
 # from anyway). Exits 0 on a clean list, prints a clear note + exits 0 on an unreachable registry.
 set -uo pipefail
 
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 
 echo ">> hyperframes catalog (available registry blocks/components):"
 echo "   cwd: $(pwd)"
