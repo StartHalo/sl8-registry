@@ -1,6 +1,6 @@
 {
   "name": "hf-assets",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Prepare visual source assets for a HyperFrames composition. Cuts the background out of a subject/product/logo image via ai-gen (fal-ai/bria/background/remove) into a transparent cutout, and ingests a brand site or screen with hyperframes capture (screenshots + extracted design tokens + downloaded assets). Use during the asset-prep phase before hf-build, whenever the storyboard calls for a subject cutout/matte, a product shot on transparency, or captured brand frames/screenshots. Local and keyless (ai-gen via the SL8 proxy; capture via the pinned Chrome) — no HeyGen cloud, lambda, or auth.",
   "inputs": [
     {
@@ -42,6 +42,6 @@
       "description": "Captured brand frames (screenshots/*.png + contact-sheet.jpg) plus extracted design tokens (palette/fonts/text) and any downloaded site assets."
     }
   ],
-  "generated_at": "2026-06-19T19:06:22.093Z",
+  "generated_at": "2026-06-22T16:55:56.460Z",
   "skill_md_sha256": "5caab95ad0759921065b171436abe9e7490d29afafcc0d11a51b50bc5da23fc4"
 }

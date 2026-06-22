@@ -29,7 +29,7 @@ URL="${1:?usage: capture.sh <url> <project-artifacts-dir> [slug] [max-screenshot
 PROJ="${2:?missing project-artifacts-dir (artifacts/<project>)}"
 SLUG="${3:-}"
 MAXSS="${4:-8}"
-HF="npx --yes hyperframes@0.6.112"
+HF="$(command -v hyperframes || echo 'npx --yes hyperframes@0.6.112')"
 
 # Derive a slug from the URL host if none was given (acme.com/path -> acme-com).
 if [ -z "$SLUG" ]; then
