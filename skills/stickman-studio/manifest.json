@@ -1,0 +1,28 @@
+{
+  "name": "stickman-studio",
+  "version": "v1.0.0",
+  "description": "End-to-end stickman episode producer — the main entry point for making a complete stickman video. Runs all four phases in sequence without stopping — plan beats (stickman-episode-design), lock character (stickman-character), generate stills (stickman-art), then animate and assemble (stickman-clip-assembly). Handles US-1 (new episode), US-2 (series continuation with existing character), and US-3 (character reset). For US-4 (character-only commission with no episode), use stickman-character directly. Use this skill when the user gives a topic and wants a finished stickman video in one go.",
+  "inputs": [
+    {
+      "name": "episode-brief",
+      "type": "text",
+      "description": "The episode topic; the bot then runs all four phases end to end."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<slug>/episode.mp4",
+      "description": "The finished stickman episode MP4."
+    },
+    {
+      "name": "production-summary",
+      "type": "markdown",
+      "path": "artifacts/<slug>/05-summary.md",
+      "description": "The honest production summary for the episode."
+    }
+  ],
+  "generated_at": "2026-06-25T05:27:28.848Z",
+  "skill_md_sha256": "c11085104153121e85937b0d2d7428c2d9a9ae28536c69e52c124a55397b479a"
+}
