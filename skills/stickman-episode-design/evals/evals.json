@@ -1,0 +1,23 @@
+{
+  "skill_name": "stickman-episode-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make a stickman episode about procrastinating on a work deadline. 16:9, ~30s.",
+      "expected_output": "01-episode-plan.md with 4-6 beats (16:9, durations 5|10s, total 20-30s). context.md with mode=episode, skip_character=false. state.md with 4 phases, phase 1 done. dashboard.html initialised. art-direction.md and character.md present in artifacts/.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Just create me a stickman character. No episode yet.",
+      "expected_output": "context.md with mode=character-only. state.md with phase 2 only. No 01-episode-plan.md written. dashboard.html shows channel section only (no episode section). art-direction.md and character.md present in artifacts/.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Make a stickman episode about trying to set up a new wifi router.",
+      "expected_output": "Episode plan for wifi/router scenario (not abstract). If artifacts/character-source.png exists in context, state.md marks phase 2 as skip. art-direction.md and character.md not overwritten if already present.",
+      "files": []
+    }
+  ]
+}

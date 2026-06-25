@@ -1,0 +1,34 @@
+{
+  "name": "stickman-episode-design",
+  "version": "v1.0.0",
+  "description": "Plans a stickman animation episode from a brief. Routes the request across four user stories (new episode, series continuation, character change, character-only), bootstraps channel config files from templates if absent, writes context.md + state.md + beat-sheet, and initialises the live status dashboard. Use this skill whenever the user provides a stickman episode topic, asks to make a new episode, wants to continue a series, or wants to change the character or style — even if they don't say episode design explicitly.",
+  "inputs": [
+    {
+      "name": "episode-brief",
+      "type": "text",
+      "description": "The user's stickman episode topic or request."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "path": "artifacts/<slug>/01-episode-plan.md",
+      "description": "Beat sheet with per-beat scene, motion, duration, and camera keyword."
+    },
+    {
+      "name": "project-state",
+      "type": "markdown",
+      "path": "artifacts/<slug>/state.md",
+      "description": "Phase ledger the bot resumes the episode from."
+    },
+    {
+      "name": "dashboard",
+      "type": "html",
+      "path": "artifacts/dashboard.html",
+      "description": "Live HTML status dashboard for the channel and episode."
+    }
+  ],
+  "generated_at": "2026-06-25T05:25:06.831Z",
+  "skill_md_sha256": "9639abea4cf2b70b72439c18ce51fa706be40815e4f281c3b4b818242f6874a3"
+}
