@@ -1,0 +1,23 @@
+{
+  "skill_name": "stickman-art",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Lock the stickman character using the default character.md and art-direction.md templates.",
+      "expected_output": "artifacts/character-source.png (one minimal capped figure + TASK box, pencil-sketch on white). artifacts/character-turnaround.png (3+ distinct views). artifacts/character-spec.md with positive constraints block (no negation), seed 4242, model used, fal.media URLs. No 02-character/ subfolder created.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Generate scene stills for the work-deadline episode using the locked character.",
+      "expected_output": "One PNG per beat in artifacts/work-deadline/03-stills/. stills-log.md with model, fal.media URL, and self-check per still. --ref pointed at artifacts/character-source.png. Same figure as source.png. Positive constraints in prompts (no negation). >=80% beats kept.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Reset the character. The user wants a new stickman with round glasses instead of a cap.",
+      "expected_output": "Existing character-source.png, character-turnaround.png, character-spec.md archived to artifacts/character-archive-<date>/. New character generated with glasses. New assets at artifacts/ root. dashboard.html updated.",
+      "files": []
+    }
+  ]
+}

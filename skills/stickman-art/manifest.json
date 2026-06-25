@@ -1,0 +1,32 @@
+{
+  "name": "stickman-art",
+  "version": "v1.0.0",
+  "description": "Generates per-episode scene stills for the stickman animator (Phase 3 only). Reads the episode beat plan and the episode's own local character folder — which is populated by stickman-character before this skill runs. Produces one 16:9 pencil-sketch scene still per beat using --ref character-source.png for visual consistency, logs results to stills-log.md, and gates the set at 80 percent or above. Phase 2 (character lock) is now handled exclusively by stickman-character. Use this skill for stickman scene still generation.",
+  "inputs": [
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "description": "The beat sheet (01-episode-plan.md) to illustrate, one still per beat."
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "description": "Frozen character spec from the episode's character folder, with the --ref anchor URL."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "scene-stills",
+      "type": "image",
+      "description": "One pencil-sketch scene still per beat, character-consistent via --ref."
+    },
+    {
+      "name": "stills-log",
+      "type": "markdown",
+      "path": "artifacts/<slug>/03-stills/stills-log.md",
+      "description": "Per-still status, hosted URL, camera keyword, seed, and self-check results."
+    }
+  ],
+  "generated_at": "2026-06-25T05:27:03.060Z",
+  "skill_md_sha256": "f175c9e0c5ad9f62b10bef4cd85c8f3b551f5c84debf86ba791fbc28e21e1839"
+}
