@@ -1,0 +1,23 @@
+{
+  "skill_name": "stickman-clip-assembly",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Animate and assemble the work-deadline episode. Use the stills log from phase 3.",
+      "expected_output": "episode.mp4 at artifacts/work-deadline/episode.mp4. Primary approach: one Seedance reference-to-video call (not N per-beat calls). 05-summary.md listing approach (multi-shot or fallback), per-clip details, audio treatment, any fallbacks flagged. dashboard.html updated with completion and episode history entry.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Animate the work-deadline episode. Beat 2 has no fal.media URL in stills-log.md.",
+      "expected_output": "Beat 2 handled as still-as-segment fallback (not silently dropped). Fallback flagged in 05-summary.md. Episode still assembles. episode.mp4 produced.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Animate the monday-coffee episode. Seedance reference-to-video returns an error. Fall back gracefully.",
+      "expected_output": "Multi-shot attempt logged as failed. Fallback to per-beat bytedance/seedance-2.0/fast/image-to-video. episode.mp4 assembled. Fallback noted in 05-summary.md. dashboard.html updated.",
+      "files": []
+    }
+  ]
+}
