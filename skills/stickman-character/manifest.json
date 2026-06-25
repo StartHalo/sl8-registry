@@ -1,0 +1,38 @@
+{
+  "name": "stickman-character",
+  "version": "v1.0.0",
+  "description": "Generates and manages channel-level character assets for the stickman animator. On first run (US-1/US-3) it generates character-source.png (front-facing), character-threequarter.png (¾ view), and character-sideprofile.png (side profile) as separate anchored images to avoid multi-view drift and model-added watermarks. Always copies all character assets to the episode folder so every episode is self-contained. Use this skill for Phase 2 (lock-character) of any episode run, or standalone for character-only commissions (US-4).",
+  "inputs": [
+    {
+      "name": "character-definition",
+      "type": "markdown",
+      "description": "Channel character definition (character.md) — physical traits and construction rules."
+    },
+    {
+      "name": "art-direction",
+      "type": "markdown",
+      "description": "Channel art-direction and style definition (art-direction.md)."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "character-source",
+      "type": "image",
+      "path": "artifacts/character-source.png",
+      "description": "Front-facing canonical character anchor used as the --ref for all stills and clips."
+    },
+    {
+      "name": "character-views",
+      "type": "image",
+      "description": "Three-quarter and side-profile character views anchored to the source."
+    },
+    {
+      "name": "character-spec",
+      "type": "markdown",
+      "path": "artifacts/character-spec.md",
+      "description": "Frozen character prompt blocks, locked seed, and hosted view URLs."
+    }
+  ],
+  "generated_at": "2026-06-25T05:25:25.982Z",
+  "skill_md_sha256": "524c23cd425020c26bc3d83d4218e4e1c721333c468498591c9e7a4cc5cdbc77"
+}
