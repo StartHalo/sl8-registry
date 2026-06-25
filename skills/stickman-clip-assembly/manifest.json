@@ -1,0 +1,33 @@
+{
+  "name": "stickman-clip-assembly",
+  "version": "v1.0.0",
+  "description": "Animates scene stills into clips and assembles the episode MP4 for the stickman animator. For episodes of 15 seconds or less it tries Seedance reference-to-video multi-shot. For longer episodes (the common case) it uses per-beat image-to-video directly — the standard production path, not a fallback. Writes episode.mp4, 05-summary.md, and updates dashboard.html with completion status. Use this skill for stickman clip generation and episode assembly.",
+  "inputs": [
+    {
+      "name": "episode-plan",
+      "type": "markdown",
+      "description": "Beat sheet with per-beat durations and camera keywords."
+    },
+    {
+      "name": "stills-log",
+      "type": "markdown",
+      "description": "Per-beat still hosted URLs that feed image-to-video generation."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<slug>/episode.mp4",
+      "description": "The assembled multi-beat stickman episode MP4 with ambient audio."
+    },
+    {
+      "name": "production-summary",
+      "type": "markdown",
+      "path": "artifacts/<slug>/05-summary.md",
+      "description": "Honest production log of approach, models, fallbacks, and limitations."
+    }
+  ],
+  "generated_at": "2026-06-25T05:27:16.440Z",
+  "skill_md_sha256": "daa46500c6de73f2851624d51ea860c91b7fcaee055527c1a6d45a7f81375a91"
+}
