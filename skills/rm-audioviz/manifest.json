@@ -1,6 +1,6 @@
 {
   "name": "rm-audioviz",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Add an audio-reactive spectrum / waveform visualizer (audiogram, music-viz, bass pulse) to a Remotion Studio project, driven by a voiceover or music track via @remotion/media-utils (visualizeAudio / useWindowedAudioData). A CAPABILITY skill woven into the BUILD phase — it does NOT own a phase or a numbered artifact and it does NOT render. It stages the audio to WAV in public/ (useWindowedAudioData is WAV-only), ensures the vetted Spectrum.tsx component is present, and tells rm-build how to compose [Spectrum] (mode/freqRange/palette). Use when the storyboard tags a beat `audiogram` / `music-viz`, when a request is a podcast/voice clip with on-screen bars, or when an element should pulse to the beat. Reads the audio from rm-voiceover (assets/vo/narration.wav) or a staged music bed; reads 01-concept.md for palette and 03-storyboard.md for placement. Keyless; if no audio track exists it skips the visualizer and records why — it never prompts the user.",
   "inputs": [
     {
@@ -31,7 +31,7 @@
   "outputs": [
     {
       "name": "spectrum-component",
-      "type": "tsx",
+      "type": "x-tsx",
       "path": "artifacts/[project]/remotion-project/src/components/Spectrum.tsx",
       "description": "The vetted, deterministic audio-reactive component (bars/mirror/wave + getBassIntensity), present in every project via the bundled starter. rm-audioviz guarantees it is present and composed into the active composition with src/mode/palette/freqRange set. No rendering — rm-validate stills + rm-render produce pixels."
     },
@@ -42,6 +42,6 @@
       "description": "The visualized track transcoded to a 44.1 kHz mono 16-bit WAV and staged for staticFile(\"audio/[name].wav\"), produced by scripts/stage-audio.sh when a music bed is used. (A voiceover track is already staged to public/voiceover/ by init.sh and needs no transcode.)"
     }
   ],
-  "generated_at": "2026-06-26T03:57:18.248Z",
-  "skill_md_sha256": "7f008c113f2d8f67fc7b77885bb8ebc3a41101a99301bf70a0c628c8eeac9939"
+  "generated_at": "2026-06-26T16:57:19.964Z",
+  "skill_md_sha256": "30123602a4450d168ceb1be9d2608c7d7e319c2ce998ab215cd9bb3f8f4f5fb4"
 }
