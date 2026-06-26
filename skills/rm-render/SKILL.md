@@ -7,7 +7,7 @@ metadata:
   references-skills: [rm-build, rm-validate, rm-voiceover]
   inputs:
     - name: remotion-project
-      type: code
+      type: x-code
       required: true
       description: "artifacts/[project]/remotion-project/ — the validated per-project Remotion app (src/index.ts + Root.tsx + props.json). Must have passed rm-validate (version-skew clean, tsc 0 errors, stills render)."
     - name: aspect-ratios
