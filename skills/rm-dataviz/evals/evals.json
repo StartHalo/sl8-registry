@@ -1,0 +1,26 @@
+{
+  "skill": "rm-dataviz",
+  "notes": "Minimal structural seed (Charter refines into a graded rubric with a media-judge vision dimension). rm-dataviz is a CAPABILITY skill: it parses a dataset into an exact-figure series (work/series.json) and supplies the vetted chart components (BarChart.tsx, LineChart.tsx) that rm-build composes — it writes no pixels and runs no render. The load-bearing property is the value/display split: the figure on screen equals the input figure verbatim (no rounding). These are structural checks, not hand-coded regex test logic.",
+  "expectations": [
+    {
+      "id": "series-file-written",
+      "check": "structural",
+      "desc": "Running parse-series.mjs on a CSV/JSON dataset writes artifacts/<project>/work/series.json containing {kind, meta, series:[...]} with one entry per input row, each having label, value (number), and display (string)."
+    },
+    {
+      "id": "figures-verbatim",
+      "check": "structural",
+      "desc": "Every series[].display equals the corresponding input cell character-for-character ($, commas, %, decimals, trailing units preserved); no figure is rounded, reformatted, or invented. value may be scaled for geometry but display is untouched."
+    },
+    {
+      "id": "chart-components-present",
+      "check": "structural",
+      "desc": "BarChart.tsx and LineChart.tsx exist in the per-project remotion-project/src/components/ (bundled in the rm-build starter), export a BarChart/LineChart React component over the Datum {label,value,display} shape, and are frame-driven (spring/clamped interpolate, no Math.random / Date.now / setTimeout / CSS @keyframes/transition)."
+    },
+    {
+      "id": "tabular-and-honest",
+      "check": "structural",
+      "desc": "Animated figures use fontVariantNumeric: tabular-nums and resolve to the exact display at rest; BarChart defaults to a zero (honest) baseline. The components theme via useStyleConfig() rather than hard-coded colours."
+    }
+  ]
+}
