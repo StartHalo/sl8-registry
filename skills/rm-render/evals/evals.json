@@ -1,0 +1,26 @@
+{
+  "skill": "rm-render",
+  "notes": "Minimal STRUCTURAL placeholder seeded at Author. Charter refines these into prompt-driven + media-judge evals (the in-session model READS exports/frames/*.png — never the filename/size). rm-render renders a VALIDATED remotion-project/; it does not author or fix it. Derived from this skill's outputs (exports/<name>-<ar>.mp4 + frames/) and the 7 render-runtime pieces.",
+  "expectations": [
+    {
+      "id": "mp4-written-and-nonempty",
+      "check": "structural",
+      "desc": "writes artifacts/<project>/exports/<name>-<ar>.mp4 — a non-empty, playable file — for each requested AR."
+    },
+    {
+      "id": "ffprobe-verified-h264-dims-duration",
+      "check": "structural",
+      "desc": "ffprobe confirms each MP4 is codec_name=h264 at the expected dimensions for the AR/scale (e.g. 16x9 -> 1920x1080, 16x9-4k -> 3840x2160) with a frame rate and a non-zero duration."
+    },
+    {
+      "id": "frames-extracted-for-vision-grade",
+      "check": "structural",
+      "desc": "extracts at least one key frame per AR into artifacts/<project>/exports/frames/<name>-<ar>-at-<t>s.png."
+    },
+    {
+      "id": "different-orientation-routes-to-build",
+      "check": "structural",
+      "desc": "a requested AR whose <Composition> (Studio-<ar>) is not registered fails that AR cleanly with a route to rm-build, and does NOT produce a stretched/letterboxed or wrongly-dimensioned file."
+    }
+  ]
+}
