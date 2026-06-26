@@ -1,0 +1,25 @@
+{
+  "skill": "rm-voiceover",
+  "expectations": [
+    {
+      "id": "narration-wav-exists",
+      "check": "structural",
+      "desc": "For a narrated job (JTBD-1/4) with TTS reachable, artifacts/<project>/assets/vo/narration.wav exists and is non-empty (one continuous track from a single ai-gen Kokoro TTS call). Absent + silent-fallback recorded in state.md when TTS is unreachable, or for a JTBD-3 clip-in (ASR-only) job."
+    },
+    {
+      "id": "timing-json-shape",
+      "check": "structural",
+      "desc": "artifacts/<project>/04-timing.json exists with a flat top-level words[] (each {text,start,end} in seconds, optional beat tag) and a beats[] (each {beat,wav,duration,timing_method,words[]}); times are monotonic and total_duration covers the whole track. @remotion/captions-shaped in seconds (rm-captions converts ×1000)."
+    },
+    {
+      "id": "timing-method-recorded",
+      "check": "structural",
+      "desc": "Every beat carries a timing_method of wizper | even | estimated; when Wizper returns no per-word timestamps the method is even/estimated (never fabricated word times), and the chosen method is reported and written to state.md phase 4."
+    },
+    {
+      "id": "keyless-no-prompt",
+      "check": "structural",
+      "desc": "The run is keyless via ai-gen (fal-ai/kokoro/american-english TTS + fal-ai/wizper ASR) — no ElevenLabs/HeyGen auth and no user prompt; on success:false it takes the documented silent/estimated fallback rather than failing the project."
+    }
+  ]
+}
