@@ -1,0 +1,47 @@
+{
+  "name": "rm-brand-extract",
+  "version": "v1.0.0",
+  "description": "Extract a brand kit from a website URL (or a brand screenshot) and write it into a project's context.md — an accent + alt color, one of the four runtime font packs, a short brand label, and a transparent logo cutout. Captures the site with the runtime's headless Chrome Headless Shell + ffmpeg (NOT hyperframes) and removes the logo background with ai-gen bria (keyless SL8 proxy). Use as an OPTIONAL onboarding asset, before or alongside onboarding, when the user gives a brand URL/site/screenshot or asks to \"use my brand\", \"pull our colors and logo\", \"match our site\", \"brand this from a URL\". No rendering — this writes the brand block the concept/build phases read; rm-render renders. Local capture + keyless ai-gen; no auth, no cloud.",
+  "inputs": [
+    {
+      "name": "brand-source",
+      "type": "text",
+      "required": true,
+      "description": "A brand website URL (e.g. https://acme.com) OR a path to a brand screenshot/logo image. The thing the kit is derived from."
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "required": false,
+      "description": "The active project slug (the artifacts/[project]/ folder). Default = the active project in state.md, else a slug derived from the brand domain."
+    },
+    {
+      "name": "font-pack-hint",
+      "type": "text",
+      "required": false,
+      "description": "modern | editorial | bold | tech — override the auto-mapped font pack. Default = mapped from the captured fonts, else modern."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "brand-block",
+      "type": "markdown",
+      "path": "artifacts/<project>/context.md",
+      "description": "A \"## Brand\" section appended/merged into context.md — accent (hex), accentAlt (hex), fontPack (one of the four runtime packs), label, and the logo cutout path. Read by every later phase (concept, build) and graded by the rubric's brand-application dimension."
+    },
+    {
+      "name": "logo-cutout",
+      "type": "png",
+      "path": "artifacts/<project>/assets/cutouts/logo.png",
+      "description": "The brand logo with its background removed (transparent PNG) via ai-gen bria, for use as a staticFile() composition asset."
+    },
+    {
+      "name": "capture",
+      "type": "json",
+      "path": "artifacts/<project>/assets/captures/brand-capture.json",
+      "description": "The normalized capture (colors, fonts, screenshots, label) harvested from the headless-Chrome DOM/CSS (+ ffmpeg pixel fallback) the brand block was derived from — kept for provenance."
+    }
+  ],
+  "generated_at": "2026-06-26T03:57:28.461Z",
+  "skill_md_sha256": "0ef4c875f2e906cd460a1b5468d9e8ced69105aba0142802a381226dab07cc9f"
+}
