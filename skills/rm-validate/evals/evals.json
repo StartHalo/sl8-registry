@@ -1,0 +1,26 @@
+{
+  "skill": "rm-validate",
+  "notes": "Structural placeholder seeded at Author from the skill's outputs (artifacts/<project>/05-validation.md + snapshots/). Charter refines this into the graded rubric (incl. a media-judge vision dimension on the stills + a BLOCK-on-violation case). rm-validate is the gate: it runs four checks in order (version-skew -> tsc --noEmit -> contract lint -> still-render) and exits 0 only if all pass, BLOCKING (exit 2) otherwise. Do not hand-code regex test logic here.",
+  "expectations": [
+    {
+      "id": "validation-report-written",
+      "check": "structural",
+      "desc": "Writes artifacts/<project>/05-validation.md containing the four gate sections (version skew, tsc, contract lint, still render) and a Verdict section that is exactly one of PASS or BLOCKED."
+    },
+    {
+      "id": "snapshots-on-pass",
+      "check": "structural",
+      "desc": "On PASS, captures at least one still PNG per requested timestamp into artifacts/<project>/snapshots/, and the report lists each still path under a Vision grade block."
+    },
+    {
+      "id": "blocks-on-contract-violation",
+      "check": "structural",
+      "desc": "A composition with a forbidden pattern (e.g. Math.random / a CSS transition / a native <img> / a version skew / a type error) yields a BLOCKED verdict naming the failing gate, exits non-zero, and captures no full render."
+    },
+    {
+      "id": "comment-strip-no-false-block",
+      "check": "structural",
+      "desc": "The contract lint scans stripped code (comments blanked, strings kept) so a contract-clean composition whose comments mention the forbidden tokens still PASSES the lint gate."
+    }
+  ]
+}
