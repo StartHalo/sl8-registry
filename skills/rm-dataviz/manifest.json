@@ -1,11 +1,11 @@
 {
   "name": "rm-dataviz",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Bind an exact CSV/JSON dataset to an animated Remotion chart (bar / line / combined / counter / ranking) for a data video (JTBD-2). Parses the data into a labelled, EXACT-FIGURE series (parse-series.mjs) and supplies two vetted, contract-clean chart components (BarChart, LineChart) that rm-build composes into the per-project Remotion app — figures on screen equal the input figures character-for-character (no rounding), with tabular-nums. Use during the BUILD phase (phase 5) when the request is data → chart, or when a dataset is present. A capability skill: it writes the parsed series + ensures the chart components are in the project; it does NOT render or validate (rm-validate gates, rm-render renders). Keyless, deterministic.",
   "inputs": [
     {
       "name": "data",
-      "type": "file",
+      "type": "x-file",
       "required": true,
       "description": "The dataset to chart — a CSV (header + rows) or JSON (array of objects, [label,value] pairs, {labels,values}, or a pre-shaped {series}). The figures shown on screen come from here verbatim."
     },
@@ -36,6 +36,6 @@
       "description": "The vetted chart components (BarChart.tsx, LineChart.tsx) present in the per-project app (bundled in the rm-build starter, staged by init.sh) that the generative author composes. rm-dataviz adds/adapts a bespoke chart here when no shipped component fits."
     }
   ],
-  "generated_at": "2026-06-26T03:58:08.611Z",
-  "skill_md_sha256": "edbd6ba0d72486a7ed94ee9f38ac03139154c4b80cb5c7812931a4c173bcfdb2"
+  "generated_at": "2026-06-26T16:57:08.422Z",
+  "skill_md_sha256": "a0e332b924932d408847a5236998cd06c54085df5f3b867b0f5d87d802ccc38d"
 }
