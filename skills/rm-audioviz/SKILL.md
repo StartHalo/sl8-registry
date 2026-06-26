@@ -24,7 +24,7 @@ metadata:
       description: "bars | mirror | wave. Default = bars (audiogram). Resolve from the storyboard tag, else the user request, else bars."
   outputs:
     - name: spectrum-component
-      type: tsx
+      type: x-tsx
       path: artifacts/[project]/remotion-project/src/components/Spectrum.tsx
       description: "The vetted, deterministic audio-reactive component (bars/mirror/wave + getBassIntensity), present in every project via the bundled starter. rm-audioviz guarantees it is present and composed into the active composition with src/mode/palette/freqRange set. No rendering — rm-validate stills + rm-render produce pixels."
     - name: staged-audio
