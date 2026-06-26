@@ -7,7 +7,7 @@ metadata:
   references-skills: [rm-build]
   inputs:
     - name: data
-      type: file
+      type: x-file
       required: true
       description: "The dataset to chart — a CSV (header + rows) or JSON (array of objects, [label,value] pairs, {labels,values}, or a pre-shaped {series}). The figures shown on screen come from here verbatim."
     - name: storyboard
