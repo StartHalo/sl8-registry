@@ -1,0 +1,29 @@
+{
+  "name": "rm-concept",
+  "version": "v1.0.0",
+  "description": "Write the mandatory BASE CONCEPT for a Remotion/React motion-graphics video — a 100-plus-word visual contract across 6 dimensions (subject, composition, style, color palette with hex, typography, mood). Reads the project context.md (brief + brand kit) and fixes the look every later phase themes to. Use at the CONCEPT phase (phase 1) of a Remotion Studio project, before any script, storyboard, or React composition is authored, or when restarting a project's creative direction. Produces 01-concept.md, the anchor the rubric grades brand application against. No rendering, no code.",
+  "inputs": [
+    {
+      "name": "context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/context.md — the project brief plus brand kit (accent hex, font pack, label) and defaults (aspect ratio, voice) written by onboarding."
+    },
+    {
+      "name": "brief",
+      "type": "text",
+      "required": false,
+      "description": "An inline brief, topic, or one-line description in the request. Used to sharpen the Subject when context.md is thin. Default = whatever context.md already carries."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "concept",
+      "type": "markdown",
+      "path": "artifacts/<project>/01-concept.md",
+      "description": "The base concept — 100-plus words across the 6 dimensions (subject, composition, style, color palette with hex, typography, mood); the visual contract every later phase reads."
+    }
+  ],
+  "generated_at": "2026-06-26T03:56:17.615Z",
+  "skill_md_sha256": "9f501527dcc0e0936cfd25a9e59b38b10563d40e16a6ff6710fd201ffcb905f5"
+}
