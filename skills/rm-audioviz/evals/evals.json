@@ -1,0 +1,26 @@
+{
+  "skill": "rm-audioviz",
+  "notes": "STRUCTURAL placeholder seeded at Author time from this skill's outputs (Charter refines into graded JTBD evals with a media-judge vision dimension later). rm-audioviz is a capability skill woven into rm-build: it stages the audio to WAV, guarantees the bundled Spectrum.tsx is present, and composes the visualizer — it owns no phase/numbered artifact and does NOT render. These checks verify the bundled component + script exist and the wiring is shaped correctly; they are not regex test logic.",
+  "expectations": [
+    {
+      "id": "spectrum-component-present",
+      "check": "structural",
+      "desc": "The vetted component exists at remotion-project/src/components/Spectrum.tsx (bundled in the starter, copied by init.sh) and exports `Spectrum` + `getBassIntensity`, importing visualizeAudio / useWindowedAudioData from @remotion/media-utils."
+    },
+    {
+      "id": "audio-staged-as-wav",
+      "check": "structural",
+      "desc": "When a non-WAV bed is used, scripts/stage-audio.sh produced public/audio/<name>.wav and printed JSON with static_path + window_in_seconds + spectrum_component:true; a voiceover source uses public/voiceover/narration.wav with no transcode."
+    },
+    {
+      "id": "spectrum-composed-contract-clean",
+      "check": "structural",
+      "desc": "<Spectrum> is composed into the active composition with a staticFile() WAV src, an on-brand color/gradient, a power-of-2 numberOfSamples, inside <SafeZone>; no Math.random / Date.now / setTimeout / CSS transition introduced (passes rm-validate lint + tsc)."
+    },
+    {
+      "id": "no-audio-fallback-recorded",
+      "check": "structural",
+      "desc": "With no audio source the visualizer is skipped (or a frame-driven placeholder used) and the fallback is recorded (state.md / 06-summary.md audio_reactive:false) — no user prompt, no fabricated audio."
+    }
+  ]
+}
