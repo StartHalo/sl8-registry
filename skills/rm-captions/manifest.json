@@ -1,0 +1,41 @@
+{
+  "name": "rm-captions",
+  "version": "v1.0.0",
+  "description": "Build TikTok-style word-pop captions for a Remotion composition from rm-voiceover's 04-timing.json. Owns two deliverables — scripts/timing-to-captions.mjs (converts the flat, absolute-time words[] track into the @remotion/captions Caption[] shape, seconds→ms, leading-space tokens) and the vetted CaptionOverlay.tsx component (createTikTokStyleCaptions paging + active-word highlight + a frame-driven pop, in the lower safe-zone, drop-in over [OffthreadVideo]/[Audio]). Use during the BUILD phase (phase 5) when a video needs captions — the JTBD-3 differentiator (clip → captioned cut, ±150ms sync) and optionally JTBD-1 narrated video. This skill does NOT render and does NOT own a numbered artifact; it produces the captions JSON + composes its component, which rm-build wires and rm-validate/rm-render gate. Transcription is keyless via ai-gen Wizper (done by rm-voiceover); it never prompts the user.",
+  "inputs": [
+    {
+      "name": "timing",
+      "type": "json",
+      "required": true,
+      "description": "artifacts/[project]/04-timing.json — rm-voiceover's word-level timing. The flat, absolute-time words[] track ([{text,start,end,beat}] in seconds) is the caption source. For JTBD-3 (an existing clip with no script) this is produced by running rm-voiceover's words.sh ASR on the clip's audio first."
+    },
+    {
+      "name": "clip",
+      "type": "video",
+      "required": false,
+      "description": "JTBD-3 only — the input video to caption, staged into remotion-project/public/. CaptionOverlay overlays [OffthreadVideo src={staticFile(...)}]. Absent for narrated-still captions (JTBD-1), which caption an [Audio] track instead."
+    },
+    {
+      "name": "combineMs",
+      "type": "number",
+      "required": false,
+      "description": "createTikTokStyleCaptions page-switch window in ms (default 1200). Lower = more word-by-word; higher = more words per page."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "captions",
+      "type": "json",
+      "path": "artifacts/[project]/remotion-project/public/captions.json",
+      "description": "The @remotion/captions Caption[] derived from 04-timing.json (absolute ms, leading-space tokens), written by scripts/timing-to-captions.mjs. rm-build inlines it into props.json (deterministic, prop-driven) or CaptionOverlay can fetch it via staticFile()."
+    },
+    {
+      "name": "caption-component",
+      "type": "tsx",
+      "path": "artifacts/[project]/remotion-project/src/components/CaptionOverlay.tsx",
+      "description": "The vetted TikTok word-pop overlay component this skill owns — bundled in the starter (rm-build/scripts/remotion-template/src/components/CaptionOverlay.tsx) and copied into the per-project app by rm-build's init.sh. rm-build composes it as the top layer over the clip/scene."
+    }
+  ],
+  "generated_at": "2026-06-26T03:57:56.446Z",
+  "skill_md_sha256": "7c17fdb3157827cfeca8e8823f193f7cad71b4ed50c4c035aad4bc3e30a959c4"
+}
