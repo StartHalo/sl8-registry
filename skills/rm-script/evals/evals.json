@@ -1,0 +1,26 @@
+{
+  "skill": "rm-script",
+  "notes": "Minimal structural placeholder seeded from rm-script's single output (artifacts/<project>/02-script.md). rm-script is a TEXT/authoring skill — these expectations are read off the written markdown, not off rendered pixels (no media-judge here; on-screen-text fidelity is verified as text, frames are graded downstream by rm-render). Charter refines this into graded behavioral evals later; do not hand-code regex test logic.",
+  "expectations": [
+    {
+      "id": "writes-script-only",
+      "check": "structural",
+      "desc": "Writes artifacts/<project>/02-script.md and only that numbered artifact — it does NOT write a storyboard (03), a Remotion composition, or any render/export."
+    },
+    {
+      "id": "required-sections",
+      "check": "structural",
+      "desc": "02-script.md contains the four required sections: an Assumptions block, a named Arc, a Beats table, and a Provenance table (scripts/check-script.sh exits 0)."
+    },
+    {
+      "id": "beat-contract-columns",
+      "check": "structural",
+      "desc": "The Beats table carries the contract columns (# | sec | VO line | On-screen text | Focal token) with at least one numbered beat row; every beat has both a VO line and a separate on-screen-text cell."
+    },
+    {
+      "id": "provenance-table-present",
+      "check": "structural",
+      "desc": "A Provenance table maps facts to their source in the brief; framing/connective lines are marked [framing]; a stated total duration line is present."
+    }
+  ]
+}
