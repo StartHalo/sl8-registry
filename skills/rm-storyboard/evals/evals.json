@@ -1,0 +1,26 @@
+{
+  "skill": "rm-storyboard",
+  "notes": "Structural placeholder seeded at Author. rm-storyboard is a planning skill — it writes the per-beat Remotion build contract (03-storyboard.md), NO React and NO render. Charter refines these into graded dimensions (contract-completeness, layer-layout-validity, facts-verbatim); no media-judge here (rendered-frame quality is graded downstream by rm-render). Do not hand-code regex test logic.",
+  "expectations": [
+    {
+      "id": "writes-storyboard-md",
+      "check": "structural",
+      "desc": "Writes artifacts/<project>/03-storyboard.md (and nothing else) — markdown only, no React authored and nothing rendered."
+    },
+    {
+      "id": "one-row-per-beat-four-fields",
+      "check": "structural",
+      "desc": "Exactly one beat row per script beat, in order; every row names block(s)/component, structure + transition out (or '— (final)' on the last beat), a layer layout (base Sequence + overlays as nested Sequences), and a frame range in BOTH seconds and frames."
+    },
+    {
+      "id": "composition-header-present",
+      "check": "structural",
+      "desc": "A Composition header records the <Composition> id + root size per AR (Studio-16x9/-9x16/-1x1), FPS 30, durationSeconds/durationInFrames (accounting for transition overlap), and the palette hex + fonts + seed taken from 01-concept.md; multiple ARs get a separate header+layout each."
+    },
+    {
+      "id": "on-screen-text-verbatim",
+      "check": "structural",
+      "desc": "On-screen text and data figures in each row are copied verbatim from 02-script.md (no VO/narration lines, no invented copy, no rounded-away numbers); uses Remotion layer vocabulary (nested <Sequence>), never HyperFrames 'data-track-index'."
+    }
+  ]
+}
