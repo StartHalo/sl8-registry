@@ -1,0 +1,26 @@
+{
+  "skill": "rm-captions",
+  "notes": "Minimal STRUCTURAL placeholder seeded at Author from rm-captions' outputs (captions.json + CaptionOverlay.tsx). Charter refines this into prompt-driven evals with a media-judge vision dimension (caption legibility, ±150ms sync, safe-zone). Do not hand-code regex here.",
+  "expectations": [
+    {
+      "id": "captions-json-shape",
+      "check": "structural",
+      "desc": "scripts/timing-to-captions.mjs reads a 04-timing.json and writes a Caption[] JSON whose entries have integer startMs/endMs (milliseconds, not seconds) with endMs > startMs, a timestampMs, confidence:null, and a leading-space text token; the track is monotonic."
+    },
+    {
+      "id": "component-present",
+      "check": "structural",
+      "desc": "CaptionOverlay.tsx exists at remotion-template/src/components/ (and, post-init.sh, at remotion-project/src/components/) and imports createTikTokStyleCaptions plus the Caption and TikTokPage types from @remotion/captions."
+    },
+    {
+      "id": "contract-clean",
+      "check": "structural",
+      "desc": "CaptionOverlay is frame-driven only: no CSS transition/@keyframes/animate-*, no setTimeout/setInterval/Date.now/Math.random; every interpolate() passes extrapolateLeft+extrapolateRight clamp; captions render inside the lower safe-zone band."
+    },
+    {
+      "id": "no-fabricated-timings",
+      "check": "structural",
+      "desc": "when 04-timing.json has an empty words[] (timing_method 'estimated'), the converter writes an empty Caption[] and warns rather than inventing per-word timings (the caller then falls back to beat-level captions or skips captions)."
+    }
+  ]
+}
