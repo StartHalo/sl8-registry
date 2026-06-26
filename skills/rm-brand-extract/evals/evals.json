@@ -1,0 +1,30 @@
+{
+  "skill": "rm-brand-extract",
+  "expectations": [
+    {
+      "id": "brand-block-present",
+      "check": "structural",
+      "desc": "On a successful extract, artifacts/<project>/context.md contains a single '## Brand' section carrying accent, accentAlt, fontPack, and label keys (merged, not duplicated)."
+    },
+    {
+      "id": "colors-are-hex",
+      "check": "structural",
+      "desc": "accent and accentAlt are 6-digit hex values and are not pure black, pure white, or body grey (real brand colors derived from the capture, not invented)."
+    },
+    {
+      "id": "fontpack-in-allowlist",
+      "check": "structural",
+      "desc": "fontPack is exactly one of modern | editorial | bold | tech (a runtime-supported pack), never a raw font family."
+    },
+    {
+      "id": "capture-provenance",
+      "check": "structural",
+      "desc": "artifacts/<project>/assets/captures/brand-capture.json exists with source, colors, fonts, screenshots, label, and via fields (or an 'error' field on a clean reachability failure)."
+    },
+    {
+      "id": "logo-cutout-or-omitted",
+      "check": "structural",
+      "desc": "When a logo was found, artifacts/<project>/assets/cutouts/logo.png is a transparent PNG and the 'logo:' line is present; otherwise the 'logo:' line is omitted and the omission is noted."
+    }
+  ]
+}
