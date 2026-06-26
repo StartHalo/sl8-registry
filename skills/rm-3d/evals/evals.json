@@ -1,0 +1,26 @@
+{
+  "skill": "rm-3d",
+  "notes": "Minimal STRUCTURAL placeholder for a DEFERRED stub. rm-3d is scaffolded, NOT active in v1: @remotion/three is H-RAM and OOMs the ~1.9 GB sandbox (Exit-137), so it is gated on REQ-005 (the runtime RAM tier). The skill authors no React and produces no output in v1 — its v1 contract is precisely that it stays OFF and defers to a 2D approximation (rm-build). These structural expectations only assert the stub is well-formed and that the deferral is documented/enforced. When REQ-005 activates 3D, Charter replaces this file with graded, vision-judged 3D expectations (see the activation checklist in SKILL.md). No hand-coded regex test logic.",
+  "expectations": [
+    {
+      "id": "marked-deferred-stub",
+      "check": "structural",
+      "desc": "SKILL.md frontmatter description and body both state the skill is DEFERRED / scaffolded-not-active, gated on REQ-005, and that it produces no output in v1."
+    },
+    {
+      "id": "check-script-prints-gate",
+      "check": "structural",
+      "desc": "scripts/check.sh exists, is executable, runs under bash 3.2 (no 'timeout', no GNU-only flags), prints 'STATUS: DEFERRED' plus the REQ-005 gate, and exits 0 without authoring anything."
+    },
+    {
+      "id": "contract-reference-present",
+      "check": "structural",
+      "desc": "references/3d.md exists and documents the frame-driven 3D contract: <ThreeCanvas width height> with lighting, animate via useCurrentFrame() (useFrame from react-three-fiber FORBIDDEN), <Sequence layout=\"none\"> inside the canvas, seeded determinism, and the gated component path remotion-project/src/components/three/."
+    },
+    {
+      "id": "no-active-3d-output",
+      "check": "structural",
+      "desc": "The skill writes no @remotion/three code in v1; a 3D-implying brief is handled by deferring to a 2D approximation (rm-build) with a note in state.md, and rm-build contract C9 / rm-validate lint reject @remotion/three / ThreeCanvas / @react-three."
+    }
+  ]
+}
