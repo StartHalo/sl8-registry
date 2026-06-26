@@ -1,0 +1,25 @@
+{
+  "skill": "rm-assets",
+  "expectations": [
+    {
+      "id": "cutout-at-contract-paths",
+      "check": "structural",
+      "desc": "bg-remove writes the matte to assets/cutouts/<name>.png AND stages a copy to remotion-project/public/cutouts/<name>.png (both exist, non-empty PNG)."
+    },
+    {
+      "id": "cutout-has-alpha",
+      "check": "structural",
+      "desc": "the produced cutout PNG carries an alpha pix_fmt (e.g. rgba/ya8) per ffprobe — a real transparent matte, not an opaque image."
+    },
+    {
+      "id": "capture-frames-staticfile-reachable",
+      "check": "structural",
+      "desc": "capture writes >=1 screenshot PNG under remotion-project/public/captures/<slug>/ so staticFile(\"captures/<slug>/<file>.png\") resolves; design tokens (if any) land in assets/captures/<slug>/extracted/."
+    },
+    {
+      "id": "failure-recorded-no-fabrication",
+      "check": "structural",
+      "desc": "a missing/unreadable source image or an unreachable ai-gen proxy / capture URL is recorded and exits non-zero with no asset written — no fabricated or substituted file, no runtime prompt."
+    }
+  ]
+}

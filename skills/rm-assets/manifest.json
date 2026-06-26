@@ -1,0 +1,59 @@
+{
+  "name": "rm-assets",
+  "version": "v1.0.0",
+  "description": "Prepare visual source assets for a Remotion composition and stage them where staticFile() resolves. Cuts the background out of a subject/product/logo image via ai-gen (fal-ai/bria/background/remove) into a transparent cutout, and ingests a brand site/screen (hyperframes capture, or the runtime Chrome Headless Shell as a fallback) into screenshots + extracted design tokens. Writes cutouts to assets/cutouts/ AND stages a copy into remotion-project/public/cutouts/; writes capture frames into remotion-project/public/captures/[slug]/ (staticFile-reachable) and design tokens into assets/captures/[slug]/extracted/. Use during the asset-prep phase (phase 4, alongside rm-voiceover) before rm-build, whenever the storyboard calls for a subject cutout/matte, a product shot on transparency, or captured brand frames. Local and keyless (ai-gen via the SL8 proxy; capture via the runtime Chrome) — no HeyGen, no cloud, no auth. It does NOT author or render the composition (that is rm-build / rm-render) — no rendering here.",
+  "inputs": [
+    {
+      "name": "source-image",
+      "type": "image",
+      "required": false,
+      "description": "A readable PNG/JPG/WebP to background-remove (a subject, product shot, or logo). Required for a cutout; omit if only capturing."
+    },
+    {
+      "name": "capture-url",
+      "type": "text",
+      "required": false,
+      "description": "A website/brand/screen URL to ingest into the project's public/ frames. Required for a capture; omit if only cutting out."
+    },
+    {
+      "name": "project",
+      "type": "text",
+      "required": true,
+      "description": "The active project slug — outputs land under artifacts/[project-name]/. From state.md/context.md, never invented."
+    },
+    {
+      "name": "out-name",
+      "type": "text",
+      "required": false,
+      "description": "Output stem for a cutout (cutouts/[out-name].png) or folder slug for a capture (captures/[slug]/). Default = the source image basename / the URL host."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "cutout",
+      "type": "png",
+      "path": "artifacts/[project-name]/assets/cutouts/[out-name].png",
+      "description": "Canonical transparent-background matte (RGBA PNG) of the subject/product/logo."
+    },
+    {
+      "name": "cutout-staged",
+      "type": "png",
+      "path": "artifacts/[project-name]/remotion-project/public/cutouts/[out-name].png",
+      "description": "The same matte staged under public/ so the composition reaches it via staticFile(\"cutouts/[out-name].png\")."
+    },
+    {
+      "name": "capture-frames",
+      "type": "x-dir",
+      "path": "artifacts/[project-name]/remotion-project/public/captures/[slug]/",
+      "description": "Captured brand frames (scroll-NNN.png + contact-sheet.jpg) + any downloaded site assets, staticFile-reachable as staticFile(\"captures/[slug]/[file].png\")."
+    },
+    {
+      "name": "capture-tokens",
+      "type": "x-dir",
+      "path": "artifacts/[project-name]/assets/captures/[slug]/extracted/",
+      "description": "Extracted design tokens (tokens.json palette/fonts/headings, design-styles.json, fonts-manifest.json, visible-text.txt, page.html) — metadata for rm-build / rm-brand-extract, not a render asset."
+    }
+  ],
+  "generated_at": "2026-06-26T03:57:07.461Z",
+  "skill_md_sha256": "657dab507fd19775926aa2c574ebb016c985947d4b36fffbec13fd9464048719"
+}
