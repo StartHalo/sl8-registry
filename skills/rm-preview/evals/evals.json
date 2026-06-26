@@ -1,0 +1,26 @@
+{
+  "skill": "rm-preview",
+  "notes": "Minimal STRUCTURAL placeholder seeded from rm-preview's outputs (Charter refines into graded evals with prompts + a media-judge rubric later). rm-preview emits a self-contained, scrubbable artifacts/<project>/preview.html embedding @remotion/player (live) or a contact-sheet fallback from snapshots/ — it never renders an MP4 and never edits the composition.",
+  "expectations": [
+    {
+      "id": "preview-html-exists",
+      "check": "structural",
+      "desc": "writes artifacts/<project>/preview.html — non-empty and openable with no build step"
+    },
+    {
+      "id": "self-contained",
+      "check": "structural",
+      "desc": "preview.html is self-contained: the @remotion/player bundle (live mode) or the key frames (contact-sheet mode) are inlined — no external <script src> to a CDN and no network fetch needed to open it"
+    },
+    {
+      "id": "player-or-fallback",
+      "check": "structural",
+      "desc": "live mode embeds @remotion/player with the project's StudioVideo + props.json at the requested AR dims (1920x1080 / 1080x1920 / 1080x1080); when no live bundle is possible it falls back to a scrubbable contact-sheet from snapshots/ (or exports/frames/) and reports mode:contact-sheet"
+    },
+    {
+      "id": "preview-only-no-render",
+      "check": "structural",
+      "desc": "produces no MP4 and does not modify remotion-project/src — preview only; the JSON receipt reports ok + the mode (player|contact-sheet)"
+    }
+  ]
+}

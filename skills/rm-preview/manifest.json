@@ -1,0 +1,47 @@
+{
+  "name": "rm-preview",
+  "version": "v1.0.0",
+  "description": "Emit a self-contained, scrubbable artifacts/[project]/preview.html that embeds @remotion/player (the project's StudioVideo + props.json) so the user can SCRUB and play the composition in a browser BEFORE committing to a full MP4 render — the \"studio, not a black box\" deliverable HyperFrames can't match. Bundles the player (React + Remotion + the composition) with the project's OWN esbuild and inlines it (keyless, no CDN, no network); if that bundle can't be produced it falls back to a contact-sheet preview built from rm-validate's snapshots/ (or rm-render's exports/frames/), still self-contained and still scrubbable. Use during the PREVIEW phase (phase 7b), after rm-build (and ideally rm-validate). Does NOT render an MP4 (that is rm-render) and does NOT author or fix the composition (that is rm-build).",
+  "inputs": [
+    {
+      "name": "remotion-project",
+      "type": "x-dir",
+      "required": true,
+      "description": "artifacts/[project]/remotion-project/ — the built Remotion app (src/StudioVideo.tsx + src/schema.ts + node_modules with @remotion/player and esbuild). Should have passed rm-build; ideally rm-validate too."
+    },
+    {
+      "name": "props",
+      "type": "json",
+      "required": true,
+      "description": "artifacts/[project]/remotion-project/props.json — the inputProps fed to [Player] (facts + palette + durationSeconds + seed). rm-build always writes it."
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "text",
+      "required": false,
+      "description": "16:9 | 9:16 | 1:1 — sets the Player's compositionWidth/Height (1920x1080 / 1080x1920 / 1080x1080). Default 16:9; match the composition's primary AR."
+    },
+    {
+      "name": "snapshots",
+      "type": "x-dir",
+      "required": false,
+      "description": "artifacts/[project]/snapshots/ — rm-validate's key-frame stills, used to build the contact-sheet fallback when a live player bundle can't be produced (exports/frames/* are used too if present)."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "preview",
+      "type": "html",
+      "path": "artifacts/[project]/preview.html",
+      "description": "A self-contained scrubbable preview — the @remotion/player bundle inlined (live, frame-accurate) OR, on fallback, a contact-sheet of inlined frames with a scrub slider. Opens with no build step and no network."
+    },
+    {
+      "name": "preview-assets",
+      "type": "x-dir",
+      "path": "artifacts/[project]/preview-assets/",
+      "description": "A copy of remotion-project/public/ placed beside preview.html (player mode only) so staticFile() assets resolve when the page is served. Optional — absent when the project has no public assets or on the contact-sheet fallback."
+    }
+  ],
+  "generated_at": "2026-06-26T03:58:30.009Z",
+  "skill_md_sha256": "904b8c90a45afb36a538f051384741e2d20fd15308a766c169b24703aa0b0cbd"
+}
