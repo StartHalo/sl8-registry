@@ -1,0 +1,29 @@
+{
+  "name": "rm-script",
+  "version": "v1.0.0",
+  "description": "Write a faithful, beat-structured video script for a Remotion motion-graphics project — one beat per idea, each carrying a voiceover (VO) line and a short on-screen-text distillation, with every fact traced to the brief. No rendering — this is a text/authoring phase. Reads the project brief (context.md) and the base concept (01-concept.md); writes 02-script.md. On-screen text is the headline/keyword distillation, NOT the narration verbatim. Never invents facts, numbers, names, or quotes. Use during the SCRIPT phase (phase 2) of a narrated/data-viz video, after rm-concept and before rm-storyboard. This is the ONLY phase allowed to change facts — also use it to RE-SCRIPT when the user changes the message (JTBD-4).",
+  "inputs": [
+    {
+      "name": "context",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/context.md — the project brief (topic/script, audience, brand kit, source facts, requested duration/aspect ratio, voice/music defaults)."
+    },
+    {
+      "name": "concept",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/01-concept.md — the 6-dimension base concept (subject, composition, style, palette, typography, mood) the script's tone and pacing align to."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "script",
+      "type": "markdown",
+      "path": "artifacts/<project>/02-script.md",
+      "description": "A beat-structured script — narrative arc, per-beat VO line + on-screen text + estimated seconds, plus a provenance table mapping every fact to its source. Faithful to the brief; no invented facts. Consumed by rm-storyboard (phase 3) and rm-voiceover (phase 4)."
+    }
+  ],
+  "generated_at": "2026-06-26T03:59:06.983Z",
+  "skill_md_sha256": "120a0b5ce8054f12909486ad874c0b2d00a83a5b55b256cef7cca9cf60520964"
+}
