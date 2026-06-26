@@ -1,0 +1,35 @@
+{
+  "name": "rm-validate",
+  "version": "v1.0.0",
+  "description": "THE pre-render gate for a per-project Remotion app — run four cheap→expensive checks IN ORDER (version-skew → tsc --noEmit → contract lint → still-render key frames) and pass only if all pass. Reads artifacts/[project]/remotion-project/ (the app rm-build authored) and writes 05-validation.md (the pass/BLOCK verdict + findings) plus key-frame PNGs to snapshots/ for the session to vision-grade. Renders STILLS ONLY (one frame each at quarter-scale) — never a full render; that is rm-render's job, and only on a PASS. Use during the VALIDATE phase (phase 6), after rm-build and before rm-render, so a skewed/broken/contract-violating composition never wastes a full render. Local, keyless, headless.",
+  "inputs": [
+    {
+      "name": "remotion-project",
+      "type": "directory",
+      "required": true,
+      "description": "artifacts/[project]/remotion-project/ — the per-project Remotion app authored + deps-installed by rm-build (src/, props.json, package.json, node_modules). 05-validation.md is written to its parent (the project dir)."
+    },
+    {
+      "name": "at-seconds",
+      "type": "text",
+      "required": false,
+      "description": "Comma-separated timestamps in seconds to still-render (e.g. \"2,6,11\"), one per beat/scene. Default = 3 points (~15%/50%/85%) derived from props.durationSeconds."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "validation",
+      "type": "markdown",
+      "path": "artifacts/<project>/05-validation.md",
+      "description": "The gate report — per-check results (skew, tsc, contract lint, stills), the PASS/BLOCKED verdict (naming the failing gate + findings), the captured-still paths, and the vision-grade instructions for the session."
+    },
+    {
+      "name": "snapshots",
+      "type": "png",
+      "path": "artifacts/<project>/snapshots/",
+      "description": "One still PNG per requested timestamp (quarter-scale), for the pre-render vision check (legible? safe-zone? on-brand? composed? facts == input?)."
+    }
+  ],
+  "generated_at": "2026-06-26T03:59:38.191Z",
+  "skill_md_sha256": "2ee5fa2580d7f5129e836aa389358dbb14856d787ccca5b1377729a42ac8b106"
+}
