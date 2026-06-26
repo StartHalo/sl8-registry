@@ -1,0 +1,23 @@
+{
+  "name": "rm-3d",
+  "version": "v1.0.0",
+  "description": "DEFERRED STUB (scaffolded, NOT active in v1). Documents how to author frame-driven 3D in Remotion with @remotion/three ([ThreeCanvas] animated by useCurrentFrame, NEVER useFrame from react-three-fiber) so the capability can be switched on once the runtime RAM tier (REQ-005) lands. In v1 this skill produces NOTHING and authors NO 3D — @remotion/three is H-RAM (Three.js per-frame WebGL) and OOMs the ~1.9 GB sandbox (Exit-137), so rm-build's composition-contract rule C9 forbids @remotion/three; a brief that implies 3D is instead rendered as a 2D approximation by rm-build with the deferral noted in state.md (the JTBD-5 RAM fallback). When activated it would drop frame-driven 3D scene components into rm-build's remotion-project/src/components/three/. Reads 03-storyboard.md; writes nothing in v1. Does not render.",
+  "inputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "required": false,
+      "description": "artifacts/[project]/03-storyboard.md — read only to DETECT whether a beat implies 3D (product spin, ranked 3D bars, cinematic camera). In v1 this never triggers authoring; it triggers the 2D-approximation deferral note."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "three-components",
+      "type": "x-dir",
+      "path": "artifacts/[project]/remotion-project/src/components/three/",
+      "description": "Frame-driven [ThreeCanvas] scene components composed into rm-build's app. GATED on REQ-005 — in v1 this directory is NOT created and this skill writes nothing. The path is the activation target, not a v1 deliverable."
+    }
+  ],
+  "generated_at": "2026-06-26T03:56:56.679Z",
+  "skill_md_sha256": "d3a079a93cdaf531ecdc4a87fc127eb383d0596790ac8aea9465f03382fffb67"
+}
