@@ -1,0 +1,25 @@
+{
+  "skill": "rm-concept",
+  "expectations": [
+    {
+      "id": "concept-file-at-path",
+      "check": "structural",
+      "desc": "Writes the base concept to artifacts/<project>/01-concept.md (the phase-1 path) and nothing is rendered."
+    },
+    {
+      "id": "six-dimensions-100-words",
+      "check": "structural",
+      "desc": "All 6 labelled sections are present (Subject, Composition, Style/Aesthetic, Color Palette, Typography, Mood/Atmosphere) and total >= 100 words."
+    },
+    {
+      "id": "hex-palette",
+      "check": "structural",
+      "desc": "The Color Palette lists 2-4 colors plus a neutral, each with a valid #RRGGBB hex code and a one-line rationale."
+    },
+    {
+      "id": "wired-font-pack",
+      "check": "structural",
+      "desc": "Typography names a wired font pack (modern/editorial/bold/tech) or a face from the wired nine (Inter, Fraunces, Oswald, Manrope, Playfair Display, Anton, Bebas Neue, Space Grotesk, DM Serif Display) — never a CDN/Google font outside engine/fonts.ts."
+    }
+  ]
+}
