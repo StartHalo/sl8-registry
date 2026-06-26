@@ -7,7 +7,7 @@ metadata:
   references-skills: [rm-build]
   inputs:
     - name: remotion-project
-      type: directory
+      type: x-directory
       required: true
       description: "artifacts/[project]/remotion-project/ — the per-project Remotion app authored + deps-installed by rm-build (src/, props.json, package.json, node_modules). 05-validation.md is written to its parent (the project dir)."
     - name: at-seconds
