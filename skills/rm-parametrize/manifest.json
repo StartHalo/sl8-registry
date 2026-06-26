@@ -1,0 +1,29 @@
+{
+  "name": "rm-parametrize",
+  "version": "v1.0.0",
+  "description": "DEFERRED / scaffolded-not-active (gated on REQ-005 RAM). Documents the data-driven + batch-at-scale parametrization pattern for a built Remotion app: a Zod props schema + calculateMetadata that turn ONE composition into N personalized variants from a dataset (GitHub-Unwrapped / Spotify-Wrapped class — one MP4 per row). When active it reads a dataset (CSV/JSON, one record per variant) + the per-project remotion-project/ and writes per-variant props + a batch manifest that rm-render iterates. It authors NO React itself (rm-build composes the schema/calculateMetadata) and it does NOT render (rm-render renders). INACTIVE in v1: scripts/check.sh prints the deferral and the activation gate; the durable how-to lives in references/parameters.md. Do NOT run it on the default phase chain — single videos go straight through build→validate→render.",
+  "inputs": [
+    {
+      "name": "dataset",
+      "type": "x-file",
+      "required": true,
+      "description": "The batch source — a CSV or JSON array with ONE record per output variant (e.g. one row per user/quarter/region). Each record's fields map onto the composition's Zod props. Required only when this skill is ACTIVE; ignored while deferred."
+    },
+    {
+      "name": "remotion-project",
+      "type": "x-dir",
+      "required": true,
+      "description": "artifacts/[project]/remotion-project/ — the built app whose src/schema.ts Zod schema the per-variant prop sets must satisfy (built by rm-build, gated by rm-validate). Required only when ACTIVE."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "batch",
+      "type": "x-dir",
+      "path": "artifacts/<project>/remotion-project/batch/",
+      "description": "GATED (REQ-005). When active: per-variant prop files (variant-NNNN.props.json, each satisfying the composition Zod schema) + manifest.json (the list of {compositionId, props, outName} rm-render iterates). While deferred this directory is NOT produced — scripts/check.sh prints the deferral instead."
+    }
+  ],
+  "generated_at": "2026-06-26T03:58:18.890Z",
+  "skill_md_sha256": "ce807832bf6402406c57d582e8f5bc018f8aa65c7da61df9a4ab0a0689266424"
+}

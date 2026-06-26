@@ -1,0 +1,26 @@
+{
+  "skill": "rm-parametrize",
+  "notes": "Minimal STRUCTURAL placeholder for a DEFERRED stub (scaffolded-not-active, gated on REQ-005 RAM). rm-parametrize ships NO render-producing logic in v1 — scripts/check.sh only prints the deferral and exits non-zero. These expectations assert the stub is well-formed (SKILL.md present + deferred, the deferral script behaves, the durable how-to exists, no active render/author scripts leak in). Charter refines these into graded evals once REQ-005 activates the skill. No hand-coded regex test logic.",
+  "expectations": [
+    {
+      "id": "skill-md-deferred",
+      "check": "structural",
+      "desc": "SKILL.md exists with valid frontmatter (name: rm-parametrize; metadata.version 1.0.0; outputs.path artifacts/<project>/remotion-project/batch/) and its description + body mark the skill DEFERRED / scaffolded-not-active, gated on REQ-005 RAM. The outputs.path is restated in a body '## Outputs' section (anti-hallucination gate)."
+    },
+    {
+      "id": "check-prints-deferral",
+      "check": "structural",
+      "desc": "scripts/check.sh exists, is bash 3.2 safe (no `timeout`, no GNU-only flags), prints the DEFERRED banner + the REQ-005 activation gate, and exits non-zero (3 = deferred) when PARAMETRIZE_ACTIVE is unset."
+    },
+    {
+      "id": "parameters-reference-present",
+      "check": "structural",
+      "desc": "references/parameters.md exists and documents the Zod-schema + calculateMetadata + batch-manifest contract, including the BOT-032 divergences (plain z.string hex not zColor; zod@4 pinned; aspect ratio is a separate <Composition>, not a per-variant width/height swap)."
+    },
+    {
+      "id": "no-active-render-scripts",
+      "check": "structural",
+      "desc": "the skill ships NO active render/author logic — scripts/ contains only check.sh (the deferral gate); rendering remains rm-render's job and schema/calculateMetadata edits remain rm-build's. evals/ holds only this placeholder."
+    }
+  ]
+}
