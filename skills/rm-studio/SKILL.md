@@ -48,7 +48,7 @@ metadata:
       path: artifacts/<project>/04-timing.json
       description: "Word-level voiceover timestamps (@remotion/captions-shaped) produced by rm-voiceover (alongside assets/vo/*.wav)."
     - name: project
-      type: directory
+      type: x-directory
       path: artifacts/<project>/remotion-project/
       description: "The per-project Remotion (React) app authored by rm-build (bundled starter + harvested engine + official skills + generated src/ + props.json), conforming to the frozen composition contract."
     - name: validation

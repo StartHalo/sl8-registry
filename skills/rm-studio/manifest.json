@@ -1,6 +1,6 @@
 {
   "name": "rm-studio",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "The all-in-one orchestrator for Remotion Studio — take a plain-language brief (or data, or an existing clip, or a freeform motion idea) and produce a finished, on-brand MP4 by walking the full production chain (concept then script then storyboard then voiceover then build then validate then render then preview). It routes the request to its JTBD front-end, runs each granular rm-* skill's scripts in order, reads their numbered artifacts, advances state.md, and writes 06-summary.md; it does NOT re-implement them. Use as the DEFAULT entry point for \"make me a video / explainer / data video / social cut / animate this idea\" and for re-entry on a finished project (restyle, resize, re-voice, re-render) on frozen upstream facts. The render is KEYLESS and local (Remotion → Chrome Headless Shell + FFmpeg, no cloud, no Lambda, no auth); ai-gen supplies only voiceover/ASR/matte.",
   "inputs": [
     {
@@ -67,7 +67,7 @@
     },
     {
       "name": "project",
-      "type": "directory",
+      "type": "x-directory",
       "path": "artifacts/<project>/remotion-project/",
       "description": "The per-project Remotion (React) app authored by rm-build (bundled starter + harvested engine + official skills + generated src/ + props.json), conforming to the frozen composition contract."
     },
@@ -96,6 +96,6 @@
       "description": "The run summary rm-studio writes — resolved parameters (voice, style, palette, ARs, quality, music), per-phase artifact paths, the per-frame vision verdict, and any fallback taken."
     }
   ],
-  "generated_at": "2026-06-26T03:59:27.973Z",
-  "skill_md_sha256": "4fbb0ec6bbb400e8c524fb66d3743717d978df284a8473beb201cbd9beb87558"
+  "generated_at": "2026-06-26T16:56:45.604Z",
+  "skill_md_sha256": "5da086c4309003384af6780962266eb4a4a4cc4e97dcfdb82348bb6488386742"
 }
