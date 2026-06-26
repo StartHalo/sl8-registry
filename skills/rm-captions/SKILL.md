@@ -14,7 +14,7 @@ metadata:
       type: video
       required: false
       description: "JTBD-3 only — the input video to caption, staged into remotion-project/public/. CaptionOverlay overlays [OffthreadVideo src={staticFile(...)}]. Absent for narrated-still captions (JTBD-1), which caption an [Audio] track instead."
-    - name: combineMs
+    - name: combine-ms
       type: number
       required: false
       description: "createTikTokStyleCaptions page-switch window in ms (default 1200). Lower = more word-by-word; higher = more words per page."
@@ -24,7 +24,7 @@ metadata:
       path: artifacts/[project]/remotion-project/public/captions.json
       description: "The @remotion/captions Caption[] derived from 04-timing.json (absolute ms, leading-space tokens), written by scripts/timing-to-captions.mjs. rm-build inlines it into props.json (deterministic, prop-driven) or CaptionOverlay can fetch it via staticFile()."
     - name: caption-component
-      type: tsx
+      type: x-tsx
       path: artifacts/[project]/remotion-project/src/components/CaptionOverlay.tsx
       description: "The vetted TikTok word-pop overlay component this skill owns — bundled in the starter (rm-build/scripts/remotion-template/src/components/CaptionOverlay.tsx) and copied into the per-project app by rm-build's init.sh. rm-build composes it as the top layer over the clip/scene."
 ---
