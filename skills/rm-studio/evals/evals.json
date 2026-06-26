@@ -1,0 +1,26 @@
+{
+  "skill": "rm-studio",
+  "notes": "MINIMAL structural placeholder seeded at Author. rm-studio is the end-to-end ORCHESTRATOR: it routes a brief to its JTBD front-end and walks concept->script->storyboard->voiceover->build->validate->render->preview, running each rm-* skill's scripts and reading their numbered artifacts (it does NOT re-implement them). Charter refines these into full media-judge evals (vision-grade the rendered frames + JTBD coverage); for now just assert the orchestrator's structural contract — every phase artifact lands at its artifacts/<project>/ path and validate gates the render. No hand-coded regex test logic here.",
+  "expectations": [
+    {
+      "id": "skill-md-shape",
+      "check": "structural",
+      "desc": "SKILL.md has valid frontmatter (name: rm-studio; metadata.author=sl8, version, inputs[], outputs[]) and a body '## Outputs' section that restates every outputs.path (anti-hallucination gate)."
+    },
+    {
+      "id": "phase-artifacts-present",
+      "check": "structural",
+      "desc": "After an end-to-end run, every phase artifact exists at its declared path under artifacts/<project>/: 01-concept.md, 02-script.md, 03-storyboard.md, 04-timing.json, remotion-project/, 05-validation.md, exports/<name>-<ar>.mp4, and 06-summary.md."
+    },
+    {
+      "id": "validate-before-render",
+      "check": "structural",
+      "desc": "rm-validate reported PASS (05-validation.md present with a pass verdict) BEFORE any exports/*.mp4 exists — no unvalidated render; run.sh exits non-zero on a blocked gate and never calls render."
+    },
+    {
+      "id": "summary-records-params",
+      "check": "structural",
+      "desc": "06-summary.md records the resolved parameters (voice, style/concept, palette hex, ARs, quality, music) and any fallback taken; confirms keyless+local render (no cloud/Lambda/auth)."
+    }
+  ]
+}
