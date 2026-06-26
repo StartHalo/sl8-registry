@@ -1,0 +1,53 @@
+{
+  "name": "rm-build",
+  "version": "v1.0.0",
+  "description": "Generatively author a Remotion (React) video composition from a storyboard, concept, and timing data. Copies a bundled, tsc-clean, render-proven Remotion starter (the harvested BOT-014 engine + the official remotion-best-practices Agent Skill), then authors FRESH React per 03-storyboard.md against a frozen composition contract + a Zod props schema, composing the engine primitives and capability components. Writes the remotion-project/ app + props.json. Use during the BUILD phase (phase 5) of any video project, on a RESTYLE/refine (re-author from unchanged facts), and as the JTBD-5 generative engine (\"describe ANY video\"). Authors only — it does NOT render or validate (rm-validate gates the build with tsc + contract lint + a still-render; rm-render produces the MP4). Keyless and deterministic (fixed seed).",
+  "inputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/03-storyboard.md — beats mapped to Remotion blocks (primitive, frame budget, transition, easing, per-beat @remotion/* packages, on-screen text)."
+    },
+    {
+      "name": "script",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/02-script.md — the FACTS (on-screen text + VO lines). Pasted verbatim into props.json; never paraphrased or rounded."
+    },
+    {
+      "name": "concept",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/01-concept.md — the visual contract: palette (hex), font pack, mood, aspect ratio(s) the composition is themed to."
+    },
+    {
+      "name": "timing",
+      "type": "json",
+      "required": false,
+      "description": "artifacts/[project]/04-timing.json — word-level timestamps (@remotion/captions-shaped) for caption sync and beat timing. Absent for silent / no-caption cuts."
+    },
+    {
+      "name": "assets",
+      "type": "x-dir",
+      "required": false,
+      "description": "artifacts/[project]/assets/ — voiceover wavs, cutouts, captures referenced by the composition; staged into remotion-project/public/ for staticFile(). Optional."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "remotion-project",
+      "type": "x-dir",
+      "path": "artifacts/<project>/remotion-project/",
+      "description": "A complete per-project Remotion app (src/ public/ package.json tsconfig.json .agents/skills/) that typechecks (tsc --noEmit = 0) and obeys the composition contract — what rm-validate gates and rm-render renders."
+    },
+    {
+      "name": "props",
+      "type": "json",
+      "path": "artifacts/<project>/remotion-project/props.json",
+      "description": "The frozen render props (facts from 02-script.md + palette + durationSeconds + seed) that satisfy the composition's Zod schema. rm-render passes it with --props."
+    }
+  ],
+  "generated_at": "2026-06-26T03:57:39.400Z",
+  "skill_md_sha256": "bbac348def327348a3a7718eaa2ce9b812719c23e9b2b0e06ad7addc4cf4016c"
+}

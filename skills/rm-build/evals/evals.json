@@ -1,0 +1,26 @@
+{
+  "skill": "rm-build",
+  "notes": "Minimal STRUCTURAL placeholder seeded from rm-build's outputs (remotion-project/ + props.json). Charter refines this into graded evals (with a media-judge vision dimension) later. rm-build AUTHORS the composition; it does NOT render (rm-render) or gate (rm-validate). These structural expectations only assert the app was scaffolded, the composition is registered per AR, props.json is written with frozen facts, and the authored React respects the machine-checkable contract rules. No hand-coded regex test logic.",
+  "expectations": [
+    {
+      "id": "remotion-project-scaffolded",
+      "check": "structural",
+      "desc": "artifacts/<project>/remotion-project/ exists with src/, package.json, tsconfig.json, public/, and .agents/skills/remotion-best-practices/SKILL.md (copied from the bundled starter by init.sh)."
+    },
+    {
+      "id": "composition-registered-per-ar",
+      "check": "structural",
+      "desc": "src/Root.tsx registers at least one <Composition> per requested aspect ratio (e.g. Studio-16x9 / -9x16 / -1x1), each with a Zod schema and a calculateMetadata-derived durationInFrames."
+    },
+    {
+      "id": "props-json-written",
+      "check": "structural",
+      "desc": "remotion-project/props.json exists, is valid JSON with a top-level object, and its on-screen text + numeric facts match 02-script.md verbatim (facts frozen, not paraphrased or rounded)."
+    },
+    {
+      "id": "contract-respected",
+      "check": "structural",
+      "desc": "the authored src/*.tsx typechecks (tsc --noEmit = 0) and contains no forbidden patterns: no Math.random / setTimeout / setInterval / Date.now / performance.now, no CSS transition/animation/@keyframes / Tailwind animate-*, no native <img>/<video>, no @remotion/three; interpolate() calls are clamped and assets use staticFile()."
+    }
+  ]
+}
