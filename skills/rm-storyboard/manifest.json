@@ -1,0 +1,41 @@
+{
+  "name": "rm-storyboard",
+  "version": "v1.0.0",
+  "description": "Turn a base concept and a beat-structured script into a per-beat build contract for a Remotion (React) motion-graphics video. For each beat it names the engine primitive(s)/component(s) to use (RiseIn/FadeIn/Counter/Bar/Card + capability components), the composition structure and transition out ([Series]/[TransitionSeries] with fade/slide/wipe/flip/clockWipe), the layer layout (scene base Sequence + each overlay as its own nested [Sequence from/durationInFrames]), and the frame/second ranges — the exact plan rm-build authors React from. Use during the STORYBOARD phase (phase 3), after rm-script wrote the script, before rm-build authors the composition. Maps narrative beats and data series onto the bundled Remotion engine + the installed @remotion/* packages; offline, deterministic, NO rendering.",
+  "inputs": [
+    {
+      "name": "concept",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/01-concept.md — the 6-dimension base concept (subject, composition, style, palette+hex, typography, mood) the storyboard themes to."
+    },
+    {
+      "name": "script",
+      "type": "markdown",
+      "required": true,
+      "description": "artifacts/[project]/02-script.md — the beat-structured script (VO line + on-screen text + any stat/quote/credit per beat). Facts here are frozen."
+    },
+    {
+      "name": "timing",
+      "type": "json",
+      "required": false,
+      "description": "artifacts/[project]/04-timing.json — word-level timestamps (@remotion/captions-shaped). Optional; when present, snap each beat's frame range to its spoken VO line so captions and beats align."
+    },
+    {
+      "name": "aspect-ratios",
+      "type": "text",
+      "required": false,
+      "description": "Any of 16:9, 9:16, 1:1 (space/comma separated). Default = onboarding/context default, else 16:9 (9:16 for a JTBD-3 caption cut). Selects the [Composition] id (Studio-16x9 / -9x16 / -1x1) and the per-orientation SafeZone notes."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "storyboard",
+      "type": "markdown",
+      "path": "artifacts/[project]/03-storyboard.md",
+      "description": "Per-beat build contract — for every beat the engine primitive(s)/component(s), the structure + transition out, the layer layout (base Sequence + overlay Sequences with z-order), the frame/second range, and the verbatim on-screen text, plus the composition header (Composition id + root size per AR, durationSeconds/durationInFrames, palette/fonts/seed from the concept)."
+    }
+  ],
+  "generated_at": "2026-06-26T03:59:17.246Z",
+  "skill_md_sha256": "433e3b40ffd9690a933c332a4d87998c708d3bd951f920c251be1430a50e2e34"
+}
