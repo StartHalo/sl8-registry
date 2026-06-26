@@ -1,11 +1,11 @@
 {
   "name": "rm-render",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Render a validated Remotion composition to one or more aspect ratios as deterministic, keyless, local MP4s, then verify them. Runs the GLOBAL remotion binary with the pinned Chrome Headless Shell (self-healing on host/dev), pins every @remotion/* to ONE version, renders --concurrency=1 --codec=h264 --gl=angle --image-format=jpeg; ffprobe-verifies codec/dimensions/fps/duration (+ audio when a VO track exists); and extracts key frames for a vision grade. Use during the RENDER phase (phase 7), after rm-validate passes, or to RE-RENDER / RESIZE an existing project. 100% local and keyless — no AI model in the render path, no cloud, no auth. NOT for authoring or fixing the composition (that is rm-build) and NOT for linting/stills (that is rm-validate).",
   "inputs": [
     {
       "name": "remotion-project",
-      "type": "code",
+      "type": "x-code",
       "required": true,
       "description": "artifacts/[project]/remotion-project/ — the validated per-project Remotion app (src/index.ts + Root.tsx + props.json). Must have passed rm-validate (version-skew clean, tsc 0 errors, stills render)."
     },
@@ -48,6 +48,6 @@
       "description": "Key frames extracted from each rendered MP4 for the vision (media-judge) grade."
     }
   ],
-  "generated_at": "2026-06-26T03:58:40.485Z",
-  "skill_md_sha256": "f9b8aeb77182575912581b2f1a98f724b46e9527830de1bfb488e58eedcd180e"
+  "generated_at": "2026-06-26T16:57:42.521Z",
+  "skill_md_sha256": "c3b7a58784dd8a5133eb7cd4374f254b5e600e6e3913a47f71360a9a5d3fa315"
 }
