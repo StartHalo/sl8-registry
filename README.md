@@ -10,6 +10,7 @@ Official skills registry for the `@starthalo/skills-cli`. This repository contai
 | [ai-video-generation](skills/ai-video-generation/) | v1.0.0 | Text/image-to-video via the `ai-gen` CLI (MiniMax, Kling, Wan, HunyuanVideo, …) |
 | [remotion-best-practices](skills/remotion-best-practices/) | v1.0.0 | Remotion (React/HTML → MP4) domain knowledge — rule files for captions, audio, sequencing, transitions, fonts |
 | [hyperframes](skills/hyperframes/) | v1.0.1 | HyperFrames (HTML/CSS → MP4) authoring for the `sl8-animation` sandbox |
+| [hermes-tweet](skills/hermes-tweet/) | v1.0.0 | Hermes Agent X/Twitter workflows through Xquik with read-first tools and gated actions |
 | [bot-009-manim-ce](skills/bot-009-manim-ce/) | v1.0.0 | Manim Community Edition math/diagram animation (legacy name — pending rename to `manim-ce`) |
 | [bot-009-manim-gl](skills/bot-009-manim-gl/) | v1.0.0 | ManimGL (3Blue1Brown engine) animation (legacy name — pending rename to `manim-gl`) |
 | [brand-review](skills/brand-review/) | v1.0.0 | Review content against a brand voice / style guide, flagging deviations with before/after fixes |
