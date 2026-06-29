@@ -1,0 +1,35 @@
+{
+  "name": "bot-034-make-cinematic",
+  "version": "v1.0.0",
+  "description": "End-to-end maker for short multi-scene cinematic videos with native audio — the single author-facing entry point for the cinematic channel. From a one-line story or fight brief it runs the whole pipeline as a resumable 7-stage project (init, resolve-seed, plan, generate, assemble, verify, deliver) and produces episode.mp4 plus an honest summary.md. A thin dispatcher — stage bodies live in references/stage-N-*.md, loaded on demand. It also does project setup (Layer 1) and reads the persistent character-bible seed kit at artifacts/seed/ (owned by bot-034-update-character-bible), calling that skill only to bootstrap the bible on first run. It calls the shared video-toolkit scripts (verify.sh, assemble.sh, cost.sh) and its own bot-local recipe scripts (gen-cinematic.sh — the ONE Seedance reference-to-video call — per-shot-fallback.sh, validate-shotlist.sh). Use it whenever the user gives a cinematic story or fight brief or asks to make, continue, or resume a cinematic.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "chat",
+      "description": "The story or fight brief — a new cinematic premise, a continue-the-channel ask, a reset-bible ask, or a bible-only ask. Optional: style (Pixar-3D / live-action / anime), a reference image, length (4-15s, default 15), aspect (16:9 default | 9:16 | 1:1 | 21:9), and story vs fight profile.",
+      "required": true
+    },
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent image-anchor character bible at artifacts/seed/ (seed.manifest.json + style.md + identity.md + anchors/{turnaround,hero}.png). Read at resolve-seed; bootstrapped via bot-034-update-character-bible if absent.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "description": "The finished multi-scene cinematic MP4 (4-15s) with a native audio stream — built in ONE Seedance reference-to-video pass over the bible turnaround (@Image1) + hero (@Image2), the same character held across every cut.",
+      "path": "artifacts/<slug>/episode.mp4"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "description": "The honest delivery record — model/recipe, seed kit, shots, audio, cost (ai-gen estimate, never credits_used), verdict, and any fallback taken (from video-toolkit's summary template).",
+      "path": "artifacts/<slug>/summary.md"
+    }
+  ],
+  "generated_at": "2026-06-29T04:28:28.269Z",
+  "skill_md_sha256": "405720286e3a212ce1e05740efdc485b7e0ef9c5f15f48d8777894a67697592b"
+}
