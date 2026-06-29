@@ -1,0 +1,35 @@
+{
+  "name": "bot-034-update-character-bible",
+  "version": "v1.0.0",
+  "description": "Sets, regenerates, or reports the cinematic channel's persistent character BIBLE (the reusable character + style) at artifacts/seed/. This is the ONE author-facing skill for changing the look that carries across all future cinematics, and the only writer of artifacts/seed/. It is an image-anchor kit — identity is pinned by two generated reference PNGs (a multi-view turnaround and a clean hero portrait) plus frozen prompt blocks (STYLE_STACK + CHARACTER_BLOCK), 5-7 verbatim trait tokens, and a locked seed. Routes by intent — reuse (report the current bible, no writes), reset (archive the current bible, re-derive frozen blocks from the edited style.md/identity.md, regenerate the turnaround + hero via the shared video-toolkit image driver with a pixel self-check, bump provenance), and kit-only (establish the bible then stop, no cinematic). make-cinematic calls it on first run to bootstrap the bible. Use it whenever the user wants to set up, change, reset, or inspect their cinematic character or style.",
+  "inputs": [
+    {
+      "name": "intent",
+      "type": "chat",
+      "description": "What the user wants: set up / change / reset / inspect the channel character or style. Routes to reuse | reset | kit-only.",
+      "required": true
+    },
+    {
+      "name": "seed-docs",
+      "type": "markdown",
+      "description": "The editable bible docs the user may have changed — artifacts/seed/style.md and artifacts/seed/identity.md (or the shipped templates/seed/ defaults on first run). An optional user reference image (artifacts/<project>/inputs/ref.png) is passed through as the primary identity anchor when present.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent image-anchor character bible: seed.manifest.json + style.md + identity.md + anchors/{turnaround,hero}.png + archive/<date>/ on reset.",
+      "path": "artifacts/seed/"
+    },
+    {
+      "name": "anchors",
+      "type": "png",
+      "description": "Two reference images — a multi-view turnaround (@Image1) and a clean front hero portrait (@Image2) — of ONE consistent character, generated via the shared video-toolkit image driver.",
+      "path": "artifacts/seed/anchors/"
+    }
+  ],
+  "generated_at": "2026-06-29T04:28:48.194Z",
+  "skill_md_sha256": "721ef05410d1ac5dce750d693f6817306d95b0d4b826bb1646f56a27fc73943f"
+}
