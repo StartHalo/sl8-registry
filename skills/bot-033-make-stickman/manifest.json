@@ -1,0 +1,35 @@
+{
+  "name": "bot-033-make-stickman",
+  "version": "v1.0.0",
+  "description": "End-to-end maker for hand-drawn stickman skit episodes — the single author-facing entry point for the stickman channel. From a one-line topic it runs the whole pipeline as a resumable 7-stage project (init, resolve-seed, plan, generate, assemble, verify, deliver) and produces episode.mp4 plus an honest summary.md. It is a thin dispatcher — each stage body lives in references/stage-N-*.md and is loaded on demand. It also does project setup (Layer 1) and reads the persistent seed kit at artifacts/seed/ (owned by bot-033-update-character), calling that skill's generate routine only to bootstrap the kit on first run. It calls the shared video-toolkit scripts (gen-image.sh, assemble.sh) for the model-agnostic work and its own bot-local recipe scripts (gen-clip.sh Seedance image-to-video, validate-plan.sh, check-set.sh, still-segment.sh) for the model-specific work. Use it whenever the user gives a stickman episode topic or asks to make, continue, or resume an episode.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "chat",
+      "description": "The episode topic or request — a new episode topic, a continue-the-series ask, a reset-character ask, or a character-only ask. Aspect (16:9 default | 9:16) and target length (15-60s, default ~30s) optional.",
+      "required": true
+    },
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent image-anchor kit at artifacts/seed/ (seed.manifest.json + style.md + identity.md + anchors/). Read at resolve-seed; bootstrapped via bot-033-update-character if absent.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "description": "The assembled multi-beat stickman episode MP4 (15-60s), built by the shared assemble.sh from per-beat Seedance clips with native ambient audio.",
+      "path": "artifacts/<slug>/episode.mp4"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "description": "The honest delivery record — model/recipe, seed kit, beats, audio, cost, verdict, and every fallback taken (from video-toolkit's summary template).",
+      "path": "artifacts/<slug>/summary.md"
+    }
+  ],
+  "generated_at": "2026-06-29T02:56:51.968Z",
+  "skill_md_sha256": "7f04fbafeac0f2043934a0fdecbcbf02e3c35c687063421be66b4097282315b3"
+}

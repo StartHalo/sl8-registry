@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stickman Animator — Status</title>
+<style>
+  :root {
+    --bg: #0f0f10;
+    --surface: #1a1a1d;
+    --border: #2a2a2e;
+    --text: #e8e8ec;
+    --muted: #6b6b78;
+    --accent: #7c6af5;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; font-size: 14px; line-height: 1.6; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 12px; margin-bottom: 28px; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+  .section-header { padding: 14px 18px; font-weight: 600; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+  .section-header:hover { color: var(--text); }
+  .section-body { padding: 0; }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { padding: 10px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  .status-done { color: var(--green); }
+  .status-running { color: var(--yellow); }
+  .status-waiting { color: var(--muted); }
+  .status-blocked { color: var(--red); }
+  .status-skip { color: var(--blue); }
+  .path { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: var(--muted); }
+  .detail { color: var(--muted); font-size: 12px; }
+  .collapsible-content { display: block; }
+  .collapsed .collapsible-content { display: none; }
+  .toggle-icon { font-size: 10px; transition: transform 0.2s; }
+  .collapsed .toggle-icon { transform: rotate(-90deg); }
+  .history-empty { padding: 14px 18px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Stickman Animator</h1>
+<p class="subtitle">Status dashboard — updates after every step</p>
+
+<!-- CHANNEL SECTION -->
+<div class="section" id="channel-section">
+  <div class="section-header" onclick="toggle('channel-section')">
+    Channel <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body collapsible-content">
+    <table>
+      <thead><tr><th>File</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody id="channel-table">
+        <!-- Populated by bot -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CURRENT EPISODE SECTION -->
+<div class="section" id="episode-section">
+  <div class="section-header" onclick="toggle('episode-section')">
+    Current Episode: <span id="episode-slug" style="color:var(--text);margin-left:6px">—</span>
+    <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body collapsible-content">
+    <table>
+      <thead><tr><th>Phase</th><th>Status</th><th>Output</th></tr></thead>
+      <tbody id="episode-table">
+        <!-- Populated by bot -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- HISTORY SECTION -->
+<div class="section collapsed" id="history-section">
+  <div class="section-header" onclick="toggle('history-section')">
+    Episode History <span class="toggle-icon">▾</span>
+  </div>
+  <div class="section-body collapsible-content">
+    <div id="history-content" class="history-empty">No completed episodes yet.</div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+// Dashboard data injected by the bot as a JSON block below:
+const DASHBOARD_DATA = __DASHBOARD_DATA__;
+
+function statusClass(s) {
+  if (!s) return 'status-waiting';
+  s = s.toLowerCase();
+  if (s.includes('done') || s.includes('ready') || s.includes('✓')) return 'status-done';
+  if (s.includes('running') || s.includes('⟳')) return 'status-running';
+  if (s.includes('blocked')) return 'status-blocked';
+  if (s.includes('skip')) return 'status-skip';
+  return 'status-waiting';
+}
+
+function render() {
+  // Channel table
+  const ct = document.getElementById('channel-table');
+  ct.innerHTML = (DASHBOARD_DATA.channel || []).map(r =>
+    `<tr><td class="path">${r.file}</td><td class="${statusClass(r.status)}">${r.status}</td><td class="detail">${r.detail || ''}</td></tr>`
+  ).join('');
+
+  // Episode
+  if (DASHBOARD_DATA.episode) {
+    document.getElementById('episode-slug').textContent = DASHBOARD_DATA.episode.slug || '—';
+    const et = document.getElementById('episode-table');
+    et.innerHTML = (DASHBOARD_DATA.episode.phases || []).map(p =>
+      `<tr><td>${p.phase}</td><td class="${statusClass(p.status)}">${p.status}</td><td class="detail">${p.output || '—'}</td></tr>`
+    ).join('');
+  }
+
+  // History
+  const hist = DASHBOARD_DATA.history || [];
+  const hc = document.getElementById('history-content');
+  if (hist.length === 0) {
+    hc.innerHTML = '<p class="history-empty">No completed episodes yet.</p>';
+  } else {
+    hc.innerHTML = '<table><thead><tr><th>Episode</th><th>Date</th><th>Beats</th><th>Duration</th><th>Status</th></tr></thead><tbody>' +
+      hist.map(e =>
+        `<tr><td class="path">${e.slug}</td><td class="detail">${e.date}</td><td class="detail">${e.beats || '—'}</td><td class="detail">${e.duration || '—'}</td><td class="${statusClass(e.status)}">${e.status}</td></tr>`
+      ).join('') + '</tbody></table>';
+  }
+}
+
+render();
+</script>
+</body>
+</html>
