@@ -1,0 +1,35 @@
+{
+  "name": "bot-036-make-continuous-shot",
+  "version": "v1.0.0",
+  "description": "End-to-end maker for ONE continuous shot (over 15s, no cuts) rendered with the Veo 3.1 extend chain — the single author-facing entry point for the continuous-shot channel. From a one-line journey or sustained-moment brief it runs the whole pipeline as a resumable 7-stage project (init, resolve-seed, plan, generate, assemble, verify, deliver) producing episode.mp4 plus an honest summary.md. A thin dispatcher — each stage body lives in references/stage-N-*.md, loaded on demand. It does project setup and reads the persistent token seed kit at artifacts/seed/ (owned by bot-036-update-character, called only to bootstrap on first run). It calls the shared video-toolkit scripts (gen-image.sh for the one base still, verify.sh for the grew-past-base gate) and its own bot-local recipe (gen-extend.sh Veo base plus extend chain, validate-plan.sh). There is NO concat — extend-video returns the FULL grown video each hop. Use it whenever the user gives a continuous-shot brief or asks to make, continue, or resume one.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "chat",
+      "description": "The continuous-shot brief — a new journey/sustained-moment topic, a continue-the-channel ask, a reset-character ask, or a character-only ask. Aspect (16:9 default | 9:16) and hop-count (2-3, default 2 → base 8s + 2×7s ≈ 22s) optional.",
+      "required": true
+    },
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent TOKEN kit at artifacts/seed/ (seed.manifest.json + style.md + identity.md; kitType token, consumption text-repeat, anchors []). Read at resolve-seed; bootstrapped via bot-036-update-character if absent. No PNGs by design — the base frame is regenerated per project from the frozen tokens.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "description": "The finished continuous shot — ONE Veo 3.1 image-to-video base extended by N extend-video hops, each hop returning the FULL grown video (NO concat), native audio throughout. The final extend's file IS the episode; verified with the shared verify.sh --mode grew (duration grew past the base).",
+      "path": "artifacts/<slug>/episode.mp4"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "description": "The honest delivery record — model/recipe, token seed kit, base + each extend hop, final duration, native-audio note, NO-concat note, cost, verdict, and every shortfall taken (from video-toolkit's summary template).",
+      "path": "artifacts/<slug>/summary.md"
+    }
+  ],
+  "generated_at": "2026-06-29T19:06:58.870Z",
+  "skill_md_sha256": "916f3e83d8c5f232c0c312f211943925becd1091060e2d0889da0a8422cc4747"
+}
