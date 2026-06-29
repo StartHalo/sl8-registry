@@ -1,0 +1,29 @@
+{
+  "name": "bot-036-update-character",
+  "version": "v1.0.0",
+  "description": "Sets, re-freezes, or reports the continuous-shot channel's persistent TOKEN seed kit (the reusable subject + look) at artifacts/seed/. This is the ONE author-facing skill for changing the look/subject that carries across all future continuous shots, and the only writer of artifacts/seed/. It is a token kit — identity is pinned by 5-7 frozen text tokens only, with NO PNG anchors (anchors []); the base frame is regenerated per project from the tokens. Routes by intent — reuse (report the current kit, no writes), reset (archive the current kit, re-read the edited style.md/identity.md, re-freeze the 5-7 tokens, re-run the structural linter, bump provenance — FREE and instant, no image-gen), and kit-only (establish the kit then stop, no video). make-continuous-shot calls this skill's freeze routine on first run to bootstrap the kit. Use it whenever the user wants to set up, change, reset, or inspect their continuous-shot subject or look.",
+  "inputs": [
+    {
+      "name": "intent",
+      "type": "chat",
+      "description": "What the user wants: set up / change / reset / inspect the channel subject or look. Routes to reuse | reset | kit-only.",
+      "required": true
+    },
+    {
+      "name": "seed-docs",
+      "type": "markdown",
+      "description": "The editable seed docs the user may have changed — artifacts/seed/style.md and artifacts/seed/identity.md (or the shipped templates/seed/ defaults on first run).",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent TOKEN kit: seed.manifest.json (kitType token, consumption text-repeat, anchors []) + style.md + identity.md + archive/<date>/ on reset. NO anchors/ dir — no PNGs by design.",
+      "path": "artifacts/seed/"
+    }
+  ],
+  "generated_at": "2026-06-29T19:07:14.844Z",
+  "skill_md_sha256": "13d88667c1828970dabf441aabaef45ee462c4f53625061f594fe87b4f6ba597"
+}
