@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+
+  "kitType": "token",
+  "consumption": "text-repeat",
+
+  "recipe": {
+    "registryId": "bot-036-make-continuous-shot",
+    "registryVersion": "1.0.0",
+    "acceptsKitTypes": ["token"]
+  },
+
+  "seed": 7777,
+
+  "style": { "doc": "style.md" },
+
+  "identity": {
+    "doc": "identity.md",
+    "tokens": [
+      "friendly fluffy round owl",
+      "soft cream-and-tan feathers",
+      "big gentle amber eyes",
+      "tiny hooked beak",
+      "stubby rounded wings",
+      "plump button body"
+    ],
+    "blocks": {
+      "CHARACTER_BLOCK": "A friendly fluffy round owl with soft cream-and-tan feathers, big gentle amber eyes, a tiny hooked beak, stubby rounded wings and a plump button body. A stylized, friendly creature — never a realistic identifiable human face. This exact subject phrasing is repeated >=80% verbatim into the base prompt and every extend hop so identity holds across each Veo extend seam."
+    }
+  },
+
+  "anchors": [],
+
+  "provenance": {
+    "createdAt": "",
+    "updatedAt": "",
+    "models": {},
+    "origin": "default-template"
+  },
+
+  "archive": null
+}
