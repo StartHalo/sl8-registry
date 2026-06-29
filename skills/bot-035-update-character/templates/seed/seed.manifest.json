@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+
+  "kitType": "token",
+  "consumption": "text-weave",
+
+  "recipe": {
+    "registryId": "bot-035-make-keyframe-scene",
+    "registryVersion": "1.0.0",
+    "acceptsKitTypes": ["token"]
+  },
+
+  "seed": 2929,
+
+  "style": { "doc": "style.md" },
+
+  "identity": {
+    "doc": "identity.md",
+    "tokens": [
+      "face: a round button-nosed baby dragon face with big soft cheeks",
+      "body: a small chubby dragon body with stubby legs and a stubby tail",
+      "color: smooth teal-and-mint scales with a pale cream belly",
+      "eyes: enormous round amber eyes with bright catchlights",
+      "signature: tiny translucent gold wings and three little dorsal nubs",
+      "horns: two soft rounded baby horns the color of honey"
+    ],
+    "blocks": {
+      "STYLE_HEADER": "Cute storybook fantasy short, soft Pixar-style 3D animation, warm magical lighting, gentle bloom, shallow depth of field, cozy children's-book color palette.",
+      "CHARACTER_BLOCK": "A round button-nosed baby dragon face with big soft cheeks, a small chubby dragon body with stubby legs and a stubby tail, smooth teal-and-mint scales with a pale cream belly, enormous round amber eyes with bright catchlights, tiny translucent gold wings and three little dorsal nubs, and two soft rounded baby horns the color of honey. The SAME stylized character throughout the sequence."
+    }
+  },
+
+  "anchors": [],
+
+  "provenance": {
+    "createdAt": "",
+    "updatedAt": "",
+    "models": {},
+    "origin": "default-template"
+  },
+
+  "archive": null
+}
