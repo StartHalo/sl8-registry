@@ -1,0 +1,36 @@
+{
+  "skill": "video-toolkit",
+  "notes": "Structural evals for a LIBRARY skill (never invoked directly; called by a video bot's make-video dispatcher). These check the scripts' contracts — verdict JSON shape, exit-code discipline, the baked-in constraints — not a model's creative output (that is graded per consuming bot). Full validation is a consuming bot running the scripts in an E2B sandbox; these are the host-side structural gates.",
+  "expectations": [
+    {
+      "id": "scripts-parse-clean",
+      "check": "structural",
+      "desc": "every script in scripts/ passes `bash -n` and `shellcheck` (no syntax errors; bash 3.2 compatible — no associative arrays, mapfile, or ${var^^})."
+    },
+    {
+      "id": "assemble-emits-verdict-and-writes-episode",
+      "check": "structural",
+      "desc": "assemble.sh on a directory of >=1 MP4 writes <project>/episode.mp4 and prints ONE verify JSON line with file/duration_s/width/height/verdict; a FLAG verdict still exits 0 (deliver + flag); empty/missing clips dir exits 2."
+    },
+    {
+      "id": "verify-three-modes",
+      "check": "structural",
+      "desc": "verify.sh prints a verdict for each of --mode range (min/max), summed (summed/tol), grew (base); asserts a video stream always and an audio stream unless --require-audio no; exit 0 on PASS/FLAG, exit 2 only on unreadable file."
+    },
+    {
+      "id": "gen-image-chain-and-quirks",
+      "check": "structural",
+      "desc": "gen-image.sh walks the --chain in order, shapes args per model (nano-banana/gpt-image get --aspect-ratio + --ref; diffusion get -s SIZE, ref-blind), NEVER forwards --resolution, retries once on a missing hosted URL, converts .webp via ffmpeg, and prints model TAB local TAB url on success / exits 1 when the whole chain fails."
+    },
+    {
+      "id": "cost-uses-estimate-not-credits-used",
+      "check": "structural",
+      "desc": "cost.sh estimate calls `ai-gen estimate` (never reads credits_used) and prints credits+usd; cost.sh balance snapshots `ai-gen balance`; both degrade to a null-cost JSON (raw_ok=false) rather than crashing when ai-gen output can't be parsed."
+    },
+    {
+      "id": "lint-harness-contract",
+      "check": "structural",
+      "desc": "lint.sh runs a bot-local rules script over a plan, treats stdout lines as findings, prints findings[]+count+verdict, exits 0 on PASS / 1 on FAIL / 2 on a rules-script crash (harness error distinct from a plan verdict)."
+    }
+  ]
+}

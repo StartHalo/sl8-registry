@@ -1,0 +1,46 @@
+{
+  "name": "video-toolkit",
+  "version": "v1.0.0",
+  "description": "Shared library of runtime scripts every SL8 video bot calls — not invoked directly. Holds the ONE copy of: assemble.sh (normalize per-clip videos to a uniform layout, concat in order, mix an optional brown-noise room-tone bed, append a caption card, verify, write episode.mp4); verify.sh (ffprobe a final video and emit one PASS/FLAG JSON verdict by range, summed, or grew duration mode); gen-image.sh (walk a pinned image-model chain to generate one still/keyframe via nano-banana-pro, with per-model arg shaping, the no-resolution-flag quirk, reference-image character lock, and hosted-URL capture); cost.sh (pre-flight ai-gen estimate plus balance snapshot, since per-call credits_used is unreliable); and lint.sh (a plan-lint harness that runs a bot-local rules script and formats a PASS or FAIL verdict). A video bot's make-video dispatcher calls these; the per-recipe generate scripts and lint RULES stay bot-local (one model, one recipe per bot). bash 3.2, no jq.",
+  "inputs": [
+    {
+      "name": "clips",
+      "type": "video",
+      "required": false,
+      "description": "For assemble.sh — a directory of per-clip MP4s in sorted (= zero-padded NN) order to normalize and concat into one episode."
+    },
+    {
+      "name": "prompt-file",
+      "type": "text",
+      "required": false,
+      "description": "For gen-image.sh — a file holding the FULLY assembled image prompt (frozen style/character blocks + scene/view instruction + no-text stack). The toolkit composes nothing; the recipe assembles the prompt."
+    },
+    {
+      "name": "plan-and-rules",
+      "type": "text",
+      "required": false,
+      "description": "For lint.sh — a recipe plan file (shotlist / keyframe-plan / beat-sheet) plus a bot-local rules script that prints one finding per line."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "path": "artifacts/<project>/episode.mp4",
+      "description": "assemble.sh writes the verified, concatenated episode at the project root and prints verify.sh's one-line JSON verdict."
+    },
+    {
+      "name": "image",
+      "type": "png",
+      "path": "artifacts/<project>/<stable-name>",
+      "description": "gen-image.sh writes one still/keyframe at a stable name and prints model TAB local-path TAB hosted-url."
+    },
+    {
+      "name": "verdict",
+      "type": "text",
+      "description": "verify.sh / assemble.sh / lint.sh each emit ONE machine-readable JSON verdict line on stdout (PASS or FLAG/FAIL) for the recipe to record in state.md and summary.md."
+    }
+  ],
+  "generated_at": "2026-06-29T00:00:22.786Z",
+  "skill_md_sha256": "71f3bae0f15ce3bff48cc3798bd620e05f4390659a11d35d303d04b1b25cfdf5"
+}
