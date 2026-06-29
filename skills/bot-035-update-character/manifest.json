@@ -1,0 +1,29 @@
+{
+  "name": "bot-035-update-character",
+  "version": "v1.0.0",
+  "description": "Sets, re-freezes, or reports the keyframe channel's persistent SEED kit (the reusable character + look) at artifacts/seed/. This is the ONE author-facing skill for changing the look that carries across all future keyframe projects, and the only writer of artifacts/seed/. It is a TOKEN kit — identity is pinned by 5-7 FROZEN CHARACTER tokens plus a style look header and a locked seed, with NO PNG anchors (the keyframes are synthesized per project from the tokens). Routes by intent: reuse (report the current kit, no writes), reset (archive the current kit, re-read the edited style.md/identity.md, re-freeze the tokens into seed.manifest.json, re-run the FREE token-lock linter, bump provenance — no image generation), and kit-only (establish the kit then stop, no video). make-keyframe-scene calls this skill's freeze routine on first run to bootstrap the kit. Use it whenever the user wants to set up, change, reset, or inspect their keyframe character or style.",
+  "inputs": [
+    {
+      "name": "intent",
+      "type": "chat",
+      "description": "What the user wants: set up / change / reset / inspect the channel character or style. Routes to reuse | reset | kit-only.",
+      "required": true
+    },
+    {
+      "name": "seed-docs",
+      "type": "markdown",
+      "description": "The editable seed docs the user may have changed — artifacts/seed/style.md and artifacts/seed/identity.md (or the shipped templates/seed/ defaults on first run).",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent TOKEN kit: seed.manifest.json (kitType token, consumption text-weave, anchors []) + style.md + identity.md (the 5-7 frozen CHARACTER tokens + locked seed) + archive/<date>/ on reset. NO anchors/ dir by design.",
+      "path": "artifacts/seed/"
+    }
+  ],
+  "generated_at": "2026-06-29T04:49:30.217Z",
+  "skill_md_sha256": "f86c101d4eb009b13e5f9839022cfa7222216b3fce1cbcbb652717780ea80847"
+}
