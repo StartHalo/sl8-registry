@@ -1,0 +1,35 @@
+{
+  "name": "bot-033-update-character",
+  "version": "v1.0.0",
+  "description": "Sets, regenerates, or reports the stickman channel's persistent SEED kit (the reusable character + style) at artifacts/seed/. This is the ONE author-facing skill for changing the look that carries across all future episodes, and the only writer of artifacts/seed/. It is an image-anchor kit — identity is pinned by three generated reference PNGs (front, three-quarter, side) plus frozen prompt blocks and a locked seed. Routes by intent — reuse (report the current kit, no writes), reset (archive the current kit, re-derive frozen blocks from the edited style.md/identity.md, regenerate the three anchors via the shared video-toolkit image driver with a pixel self-check, bump provenance), and kit-only (establish the kit then stop, no video). make-stickman calls this skill's generate routine on first run to bootstrap the kit. Use it whenever the user wants to set up, change, reset, or inspect their stickman character or style.",
+  "inputs": [
+    {
+      "name": "intent",
+      "type": "chat",
+      "description": "What the user wants: set up / change / reset / inspect the channel character or style. Routes to reuse | reset | kit-only.",
+      "required": true
+    },
+    {
+      "name": "seed-docs",
+      "type": "markdown",
+      "description": "The editable seed docs the user may have changed — artifacts/seed/style.md and artifacts/seed/identity.md (or the shipped templates/seed/ defaults on first run).",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent image-anchor kit: seed.manifest.json + style.md + identity.md + anchors/{character-source,character-threequarter,character-sideprofile}.png + archive/<date>/ on reset.",
+      "path": "artifacts/seed/"
+    },
+    {
+      "name": "anchors",
+      "type": "png",
+      "description": "Three reference-anchored character views (front, three-quarter, side) generated via the shared video-toolkit image driver.",
+      "path": "artifacts/seed/anchors/"
+    }
+  ],
+  "generated_at": "2026-06-29T02:57:05.679Z",
+  "skill_md_sha256": "7223bb222b0bfb71435ba34b6d263a56fd2f62619e5d2a23e667a65eabcedd2e"
+}
