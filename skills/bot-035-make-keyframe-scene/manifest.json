@@ -1,0 +1,35 @@
+{
+  "name": "bot-035-make-keyframe-scene",
+  "version": "v1.0.0",
+  "description": "End-to-end maker for pinned-keyframe scene journeys rendered with Hailuo 02 first-last-frame control — the single author-facing entry point for the keyframe channel. From a before-and-after story brief it runs the whole pipeline as a resumable 7-stage project (init, resolve-seed, plan, generate, assemble, verify, deliver) and produces episode.mp4 plus an honest summary.md. A thin dispatcher — stage bodies in references/stage-N-*.md, loaded on demand. It does project setup (Layer 1) and reads the persistent TOKEN seed kit at artifacts/seed/ (owned by bot-035-update-character), calling that skill only to bootstrap the kit on first run. It calls the shared video-toolkit scripts (gen-image.sh for the K+1 keyframes, assemble.sh for concat + ambient bed) and its own bot-local recipe scripts (gen-keyframe-clips.sh Hailuo first-last morph, still-segment.sh, validate-keyframe-plan.sh, lint-seed-tokens.sh). Use it whenever the user gives a keyframe story brief or asks to make, continue, or resume a keyframe short.",
+  "inputs": [
+    {
+      "name": "brief",
+      "type": "chat",
+      "description": "The story brief — a before-and-after / reveal / transformation / morph (a seed blooming, a logo assembling, a creature hatching). A new short, a continue-the-series ask, a reset-character ask, or a character-only ask. Aspect (16:9 default | 9:16 | 1:1) and scene count (3-6, default 4) optional.",
+      "required": true
+    },
+    {
+      "name": "seed-kit",
+      "type": "x-seed-kit",
+      "description": "The persistent TOKEN kit at artifacts/seed/ (seed.manifest.json kitType token + style.md + identity.md; NO anchors). Read at resolve-seed; bootstrapped via bot-035-update-character if absent.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "episode",
+      "type": "video",
+      "description": "The assembled pinned-keyframe journey MP4 — per-scene Hailuo 02 first-last morphs (each morphing one nano-banana-pro keyframe into the next, START and END both pinned), concatenated by the shared assemble.sh with an ADDED ambient room-tone bed (Hailuo is silent).",
+      "path": "artifacts/<slug>/episode.mp4"
+    },
+    {
+      "name": "summary",
+      "type": "markdown",
+      "description": "The honest delivery record — model/recipe, the token kit, the K+1 keyframe pairs, the ADDED (non-native) ambient bed, cost, verdict, and every fallback taken (from video-toolkit's summary template).",
+      "path": "artifacts/<slug>/summary.md"
+    }
+  ],
+  "generated_at": "2026-06-29T04:47:50.579Z",
+  "skill_md_sha256": "68a5b0753436a52e58f482ec3dbbeff7d6401ef9c2a824cfa0c8da4a9a7a3ac5"
+}
