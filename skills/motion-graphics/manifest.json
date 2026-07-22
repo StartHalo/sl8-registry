@@ -1,0 +1,7 @@
+{
+  "name": "motion-graphics",
+  "version": "v1.0.0",
+  "description": "A short, design-led motion graphic where motion is the message — kinetic typography, stat count-up, chart/data-viz hit, logo sting / brand lockup, lower-third / callout / social overlay, animated map (highlight regions, connect places, zoom to a location), animated tweet / news-article / headline, webpage / UI animation (scroll, cursor, callouts), or fusing a real image's geometry into a chart. Usually under 10s (up to ~30s), no narration or live-action subject; renders to MP4 or transparent overlay. Longer / narrated / multi-scene → /general-video. Unclear → /hyperframes.\n",
+  "generated_at": "2026-07-22T05:23:32.390Z",
+  "skill_md_sha256": "8e0524d817222c262c41a00757a186dbf9dfc9689338dd87d81296f0601ca887"
+}
