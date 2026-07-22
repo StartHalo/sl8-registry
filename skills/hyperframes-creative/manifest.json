@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes-creative",
+  "version": "v1.0.0",
+  "description": "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.",
+  "generated_at": "2026-07-22T03:47:32.493Z",
+  "skill_md_sha256": "c6023035afc137ac5261a9b6d9fd2917278fae13c19666c67f5d30d84253b295"
+}
