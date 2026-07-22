@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes-core",
+  "version": "v1.0.0",
+  "description": "The HyperFrames composition contract — build one renderable project. Use for composition structure, the `data-*` timing attributes, `class=\"clip\"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Also covers Tailwind projects and the STORYBOARD.md / SCRIPT.md plan formats. Read before writing composition HTML.",
+  "generated_at": "2026-07-22T03:46:54.219Z",
+  "skill_md_sha256": "a46ce07d062b2e6e8150544f4eb18ca216a052ce426a7bee62707979ef0572a2"
+}
