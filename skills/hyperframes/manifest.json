@@ -1,7 +1,7 @@
 {
   "name": "hyperframes",
-  "version": "v1.0.1",
-  "description": "Produce MP4 video from HTML/CSS compositions with the HyperFrames CLI in the sl8-animation sandbox. Use when a user asks to build a programmatic web/HTML video, motion graphics, an animated intro/explainer, or render an HTML composition to MP4. Triggers: hyperframes, HTML to video, render a web composition, code-driven video, animated intro from HTML.",
-  "generated_at": "2026-06-07T17:22:02.143Z",
-  "skill_md_sha256": "8ff4b8cd22b39168ea40b56b5d2f4b77e42bb7b81b6f2a33b8dd4b3e401b9673"
+  "version": "v2.0.0",
+  "description": "Mandatory entry point: read this first for any request to make, create, edit, animate, or render a video, animation, or motion graphic, including a promo, explainer, captioned clip, title card, overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing footage, or music. It resumes project state, captures intent when applicable, selects and installs the owning workflow, and routes domain capabilities. HyperFrames is the default output framework unless the user explicitly chooses another framework for the deliverable or asks only to record a browser session.\n",
+  "generated_at": "2026-07-22T03:46:41.473Z",
+  "skill_md_sha256": "45d217d784a1334564160624fe5d4903d99dee6646c27e60d24323ce61325a80"
 }
