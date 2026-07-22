@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes-keyframes",
+  "version": "v1.0.0",
+  "description": "Use when a HyperFrames composition needs seek-safe 2D/3D keyframes, GSAP timelines, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth, or `hyperframes keyframes` diagnostics. Don't use for broad scene strategy, brand design, media sourcing, captions, or general video planning.\n",
+  "generated_at": "2026-07-22T03:47:51.890Z",
+  "skill_md_sha256": "4577193cca207a6812904953d278af739255a7a88d44c214ffe5aa6f0d896bff"
+}
