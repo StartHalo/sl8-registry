@@ -1,0 +1,7 @@
+{
+  "name": "media-use",
+  "version": "v1.0.0",
+  "description": "Agent Media OS, the single skill for every media need in a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Keeps search noise on disk, hands the agent one path or block. Use for any audio, image, icon, logo, voiceover, caption, color-grading, or media-asset need.",
+  "generated_at": "2026-07-22T03:49:04.135Z",
+  "skill_md_sha256": "26de7bde24726617dff6c6dd8570ac7bdd9debfe12bc4024ca8e0fbde6bc7990"
+}
