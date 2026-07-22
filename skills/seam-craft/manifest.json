@@ -1,0 +1,7 @@
+{
+  "name": "seam-craft",
+  "version": "v1.0.0",
+  "description": "Render-correctness doctrine for scene-to-scene seams in HyperFrames launch videos — the prerequisites that make transitions composite correctly on the master timeline. Load when assembling the master timeline / index.html, when a white flash appears at a cut or crossfade seam (especially on dark films), when reasoning about why a transition opacity dip shows through, or when verifying the render-side mechanics of how overlapping scene wrappers blend. Covers the opaque stage-ground (#root background) white-flash guard and how the injector overlaps wrappers, holds final frames, ping-pongs tracks, and stamps lint-clean template code onto the master timeline. Does NOT contain the per-transition catalog — see the transition registry for individual transition entries.",
+  "generated_at": "2026-07-22T19:27:17.220Z",
+  "skill_md_sha256": "e86400c1fba3e182c1b6c4754fc9d77aa119b65ce9215504b044c7e413523d80"
+}
