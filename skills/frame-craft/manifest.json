@@ -1,7 +1,7 @@
 {
   "name": "frame-craft",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Generates the still frames a video is born from — keyframe posters, style-bake-off frames, cut-in details — on image models via ai-gen, cheaply and re-rollably, BEFORE any motion spend. Use when: \"generate the keyframes/boards/posters\", \"make the style frames\", \"this frame needs a re-roll\", \"bake off the styles\", any image generation inside a video project. Chain: consumes style.md's aesthetic block verbatim (style-system runs first); approved frames feed video-prompting (motion) — never generate motion from an unapproved frame. NOT for: motion/clip prompts (use video-prompting), voiceover (use voice-timing), logo compositing or final QC (use assembly-qc).\n",
-  "generated_at": "2026-07-23T00:12:44.532Z",
-  "skill_md_sha256": "1b968e239fea09933ad8e7588b3445107d2a51d96b4b4807d6c15c3d2d808544"
+  "generated_at": "2026-07-23T00:30:45.876Z",
+  "skill_md_sha256": "0d6c3a5ee34bcbcdcadf5910915b51405510d12c8e607063b8bf19c04fb483f7"
 }

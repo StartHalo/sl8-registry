@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-07-23
+### Added
+- Release frame-craft v1.0.1.
+
 ## [v1.0.0] — 2026-07-23
 ### Added
 - Initial release (frame-craft).
