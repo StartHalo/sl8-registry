@@ -56,6 +56,14 @@ the same chain.
 - Every delivered piece leaves: `renders/final.mp4` + `snapshots/contact-sheet.jpg` +
   the per-step artifacts under `artifacts/<project>/` (the workflow's contract).
 
+## QC codes
+
+Failures are named, not described: [`references/qc-codes.md`](references/qc-codes.md) —
+input gates QC-01..04 (checked BEFORE assembly: stream mismatch, unmeasured durations,
+unapproved frames, missing request ids) and output gates QC-10..16 (codecs, drift, text
+warp, style drift, loudness, captions). Graders and run records cite codes; a new defect
+class earns a code within 48h.
+
 ## The gotchas ledger
 
 [`references/models-and-gotchas.md`](references/models-and-gotchas.md) — every hard-won

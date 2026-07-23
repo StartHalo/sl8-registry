@@ -50,3 +50,5 @@ study-adopted with the source noted.
 |---|---|---|
 | 25 | Normalize before concat (fps/pix_fmt/audio rate) — mismatched inputs are the top silent concat killer; export 24fps H.264/yuv420p + AAC 48k; loudnorm −16 LUFS / −1.5 dBTP | ✅ 2026-07-22 (R02) + Library assemble-mix lineage |
 | 26 | Verify by frame extraction + contact sheet — an unwatched MP4 is unverified; ffprobe codecs/duration gate before any delivery claim | ✅ practiced R01/R02 (and the R05–R09 hyperframes lesson) |
+| 27 | The QC-01 input gate MUST probe audio streams too (sample_rate, channels), not just video — concat with mismatched audio rates silently inflates duration (+0.72s over 8.2s measured, R03) while every video probe looks clean; QC-11 is the backstop that catches it | ✅ 2026-07-22 (R03 planted-defect run) |
+| 28 | Seedance clips ship 44.1kHz native audio — normalize to the 48k/stereo house format BEFORE any concat or mix (fold into the rule-25 normalization pass) | ✅ 2026-07-22 (R03) |
