@@ -19,10 +19,17 @@ captions, charts, logos, loudness — happens here, in the assembly layer, deter
 
 ## Inputs to collect
 
-1. Clips in beat order + VO takes + measured durations (from the anchored plan).
+1. Clips in beat order + VO takes + measured durations — from the anchored plan
+   ([`../video-prompting/references/plan-contract.md`](../video-prompting/references/plan-contract.md)).
 2. `style.md` tokens (palette/type for caption skins; `logo:` path if any).
 3. Music/ambient bed choice (instrumental; described in the plan).
 4. Output targets: aspect, resolution, platform (defaults: 24fps H.264/yuv420p + AAC 48k).
+
+**Runtime:** assembly runs on the studio machine — the `sl8-video` template (ffmpeg with
+x264/aac/drawtext/concat/amix/loudnorm, ImageMagick `montage`, fontconfig with the packed
+caption fonts: DejaVu, Inter, Outfit, Fraunces, Anton, Space Grotesk, Comic-Neue). In a
+provisioned sandbox everything below is already installed; host-driven probes reproduce
+the same chain.
 
 ## The assembly chain (audio-anchored)
 
