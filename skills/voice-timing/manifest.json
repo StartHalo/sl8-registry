@@ -1,0 +1,7 @@
+{
+  "name": "voice-timing",
+  "version": "v1.0.0",
+  "description": "Narration and the timing law: writes VO to word budgets, generates it per-block with ONE voice, measures real durations, and anchors every visual timing decision to measured audio — TTS drift is designed out, never repaired. Use when: \"write/generate the narration/voiceover\", \"how long should this scene be\", \"the audio doesn't line up\", \"pick a narrator voice\", timing any beat plan. Chain: script blocks are written against the plan's beats; measured durations flow BACK into the plan before video-prompting runs; assembly-qc mixes the takes. NOT for: clip ambience (video-prompting's AUDIO line), music/SFX sourcing (assembly-qc), or captions rendering (assembly-qc — captions cut from THIS script, never ASR).\n",
+  "generated_at": "2026-07-23T00:13:07.735Z",
+  "skill_md_sha256": "0b450c30962292997a3c7752db998a8f0acc7656889868792fd5ec6ab9e68b2a"
+}
