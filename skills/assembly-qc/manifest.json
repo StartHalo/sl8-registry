@@ -1,0 +1,7 @@
+{
+  "name": "assembly-qc",
+  "version": "v1.0.0",
+  "description": "The deterministic finish: ffmpeg assembly (concat, audio-anchored windows, ducked mix, loudnorm), post-composited logos/captions, and the verification discipline — frame extraction, contact sheets, codec checks — plus the studio's models-and-gotchas ledger (read it before debugging ANY failure). Use when: \"assemble/mix/export the video\", \"add captions/logo\", \"verify the render\", \"why did this step fail\", \"make the contact sheet\", any ffmpeg/ImageMagick work in a project. Chain: consumes clips (video-prompting) + VO takes and measured timings (voice-timing) + tokens from style.md; the delivered MP4 + contact sheet are the project's final artifacts. NOT for: generating any media (frame- craft/video-prompting/voice-timing) or choosing the look (style-system).\n",
+  "generated_at": "2026-07-23T00:13:19.247Z",
+  "skill_md_sha256": "0afebecea7244c46b8ac9b7f364dcd6f81694f29d8cc8a0a377f4c56ef975097"
+}
