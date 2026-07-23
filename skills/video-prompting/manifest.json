@@ -1,0 +1,7 @@
+{
+  "name": "video-prompting",
+  "version": "v1.0.0",
+  "description": "Turns an APPROVED still frame into a motion clip on video models via ai-gen — the motion prompt grammar (one camera move, element motion as the energy axis, defect guards), the duration/resolution envelope, and the multi-shot beat-table form. Use when: \"animate this frame/still\", \"generate the clip/shot/motion\", \"write the video prompt\", \"the clip warped the text / morphed / flashed\", any video-model call in a project. Chain: consumes frames approved by frame-craft + the style key and motion_style from style.md; clips feed assembly-qc. NOT for: generating the still itself (use frame-craft), narration (voice-timing — spoken words are NEVER baked into clips), or final assembly (assembly-qc).\n",
+  "generated_at": "2026-07-23T00:12:56.432Z",
+  "skill_md_sha256": "8a4aebb5039bb463c3733d33011e21a1665469cc3a6ebeb23ca4d164d5e89412"
+}
