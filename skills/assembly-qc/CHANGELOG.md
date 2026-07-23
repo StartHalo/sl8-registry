@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.1.0] — 2026-07-23
+### Added
+- Release assembly-qc v1.1.0.
+
 ## [v1.0.1] — 2026-07-23
 ### Added
 - Release assembly-qc v1.0.1.
