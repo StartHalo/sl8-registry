@@ -40,10 +40,11 @@ impossible, because nothing downstream is estimated.
    `audio/vo-01.wav`, `vo-02.wav`, … (per-block files let one weak take re-roll alone).
 2. **Measure each**: `ffprobe -show_entries format=duration` (+ `ffmpeg silencedetect
    -35dB 0.15s` for internal beat boundaries when a block carries two visual moments).
-3. **Write the measured durations back into the plan** — each shot's `dur` becomes
-   `measured_vo + breathing room`, and only THEN are clip durations chosen
-   (video-prompting) and assembly windows set (assembly-qc). Visuals stretch to audio
-   (hold last frame); audio is never stretched to visuals.
+3. **Write the measured durations back into the plan** — `beats[].vo_measured_s` in
+   [`../video-prompting/references/plan-contract.md`](../video-prompting/references/plan-contract.md);
+   each shot's `dur_s` derives from it + breathing room, and only THEN are clip durations
+   chosen (video-prompting) and assembly windows set (assembly-qc). Visuals stretch to
+   audio (hold last frame); audio is never stretched to visuals.
 
 ## Model routing
 
@@ -51,8 +52,10 @@ impossible, because nothing downstream is estimated.
 |---|---|---|
 | Narration | `fal-ai/kokoro/american-english` | `prompt`, `voice` (af_*/am_* enum; af_nova default), `speed` 0.1–5; ~1 cr per 100 chars estimated but **bills a ~5-cr per-call minimum** (R02) — batch tiny lines into one call per block, never per-sentence |
 
-Paid-call contract as everywhere: estimate → journal → download immediately → balance-delta
-accounting.
+Paid-call contract as everywhere: estimate (free) → journal the request id into the plan →
+download immediately (`data.audio.url` — some downloaders only know image/video keys) →
+balance-delta accounting, never `credits_used`. Billing rules:
+[`../assembly-qc/references/models-and-gotchas.md`](../assembly-qc/references/models-and-gotchas.md) §Billing.
 
 ## Quality bar
 
