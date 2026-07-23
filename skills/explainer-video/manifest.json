@@ -1,0 +1,7 @@
+{
+  "name": "explainer-video",
+  "version": "v1.0.0",
+  "description": "Turns a text brief into a finished explainer video (default 30s, 6 beats, 16:9) through the boards-first spine: plan → style → approved frames → measured voice → motion → audio-anchored assembly → verified delivery. Use when: \"make/create an explainer video\", \"explain X as a video\", \"turn this brief/article/topic into a video\", any brief-to-finished-video request. Chain: THE creation workflow — it orchestrates the five domain skills (style-system, frame-craft, voice-timing, video-prompting, assembly-qc) and owns the project's plan.json + per-step artifacts. NOT for: a single image (frame-craft directly), animating one existing still (video-prompting), fixing/mixing an existing edit (assembly-qc), or non-explainer deliverables (future workflows).\n",
+  "generated_at": "2026-07-23T00:53:20.117Z",
+  "skill_md_sha256": "708db97d9fc6e13c1eb920f0ac9bb4b9a914bef4d952d227022dd83ae9546e83"
+}
