@@ -20,10 +20,14 @@ frame, under a tight grammar that a video model cannot misread.
 
 1. **The approved frame** (hosted URL — upload or reuse the generation URL promptly;
    hosted URLs expire, keep `local_path`).
-2. **From the plan (per shot):** camera move (closed vocab below) · element motion (the
-   AI-authored energy axis — rich, specific, per-shot) · duration · has-headline?
-3. **From `style.md`:** the style key image (attach to EVERY clip) · `motion_style` →
-   amplitude (calm/punchy/max) · palette words.
+2. **From the plan** ([`references/plan-contract.md`](references/plan-contract.md) — the
+   schema's single home; per shot): camera move (closed vocab below) · element motion ·
+   `dur_s` (audio-anchored, never guessed) · has-headline?
+3. **From `style.md`:** `motion_style` → amplitude (calm/punchy/max) · palette words ·
+   the style key. **Style-key mechanics:** on single-shot i2v the APPROVED FRAME *is* the
+   style carrier (it was generated under the verbatim block — attaching a second image is
+   neither possible nor needed on an `image_url`-only schema); on r2v/multi-ref calls the
+   style key rides as an `@Image` ref in every call.
 4. **Constraints mode:** `strict` (default for text-bearing/flat styles — full defect
    guards) or `loose` (exploration; pair with a re-roll budget).
 
@@ -69,8 +73,9 @@ exact field → two identical failures ⇒ change the prompt.
 
 ## Quality bar
 
-- [ ] Source frame was approved; style key attached; clip look matches the frame (no
-      re-render drift, no realism drift).
+- [ ] Source frame was approved; the style carrier present (i2v: the frame itself; r2v:
+      the style key as a ref); clip look matches the frame (no re-render drift, no realism
+      drift).
 - [ ] Exactly one continuous camera move; no loop/retract/reset; no mid-shot jump.
 - [ ] Headline text stable and legible throughout (frame-by-frame check at assembly).
 - [ ] No speech in the clip's audio track.
