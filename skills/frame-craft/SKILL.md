@@ -21,9 +21,10 @@ ever generated from an approved frame.
 
 1. **The project's `style.md`** (required — style-system creates it). The aesthetic block
    is pasted VERBATIM; only scene, background color, and headline change per frame.
-2. **Per-frame:** scene description (one clear focal idea) · headline text or `none`
-   (cut-ins get "no big headline — a small accent only") · background color (from the
-   plan's per-beat `bg`) · aspect.
+2. **Per-frame, from the plan** (schema:
+   [`../video-prompting/references/plan-contract.md`](../video-prompting/references/plan-contract.md)):
+   scene description (one clear focal idea) · headline text or `none` (cut-ins get "no big
+   headline — a small accent only") · the beat's `bg` · aspect.
 3. **References, if any** — a user-supplied image is a style donor ("take only the render
    style and color grading; never the characters, inscriptions, or objects") unless it is
    an identity anchor (a product/person that must appear) — then it is THE anchor, passed
@@ -62,8 +63,17 @@ insurance, not correction.
 - Estimate first (free), then generate ONE frame and eyeball it (or judge against the
   quality bar) before batching siblings.
 - A weak frame is re-rolled (new seed / sharpened scene text) — never "fixed in motion".
-- Two identical failures ⇒ change the prompt, not the seed (the retry law).
+- Two identical failures ⇒ change the prompt, not the seed (the retry law). **Precedence:**
+  a re-roll may sharpen the SCENE and guardrail lines only — the aesthetic block stays
+  verbatim (a block edit is a project-level style change via style-system, never a retry
+  tactic).
 - Bake-off frames are throwaway by design: 3–4 presets × 1 frame, human picks by eye.
+
+**Paid-call contract (applies here as everywhere):** estimate (free) → journal the request
+id into the plan ([`../video-prompting/references/plan-contract.md`](../video-prompting/references/plan-contract.md))
+→ download immediately and keep `local_path` (hosted URLs expire) → account by balance
+delta, never `credits_used`. Billing rules live in the ledger:
+[`../assembly-qc/references/models-and-gotchas.md`](../assembly-qc/references/models-and-gotchas.md) §Billing.
 
 ## Quality bar
 
