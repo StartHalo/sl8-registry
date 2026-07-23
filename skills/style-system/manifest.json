@@ -1,7 +1,7 @@
 {
   "name": "style-system",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Owns a video project's visual identity: the editable style.md identity file, the preset library, the bake-off procedure, and the style-key consistency mechanism that makes N generated shots feel like one film. Use when: \"pick a style\", \"set up the brand/look\", \"make it match our brand\", \"the shots look inconsistent\", \"compose a new style preset\", starting any new video project (the identity file is created before any frame is generated). Chain: runs before frame-craft (which consumes the aesthetic block verbatim) and video-prompting (which attaches the style key to every clip). NOT for: writing frame prompts (use frame-craft), motion prompts (use video-prompting), or assembly color grading (use assembly-qc).\n",
-  "generated_at": "2026-07-23T00:12:31.957Z",
-  "skill_md_sha256": "d05947a8263dd186dc6ac0ea6e2456c83ebc6dbf5ba3b293ae6d4f6e88f982ff"
+  "generated_at": "2026-07-23T00:30:33.809Z",
+  "skill_md_sha256": "da231ee665814c8389b4c84be551bc5ed4d2653bdf71ca3671270e193aed6324"
 }

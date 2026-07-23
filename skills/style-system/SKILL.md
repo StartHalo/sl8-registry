@@ -46,7 +46,7 @@ voice: af_nova                     # the ONE narrator (voice-timing)
 accent: "deep red"
 logo: null                         # path if provided; composited in post only
 aspect: "16:9"
-style_key: style-key.png           # generated at bake-off; attached to EVERY clip
+style_key: style-key.png           # generated at bake-off; the style carrier on every clip (i2v: via the frame; r2v: as a ref)
 ---
 ## Aesthetic block (reused VERBATIM in every frame prompt — only scene/bg/headline change)
 <the full style text: idiom + mechanics + palette + finish>
@@ -74,10 +74,12 @@ the project's `style.md` like any other.
 Before committing a look, render **one representative frame across 3–4 candidate presets**
 (frame-craft, cheap stills — ~$0.15 each) and show them side by side. The human picks;
 AI proposes, the library is the floor, the human decides. The winning frame (or a
-dedicated style frame) becomes **`style-key.png`** — the single image attached to every
-subsequent clip call. When a user supplies a reference image instead, treat it as a
-**style donor**: "take only the render style and color grading; never the characters,
-inscriptions, or objects."
+dedicated style frame) becomes **`style-key.png`** — the project's style anchor. How it
+travels (video-prompting owns the mechanics): on single-shot i2v the approved frame IS
+the style carrier (it was generated under the verbatim block); on r2v/multi-ref calls the
+style key rides as a ref in every call. When a user supplies a reference image instead,
+treat it as a **style donor**: "take only the render style and color grading; never the
+characters, inscriptions, or objects."
 
 ## Model routing
 
@@ -88,7 +90,9 @@ This skill spends only through frame-craft's bake-off frames. No direct model ca
 - [ ] `style.md` exists before the first non-bake-off frame is generated.
 - [ ] The aesthetic block appears VERBATIM (diff-identical) in every frame prompt of the
       project.
-- [ ] Exactly one `style_key` image exists and is attached to every clip call.
+- [ ] Exactly one `style_key` image exists; every clip call carries a style carrier (i2v:
+      the approved frame; r2v: the key as a ref).
 - [ ] One narrator voice across the whole project.
 - [ ] Logo (if any) never appears in a generation prompt — post-composite only.
-- [ ] A composed custom preset carries all six token fields + an aesthetic block + "For:".
+- [ ] A composed custom preset carries all six token fields (preset name · palette ·
+      type_style · finish · mood · motion_style) + an aesthetic block + "For:".
