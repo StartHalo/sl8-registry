@@ -1,0 +1,7 @@
+{
+  "name": "slideshow",
+  "version": "v1.0.0",
+  "description": "Author a HyperFrames slideshow — a presentation, pitch deck, or interactive deck with discrete slides, fragment reveals, branching, hotspot navigation, and built-in presenter mode with speaker notes; also converts an existing page into a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly ask for a slideshow, confirm before authoring. Unclear → /hyperframes.\n",
+  "generated_at": "2026-08-20T15:02:45.212Z",
+  "skill_md_sha256": "8fd1b543df23d75ceb5fa277996f295963ae00b334ab1cf3e3c05b927de31abc"
+}
