@@ -92,8 +92,36 @@ Use the bare name without `/`. If the command fails, surface the error; do not r
 | Seek-safe GSAP, CSS, Anime.js, WAAPI, FLIP, paths, masks, SVG, 3D keyframes, or `hyperframes keyframes` diagnostics | `/hyperframes-keyframes` |
 | Design specs, concept, palette, typography, narration, beat planning                                                | `/hyperframes-creative`  |
 | Images, icons, logos, audio, captions, grades, LUTs, reusable media                                                 | `/media-use`             |
+| Voiceover carve, audio effect chains, or automation envelopes on a track                                            | `/hyperframes-audio`     |
 | Init, lint, check, snapshots, compare, batch render, Studio, render, publish, or diagnostics                        | `/hyperframes-cli`       |
 | Registry blocks and components                                                                                      | `/hyperframes-registry`  |
 | Figma assets, tokens, components, or storyboard frames as reconstructed motion                                      | `/figma`                 |
+
+Creator edit phrases are cross-domain requests. Load every skill named in the matching row:
+
+| Creator request                                                                                   | Required domains                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| “cut this footage”, hard cut, trim, splice, reorder, or use a source range                        | `/general-video` + `/hyperframes-core`; core owns `data-start`, `data-duration`, `data-media-start`, and track layout.                                                            |
+| zoom in here, punch-in / punch-out, smooth multi-state zoom or reframe, Ken Burns, or camera move | `/general-video` + `/hyperframes-core` + `/hyperframes-keyframes`; animate the inner visual/crop wrapper, not the timed clip.                                                     |
+| match cut or whip pan camera transition                                                           | `/general-video` + `/hyperframes-animation` + `/hyperframes-keyframes` + `/hyperframes-registry`; search/install a transition primitive before hand-authoring.                    |
+| fade, crossfade, track gain/volume, automation, duck/carve, or audio effects                      | `/general-video` + `/hyperframes-core` + `/hyperframes-audio`; core places clips, audio mixes placed tracks.                                                                      |
+| picture and sound edits that combine cuts with camera motion or mixing                            | `/general-video` + `/hyperframes-core` + `/hyperframes-keyframes` when there is visual motion + `/hyperframes-audio` when sound is faded, mixed, ducked, automated, or processed. |
+| source or generate media, or preprocess an unsupported speed ramp/mid-source freeze               | `/media-use`; sourcing/generation/preprocessing only, never placed-track mixing.                                                                                                  |
+
+Constant `data-playback-rate` is render-safe for picture and pitch-preserved
+sound. It does not make source speed ramps keyframeable; preprocess ramps.
+For copyable edit contracts, load `/hyperframes-core` → `references/creator-editing-recipes.md`.
+
+Broad feedback about how photographic media looks or behaves also routes to
+`/media-use`, even when the user never says “color grading” or “effect”: fix
+dark/flat/boring footage, stylize a clip, hide a face, or improve a media
+reveal. Read `../media-use/references/media-treatments.md` before editing a
+treatment; it governs how footage is treated, never whether media may be used.
+Do not substitute a generic LUT, CSS filter/overlay, or opacity tween for an
+existing canonical treatment primitive. Keep text/layout/motion-only edits in
+their owning domain.
+During a build with important photographic media, include one grounded
+media-polish scan in the final quality pass; leaving suitable media unchanged is
+a valid result.
 
 Domain skills never take ownership of the end-to-end deliverable. Load only what the active workflow needs.
