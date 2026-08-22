@@ -1,7 +1,7 @@
 {
   "name": "pr-to-video",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video — changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear → /hyperframes.",
-  "generated_at": "2026-08-20T15:02:12.463Z",
-  "skill_md_sha256": "2176b90470fe5cb7bc1f0ea08b97faf3521515edbbb60a5183194863ed191dd3"
+  "generated_at": "2026-08-22T11:31:28.280Z",
+  "skill_md_sha256": "f0f79a1d4b7a18435cf0cd8c0b127c04c0de988643c348dcc0cabdf0cda6b099"
 }
