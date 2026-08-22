@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes-audio",
+  "version": "v1.0.0",
+  "description": "Use when audio already placed in a HyperFrames composition needs to be mixed: fade-in/fade-out, crossfade, track gain or volume, volume automation, ducking, a music bed that fights a voiceover (voiceover carve), effects on a track (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), or automation envelopes drawn on a track's volume or any effect parameter. Don't use for sourcing or generating audio — finding BGM, SFX, or making a voiceover is `/media-use`. Don't use for clip timing or track layout, which is `/hyperframes-core`.\n",
+  "generated_at": "2026-08-22T11:29:14.255Z",
+  "skill_md_sha256": "daa61219c92d1fcd62b323a5438e3f443aae93fff0409a5a66a7f5c495c66182"
+}
