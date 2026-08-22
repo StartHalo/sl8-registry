@@ -14,7 +14,13 @@ import {
 } from "./lib/manifest.mjs";
 import { regenerateIndex } from "./lib/index-gen.mjs";
 import { cacheGet, cacheGetByEntity, importFromCache, cachePut } from "./lib/cache.mjs";
-import { runCapability, listTypes, providerMatches, providerNamesFor } from "./lib/registry.mjs";
+import {
+  runCapability,
+  listTypes,
+  providerMatches,
+  providerNamesFor,
+  providerTierFor,
+} from "./lib/registry.mjs";
 import { freezeUrl, freezeLocalFile, isDirectMediaUrl } from "./lib/freeze.mjs";
 import { findExistingAsset } from "./lib/adopt.mjs";
 import { track } from "./lib/telemetry.mjs";
@@ -79,6 +85,7 @@ const { values: args } = parseArgs({
     from: { type: "string" },
     params: { type: "string" },
     for: { type: "string" },
+    analyze: { type: "boolean", default: false },
     "local-only": { type: "boolean", default: false },
     provider: { type: "string" },
     "avatar-id": { type: "string" },
@@ -115,6 +122,7 @@ Options:
   --params <json> Build an explicit parametric LUT (lut/grade only)
   --for <media>   Analyze a local image/video and add measured grade adjust
                   suggestions (grade only)
+  --analyze       Return --for grade evidence without recording a candidate
   --local-only    Offline: skip every network provider
   --provider      Force one generator (e.g. codex, mflux, kokoro, heygen)
   --avatar-id     Override the default avatar for heygen.video generation
@@ -195,6 +203,26 @@ if (args.reuse !== undefined) {
 // Ingest: freeze a user-supplied local file or direct public URL (no search).
 if (args.from) {
   await ingest(args.from);
+  process.exit(0);
+}
+
+if (args.analyze) {
+  if (type !== "grade" || !args.for) {
+    console.error("error: --analyze requires --type grade and --for <media>");
+    process.exit(2);
+  }
+  const mediaPath = resolve(args.for);
+  if (!existsSync(mediaPath)) {
+    console.error(`error: --for file not found: ${mediaPath}`);
+    process.exit(2);
+  }
+  const analysis = analyzeMediaGrade(mediaPath);
+  if (args.json) {
+    console.log(JSON.stringify({ ok: true, type: "grade-analysis", ...analysis }));
+  } else {
+    console.log(formatMeasuredNote(mediaPath, analysis.measured));
+    console.log(`suggested adjust: ${JSON.stringify(analysis.adjust)}`);
+  }
   process.exit(0);
 }
 
@@ -1184,6 +1212,11 @@ async function result(record, source) {
     // signal about the fetch that actually consumed a heygen credit, not
     // about the (free, no-credential) act of copying a cached file.
     auth_method: record.provenance?.authMethod,
+    // "local" / "network_free" / "network_paid", straight from the registry's own
+    // A/N/P declaration — so a dashboard can separate free lookups from calls that
+    // spend credit without hardcoding provider names. Sparse: absent when the
+    // record carries no provider (cache and reuse hits) or the name is unknown.
+    provider_tier: providerTierFor(record.provenance?.provider),
     local_only: !!args["local-only"],
     provider_override: !!args.provider,
   });
