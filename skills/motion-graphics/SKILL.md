@@ -11,7 +11,7 @@ description: >
   Longer / narrated / multi-scene → /general-video. Unclear → /hyperframes.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx hyperframes skills update motion-graphics`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `npx hyperframes skills update motion-graphics`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **figma source**: If the logo/asset/animation to build from comes from a figma.com URL, run `/figma` first — asset export, brand tokens, and Motion→GSAP translation if the graphic is a Figma Motion import — then build from its output. Don't drive Figma via raw MCP tools directly: that skips SVG sanitization, `.media/manifest.jsonl` provenance, and brand-token `var()` binding, so a later brand change can't propagate without a full re-import.
 
@@ -84,7 +84,7 @@ Only when `$PROJECT_DIR/hyperframes.json` is absent:
 ```bash
 PROJECT_DIR="${MOTION_GRAPHICS_DIR:-videos/<project-name>}"
 mkdir -p "$(dirname "$PROJECT_DIR")"
-npx hyperframes init "$PROJECT_DIR" --non-interactive --example=blank
+npx hyperframes init "$PROJECT_DIR" --non-interactive --example=blank --skill=motion-graphics
 ```
 
 `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
@@ -136,7 +136,7 @@ Choose proof times that show the opening state, signature move, and final hold. 
 Ask one question: “preview first, or render?” If the user chooses preview, open Studio and return to the same approval gate after revisions:
 
 ```bash
-(cd "$PROJECT_DIR" && npx hyperframes preview)
+(cd "$PROJECT_DIR" && npx hyperframes preview --background)
 ```
 
 Render only after an explicit render answer:
