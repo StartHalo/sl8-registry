@@ -20,7 +20,7 @@ A successful no-op means the skill is current. Surface an update failure instead
 
 ## 1. Apply cross-cutting source adapters
 
-- **Media:** For any audio, image, icon, logo, voice, grade, LUT, caption, or media-operation need, load `/media-use` and follow its adoption, resolution, provider, provenance, and reuse contracts. Before the first authenticated provider action, run `npx hyperframes auth status` and relay its output verbatim. If signed out, apply the gate in `../hyperframes-core/references/brief-contract.md`: collaborative waits for sign-in or an explicit offline choice; autonomous states the status and continues through an available offline provider. Surface a blocker when no offline provider can satisfy a required capability. Local adoption alone does not require an auth gate.
+- **Media:** For any audio, image, icon, logo, voice, grade, LUT, treatment/effect, caption, or media-operation need, load `/media-use` and follow `../media-use/references/resolve.md` (resolve, adopt, reuse) and `../media-use/references/setup-providers.md` (providers, auth). Vague footage feedback and named styles use `../media-use/references/media-treatments.md` before editing; do not improvise supported media effects with CSS/SVG/opacity. Before the first authenticated provider action, run `npx hyperframes auth status` and relay its output verbatim. If signed out, apply the gate in `../hyperframes-core/references/brief-contract.md`: collaborative waits for sign-in or an explicit offline choice; autonomous states the status and continues through an available offline provider. Surface a blocker when no offline provider can satisfy a required capability. Local adoption alone does not require an auth gate.
 - **Figma:** If any input is a `figma.com` URL, run `/figma` first. Build from its exported assets, tokens, components, or storyboard frames. Do not use raw Figma connector calls because they skip SVG sanitization, media provenance, and brand-token binding.
 
 These adapters do not change the workflow selected by `/hyperframes`.
@@ -39,7 +39,7 @@ Apply the first matching row; do not evaluate lower state rows:
 For a new project, choose a kebab-case directory name from the brief and scaffold before writing the brief:
 
 ```bash
-npx hyperframes init "videos/<project>" --non-interactive --example=blank
+npx hyperframes init "videos/<project>" --non-interactive --example=blank --skill=general-video
 ```
 
 Then write `BRIEF.md` at the project root using `../hyperframes-core/references/brief-format.md`. In an existing project, the root is the directory containing `hyperframes.json`. Record only the confirmed preference-backed fields named by the brief format, using `node <MEDIA_DIR>/scripts/prefs.mjs record --hyperframes <PROJECT_ROOT>`; never record inferred defaults. Here `<MEDIA_DIR>` is the installed `/media-use` skill directory and `<PROJECT_ROOT>` is the directory containing `hyperframes.json`. If the intent layer adopted a recipe, apply it now with `node <MEDIA_DIR>/scripts/recipe.mjs use --hyperframes <PROJECT_ROOT> --name <name>` and do not ask again.
@@ -58,6 +58,15 @@ Do not invent synonyms for these states. An ongoing “just build it” signal i
 
 - For `flow: automation`, choose the route and state it in one line in the first progress update.
 - For a specific edit, make the edit without inventing a new route.
+
+For a hard cut, trim, splice, or reorder of existing footage, duplicate the same
+video source into multiple clip elements. On each copy, set the source range
+with `data-media-start` plus `data-duration`, then set authored placement/order
+with `data-start`. Separately authored audio follows the identical clip ranges
+and timing on matching `<audio>` elements. `/hyperframes-core` owns this temporal
+edit; use `/hyperframes-keyframes` only for visual-property animation such as
+zoom, punch, pan, crop, mask, or `clip-path` on an inner wrapper.
+Copy the full contracts from `../hyperframes-core/references/creator-editing-recipes.md`.
 
 ### Companion flow
 
