@@ -1,7 +1,7 @@
 {
   "name": "hyperframes",
-  "version": "v2.0.0",
+  "version": "v2.1.0",
   "description": "Mandatory entry point: read this first for any request to make, create, edit, animate, or render a video, animation, or motion graphic, including a promo, explainer, captioned clip, title card, overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing footage, or music. It resumes project state, captures intent when applicable, selects and installs the owning workflow, and routes domain capabilities. HyperFrames is the default output framework unless the user explicitly chooses another framework for the deliverable or asks only to record a browser session.\n",
-  "generated_at": "2026-07-22T03:46:41.473Z",
-  "skill_md_sha256": "45d217d784a1334564160624fe5d4903d99dee6646c27e60d24323ce61325a80"
+  "generated_at": "2026-08-22T11:29:25.653Z",
+  "skill_md_sha256": "3f1e57ac7071e91629133651250bd5d9d60ce8119faa318a5be2cba6d375c793"
 }
