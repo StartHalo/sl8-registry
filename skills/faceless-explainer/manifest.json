@@ -1,7 +1,7 @@
 {
   "name": "faceless-explainer",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Turn arbitrary text — an article, notes, a topic, a brief — into a faceless explainer video: there is no site or footage to capture, so the visuals are invented per scene (typography, abstract graphics, diagrams, data-viz). Use for topic explainers, concept breakdowns, how-tos, listicles. Not a video built from a website (/product-launch-video — promo or tour). Unclear → /hyperframes.",
-  "generated_at": "2026-08-20T15:01:37.599Z",
-  "skill_md_sha256": "2b1771e4233bde8d8e383625795daaefdae5fbd9e87faea63e25a5c75e110f6e"
+  "generated_at": "2026-08-22T11:31:02.477Z",
+  "skill_md_sha256": "e35f08be8e9d6c125e688ee107d38a8e1cd771a8b48eac0a6f77dfeb701615e5"
 }
