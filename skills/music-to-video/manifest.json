@@ -1,7 +1,7 @@
 {
   "name": "music-to-video",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video — lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces → the input-matched workflow (see /hyperframes). Unclear → /hyperframes.",
-  "generated_at": "2026-08-20T15:03:22.773Z",
-  "skill_md_sha256": "f83d0fca4eca702b79755685d01937a8b139a6d76063de6103a68965561261f4"
+  "generated_at": "2026-08-22T11:32:14.327Z",
+  "skill_md_sha256": "f3e29a0138de95c99740f890061bccc543efa911374e71fa90b3ec6ca3452479"
 }
