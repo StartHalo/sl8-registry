@@ -1,7 +1,7 @@
 {
   "name": "figma",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Import Figma content into a HyperFrames composition — rendered assets, brand tokens, components, storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI), connector-assisted motion when available, and shaders from a connector or native export. Use when the user pastes a figma.com link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.",
-  "generated_at": "2026-07-22T03:48:25.835Z",
-  "skill_md_sha256": "9daacf9d7bffb29ef077a35a8ed9b19e388a6152bbcb5ef302901ff3452b30e3"
+  "generated_at": "2026-08-22T11:30:38.769Z",
+  "skill_md_sha256": "dea20962550679b9b085b747b1f290c9b2a5a6d5bd91a0a56f3ca40afe7b9f44"
 }
