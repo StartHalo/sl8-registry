@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v2.0.0] — 2026-08-22
+### Added
+- Release hyperframes-keyframes v2.0.0.
+
 ## [v1.0.0] — 2026-07-22
 ### Added
 - Initial release (hyperframes-keyframes).
