@@ -1,7 +1,7 @@
 {
   "name": "embedded-captions",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Add captions or subtitles to an existing single-subject talking-head video without editing the footage. Use for plain verbatim captions, cinematic captions embedded behind the subject, VFX captions, “炸/特效/酷炫字幕,” or a named identity from the 35-style catalog. Route by visual identity, not by backend engine. The quiet `anchor` rail is the default; embed every word only when the user explicitly wants a fully cinematic treatment. The workflow runs locally end to end, including transcription and subject matting; split multi-shot footage before applying it.\n",
-  "generated_at": "2026-08-20T15:04:38.908Z",
-  "skill_md_sha256": "baf3079a745dba469b045085cae2f7718049886adbfd62bae5905eadd670b3eb"
+  "generated_at": "2026-08-22T11:32:37.193Z",
+  "skill_md_sha256": "e7a10f2168e7f069af660923ea03cf9689421cdf9ee54faa222c3819cf9d4e25"
 }
