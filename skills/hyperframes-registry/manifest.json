@@ -1,7 +1,7 @@
 {
   "name": "hyperframes-registry",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Install, discover, and wire registry blocks and components into HyperFrames compositions. Use when running hyperframes add or hyperframes catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with hyperframes.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea → scaffold → validate → PR).",
-  "generated_at": "2026-07-22T03:48:14.544Z",
-  "skill_md_sha256": "19ca0bf6b757d91963e57b182c3bbf2304362752670bf47093035c75c760e820"
+  "generated_at": "2026-08-22T11:30:26.975Z",
+  "skill_md_sha256": "9bb3d0f74b47bf7fe93208228d4bd4431538bff9440d074271a4b413a9f6cc3d"
 }
