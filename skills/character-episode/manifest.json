@@ -1,0 +1,7 @@
+{
+  "name": "character-episode",
+  "version": "v1.0.0",
+  "description": "Produces ONE episode of a recurring character series — episode 2, 7, 30 of a channel whose character, look and format must be identical to episode 1 — off a reusable channel **seed kit** that is created once, frozen, snapshotted into every episode, and archived before it is ever changed. Use when: \"next episode\", \"episode 3 of my series\", \"same character as last time\", \"start a channel/series with this character\", \"keep my channel consistent\", any brief that names an episode number or an existing series. Chain: a creation workflow — it owns the kit, the episode's plan.json and per-step artifacts, and orchestrates the domain skills (character-bible, style-system, frame-craft, video-prompting, assembly-qc). NOT for: a one-off character short with no sequel (use cinematic-video), a narrated explainer (use explainer-video), a single still (frame-craft), or re-cutting an existing episode (assembly-qc).\n",
+  "generated_at": "2026-08-23T18:05:18.891Z",
+  "skill_md_sha256": "7f2b2e00e064f290da262c02aa4603a6ad3c17cea993bba1d6057adc8564ece5"
+}
