@@ -69,11 +69,14 @@ insurance, not correction.
   tactic).
 - Bake-off frames are throwaway by design: 3–4 presets × 1 frame, human picks by eye.
 
-**Paid-call contract (applies here as everywhere):** estimate (free) → journal the request
-id into the plan ([`../video-prompting/references/plan-contract.md`](../video-prompting/references/plan-contract.md))
-→ download immediately and keep `local_path` (hosted URLs expire) → account by balance
-delta, never `credits_used`. Billing rules live in the ledger:
-[`../assembly-qc/references/models-and-gotchas.md`](../assembly-qc/references/models-and-gotchas.md) §Billing.
+**Paid-call contract:** it applies here in full and it has **one home** —
+[`../video-prompting/SKILL.md`](../video-prompting/SKILL.md) §Paid-call contract (validate →
+estimate → one call at a time under `--max-cost` → journal the id → balance-delta accounting,
+plus the charged-vs-uncharged failure table). Read it there; do not restate it here.
+
+The only frame-specific addition: keep `local_path` for every downloaded frame — the plan's
+[`plan-contract.md`](../video-prompting/references/plan-contract.md) carries it forward to the
+motion step, and hosted URLs expire before assembly runs.
 
 ## Quality bar
 
