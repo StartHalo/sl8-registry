@@ -88,6 +88,17 @@ The asymmetry is the whole point: 422 and 13 are free to hit and safe to retry; 
 have already cost money**, so the reflex that works for the first pair is exactly wrong for
 the second. That is why the request id is journaled before the call can return.
 
+## References (load when needed)
+
+- [`references/plan-contract.md`](references/plan-contract.md) — the plan.json laws every
+  workflow's spine obeys (approval before spend, ids journaled at submit, resume by
+  reconciliation).
+- [`references/shot-grammar.md`](references/shot-grammar.md) — the time-coded multi-shot
+  prompt: the render-input concatenation, the 5-layer per-shot stack, the **cinematic
+  school's closed camera set**, escalation arcs, time-code arithmetic, anti-patterns, and the
+  pre-generation validation checklist. Lived inside `cinematic-video` until 2026-08-23; it is
+  camera and motion craft, which is this skill's slice, and a second workflow needed it.
+
 ## Quality bar
 
 - [ ] Source frame was approved; the style carrier present (i2v: the frame itself; r2v:
