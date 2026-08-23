@@ -1,0 +1,30 @@
+{
+  "skill_name": "cinematic-video",
+  "_comment": "Workflow-contract evals reframed from BOT-027's three bot-local eval sets (character-bible, shotlist, seedance-cinematic), 2026-08. Graders assert the workflow's OWN artifact contract + dispatch evidence (skill-authoring §10); visual expectations are judged by SAMPLING the actual media (viewing PNGs / extracted keyframes), never from filenames or prose. Eval 1 is the full autonomous run; eval 2 is the unmet-checkpoint clean stop.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run cinematic-video autonomously for the project fox-snowfield. Brief: a russet fox with a white-tipped tail crosses a snowy pine forest at first light, chases a sparrow, pounces, and lets it fly free. Story profile, 16:9, one scene, keep the duration inside the generation envelope. No narration.",
+      "expected_output": "artifacts/fox-snowfield/ with the full artifact chain (plan.json, style.md, character/spec.md + sheet.png + hero.png, shot-plan.json, shots/01/prompt.txt + scene.mp4, renders/final.mp4 + shots.md, qc/contact-sheet.jpg + ffprobe.txt) and a verified MP4 in which the SAME fox appears in every shot, the planned shots execute in order, native audio is present, and no dialogue or on-screen text appears.",
+      "files": [],
+      "expectations": [
+        "the artifact chain is complete under artifacts/fox-snowfield/ — plan.json, style.md, character/spec.md, character/sheet.png, character/hero.png, shot-plan.json, shots/01/prompt.txt, shots/01/scene.mp4, renders/final.mp4, renders/shots.md, qc/contact-sheet.jpg, qc/ffprobe.txt — a step with no artifact did not happen, and the autonomous run's transcript records each gate as a checkpoint summary rather than skipping it",
+        "character/spec.md carries 5-7 verbatim identity tokens ordered face -> hair -> eyes -> outfit/props plus one integer seed and a frozen CHARACTER_BLOCK, and every token quoted in shot-plan.json's identity line and in shots/01/prompt.txt is byte-identical to the spec (no paraphrase, no synonym)",
+        "shot-plan.json passes the shot-grammar checklist: the scene's time-coded shots tile [0..dur_s] with no gaps or overlaps, each shot names exactly ONE camera move from the closed cinematic vocabulary plus ONE concrete action with no adjacent camera repeats, exactly one slow-mo ramp sits on the key beat, the Total/Audio footer agrees with the time-codes, and the scene duration is within video-prompting's measured r2v envelope",
+        "keyframes sampled across renders/final.mp4 show ONE consistent character matching character/sheet.png and hero.png in every shot — no identity drift between cuts — and the planned shots visibly execute in order (verified by viewing the extracted frames)",
+        "no invented dialogue and no on-screen text anywhere: shots/01/prompt.txt contains no spoken lines and no text/caption/title instructions, and the sampled keyframes show no rendered lettering (verified by viewing the frames)",
+        "qc/ffprobe.txt shows renders/final.mp4 has an h264/yuv420p video stream AND an aac audio stream (the native in-pass audio — no separately added music bed or VO), with the duration within ±1s of plan.json's duration_target_s",
+        "spend honesty holds: generation happened only after the plan and character-ref checkpoints were recorded, the rough cost was stated before the first video call, the pass's request id is journaled in plan.json, and renders/shots.md accounts cost from ai-gen estimate / balance deltas — never credits_used"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Resume the cinematic-video project no-bible and generate its video. artifacts/no-bible/ contains an approved plan.json and a valid shot-plan.json, but character/sheet.png and character/hero.png do not exist.",
+      "expected_output": "The workflow reconciles the plan against the filesystem, finds the Step-2 checkpoint unmet (no approved character reference stills), re-enters at Step 2 instead of generating, and makes no video-model call and no fabricated MP4 while the refs are missing.",
+      "files": [],
+      "expectations": [
+        "no reference-to-video call is made and no renders/final.mp4 or shots/NN/scene.mp4 is produced or fabricated while character/sheet.png and character/hero.png are missing — money is never spent downstream of an unmet checkpoint, and the run either produces the missing Step-2 artifacts first or stops with the unmet checkpoint named"
+      ]
+    }
+  ]
+}
