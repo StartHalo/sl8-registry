@@ -104,8 +104,9 @@ BOT-027 pass used exactly sheet+hero. The pair wins here. -->
 
 Pure-LLM. Per [`references/shot-grammar.md`](references/shot-grammar.md) (read before
 writing), fill each scene's rows: the identity-lock line (`@Image1` = sheet, `@Image2` =
-hero, the character's name + 2–3 verbatim tokens, "maintain the EXACT same character
-identity in every shot"); one world line; time-coded `[Xs-Ys]:` shots tiling
+hero, the character's name, **then the frozen `CHARACTER_BLOCK` COPIED WHOLE from
+`character/spec.md`**, then "maintain the EXACT same character identity in every shot");
+one world line; time-coded `[Xs-Ys]:` shots tiling
 `[0..dur_s]` exactly (no gaps, no overlaps); each shot exactly ONE camera move + ONE
 concrete present-tense action + a lighting phrase; the escalation arc per profile;
 exactly one slow-mo ramp on the scene's key beat; optional `[VFX: …]`; the closing
@@ -119,11 +120,26 @@ crane…) listed in `references/shot-grammar.md`; video-prompting's flat-art set
 (`static/push_in/pull_out/pan/tilt/parallax`) applies verbatim when the locked style is
 flat/graphic. One school per project — never mix.
 
+**The identity line is a COPY operation, not a writing task.** Do not summarise the block,
+do not pick the "most visual" tokens, do not drop the ones that feel redundant — open
+`character/spec.md`, take the whole quoted `CHARACTER_BLOCK`, and paste it. Until 1.1.0
+this step said "2–3 verbatim tokens", which contradicted Step 2's frozen-block law and
+quietly cost R05 four of its five identity tokens; the agent followed the instruction
+exactly, and the instruction was wrong. A subset is a paraphrase, and a paraphrase IS
+identity drift.
+
 No dialogue lines and no on-screen text in any shot (the engine mangles text — titles are
 post, per assembly-qc). No negative "no X" lists inside shots — constraints live once in
 the footer suffix. Validate against the checklist in `references/shot-grammar.md`
 (tiling, footer agreement, one-camera-one-action, single ramp, verbatim tokens) and fix
-until clean. **Artifact:** `shot-plan.json`.
+until clean.
+
+**Self-check before you leave this step (free, no call):** the `CHARACTER_BLOCK` string
+from `character/spec.md` must appear character-for-character in `shot-plan.json`'s
+`identity_line`. Diff them if unsure. If it does not match, you rewrote it — fix it now,
+because after Step 4 the only remedy is a re-render you have already paid for.
+
+**Artifact:** `shot-plan.json`.
 
 ## Step 4 — Generate (reference-to-video) — money is spent here
 
@@ -149,8 +165,29 @@ uncharged failure table (422 · 7 · 13 · 10) — has one home:
 here unchanged; do not restate it. Seedance-specific defect guards and triage:
 [`references/seedance-gotchas.md`](references/seedance-gotchas.md).
 
+**THE IDENTITY GATE — free, and it runs BEFORE the submit.** After writing
+`shots/NN/prompt.txt` and before spending anything on it, assert that the frozen
+`CHARACTER_BLOCK` from `character/spec.md` appears character-for-character in that file:
+
+```bash
+python3 - "$P" <<'PY'
+import re, sys, pathlib
+P = pathlib.Path(sys.argv[1])
+blk = re.search(r'##\s*CHARACTER_BLOCK[^\n]*\n+"([^"]+)"', (P/'character/spec.md').read_text()).group(1)
+norm = lambda s: re.sub(r'\s+', ' ', s).strip()
+bad = [str(f) for f in sorted(P.glob('shots/*/prompt.txt')) if norm(blk) not in norm(f.read_text())]
+print('IDENTITY GATE:', 'FAIL -> ' + ', '.join(bad) if bad else 'PASS (block verbatim in every prompt)')
+sys.exit(1 if bad else 0)
+PY
+```
+
+**Exit non-zero means STOP — do not submit.** Go back to Step 3 and copy the block whole.
+This gate costs nothing and it is the only place the identity law can still be enforced for
+free: one shot past this line and a fix is a re-render you have already paid for. R05
+(2026-08-23) shipped a render with 1 of 5 identity tokens because no such gate existed.
+
 **Artifacts:** per pass `shots/NN/prompt.txt` + `shots/NN/scene.mp4` + the journaled
-request id.
+request id + the identity-gate result in the transcript.
 
 ## Step 5 — Assemble & QC
 
@@ -161,6 +198,19 @@ the passes already carry score + SFX + ambience — never add a music bed or any
 assembly (it doubles up). Output gates QC-10/11; frame extraction spanning every scene;
 contact sheet; compare extracted frames against `character/sheet.png` — cross-shot
 identity drift is QC-13 and its fix is a re-render (Step 4), never a patch.
+
+**QC-13 has two halves, and only one of them is your opinion.** Report them separately:
+
+1. **Propagation (mechanical, and you must not call this by eye).** Re-run the Step 4
+   identity gate and record its verdict. This asks whether the block *reached* the prompt,
+   and it has a yes/no answer that does not depend on how the frames look.
+2. **Appearance (visual, and it is a human's call in collaborative mode).** Does the same
+   character actually appear across the extracted frames?
+
+R05 recorded *"QC-13 identity: PASS (consistent keeper across all 4 shots)"* on a run where
+4 of 5 identity tokens never reached the prompt. The mechanical half was failing and the
+self-assessment could not see it, because it was looking at pictures instead of strings.
+**Never report QC-13 PASS without the gate's exit code beside it.**
 
 **Artifacts:** `renders/final.mp4`, `qc/contact-sheet.jpg`, `qc/ffprobe.txt`.
 

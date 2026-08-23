@@ -1,7 +1,7 @@
 {
   "name": "cinematic-video",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Turns a story, scene, or dialogue-free action brief into a multi-scene cinematic video with a LOCKED character and style, generated via Seedance reference-to-video with native engine audio (no narration), through the identity-first spine: plan → character+style lock → shot list → r2v pass(es) → assembly → verified delivery. Use when: \"make a cinematic / short film / character short\", \"keep the same character across shots\", \"animate this character through a story/fight\", any brief-to-finished multi-shot character piece without narration. Chain: a creation workflow — it orchestrates the domain skills (style-system, frame-craft, video-prompting, assembly-qc) and owns the project's plan.json + per-step artifacts; voice-timing is NOT in this chain. NOT for: narrated explainers (use explainer-video), a single still (frame-craft directly), animating one existing still (video-prompting), fixing/mixing an existing edit (assembly-qc), or kinetic typography / motion graphics (hyperframes' motion-graphics).\n",
-  "generated_at": "2026-08-23T08:36:35.904Z",
-  "skill_md_sha256": "6c521af6b5d2bf471010e088523638ac1e1a547bc4e91c35ac2d9f6c55b2892c"
+  "generated_at": "2026-08-23T09:32:10.010Z",
+  "skill_md_sha256": "0430931cc0ab66aa467ec3733190025a7030dadb4d670f9237244dd74969085e"
 }

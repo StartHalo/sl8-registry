@@ -16,7 +16,7 @@ cannot be rescued downstream.
 
 ```
 <global style/look header — style.md's aesthetic block>
-@Image1 is the character turnaround reference and @Image2 is the hero reference for <Name> (<2–3 verbatim tokens>) — maintain the EXACT same character identity in every shot.
+@Image1 is the character turnaround reference and @Image2 is the hero reference for <Name> (<the ENTIRE frozen CHARACTER_BLOCK, pasted whole from character/spec.md — every token, never a selection>) — maintain the EXACT same character identity in every shot.
 <one-line world/scene establishment>
 [0-Xs]: <shot 1 — one camera move + one action + lighting>
 [X-Ys]: <shot 2 …>
@@ -116,8 +116,11 @@ motion, stable picture, no flicker.`
 2. Each shot: exactly one closed-vocab camera move + one concrete action; no camera move
    repeated on adjacent shots; a lighting phrase in most shots.
 3. Exactly one slow-mo ramp per scene, on the `key_beat` shot.
-4. The identity line names `@Image1` + `@Image2`, the character's name, and 2–3 tokens
-   byte-identical to `character/spec.md` — zero paraphrase.
+4. The identity line names `@Image1` + `@Image2`, the character's name, and **the whole
+   frozen `CHARACTER_BLOCK`** byte-identical to `character/spec.md` — zero paraphrase
+   and **zero selection**. Until 1.1.0 this said "2–3 tokens", which reads as licence to
+   pick favourites: R05 shipped with 1 of 5 tokens and the outfit token truncated
+   mid-phrase. A subset IS a paraphrase. Diff the strings; do not eyeball them.
 5. Footer N / K / AR agree with the time-codes, the shot count, and the plan; the
    `Audio:` clause and the constraint suffix are present.
 6. No negative lists, no dialogue, no on-screen text, no unqualified `fast`, ≤6 shots
