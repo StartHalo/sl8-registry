@@ -4,6 +4,27 @@ All notable changes to the `cinematic-video` skill.
 
 ## [Unreleased]
 
+### Fixed — 1.1.0 (2026-08-23) — the identity law was unenforceable, and self-contradicting
+
+R05, this workflow's first autonomous end-to-end run, shipped a render carrying **1 of 5**
+identity tokens. The cause was in the skill, not the run: Step 2 freezes a whole
+`CHARACTER_BLOCK` and calls it verbatim law, while Step 3 — and `references/shot-grammar.md`,
+in both its prompt template and its validation checklist — told the agent to use
+"2–3 verbatim tokens". Three places prescribed a subset. The agent complied exactly.
+
+- **Step 3 is now a copy operation, not a writing task.** The identity line carries the whole
+  frozen block, pasted from `character/spec.md`. The old wording is named in-file as the
+  defect so it cannot quietly return.
+- **A free pre-spend identity gate in Step 4.** Before any paid submit, assert the block
+  appears character-for-character in every `shots/NN/prompt.txt`; non-zero exit means STOP.
+  This is the last point where the identity law is enforceable for free — past it, the remedy
+  is a re-render already paid for.
+- **QC-13 split into its two halves.** Mechanical (re-run the gate, quote the exit code) and
+  visual (a human's call). R05's `shots.md` reported "QC-13 identity: PASS" while the strings
+  were wrong, because it was looking at pictures. QC-13 may no longer be reported PASS without
+  the gate's result beside it.
+- `references/shot-grammar.md` corrected in both places.
+
 ### Changed — 2026-08-22 (pre-publish, W3 single-home)
 
 - The paid-call contract is no longer restated here. It has one home —
