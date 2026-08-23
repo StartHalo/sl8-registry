@@ -4,6 +4,23 @@ All notable changes to the `cinematic-video` skill.
 
 ## [Unreleased]
 
+### Changed — 1.2.0 (2026-08-23) — the character bible moved out, and the sheet is now graded
+
+`references/character-bible.md` was workflow-local, so the identity craft was **trapped inside
+one workflow**: a second workflow could not cite it without copying it, and a copy drifts. It is
+now the domain skill [`character-bible`](../character-bible/SKILL.md) and this workflow links to
+it. Domain knowledge has one home — the studio rejects the "self-contained, duplicate the docs"
+convention precisely because drift killed the upstream project that used it.
+
+- **Step 2 cites `../character-bible/SKILL.md`** instead of a local reference. No craft changed
+  in the move; the file is the same lock, the same no-synonym rule, the same two stills.
+- **The sheet approval is now a grade, not a look.** Step 2 said "READ the pixels before
+  approving". It now runs `character-bible`'s vision-graded consistency check: a per-trait
+  verdict against the rendered image, an overall 0–10 score, pass at ≥7, and a single
+  same-seed regenerate on a miss. That check came from BOT-016, which had the more rigorous of
+  the studio's two identity self-checks and no path in until this promotion. "It looked fine"
+  was the same class of self-report as R05's `QC-13 identity: PASS`.
+
 ### Fixed — 1.1.0 (2026-08-23) — the identity law was unenforceable, and self-contradicting
 
 R05, this workflow's first autonomous end-to-end run, shipped a render carrying **1 of 5**

@@ -36,7 +36,8 @@ dimensions:
   - id: shot-grammar-and-arc
     weight: 0.25
     judge_prompt: |
-      Read shot-plan.json and shots/NN/prompt.txt against references/shot-grammar.md.
+      Read shot-plan.json and shots/NN/prompt.txt against
+      ../video-prompting/references/shot-grammar.md.
       Score: shots tile [0..dur_s] exactly; each shot exactly ONE closed-vocabulary
       camera move + ONE concrete action, no adjacent camera repeats; a genuine escalation
       arc per the profile; exactly one slow-mo ramp on the key beat; the Total/Audio

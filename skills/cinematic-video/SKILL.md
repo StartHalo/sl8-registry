@@ -73,7 +73,7 @@ lighting + color grading, never `cinematic`/`epic` bare — so it doubles as the
 frame-prompt block (the verbatim law) and the render prompt's global header (Step 4).
 
 Then lock the character per
-[`references/character-bible.md`](references/character-bible.md) (read before composing):
+[`../character-bible/SKILL.md`](../character-bible/SKILL.md) (read before composing):
 `character/spec.md` — 5–7 verbatim identity tokens ordered face → hair → eyes →
 outfit/props, one fixed integer seed, the frozen CHARACTER_BLOCK. **The no-synonym law:**
 once a token is locked it is reused byte-identical in every downstream prompt — a
@@ -86,9 +86,10 @@ with the aesthetic block + CHARACTER_BLOCK verbatim, the SAME seed, explicit
 `aspect_ratio`: `character/sheet.png` (multi-view turnaround — ONE consistent character,
 clean neutral background, no in-image text) and `character/hero.png` (clean front-facing
 hero). A user-supplied reference image is THE identity anchor — pass it as the ONE ref
-(frame-craft's 1-ref rule: refs dilute; max 2 total). READ the pixels before approving:
-every view one character, on-spec, no stray text — a bad bible poisons every shot
-downstream. Re-roll here (~25× cheaper than clips); a retry keeps the seed and tightens
+(frame-craft's 1-ref rule: refs dilute; max 2 total). READ the pixels before approving, and grade them:
+run [`../character-bible/references/consistency-check.md`](../character-bible/references/consistency-check.md)
+— a per-trait verdict against the rendered image, a 0–10 score, pass at ≥7. A bad bible
+poisons every shot downstream, and "it looked fine" is not a grade. Re-roll here (~25× cheaper than clips); a retry keeps the seed and tightens
 the prompt toward the drifting token — never change the seed to "fix" drift.
 
 On the r2v pass the sheet + hero ARE the style carriers (both were generated under the
@@ -102,7 +103,9 @@ BOT-027 pass used exactly sheet+hero. The pair wins here. -->
 
 ## Step 3 — Shot list (`shot-plan.json`) — GATE: validated before generation
 
-Pure-LLM. Per [`references/shot-grammar.md`](references/shot-grammar.md) (read before
+Pure-LLM. Per
+[`../video-prompting/references/shot-grammar.md`](../video-prompting/references/shot-grammar.md)
+(read before
 writing), fill each scene's rows: the identity-lock line (`@Image1` = sheet, `@Image2` =
 hero, the character's name, **then the frozen `CHARACTER_BLOCK` COPIED WHOLE from
 `character/spec.md`**, then "maintain the EXACT same character identity in every shot");
@@ -116,7 +119,7 @@ positive-constraint suffix.
 Camera law per [`../video-prompting/SKILL.md`](../video-prompting/SKILL.md): one move per
 shot, a CLOSED vocabulary, no adjacent repeats, free-form camera language banned. The
 closed set here is the cinematic school (physical moves — tracking, orbit, low-angle,
-crane…) listed in `references/shot-grammar.md`; video-prompting's flat-art set
+crane…) listed in video-prompting's `references/shot-grammar.md`; its flat-art set
 (`static/push_in/pull_out/pan/tilt/parallax`) applies verbatim when the locked style is
 flat/graphic. One school per project — never mix.
 
@@ -130,7 +133,8 @@ identity drift.
 
 No dialogue lines and no on-screen text in any shot (the engine mangles text — titles are
 post, per assembly-qc). No negative "no X" lists inside shots — constraints live once in
-the footer suffix. Validate against the checklist in `references/shot-grammar.md`
+the footer suffix. Validate against the checklist in
+[`../video-prompting/references/shot-grammar.md`](../video-prompting/references/shot-grammar.md)
 (tiling, footer agreement, one-camera-one-action, single ramp, verbatim tokens) and fix
 until clean.
 
