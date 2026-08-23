@@ -66,10 +66,27 @@ frame, under a tight grammar that a video model cannot misread.
 stage lengths, no verb repeated on adjacent stages, one stillness beat before the payoff.
 Cap the final timestamp at the measured envelope, not the schema's claim.
 
-**Paid-call contract:** estimate first (free) → journal the request id → async for long
-jobs → download immediately → cost from estimate + balance deltas (NEVER `credits_used` —
-over-reports ~8.4× on Seedance) → 422 = schema mismatch, uncharged: re-inspect and fix the
-exact field → two identical failures ⇒ change the prompt.
+**Paid-call contract — THE single home.** Every other skill in this suite links here; none
+restates it. If you are about to write these rules somewhere else, link instead.
+
+`validate` (free, client-side) → `estimate` (free) → submit **one call at a time** with
+`--max-cost` set → journal the request id **before** the call can return → async for long
+jobs → download immediately (hosted URLs expire) → cost from estimate + balance deltas
+(NEVER `credits_used` — over-reports ~8.4× on Seedance). Billing detail lives in the ledger:
+[`../assembly-qc/references/models-and-gotchas.md`](../assembly-qc/references/models-and-gotchas.md) §Billing.
+
+**Failure classes — the distinction that decides whether a retry costs money:**
+
+| Exit | Class | Charged? | What you do |
+|---|---|---|---|
+| 422 | schema mismatch (bad field, over-envelope duration) | **no** | re-inspect the live schema, fix the exact field, retry; two identical failures ⇒ change the prompt, not the field |
+| 7 | **validation failure at the provider** | **YES — you paid for the rejection** | **never auto-retry.** Fix the packet first, and run the free client-side `validate` before resubmitting. A blind retry loop here bills once per lap with nothing to show |
+| 13 | over `--max-cost` | **no — nothing was submitted** | surface the estimate to the human and re-plan the shot; do not raise the cap to make the error go away |
+| 10 | timeout | already charged | recover with `ai-gen result <request-id>` from the journal. **Never resubmit** — the job is running and a resubmit buys the same clip twice |
+
+The asymmetry is the whole point: 422 and 13 are free to hit and safe to retry; **7 and 10
+have already cost money**, so the reflex that works for the first pair is exactly wrong for
+the second. That is why the request id is journaled before the call can return.
 
 ## Quality bar
 
