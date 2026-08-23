@@ -52,10 +52,13 @@ impossible, because nothing downstream is estimated.
 |---|---|---|
 | Narration | `fal-ai/kokoro/american-english` | `prompt`, `voice` (af_*/am_* enum; af_nova default), `speed` 0.1–5; ~1 cr per 100 chars estimated but **bills a ~5-cr per-call minimum** (R02) — batch tiny lines into one call per block, never per-sentence |
 
-Paid-call contract as everywhere: estimate (free) → journal the request id into the plan →
-download immediately (`data.audio.url` — some downloaders only know image/video keys) →
-balance-delta accounting, never `credits_used`. Billing rules:
-[`../assembly-qc/references/models-and-gotchas.md`](../assembly-qc/references/models-and-gotchas.md) §Billing.
+**Paid-call contract:** applies here in full, stated in **one home** —
+[`../video-prompting/SKILL.md`](../video-prompting/SKILL.md) §Paid-call contract. Read it
+there; do not restate it here.
+
+The only voice-specific addition: the audio arrives at **`data.audio.url`**, and some
+downloaders only know the image/video keys — pull it explicitly or the call is paid for and
+the file is lost.
 
 ## Quality bar
 
