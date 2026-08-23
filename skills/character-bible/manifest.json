@@ -1,0 +1,7 @@
+{
+  "name": "character-bible",
+  "version": "v1.0.0",
+  "description": "Locks a recurring character's identity so it survives across shots, scenes and episodes — a frozen token set, a fixed seed, and two reference stills (turnaround + hero) that every downstream prompt anchors on. Use when: \"keep the character consistent\", \"same character in every shot\", \"build a character bible/turnaround/reference sheet\", \"the character drifts between clips\", any project with a named recurring figure. Chain: consumes style.md's aesthetic block verbatim (style-system runs first); renders its two stills via frame-craft; hands the frozen CHARACTER_BLOCK + hero.png to video-prompting as the identity anchor for every clip. NOT for: the look/palette itself (use style-system), generating ordinary scene frames (use frame-craft), motion or clip prompts (use video-prompting), running a whole deliverable (use cinematic-video or character-episode).\n",
+  "generated_at": "2026-08-23T18:05:06.798Z",
+  "skill_md_sha256": "8578a3a0d4bd7f9030984f98e640fd313d42b2981cb6a177b16a40f5cee00958"
+}
