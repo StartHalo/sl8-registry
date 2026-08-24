@@ -1,0 +1,7 @@
+{
+  "name": "keyframe-scene",
+  "version": "v1.0.0",
+  "description": "Builds a multi-scene video where every scene is pinned at BOTH ends — you supply the first and last frame and the model interpolates between them, so reveals, morphs, transformations and precise state changes land exactly where you drew them. Use when: \"start here and end there\", \"the door opens / the logo assembles / the seasons change\", \"pin the first and last frame\", \"exact control over how a shot ends\", \"morph A into B\", any brief where the END of a shot matters as much as the start. Chain: a creation workflow — it orchestrates the domain skills (style-system, frame-craft, video-prompting, assembly-qc) and owns the project's plan.json + per-scene endpoint pairs. NOT for: a recurring character series (use character-episode), a narrated explainer (use explainer-video), a story cinematic where the shot end is not the point (use cinematic-video), or a single still (frame-craft directly).\n",
+  "generated_at": "2026-08-24T13:30:22.172Z",
+  "skill_md_sha256": "61152b58f031bdd51940b8275f0b7424d2f257e73328ca77b6be5ccfae3155d2"
+}
