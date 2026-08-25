@@ -56,6 +56,8 @@ them**. The plan laws are the studio's
 {
   "project": "slug", "premise": "one line", "aspect": "16:9",
   "style": "style.md",
+  "tier": "480p",
+  "audio": "silent",
   "scenes": [{
     "id": 1, "dur_s": 6,
     "from": "a plain wooden door, fully closed, flush with the wall",
@@ -70,6 +72,13 @@ them**. The plan laws are the studio's
 
 `from` and `to` are **descriptions of stills**, not of motion. `change` is the only motion
 language in the plan, and it is one clause.
+
+**`tier` and `audio` are declared here and asserted at delivery**, because R11 delivered
+`1280×704` against a 480p brief and a video-only MP4 against a Step 5 that promised AAC —
+and nothing compared either against an intention, because no intention was written down.
+`audio` is `silent` unless the engine's native audio is wanted (`native`); this workflow has
+no VO. See [`../assembly-qc/SKILL.md`](../assembly-qc/SKILL.md) § *When the piece has no
+audio at all* — a silent piece ships a silent AAC track, so "no audio stream" stays a finding.
 
 **`carry_end_forward`** is the multi-scene mechanism: when true, scene N's end frame becomes
 scene N+1's start frame — the same PNG, not a regenerated lookalike. That is what makes a
@@ -166,9 +175,16 @@ image, and a broken carry chain that will read as a jump cut in the finished pie
 
 ## Step 5 — Assemble & QC
 
-Per [`../assembly-qc/SKILL.md`](../assembly-qc/SKILL.md): normalize (24fps H.264/yuv420p +
-AAC), QC-01 input gate, concat, `loudnorm`. Output gates QC-10/11, frame extraction, contact
-sheet.
+Per [`../assembly-qc/SKILL.md`](../assembly-qc/SKILL.md): normalize (24fps H.264/yuv420p),
+QC-01 input gate, concat. **Audio follows the plan's declared `audio:`** — `silent` ships a
+silent AAC track and `loudnorm` is skipped with that stated; `native` runs the mix. A piece that
+declared `native` and arrived silent is a QC failure, not a shrug. Output gates QC-10/11, frame
+extraction, contact sheet.
+
+**QC-16 — delivered vs declared.** `ffprobe` the final and compare against the plan: the frame
+size must match `tier`, and the audio stream must match `audio`. Report both as numbers, not as
+adjectives. R11 shipped 1280×704 on a 480p brief and nobody noticed, because nothing was
+comparing the output to a stated intention.
 
 **QC-15 — endpoint fidelity. The check only this workflow can fail.** For every scene, extract
 the clip's **actual last frame** and compare it to the `to` frame you supplied. The parameter is
@@ -210,7 +226,8 @@ artifacts/<project>/
 Before Step 4 (any paid call): approved `plan.json`, `style.md`, both frames present per scene,
 the endpoint gate PASS, every `dur_s` inside the measured envelope, the rough cost stated.
 Before Step 6: every `scenes[].clip` present with its request id, QC-01/10/11 green, QC-15
-answered per scene, contact sheet and record on disk.
+answered per scene, **QC-16 answered (delivered size and audio stream vs the plan's declared
+`tier` and `audio`)**, contact sheet and record on disk.
 
 **A run missing any step artifact fails its grader regardless of the MP4.** Two identical
 failures at any paid step ⇒ change the prompt or the pair, never retry verbatim.
