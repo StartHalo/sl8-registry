@@ -58,13 +58,33 @@ frame, under a tight grammar that a video model cannot misread.
 
 | Job | Model (verify live: `ai-gen info <id>`) | Operative envelope (as-of 2026-07-22) |
 |---|---|---|
-| Single shot from a frame | `bytedance/seedance-2.0/fast/image-to-video` | `image_url` + `prompt`; `duration` **string enum** "4"–"15"/auto; `resolution` 480p/720p (**default 720p — set it**); `aspect_ratio` default auto (infers from frame); `generate_audio` default true, no surcharge; `end_image_url` listed in the live schema (first/last candidate — ◐ UNVERIFIED on our proxy, probe before relying) |
+| Single shot from a frame | `bytedance/seedance-2.0/fast/image-to-video` | `image_url` + `prompt`; `duration` **string enum** "4"–"15"/auto; `resolution` 480p/720p (**default 720p — set it**); `aspect_ratio` default auto (infers from frame); `generate_audio` default true, no surcharge; `end_image_url` **VERIFIED on our proxy 2026-08-24 (R10)** — pass it as `--last-frame`; the clip traverses from `--first-frame` to it. Proved with a neutral prompt so the end frame was the only possible cause, and it interpolated wall colour as well as subject state. This answers the Library's Hailuo-only framing for first/last work: our stack does not need Hailuo for it. Not yet characterised on hard cases (large displacement, incompatible framing, long durations) |
 | Multi-shot, character-consistent | `bytedance/seedance-2.0/fast/reference-to-video` | anchor refs as `@Image1…` (≤9; the 1-ref rule for identity); time-coded shot list; **measured ceiling ≤12s @480p / ≤10s @720p** — 15s returns 422 (uncharged, slow to fail) though schema and estimate claim 15s |
 | Draft/test batch | same, 4s @480p | 108 cr (~$0.43) — verified R02; cheap-tier first, promote winners |
 
 **The beat-table form** (multi-shot prompts): time-coded stages `[0-4s]: …` with varied
 stage lengths, no verb repeated on adjacent stages, one stillness beat before the payoff.
 Cap the final timestamp at the measured envelope, not the schema's claim.
+
+**The RUN-level ceiling — the contract capped calls and never capped runs.** `--max-cost`
+bounds one call; nothing bounded the total. R09 spent **2601 credits against an 800 credit
+brief** while obeying every rule below — right tier, inside the envelope, nothing retried
+verbatim — purely by re-rolling *different* prompts (`SHORTCOMINGS №11`).
+
+Before the first paid call of a run:
+
+1. **State the ceiling**, and take the number **from the approved plan**, not from a guess. R09's
+   800 was invented by the runner while the agent's own plan implied ~750 before a single
+   re-roll, so the cap was wrong before anything happened.
+2. **Track cumulative spend by balance delta** after every call — the same accounting the
+   contract already mandates, summed rather than read per-call.
+3. **Stop at the ceiling with what you have.** Deliver the scenes that exist, name the ones that
+   do not, and say what the next increment would cost. A partial piece with an honest ledger is
+   a result; a complete piece at 3× the brief is a bill nobody agreed to.
+
+Re-rolls are inside the ceiling, not on top of it. Two identical failures still mean change the
+prompt or parameters — but *n* different prompts that each fail once are exactly how a run
+overspends while every individual rule holds.
 
 **Paid-call contract — THE single home.** Every other skill in this suite links here; none
 restates it. If you are about to write these rules somewhere else, link instead.
