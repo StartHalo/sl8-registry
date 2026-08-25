@@ -45,10 +45,33 @@ the same chain.
    unreliable word timings), drawn via drawtext/subtitles with the packed fonts.
 5. **Export** 24fps H.264/yuv420p + AAC 48k unless the platform demands otherwise.
 
+## When the piece has no audio at all
+
+This chain is **audio-anchored** — step 1 stretches visuals to audio, step 3 mixes under VO —
+and until 2026-08-24 it had no branch for a piece that has neither. `keyframe-scene`'s first run
+delivered a video-only MP4 while its own Step 5 promised AAC, and nothing caught the gap because
+the export line reads as unconditional (`SHORTCOMINGS №14`).
+
+**Decide and declare, never paper over.** The plan states the piece's audio intent; this step
+holds it to that:
+
+| plan declares | sources carry audio | do |
+|---|---|---|
+| `audio: vo` or `native` | yes | the chain above, unchanged |
+| `audio: silent` | no | export **with a silent AAC track** (`-f lavfi -i anullsrc=r=48000:cl=stereo -shortest`) and say so in the record |
+| `audio: vo` or `native` | **no** | **QC failure.** The piece was supposed to have sound and does not — that is a generation or download defect upstream, not something to fix here |
+| unstated | either | stop and ask; an unstated audio intent is a plan that was never finished |
+
+The silent track is not decoration. It keeps the ffprobe gate below meaningful (a real check,
+not one skipped for this piece), keeps the export contract literally true, and makes a silent
+deliverable a **deliberate** silent deliverable rather than an accident nobody noticed.
+
 ## Verification (agents cannot watch MP4s)
 
 - **ffprobe gate**: codecs h264+aac, duration within ±0.5s of the anchored plan, stream
-  count right.
+  count right. **`aac` is asserted for every piece**, including a silent one — a silent piece
+  carries a silent track, so "no audio stream" is always a finding and never a shrug. Quote the
+  plan's declared `audio:` beside the probe output, so intent and reality are read together.
 - **Frame extraction**: pull 4–6 stills spanning the piece (`-ss <t> -vframes 1`); check
   headline legibility/stability and look continuity at the extracted frames.
 - **Contact sheet**: `montage` the stills (the eyeball artifact — attach it to the run
@@ -74,7 +97,8 @@ documented.** A new failure becomes a row within 48h (P4).
 ## Quality bar
 
 - [ ] Every timing traces to a measured number; no video was stretched/retimed.
-- [ ] Loudness normalized (−16 LUFS / −1.5 dBTP); VO clearly above the bed.
+- [ ] Loudness normalized (−16 LUFS / −1.5 dBTP); VO clearly above the bed — **or** the plan
+      declares `audio: silent` and a silent AAC track is present, stated in the record.
 - [ ] Captions/logo pixel-exact from authored sources; zero generated text in overlays.
 - [ ] ffprobe gate green; frames extracted; contact sheet produced and attached.
 - [ ] All artifacts under `artifacts/<project>/` per the layout contract.
