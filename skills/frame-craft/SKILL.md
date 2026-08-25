@@ -78,6 +78,31 @@ The only frame-specific addition: keep `local_path` for every downloaded frame �
 [`plan-contract.md`](../video-prompting/references/plan-contract.md) carries it forward to the
 motion step, and hosted URLs expire before assembly runs.
 
+## Library methods this skill defers to
+
+Two decided Library playbooks overlap this skill directly and had no path into the suite
+(`SHORTCOMINGS №6`). They are **cited, not restated** — a second copy drifts from the first, and
+the Library is where their track record is kept.
+
+- **[`library/wiki/playbooks/cinema-stills.md`](../../../../library/wiki/playbooks/cinema-stills.md)
+  — the SCLCAM prompt method.** Six ordered axes (Shot · Camera motion · Lens · Lighting ·
+  Atmosphere · Color) against the free-form scene sentence in *Prompt build order* above. Reach
+  for it when a frame needs deliberate camera language — a keyframe pair's endpoints especially,
+  where framing must be held identical while one variable changes.
+  **Status: `unrated`, never run as a standalone method.** Treat it as a better-structured
+  starting point, not a measured improvement, and say so if a run leans on it.
+
+- **[`library/wiki/playbooks/typography-text-render.md`](../../../../library/wiki/playbooks/typography-text-render.md)
+  — the literal-text card.** Exact copy in quotes with per-line font/weight/placement, brand
+  colours restated as hex, copy kept short because glyph accuracy degrades with density, and
+  text-only changes iterated one at a time. **Measured 9.5/10 in the explainer pipeline** —
+  though the playbook is honest that it has not been run as a standalone method.
+  This is more specific than the `Bold {type_style} headline: "{TEXT}"` line in *Prompt build
+  order*, and where the two disagree on a text-heavy frame, **follow the playbook.**
+
+Neither replaces the verbatim-aesthetic-block law: the style block is still pasted unchanged and
+only the scene, background and headline vary per frame.
+
 ## Quality bar
 
 - [ ] Aesthetic block diff-identical to `style.md`'s.
