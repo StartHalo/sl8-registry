@@ -50,7 +50,7 @@ is the tie-breaker.
 | 2 | names an **episode number, a channel, or "the same character as last time"** | `character-episode` | continuity across pieces is a different problem from making one piece |
 | 3 | asks for **narration, a voiceover, a script, or "explain"** | `explainer-video` | it is the only workflow with a VO spine; the others are engine-audio or silent |
 | 4 | pins **how a shot ENDS** — a reveal, a morph, "start here and end there", "A becomes B", a transformation, or the user says they can **describe the final image** | `keyframe-scene` | the end state is a supplied input, not an outcome |
-| 5 | is a **story, scene, or action piece with a character** and no narration | `cinematic-video` | one locked identity across shots, engine-native audio |
+| 5 | is a **story, scene, or action piece with a character**, no narration, **and the ending is NOT specified** | `cinematic-video` | one locked identity across shots, engine-native audio |
 | 6 | names a subject but **no deliverable shape** | **ask one question** (below) | guessing spends money |
 
 **A character in the brief does not demote row 4.** "My robot character starts rusted and ends

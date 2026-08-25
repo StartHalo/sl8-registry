@@ -1,7 +1,7 @@
 {
   "name": "video-router",
-  "version": "v1.1.0",
+  "version": "v1.2.0",
   "description": "The front door of the video studio. Reads a brief, detects whether an existing project is being resumed, picks exactly ONE creation workflow, installs it if needed, and hands over — it makes nothing itself. Use when: any video request arrives without a workflow already chosen, \"make me a video\", \"can you do X\", an ambiguous brief, or a returning user whose project is already on disk. Chain: routes to explainer-video, cinematic-video, character-episode or keyframe-scene, then stops. NOT for: doing the work (every workflow owns its own runbook), craft decisions of any kind, or overriding a workflow the user named explicitly — if they said which one, use it.\n",
-  "generated_at": "2026-08-25T05:53:51.840Z",
-  "skill_md_sha256": "44f4dd00240e99ee158c666329f5b9576867e792f74e6d21510fad37ad3c5d84"
+  "generated_at": "2026-08-25T06:04:32.048Z",
+  "skill_md_sha256": "212ff7aeb71429e4d5a63114f418e9e3dcc4f9372930adc2208e14a1f63c6fed"
 }
