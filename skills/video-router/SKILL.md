@@ -49,9 +49,16 @@ is the tie-breaker.
 | 1 | names a workflow outright ("use cinematic-video") | that one | an explicit choice is never overridden |
 | 2 | names an **episode number, a channel, or "the same character as last time"** | `character-episode` | continuity across pieces is a different problem from making one piece |
 | 3 | asks for **narration, a voiceover, a script, or "explain"** | `explainer-video` | it is the only workflow with a VO spine; the others are engine-audio or silent |
-| 4 | pins **how a shot ENDS** — a reveal, a morph, "start here and end there", "A becomes B", a transformation | `keyframe-scene` | the end state is a supplied input, not an outcome |
+| 4 | pins **how a shot ENDS** — a reveal, a morph, "start here and end there", "A becomes B", a transformation, or the user says they can **describe the final image** | `keyframe-scene` | the end state is a supplied input, not an outcome |
 | 5 | is a **story, scene, or action piece with a character** and no narration | `cinematic-video` | one locked identity across shots, engine-native audio |
-| 6 | none of the above | **ask one question** (below) | guessing spends money |
+| 6 | names a subject but **no deliverable shape** | **ask one question** (below) | guessing spends money |
+
+**A character in the brief does not demote row 4.** "My robot character starts rusted and ends
+polished" fires rows 4 and 5 both, and row 4 wins — it is listed first for exactly this case.
+The presence of a character is not what separates these two workflows; **whether the final image
+is supplied** is. `keyframe-scene` holds a character across a pair of frames perfectly well.
+This is the router's most-missed row: on its first eval it read "my robot character" as row 5
+and lost the endpoint signal entirely.
 
 ### The three overlaps that actually happen
 
@@ -68,7 +75,21 @@ see what happens, it is `cinematic-video`.
 "explain" without narration is usually still `explainer-video`, because its boards-first spine
 is built for exposition. Confirm rather than assume; this one is genuinely close.
 
-### When nothing matches
+### When nothing matches — and this branch is easier to skip than it looks
+
+A brief can be perfectly clear about its **subject** and say nothing about its **shape**. Those
+are not the same thing, and only shape routes.
+
+> *"Can you make me a video about my coffee shop?"*
+
+That has a subject. It has no narration, no character, no end state, no episode — nothing any
+row keys on. It is **row 6**, and on the router's first eval it was answered `explainer-video`
+instead, because a coffee-shop video *sounds* like something explainer-video could do. Every
+workflow sounds like something. Plausibility is not a routing signal.
+
+**The test:** strike out the subject matter and re-read the brief. If what remains names no
+narration, no recurring character, no supplied end frame and no episode, there is nothing to
+route on — ask. A one-line question costs a message; a wrong route costs a generation budget.
 
 Ask **one** question, offering the four doors in plain language — not their skill names:
 
@@ -112,5 +133,9 @@ your own words is how a router smuggles craft decisions downstream.
 - [ ] Disk was checked before the brief was read; any existing project was named back.
 - [ ] Exactly one workflow chosen, and the reason stated in a clause.
 - [ ] The choice traces to a numbered row of the routing table, not to a vibe.
+- [ ] If a character appeared in the brief, row 4 was considered BEFORE row 5 — a character
+      does not demote an endpoint brief.
+- [ ] If the brief named only a subject and no shape, row 6 was taken. Plausibility is not
+      a routing signal; every workflow sounds like it could do anything.
 - [ ] Zero paid calls. Zero artifacts written under `artifacts/`.
 - [ ] Handed over without restating, re-planning, or pre-empting the workflow's own Step 0.
