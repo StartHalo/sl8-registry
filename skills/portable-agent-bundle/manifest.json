@@ -1,0 +1,7 @@
+{
+  "name": "portable-agent-bundle",
+  "version": "v1.0.0",
+  "description": "Assemble and verify one canonical SL8 bot context for execution through any supported harness. Use whenever a task needs AGENTS.md/CLAUDE.md portability, setup/user/memory prompt layering, complete skill projection, an immutable bundle archive, or bundle/effective-skill receipts—even if the user only says “run this bot with Codex instead of Claude” or “why is this skill missing in Cursor/OpenCode?” Do not use to choose a provider/model tuple; use harness-selection for that.\n",
+  "generated_at": "2026-08-27T09:19:58.129Z",
+  "skill_md_sha256": "ef4109569d95e12f7b57d9c5545aa2489a60b78f9ecf46ceeed05dd016cdb1ed"
+}
