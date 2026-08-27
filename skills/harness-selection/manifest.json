@@ -1,0 +1,7 @@
+{
+  "name": "harness-selection",
+  "version": "v1.0.0",
+  "description": "Inspect harness readiness and select one exact certified harness/mode/provider/model tuple before an SL8 run can spend. Use for “which harness can run this?”, Claude-to-Codex/OpenRouter routing, installed-versus-usable diagnosis, capability requirements, image/template trust, rollback, or any request to change harness/provider/model. Do not use to assemble bot files or skill closure; use portable-agent-bundle after selection.\n",
+  "generated_at": "2026-08-27T09:19:29.059Z",
+  "skill_md_sha256": "29b46b6c471185c5349881e3b4f7b6e0edeac64b1ff0efdfd961dc9287440938"
+}
