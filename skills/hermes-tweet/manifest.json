@@ -1,0 +1,33 @@
+{
+  "name": "hermes-tweet",
+  "version": "v1.0.0",
+  "description": "Use Hermes Tweet from Hermes Agent for X/Twitter search, social listening, launch monitoring, publishing, monitors, webhooks, media, draws, and trends through Xquik.",
+  "inputs": [
+    {
+      "name": "request",
+      "type": "text",
+      "description": "The X/Twitter task, endpoint discovery request, read query, or approved action the user wants to perform.",
+      "required": true
+    },
+    {
+      "name": "hermes-runtime",
+      "type": "environment",
+      "description": "Hermes Agent runtime with the `hermes-tweet` plugin installed and `XQUIK_API_KEY` configured for authenticated reads.",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "endpoint-plan",
+      "type": "markdown",
+      "description": "The selected `tweet_explore`, `tweet_read`, or approved `tweet_action` path with concise reasoning."
+    },
+    {
+      "name": "result-summary",
+      "type": "markdown",
+      "description": "A concise summary of X/Twitter data, monitoring setup, or approved action result."
+    }
+  ],
+  "generated_at": "2026-06-29T03:13:45.133Z",
+  "skill_md_sha256": "3ff6668441d4936f6bac59e00d3b130773bf4f3af714b597b73cc76df4a1da04"
+}
