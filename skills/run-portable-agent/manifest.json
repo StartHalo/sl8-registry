@@ -1,0 +1,7 @@
+{
+  "name": "run-portable-agent",
+  "version": "v1.0.0",
+  "description": "Execute an SL8 agent brief end to end through a certified harness/provider/model tuple and deliver a durable run-evidence packet. Use when the user asks to run, resume, reconnect, cancel, fan out, prove, or compare a portable bot across Claude, Codex, Pi, OpenAI Agents SDK, or another supported harness. Do not use for catalog advice, bundle assembly alone, or grading an already-finished packet; route those to the owning lower-tier skill.\n",
+  "generated_at": "2026-08-27T09:20:47.972Z",
+  "skill_md_sha256": "8cad45579aa800a041f000291573500fff3c7a17a52e5002939182257cf8be71"
+}
