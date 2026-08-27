@@ -1,0 +1,7 @@
+{
+  "name": "portable-execution-contract",
+  "version": "v1.0.0",
+  "description": "Enforce and grade the harness-neutral SL8 run contract after a tuple and agent bundle are selected. Use for RunSpec construction, normalized event/state handling, evidence-packet validation, reconnect or cancellation truth, lifecycle receipts, multi-agent bounds, legacy output compatibility, or named portable QC failures. Do not choose a harness/model or assemble the bundle here; use harness-selection and portable-agent-bundle first.\n",
+  "generated_at": "2026-08-27T09:20:23.309Z",
+  "skill_md_sha256": "c03cb785adc81e427f4c906c138d910536ab19e97efbf43813e1b22a53cb0f49"
+}
