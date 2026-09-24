@@ -1,0 +1,7 @@
+{
+  "name": "revise-sl8-job",
+  "version": "v1.0.0",
+  "description": "Changes how an SL8 bot does one of its jobs from now on, when the person asks for a lasting change such as dropping a section, adding a field or changing a rule. Finds the skill that does that job, edits it in place with skill-creator, validates it, and records what changed and why. Use when the request is to change how the bot works, not to produce a deliverable. Never changes the platform's standard skills or the bot's setup.",
+  "generated_at": "2026-09-24T01:58:34.118Z",
+  "skill_md_sha256": "a62ca5a548b66396fe77d4387f6b2d79ebc6158a86691219f2624e7dcd3ada35"
+}
