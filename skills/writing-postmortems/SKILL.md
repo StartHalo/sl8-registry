@@ -8,14 +8,13 @@ description: Turns a raw incident record — alerts, chat scroll-back, deploy lo
 A capable model already reconstructs a timeline and writes readable prose. This skill exists for the
 six things that go wrong without it, each measured on this machine rather than assumed.
 
-## Read the workspace context first
+## Settings
 
-If `.agents/incident-context.md` exists — or `.claude/incident-context.md` — read it before asking
-anything, and ask only for what it does not cover. It carries `timezone`, `doc_name`, `sections`,
-`severity_vocab`, `tracker`, `deadline` and `draft_marker`.
-
-**When it is absent, take the defaults below and say which you took.** Never block on a missing
-field. The one exception is `timezone`, which has no default — see step 1.
+This skill uses four settings: `timezone`, `doc_name`, `sections` and `draft_marker`. For each, use
+the value the request gives; else a filled-in line under `## Settings` in `bot/user.md`, which is
+already loaded; else the default at the end of this file. **Say in the draft which value you used
+for each setting and where it came from** — the request, `bot/user.md`, or the default. Never block
+on a missing setting. The one exception is `timezone`, which has no default — see step 1.
 
 ## The workflow
 
@@ -38,7 +37,7 @@ scroll-back and hand-typed status notes usually do not.
 
 - Put **every** event on one timeline in **explicit UTC**, in order.
 - For a value that already carries an offset or `Z`, convert it and move on.
-- For a bare local time, use `timezone` from the workspace context. **If `timezone` is not set, do
+- For a bare local time, use `timezone`. **If `timezone` is not set, do
   not guess it** — list those events as unplaced (step 2) and say the timeline is incomplete
   without it. A guessed zone silently mis-orders the timeline, which is worse than an absent event
   because it looks correct.
@@ -106,18 +105,18 @@ that has not happened.
 Before finishing, confirm: every required section present · impact carries real numbers · 2-5
 contributing factors, none of them a person · every action item has one name and one date · the
 discarded hypotheses are still in the timeline · unplaced events are listed · the draft label is on
-· defaults you took are stated.
+· the source of each setting is stated.
+
+If any events are unplaced for want of a `timezone`, the job is `partial`, not `delivered`: say so,
+and say that a timezone would place them.
 
 Then stop. Filing the tickets, choosing a deadline and approving the document belong to people.
 
-## Defaults when the workspace context is absent
+## Defaults
 
-| Field | Default |
+| Setting | Default |
 |---|---|
 | `timezone` | **none** — bare local times are listed as unplaced rather than guessed |
 | `doc_name` | `POSTMORTEM.md` |
-| `sections` | the six above |
-| `severity_vocab` | `SEV-1 · SEV-2` |
-| `tracker` | none — action items live in the document |
-| `deadline` | none — it belongs to the owner, and organisations disagree on it |
+| `sections` | the six above; a customer's value is a comma-separated list of headings, in order |
 | `draft_marker` | draft |

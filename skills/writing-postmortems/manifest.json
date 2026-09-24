@@ -1,7 +1,7 @@
 {
   "name": "writing-postmortems",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turns a raw incident record — alerts, chat scroll-back, deploy logs, hand-typed status updates and personal notes — into a blameless postmortem with a reconciled timeline, quantified impact, systemic contributing factors, and action items that each name one person and one date. Use when someone says they had an outage or an incident and needs it written up, asks for a postmortem or a post-incident review, or pastes a mix of pager alerts and chat messages after something broke.",
-  "generated_at": "2026-09-22T18:01:25.678Z",
-  "skill_md_sha256": "657a9901f4420c5e1b53160f62652ce1e5fcbafb9b0a0cc522c0da0027614124"
+  "generated_at": "2026-09-24T02:09:51.863Z",
+  "skill_md_sha256": "109eec15b4c59dc88de3703ed6a6ee2b607b0b0ff89d8753e207096526fd282d"
 }
