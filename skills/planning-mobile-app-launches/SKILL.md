@@ -5,7 +5,7 @@ description: Creates and maintains an evidence-labelled mobile-app launch strate
 
 # Planning mobile-app launches
 
-**Version:** 1.0.0
+**Version:** 1.0.2
 
 This skill turns a mixed or sparse case file into one review-ready strategy and the durable state
 needed to continue it later. It recommends; it does not approve, publish, spend, operate a store or
@@ -32,7 +32,10 @@ source: `request`, `bot/user.md`, or `default`.
 ## Working rules
 
 - Keep the boundary to one declared launch. Do not silently widen strategy work into release
-  management, asset production, or campaign operation.
+  management, submission or release execution, asset production, or campaign operation. A
+  strategy can name a human-owned readiness condition or approval handoff; it must not become a
+  runbook that directs the agent to upload a build, submit an app, change a listing, activate a
+  campaign, spend money, or communicate externally.
 - Preserve each value's input-contract status label; also distinguish a supplied fact, human
   decision, derived recommendation, assumption, conflict, and unresolved question.
 - Continue autonomously. Put high-consequence questions in the record, then use labelled hypotheses
@@ -102,6 +105,10 @@ Copy this checklist into the working context and complete it in order.
 - A named interview set, survey, analytics export, attachment, or URL is not evidence read unless
   its contents were actually available. Record unavailable contents rather than inferring themes
   from a filename or count.
+- Counts describe volume only. Never infer consent, opt-in status, warmth, engagement, sentiment,
+  themes, demand, or audience fit from the size of a contact list, response count, filename, or
+  unread attachment. Use those properties only when the supplied material explicitly establishes
+  them; otherwise label them `unknown` and state what material must be read or verified.
 - Separate observation from inference and hypothesis. State what evidence would confirm or reverse
   the audience choice.
 
@@ -112,6 +119,10 @@ Copy this checklist into the working context and complete it in order.
   timing, and policy state with applicable official requirements.
 - State what is supplied, what an official source supports, and what remains to be verified in the
   relevant console. Never claim console access or verification.
+- Fetch and read the underlying source page before using it for a factual claim. Search-result text, a URL,
+  a page title, prior model knowledge, or another document's citation is discovery evidence only.
+  Confirm that the inspected page supports the exact claim, scope, number, date, and platform version;
+  otherwise omit the claim or label it as an unverified hypothesis or unknown.
 - Cite official Apple sources for App Store claims and official Google sources for Google Play
   claims. If no platform is known, provide a platform-selection verification gap instead of
   store-specific advice.
@@ -168,7 +179,9 @@ Copy this checklist into the working context and complete it in order.
 - Use relative sequencing when the date is unknown. If an immovable date is supplied, work backward and
   identify readiness conditions that threaten it.
 - Keep publication, store changes, campaign activation, spend, and external communication as
-  human-owned acts. The strategy may prepare the decision surface but cannot perform the act.
+  human-owned acts. The strategy may prepare a decision surface and identify who must act, but it
+  cannot perform, simulate, or direct the agent to perform release operations. Stop the agent's
+  work at the recommendation, verification request, or approval handoff.
 
 ### UC1.10 · Build the measurement and learning loop
 
@@ -185,19 +198,29 @@ Copy this checklist into the working context and complete it in order.
 ### UC1.11 · Assemble, self-check, persist, and render
 
 1. Build the canonical strategy to the `## Strategy contract` below.
-2. Build the compact current state to the `## State contract` below.
-3. Write a new immutable snapshot before replacing an existing current state. Never rewrite an old
-   snapshot.
+2. Build the compact current state to the `## State contract` below. Hold one finalized resulting
+   state body as the source for both persisted state files; do not independently summarize it for
+   the snapshot.
+3. Write a new immutable snapshot before replacing an existing current state. The snapshot must
+   begin with the complete resulting `STATE.md` body byte-for-byte, then append its snapshot-only
+   `Delta` section. Replace `STATE.md` with those same resulting-state bytes. Never rewrite an old
+   snapshot, and never describe the two files as identical because the snapshot also contains the
+   delta unless a mechanical whole-file comparison actually proves identity.
 4. Append one log entry; never replace or reorder earlier entries.
 5. Refresh `LAUNCH_MARKETING_STRATEGY.md` from the current state and decision chain.
 6. Run the self-check. Repair any safe defect before ending.
 
 Self-check: all 14 settings and sources disclosed · all 14 normalized groups preserved with status
-and provenance · one-launch boundary clear · external claims cited · unread material identified ·
-platform branches correct · facts and recommendations distinct · choices prioritized · rejected
-alternatives visible · owners and approvals explicit · authority never inferred · operating path
-feasible · measures defined · change rules present · strategy and state agree · version advanced ·
-snapshot immutable · log appended · delta stated · no template markers remain.
+and provenance · one-launch boundary clear · no release-operation execution assigned to the agent ·
+every factual external claim cites an underlying page whose contents were fetched, read, and verified to support the
+exact claim, scope, number, date, and platform version · search snippets and unread material are not
+treated as read evidence · list and response counts do not imply consent, warmth, engagement,
+sentiment, themes, demand, or fit · platform branches correct · facts and recommendations distinct ·
+choices prioritized · rejected alternatives visible · owners and approvals explicit · authority
+never inferred · operating path feasible · measures defined · change rules present · strategy and
+state agree · version advanced · every current-state section and entry appears in the snapshot's
+resulting-state prefix · that prefix mechanically matches the final `STATE.md` bytes · snapshot
+immutable · log appended · delta stated · no template markers remain.
 
 If an unknown, conflict, unavailable source, or absent authority prevents a safe unique choice,
 still write the complete conditional record and report the job as `partial`. Otherwise report it as
@@ -234,10 +257,12 @@ Maintain these paths under `artifacts/<project>/launch-state/`:
   authorized observations; conflicts, questions, risks, and next resume point.
 - `LOG.md` — append-only entries with timestamp, resulting version, requested mode, sources read,
   decisions added or changed, approval events, observations added, unresolved gaps, and outcome.
-- `VERSION-<version>.md` — immutable snapshot of the resulting state for this invocation, including
-  a `Delta` section against the prior version. Keep the snapshot directly under `launch-state/`;
-  never create a nested `versions/` directory. Use the literal `VERSION-` prefix followed by the
-  monotonically increasing integer, for example `VERSION-1.md`.
+- `VERSION-<version>.md` — immutable snapshot of the resulting state for this invocation. Its prefix
+  is the complete `STATE.md` content byte-for-byte, not a digest or abbreviated restatement. After
+  that complete state, append a snapshot-only `Delta` section against the prior version. Verify the
+  prefix mechanically after writing. Keep the snapshot directly under `launch-state/`; never create
+  a nested `versions/` directory. Use the literal `VERSION-` prefix followed by the monotonically
+  increasing integer, for example `VERSION-1.md`.
 
 Use a monotonically increasing version. A new invocation always creates a new snapshot and log
 entry, even when the delta is “status checked; no authorized factual change.” Never turn a proposed
@@ -247,6 +272,11 @@ observed, and what remains unresolved.
 ## Evidence and platform rules
 
 - Cite external facts close to the claim. A citation must support the specific statement made.
+- Fetch and read each cited underlying page, then verify that it supports the exact factual claim before the
+  claim enters any artifact. Search snippets and link discovery do not satisfy this rule. If the
+  page cannot be accessed or does not support the claim's scope, number, date, or platform version,
+  omit the claim or mark it explicitly as an unverified hypothesis or unknown; do not preserve it
+  as a fact merely because a plausible URL exists.
 - Official platform documentation controls platform behavior; secondary sources may explain craft
   but cannot override a platform contract.
 - For Apple branches, distinguish supplied readiness from App Store Connect verification and use
