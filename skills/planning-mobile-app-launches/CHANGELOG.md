@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-09-26
+### Added
+- Release planning-mobile-app-launches v1.0.1.
+
 ## [v1.0.0] — 2026-09-26
 ### Added
 - Initial release (planning-mobile-app-launches).
