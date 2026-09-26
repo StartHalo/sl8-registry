@@ -234,8 +234,10 @@ Maintain these paths under `artifacts/<project>/launch-state/`:
   authorized observations; conflicts, questions, risks, and next resume point.
 - `LOG.md` — append-only entries with timestamp, resulting version, requested mode, sources read,
   decisions added or changed, approval events, observations added, unresolved gaps, and outcome.
-- `versions/<version>.md` — immutable snapshot of the resulting state for this invocation, including
-  a `Delta` section against the prior version.
+- `VERSION-<version>.md` — immutable snapshot of the resulting state for this invocation, including
+  a `Delta` section against the prior version. Keep the snapshot directly under `launch-state/`;
+  never create a nested `versions/` directory. Use the literal `VERSION-` prefix followed by the
+  monotonically increasing integer, for example `VERSION-1.md`.
 
 Use a monotonically increasing version. A new invocation always creates a new snapshot and log
 entry, even when the delta is “status checked; no authorized factual change.” Never turn a proposed
