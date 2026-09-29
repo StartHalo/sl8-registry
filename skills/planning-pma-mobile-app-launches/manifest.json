@@ -1,0 +1,7 @@
+{
+  "name": "planning-pma-mobile-app-launches",
+  "version": "v1.0.0",
+  "description": "Plans and maintains a mobile-app launch-marketing engagement using the Product Marketing Alliance launch framework and supplied evidence. Use when the user asks to create a launch strategy, continue an unfinished plan, incorporate changed evidence, report saved launch readiness/status, or close the planning engagement. Delivers customer documents and versioned state through the bundled launch-state CLI; does not browse, spend, contact, submit, launch, or publish.",
+  "generated_at": "2026-09-29T15:52:06.756Z",
+  "skill_md_sha256": "962278f4f45d60d096f5a15b04a47e19628b94921bf336f9fcac10f5beb774b5"
+}
