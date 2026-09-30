@@ -1,7 +1,7 @@
 {
   "name": "analysing-app-situation",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Analyses where a consumer health or wellness app stands today — audience segments, up to five competitors from their store listings, the app's own growth levers, and health-policy factors — as the Situation step (S1) of a SOSTAC marketing plan, and writes the M1 Situation milestone. Run by the app marketing router; use it whenever the router names step S1 for a plan or a launch campaign.",
-  "generated_at": "2026-09-30T19:44:21.370Z",
-  "skill_md_sha256": "cfe868b16a29f6d0ba649218125337e4cde0333c06419eb411730c249bca56ad"
+  "generated_at": "2026-09-30T20:12:20.364Z",
+  "skill_md_sha256": "350ef64b69f82f374a636f4f284dada76f93f011344a3b20dbe9a16f3eb575c0"
 }
