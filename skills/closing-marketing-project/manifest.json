@@ -1,7 +1,7 @@
 {
   "name": "closing-marketing-project",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Closes a consumer health app's marketing plan or launch campaign with an honest summary — what was planned, what the person reported was done and achieved, and what stays open — without claiming any result that wasn't supplied. Run by the app marketing router for the Close job.",
-  "generated_at": "2026-09-30T19:47:20.231Z",
-  "skill_md_sha256": "926db8487836b9bd4ab472ca692dcda306eeb336451c3e6b69618242021d43d3"
+  "generated_at": "2026-09-30T20:14:11.166Z",
+  "skill_md_sha256": "7c5d330dd184de96e568aaf6b5ecd7c3c24edad759d06879bd2187e17a1a9736"
 }
