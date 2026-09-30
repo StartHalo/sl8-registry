@@ -1,0 +1,7 @@
+{
+  "name": "reviewing-marketing-results",
+  "version": "v1.0.0",
+  "description": "Reviews a consumer health app's marketing plan against the results the person supplies — what was done versus what it achieved for each objective, which assumptions broke, next ideas scored by impact, confidence and ease — and names which SOSTAC steps to redo, writing the M5 Review milestone. Run by the app marketing router when a plan is updated with results or figures.",
+  "generated_at": "2026-09-30T19:46:22.597Z",
+  "skill_md_sha256": "f6e90a4ab51808707180766e310f577c952268e9fb7aeeeb552f075000b79507"
+}
