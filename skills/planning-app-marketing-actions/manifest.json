@@ -1,7 +1,7 @@
 {
   "name": "planning-app-marketing-actions",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turns an approved marketing strategy for a consumer health or wellness app into tactics, a week-by-week action plan and measures — channels by journey stage, a Bullseye top three to test, store search (ASO) actions, the brand and performance split, owners and weeks, a resource table against the budget, and metrics with a review date — as the Tactics, Actions and Control steps (S4–S6) of a SOSTAC plan; then assembles the full marketing plan (or a launch campaign plan) and its milestone. Run by the app marketing router whenever it names S4, S5 or S6.",
-  "generated_at": "2026-09-30T19:45:27.609Z",
-  "skill_md_sha256": "8b14c89872b577dc7c91a1710101e1b02269508a06539a2149cf8322c91288cf"
+  "generated_at": "2026-09-30T20:13:21.256Z",
+  "skill_md_sha256": "e56d9d1073a91e702e24e917afb42ee5c5b47ca2531433a6a7a09016723e1438"
 }

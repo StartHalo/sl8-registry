@@ -35,7 +35,7 @@ version, the settings (horizon, leadership summary) and any change. Work inside
    and what to do if it dips; the review date (end of the review cadence). Separate outputs
    (what was done) from outcomes (what it achieved), as AMEC does. Write `06-control.md`.
 4. **Assemble** the plan document (below).
-5. **Milestone:** M3 for a plan, M4 for a campaign. Then stop. The router checks the files.
+5. **Milestone:** M3 for a plan, M4 for a campaign. Then hand back to the router (see the end of this skill).
 
 Only a person spends, posts, changes the listing or contacts anyone: write those as actions for
 the owner role, with draft text. Never set a launch date the person didn't give.
@@ -83,3 +83,9 @@ decisions when there are none.
 - Campaign: `deliverables/M4-campaign-<project>.md`, covering the whole campaign (S1–S6).
 
 Both in the layout in [references/deliverables.md](references/deliverables.md).
+
+## When this skill is done
+
+This skill is one step of a job, never the whole job. When its files are written, hand back to
+the app marketing router and carry on with step 4 of the router's run loop (the check).
+Don't end the job here: don't write the final reply, `STATUS.md` or `outcome.json`.
