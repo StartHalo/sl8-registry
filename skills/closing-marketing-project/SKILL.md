@@ -30,4 +30,10 @@ Rules:
 - Claim no result that wasn't supplied. "Retention target: no figure supplied" is right;
   "retention improved as planned" without a figure is wrong.
 - Change nothing that exists: no step file, plan, deliverable or `state.md`.
-- Then stop. The router marks the project closed.
+- Then hand back to the router, which marks the project closed (see the end of this skill).
+
+## When this skill is done
+
+This skill is one step of a job, never the whole job. When its files are written, hand back to
+the app marketing router and carry on with step 4 of the router's run loop (the check).
+Don't end the job here: don't write the final reply, `STATUS.md` or `outcome.json`.
