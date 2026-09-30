@@ -27,7 +27,7 @@ the project folder, the steps, the scope and any change. Work inside `artifacts/
 3. **Critique pass:** argue against the draft; fix it; record the critique.
 4. **Decisions for the person:** each strategy choice as "proposed: approve or change" (target,
    positioning, each objective's target). Write `03-strategy.md`.
-5. **M2** (plan scope only), then stop. The router checks the files.
+5. **M2** (plan scope only), then hand back to the router (see the end of this skill).
 
 The person approves the strategy; you propose it. Never invent a baseline.
 
@@ -65,3 +65,9 @@ target, message and obstacle, inside the parent plan's positioning when there is
 `deliverables/M2-strategy.md`, in the layout in
 [references/deliverables.md](references/deliverables.md). It opens with the target and what is
 ruled out, so a reader sees the choice in the first lines. In campaign scope, write no M2.
+
+## When this skill is done
+
+This skill is one step of a job, never the whole job. When its files are written, hand back to
+the app marketing router and carry on with step 4 of the router's run loop (the check).
+Don't end the job here: don't write the final reply, `STATUS.md` or `outcome.json`.

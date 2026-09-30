@@ -1,7 +1,7 @@
 {
   "name": "setting-app-marketing-strategy",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Sets a consumer health or wellness app's marketing objectives and strategy — at most three SMART objectives on the app funnel, a north-star metric, 1–3 target segments, positioning tested with the 3Cs, the one real obstacle, and what is ruled out — then critiques it as a dissenter, as the Objectives and Strategy steps (S2–S3) of a SOSTAC plan, and writes the M2 Strategy milestone. Run by the app marketing router whenever it names S2 or S3.",
-  "generated_at": "2026-09-30T19:44:55.045Z",
-  "skill_md_sha256": "de2ffa2dd3b0fcbd915e570b89f404d6a576fb4b37bd60a4962d52e573a459ff"
+  "generated_at": "2026-09-30T20:12:54.101Z",
+  "skill_md_sha256": "d44d187d751ca4d50ea0fa4cf0a7dde1f1b142355c12213ae041d48756e2bdd8"
 }
