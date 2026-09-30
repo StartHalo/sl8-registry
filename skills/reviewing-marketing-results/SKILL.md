@@ -23,7 +23,7 @@ tells you the project folder. Work inside `artifacts/<project>/`.
 2. The assumptions and findings the results broke, each with the figure that broke it.
 3. Next ideas, scored with ICE (at most 7).
 4. The steps to redo, each with its reason, or "none: the plan stands".
-5. Write `deliverables/M5-review-<date>.md` (today's date), then stop. The router reads
+5. Write `deliverables/M5-review-<date>.md` (today's date), then hand back to the router (see the end of this skill). The router reads
    `## Steps to redo` and reopens the plan from there.
 
 ## `deliverables/M5-review-<date>.md`
@@ -38,3 +38,9 @@ tells you the project folder. Work inside `artifacts/<project>/`.
 ```
 
 Never change the plan, the step files or `state.md` yourself.
+
+## When this skill is done
+
+This skill is one step of a job, never the whole job. When its files are written, hand back to
+the app marketing router and carry on with step 4 of the router's run loop (the check).
+Don't end the job here: don't write the final reply, `STATUS.md` or `outcome.json`.
