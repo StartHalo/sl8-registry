@@ -95,3 +95,19 @@ test('input: never overwrites', () => {
   assert.notEqual(r('input', 'p1', '../x').status, 0)
   fs.rmSync(t, { recursive: true, force: true })
 })
+
+test('machine layout: .claude/skills/<id> links to .agents/skills/<id>; scripts still find home artifacts/ from any folder', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'amr-home-'))
+  fs.mkdirSync(path.join(home, '.agents/skills'), { recursive: true })
+  fs.mkdirSync(path.join(home, '.claude/skills'), { recursive: true })
+  fs.cpSync(path.join(S, '..'), path.join(home, '.agents/skills/app-marketing-router'), { recursive: true })
+  fs.symlinkSync('../../.agents/skills/app-marketing-router', path.join(home, '.claude/skills/app-marketing-router'))
+  fs.mkdirSync(path.join(home, 'artifacts/seeded-plan'), { recursive: true })
+  const e = { ...process.env }; delete e.SL8_ARTIFACTS
+  const cwd = path.join(home, '.claude/skills/app-marketing-router')
+  const r = spawnSync('node', ['scripts/state.mjs', 'init', 'seeded-plan-2', '--goal', 'g'], { cwd, env: e, encoding: 'utf8' })
+  assert.equal(r.status, 0, r.stderr)
+  assert.ok(fs.existsSync(path.join(home, 'artifacts/seeded-plan-2/state.md')), 'written to the home artifacts/, not the skill folder')
+  assert.ok(!fs.existsSync(path.join(cwd, 'artifacts')), 'nothing written inside the skill folder')
+  fs.rmSync(home, { recursive: true, force: true })
+})

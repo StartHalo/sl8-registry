@@ -5,11 +5,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 // artifacts/ sits in the home folder that holds .claude/skills/app-marketing-router/scripts/, so the
-// scripts find it from wherever they are run. SL8_ARTIFACTS overrides it (the self-test uses it).
+// scripts find it from wherever they are run. On the machine .claude/skills/<id> is a link to
+// .agents/skills/<id>, and Node sees the real path, so both folder names count. SL8_ARTIFACTS overrides it (the self-test uses it).
 const HERE = path.dirname(new URL(import.meta.url).pathname)
 const HOME = path.resolve(HERE, '..', '..', '..', '..')
 export const ARTIFACTS = process.env.SL8_ARTIFACTS ||
-  (path.basename(path.resolve(HERE, '..', '..', '..')) === '.claude' ? path.join(HOME, 'artifacts') : path.resolve('artifacts'))
+  (['.claude', '.agents'].includes(path.basename(path.resolve(HERE, '..', '..', '..'))) ? path.join(HOME, 'artifacts') : path.resolve('artifacts'))
 
 export const STEPS = [
   { id: 'S1', name: 'Situation', file: '01-situation.md', skill: 'analysing-app-situation' },

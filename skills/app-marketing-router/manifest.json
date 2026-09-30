@@ -1,7 +1,7 @@
 {
   "name": "app-marketing-router",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "Routes every job on the consumer app marketing bot (Plan our marketing, Plan a launch or feature campaign, Status, Close). Reads the company profile and the project's progress, decides which planning skill runs next, runs it, and keeps the project dashboard current. Always the first and only skill a job lists; use it for any request about an app's marketing strategy, plan, campaign, results, progress or closing, and for \"what can you do?\".",
-  "generated_at": "2026-09-30T20:11:49.826Z",
+  "generated_at": "2026-09-30T21:16:23.946Z",
   "skill_md_sha256": "b3c3a60b9826d13648ff68a4a5e36cf8849176b00e3d1a3ee48bac9ee87ec9be"
 }
