@@ -31,7 +31,7 @@ to take into account. Work inside `artifacts/<project>/`.
 5. **External factors and health policy.** Trends with a source, then the check in
    [references/health-policy-check.md](references/health-policy-check.md).
 6. **Key findings**, at most 5, written last but placed first.
-7. **Write the files** (headings exactly as below), then stop. The router checks them.
+7. **Write the files** (headings exactly as below), then hand back to the router (see the end of this skill).
 
 Figures: use only the person's figures or a cited page. An unknown figure is `[TBD]` with an
 open decision; never an estimate dressed as a fact. Label estimates "estimate".
@@ -59,3 +59,9 @@ looks for them.
 findings and the segment map in brief), Decisions (none are made at S1: say so, or list the
 questions for the person), Assumptions. In campaign scope, write no M1: the M4 campaign
 deliverable covers it.
+
+## When this skill is done
+
+This skill is one step of a job, never the whole job. When its files are written, hand back to
+the app marketing router and carry on with step 4 of the router's run loop (the check).
+Don't end the job here: don't write the final reply, `STATUS.md` or `outcome.json`.
