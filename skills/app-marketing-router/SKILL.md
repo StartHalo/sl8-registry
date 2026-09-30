@@ -79,7 +79,9 @@ attached files into `inputs/` under their own names.
 2. `node R/scripts/state.mjs start <project> <steps>`.
 3. Invoke that skill with the Skill tool. Tell it: the project folder, the steps, the scope
    (`plan` or `campaign`), the plan version (`state.mjs show` → `planVersion`), the settings, and
-   what changed if this is a change, redo or update. Follow it to its last step.
+   what changed if this is a change, redo or update. Follow it to its last step. A work skill
+   ends by handing back to you: you are still in this job, so go straight on to the check below.
+   The job ends only at section 4.
 4. `node R/scripts/state.mjs check <project> <steps>`. If it prints gaps, invoke the same skill
    once more naming exactly those gaps, then check again. If gaps remain, stop the loop and report
    them as a blocker. Never re-run a skill more than once for the same gaps.
