@@ -1,7 +1,7 @@
 {
   "name": "saas-cro-designing-test",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Designs how to test one conversion change on a B2B micro-SaaS website given its real traffic — whether an A/B test is even possible, how many visitors and weeks it would need (with the arithmetic shown), or whether to ship the change and measure before and after, or run a quick preference test — with the hypothesis, measures and a decision rule set in advance. Run by the micro-SaaS conversion router for the \"Design a test for one change\" job; use it whenever the router names it.",
-  "generated_at": "2026-10-01T06:24:32.222Z",
-  "skill_md_sha256": "ed86f79f3ea3acb195305fa996659a8724e43178e3ec7b93dbec2d9c94c14e89"
+  "generated_at": "2026-10-01T12:47:06.221Z",
+  "skill_md_sha256": "69412caecfff1c4f633667c8c709b02cbaf49d769d9970bb6f8c749ec71eb778"
 }
