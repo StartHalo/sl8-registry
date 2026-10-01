@@ -14,11 +14,19 @@ iterate. It returns files; it doesn't chat.
 | Every email written | yes: subject, preview text, body, button, sign-off, optional P.S. |
 | Finished HTML for every email, plus plain text | yes, on one branded (or plain) layout |
 | The sequence planned | yes: which emails, order, delays, who gets them, when someone drops out |
-| Contact lists | your own CSV split into one file per segment; it never finds or buys contacts |
+| Contact lists | a prospect list it builds (organisations that fit, with contacts published on their own sites), or your own CSV split into one file per segment; it never buys lists or guesses addresses |
 | Setup in your email tool | a setup sheet says what to set; you import |
 | Sending | never: you press send |
 
-## One job: Email campaign
+## Job 2: Prospect list
+
+Organisations that fit your customer profile in an area you name, each with one contact the
+organisation publishes on its own website and the page it came from: `prospects/<slug>/prospects.csv`
+and `prospects.md` (what to verify before sending). You give: who and where ("K-12 private schools
+in Ohio"), optionally how many (default 25, at most 100) and the role. Add "then a campaign for
+them" to go straight on to a campaign.
+
+## Job 1: Email campaign
 
 | Mode | Use it for | You give | You get |
 |---|---|---|---|
@@ -32,7 +40,7 @@ iterate. It returns files; it doesn't chat.
 ## Out of scope in this version
 
 - Sending, scheduling or uploading emails, or connecting to an email tool or its API.
-- Finding, buying or enriching contacts; contacting prospects.
+- Buying, renting or enriching contacts, guessing addresses, data brokers; contacting prospects.
 - Changing DNS records or the website (the send checklist says what to set).
 - Legal sign-off on consent or compliance (the checklist lists what the region's law asks).
 - Wider marketing strategy, site conversion work, emails in one tool's own tag syntax, preview

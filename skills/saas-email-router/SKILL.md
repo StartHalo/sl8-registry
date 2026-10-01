@@ -1,6 +1,6 @@
 ---
 name: saas-email-router
-description: Routes every job on the micro-SaaS email campaign bot ("Email campaign" — start a campaign for any goal, approve or change its plan, change emails, report results, status, close). Reads the company profile and the campaign's progress, decides which campaign skill runs next, runs it, and keeps the campaign dashboard current. Always the first and only skill a job lists; use it for any request about planning, writing, building, revising or reviewing an email campaign, and for "what can you do?".
+description: Routes every job on the micro-SaaS email campaign bot ("Email campaign" — start a campaign for any goal, approve or change its plan, change emails, report results, status, close; and "Prospect list" — find organisations that fit and their published contacts). Reads the company profile and the campaign's progress, decides which campaign skill runs next, runs it, and keeps the campaign dashboard current. Always the first and only skill a job lists; use it for any request about planning, writing, building, revising or reviewing an email campaign, and for "what can you do?".
 ---
 
 # Email campaign router
@@ -38,6 +38,7 @@ home folder's `artifacts/` on their own, from wherever they run. Scripts write `
 | The request | Mode |
 |---|---|
 | a goal and audience for emails ("win back…", "announce…", "nurture…", "a seasonal push…") | start |
+| "find prospects", "build a list of …", "Prospect list: …" (with or without "then a campaign for them") | prospect list |
 | "approve", "continue", "build it", an answer to a question the bot asked | continue |
 | "drop email 3", "change the order", "add an email about …" (the plan) | continue, with a storyboard change |
 | "shorten email 2", "point the button at the trial", "new subject for 4" (written emails) | change emails |
@@ -46,7 +47,7 @@ home folder's `artifacts/` on their own, from wherever they run. Scripts write `
 | "where are we?", "what's next?", "status" | status |
 | "close", "this campaign is done" | close |
 | "what can you do?" | reply from [references/jobs.md](references/jobs.md); write nothing |
-| sending, scheduling, uploading, buying or finding contacts, anything [references/jobs.md](references/jobs.md) lists as out of scope | decline, say what the bot does instead (for sending: "you send it from your tool; the send checklist is in pack/"), write nothing, outcome `failed` |
+| sending, scheduling, uploading, buying lists, guessing addresses, anything [references/jobs.md](references/jobs.md) lists as out of scope | decline, say what the bot does instead (for sending: "you send it from your tool; the send checklist is in pack/"), write nothing, outcome `failed` |
 
 **Campaign.** `node R/scripts/state.mjs list` shows every campaign. Use the one the request names.
 If none is named, use the only open one; if there are several, ask which and end (outcome
@@ -78,6 +79,8 @@ What each mode does before the loop:
 | start | `node R/scripts/state.mjs init <campaign> --goal "<their words>"` |
 | continue | `node R/scripts/state.mjs resume <campaign>`. With a storyboard change: save it (`input … change`), then `state.mjs reopen <campaign> S4 --reason "<the change>"`; the storyboard skill revises in place |
 | change emails | save it (`input … change`); `node R/scripts/version.mjs snapshot <campaign>`; `state.mjs reopen <campaign> S5 --reason "<which emails and what>"`. Tell copywriting to rewrite only the emails named |
+| prospect list | read the profile (section 1; ask only for company, website and what it does). `node R/../saas-email-prospects/scripts/prospects.mjs new <slug>` (a slug from the kind and area, e.g. `private-schools-texas`); invoke `saas-email-prospects` **with the Skill tool** (don't read its file and do the work yourself) with the folder, who and where, the count (default 25, at most 100) and the role. Then `node R/../saas-email-prospects/scripts/prospects.mjs check <folder> --max <count>`; on problems, invoke it once more naming them. No campaign `state.md`. If the request also asks for a campaign, go on as **start** with the list (next row) |
+| start with a list | after `init`, copy the list into the campaign: `cp <list folder>/prospects.csv artifacts/<campaign>/inputs/` (or the founder's own CSV). Tell research it is a **cold first contact** when the list is a prospect list |
 | rebuild | `node R/scripts/version.mjs snapshot <campaign>`; `state.mjs reopen <campaign> S6 --reason "new sender, address or brand"`. The words don't change |
 | results | save the figures (`input … results`); `state.mjs reopen <campaign> S9 --reason "results of <date>"` |
 | status | nothing; go to section 4. Writes only `STATUS.md` |
@@ -93,7 +96,7 @@ What each mode does before the loop:
    The job ends only at section 4.
 4. `node R/scripts/state.mjs check <campaign> <steps>`. If it prints gaps, invoke the same skill
    once more naming exactly those gaps, then check again. If gaps remain, stop the loop and report
-   them as a blocker. Never re-run a skill more than once for the same gaps.
+   them as a blocker. Never re-run a skill more than once for the same gaps. Scratch files go in `work/`, never in `/tmp`.
 5. **Stop after storyboard** is on and S4 is now done: run
    `node R/scripts/state.mjs wait <campaign> S5 --reason "approve or change the storyboard in deliverables/M1-campaign-plan.md"`
    and leave the loop.
@@ -119,7 +122,10 @@ of mode and campaign, each assumption, and any blocker.
    - links: `pack/preview.html` first, then `STATUS.md` and the milestone deliverables.
    Never mention scripts, retries, paths that went wrong or other tool trouble: the founder sees
    the campaign, not the machinery.
-3. Outcome: `delivered` when the job's steps are done, when it stopped after storyboard as asked,
+3. For a prospect list on its own, reply with: how many organisations and contacts, how many named
+   people vs role addresses, what to verify before sending (from `prospects.md`), and the next
+   request ("Email campaign: … List: prospects/<slug>"). Link `prospects.md` and `prospects.csv`.
+4. Outcome: `delivered` when the job's steps are done, when it stopped after storyboard as asked,
    or for a status or close job that did what was asked (a blocker it reports doesn't make a
    status job partial); `partial` when it ended on a question or a blocker that isn't the sender or address,
    with the reason in plain words.
