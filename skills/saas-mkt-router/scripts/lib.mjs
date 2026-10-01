@@ -183,6 +183,12 @@ export function deliverablesFor (s, stepId) {
 export const BLOCK_PREFIX = /^\**(blocking\b[^:—]{0,30}|confirm first)\**\s*[:—-]\s*/i
 export const isBlocking = (d) => { const t = d.replace(/^S\d · /, ''); return BLOCK_PREFIX.test(t) || /\bblocks?\b/i.test(t) }
 
+// True when this file is the script node was asked to run. Compares real paths: on the machine the
+// script is reached through the .claude/skills link, while import.meta.url is the real .agents path.
+export function isMain (metaUrl) {
+  try { return fs.realpathSync(process.argv[1]) === fs.realpathSync(new URL(metaUrl).pathname) } catch { return false }
+}
+
 export function fail (msg) { console.error(msg); process.exit(1) }
 
 export function args (argv) {

@@ -219,6 +219,11 @@ test('machine layout: .claude/skills/<id> links to .agents/skills/<id>; scripts 
   assert.equal(r.status, 0, r.stderr)
   assert.ok(fs.existsSync(path.join(home, 'artifacts/seeded-plan/state.md')), 'written to the home artifacts/, not the skill folder')
   assert.ok(!fs.existsSync(path.join(cwd, 'artifacts')), 'nothing written inside the skill folder')
+  // Called by its full path through the link (as a status job did), every script still runs.
+  const link = path.join(home, '.claude/skills/saas-mkt-router/scripts')
+  const viaLink = (s, ...x) => spawnSync('node', [path.join(link, s), ...x], { cwd: home, env: e, encoding: 'utf8' })
+  assert.match(viaLink('context.mjs', 'read').stdout, /"missing"/, 'context.mjs prints through the link')
+  assert.match(viaLink('version.mjs', 'diff', 'seeded-plan').stdout, /"changed"/, 'version.mjs prints through the link')
   fs.rmSync(home, { recursive: true, force: true })
   fs.rmSync(tmp, { recursive: true, force: true })
 })

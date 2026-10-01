@@ -8,7 +8,7 @@
 // Keys: company, site, what, buyer, price, motion, stage, hours, channels, preferences.
 import fs from 'node:fs'
 import path from 'node:path'
-import { ARTIFACTS, today, fail, args } from './lib.mjs'
+import { ARTIFACTS, today, fail, args, isMain } from './lib.mjs'
 
 export const FIELDS = [
   { key: 'company', label: 'Company and product name', required: true },
@@ -59,7 +59,7 @@ ${rows}
 `)
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const a = args(process.argv.slice(2))
   const [cmd, ...kv] = a._
   const p = readProfile()
