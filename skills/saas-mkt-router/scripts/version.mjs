@@ -8,7 +8,7 @@
 //                                    snapshot and the current files (JSON)
 import fs from 'node:fs'
 import path from 'node:path'
-import { STEPS, projectDir, readState, writeState, log, sections, fail, args } from './lib.mjs'
+import { STEPS, projectDir, readState, writeState, log, sections, fail, args, isMain } from './lib.mjs'
 
 const planName = (s) => (s.kind === 'launch' ? 'launch-plan.md' : 'marketing-plan.md')
 const tracked = (s) => [planName(s), ...STEPS.map((d) => d.file)]
@@ -51,7 +51,7 @@ export function snapshot (dir, s) {
   return { kept: path.relative(dir, dest), files: present, planVersion: s.planVersion }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const a = args(process.argv.slice(2))
   const [cmd, project] = a._
   if (!['snapshot', 'diff'].includes(cmd) || !project) fail('usage: version.mjs snapshot|diff <project>')
