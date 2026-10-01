@@ -1,0 +1,7 @@
+{
+  "name": "saas-cro-closing-review",
+  "version": "v1.0.0",
+  "description": "Closes a B2B micro-SaaS conversion review (or a test design) with an honest summary — what was recommended, what the founder shipped, the results they supplied, and what is still open — claiming no result the founder didn't report. Run by the micro-SaaS conversion router for the Close job; use it whenever the router names it.",
+  "generated_at": "2026-10-01T06:24:56.645Z",
+  "skill_md_sha256": "6a046e225337c8aa0ac8cb659c15d0595e87425afe16665dba614aa880b964e1"
+}
