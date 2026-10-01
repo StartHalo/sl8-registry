@@ -23,8 +23,8 @@ iterate. It returns files; it doesn't chat.
 Organisations that fit your customer profile in an area you name, each with one contact the
 organisation publishes on its own website and the page it came from: `prospects/<slug>/prospects.csv`
 and `prospects.md` (what to verify before sending). You give: who and where ("K-12 private schools
-in Ohio"), optionally how many (default 25, at most 100) and the role. Add "then a campaign for
-them" to go straight on to a campaign.
+in Ohio"), optionally how many (default 25, at most 100) and the role. The reply gives the exact request to
+start a campaign on the list; the campaign runs as its own job.
 
 ## Job 1: Email campaign
 

@@ -1,7 +1,7 @@
 {
   "name": "saas-email-router",
-  "version": "v1.1.0",
+  "version": "v1.1.1",
   "description": "Routes every job on the micro-SaaS email campaign bot (\"Email campaign\" — start a campaign for any goal, approve or change its plan, change emails, report results, status, close; and \"Prospect list\" — find organisations that fit and their published contacts). Reads the company profile and the campaign's progress, decides which campaign skill runs next, runs it, and keeps the campaign dashboard current. Always the first and only skill a job lists; use it for any request about planning, writing, building, revising or reviewing an email campaign, and for \"what can you do?\".",
-  "generated_at": "2026-10-01T15:47:55.150Z",
-  "skill_md_sha256": "0b5d5221ba490e1acdd2fe9050514d22c3ee29d5318e8c868b3ad9de2c13a236"
+  "generated_at": "2026-10-01T18:48:31.874Z",
+  "skill_md_sha256": "55720d49c8fb42c4f27a83ab2514897487a654f963a3322af45b073741ce9756"
 }
