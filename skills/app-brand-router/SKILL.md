@@ -81,9 +81,11 @@ attached files into `inputs/` under their own names.
 2. `node R/scripts/state.mjs start <project> <steps>`.
 3. Invoke that skill with the Skill tool. Tell it: the project folder, the step, the touchpoints,
    the settings, and what changed if this is a change, redo or refresh (with the input file).
-   Follow it to its last step. A work skill ends by handing back to you: you are still in this
-   job, so go straight on to the check below. The job ends only at section 4.
-4. `node R/scripts/state.mjs check <project> <steps>`. If it prints gaps, invoke the same skill
+   Follow it to its last step. A work skill ends by running this check itself; read what it
+   printed and go on. You are still in this job: until section 4, never end a turn with a message
+   and no tool call, because that ends the whole job.
+4. `node R/scripts/state.mjs check <project> <steps>` (already run when the skill ran it; running
+   it again is harmless). If it prints gaps, invoke the same skill
    once more naming exactly those gaps, then check again. If gaps remain, stop the loop and report
    the unfinished step as a blocker. Never re-run a skill more than once for the same gaps.
 5. **Stop after the brief** is on and S2 is now done:
