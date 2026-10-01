@@ -1,7 +1,7 @@
 {
   "name": "app-brand-router",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Routes every job on the consumer app brand strategy bot (Build our brand, Apply our brand, Review our brand, Status, Close). Reads the company profile and the brand project's progress, decides which brand skill runs next, runs it, checks it, and keeps the project dashboard current. Always the first and only skill a job lists; use it for any request about an app's brand strategy, positioning, voice, visual direction, brand guidelines, brand copy for a touchpoint, a brand review or audit, progress or closing, and for \"what can you do?\".",
-  "generated_at": "2026-10-01T06:16:13.271Z",
-  "skill_md_sha256": "a16207dc4dffcb221a6650ab3c0dbf8bd70ee67e627be4c88861c729cdc68481"
+  "generated_at": "2026-10-01T11:40:59.206Z",
+  "skill_md_sha256": "9f84ee37a2e31eb09e79e5c6d76277e7cdf3b330f41c0accbd417f3717e547d0"
 }
