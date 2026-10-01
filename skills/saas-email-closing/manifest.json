@@ -1,0 +1,7 @@
+{
+  "name": "saas-email-closing",
+  "version": "v1.0.0",
+  "description": "Closes a micro-SaaS email campaign with an honest summary — what was planned and built, the results only as the founder reported them, and what stays open for a next campaign — without changing any earlier file. Run by the email campaign router for a close job.",
+  "generated_at": "2026-10-01T06:56:09.873Z",
+  "skill_md_sha256": "e7129f788b90f258740fc2ae549185fdf90cac06b047dc2cef89c50a342ea329"
+}
