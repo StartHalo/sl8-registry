@@ -11,8 +11,9 @@ folder. Work inside `artifacts/<project>/`.
 ## Read
 
 - The plan (`marketing-plan.md` or `launch-plan.md`), `02-objectives.md`, `04-tactics.md`,
-  `06-control.md`, any `deliverables/M5-review-*.md`, and the close request with any results in
-  `inputs/`.
+  `06-control.md`, any `deliverables/M5-review-*.md`, the close request, and **every**
+  `inputs/results-*.md` and `inputs/request-*.md`: figures given in an earlier update count as
+  reported, with the date they were given.
 
 ## Write `99-closing.md`
 
