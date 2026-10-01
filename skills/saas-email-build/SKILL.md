@@ -30,7 +30,10 @@ home folder's `artifacts/` themselves; they need nothing installed.
    Markdown table. On a failure, fix the cause in `05-copy.md` (a long subject, a stray tag, an
    `http://` link, a placeholder), then build and check again. At most two rounds; whatever still
    fails goes under `## Open decisions` in `07-qa.md`. Never edit files in `pack/emails/` by hand.
-3. **Contacts.** With a CSV from the founder in `inputs/`:
+3. **Contacts.** With a prospect list in `inputs/prospects.csv` (columns email, first_name,
+   company, segment, role, source_url, fit_reason):
+   `node B/scripts/contacts.mjs split <campaign> inputs/prospects.csv --map "email=email,first_name=first_name,company=company" --segment <segment>`.
+   With a CSV from the founder in `inputs/`:
    `node B/scripts/contacts.mjs split <campaign> inputs/<file>.csv --map "email=<col>,first_name=<col>,company=<col>" --segment-col <col> --segments "<value>=<segment>,…" --exclude-col <col> --exclude "<values>"`,
    using the segment and suppression rules in `01-insights.md`. Report the counts it prints
    (rows, kept per segment, excluded, duplicates, invalid). Without a list:
