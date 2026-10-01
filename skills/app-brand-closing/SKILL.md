@@ -33,6 +33,11 @@ Rules:
 
 ## When this skill is done
 
-This skill is one step of a job, never the whole job. When its file is written, hand back to the
-app brand router, which marks the project closed. Don't end the job here: don't write the final
-reply, `STATUS.md` or `outcome.json`.
+This skill is one step of a job, never the whole job, and the job goes on after it. Don't write a
+message saying you are done or handing back: a message with no tool call ends the whole job. Your
+very next action is a tool call that runs the router's check:
+
+`node ~/.claude/skills/app-brand-router/scripts/state.mjs close <project>`
+
+Then carry on with the app brand router's run loop from that check. Don't write the final reply,
+`STATUS.md` or `outcome.json` here.
