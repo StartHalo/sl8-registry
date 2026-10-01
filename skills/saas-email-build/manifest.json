@@ -1,0 +1,7 @@
+{
+  "name": "saas-email-build",
+  "version": "v1.0.0",
+  "description": "Builds a micro-SaaS email campaign's import-ready pack from its written copy — every email as finished HTML on one tested template (plus a plain-text version), static pre-send checks, the founder's own contact list split into segment CSVs, a sequence setup sheet with each email tool's merge tags, and a send checklist — and writes the M2 Campaign pack. Never sends, schedules or uploads anything. Covers Design and build the emails, Pre-send QA, and Package and hand off (S6–S8). Run by the email campaign router whenever it names S6, S7 or S8.",
+  "generated_at": "2026-10-01T06:58:08.014Z",
+  "skill_md_sha256": "c5d544da8ed4f86f5d8090b3e97e5442679eef221579565bdcc880219db29bd8"
+}
