@@ -1,7 +1,7 @@
 {
   "name": "saas-email-storyboard",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Turns a micro-SaaS email campaign's research into an idea pool and a storyboard — which emails to send, why each one, in what order, how many days apart, to which segment, and when someone drops out — and writes the M1 Campaign plan, as the Write the idea pool and Build the storyboard steps (S3–S4) of the Atomic Emails method. Also revises a storyboard when the founder asks to drop, add or reorder emails. Run by the email campaign router whenever it names S3 or S4.",
-  "generated_at": "2026-10-01T06:57:23.252Z",
+  "generated_at": "2026-10-01T15:49:29.745Z",
   "skill_md_sha256": "de569c75f16c3233f9e602eadf099dd889436f8164b6634a605fb4f3f4e5f721"
 }
