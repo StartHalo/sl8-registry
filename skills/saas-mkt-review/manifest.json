@@ -1,0 +1,7 @@
+{
+  "name": "saas-mkt-review",
+  "version": "v1.0.0",
+  "description": "Reviews a micro-SaaS marketing plan against the results the founder supplies — each objective's outcome against its baseline and target, each channel test continued, changed or stopped against its threshold, the assumptions the results broke, a short reflection — and names which SOSTAC steps to redo, writing the M5 Review milestone. Run by the micro-SaaS marketing router when a plan is updated with results or figures.",
+  "generated_at": "2026-10-01T06:22:50.051Z",
+  "skill_md_sha256": "05be4020bde089158f33525c5839a302a866941262be669c51d5a21b19e74bb6"
+}
