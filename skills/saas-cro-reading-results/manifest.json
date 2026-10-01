@@ -1,7 +1,7 @@
 {
   "name": "saas-cro-reading-results",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Reads the results of conversion changes a B2B micro-SaaS founder made — what was shipped and when, with before and after figures for visits, demo requests, trials or paid customers — and gives each change an honest, indicative verdict (keep, revert, extend or unclear) with the arithmetic shown and the caveats a low-traffic before/after comparison carries; writes the M3 Results review (ResearchXL step S11, validate and learn). Run by the micro-SaaS conversion router; use it whenever the router names S11.",
-  "generated_at": "2026-10-01T06:24:06.597Z",
-  "skill_md_sha256": "be97e647c0f568c97e844321bc779f722b78548a9a9d2b0be5b16ad703c598a3"
+  "generated_at": "2026-10-01T12:46:42.049Z",
+  "skill_md_sha256": "7909abb8fc519a57ca9c9048d502a9941765763b40a4d0010aacdff9c2399eaa"
 }
