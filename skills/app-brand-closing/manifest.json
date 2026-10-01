@@ -1,7 +1,7 @@
 {
   "name": "app-brand-closing",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Closes a consumer wellness app's brand project with an honest summary — what was decided, what the person reported about adoption, what stays open, and when to review the brand next — without claiming any result that wasn't supplied. Run by the app brand router for the Close job.",
-  "generated_at": "2026-10-01T06:18:56.070Z",
-  "skill_md_sha256": "44f47808fbd5bf8b90447962efa03336b7bca7abeab980cfa05276019bb68831"
+  "generated_at": "2026-10-01T11:43:13.090Z",
+  "skill_md_sha256": "9cbb28588e6b28beba81b9982b3a1225a050340313f389fa806a0099c82a956c"
 }
