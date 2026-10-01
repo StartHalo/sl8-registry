@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-10-01
+### Added
+- Release saas-cro-closing-review v1.0.1.
+
 ## [v1.0.0] — 2026-10-01
 ### Added
 - Initial release (saas-cro-closing-review).

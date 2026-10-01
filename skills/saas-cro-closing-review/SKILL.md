@@ -41,6 +41,9 @@ Use the `##` headings exactly; the router's close checks them.
 
 ## When this skill is done
 
-This skill is one step of a job, never the whole job. When the file is written, hand back to the
-micro-SaaS conversion router, which closes the project (`state.mjs close`) and finishes the job.
-Don't write the final reply, `STATUS.md` or `outcome.json`.
+This skill is one step of a job, never the whole job, and the founder has not had a reply yet.
+Don't announce a hand-back and don't stop: in the same turn, go straight on with the
+micro-SaaS conversion router. Your very next action is the router's check
+(`node <router>/scripts/state.mjs check <project> <steps>`), then the rest of its run loop, then
+its section 4 (`status.mjs` and the reply to the founder). The job ends only there.
+For this job the router then runs `state.mjs close <project>`.
