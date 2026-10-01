@@ -1,0 +1,7 @@
+{
+  "name": "saas-cro-reviewing-pages",
+  "version": "v1.0.0",
+  "description": "Reviews a B2B micro-SaaS website's key pages (home, pricing, demo request, trial sign-up) for what loses visitors — technical problems visible in the page, and friction judged on ResearchXL's five lenses (relevance, clarity, value, friction, distraction) — with every finding quoting the page or a screenshot, a green/yellow/red map of the trial path, unused proof, and a comparison with competitors' pages (ResearchXL steps S2 and S3). Run by the micro-SaaS conversion router; use it whenever the router names S2 or S3.",
+  "generated_at": "2026-10-01T06:22:45.652Z",
+  "skill_md_sha256": "bce45e276707fe89eae83469dc652274396371af87eb9c352d95baa68f10ea2e"
+}
