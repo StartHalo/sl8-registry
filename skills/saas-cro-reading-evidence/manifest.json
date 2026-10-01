@@ -1,0 +1,7 @@
+{
+  "name": "saas-cro-reading-evidence",
+  "version": "v1.0.0",
+  "description": "Reads whatever evidence a B2B micro-SaaS founder has about why visitors don't convert — figures for visits, demo requests, trials and paid customers; customer interview or call notes; reviews, support tickets and sales notes; recordings or heatmap notes; user-test and copy-test answers — checks it, places figures in benchmark ranges, and writes a short research kit for what's missing (ResearchXL steps S4 to S8). Run by the micro-SaaS conversion router; use it whenever the router names S4, S5, S6, S7 or S8.",
+  "generated_at": "2026-10-01T06:23:11.961Z",
+  "skill_md_sha256": "42ef3502bd142bb5bdd8e2ef00911be2e051e35cdec9d80b48ec02ea01ebbb4c"
+}
