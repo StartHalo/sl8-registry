@@ -1,0 +1,7 @@
+{
+  "name": "saas-cro-ranking-changes",
+  "version": "v1.0.0",
+  "description": "Turns a B2B micro-SaaS conversion review's findings into what the founder should change first — a ranked action sheet (every issue in one of ResearchXL's five buckets with a 1–5 star rating, evidence, action, effort and how to tell it worked), a change-first list of at most ten, copy rewrites where wording is the problem, and test hypotheses whose route (A/B test, preference test, or ship and measure) is set by the site's real traffic; writes the M1 Conversion review and M2 Test plan (ResearchXL steps S9 and S10). Run by the micro-SaaS conversion router; use it whenever the router names S9 or S10.",
+  "generated_at": "2026-10-01T06:23:36.455Z",
+  "skill_md_sha256": "b4597a7d300f0613e77a834b4f0ea0b8184db9936f7b0d5833c98836b0be362e"
+}
