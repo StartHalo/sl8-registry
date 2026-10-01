@@ -1,0 +1,7 @@
+{
+  "name": "saas-cro-router",
+  "version": "v1.0.0",
+  "description": "Routes every job on the micro-SaaS conversion bot (Review our conversion, Design a test for one change, Status, Close). Reads the company profile and the project's progress, runs the next conversion-review skill, checks its work, and keeps the project dashboard current. Always the first and only skill a job lists; use it for any request about a B2B SaaS website's conversion — demo requests, trial sign-ups, pricing page, onboarding, what to change first, test design, results after changes, progress or closing — and for \"what can you do?\".",
+  "generated_at": "2026-10-01T06:21:41.490Z",
+  "skill_md_sha256": "ab2031c54f078d5cf072ae2dfdb6fbf748cd662c20a1891e120b4f86dcc74601"
+}
