@@ -1,7 +1,7 @@
 {
   "name": "saas-mkt-closing",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Closes a micro-SaaS marketing plan or launch with an honest summary — what was planned, what the founder reported was done and achieved, which channel tests ended how, and what stays open — without claiming any result that wasn't supplied. Run by the micro-SaaS marketing router for the Close job.",
-  "generated_at": "2026-10-01T06:23:10.831Z",
-  "skill_md_sha256": "5daf2c7e8592825f7d0de31a241dd3e0c4cafff392b78f419e8f5e65989dfe7b"
+  "generated_at": "2026-10-01T11:42:07.202Z",
+  "skill_md_sha256": "a293e83f2e683fe2c775a217f12165744682a5e612135b42381917c099712c72"
 }
