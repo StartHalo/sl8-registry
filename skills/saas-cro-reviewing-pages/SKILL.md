@@ -37,7 +37,11 @@ layout on phones, browser differences), so the founder knows what's still open. 
    rules in [references/evidence-rules.md](references/evidence-rules.md): its page, its lens, the
    quoted evidence and where it's from, why it costs conversions, and whether it's confirmed by
    data or still an area of interest. Spread the severity honestly: a minor wording slip and a
-   pricing page that hides the price are not the same.
+   pricing page that hides the price are not the same. Without screenshots, text shows the
+   order of things on a page, never how visible they are: say "the only trial link is in the
+   footer", not "the trial link is hidden". Before handing back, search your files for look-words
+   (prominent, hidden, hard to find, biggest, equal-looking, fold, scroll) and rewrite each as
+   order, or move it to `## Not verified`.
 3. **Trial path** (trial-led sites): map each step from the sign-up button to the first useful
    result as green, yellow or red with
    [references/trial-path-map.md](references/trial-path-map.md), from public pages and
@@ -80,7 +84,8 @@ An open decision already listed by an earlier step (in `01`–`05`) stays there:
 
 ## When this skill is done
 
-This skill is one step of a job, never the whole job. When `02-technical.md` and
-`03-heuristic.md` are written, hand back to the micro-SaaS conversion router and carry on with
-step 4 of the router's run loop (the check). Don't end the job here: don't write the final reply,
-`STATUS.md` or `outcome.json`.
+This skill is one step of a job, never the whole job, and the founder has not had a reply yet.
+Don't announce a hand-back and don't stop: in the same turn, go straight on with the
+micro-SaaS conversion router. Your very next action is the router's check
+(`node <router>/scripts/state.mjs check <project> <steps>`), then the rest of its run loop, then
+its section 4 (`status.mjs` and the reply to the founder). The job ends only there.
