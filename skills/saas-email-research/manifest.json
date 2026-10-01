@@ -1,7 +1,7 @@
 {
   "name": "saas-email-research",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Researches a micro-SaaS product, its customers and an email campaign's goal from the product's website and what the founder gave — customer and non-fit, the goal as one conversion event, up to three segments and who to leave out, the customer's problems and steps to success, copy material — and lists the resources and offers the emails can use, as the Gather insights and Gather resources steps (S1–S2) of the Atomic Emails method. Run by the email campaign router whenever it names S1 or S2.",
-  "generated_at": "2026-10-01T06:57:03.216Z",
-  "skill_md_sha256": "28463fff73ead570db8940622248f07331545173c320ea87bd5d6ebf022fbb90"
+  "generated_at": "2026-10-01T15:48:22.640Z",
+  "skill_md_sha256": "315af965dc492e8cf2048f3b2ec40bf3da5e9cf8c0ec9494fd9cdda6b0a9fbef"
 }
