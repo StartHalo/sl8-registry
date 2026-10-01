@@ -19,6 +19,10 @@ router tells you the campaign folder and the steps. Work inside `artifacts/<camp
 
 ## Steps
 
+0. **Cold or warm.** If the campaign's list is a prospect list the bot built (the router says so,
+   or `inputs/prospects.csv` exists), these people have never heard of the product: a **cold
+   first contact**. Say so in `## Audience and segments`; the emails must introduce the founder and
+   the product, never say "you asked" or "you signed up", and carry an easy opt-out.
 1. **Goal → one conversion event.** Turn the founder's goal into the one action that counts and
    how it is counted: "a demo booked through /request-demo/", "a trial started", "a reply". If the
    goal names no audience, infer it from the goal and say so.
