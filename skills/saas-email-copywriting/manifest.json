@@ -1,0 +1,7 @@
+{
+  "name": "saas-email-copywriting",
+  "version": "v1.0.0",
+  "description": "Writes every email of a micro-SaaS email campaign from its storyboard — subject line, preview text, body, one primary button, optional secondary link, sign-off and P.S. — in the founder's voice, in the exact format the campaign's build script reads, as the Write the copy step (S5) of the Atomic Emails method. Also rewrites only the emails a founder names in a change. Run by the email campaign router whenever it names S5.",
+  "generated_at": "2026-10-01T06:57:46.879Z",
+  "skill_md_sha256": "e2170f0dd3c541b5d5e37c24a95de500eb5df64efb220f3e29c822fa47a8b4bf"
+}
