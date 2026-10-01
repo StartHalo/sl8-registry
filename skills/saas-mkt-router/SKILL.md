@@ -127,8 +127,11 @@ choice of job and project, each assumption, and any blocker.
    - **What was done** (for a change, update or a plan built on an earlier strategy: **what
      changed and why** first, naming every changed section from `STATUS.md`);
    - **Assumptions** made this job;
+   - **Blockers**: copy `## Blockers` from `STATUS.md` (or "none"). Anything the plan rests on
+     that the founder must confirm counts, even when you assumed an answer to keep going;
    - **Decisions waiting on you**, blocking ones first, each once (from `STATUS.md`);
-   - **Next step**, with the exact request to send (from `STATUS.md`);
+   - **Next step**: the exact request from `STATUS.md`'s `## Next step`, word for word. The reply
+     and the dashboard never disagree;
    - links to `STATUS.md`, the plan and the milestone deliverables.
 3. **The reply is about the founder's marketing, never about tools.** Don't mention scripts,
    retries, checks, file paths that failed, or anything that went wrong with the tooling and was

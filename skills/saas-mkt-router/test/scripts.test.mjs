@@ -123,6 +123,24 @@ test('status: blocking decisions are blockers, grouped, no repeats; writes only 
   assert.match(md, /with your answer to the blocking decision/)
 })
 
+test('status: "Confirm first" and "blocks" lines are blockers; check-failure lines are not changes', () => {
+  const D = path.join(A, 'cf-plan')
+  ok('state.mjs', 'init', 'cf-plan', '--goal', 'g')
+  put('01-situation.md', sections([...S1]) + '\n## Open decisions\n\n- Confirm first: what "next term" means (assumed January)\n- Your budget\n', D)
+  put('deliverables/M1-situation.md', deliverable, D)
+  put('02-objectives.md', '## Objectives\n\n### O1\n\n' + sections(['Revenue lever', 'Benchmarks used']) + '\n## Open decisions\n\n- Meaning of next term. Blocks the dates of every objective.\n', D)
+  ok('state.mjs', 'check', 'cf-plan', 'S1-S2')
+  ok('status.mjs', 'cf-plan')
+  const md = fs.readFileSync(path.join(D, 'STATUS.md'), 'utf8')
+  assert.match(md, /State:\*\* blocked/)
+  assert.match(md, /## Blockers\n\n- S1 · what "next term" means/)
+  assert.match(md, /\*\*Blocking:\*\* what "next term" means/)
+  assert.doesNotMatch(md, /check failed|started S/)
+  assert.match(md, /continue cf-plan" with your answer/)
+  fs.writeFileSync(path.join(D, '99-closing.md'), '# closed\n')
+  ok('state.mjs', 'close', 'cf-plan')
+})
+
 test('version: snapshot keeps every file; diff names each changed section', () => {
   const k = JSON.parse(ok('version.mjs', 'snapshot', 'demo-plan'))
   assert.equal(k.kept, 'versions/v1')

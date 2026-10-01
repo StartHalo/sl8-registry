@@ -180,7 +180,8 @@ export function deliverablesFor (s, stepId) {
 }
 
 // A decision line that blocks progress starts with "Blocking:".
-export const isBlocking = (d) => /^(S\d · )?\**blocking\b[^:—]{0,30}\**\s*[:—-]/i.test(d)
+export const BLOCK_PREFIX = /^\**(blocking\b[^:—]{0,30}|confirm first)\**\s*[:—-]\s*/i
+export const isBlocking = (d) => { const t = d.replace(/^S\d · /, ''); return BLOCK_PREFIX.test(t) || /\bblocks?\b/i.test(t) }
 
 export function fail (msg) { console.error(msg); process.exit(1) }
 

@@ -6,7 +6,7 @@
 // Reads state.md and the project's files; writes STATUS.md only.
 import fs from 'node:fs'
 import path from 'node:path'
-import { STEPS, projectDir, readState, next, nextAction, complete, isBlocking, fail, args, now } from './lib.mjs'
+import { STEPS, BLOCK_PREFIX, projectDir, readState, next, nextAction, complete, isBlocking, fail, args, now } from './lib.mjs'
 import { diff } from './version.mjs'
 
 const a = args(process.argv.slice(2))
@@ -24,7 +24,7 @@ const n = next(s)
 const current = n.kind === 'run' ? n.steps[0] : n.kind === 'waiting' ? n.step.id : '—'
 
 // Decisions: grouped by step, repeats dropped, blocking ones first (C01 №91–92).
-const norm = (t) => t.replace(/^S\d · /, '').replace(/^\**blocking\b[^:—]{0,30}\**\s*[:—-]\s*/i, '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim()
+const norm = (t) => t.replace(/^S\d · /, '').replace(BLOCK_PREFIX, '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim()
 // Near-duplicates (the same ask in other words, often repeated across steps) are dropped: two
 // decisions whose significant words overlap by 60% or more count as one; the first is kept.
 const STOP = new Set('the a an and or of to for in on your you is are be with by at from this that it as what when which'.split(' '))
@@ -38,8 +38,8 @@ const otherDecisions = decisions.filter((d) => !isBlocking(d))
 const blockers = [
   ...s.steps.filter((st) => st.status === 'waiting on you').map((st) => `${st.id} ${st.name} is waiting on you: ${st.evidence}`),
   ...s.steps.filter((st) => st.evidence.startsWith('not complete')).map((st) => `${st.id} ${st.name} is not finished`),
-  ...blockingDecisions.map((d) => d.replace(/^(S\d) · \**blocking\b[^:—]{0,30}\**\s*[:—-]\s*/i, '$1 · ')),
-]
+  ...blockingDecisions.map((d) => d.replace(/^(S\d) · /, '$1 · ').replace(/^(S\d · )(.*)$/, (m, a, b) => a + b.replace(BLOCK_PREFIX, ''))),
+].filter((b, i, all) => !all.slice(0, i).some((x) => same(x, b)))
 const state = s.closed ? 'closed' : blockers.length ? 'blocked' : complete(s) ? 'complete' : 'open'
 
 const job = s.kind === 'launch' ? 'Plan a launch' : 'Plan our marketing'
@@ -67,7 +67,7 @@ const group = (list) => {
 }
 
 const d = diff(dir, s)
-const history = s.history.filter((h) => !prev || h.slice(0, 19) > prev)
+const history = s.history.filter((h) => (!prev || h.slice(0, 19) > prev) && !/check failed|^\S+ \S+ · started /.test(h))
 const changedLines = [
   ...history.map((h) => `- ${h}`),
   ...(d.changed.length ? [`- Sections changed in plan v${s.planVersion} against ${d.against}:`, ...d.changed.map((c) => `  - ${c}`)] : []),
@@ -101,7 +101,7 @@ ${blockers.length ? blockers.map((b) => `- ${b}`).join('\n') : '- none'}
 
 ## Decisions waiting on you
 
-${group([...blockingDecisions.map((x) => x.replace(/(^S\d · )\**blocking\b[^:—]{0,30}\**\s*[:—-]\s*/i, '$1**Blocking:** ')), ...otherDecisions])}
+${group([...blockingDecisions.map((x) => x.replace(/^(S\d · )(.*)$/, (m, a, b) => `${a}**Blocking:** ${b.replace(BLOCK_PREFIX, '')}`)), ...otherDecisions])}
 
 ## Next step
 
