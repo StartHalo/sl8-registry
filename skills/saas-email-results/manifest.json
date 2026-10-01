@@ -1,0 +1,7 @@
+{
+  "name": "saas-email-results",
+  "version": "v1.0.0",
+  "description": "Reviews a sent micro-SaaS email campaign's results against its goal — the conversion event first, then clicks, replies, unsubscribes, complaints and bounces, with opens reported but never judged — warns when the list is too small to compare, and proposes at most three changes, each tied to a figure, for the founder to approve; writes the M3 Results review. The Measure and iterate step (S9). Run by the email campaign router whenever it names S9.",
+  "generated_at": "2026-10-01T06:58:36.191Z",
+  "skill_md_sha256": "117d8d47d413599b53a571e21594e8c87b5a2693961c5e6b66d4b5469067749a"
+}
