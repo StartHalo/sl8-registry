@@ -20,14 +20,21 @@ look for, where, how many (default 25, at most 100) and which role. Work inside 
 
 1. **Profile.** One line: what kind of organisation fits, which role buys (from the profile's
    "who buys it" and the request), and what would make one a poor fit.
-2. **Find candidates.** Search the web for organisations of that kind in the area: public
-   directories and association member lists first (they list many at once), then searches. Collect
-   about one and a half times the count asked, so poor fits can be dropped.
-3. **Open each candidate's own website.** Its contact, staff, team, leadership or about page.
+2. **Find candidates.** Search the web (WebSearch) for organisations of that kind in the area:
+   public directories and association member lists first (they list many at once), then searches.
+   Collect about one and a half times the count asked, so poor fits can be dropped. Open at most
+   **two sites per prospect asked** in all; stop searching when you have enough.
+3. **Read each candidate's own website with the scanner, never by fetching whole pages:**
+   `node P/scripts/scan.mjs <home> <contact page> <staff page> …` (several URLs per call; add
+   `--match "<words>"` for the fit evidence you need). It prints each page's title, every email
+   address on it (protected ones decoded) and a few matching lines, so the conversation stays small
+   and the job stays cheap. Use WebFetch only for a page the scanner can't read. Look at the
+   contact, staff, team, leadership or about pages.
    Take one contact per organisation, in this order: the published email of the person in the
    buying role; else a published role address for that role (`admissions@`, `office@`); else the
-   organisation's main published address. Copy the address exactly as the page shows it.
-   `source_url` is the page you read it on.
+   organisation's main published address. Copy the address exactly as the scanner printed it.
+   `source_url` is the page it was on. An address with `@www.` is usually a page artefact: use the
+   same address without `www.` only if the scanner also printed it, otherwise skip it.
 4. **Fit reason.** One line from what the site says (its type, size, the problem the product
    solves, as the site shows it). Drop organisations that don't fit.
 5. **Skip, don't guess.** No email on the site, a contact form only, or the address is an image:

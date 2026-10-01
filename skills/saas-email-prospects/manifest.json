@@ -1,7 +1,7 @@
 {
   "name": "saas-email-prospects",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Builds a prospect list for a micro-SaaS founder — organisations that fit their customer profile in an area they name, each with one contact the organisation publishes on its own website, the page it came from and why it fits — as a CSV a campaign can use. Never buys lists, uses data brokers, guesses address patterns or contacts anyone. Run by the email campaign router for a Prospect list job.",
-  "generated_at": "2026-10-01T15:47:25.600Z",
-  "skill_md_sha256": "4b0b6d38ee2c87edf93354605853c8e744284cc692a3123676439e137d3569aa"
+  "generated_at": "2026-10-01T18:47:59.155Z",
+  "skill_md_sha256": "b793a236a27730d4216a86663a910bde8d2e4f6dfaf12557e243cea84d7d863d"
 }
