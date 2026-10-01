@@ -1,7 +1,7 @@
 {
   "name": "app-brand-guidelines",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Writes brand guidelines a small team can use for a consumer wellness app, as the managing-assets phase (S5) of Alina Wheeler's brand identity process — an owner and a home, do and don't pairs with examples, templates, a consistency checklist from the swap, hand and focus tests, and a review cadence with triggers — then assembles the whole brand book with a tokens table and writes the M3 Brand book milestone. Run by the app brand router whenever it names S5.",
-  "generated_at": "2026-10-01T06:18:12.887Z",
-  "skill_md_sha256": "6c87e1f7d0e875ca1e77628259938b8585b6faca9aa35e4c77a3320bcce18948"
+  "generated_at": "2026-10-01T11:42:36.999Z",
+  "skill_md_sha256": "4dc9a904ff0d224c1855b9f35e79f20039d65875edb08b3fc645717bafded870"
 }
