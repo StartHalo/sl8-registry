@@ -1,7 +1,7 @@
 {
   "name": "saas-mkt-router",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Routes every job on the micro-SaaS marketing strategy bot (Plan our marketing, Plan a launch, Status, Close). Reads the company profile and the project's progress, decides which planning skill runs next, runs it, and keeps the project dashboard current. Always the first and only skill a job lists; use it for any request about a B2B SaaS's marketing strategy, plan, launch, results, progress or closing, for building the next version of an earlier strategy, and for \"what can you do?\".",
-  "generated_at": "2026-10-01T06:21:19.837Z",
-  "skill_md_sha256": "0c81ac6066039102ff123eb358e0daa2b75e425268977642616570507138cd13"
+  "generated_at": "2026-10-01T11:41:44.156Z",
+  "skill_md_sha256": "92df15b170285a089b89ec8432245440aeb254cd7a52783a4b3611d025b4ef20"
 }
