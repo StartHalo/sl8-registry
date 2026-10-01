@@ -1,7 +1,7 @@
 {
   "name": "app-brand-review",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Reviews a consumer wellness app's material — screenshots, store listing text, onboarding, posts, emails, links — against its brand book, the Review job's consistency review. Gives findings by severity with where they are and a before-and-after fix, runs Neumeier's swap, hand and focus tests, checks health claims, and says what to fix first; writes the M4 Review milestone. Changes no brand file. Run by the app brand router for the Review job when a brand book exists.",
-  "generated_at": "2026-10-01T06:18:34.003Z",
-  "skill_md_sha256": "f1d420d58dc388953f87978e31a8b25b7871dbc8fec3fba771cff13ef67dc148"
+  "generated_at": "2026-10-01T11:42:54.558Z",
+  "skill_md_sha256": "055f41bb9f5cb8309f899c6cedf9c97d73e9728c1334d13b57ac38fdaeba9895"
 }
