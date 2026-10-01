@@ -11,6 +11,10 @@ Privacy Protection. Fill it for this campaign; drop rows that don't apply; never
   address: …"), which rebuilds the emails.
 - Anything `check.mjs` still fails.
 
+- A **prospect list** the bot built: these are cold contacts. Spot-check a few addresses on their
+  source pages, check consent rules for where you send (below), suppress anyone already a
+  customer or in talks, and send to a small part first.
+
 ## Your tests (in your own email tool)
 
 - Send a test of every email to yourself; open it in Gmail, Outlook and Apple Mail (phone and
