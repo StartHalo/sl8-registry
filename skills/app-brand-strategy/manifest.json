@@ -1,7 +1,7 @@
 {
   "name": "app-brand-strategy",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Writes the brand brief for a consumer wellness app, as the strategy phase (S2) of Alina Wheeler's brand identity process — the focus, one primary audience, positioning from the competitive alternatives, an onliness statement (\"the only ___ that ___\") checked against named competitors, a brand vision with proof points, the promise, what the brand will not do, and the health-claims limits on the promise — and writes the M2 Brand brief milestone. Run by the app brand router whenever it names S2.",
-  "generated_at": "2026-10-01T06:17:09.709Z",
-  "skill_md_sha256": "421c350afe9aaaa6a90019bb67865c6eeb100d0aabd5a0e48efc1458f5ad0996"
+  "generated_at": "2026-10-01T11:41:38.677Z",
+  "skill_md_sha256": "b81c4e37847632c4237098cde6cce9774c55dedeac4d69c3491387c911abd0a4"
 }
