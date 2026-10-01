@@ -1,7 +1,7 @@
 {
   "name": "saas-cro-framing-funnel",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Frames a conversion review for a B2B micro-SaaS website — the paths to a demo request or free trial, what counts as a conversion on each, the key pages (home, pricing, demo request, trial sign-up), a saved copy of each page's text, the figures known so far, and up to three competitors (ResearchXL setup, step S1). Run by the micro-SaaS conversion router; use it whenever the router names step S1.",
-  "generated_at": "2026-10-01T06:22:21.759Z",
-  "skill_md_sha256": "c901729365943840548158e961602117bd18e871b6caaf098738a2839f688f79"
+  "generated_at": "2026-10-01T12:45:00.474Z",
+  "skill_md_sha256": "6893e95753992ef1245e5fbb6493540eb974b5e020c8b0f4a41b4ecc097abd31"
 }
