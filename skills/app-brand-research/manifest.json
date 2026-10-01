@@ -1,7 +1,7 @@
 {
   "name": "app-brand-research",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Researches where a consumer wellness app's brand stands, as the research phase (S1) of Alina Wheeler's brand identity process — the brand problem, an audit of the app's own touchpoints and words, 3–5 category competitors' promise, look and voice, review themes from the app's and competitors' store reviews, and the category's clichés — and writes the M1 Findings milestone. Also serves as the brand audit. Run by the app brand router whenever it names S1.",
-  "generated_at": "2026-10-01T06:16:49.677Z",
-  "skill_md_sha256": "bfa5541f08c4bc4bba5d2b91506caa8ef213da6cc0f72b7665af65e53e03eb25"
+  "generated_at": "2026-10-01T11:41:19.611Z",
+  "skill_md_sha256": "4e889159769684b6cf9439f06ac11710b1b578c05ab73317101ddb2eca55056f"
 }
