@@ -38,3 +38,18 @@ test('check catches bad rows, duplicates, too many, free-mail, missing headings'
   assert.match(run('check', d).stdout, /header must be exactly/)
   fs.rmSync(tmp, { recursive: true, force: true })
 })
+
+test('scan extract: titles, plain and Cloudflare-protected emails, matching lines, www duplicates', async () => {
+  const { extract, decodeCf } = await import('../scripts/scan.mjs')
+  const enc = (s, k = 0x42) => k.toString(16).padStart(2, '0') + [...s].map((c) => (c.charCodeAt(0) ^ k).toString(16).padStart(2, '0')).join('')
+  const html = `<html><head><title>Contact | Oak School</title><style>.a{}</style></head><body>
+    <p>Main office: office@oak.example</p><a href="/cdn-cgi/l/email-protection#${enc('head@oak.example')}">[email protected]</a>
+    <span data-cfemail="${enc('&#97;dmissions@oak.example')}"></span><p>head@www.oak.example</p>
+    <p>Afternoon carpool begins at 3:00 in the north lot.</p><img src="logo@2x.png"><script>var x='car line js'</script></body></html>`
+  const x = extract(html)
+  assert.equal(x.title, 'Contact | Oak School')
+  assert.deepEqual(x.emails.sort(), ['admissions@oak.example', 'head@oak.example', 'office@oak.example'])
+  assert.equal(x.hits.length, 1)
+  assert.match(x.hits[0], /carpool begins/)
+  assert.equal(decodeCf(enc('a@b.example')), 'a@b.example')
+})
