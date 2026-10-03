@@ -1,0 +1,31 @@
+Source: https://growthmethod.com/assets/uploads/2022/02/Experiment-Doc-Template-Startup-Core-Strengths.pdf · Startup Core Strengths Limited, with ICE from Sean Ellis (https://www.lennysnewsletter.com/p/the-original-growth-hacker-sean-ellis, Lenny Rachitsky, 2024-09-05) · written 2026-10-03 · written by us following the Startup Core Strengths Experiment Doc ("We Believe That… / Therefore We Will… / We are Right If") and Sean Ellis's ICE, each scored "on a scale from 1 to 10"
+
+# Trailmate: growth experiment backlog (fictional app)
+
+Trailmate is a made-up freemium hiking app for iOS and Android: free trail maps, a paid Pro plan for offline maps. Every baseline and target below is invented for illustration; none is real data.
+
+How the template was applied:
+- **Hypothesis** follows "We Believe That…": one risky assumption, then "therefore, if we…, it will…".
+- **Metric and target** follows "We are Right If": one metric, the baseline, the target and the read window.
+- **ICE** is the average of Impact, Confidence and Ease, each 1–10, the averaging rule given for ICE in the Growth Method explainer (https://growthmethod.com/ice-framework/). Rows are sorted by ICE, highest first.
+- **Cost** follows the template's "Cost Impact & Estimates" (time and money).
+
+| # | Hypothesis | Segment | Channel | Metric and target | I | C | E | ICE | Cost | Owner | Start week |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | We believe lapsed users who saved a trail stop because they forget to plan, not because they lost interest. Therefore, if we push one saved or nearby trail pick on Friday afternoon, more of them will hike that weekend. | Users with ≥1 saved trail and no recorded hike in the last 14 days | Push notification | 14-day reactivation (records a hike) rises from 6% to 9%, holdout of 20% | 6 | 7 | 9 | 7.3 | 2 engineer-days; $0 media | Lifecycle (CRM) manager | 1 |
+| 2 | We believe new users churn in week 1 because the trail list feels generic. Therefore, if onboarding asks for home region and skill level and then shows 3 matching nearby trails, more new users will come back. | New installs, first session, iOS and Android | In-app onboarding | Day 7 retention rises from 22% to 27%, 50/50 split | 8 | 6 | 7 | 7.0 | 1 designer + 1 engineer for 1 two-week sprint | Growth PM | 1 |
+| 3 | We believe store visitors install for offline maps more than for trail counts. Therefore, if the first App Store screenshot leads with offline maps, more visitors will install. | US App Store product-page visitors | App Store product page test | Product-page conversion rises from 28% to 32% over 14 days | 6 | 6 | 9 | 7.0 | 3 designer-days | App store (ASO) manager | 2 |
+| 4 | We believe engaged free users would pay but will not commit to an annual plan blind. Therefore, if the annual plan offers a 7-day free trial after the third recorded hike, more will convert. | Free users with ≥3 recorded hikes | In-app paywall | Free-to-paid within 30 days rises from 2.5% to 3.5% | 9 | 6 | 6 | 7.0 | 1 engineer-week | Monetization PM | 2 |
+| 5 | We believe Pro subscribers who cancelled did so for price at season's end, not for product fit. Therefore, if we offer 40% off annual at the start of spring, more will resubscribe. | Pro subscribers who cancelled 30–90 days ago | Email | Resubscribe rate within 21 days rises from 2% to 5% | 6 | 6 | 8 | 6.7 | Discount cost only; $0 send | Lifecycle (CRM) manager | 3 |
+| 6 | We believe hikers want to show a finished route but find screenshots clumsy. Therefore, if a finished hike produces a one-tap shareable map card, more hikes will be shared. | Users who just finished a recorded hike | In-app share card | Shares per finished hike rise from 3% to 6% | 5 | 6 | 7 | 6.0 | 1 engineer-week + 2 designer-days | Growth engineer | 3 |
+| 7 | We believe hikers recruit hiking partners if both sides gain something. Therefore, if a referral gives both people 1 free month of Pro once the friend records a first hike, more installs will come from invites. | Users with ≥2 recorded hikes in the last 30 days | In-app referral | Referred installs rise from 4% to 8% of weekly installs within 4 weeks | 8 | 5 | 4 | 5.7 | 2 engineer-weeks; about $3,000 in forgone Pro revenue | Growth PM | 4 |
+| 8 | We believe short creator trail videos can buy installs that stay. Therefore, if we run creator videos as paid TikTok ads to 18–34 outdoor-interest users, we will get installs at an acceptable cost and quality. | US users aged 18–34 with outdoor interests | TikTok paid ads | Cost per install ≤ $2.50 and day 7 retention of the paid cohort ≥ 20%, over 3 weeks | 7 | 4 | 6 | 5.7 | $5,000 media + $1,500 creator fees | Paid social manager | 4 |
+| 9 | We believe weekly hikers keep hiking if the app recognises the habit. Therefore, if a hiker earns a weekly streak badge for ≥1 recorded hike a week, more will still be active in week 4. | Activated users (≥1 recorded hike) in their first 2 weeks | In-app feature | Week 4 retention rises from 30% to 34%, 50/50 split | 7 | 5 | 5 | 5.7 | 2 engineer-weeks + 3 designer-days | Engagement PM | 5 |
+| 10 | We believe hikers standing at a trailhead will install a trail app when prompted there. Therefore, if 20 trailheads carry QR-code signs through a local park partner, we will get cheap local installs. | Visitors at 20 partner trailheads | Offline signage (QR codes) | 500 installs in 4 weeks at ≤ $1.00 per install | 5 | 4 | 5 | 4.7 | $1,000 printing + 3 days of partner work | Partnerships lead | 6 |
+
+## Why it is good
+- Every hypothesis states the belief being tested and the causal reason, in the template's "We Believe That… Therefore…" form, so a failed test tells the team which belief was wrong.
+- Every target is a named metric with a baseline, a target and a window (for example "Day 7 retention rises from 22% to 27%"), meeting the template's demand for "a specific numerical prediction".
+- Segments are behavioural and countable ("≥1 saved trail and no recorded hike in the last 14 days"), not demographics alone.
+- Each ICE score is the average of the three 1–10 parts, so it can be checked, and the order and start weeks follow it.
+- Paid tests carry a quality guardrail as well as a cost one (row 8 requires day 7 retention ≥ 20%, not just cheap installs).
