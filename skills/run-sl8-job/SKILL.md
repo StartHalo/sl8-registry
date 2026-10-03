@@ -40,6 +40,14 @@ For each skill the job lists, in the order listed:
 
 Run exactly the skills the job lists. Never add, drop, repeat, reorder or swap one.
 
-## 3 · Finish
+## 3 · Project status
+
+Each bot skill's last checklist step updates the project's status file with the standard script
+shipped here: `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <project> --record
+<job.json>`. It is the only writer of `artifacts/<project>/STATUS.md`. If a skill ends without that
+step, run it yourself from what the job did: the job, the stored context it used, decisions made and
+still open, and the deliverables written.
+
+## 4 · Finish
 
 Finish as CLAUDE.md says, and name any listed skill that did not run.
