@@ -4,6 +4,8 @@ Source: https://ipa.co.uk/media/4552/briefinganagency.pdf · IPA / ISBA / MAA / 
 
 Flatpot is a made-up bill-splitting app for people who share a rented flat. Every product fact, number and date below is invented to show the format. The section order follows the guide's three blocks (background, the brief itself, implementation and process) and its five planning questions. The guide's header for each section is given in brackets.
 
+**Method:** single-minded creative brief (the IPA/ISBA briefing questions in Beloved Brands' "smart brief" form).
+
 ## Objective
 [Communications objectives; "Where do we want to be?"]
 Get existing Flatpot households in the UK to switch on AutoSplit, the new feature that links a household bill once and splits every future payment automatically. Business context, kept separate as the guide advises: households that use AutoSplit are expected to stay longer. This brief is about activation only, not new-user acquisition.
@@ -32,7 +34,10 @@ The "bill-payer" in a UK flatshare of three or more people, aged 22–30, who al
 
 ## Budget
 [Budget: "May specify if production is included or not"]
-£60,000 in total, including production: 50% paid social (£30,000), 30% production (£18,000), 20% in-app and email build and testing (£12,000).
+£60,000 in total, including production:
+- Paid social: £30,000
+- Production: £18,000
+- In-app and email build and testing: £12,000
 
 ## Deliverables
 - 3 vertical videos (15s) for paid social, each with a 6s cut-down.
@@ -46,6 +51,9 @@ The "bill-payer" in a UK flatshare of three or more people, aged 22–30, who al
 - No other Flatpot features in this campaign.
 - No price promotions or referral bonuses.
 - No out-of-home, TV or influencer contracts.
+
+## Assumptions
+- Production costs are planning estimates. Send agency quotes to replace them.
 
 ## Why it is good
 - It answers the guide's five questions in order. The guide's "consistently the weakest area", the communications objective, is one sentence and separate from the business target.
