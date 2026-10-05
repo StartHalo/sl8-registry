@@ -1,6 +1,8 @@
 # <App>: growth tests for <quarter>
 
-**Goal:** <the goal with its date, from the request> · **Budget:** <amount and currency> · **Total cost:** <sum of the Cost column>
+**Goal:** <the goal with its date, from the request, or yours marked (proposed)> · **Budget:** <amount and currency, or 0: team time only> · **Total cost:** <sum of the Cost column>
+
+**Method:** hypothesis-driven experiment backlog, ranked by Sean Ellis's ICE score (Impact, Confidence, Ease).
 
 | # | Hypothesis | Segment | Channel | Metric and target | I | C | E | ICE | Cost | Owner | Start week |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -12,4 +14,7 @@
 - <One line on how these tests add up to the goal.>
 
 ## Assumptions
-- <every assumption, and what to send to replace it>, or "None"
+- **<label from inputs.mjs>:** not given. Assumed <what you assumed>. Send <what to send> to replace it.
+- <one line per input inputs.mjs listed under "assume", using its label, then one line per other
+  assumption you made (a claim with no source, a page that would not open), each with what to send>
+- or "None" when nothing was assumed

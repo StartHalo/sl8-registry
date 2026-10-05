@@ -1,6 +1,6 @@
 # Rules for the growth test backlog
 
-1. **Exactly 10 tests, one channel each,** sorted by ICE, highest first.
+1. **10 tests, one channel each,** sorted by ICE, highest first.
 2. **A hypothesis is testable:** "If we <change>, then <metric> will <move>, because <reason>". "Try TikTok"
    is not a hypothesis.
 3. **Every target is a number with a unit and a time:** "40 bookings in 4 weeks", "+15% day-7 retention".
@@ -12,4 +12,4 @@
 6. **Start weeks are W1–W13** of the quarter. Spread them so the team can run them.
 7. **Tests serve the goal and the ICP's segments.** They cover the funnel stage the goal needs (for a
    launch: acquisition and first conversion) and not only top-of-funnel awareness.
-8. **At most 900 words.**
+8. **One page plus the table.** Cut repetition, never a column.

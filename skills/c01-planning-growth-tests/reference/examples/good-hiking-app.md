@@ -4,6 +4,8 @@ Source: https://growthmethod.com/assets/uploads/2022/02/Experiment-Doc-Template-
 
 Trailmate is a made-up freemium hiking app for iOS and Android: free trail maps, a paid Pro plan for offline maps. Every baseline and target below is invented for illustration; none is real data.
 
+**Method:** hypothesis-driven experiment backlog, ranked by Sean Ellis's ICE score (Impact, Confidence, Ease).
+
 How the template was applied:
 - **Hypothesis** follows "We Believe That…": one risky assumption, then "therefore, if we…, it will…".
 - **Metric and target** follows "We are Right If": one metric, the baseline, the target and the read window.
@@ -22,6 +24,10 @@ How the template was applied:
 | 8 | We believe short creator trail videos can buy installs that stay. Therefore, if we run creator videos as paid TikTok ads to 18–34 outdoor-interest users, we will get installs at an acceptable cost and quality. | US users aged 18–34 with outdoor interests | TikTok paid ads | Cost per install ≤ $2.50 and day 7 retention of the paid cohort ≥ 20%, over 3 weeks | 7 | 4 | 6 | 5.7 | $5,000 media + $1,500 creator fees | Paid social manager | 4 |
 | 9 | We believe weekly hikers keep hiking if the app recognises the habit. Therefore, if a hiker earns a weekly streak badge for ≥1 recorded hike a week, more will still be active in week 4. | Activated users (≥1 recorded hike) in their first 2 weeks | In-app feature | Week 4 retention rises from 30% to 34%, 50/50 split | 7 | 5 | 5 | 5.7 | 2 engineer-weeks + 3 designer-days | Engagement PM | 5 |
 | 10 | We believe hikers standing at a trailhead will install a trail app when prompted there. Therefore, if 20 trailheads carry QR-code signs through a local park partner, we will get cheap local installs. | Visitors at 20 partner trailheads | Offline signage (QR codes) | 500 installs in 4 weeks at ≤ $1.00 per install | 5 | 4 | 5 | 4.7 | $1,000 printing + 3 days of partner work | Partnerships lead | 6 |
+
+## Assumptions
+- **Channels allowed:** not given. Assumed any channel the team can run, with no paid search. Send any channel limits to replace it.
+- Baselines are invented for illustration. A real backlog sends current conversion and retention figures to replace them.
 
 ## Why it is good
 - Every hypothesis states the belief being tested and the causal reason, in the template's "We Believe That… Therefore…" form, so a failed test tells the team which belief was wrong.
