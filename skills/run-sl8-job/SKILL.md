@@ -46,8 +46,10 @@ Each bot skill's last checklist step updates the project's status file with the 
 shipped here: `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <project> --record
 <job.json>`. It is the only writer of `artifacts/<project>/STATUS.md`. If a skill ends without that
 step, run it yourself from what the job did: the job, the stored context it used, decisions made and
-still open, and the deliverables written.
+still open, and the deliverables written. The script prints a JSON result; if it prints nothing, the
+status was not written, so say so when you finish.
 
 ## 4 · Finish
 
-Finish as CLAUDE.md says, and name any listed skill that did not run.
+Finish as CLAUDE.md says, and name any listed skill that did not run. Never delete files, including
+scratch files in `work/`: the customer's folders are kept as they are.

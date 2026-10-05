@@ -1,7 +1,7 @@
 {
   "name": "run-sl8-job",
-  "version": "v1.1.0",
+  "version": "v1.1.1",
   "description": "Runs every job on an SL8 bot the same way. Matches the request to one of the jobs listed in the bot's setup and runs the skills that job lists, one or several, in the order listed, declining work the bot does not do. The platform opens every job with this skill; it is never chosen from the skill list and never invoked again inside a job or from a subagent.",
-  "generated_at": "2026-10-03T21:47:44.780Z",
-  "skill_md_sha256": "ba7f2872b07b8079d17ef225f95e906ebfa7bfdae6fc226bd17057e3a8ac5112"
+  "generated_at": "2026-10-05T12:27:16.688Z",
+  "skill_md_sha256": "052e921bd087a127ea6f2b3c1522131a018166f53273906ce72fa5a6a8d38720"
 }

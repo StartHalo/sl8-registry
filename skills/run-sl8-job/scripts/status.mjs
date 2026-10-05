@@ -10,6 +10,7 @@ import path from 'node:path'
 import os from 'node:os'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
 
 const HELP = `usage: node status.mjs --project <slug> --record <job.json> [--artifacts <dir>] [--dry-run]
        node status.mjs --check <STATUS.md>          completeness check of a status file
@@ -154,13 +155,19 @@ function selftest() {
   t('check catches a hand-written status', checkStatus('# p\n**State:** fine\n').length >= 3)
   const r6 = run({ artifactsDir: A, project: 'q', record: rec, dryRun: true })
   t('--dry-run writes nothing', r6.ok && !fs.existsSync(path.join(A, 'q')))
+  // Skills call this script through ~/.claude/skills/run-sl8-job, a symlink (1.1.0 exited silently there).
+  const link = path.join(tmp, 'linked'); fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link)
+  let viaLink = ''; try { viaLink = execFileSync(process.execPath, [path.join(link, 'status.mjs'), '--help'], { encoding: 'utf8' }) } catch {}
+  t('runs when called through a symlinked folder', /usage: node status\.mjs/.test(viaLink))
   fs.rmSync(tmp, { recursive: true, force: true })
   const failed = results.filter(r => !r.pass)
   process.stdout.write(JSON.stringify({ ok: !failed.length, cases: results.length, failed }, null, 2) + '\n')
   process.exit(failed.length ? 1 : 0)
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+// Compare real paths: skills call this script through a symlinked skills folder.
+const real = p => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const argv = process.argv.slice(2)
   const opt = k => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null)
   const out = (o, c) => { process.stdout.write(JSON.stringify(o, null, 2) + '\n'); process.exit(c) }
