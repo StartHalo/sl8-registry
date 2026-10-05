@@ -1,31 +1,38 @@
 #!/usr/bin/env node
-// inputs.mjs: checks the request has this job's required inputs (job card: Brief a launch campaign).
-// No prompts; JSON on stdout; exit 1 when a required input is missing; writes nothing.
+// inputs.mjs: reads the saved request for this job's inputs (job card: Brief a launch campaign).
+// Only what launches is required: without it there is no job. Every other input is assumed when
+// missing, and the deliverable's Assumptions section gives each one a line starting "**<label>:**"
+// (D40). With no budget the brief uses owned channels and team time only, so the budget is 0.
+// No prompts; JSON on stdout; exit 1 only when the required input is missing; writes nothing.
 import fs from 'node:fs'
-const HELP = 'usage: node inputs.mjs <request.md> | --selftest\n  prints {"ok","found":{…},"missing":[…],"budget":n|null,"say":"…"}'
-const REQUIRED = {
-  what_launches: /^(?:launch|launching|what launches|what's launching|feature|product)\s*[:—-]\s*(.+)$/im,
-  launch_date: /^(?:launch date|date|launches on|going live)\s*[:—-]\s*(.+)$/im,
-  audience: /^(?:audience|market|who|target)\s*[:—-]\s*(.+)$/im,
-  budget: /^(?:budget|spend)\s*[:—-]\s*(.+)$/im,
+const HELP = 'usage: node inputs.mjs <request.md> | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label"}],"budget":n,"say":"…"}; budget is 0 when none was given'
+const REQUIRED = { what_launches: /^(?:launch|launching|what launches|what's launching|feature|product)\s*[:—-]\s*(.+)$/im }
+const OPTIONAL = {
+  launch_date: [/^(?:launch date|date|launches on|going live)\s*[:—-]\s*(.+)$/im, 'Launch date'],
+  audience: [/^(?:audience|market|who|target)\s*[:—-]\s*(.+)$/im, 'Audience'],
+  budget: [/^(?:budget|spend)\s*[:—-]\s*(.+)$/im, 'Budget'],
 }
-const ASK = { what_launches: 'what is launching', launch_date: 'the launch date', audience: 'the audience or market for the launch', budget: 'the campaign budget, with its currency' }
+const ASK = { what_launches: 'what is launching (the app, a relaunch or a feature)' }
 const empty = v => !v || /^\s*(<[^>]*>|tbd|\[tbd\]|n\/?a|-|—|\?)\s*$/i.test(v)
 export const amount = v => { const m = String(v).replace(/,/g, '').match(/(\d+(?:\.\d+)?)\s*(k|m|thousand|million|lakh|lac)?/i); if (!m) return null; const mult = { k: 1e3, thousand: 1e3, m: 1e6, million: 1e6, lakh: 1e5, lac: 1e5 }[(m[2] || '').toLowerCase()] || 1; return Number(m[1]) * mult }
 export function check(text) {
-  const found = {}, missing = []
+  const found = {}, missing = [], assume = []
   for (const [k, re] of Object.entries(REQUIRED)) { const m = text.match(re); if (m && !empty(m[1])) found[k] = m[1].trim(); else missing.push(k) }
-  if (found.launch_date && !/(\d|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(found.launch_date)) { missing.push('launch_date'); delete found.launch_date }
-  if (found.budget && amount(found.budget) === null) { missing.push('budget'); delete found.budget }
-  return { ok: !missing.length, found, missing, budget: found.budget ? amount(found.budget) : null, say: missing.length ? `To brief the launch I need: ${missing.map(k => ASK[k]).join('; ')}.` : '' }
+  for (const [k, [re, label]] of Object.entries(OPTIONAL)) { const m = text.match(re); if (m && !empty(m[1]) && (k !== 'budget' || amount(m[1]) !== null)) found[k] = m[1].trim(); else assume.push({ field: k, label }) }
+  return { ok: !missing.length, found, missing, assume, budget: found.budget ? amount(found.budget) : 0, say: missing.length ? `To brief the launch I need: ${missing.map(k => ASK[k]).join('; ')}.` : '' }
 }
+// run as a command only when called directly (validate.mjs imports check); real paths, because skills are reached through a symlink (SHORTCOMINGS №121)
+const direct = (() => { try { return fs.realpathSync(process.argv[1]) === fs.realpathSync(new URL(import.meta.url).pathname) } catch { return false } })()
+if (direct) {
 const a = process.argv.slice(2)
 if (a.includes('--help')) { console.log(HELP); process.exit(0) }
 if (a.includes('--selftest')) {
   const g = check('Launch: live group sessions\nLaunch date: 2 February 2027\nAudience: UK office workers\nBudget: £4,000')
-  const b = check('Plan the launch of live sessions\nAudience: UK office workers\nAssume for me: yes')
-  const ok = g.ok && g.budget === 4000 && !b.ok && ['what_launches', 'launch_date', 'budget'].every(k => b.missing.includes(k))
-  console.log(JSON.stringify({ ok, cases: 2 })); process.exit(ok ? 0 : 1)
+  const t = check('Launch: live group sessions')
+  const n = check('Plan the launch\nAudience: UK office workers')
+  const ok = g.ok && g.budget === 4000 && !g.assume.length && t.ok && t.budget === 0 && ['launch_date', 'audience', 'budget'].every(f => t.assume.some(x => x.field === f)) && !n.ok && n.missing[0] === 'what_launches'
+  console.log(JSON.stringify({ ok, cases: 3 })); process.exit(ok ? 0 : 1)
 }
 if (!a[0] || !fs.existsSync(a[0])) { console.log(JSON.stringify({ ok: false, errors: ['give the saved request file; see --help'] })); process.exit(2) }
 const r = check(fs.readFileSync(a[0], 'utf8')); console.log(JSON.stringify(r, null, 2)); process.exit(r.ok ? 0 : 1)
+}

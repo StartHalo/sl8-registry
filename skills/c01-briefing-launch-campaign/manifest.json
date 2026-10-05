@@ -1,7 +1,7 @@
 {
   "name": "c01-briefing-launch-campaign",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Briefs a launch campaign for a consumer health or wellness app or a new feature as a one-page campaign brief - objective, one single-minded proposition, three reasons to believe, audience, a KPI with a number and a date, at most three channels, a budget split, deliverables and what is out of scope. Use when the person asks to plan or brief the launch of an app, a relaunch or a feature, or for a campaign brief.",
-  "generated_at": "2026-10-03T22:51:00.067Z",
-  "skill_md_sha256": "f181694f8f0e2a6f2009f6621793d0a9ac6dfb5bed23f34381b6acf23efe931f"
+  "generated_at": "2026-10-05T12:27:43.593Z",
+  "skill_md_sha256": "cbc4547298b0688795e25cd641ad9b0d52cd4107ff7eaa027eff9bfd7e2aec1f"
 }

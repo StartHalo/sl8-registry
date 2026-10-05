@@ -1,6 +1,8 @@
 # <App>: launch campaign brief, <what launches>
 
-**Launch date:** <from the request> · **Budget:** <amount and currency>
+**Launch date:** <from the request, or yours marked (assumed)> · **Budget:** <amount and currency, or 0: owned channels and team time only>
+
+**Method:** single-minded creative brief (the IPA/ISBA briefing questions in Beloved Brands' "smart brief" form).
 
 ## Objective
 <One sentence: the business result this campaign is for, tied to the goal.>
@@ -34,4 +36,7 @@
 <what this campaign will not do>
 
 ## Assumptions
-- <every assumption, and what to send to replace it>, or "None"
+- **<label from inputs.mjs>:** not given. Assumed <what you assumed>. Send <what to send> to replace it.
+- <one line per input inputs.mjs listed under "assume", using its label, then one line per other
+  assumption you made (a claim with no source, a page that would not open), each with what to send>
+- or "None" when nothing was assumed
