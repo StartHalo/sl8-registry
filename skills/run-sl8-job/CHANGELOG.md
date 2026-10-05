@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.1.1] — 2026-10-05
+### Added
+- Release run-sl8-job v1.1.1.
+
 ## [v1.1.0] — 2026-10-03
 ### Added
 - Release run-sl8-job v1.1.0.
