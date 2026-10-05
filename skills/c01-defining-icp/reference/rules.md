@@ -12,4 +12,4 @@
 5. **Proof points are things the team can show,** not adjectives.
 6. **A pivot is positioned as what the app is becoming,** starting from the existing users when the
    request says so. Keep the existing use where the request keeps it.
-7. **At most 900 words.** Cut repetition, never a field.
+7. **One page.** Cut repetition, never a field.

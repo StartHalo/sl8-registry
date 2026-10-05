@@ -4,6 +4,8 @@ Source: https://www.aprildunford.com/post/a-quickstart-guide-to-positioning · A
 
 Nightplate is a made-up iOS and Android app that plans meals and eating times around rotating night shifts. **All figures below are fictional, for illustration only.** They show the shape and precision of evidence a real one-pager needs; they are not facts. The order follows Dunford: "We start with competitive alternatives, or what would customers do if our solution didn't exist," then unique attributes, then value, then best-fit customers, then market category.
 
+**Method:** Jobs to be Done segments with Geoffrey Moore's positioning statement, built in April Dunford's order.
+
 ## Dunford canvas
 - **Competitive alternatives:** vending machines and the hospital cafeteria at 3 a.m., generic meal-prep apps that assume a 9-to-5 day, and doing nothing (skipping meals).
 - **Unique attributes:** it imports the shift rota from a photo of the roster, times meals to each shift, and keeps a 12-hour batch-cook list.
@@ -32,6 +34,10 @@ For hospital nurses and warehouse workers on rotating night shifts who skip meal
 1. Pilot: 48 nurses at 3 hospitals cut skipped meals per shift from 1.4 to 0.5 over 4 weeks.
 2. 4-week retention of 41% among users who imported a rota, against 18% for those who did not.
 3. A verbatim quote from a pilot user, with role and hospital named and consent recorded.
+
+## Assumptions
+- **Current users:** not given. Assumed the segments from store reviews and the rota-photo feature. Send installs and the share of users on night shifts to replace it.
+- **Competitors:** not given. Assumed vending machines, the cafeteria and generic meal-prep apps. Send the apps your users mention to replace it.
 
 ## Why it is good
 - It follows a named method in its stated order (Dunford: alternatives → attributes → value → best-fit → category), so each claim traces back to a competitive alternative.
