@@ -1,7 +1,7 @@
 {
   "name": "c01-planning-growth-tests",
-  "version": "v1.1.0",
-  "description": "Plans the next quarter's growth tests for a consumer health or wellness app as a 10-row experiment backlog - hypothesis, segment, channel, metric with a target, ICE score, cost, owner and start week - within the person's budget and toward their dated goal. Use when the person asks what to test next, for growth experiments or a test backlog, or how to reach a growth goal this quarter.",
-  "generated_at": "2026-10-05T12:29:00.033Z",
-  "skill_md_sha256": "5812291665af9fefa003e5824c66022847465b6831a4042d8c592286ad39b893"
+  "version": "v1.2.0",
+  "description": "Plans the next quarter's growth tests for a consumer app in any category as a 10-row experiment backlog - hypothesis, segment, channel, metric with a target, ICE score, cost, owner and start week - within the person's budget and toward their dated goal. Use when the person asks what to test next, for growth experiments or a test backlog, or how to reach a growth goal this quarter.",
+  "generated_at": "2026-10-06T15:38:03.528Z",
+  "skill_md_sha256": "b3b653b15b42688accb7d86948c31d447aa71d727d0397496aa7e83355e6ace5"
 }

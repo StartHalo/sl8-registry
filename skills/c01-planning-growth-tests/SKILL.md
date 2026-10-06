@@ -1,6 +1,6 @@
 ---
 name: c01-planning-growth-tests
-description: Plans the next quarter's growth tests for a consumer health or wellness app as a 10-row experiment backlog - hypothesis, segment, channel, metric with a target, ICE score, cost, owner and start week - within the person's budget and toward their dated goal. Use when the person asks what to test next, for growth experiments or a test backlog, or how to reach a growth goal this quarter.
+description: Plans the next quarter's growth tests for a consumer app in any category as a 10-row experiment backlog - hypothesis, segment, channel, metric with a target, ICE score, cost, owner and start week - within the person's budget and toward their dated goal. Use when the person asks what to test next, for growth experiments or a test backlog, or how to reach a growth goal this quarter.
 ---
 
 # Planning growth tests
@@ -13,8 +13,8 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
 ## Workflow (copy into your task list and tick)
 - [ ] 1. Save the request word for word with the Write tool to `artifacts/<app>/inputs/request-growth-tests.md`.
 - [ ] 2. Check inputs: `node $S/scripts/inputs.mjs artifacts/<app>/inputs/request-growth-tests.md`.
-        If the app is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision per
-        missing input (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
+        If the app is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision for
+        the missing required input only (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
         then reply with the script's `say` line and end `partial`. A partial job writes only the request,
         the profile, its job record and (through the script) `STATUS.md`; never the deliverable.
         Otherwise do the job: keep the `assume` list it prints. Each input on it gets an Assumptions line in step 5.
@@ -39,10 +39,16 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
 ## Rules
 - `<app>` is also the project: the status script's `--project` is `<app>`. When the request names no app, `<app>` is `new-project` (the partial path only).
 - Segments come from the ICP if it exists, else the request, else the store page (cited), else your assumption under Assumptions with what to send. Say which.
-- The plan runs from next Monday to the goal's date, in weeks W1–W13 (at most 13 weeks; if the goal is further off, the 13 weeks are the first stretch toward it, and the reply says so). The budget covers the plan. State the dates.
+- The plan runs from next Monday (or from the start of the quarter the request names) to the goal's date, in weeks W1–W13 (at most 13 weeks; if the goal is further off, the 13 weeks are the first stretch toward it, and the reply says so). The budget covers the plan. State the dates.
 - Team time costs 0. Only money comes out of the budget.
 - If no store page is given or it will not open, say so under Assumptions and work from the request.
 - Never invent a baseline or result. A target is a goal for the test, marked as such. A baseline you
   don't have goes under Assumptions, with what to send.
+- A test may rely only on what exists or is built in the plan. A targeting detail (an age range,
+  a city) is cited or marked `(assumed)`; an asset that does not exist yet (a waitlist, a referral
+  scheme) is a test of its own or marked `(to build)`, never presented as existing.
+- The app's category comes from the request or its store page; with neither, it is marked `(assumed)`
+  and gets an Assumptions line. When the category has its own rules (health, finance, children,
+  dating, gambling), list what to verify before launch under Assumptions. Never give sign-off.
 - Never spend, post or contact anyone. The owner column names a role, never a person.
 - Only `artifacts/<app>/` and `artifacts/profile.md` are written. Never delete files.
