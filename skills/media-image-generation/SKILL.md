@@ -15,13 +15,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-06a
+  version: 1.0.2
+  revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D20..IMG-D49
+  deltas: IMG-D20..IMG-D49, IMG-D73
 ---
 
 # Image generation
@@ -47,8 +47,9 @@ Route here whenever none of these claims the request:
 - **Video** (animate a still, extend, reframe a clip): not on this machine. Deliver the still and
   name the debt.
 
-**What handing off means, mechanically.** Read `$HOME/.agents/skills/<skill>/SKILL.md` (for example
-`$HOME/.agents/skills/media-photo-editing/SKILL.md`), follow it for the item it owns, and say in one
+**What handing off means, mechanically.** Load the sibling (Claude Code: the Skill tool, for example
+`media-photo-editing`; any other agent: read its whole `$HOME/.agents/skills/<skill>/SKILL.md`), follow
+it for the item it owns, and say in one
 line which item went to which skill. If the sibling is not installed, do not quietly build the thing
 yourself: name the skill the job needs; a substitute is labelled as not the specialist output.
 
@@ -115,7 +116,8 @@ paid call (HR1), state each default you chose in the delivery note, and ask noth
 | Format | `png`; `jpeg` "for shipped social" |
 
 **Before the first paid call, in order** (HR19: a step, not a warning):
-1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine, writes
+1. Load `media-ai-gen` (Claude Code: the Skill tool; any other agent: read its whole
+   `$HOME/.agents/skills/media-ai-gen/SKILL.md`). It runs every model on this machine, writes
    the manifest row (HR9) and opens gates (HR12).
 2. Start the project record once (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init
    --project <project>`), quote the call (`ai-gen estimate <id> --params-file <p.json> --format json`)
