@@ -15,8 +15,8 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-05a
+  version: 1.0.1
+  revision: 2026-10-06a
   house-rules: HR-1.0
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
@@ -113,6 +113,18 @@ paid call (HR1), state each default you chose in the delivery note, and ask noth
 | Identity | a generic person; a real person only with documented consent (HR17) |
 | Model | the routing table; a model the user names wins (HR20) |
 | Format | `png`; `jpeg` "for shipped social" |
+
+**Before the first paid call, in order** (HR19: a step, not a warning):
+1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine, writes
+   the manifest row (HR9) and opens gates (HR12).
+2. Start the project record once (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init
+   --project <project>`), quote the call (`ai-gen estimate <id> --params-file <p.json> --format json`)
+   and read what remains (`… manifest.mjs budget --project <project>`).
+3. If the quote is more than what remains, and that includes a run with **no spend authority**
+   (ceiling 0), open the gate and end the job there:
+   `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-<item> --question "<what, route, credits>" --options '[{"id":"a","label":"<route>","credits":<quote>},{"id":"b","label":"Stop here","credits":0}]' --resume-at "<this step>" --quote <quote>`.
+   The gate file, not a question in your reply, is how a job asks; it writes
+   `artifacts/<project>/outcome.json` as `partial`.
 
 ## Routing table
 
