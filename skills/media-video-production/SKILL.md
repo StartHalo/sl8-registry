@@ -3,9 +3,9 @@ name: media-video-production
 description: >-
   Runs a multi-shot video job end to end: script and per-shot timing contract, hero stills, one
   clip per shot, a clip review fence, voiceover placed per shot, music bed, sidechain duck and
-  loudness, on-screen text burned last in one encode, a final watch-and-listen, and delivery
-  with stems, plan and manifest. Quotes every paid stage first; every approval is a gate file,
-  so a job stops partial and the next job resumes. Use when: make a
+  loudness, titles burned last in one encode, a final watch-and-listen, and delivery
+  with stems, plan and manifest. Quotes each paid stage first; every approval is a gate file
+  (attended jobs stop there, unattended ones record it). Use when: make a
   video, short film, explainer, promo or narrated piece from a brief, script or stills; put a
   voiceover and music under generated clips; assemble, mix, duck, normalise or burn titles over a
   multi-shot cut; resume a video project stopped at a gate. NOT for: one clip from a prompt
@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-06b
+  version: 1.0.2
+  revision: 2026-10-06c
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104
 ---
 
 # Video Production
@@ -75,6 +75,9 @@ record in [references/burn-and-deliver.md](references/burn-and-deliver.md), and 
 ## Step 0 — Declared defaults, no card
 
 A job runs headless: no one can answer a question inside it, so this skill never asks one (HR12).
+Read `autonomy` in `$HOME/.sl8/run.json` once. `autonomous` means **unattended**: no one answers
+mid-job, so the review gates (structure, clips) are recorded and the job goes on (Stage 4); any
+other value means a person is attending and answers them.
 **On an existing project, the first command is**
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs status --project <project>`, then the resume
 protocol in media-ai-gen's `references/gates-and-manifest.md` (1.0.1): an open gate the brief answers
@@ -121,7 +124,7 @@ it. Each states what happens with no answer:
   **No answer means stop**, beat map delivered, nothing rendered. Waivable only
   here, alongside `Review`.
 - **`Approve clips`** — the fence at stage 4. **No answer means stop**, clips
-  delivered, remaining stages unrun.
+  delivered, remaining stages unrun. Unattended, both review gates are recorded instead (Stage 4).
 - **`Reshoot`** — which clip numbers to redo: an option of the `Approve clips` gate, answered
   with the numbers. No answer means stop, as above.
 - **`Music`** — mood or a supplied track, settled only when `Voice` is on and the
@@ -136,7 +139,10 @@ Stages 2, 3, 5, 6, 8b and 9 spend credits, and every reshoot spends again. These
 warning (HR19):
 
 1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine, writes
-   the manifest row (HR9) and opens gates (HR12).
+   the manifest row (HR9) and opens gates (HR12). Then read, whole, the SKILL.md of each sibling that
+   owns a stage you quote: `$HOME/.agents/skills/media-video-generation/SKILL.md` for clips,
+   `media-audio-generation` for voice and bed, `media-image-generation` for stills. Each owns its
+   route choice and its quote; its tables alone are not enough.
 2. Start the project record once:
    `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init --project <project>`.
 3. Quote. At the end of stage 1, before the first paid call, quote **the whole job, one line per
@@ -215,7 +221,8 @@ of stopping: open the same gate with `--kind text --default a`, answer it at onc
 `gate.mjs answer --project <project> --gate <NN> --option a --by "brief: <its words>"`, and go on
 to the pre-spend steps.
 
-**No answer means stop**, with the beat map delivered and nothing rendered.
+**No answer means stop**, with the beat map delivered and nothing rendered. Unattended, open it
+with `--kind text --default a` and go on: the beat map is recorded and flagged in the delivery.
 Stopping needs no input, so this gate is safe without a reply; it needs one only to
 spend money, which is the correct direction. Like the clip fence, it is waivable
 only from intake — and if it was waived, the delivery says the structure was never
@@ -337,7 +344,14 @@ Then open **one** gate, header `Approve clips`, and end the job `partial`:
 
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-clips --question "Approve the <n> clips listed in PROGRESS.md (sheet qc/clips.jpg) and continue for <quote> credits, or name the clips to reshoot?" --options '[{"id":"a","label":"Approve all: continue","credits":<quote>},{"id":"b","label":"Reshoot some: name the clip numbers","credits":<per-clip quote>},{"id":"c","label":"Stop here, give me the clips","credits":0}]' --resume-at "stage 5: voiceover, or the reshoots the answer names" --quote <quote>`
 
-Three rules that make this a fence rather than a courtesy:
+**Unattended** (`autonomy: autonomous`), add `--kind text --default a` to the same command: the gate
+records the clips, the sheet and the figures, and the job goes on to stage 5 without answering it.
+It still ends `partial` when a shot failed twice, or when the remaining stages' quote is more than
+what remains (the pre-spend steps open that spend gate). The delivery lists the fence, its figures
+and every `LOOKS STATIC` or `LOOK RESET` for the owner; a reshoot is a later job, and the stems make
+its re-mix free.
+
+Three rules that make this a fence rather than a courtesy when a person is attending:
 
 1. **A sentence in your reply cannot return an answer.** It must be a gate file. "Let me know if
    these look right" is not a checkpoint.
@@ -436,8 +450,8 @@ Each states the action it takes on its own, with no further input required.
   drift between fragments. Pin it once and reuse it.
 - **Never let a voiceover line cross a scene boundary.** Move the boundary and
   re-derive the plan, or trim the line.
-- **Never continue past the fence without an answer.** Stop: the gate file ends the job
-  `partial`, and the clips are delivered.
+- **Never continue past the fence without an answer while a person is attending.** Stop: the gate
+  file ends the job `partial`, and the clips are delivered. Unattended, record it (Stage 4).
 - **A re-cut cancels every downstream step already planned or queued.** After a
   reshoot or a re-mix, a pending burn-in, transcript or QC step was queued against
   a file that no longer exists, and a row parked as failed earlier is now
