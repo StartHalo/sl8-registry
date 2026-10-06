@@ -1,7 +1,7 @@
 {
   "name": "media-qc",
-  "version": "v1.0.0",
-  "description": "Measures delivered media with deterministic scripts and prints the figures, never a verdict word: checks, verifies, validates and measures an image or video file's kind (magic bytes against the extension), dimensions, aspect, format, real alpha (transparent pixels, not just an alpha channel) and bit depth; compares declared vs delivered against the plan, request record or manifest; builds a contact sheet of a set for review. Use when: after every generation or edit and before delivery; check, verify, validate or measure an image or video; dimensions, size, aspect, alpha, transparency, format, wrong extension, empty or corrupt file; declared vs delivered; contact sheet. NOT for: generating images (media-image-generation); edits, cutouts or composites (media-photo-editing); running models, manifests and gates (media-ai-gen); judging taste (the owner's review).",
-  "generated_at": "2026-10-06T00:58:17.266Z",
-  "skill_md_sha256": "f0928fc46a78a0da2bca1606e6a57933fc65116f6e9c324097db572721f0e878"
+  "version": "v1.1.0",
+  "description": "Measures delivered media with deterministic scripts and prints the figures, never a verdict word. Pictures: kind by magic bytes against the extension, size, aspect, format, real alpha, bit depth. Video: streams fit to deliver and concatenate (codec, pixel format, constant fps, frame count, sample rate), clips that disagree before a concat, motion against a frozen control, first and last frames against keyframes, declared duration, fps and audio. Audio: sound in every stretch, loudness (LUFS, true peak), a duck that dips under the voice and comes back, voiceover takes against the plan timing. Also kit copies and contact sheets. Use when: after every generation, edit or mix and before delivery; check or measure an image, clip, mix or voiceover; wrong size or alpha, frozen clip, wrong fps, silent track, A/V drift, loudness, ducking; declared vs delivered. NOT for: generating images (media-image-generation); edits (media-photo-editing); running models, manifests and gates (media-ai-gen); taste (owner review).",
+  "generated_at": "2026-10-06T20:16:07.377Z",
+  "skill_md_sha256": "d56f97efce3db5aaf6cb08377a1a9e5730f3d47d7c5ae7c8451e37602c3ff111"
 }
