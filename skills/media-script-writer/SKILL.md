@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no calls made here); python3; media-audio-generation 1.0.0 voice registry (rate_wps)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.0.1
+  revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: fal-agent/fal-script-writer  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D50..VID-D59
+  deltas: VID-D50..VID-D59, VID-D107
 ---
 # Script Writer
 
@@ -296,8 +296,8 @@ revision. Never stall the run waiting on one.
    never lengthen the shot to fit the line.
 3. Write the shot seed as a self-contained visual: subject, wardrobe, location,
    light, framing, camera move. Present tense, one action, and everything the
-   `Carries in` cell names restated in full. Read
-   `$HOME/.agents/skills/media-shot-craft/SKILL.md` for how to word it — slot-composed framing, a motivated or
+   `Carries in` cell names restated in full. Load `media-shot-craft` (Claude Code: the
+   Skill tool; any other agent: read its whole `$HOME/.agents/skills/media-shot-craft/SKILL.md`) for how to word it — slot-composed framing, a motivated or
    explicitly locked camera, the specific gesture rather than the named
    emotion — and print its validator lines per row. If it is not there,
    this item's minimums stand and the delivery says the craft reference was
