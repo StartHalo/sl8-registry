@@ -1,7 +1,7 @@
 {
   "name": "media-video-generation",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "Chooses and runs the video model for one clip through ai-gen: text to video, image to video, first and last frame, reference to video, restyle footage, extend, upscale, reframe to a new aspect, add sound effects to a clip. Gives each intent a primary endpoint and a named fallback, quotes credits first, declares defaults, pins default-on flags, checks values against the schema, submits queued and measures that the clip moved. Use when: animate a still, generate a video clip, extend or continue a clip, upscale, reframe, vertical cut, restyle footage, sound for a clip, which video model, any video request no more specific skill claims. NOT for: a multi-shot video end to end (media-video-production); shot lists (media-shot-craft); narration scripts (media-script-writer); voice-over, music, transcripts (media-audio-generation); titles, captions, end cards (media-motion-graphics); H3 prompts (media-h3-prompter); stills (media-image-generation); ai-gen, manifests, gates (media-ai-gen); measuring files (media-qc).",
-  "generated_at": "2026-10-06T20:53:27.125Z",
-  "skill_md_sha256": "978c1742213b48d8090ae7837034d87397e8146dd83e3e90705328176791a3f4"
+  "generated_at": "2026-10-06T22:41:18.479Z",
+  "skill_md_sha256": "1c2a1ef80bdbca704b4fbc07fcbd063455c9a7c5cf50171c7110e1982d7a5634"
 }
