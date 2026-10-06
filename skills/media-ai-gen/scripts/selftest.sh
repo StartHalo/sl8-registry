@@ -61,11 +61,11 @@ check 0 gate-open node $S/gate.mjs open --project $P --slug approve-clips --ques
 check 0 gate-open-reuses node $S/gate.mjs open --project $P --slug approve-clips --question "again" --options '[{"id":"a","label":"x"},{"id":"b","label":"y"}]' --resume-at "step 4"
 grep -q '"reused":true' out.txt && { pass=$((pass+1)); echo "ok   gate-reuse"; } || { fail=$((fail+1)); echo "FAIL gate-reuse"; cat out.txt; }
 check 10 gate-status-open node $S/gate.mjs status --project $P
-check 2 gate-answer-bad-option node $S/gate.mjs answer --project $P --gate 01 --option z
-check 0 gate-answer node $S/gate.mjs answer --project $P --gate 1 --option a --by "owner reply"
+check 2 gate-answer-bad-option env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $P --gate 01 --option z
+check 0 gate-answer env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $P --gate 1 --option a --by "owner reply"
 check 0 gate-status-answered node $S/gate.mjs status --project $P
 grep -q '"resume_at": "step 4: render clips"' out.txt && { pass=$((pass+1)); echo "ok   gate-resume-at"; } || { fail=$((fail+1)); echo "FAIL gate-resume-at"; cat out.txt; }
-check 1 gate-answer-twice node $S/gate.mjs answer --project $P --gate 01 --option b
+check 1 gate-answer-twice env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $P --gate 01 --option b
 check 2 gate-text-needs-default node $S/gate.mjs open --project $P --slug tone --kind text --question "Tone?" --options '[{"id":"warm","label":"Warm"},{"id":"cool","label":"Cool"}]' --resume-at "step 2"
 check 0 gate-text node $S/gate.mjs open --project $P --slug tone --kind text --default warm --question "Tone?" --options '[{"id":"warm","label":"Warm"},{"id":"cool","label":"Cool"}]' --resume-at "step 2"
 # an open text gate never stops the next job (HR12: it proceeds on its default); status lists it, exit 0
@@ -81,9 +81,18 @@ check 0 mixed-status-text-only node $S/gate.mjs status --project $Q
 check 0 mixed-spend-gate node $S/gate.mjs open --project $Q --slug approve-structure --question "Render the beat map for 300 credits?" --options '[{"id":"a","label":"Approve","credits":300},{"id":"b","label":"Stop","credits":0}]' --resume-at "stage 2: stills" --quote 300
 check 10 mixed-status-spend-blocks node $S/gate.mjs status --project $Q
 node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.open.length!==1||b.open[0].slug!=="approve-structure"||b.open[0].kind!=="spend"||b.open_text.length!==1||b.open_text[0].slug!=="scope"||b.resume_at!==null)process.exit(1)' && { pass=$((pass+1)); echo "ok   mixed-status-lists-both"; } || { fail=$((fail+1)); echo "FAIL mixed-status-lists-both"; cat out.txt; }
-check 0 mixed-answer-spend node $S/gate.mjs answer --project $Q --gate 02 --option a --by "owner reply"
+check 0 mixed-answer-spend env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $Q --gate 02 --option a --by "owner reply"
 check 0 mixed-status-unblocked node $S/gate.mjs status --project $Q
 node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.open.length!==0||b.open_text.length!==1||b.resume_at!=="stage 2: stills")process.exit(1)' && { pass=$((pass+1)); echo "ok   mixed-resume-at-after-answer"; } || { fail=$((fail+1)); echo "FAIL mixed-resume-at-after-answer"; cat out.txt; }
+# 1.0.2: a job never answers its own spend gate (the owner answers outside a job, or a later job records it)
+Q=selfgate
+SL8_SPEND_LEDGER="$T/run-a/spend.jsonl" check 0 own-gate-open node $S/gate.mjs open --project $Q --slug approve-clips --question "Render?" --options '[{"id":"a","label":"Render","credits":20},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 4"
+SL8_SPEND_LEDGER="$T/run-a/spend.jsonl" check 1 own-gate-answer-refused node $S/gate.mjs answer --project $Q --gate 01 --option a --by "the same job"
+check 10 own-gate-still-open node $S/gate.mjs status --project $Q
+SL8_SPEND_LEDGER="$T/run-b/spend.jsonl" check 0 next-job-answers node $S/gate.mjs answer --project $Q --gate 01 --option a --by "owner, via the next job's brief"
+R=ownerout
+SL8_SPEND_LEDGER="$T/run-c/spend.jsonl" check 0 owner-gate-open node $S/gate.mjs open --project $R --slug approve-vo --question "Voice?" --options '[{"id":"a","label":"Voice","credits":5},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 5"
+check 0 owner-answers-outside-a-job env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $R --gate 01 --option a --by "owner"
 # concurrency: 8 parallel adds must all land
 for i in 1 2 3 4 5 6 7 8; do printf "f$i" > artifacts/$P/hero/p$i.png; node $S/manifest.mjs add --project $P --json "{\"item\":\"par-$i\",\"node\":\"hero\",\"tool\":\"convert\",\"declared\":{},\"files\":[\"artifacts/$P/hero/p$i.png\"]}" > /dev/null & done; wait
 node -e 'const m=require("./artifacts/demo/manifest.json");if(m.assets.filter(a=>a.item.startsWith("par-")).length!==8)process.exit(1)' && { pass=$((pass+1)); echo "ok   parallel-adds-locked"; } || { fail=$((fail+1)); echo "FAIL parallel-adds"; }
