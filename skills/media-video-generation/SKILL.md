@@ -16,8 +16,8 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.0.1
+  revision: 2026-10-06b
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
@@ -209,6 +209,10 @@ question is not.
    The gate file, not a question in your reply, is how a job asks; it writes
    `artifacts/<project>/outcome.json` as `partial`. Never confirm a spend in plain
    prose — a message cannot return an answer.
+   Then **stop there**. A job never answers its own spend gate (the owner does; media-ai-gen refuses
+   it), and a paid step that cannot run is never replaced by a local stand-in (camera moves over a
+   still in place of generated motion) or by installing tools (`pip`, `npm`, model downloads; HR21).
+   The first `ai-gen estimate` in a fresh machine can take 1–3 minutes: wait for it.
 
 When the brief gives a preference rather than a value ("keep it roughly as it
 is, no upscaling"), map it to the
