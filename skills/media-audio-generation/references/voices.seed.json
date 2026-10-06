@@ -1,0 +1,14 @@
+{
+  "narrator": {
+    "endpoint": "fal-ai/elevenlabs/tts/multilingual-v2",
+    "voice": "Brian",
+    "stability": 0.5,
+    "style": 0.0,
+    "speed": 1.0,
+    "rate_wps": 2.82,
+    "rate_measured_at": null,
+    "rate_source": "seed: fal's figure (agent export 2026-10-05, AG 209-210: 56 words in 19.83 s, Brian, multilingual-v2, speed 1.0, English); unverified on SL8 (D2c row 135; an earlier SL8 pipeline measured about 2.5 w/s, T3 #28); re-test D2c B8, about 30 cr",
+    "sample": null,
+    "consent": null
+  }
+}
