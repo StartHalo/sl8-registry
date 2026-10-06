@@ -16,8 +16,8 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.0.1 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.0.1
+  revision: 2026-10-06b
   house-rules: HR-1.0
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
@@ -84,6 +84,11 @@ read verbatim, or it leaves the script, and the delivery names the line that lef
    `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-<item> --question "<what, route, credits>" --options '[{"id":"a","label":"<route>","credits":<quote>},{"id":"b","label":"Stop here","credits":0}]' --resume-at "<this step>" --quote <quote>`.
    The gate file, not a question in your reply, is how a job asks; it writes
    `artifacts/<project>/outcome.json` as `partial`.
+   Then **stop there**. A job never answers its own spend gate (the owner does; media-ai-gen refuses
+   it), and a paid step that cannot run is never replaced by a local stand-in (camera moves over a
+   still in place of generated motion, a locally installed voice or transcription model) or by
+   installing tools (`pip`, `npm`, model downloads; HR21). The first `ai-gen estimate` in a fresh
+   machine can take 1–3 minutes: wait for it; a slow quote is not a reason to go local.
 
 ## Whose voice — the limit, read off the request before any route
 
