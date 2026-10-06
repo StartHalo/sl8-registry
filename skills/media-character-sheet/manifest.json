@@ -1,0 +1,7 @@
+{
+  "name": "media-character-sheet",
+  "version": "v1.0.0",
+  "description": "Character sheets, character design sheets, model sheets, turnarounds and expression sheets as ONE image from ONE generation call: hero pose, front, side and back views, expressions, detail panels and palette, or a clean 4-column turnaround reference for video identity. Works from a text brief or from an existing photo or render (edit mode, uploaded with --ref). Writes the CHARACTER ANCHOR text that every later image or video call repeats verbatim, and the sheet becomes the identity reference those calls attach. Use when: a brief asks for a character sheet, turnaround, expression sheet, character reference or identity anchor, or a character must stay the same across later images or video. NOT for: single images, scenes, storyboards or multi-character boards (media-image-generation); photo adjustments or background removal (media-photo-editing); running ai-gen in general (media-ai-gen); scripted output checks (media-qc); animating the character.",
+  "generated_at": "2026-10-06T00:57:57.788Z",
+  "skill_md_sha256": "819371b49b059e44a4c089408a9459b02867e2ca15d3434c04b5d40cd89ec37c"
+}
