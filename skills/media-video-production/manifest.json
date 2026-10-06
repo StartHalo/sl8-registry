@@ -1,7 +1,7 @@
 {
   "name": "media-video-production",
-  "version": "v1.0.2",
+  "version": "v1.0.3",
   "description": "Runs a multi-shot video job end to end: script and per-shot timing contract, hero stills, one clip per shot, a clip review fence, voiceover placed per shot, music bed, sidechain duck and loudness, titles burned last in one encode, a final watch-and-listen, and delivery with stems, plan and manifest. Quotes each paid stage first; every approval is a gate file (attended jobs stop there, unattended ones record it). Use when: make a video, short film, explainer, promo or narrated piece from a brief, script or stills; put a voiceover and music under generated clips; assemble, mix, duck, normalise or burn titles over a multi-shot cut; resume a video project stopped at a gate. NOT for: one clip from a prompt (media-video-generation); a voiceover, bed or transcript alone (media-audio-generation); a script alone (media-script-writer); shot wording (media-shot-craft); overlay type and motion alone (media-motion-graphics); stills (media-image-generation); running ai-gen (media-ai-gen); measuring files (media-qc).",
-  "generated_at": "2026-10-06T21:51:23.417Z",
-  "skill_md_sha256": "287565c280cff2ae5df3f9446a3563db6d4e20588530051906ff68f28da121b1"
+  "generated_at": "2026-10-06T22:42:12.042Z",
+  "skill_md_sha256": "ab5c818b2535c0ef893f8dfcb96690376a96b44f113051f6a484cb1611a489ce"
 }
