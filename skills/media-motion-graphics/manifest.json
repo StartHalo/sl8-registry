@@ -1,0 +1,7 @@
+{
+  "name": "media-motion-graphics",
+  "version": "v1.0.0",
+  "description": "Designs and burns everything drawn over the picture of a cut, deterministically with PIL and ffmpeg: titles, lower thirds, eyebrows, price or offer badges, CTA banners, end cards and voiceover captions, on a cap-height unit grid, with fonts from the machine's fonts pack, plates or scrims, colour sampled from the footage, platform safe areas, eased entrances and exits, reading-time holds, full-frame RGBA frame sequences and every overlay burned in one encode, with printed checks that can fail. Use when: media-video-production stage 8 burns its overlay rows; animate titles; add a lower third, end card, badge or captions to a cut; the graphics look plain, basic or simple; make the captions pop. NOT for: writing or rewording the strings (media-script-writer); when graphics burn and the clearance check (media-video-production); generating or animating footage with a model (media-video-generation); editing a still (media-photo-editing); measuring files (media-qc).",
+  "generated_at": "2026-10-06T20:15:24.929Z",
+  "skill_md_sha256": "9dc7703506856d1d6fb84c5ed464249d5eadfe1b37bdeb6a5bc953726266ad99"
+}
