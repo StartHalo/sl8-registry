@@ -142,7 +142,8 @@ The quote uses `render_dur`: you pay for the rendered seconds and use `dur`.
 Jobs run headless: nobody can answer a question inside one. So:
 - **A text-only choice** (tone, a crop, which of two framings) proceeds on a stated default and the
   delivery flags it. If you want it on record, `gate.mjs open --kind text --default <id>` writes it
-  without stopping.
+  without stopping, writes no `outcome.json`, and never stops a later job either: `status` lists it
+  under `open_text` with its default and exits 0.
 - **A spend the brief did not approve** (a step past the budget or the remaining ceiling, an unpriced
   paid route, a second failure with no fallback) opens a spend gate and the job stops `partial`.
   Nothing further is spent; the work so far is delivered.
@@ -172,10 +173,21 @@ overwrite `outcome.json` with anything but `partial`.
 ### Resume protocol
 
 1. **First command of every job on an existing project:** `gate.mjs status --project <p>`.
-   Exit 10 = a gate is open; exit 0 = none open, with `resume_at` from the last answered gate.
+   Exit 10 = a **spend** gate is open and unanswered (listed under `open`); exit 0 = no spend gate
+   is open, with `resume_at` from the last answered or waived gate. **An open text gate never
+   stops a job:** exit 0 lists it under `open_text` with its `default`; proceed on that default and
+   flag it in the delivery (HR12).
+
+   ```json
+   {"open":[],"open_text":[{"id":"02","slug":"tone","kind":"text","question":"Tone?","default":"warm","resume_at":"step 2","answer":null}],
+    "answered":[{"id":"01","slug":"approve-clips","kind":"spend","question":"…","default":null,"resume_at":"step 4: render clips from keyframes/","answer":"a"}],
+    "waived":[],"resume_at":"step 4: render clips from keyframes/"}
+   ```
 2. **Open gate, and the person's message answers it** (an option id, or words that plainly pick one):
-   `gate.mjs answer --project <p> --gate 01 --option a --by "<their words>"`, then resume.
-3. **Open gate, no answer in the message:** spend nothing, restate the question, end `partial` again.
+   `gate.mjs answer --project <p> --gate 01 --option a --by "<their words>"`, then resume. This holds
+   for a text gate too, when the message picks an option other than its default.
+3. **Open spend gate (exit 10), no answer in the message:** spend nothing, restate the question,
+   end `partial` again.
 4. **Resume at `resume_at`.** The plan is intent; the filesystem is truth: `manifest.mjs verify`,
    then skip every item whose row is `done` and whose files verify. Fetch any `pending` row with
    `ai-gen result <id>` before submitting anything new: it may already be paid for.
