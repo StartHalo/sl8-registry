@@ -1,0 +1,7 @@
+{
+  "name": "media-h3-prompter",
+  "version": "v1.0.0",
+  "description": "Writes finished MiniMax Hailuo H3 video prompts in H3's own grammar: three fields (integrated_multimodal_description, overall_soundscape, non_diegetic_music), timestamped shots on a half-second grid, tagged dialogue with speaker IDs, measured shot and dialogue budgets per duration, a validator and a repair order, with the visual style taken from the brief. Text-to-video (t2va) or from a first-frame image (i2va). Prompt text only, never a submission; media-video-generation sends it with prompt expansion disabled. Use when: an H3, Hailuo or MiniMax video prompt is wanted; an idea, vibe, logline, premise or pasted scene must become an H3 prompt; a first-frame image comes with the request; an H3 prompt needs revising, compressing, validating or repairing. NOT for: submitting the generation, routes or cost (media-video-generation); shot wording for other video models (media-shot-craft); image expansion or outpainting (media-image-generation); resizing or padding an image (media-photo-editing).",
+  "generated_at": "2026-10-06T20:15:44.950Z",
+  "skill_md_sha256": "785dc77dae24eb8e9c47761fb249bfb3dd82e8f280fa592e49b558b36afc0a09"
+}
