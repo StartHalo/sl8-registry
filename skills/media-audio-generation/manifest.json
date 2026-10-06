@@ -1,7 +1,7 @@
 {
   "name": "media-audio-generation",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "Router for every audio request: voiceover and text-to-speech, replacing the voice in a recording, dubbing speech into another language, sound effects and foley, background music, and transcription with or without word timings. Picks the endpoint, keeps one voice and one speaking rate per role in the project's voice registry, quotes credits, submits through ai-gen, measures and delivers. Handles narration that must fit a fixed window, multi-speaker dialogue, and cloned voices behind a consent gate; requests to sound like a named real person are refused whether or not a sample exists. Use when: voiceover, read or narrate a script, TTS, change the voice, dub or translate audio, sound effect, foley, whoosh, background music, music bed, soundtrack, transcribe, word timings. NOT for: writing the timed script (media-script-writer); assembling or captioning a video (media-video-production, media-motion-graphics); video clips (media-video-generation); running ai-gen (media-ai-gen); output checks (media-qc).",
-  "generated_at": "2026-10-06T20:53:47.049Z",
-  "skill_md_sha256": "6719cd475528393a99e785ab5ba1f7e4cce3b0563bca0f5902eeff8856601d8c"
+  "generated_at": "2026-10-06T22:41:37.416Z",
+  "skill_md_sha256": "e04be3944643963b62efcb860722de84db85879dda55899fbc164032f64a59ee"
 }
