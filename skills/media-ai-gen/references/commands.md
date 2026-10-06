@@ -98,6 +98,10 @@ for n,s in sch.items():
 
 ## estimate: cost per call, in credits
 
+The first `estimate` (or any first `ai-gen` call) in a fresh machine can take 1–3 minutes while the
+proxy's pricing warms up; measured 2026-10-06: 75–90 s or more, then about 0.3 s per call. Never wrap it
+in `timeout` under 300 s. `estimate` takes `--params-file` or `k=v`, not the media flags (`--image`).
+
 ```bash
 ai-gen estimate fal-ai/nano-banana-pro --params-file work/p/hero.params.json --format json
 ai-gen estimate bytedance/seedance-2.0/image-to-video duration:='"5"' resolution=720p generate_audio:=false --format json
