@@ -1,0 +1,7 @@
+{
+  "name": "media-qc",
+  "version": "v1.0.0",
+  "description": "Measures delivered media with deterministic scripts and prints the figures, never a verdict word: checks, verifies, validates and measures an image or video file's kind (magic bytes against the extension), dimensions, aspect, format, real alpha (transparent pixels, not just an alpha channel) and bit depth; compares declared vs delivered against the plan, request record or manifest; builds a contact sheet of a set for review. Use when: after every generation or edit and before delivery; check, verify, validate or measure an image or video; dimensions, size, aspect, alpha, transparency, format, wrong extension, empty or corrupt file; declared vs delivered; contact sheet. NOT for: generating images (media-image-generation); edits, cutouts or composites (media-photo-editing); running models, manifests and gates (media-ai-gen); judging taste (the owner's review).",
+  "generated_at": "2026-10-06T00:58:17.266Z",
+  "skill_md_sha256": "f0928fc46a78a0da2bca1606e6a57933fc65116f6e9c324097db572721f0e878"
+}
