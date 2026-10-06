@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.0.1 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-06b
+  version: 1.0.2
+  revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106
 ---
 # Audio Generation
 
@@ -73,7 +73,8 @@ being allowed to say it aloud. Do not soften it yourself — it is confirmed and
 read verbatim, or it leaves the script, and the delivery names the line that left.
 
 **Before the first paid call, in order** (HR19: a step, not a warning):
-1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine, writes
+1. Load `media-ai-gen` (Claude Code: the Skill tool; any other agent: read its whole
+   `$HOME/.agents/skills/media-ai-gen/SKILL.md`). It runs every model on this machine, writes
    the manifest row (HR9) and opens gates (HR12).
 2. Start the project record once (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init
    --project <project>`), write the params file, quote the call (`ai-gen estimate <id> --params-file
