@@ -1,6 +1,6 @@
 ---
 name: c01-defining-icp
-description: Defines the ideal customer and positioning for a consumer health or wellness app as a one-page ICP - two or three segments with the job they hire the app for, pains, trigger, where to reach them and evidence, one positioning statement and three proof points. Use when the person asks who the app is for, to define the ICP or target customer, or to position the app, including after a pivot.
+description: Defines the ideal customer and positioning for a consumer app in any category as a one-page ICP - two or three segments with the job they hire the app for, pains, trigger, where to reach them and evidence, one positioning statement and three proof points. Use when the person asks who the app is for, to define the ICP or target customer, or to position the app, including after a pivot.
 ---
 
 # Defining the ICP and positioning
@@ -13,8 +13,8 @@ hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-defin
 ## Workflow (copy into your task list and tick)
 - [ ] 1. Save the request word for word with the Write tool to `artifacts/<app>/inputs/request-icp.md`.
 - [ ] 2. Check inputs: `node $S/scripts/inputs.mjs artifacts/<app>/inputs/request-icp.md`.
-        If the app is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision per
-        missing input (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
+        If the app is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision for
+        the missing required input only (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
         then reply with the script's `say` line and end `partial`. A partial job writes only the request,
         the profile, its job record and (through the script) `STATUS.md`; never the deliverable.
         Otherwise do the job: keep the `assume` list it prints. Each input on it gets an Assumptions line in step 5.
@@ -42,5 +42,11 @@ hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-defin
 - "Position our app" or "who is our ICP" still returns the full one-pager; lead the reply with what was asked.
 - Never invent a number, review, quote or competitor fact. Cite the request, a store page or a page you
   opened in this job. Anything else goes under Assumptions.
+- An audience detail (an age range, a city, a size) is cited or marked `(assumed)` with its
+  Assumptions line. A proof point is something live today; a feature that is only planned is
+  labelled `(planned)`. With fewer sourced proof points, list fewer and say what to send.
+- The app's category comes from the request or its store page; with neither, it is marked `(assumed)`
+  and gets an Assumptions line. When the category has its own rules (health, finance, children,
+  dating, gambling), list what to verify before launch under Assumptions. Never give sign-off.
 - Never publish, post, spend or contact anyone. You may recommend; the person does.
 - Only `artifacts/<app>/` and `artifacts/profile.md` are written. Never delete files.
