@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-06b
+  version: 1.0.2
+  revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D01..VID-D29
+  deltas: VID-D01..VID-D29, VID-D102, VID-D105
 ---
 # Video Generation
 
@@ -56,8 +56,8 @@ Every model runs through `ai-gen` as media-ai-gen describes; dated data lives in
 
 Route here whenever none of those claims the request.
 
-**What handing off means, mechanically.** Read the sibling's
-`$HOME/.agents/skills/<skill>/SKILL.md` and follow that document for the item it owns, and
+**What handing off means, mechanically.** Load the sibling (Claude Code: the Skill tool;
+any other agent: read its whole `$HOME/.agents/skills/<skill>/SKILL.md`) and follow that document for the item it owns, and
 say in one line of the delivery note which item went to which skill. If the sibling is not
 installed or will not load, do not quietly build the thing yourself: name the
 skill the job needs, and offer a substitute only if you label it explicitly as
@@ -198,7 +198,8 @@ hands off to a sibling — and those get a stated default too, in the same
 question is not.
 
 **Before the first paid call, in order** (HR19: a step, not a warning):
-1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine,
+1. Load `media-ai-gen` (Claude Code: the Skill tool; any other agent: read its whole
+   `$HOME/.agents/skills/media-ai-gen/SKILL.md`). It runs every model on this machine,
    writes the manifest row (HR9) and opens gates (HR12).
 2. Start the project record once (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init
    --project <project>`), quote the call (`ai-gen estimate <id> --params-file <p.json> --format json`;
