@@ -1,6 +1,6 @@
 ---
 name: c01-briefing-launch-campaign
-description: Briefs a launch campaign for a consumer health or wellness app or a new feature as a one-page campaign brief - objective, one single-minded proposition, three reasons to believe, audience, a KPI with a number and a date, at most three channels, a budget split, deliverables and what is out of scope. Use when the person asks to plan or brief the launch of an app, a relaunch or a feature, or for a campaign brief.
+description: Briefs a launch campaign for a consumer app in any category or a new feature as a one-page campaign brief - objective, one single-minded proposition, three reasons to believe, audience, a KPI with a number and a date, at most three channels, a budget split, deliverables and what is out of scope. Use when the person asks to plan or brief the launch of an app, a relaunch or a feature, or for a campaign brief.
 ---
 
 # Briefing a launch campaign
@@ -13,8 +13,8 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
 ## Workflow (copy into your task list and tick)
 - [ ] 1. Save the request word for word with the Write tool to `artifacts/<app>/inputs/request-campaign.md`.
 - [ ] 2. Check inputs: `node $S/scripts/inputs.mjs artifacts/<app>/inputs/request-campaign.md`.
-        If what launches is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision per
-        missing input (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
+        If what launches is missing, do step 3 (profile only), then skip to step 7 with `"state":"waiting"` and one open decision for
+        the missing required input only (`{"text":"Send <input>","state":"open","needs":"<input>"}`) and no deliverables,
         then reply with the script's `say` line and end `partial`. A partial job writes only the request,
         the profile, its job record and (through the script) `STATUS.md`; never the deliverable.
         Otherwise do the job: keep the `assume` list it prints. Each input on it gets an Assumptions line in step 5.
@@ -43,5 +43,10 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
 - If no store page is given or it will not open, the reasons to believe come from the request only, and that is said under Assumptions.
 - Never invent a result, price, date or partner. Use what the person gave or a page you opened, and put
   the rest under Assumptions with what to send.
+- A reason to believe is true on the launch date and cited; a feature that is only planned is
+  labelled `(planned)`. An audience detail (an age range, a city) is cited or marked `(assumed)`.
+- The app's category comes from the request or its store page; with neither, it is marked `(assumed)`
+  and gets an Assumptions line. When the category has its own rules (health, finance, children,
+  dating, gambling), list what to verify before launch under Assumptions. Never give sign-off.
 - Never post, spend, book media or contact anyone. The brief is for the person's team or agency.
 - Only `artifacts/<app>/` and `artifacts/profile.md` are written. Never delete files.
