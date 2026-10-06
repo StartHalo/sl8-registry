@@ -1,7 +1,7 @@
 # Rules for the launch campaign brief
 
 1. **One proposition, one sentence,** short enough to remember. If you need "and", choose.
-2. **Reasons to believe, usually three:** facts the audience can check, not adjectives, each proving the same benefit.
+2. **Reasons to believe, usually three:** facts the audience can check, not adjectives, each proving the same benefit. With fewer facts in the request and pages opened, give fewer and name what to send under Assumptions; never invent one to reach three.
 3. **One audience segment,** described as people you can reach, at the moment they need the launch.
 4. **The KPI is a number by a date** within the campaign, such as "500 first bookings by 15 March 2027".
    With no baseline, say the KPI is a goal and add the baseline to Assumptions.
