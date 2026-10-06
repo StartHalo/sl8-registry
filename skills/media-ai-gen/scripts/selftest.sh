@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # selftest.sh: proves manifest.mjs and gate.mjs keep their contracts (row fields, retry levers, async
-# merge, budget, verify, waivers, gates, partial/resume, parallel adds). Runs in a throwaway folder,
+# merge, budget, verify, waivers, gates, partial/resume, text gates that do not block, parallel adds).
+# Runs in a throwaway folder,
 # spends nothing, needs node >= 20. Exit 0 when every case behaves; 1 otherwise. Studio check IMG-T3.
 set -u
 S="$(cd "$(dirname "$0")" && pwd)"
@@ -67,8 +68,22 @@ grep -q '"resume_at": "step 4: render clips"' out.txt && { pass=$((pass+1)); ech
 check 1 gate-answer-twice node $S/gate.mjs answer --project $P --gate 01 --option b
 check 2 gate-text-needs-default node $S/gate.mjs open --project $P --slug tone --kind text --question "Tone?" --options '[{"id":"warm","label":"Warm"},{"id":"cool","label":"Cool"}]' --resume-at "step 2"
 check 0 gate-text node $S/gate.mjs open --project $P --slug tone --kind text --default warm --question "Tone?" --options '[{"id":"warm","label":"Warm"},{"id":"cool","label":"Cool"}]' --resume-at "step 2"
+# an open text gate never stops the next job (HR12: it proceeds on its default); status lists it, exit 0
+check 0 gate-status-text-open-proceeds node $S/gate.mjs status --project $P
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));const t=b.open_text[0];if(b.open.length!==0||b.open_text.length!==1||t.slug!=="tone"||t.kind!=="text"||t.default!=="warm"||b.resume_at!=="step 4: render clips")process.exit(1)' && { pass=$((pass+1)); echo "ok   gate-text-listed-with-default"; } || { fail=$((fail+1)); echo "FAIL gate-text-listed-with-default"; cat out.txt; }
 check 0 gate-waive node $S/gate.mjs waive --project $P --gate 02 --instruction "just pick one, do not ask"
 node -e 'const m=require("./artifacts/demo/manifest.json");if(m.gates.length!==2||m.gates[0].status!=="answered"||m.gates[1].status!=="waived"||m.waivers.length!==2)process.exit(1)' && { pass=$((pass+1)); echo "ok   manifest-gate-index-and-waivers"; } || { fail=$((fail+1)); echo "FAIL manifest-gate-index"; cat artifacts/demo/manifest.json; }
+# a second project: a text gate writes no partial outcome; only an open spend gate blocks, and its answer unblocks
+Q=mixed
+check 0 mixed-text-gate node $S/gate.mjs open --project $Q --slug scope --kind text --default a --question "Scope?" --options '[{"id":"a","label":"As briefed"},{"id":"b","label":"Shorter"}]' --resume-at "step 1"
+[ ! -e artifacts/$Q/outcome.json ] && grep -q '"proceed_with":"a"' out.txt && { pass=$((pass+1)); echo "ok   text-gate-no-partial-outcome"; } || { fail=$((fail+1)); echo "FAIL text-gate-no-partial-outcome"; cat out.txt; ls artifacts/$Q; }
+check 0 mixed-status-text-only node $S/gate.mjs status --project $Q
+check 0 mixed-spend-gate node $S/gate.mjs open --project $Q --slug approve-structure --question "Render the beat map for 300 credits?" --options '[{"id":"a","label":"Approve","credits":300},{"id":"b","label":"Stop","credits":0}]' --resume-at "stage 2: stills" --quote 300
+check 10 mixed-status-spend-blocks node $S/gate.mjs status --project $Q
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.open.length!==1||b.open[0].slug!=="approve-structure"||b.open[0].kind!=="spend"||b.open_text.length!==1||b.open_text[0].slug!=="scope"||b.resume_at!==null)process.exit(1)' && { pass=$((pass+1)); echo "ok   mixed-status-lists-both"; } || { fail=$((fail+1)); echo "FAIL mixed-status-lists-both"; cat out.txt; }
+check 0 mixed-answer-spend node $S/gate.mjs answer --project $Q --gate 02 --option a --by "owner reply"
+check 0 mixed-status-unblocked node $S/gate.mjs status --project $Q
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.open.length!==0||b.open_text.length!==1||b.resume_at!=="stage 2: stills")process.exit(1)' && { pass=$((pass+1)); echo "ok   mixed-resume-at-after-answer"; } || { fail=$((fail+1)); echo "FAIL mixed-resume-at-after-answer"; cat out.txt; }
 # concurrency: 8 parallel adds must all land
 for i in 1 2 3 4 5 6 7 8; do printf "f$i" > artifacts/$P/hero/p$i.png; node $S/manifest.mjs add --project $P --json "{\"item\":\"par-$i\",\"node\":\"hero\",\"tool\":\"convert\",\"declared\":{},\"files\":[\"artifacts/$P/hero/p$i.png\"]}" > /dev/null & done; wait
 node -e 'const m=require("./artifacts/demo/manifest.json");if(m.assets.filter(a=>a.item.startsWith("par-")).length!==8)process.exit(1)' && { pass=$((pass+1)); echo "ok   parallel-adds-locked"; } || { fail=$((fail+1)); echo "FAIL parallel-adds"; }

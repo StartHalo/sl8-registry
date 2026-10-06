@@ -13,13 +13,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; node >=20; python3 (raw OpenAPI check)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-05a
+  version: 1.0.1
+  revision: 2026-10-06a
   house-rules: HR-1.0
   upstream: [fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/wrap-it-up, fal-agent/fal-video-production]  # sources only; that CLI is not on this machine
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D01..IMG-D19
+  deltas: IMG-D01..IMG-D19, IMG-D70
 ---
 
 # ai-gen: the model runner on this machine
@@ -212,6 +212,8 @@ The full exit-code playbook and the retry ledger are in [recovery.md](references
 - **Close with one short line:** the folder tree, the file count and the credits spent.
 - **A spend gate ends the job:** `gate.mjs open` writes the gate and `artifacts/<project>/outcome.json`
   `{status: "partial"}`. The next job runs `gate.mjs status` first and resumes at `resume_at`.
+  `status` exits 10 only while a spend gate is open; an open text gate is listed with its default
+  and never stops a job (HR12).
 
 ## Errors and exit codes
 

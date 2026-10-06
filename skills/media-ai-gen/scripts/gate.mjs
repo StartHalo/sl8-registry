@@ -2,13 +2,15 @@
 // gate.mjs: gate files for headless jobs (HR12). A spend the brief did not approve stops the job as
 // `partial` with the question written down; the next job of the same project reads the answer and resumes.
 //   open   --project P --slug S --question Q --options JSON --resume-at STEP [--quote N] [--kind spend|text]
-//          writes artifacts/P/gates/NN-S.json + .md, indexes it in the manifest, writes artifacts/P/outcome.json partial
+//          writes artifacts/P/gates/NN-S.json + .md, indexes it in the manifest; a spend gate (the default kind)
+//          also writes artifacts/P/outcome.json partial, a text gate needs --default and prints proceed_with
 //   answer --project P --gate NN --option ID [--by WHO]
-//   status --project P          exit 0 none open · 10 a gate is open and unanswered
+//   status --project P          exit 10 while a spend gate is open and unanswered · 0 otherwise. An open text
+//          gate never stops a job (it proceeds on its default, HR12): it is listed under open_text, exit 0
 //   waive  --project P --gate NN --instruction TEXT     the user's explicit instruction (HR20)
 // Options: --artifacts DIR (default ./artifacts), --outcome FILE (default <artifacts>/P/outcome.json, which persists).
 // --options is a JSON array: [{"id":"a","label":"Render 2 clips at 480p","credits":216}, …].
-// Exit: 0 ok · 1 refused · 2 usage · 10 open gate (status only). Node >= 20, no dependencies.
+// Exit: 0 ok · 1 refused · 2 usage · 10 open spend gate (status only). Node >= 20, no dependencies.
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -70,7 +72,7 @@ export function open (o) {
     fs.mkdirSync(gatesDir(dir), { recursive: true })
     const existing = listGates(dir)
     const same = existing.find((x) => x.slug === o.slug && x.status === 'open')
-    if (same) return { ok: true, gate: same.id, file: same.file, reused: true }
+    if (same) return { ok: true, gate: same.id, kind: same.kind, file: same.file, reused: true }
     const id = String(existing.reduce((n, x) => Math.max(n, Number(x.id)), 0) + 1).padStart(2, '0')
     const g = {
       schema: GATE_SCHEMA, id, slug: o.slug, project: o.project, kind, status: 'open', question: o.question, options,
@@ -116,13 +118,18 @@ export function waive (o) {
   })
 }
 
+// Only an open spend gate stops the next job (exit 10, listed under `open`). An open text gate is
+// listed under `open_text` with its default and exits 0: the job proceeds on the default and the
+// delivery flags it (HR12). Any gate whose kind is not `text` counts as spend, so it blocks.
 export function status (o) {
   const dir = projectDir(o)
   const gates = fs.existsSync(dir) ? listGates(dir) : []
-  const pick = (s) => gates.filter((g) => g.status === s).map((g) => ({ id: g.id, slug: g.slug, question: g.question, resume_at: g.resume_at, answer: g.answer?.option ?? null }))
-  const open = pick('open'); const answered = pick('answered'); const waived = pick('waived')
+  const row = (g) => ({ id: g.id, slug: g.slug, kind: g.kind === 'text' ? 'text' : 'spend', question: g.question, default: g.default ?? null, resume_at: g.resume_at, answer: g.answer?.option ?? null })
+  const pick = (s, test = () => true) => gates.filter((g) => g.status === s && test(g)).map(row)
+  const open = pick('open', (g) => g.kind !== 'text'); const openText = pick('open', (g) => g.kind === 'text')
+  const answered = pick('answered'); const waived = pick('waived')
   const last = [...answered, ...waived].sort((a, b) => a.id.localeCompare(b.id)).pop()
-  return { code: open.length ? 10 : 0, body: { open, answered, waived, resume_at: open.length ? null : last?.resume_at ?? null } }
+  return { code: open.length ? 10 : 0, body: { open, open_text: openText, answered, waived, resume_at: open.length ? null : last?.resume_at ?? null } }
 }
 
 function main () {
