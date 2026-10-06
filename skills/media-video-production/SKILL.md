@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.2
-  revision: 2026-10-06c
+  version: 1.0.3
+  revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108
 ---
 
 # Video Production
@@ -138,11 +138,12 @@ Stage 9 asks nothing. It measures, and reports what it measured.
 Stages 2, 3, 5, 6, 8b and 9 spend credits, and every reshoot spends again. These are steps, not a
 warning (HR19):
 
-1. Read `$HOME/.agents/skills/media-ai-gen/SKILL.md`. It runs every model on this machine, writes
-   the manifest row (HR9) and opens gates (HR12). Then read, whole, the SKILL.md of each sibling that
-   owns a stage you quote: `$HOME/.agents/skills/media-video-generation/SKILL.md` for clips,
-   `media-audio-generation` for voice and bed, `media-image-generation` for stills. Each owns its
-   route choice and its quote; its tables alone are not enough.
+1. Load `media-ai-gen` (Claude Code: the Skill tool; any other agent: read its whole
+   `$HOME/.agents/skills/media-ai-gen/SKILL.md`). It runs every model on this machine, writes the
+   manifest row (HR9) and opens gates (HR12). Then load, the same way, each sibling that owns a stage
+   you quote: `media-video-generation` for clips, `media-audio-generation` for voice and bed,
+   `media-image-generation` for stills. Each owns its route choice and its quote; its tables alone
+   are not enough.
 2. Start the project record once:
    `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init --project <project>`.
 3. Quote. At the end of stage 1, before the first paid call, quote **the whole job, one line per
@@ -230,8 +231,8 @@ approved before rendering.
 
 ## Stages 2–3 — Render the clips
 
-**Before wording or critiquing anything visual, read
-`$HOME/.agents/skills/media-shot-craft/SKILL.md`.** It
+**Before wording or critiquing anything visual, load `media-shot-craft`** (Claude Code: the Skill
+tool; any other agent: read its whole `$HOME/.agents/skills/media-shot-craft/SKILL.md`). It
 carries the craft this pipeline's checks enforce mechanically: the reason
 behind precondition P2 (one settled state per clip), the slot grammar for
 framing, the motivated-or-locked camera rule, and the
@@ -388,8 +389,8 @@ Run only after every re-rendering step is complete, from
 `overlay` column, not from memory of the brief; an overlay is text *or* an image (a logo is the one
 that gets forgotten). Before burning, check the region behind each overlay and, if it is not clear,
 **fix the picture, not the text** (a reframe, done before the burn). The type system and the burn
-itself are `media-motion-graphics`: read `$HOME/.agents/skills/media-motion-graphics/SKILL.md`,
-apply its Steps 1–6 to every `overlay` row, and burn every overlay, plus any voiceover captions
+itself are `media-motion-graphics`: load it (Claude Code: the Skill tool; any other agent: read its
+whole `$HOME/.agents/skills/media-motion-graphics/SKILL.md`), apply its Steps 1–6 to every `overlay` row, and burn every overlay, plus any voiceover captions
 (8b, timed from measured words), in one encode (HR10). **Never deliver a cut with an unburned
 `overlay` row silently.**
 
