@@ -21,5 +21,7 @@ Play note (answer/9859152): limits count full-width and half-width characters al
 - Apple product-page guidance: subtitle: avoid "world's best app"; description: "Don't add unnecessary keywords"; "Avoid including specific prices"; put accolades "at the end or as promotional text"; first sentence "is the most important". Keywords: no plurals of a singular already included, no category names or "app", no duplicates, no competitor names.
 - Google Play Metadata policy: title/icon/developer name: "Don't use emojis, emoticons, or repeated special characters"; no store ranking text ("#1", "App of the year"), no price or promotion ("10% off"), no "Editor's choice"; no ALL CAPS (unless brand name); "Avoid using repetitive or unrelated keywords"; word blocks and word lists are violations; "unattributed or anonymous user testimonials" not allowed in the description; excessive length or repetition can be a violation. The fetched summary did not show whether ranking and price bans extend to the description; check the page before relying on it.
 - Play (answer/9859152): repetitive or irrelevant keywords in name or descriptions "can ... result in an app being suspended".
+- A ranking word stays a ranking word inside a feature's own name ("best price finder", "top picks"): in any field,
+  say what the feature does instead ("finds the lowest price it can see"), even when the current listing uses the name.
 
 **Script-check note:** 100 bytes is not 100 characters; a character-count check on Apple keywords can pass text that fails.
