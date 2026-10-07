@@ -1,0 +1,7 @@
+{
+  "name": "c04-reviewing-trial-path",
+  "version": "v1.0.0",
+  "description": "Reviews a micro-SaaS's public trial path, from the home page to sign-up and first value, and ranks what to change first - the path step by step, what was checked per ResearchXL step, each change with its URL and section, the words there now, the change, a bucket and a PXL score, what the review cannot show, and a research kit. Use when a founder asks why visitors don't sign up, or asks to review their trial, sign-up flow or conversion path.",
+  "generated_at": "2026-10-07T21:29:56.427Z",
+  "skill_md_sha256": "3ef65bd8cc6a53e9ba99bad0d012d68b6add53edbca29b1fa147736e0a1c068b"
+}
