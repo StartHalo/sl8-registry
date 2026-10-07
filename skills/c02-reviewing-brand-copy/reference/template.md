@@ -3,14 +3,14 @@
 ```markdown
 # <App>: brand copy review
 
-- Material: <what was reviewed: the link, attached files, or pasted text> (saved in inputs/material.md)
+- Material: <what was reviewed: a page page.mjs saved (sources/<file>), attached files, text pasted in the request, or the proposed fields of store-listing.md>
 - Brand rules: <messaging-house.md, voice-rules.md, the team's guide | the store page's promise (assumed)>
 - App: <name, store link>
 
 ## Findings
 | # | Where | Line | Problem | Rule (source) | Severity | Fix |
 |---|---|---|---|---|---|---|
-| 1 | <field or screen> | "<the line, copied exactly>" | <what goes wrong for the reader> | <the rule> (<source>) | high | <the fix, written out, ready to paste> |
+| 1 | <field or screen; a store field with its store, e.g. "App Store subtitle"> | "<the line, copied exactly from the material>" | <what goes wrong for the reader> | <the rule> (<source>) | high | <the fix, written out, ready to paste> |
 
 ## Tests on the whole
 - **Swap:** <pass | fails | partly>. <why>
@@ -37,4 +37,8 @@ Neumeier's swap, hand and field tests (The Brand Gap) on the whole; each line ch
 ```
 
 - Severity is exactly high, medium or low. One finding per problem.
+- The line is copied exactly from the material saved for this job; the validator finds it there. A fix to a store
+  field fits that field's limit (`node $S/scripts/limits.mjs "<where>" "<fix>"`).
+- Part of the material could not be read word for word: review what was read, and add
+  `- **Material:** <the part> could not be read word for word, so it was not reviewed. Send it pasted to review it.`
 - With no claims found, write one row: `| none found | - | - | - | - |`.
