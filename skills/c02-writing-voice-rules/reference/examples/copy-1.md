@@ -1,13 +1,6 @@
-Quillo: the current App Store description (fictional app, written by us as an example input)
+Quillo: in-app copy the lead attached (fictional app, written by us as an example input)
 
-Quillo is the ultimate revolutionary shopping list app that will totally change the way you shop forever!!
-
-Never forget anything again. Share lists with your partner, housemates or the whole family and see changes instantly.
-
-Features:
-- Smart lists that sort themselves by aisle
-- Recipes to list in one tap
-- Works offline in the shop
+Welcome to Quillo! The ultimate list app!!
 
 Oops! Something went wrong. Please try again later.
 

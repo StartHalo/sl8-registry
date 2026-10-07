@@ -2,7 +2,7 @@
 
 - App: Quillo, https://apps.apple.com/app/id000 (fictional)
 - Promise: "One list the whole house can trust" (from `messaging-house.md`)
-- Copy rewritten: the current App Store description (`copy-1.md`)
+- Copy rewritten: the App Store subtitle and description as page.mjs saved them ([page-1.md](page-1.md)), and the in-app copy the lead attached ([copy-1.md](copy-1.md))
 
 ## Traits
 
@@ -26,7 +26,7 @@
 | Moment | Tone | Example line |
 |---|---|---|
 | First open | welcoming, brief | "Start a list, then share it with the people you shop for." |
-| Reminder | light, never guilt | "Off to the shop? Your list has 6 things on it." |
+| Reminder | light, never guilt | "Off to the shop? Your list has {n} things on it." |
 | Error | plain, owns it | "We couldn't sync just now. Your list is saved on this phone." |
 | Milestone | warm, specific, no hype | "That's 10 shops planned together." |
 | Store listing | the promise in fewest words | "One shopping list for the whole house." |
@@ -36,9 +36,10 @@
 
 | # | Where | Before | After | Trait |
 |---|---|---|---|---|
-| 1 | Store description, first line | "Quillo is the ultimate revolutionary shopping list app that will totally change the way you shop forever!!" | "Quillo is one shopping list for the whole house: add it once, and everyone sees it." | Plain, not clever |
-| 2 | Error message | "Oops! Something went wrong. Please try again later." | "We couldn't sync just now. Your list is saved on this phone and will update when you're back online." | Calm, not flat |
-| 3 | Milestone | "Congratulations!!! You have completed 10 shopping trips! You are a superstar shopper!" | "That's 10 shops planned together. Nice work, all of you." | Helpful, not bossy |
+| 1 | App Store subtitle | "The ultimate list app" | "One list for the whole house" | Plain, not clever |
+| 2 | Store description, first line | "Quillo is the ultimate revolutionary shopping list app that will totally change the way you shop forever!!" | "Quillo is one shopping list for the whole house: add it once, and everyone sees it." | Plain, not clever |
+| 3 | Error message | "Oops! Something went wrong. Please try again later." | "We couldn't sync just now. Your list is saved on this phone and will update when you're back online." | Calm, not flat |
+| 4 | Milestone | "Congratulations!!! You have completed 10 shopping trips! You are a superstar shopper!" | "That's 10 shops planned together. Nice work, all of you." | Helpful, not bossy |
 
 ## Words
 

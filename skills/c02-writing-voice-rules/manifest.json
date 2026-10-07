@@ -1,7 +1,7 @@
 {
   "name": "c02-writing-voice-rules",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Writes a consumer app's voice rules - 3 to 5 traits written \"X, not Y\" each with a do and a don't line, the tone for six moments (first open, reminder, error, milestone, store listing, social), lines of the app's own copy rewritten before and after, and words to use and avoid. Reads the project's messaging house when one exists. Use when the marketing lead asks for a tone of voice, voice guidelines, or how the app should sound.",
-  "generated_at": "2026-10-07T18:57:44.085Z",
-  "skill_md_sha256": "b07e108a07b6bf227be7c003488f0b8482fe0ba8769932c652f28047c1752f78"
+  "generated_at": "2026-10-07T22:34:56.555Z",
+  "skill_md_sha256": "a74a5a1a84b5ac4f48ee5254c85f747a6e2a3257ba3f605b1968bdf17ccfff52"
 }

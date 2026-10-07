@@ -5,7 +5,7 @@
 
 - App: <name>, <store link>
 - Promise: "<one line>" (from messaging-house.md | assumed from the store page)
-- Copy rewritten: <what was saved in inputs/copy.md: pasted, attached files, or the store description>
+- Copy rewritten: <where the before lines come from: pasted in the request, attached files, or the store page page.mjs saved (sources/<file>)>
 
 ## Traits
 
@@ -31,7 +31,7 @@
 
 | # | Where | Before | After | Trait |
 |---|---|---|---|---|
-| 1 | <screen or field> | "<copied exactly from inputs/copy.md>" | "<rewritten>" | <trait> |
+| 1 | <screen or field, e.g. "App Store subtitle", "Error message"> | "<copied exactly from the request, an attached file or a saved page>" | "<rewritten>" | <trait> |
 
 ## Words
 
@@ -48,3 +48,7 @@ One voice, tone that flexes by moment (Mailchimp Content Style Guide), traits wr
 ```
 
 - Keep the six moment names exactly as written. When every input was given: `- None: every input was given.`
+- A rewrite of a store field names it in Where ("App Store name", "App Store subtitle", "Promotional text",
+  "Google Play short description") and its after fits that field's limit: `node $S/scripts/limits.mjs "<where>" "<after>"`.
+- With no copy saved word for word (no page opened, none sent): one line under Rewrites, `- None: no copy could be
+  read word for word.`, and the `Copy to rewrite` Assumptions line says what to send.
