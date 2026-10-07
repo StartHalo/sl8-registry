@@ -13,11 +13,15 @@ A message house says what the brand says, in a shape a writer can reuse: a **roo
   the promise, not the same reason three times.
 - **Proof under each pillar:** a fact the company holds: a feature the store page shows, a figure
   the lead gave, a rating on the store page, an award with its source. Every proof point says where
-  it came from. Every pillar rests on at least one such fact (a feature on the store page counts):
+  it came from and quotes the words there, copied exactly from the page `page.mjs` saved, the request
+  or `icp.md`. Every pillar rests on at least one such fact (a feature on the store page counts):
   choose pillars the sources can support. Where only a feature supports a pillar, say under
   Assumptions what stronger proof to send (a figure, a rating, an award). Never invent proof.
-  A figure the lead gives is sourced "(source: the request)"; list it under Assumptions as a claim
-  for the lead to be able to show.
+  A figure the lead gives is sourced "(source: the request, "…")"; list it under Assumptions as a
+  claim for the lead to be able to show.
+- **Say no more than the proof:** the promise, the messages and the boilerplate use only facts a
+  proof point backs. A time, a number, a place or a data source the saved pages do not show is cut,
+  or listed under Assumptions as an unsourced claim ([claims-check.md](claims-check.md)).
 - **By audience:** for each audience, which pillar to lead with and the first words. Audiences come
   from the request, the positioning file, or the store page and its reviews. Keep the audiences the
   lead gave; add one from the store page only when none was given.
@@ -30,6 +34,11 @@ A message house says what the brand says, in a shape a writer can reuse: a **roo
 2. Else the request's "Positioning:" line.
 3. Else assume it from the store page (who it is for, what it does, the category) and state it
    under Assumptions with what to send.
+
+## Rivals for the swap test
+The competitors the lead named; else three apps that do the same job from the saved store page's
+"Similar apps" (else from its category), listed under Assumptions. They are used only to test the
+promise and are never named in a message.
 
 ## Common mistakes (Pragmatic Institute; The Starr Conspiracy)
 Five pillars or more; pillars that are features rather than reasons; hype words ("revolutionary",
