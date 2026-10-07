@@ -1,0 +1,7 @@
+{
+  "name": "c02-reviewing-brand-copy",
+  "version": "v1.0.0",
+  "description": "Reviews a consumer app's written copy (store listing, website, email, onboarding text) against its brand before it ships - each problem with the line quoted, the rule and its source, a severity and the fix written out, the swap, hand and field tests on the whole, the three fixes to make first, and the claims to verify. Reads the project's voice rules and messaging house when they exist. Use when the marketing lead asks to review or check copy, or whether it sounds like the brand.",
+  "generated_at": "2026-10-07T18:55:50.455Z",
+  "skill_md_sha256": "399e17cb123eee082d83e5852820ba992dc1a82d32d77496ba7d9c7789afcf62"
+}
