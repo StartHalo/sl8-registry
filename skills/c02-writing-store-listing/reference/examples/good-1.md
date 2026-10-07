@@ -4,6 +4,7 @@
 - Market and language: UK, English
 - What is new: shared budgets, from December (from the request)
 - Brand rules: `messaging-house.md` (promise "One list the whole house can trust") and `voice-rules.md`
+- Sources: the App Store and Google Play pages as page.mjs saved them ([page-1.md](page-1.md), [page-2.md](page-2.md)), the request
 
 ## Apple App Store
 
@@ -24,7 +25,7 @@ One list for the whole house
 - Reason: carries the promise; "ultimate" is an unverifiable claim (Apple 2.3.7) and repeats no word from the name.
 
 ### Promotional text
-- Current: (none)
+- Current: (not public)
 - Proposed:
 ```text
 New in December: shared budgets. Set a weekly food budget and watch everyone's items add up as you shop.
@@ -32,7 +33,7 @@ New in December: shared budgets. Set a weekly food budget and watch everyone's i
 - Reason: promotional text changes without a new version, so it carries the launch.
 
 ### Keywords
-- Current: "shopping list,grocery list,list app,best list,shopping"
+- Current: (not public)
 - Proposed:
 ```text
 grocery,groceries,family,household,budget,aisle,offline,recipes,meal,planner,couples,housemates
@@ -94,10 +95,11 @@ Set a weekly food budget and see the total as everyone adds items.
 - Reason: the same opening as Apple; Play shows the first lines above the fold.
 
 ## Claims to verify
-| Claim (where) | Group | Rule to check | Keep if | Safer wording |
-|---|---|---|---|---|
-| "changes show instantly" (both descriptions) | describes the app | Apple 2.3 accurate metadata | sync is near-instant in normal use | "changes show in seconds" |
-| "Works offline" (both descriptions) | data and privacy | Apple 2.3 | the list opens and edits with no signal | keep |
+| Claim (where) | Source | Group | Rule to check | Keep if | Safer wording |
+|---|---|---|---|---|---|
+| "changes show instantly" (both descriptions) | "see changes instantly" (App Store page) | describes the app | Apple 2.3 accurate metadata | sync is near-instant in normal use | "changes show in seconds" |
+| "Works offline" (both descriptions) | "Works offline in the shop" (App Store page) | data and privacy | Apple 2.3 | the list opens and edits with no signal | keep |
+| "New in December: shared budgets" (promotional text, both descriptions) | "shared budgets, from December" (the request) | needs proof | Apple 2.3 accurate metadata | shared budgets ship in December | "Coming soon: shared budgets" |
 
 This lists what to verify. It is not legal sign-off.
 
@@ -106,3 +108,4 @@ Apple's product page guidance and App Review Guidelines 2.3; Google Play's Metad
 
 ## Assumptions
 - **Search terms:** not given. Assumed from the store's Shopping category and the app's features; search volumes not measured. Send the terms you rank for, or your ASO tool's list, to replace them.
+- **Apple promotional text and keywords:** not shown on the App Store page, so Current is "(not public)". Send what is in App Store Connect to compare.

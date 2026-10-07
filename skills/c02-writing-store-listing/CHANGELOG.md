@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-10-07
+### Added
+- Release c02-writing-store-listing v1.0.1.
+
 ## [v1.0.0] — 2026-10-07
 ### Added
 - Initial release (c02-writing-store-listing).

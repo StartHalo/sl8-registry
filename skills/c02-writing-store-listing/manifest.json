@@ -1,7 +1,7 @@
 {
   "name": "c02-writing-store-listing",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Writes App Store and Google Play listing copy for a consumer app from its store pages, within each store's character limits - Apple name, subtitle, promotional text, keywords and description; Google Play title, short and full description - with the current text against the proposed, the reason for each field, and the claims to verify. Reads the project's messaging house and voice rules when they exist. Use when the marketing lead asks to rewrite a store listing, a subtitle or keywords, a Google Play description, or store copy for a launch.",
-  "generated_at": "2026-10-07T18:57:05.448Z",
-  "skill_md_sha256": "a0ef50936d4afb92a0e8c13639e3507e0f22c4da380e0c96c64e45dd3b9136fd"
+  "generated_at": "2026-10-07T22:34:20.499Z",
+  "skill_md_sha256": "7238694bef7fff616a8263a0deacd5818959ae5307acbadcdacd9cd55873cf14"
 }

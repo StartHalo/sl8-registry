@@ -15,11 +15,13 @@ The limits and quoted rules are in [rules.md](rules.md); `validate.mjs` counts t
 | Play full description | the same opening as Apple; Play indexes it, so use the search terms naturally, never as a list or repeated |
 
 ## How to work
-1. Read both store pages and save the current fields (`inputs/current-listing.md`). Apple's keywords
-   and promotional text are not public: write "(not public)" as current and say so under Assumptions.
+1. Read both store pages with `page.mjs`, which saves each page's fields word for word in `sources/`, and
+   quote the current fields from those files. Apple's keywords and promotional text are not public:
+   write "(not public)" as current and say so under Assumptions.
 2. Take the promise from `messaging-house.md` and the voice from `voice-rules.md` when present.
 3. Write each field: current, proposed (in a fenced block, exactly the text to paste), reason.
-4. List every claim in the proposed copy by [claims-check.md](claims-check.md).
+4. Trace and list every claim in the proposed copy by [claims-check.md](claims-check.md): each fact is on
+   a saved page or in the request, and the claims table quotes the words that back it.
 5. For a launch ("what is new"), lead the promotional text with it and give it its own block in the
    descriptions; never put a date the lead did not give.
 
