@@ -5,7 +5,7 @@
 
 - App: <name>, <store link>
 - Positioning: <one line> (from icp.md | from the request | assumed from the store page)
-- Sources opened: <the store page URL, and any other page opened in this job>
+- Sources: <the pages page.mjs saved (sources/<file>), the request, icp.md>
 
 ## Brand promise
 <one line>
@@ -14,7 +14,7 @@
 
 ### 1. <short pillar name>
 - Message: <one sentence a copywriter could paste>
-- Proof: <a fact> (source: the request | the store page | icp.md | <URL>)
+- Proof: <a fact> (source: <the App Store page | the Google Play page | the request | icp.md | <URL>>, "<the words there, copied exactly>")
 
 ### 2. <name>
 - Message: …
@@ -39,5 +39,8 @@ A message house: one umbrella promise, three pillars with proof under each, a bo
 - **<Label>:** not given. Assumed <what>. Send <what> to replace it.
 ```
 
-- One `- Proof:` line per proof point; every one ends with `(source: …)`.
+- One `- Proof:` line per proof point; every one ends with `(source: <where>, "<the words>")`, the words copied
+  exactly from a page page.mjs saved, the request or icp.md: the validator finds them there.
+- A fact in the promise, a message or the boilerplate that no proof point backs: cut it, or add
+  `- **Unsourced claims:** "<claim>" (<where>): not on the saved pages or in the request. Send proof, or cut it.`
 - When every input was given: `- None: every input was given.`

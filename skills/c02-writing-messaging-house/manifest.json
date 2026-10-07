@@ -1,7 +1,7 @@
 {
   "name": "c02-writing-messaging-house",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Writes a consumer app's messaging house from its store page and what the marketing lead gives - a one-line brand promise, three pillars each with its message and sourced proof points, what to lead with for each audience, and a boilerplate paragraph. Reads the project's ideal-customer file (icp.md) when one exists. Use when the lead asks for a messaging house, key messages, a message map, or what to say about the app.",
-  "generated_at": "2026-10-07T18:56:28.921Z",
-  "skill_md_sha256": "bc7533ca039d4aeaf0b39f0ff00173014f0978f968600b192303bc1911e5d695"
+  "generated_at": "2026-10-07T22:33:47.185Z",
+  "skill_md_sha256": "4b067da31e34260dac6402ea96ffb473535692677223e59648aa5f7b965bf12d"
 }
