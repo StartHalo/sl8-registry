@@ -2,6 +2,10 @@
 // stats.mjs: the test design's arithmetic (job card: Design a test for one change). Every number the
 // test design states about traffic, sample size or weeks comes from here, never from prose. Ported
 // from the v12 rescue branch (backup/c04-micro-saas-cro-2026-10-06, saas-cro-designing-test).
+// plan also says what a before-and-after comparison can tell (SHORTCOMINGS №184): two equal periods of
+// C conversions each differ by chance with a spread of √(2C) (Poisson), so a change under 1.96 × √(2C)
+// conversions (95%, two-sided) is within the noise; when the lift worth detecting is smaller than that,
+// the before and after cannot see it, and its result is indicative, not proof.
 //   node stats.mjs plan --baseline <rate> --visitors-per-week <n> [--lift 20%] [--alpha 0.05] [--power 0.8]
 //   node stats.mjs tier --conversions <n> [--weeks 4]
 //   node stats.mjs size --baseline <rate> --lift <relative> [--visitors-per-week <n>]
@@ -11,7 +15,7 @@ import fs from 'node:fs'
 
 const HELP = `usage: node stats.mjs plan --baseline <rate> --visitors-per-week <n> [--lift <relative, default 20%>]
        node stats.mjs tier --conversions <n> [--weeks 4] | size --baseline <rate> --lift <rel> [--visitors-per-week <n>]
-  plan prints {"ok","inputs","tier","conversionsPer4Weeks","visitorsPerArm","weeks","abAllowed","routes"}.
+  plan prints {"ok","inputs","tier","conversionsPer4Weeks","visitorsPerArm","weeks","aboutWeeks","abAllowed","routes","beforeAfter":{…,"line"}}.
   Tiers: Speero (Kellner, 2026-08-20), conversions per 4 weeks: high 3,100+ · medium 784–3,099 · low under 784.
   Sample size: exact two-proportion formula, two-sided. A/B test only at ${8} weeks or fewer (our rule).`
 export const MAX_TEST_WEEKS = 8
@@ -62,6 +66,18 @@ export function size (p1, lift, alpha = 0.05, power = 0.8) {
   return Math.ceil(((za * Math.sqrt(2 * pbar * (1 - pbar)) + zb * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2) / ((p2 - p1) ** 2))
 }
 
+const fmt = x => Math.round(x).toLocaleString('en-US')
+// beforeAfter: what comparing <weeks> weeks after the change with the <weeks> weeks before can tell
+export function beforeAfter ({ baseline, visitorsPerWeek, lift = 0.2, weeks = 4 }) {
+  const c = baseline * visitorsPerWeek * weeks
+  const noise = Math.ceil(invPhi(0.975) * Math.sqrt(2 * c)), pct = Math.round(100 * noise / c), liftPct = r1(lift * 100)
+  const visible = liftPct >= pct
+  return {
+    weeksPerPeriod: weeks, conversionsPerPeriod: Math.round(c), noiseConversions: noise, noisePct: pct, liftVisible: visible,
+    line: `- Before and after (${weeks} weeks each): ${fmt(c)} conversions a period; a change under ${fmt(noise)} conversions (${pct}%) is within the noise, so a ${liftPct}% lift is ${visible ? 'large enough to see' : 'too small to see'}: indicative, not proof`,
+  }
+}
+
 export function plan ({ baseline, visitorsPerWeek, lift = 0.2, alpha = 0.05, power = 0.8 }) {
   const n = size(baseline, lift, alpha, power)
   const weeks = r1((2 * n) / visitorsPerWeek)
@@ -71,10 +87,11 @@ export function plan ({ baseline, visitorsPerWeek, lift = 0.2, alpha = 0.05, pow
     ok: true,
     inputs: { baseline: `${r1(baseline * 100)}%`, lift: `${r1(lift * 100)}%`, visitorsPerWeek, alpha, power },
     tier: t.tier, conversionsPer4Weeks: t.conversionsPer4Weeks, tierNote: t.note,
-    visitorsPerArm: n, visitorsTotal: 2 * n, weeks, abAllowed,
+    visitorsPerArm: n, visitorsTotal: 2 * n, weeks, aboutWeeks: Math.ceil(weeks), abAllowed,
     routes: abAllowed ? ['A/B test', 'preference test', 'ship and measure'] : ['preference test', 'ship and measure'],
     verdict: abAllowed ? `an A/B test takes about ${Math.ceil(weeks)} weeks at this traffic` : `an A/B test would take about ${Math.ceil(weeks)} weeks (more than ${MAX_TEST_WEEKS}): ship and measure before and after, or a preference test for direction`,
-    source: `${SOURCE}; exact two-proportion sample size, alpha ${alpha} two-sided, power ${power}`,
+    beforeAfter: beforeAfter({ baseline, visitorsPerWeek, lift }),
+    source: `${SOURCE}; exact two-proportion sample size, alpha ${alpha} two-sided, power ${power}; before and after: Poisson spread of two equal periods, 95% two-sided`,
   }
 }
 
@@ -94,6 +111,10 @@ function selftest () {
   t.push(['3,100 conversions per 4 weeks is high, 784 medium, 783 low', tier(3100).tier === 'high' && tier(784).tier === 'medium' && tier(783).tier === 'low'])
   const big = plan({ baseline: 0.05, visitorsPerWeek: 5000, lift: 0.2 })
   t.push(['high traffic allows an A/B test', big.abAllowed && big.weeks <= 8])
+  const low = plan({ baseline: 0.02, visitorsPerWeek: 500, lift: 0.2 }).beforeAfter
+  t.push(['2%, 500 a week: 40 conversions a period, under 18 (45%) is noise, a 20% lift too small to see', low.conversionsPerPeriod === 40 && low.noiseConversions === 18 && low.noisePct === 45 && !low.liftVisible && low.line === '- Before and after (4 weeks each): 40 conversions a period; a change under 18 conversions (45%) is within the noise, so a 20% lift is too small to see: indicative, not proof'])
+  const high = beforeAfter({ baseline: 0.05, visitorsPerWeek: 5000, lift: 0.2 })
+  t.push(['5%, 5,000 a week: 1,000 a period, under 88 (9%) is noise, a 20% lift large enough to see', high.conversionsPerPeriod === 1000 && high.noiseConversions === 88 && high.noisePct === 9 && high.liftVisible && /1,000 conversions a period/.test(high.line)])
   let refused = false; try { rate('150%', 'baseline') } catch (e) { refused = e instanceof Bad }
   t.push(['a rate above 100% is refused', refused])
   const failed = t.filter(x => !x[1]).map(x => x[0])

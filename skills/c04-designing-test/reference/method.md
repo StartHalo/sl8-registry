@@ -14,12 +14,16 @@ is a behaviour (start a trial, book a demo, finish sign-up); the metric is the p
   differ by a few percent; quote the script.
 - **Lift:** the smallest relative lift worth finding. Without one, 20% (the smallest a low-traffic
   test can see).
+- **Before and after:** two equal 4-week periods of C conversions each differ by chance with a spread
+  of √(2C), so a change under 1.96 × √(2C) conversions is within the noise (95%, two-sided). At 40
+  conversions a period that is 18 (45%): a 20% lift cannot be told from noise, and the comparison is
+  indicative, not proof. `stats.mjs plan` prints the line (`beforeAfter.line`); copy it.
 
 ## 3. The route, from the weeks
 | Weeks for an A/B test | Route |
 |---|---|
 | 8 or fewer, medium or high tier | **A/B test**, run full weeks to the planned sample; no peeking (Evan Miller: decide the sample in advance and wait) |
-| more than 8 (or low tier) | **ship and measure before and after**: make the change, compare the same-length periods before and after; indicative, not proof |
+| more than 8 (or low tier) | **ship and measure before and after**: make the change, compare the same-length periods before and after; indicative, not proof, and it sees only a change larger than the noise (the before-and-after line) |
 | any, when the change is copy or a layout people can judge | optionally first a **preference test**: 30–100 people like the buyers choose between two versions; direction only (stated preference and behaviour agree only loosely, NN/g r = .53) |
 
 Shorten a test by testing a bigger change, measuring a step higher in the funnel (more conversions),
@@ -35,8 +39,10 @@ or both (Speero's levers). Say which lever would bring it under 8 weeks when one
   measure is up and significant at 95% with no guardrail worse; otherwise keep the original. Do not
   stop early."
 - **Ship and measure:** "After 4 full weeks, compare <primary> with the 4 weeks before. Keep it if it
-  is up and nothing else changed; revert if it is clearly down; extend 4 weeks if it is flat or the
-  period was unusual." Write the baseline period down now.
+  is up by <the smallest change it can tell from noise, n%> or more and nothing else changed; revert it
+  if it is down by as much. In between, the result is within the noise: keep a change that was safe to
+  ship (a Just Do It), and extend 4 weeks for a clearer read." Write the baseline period down now. The
+  percentage is the before-and-after line's; never round it by hand.
 
 ## 6. What to send back
 The figures for the primary, secondary and guardrail measures for each period or arm, the dates the
