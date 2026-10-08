@@ -28,10 +28,11 @@ Then reconcile against the plan — scene count equals row count, each `action`
 is described, each `text` string is read back correctly. A vision pass is **not** a
 substitute for the per-clip motion measurement; it is a check on the assembly.
 
-**This pass is optional and unpriced on this machine.** `fal-ai/video-understanding` has no price
-on record and its output key is unproven, so a quote may not exist (`ai-gen estimate` exit 12, which
-means the call would run uncapped). Run it only when `estimate` prices it and the pre-spend steps
-pass:
+**This pass is optional; quote it at its bill.** SL8 measured `fal-ai/video-understanding` at
+**8 credits** on a 10 s cut against an `ai-gen estimate` of 3 (VID-T5, 2026-10-08). Quote 8, not the
+estimate, and put its line in `plan.json` `budget` before the call; each transcript is its own line
+at 2, and a second transcript is a new line. If `estimate` exits 12, the call would run uncapped: use
+the local watch below. Run it only when its line is quoted and the pre-spend steps pass:
 
 ```bash
 ai-gen estimate fal-ai/video-understanding --params-file work/<project>/watch.params.json --format json

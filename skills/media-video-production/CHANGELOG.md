@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.6] — 2026-10-08
+### Added
+- Release media-video-production v1.0.6.
+
 ## [v1.0.5] — 2026-10-08
 ### Added
 - Release media-video-production v1.0.5.
