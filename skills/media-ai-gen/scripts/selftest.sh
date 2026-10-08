@@ -89,6 +89,9 @@ Q=selfgate
 SL8_SPEND_LEDGER="$T/run-a/spend.jsonl" check 0 own-gate-open node $S/gate.mjs open --project $Q --slug approve-clips --question "Render?" --options '[{"id":"a","label":"Render","credits":20},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 4"
 SL8_SPEND_LEDGER="$T/run-a/spend.jsonl" check 1 own-gate-answer-refused node $S/gate.mjs answer --project $Q --gate 01 --option a --by "the same job"
 check 10 own-gate-still-open node $S/gate.mjs status --project $Q
+# 1.0.3: nor waives it (HR12): a waive is the user's instruction from outside the job, never the job's own
+SL8_SPEND_LEDGER="$T/run-a/spend.jsonl" check 1 own-gate-waive-refused node $S/gate.mjs waive --project $Q --gate 01 --instruction "the user said go"
+check 10 own-gate-open-after-waive-refused node $S/gate.mjs status --project $Q
 SL8_SPEND_LEDGER="$T/run-b/spend.jsonl" check 0 next-job-answers node $S/gate.mjs answer --project $Q --gate 01 --option a --by "owner, via the next job's brief"
 R=ownerout
 SL8_SPEND_LEDGER="$T/run-c/spend.jsonl" check 0 owner-gate-open node $S/gate.mjs open --project $R --slug approve-vo --question "Voice?" --options '[{"id":"a","label":"Voice","credits":5},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 5"
