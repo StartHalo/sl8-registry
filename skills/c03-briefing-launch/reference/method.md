@@ -8,16 +8,23 @@ that launch templates share (GTM Playbook, Guideflow, Userpilot).
    trials, not both. Say which.
 2. **Proposition:** one sentence, one buyer, one outcome: "<what launches> so that <buyer> can
    <outcome> without <pain>". If it needs "and", choose.
-3. **Reasons to believe:** facts true on launch day that prove that one outcome, each with its
-   source. A feature still being built is labelled `(planned)`.
+3. **Reasons to believe:** facts true on launch day that prove that one outcome, each ending with
+   its source and the source's exact words: `(source: <a page you read or the request>, "<the
+   words>")`. A feature still being built is labelled `(planned)`, and its source is the request.
+   With no fact found, write `not found: looked in <where>` and say what to send.
 4. **Audience:** one segment, at the moment they need it (month-end, renewal, a new hire).
 5. **KPI:** one metric of use, not reach: accounts that connect or use the feature, trials from the
    partner's listing; with a number, a date (or days after launch, as a date), its source, and a
-   guardrail beyond sign-ups (still using it a month later).
+   guardrail beyond sign-ups (still using it a month later). Its source is a page you read or a
+   tool the founder already has; a page only seen in a search result is not one.
 6. **Channels:** owned channels first (email to customers, in-app, the site), the partner's channel
    for an integration (listing, partner email or blog post, art assets), and at most one more.
-   A small launch stays small: no press or paid push a feature does not need.
+   Every channel reaches the objective's one group. A small launch stays small: no press or paid
+   push a feature does not need.
 7. **Actions:** each in a week counted from launch day (L-6 … L0 … L+4), with its date, owner, the
-   founder's hours and cost. Before: what must be ready (listing review lead times, pages, help,
-   partner asks with due dates). On the day: what goes out, where. After: follow-up and reading the KPI.
-8. **Budget, out of scope, assumptions.**
+   founder's hours and cost. Before: what must be ready (listing review lead times from the
+   partner's saved pages, pages, help, partner asks with due dates). On the day: what goes out,
+   where. After: follow-up and reading the KPI. The founder's hours in a launch week, plus the
+   channel tests' hours in the same week when the project has them, stay within the founder's week.
+8. **Budget, out of scope, assumptions.** An input taken from an earlier job says where it came
+   from, as the project status records it.
