@@ -6,6 +6,7 @@ Source: https://leananalyticsbook.com/wp-content/uploads/2014/08/Traction-1-3.pd
 
 - **Product:** Ledgerline, https://ledgerline.example
 - **Goal:** 40 new trials a month by 31 March 2027 (today about 15 a month)
+- **Against the goal:** the thresholds add up to 24 trials and 5 demos in the quarter, about 8 trials a month against the 25 more a month the goal needs. The tests find the channel that can carry the goal; the winner, scaled from W10, has to bring the rest.
 - **Budget:** 1,500
 - **Founder hours:** 6 a week
 - **Weeks:** W1 = 4 January 2027 to W13 = 29 March 2027
@@ -19,16 +20,16 @@ Source: https://leananalyticsbook.com/wp-content/uploads/2014/08/Traction-1-3.pd
 | Viral marketing | C | Firms rarely invite other firms; no sharing loop in the product |
 | Public relations | C | No news a trade outlet would carry this quarter |
 | Unconventional PR | C | Off-brand for a careful buyer; little upside |
-| Search engine marketing | A | Owners search "chase client receipts" at month-end; testable in weeks for a few hundred |
+| Search engine marketing | A | Owners search for help with receipts at month-end; testable in weeks for a few hundred |
 | Social and display ads | B | Could target bookkeepers, but the buyer reacts to a need, not a feed |
 | Offline ads | C | Too costly per firm reached |
 | Search engine optimization | B | The right long-term channel, but too slow to clear a threshold in 13 weeks |
 | Content marketing | B | Feeds SEO; start after a winner is found |
 | Email marketing | B | Only 300 newsletter subscribers today; grows with other channels |
-| Engineering as marketing | B | A free "missing receipts checklist" tool could work later |
+| Engineering as marketing | B | A free *missing receipts checklist* tool could work later |
 | Targeting blogs | A | Two bookkeeping newsletters reach owners of small firms directly |
 | Business development | B | An accountants' association partnership takes longer than a quarter |
-| Sales | A | Firms of 3–10 staff can be listed by name from a public directory and emailed personally |
+| Sales | A | Firms of 3–10 staff can be listed by name from a public directory and emailed one by one |
 | Affiliate programs | C | Margins at $49 a month leave little to share |
 | Existing platforms | A | The Tallybook app marketplace is where these firms look for add-ons |
 | Trade shows | C | One regional show a year; over budget |
@@ -39,9 +40,9 @@ Source: https://leananalyticsbook.com/wp-content/uploads/2014/08/Traction-1-3.pd
 ## Tests
 | # | Channel | What to do | Start week | Weeks | Cost | Hours a week | Threshold (set now) |
 |---|---|---|---|---|---|---|---|
-| 1 | Existing platforms | List Ledgerline on the Tallybook app marketplace with 3 screenshots and a pilot quote | W1 | 4 | 0 | 2 | 8 trials from the listing by the end of W4 |
-| 2 | Search engine marketing | Google Ads on 5 month-end phrases ("chase client receipts"), to the bookkeeping-firm page | W2 | 4 | 600 | 2 | 10 trials at 60 or less each by the end of W5 |
-| 3 | Targeting blogs | Sponsor one issue each of two bookkeeping newsletters | W6 | 3 | 600 | 1 | 6 trials from the two links by the end of W8 |
+| 1 | Existing platforms | List Ledgerline on the Tallybook app marketplace (to build) with 3 screenshots and a pilot quote, for firms of 3–10 staff | W1 | 4 | 0 | 2 | 8 trials from the listing by the end of W4 |
+| 2 | Search engine marketing | Google Ads on 5 month-end phrases (*chase client receipts*), to a page for bookkeeping firms (to build) | W2 | 4 | 600 | 2 | 10 trials at 60 or less each by the end of W5 |
+| 3 | Targeting blogs | Sponsor one issue each of two bookkeeping newsletters read by firm owners | W6 | 3 | 600 | 1 | 6 trials from the two links by the end of W8 |
 | 4 | Sales | 100 personal emails to firms of 3–10 staff from the Bookkeepers Hub directory | W6 | 4 | 0 | 3 | 5 demos booked by the end of W9 |
 
 ## Standing actions
