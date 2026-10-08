@@ -1,7 +1,7 @@
 {
   "name": "c04-designing-test",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Designs a test for one change on a micro-SaaS's site or trial - the hypothesis, the arithmetic for its traffic (tier, visitors per arm, weeks), the route (A/B test, preference test, or ship and measure before and after), primary, secondary and guardrail measures, and a decision rule set before shipping. Use when a founder asks how to test a change, whether they can A/B test it, or how they will know a change worked.",
-  "generated_at": "2026-10-07T21:29:20.873Z",
-  "skill_md_sha256": "cd176d2a0c4449c778284396697eeaa894f3e6f61c15573a8c0f07bb8a500064"
+  "generated_at": "2026-10-08T00:51:20.262Z",
+  "skill_md_sha256": "23bd36c713ed47e327c309869adb058793c6f4e5303dab83873fd76ab801c959"
 }

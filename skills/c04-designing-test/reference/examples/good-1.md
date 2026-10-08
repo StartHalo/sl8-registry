@@ -18,11 +18,13 @@ visitor.
 - Tier: low (40 conversions per 4 weeks; Speero: 3,100+ high, 784–3,099 medium, under 784 low)
 - Visitors per arm: 21,109
 - Weeks: 84.4
+- Before and after (4 weeks each): 40 conversions a period; a change under 18 conversions (45%) is within the noise, so a 20% lift is too small to see: indicative, not proof
 
 ## Route
 **Route:** ship and measure before and after. An A/B test would take about 85 weeks, far more than
-8, and the tier is low. If you want direction first, show both headlines to 30 people like your
-buyers and ask which makes the price clearer; that tells you direction, not size.
+8, and the tier is low. The before and after is indicative, not proof: at these figures it can see
+only a change of 45% or more. If you want direction first, show both headlines to 30 people like
+your buyers and ask which makes the price clearer; that tells you direction, not size.
 
 ## Measures
 - Primary: trials started per pricing-page visitor
@@ -31,9 +33,10 @@ buyers and ask which makes the price clearer; that tells you direction, not size
 
 ## Decision rule
 Set now, before shipping: after 4 full weeks, compare the primary measure with the 4 weeks before.
-Keep the change if it is up and nothing else changed in the period; revert it if it is clearly
-down; extend 4 weeks if it is flat or the period was unusual. Note today's date as the end of the
-baseline period.
+Keep the change if trials are up by 45% or more (18 or more) and nothing else changed in the
+period; revert it if they are down by 45% or more. In between, the result is within the noise:
+keep the change, since it is safe to ship, and extend 4 weeks if you want a clearer read. Note the
+ship date as the end of the baseline period.
 
 ## What to send back
 Weekly pricing-page visitors and trials started for the 4 weeks before and the 4 weeks after, the
