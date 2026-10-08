@@ -57,7 +57,7 @@ on a row older than its kind allows (schema and price rows: re-check at first us
 | price-veo31-lite | `fal-ai/veo3.1/lite` | 7.5 / 12.5 cr/s at 720p; 12.5 / 20 at 1080p | price | 2026-10-05 | D2c row 36 | estimate |
 | price-kling-v3-pro | `fal-ai/kling-video/v3/pro/{text,image}-to-video` | 28 cr/s silent, 42 with audio, 49 with voice control | price | 2026-10-06 | D2c row 46; REG | estimate |
 | price-h3 | `minimax/h3/{image,text,reference}-to-video` | 480P 12.5 cr/s, 768P 15 ($0.06, not fal's $0.08), 2K 32.5 (+117% over 768P), 4K 40; reference images: first 5 free, then 20 cr each | price | 2026-10-06 | D2c rows 51, 58, C6; REG | `ai-gen estimate minimax/h3/image-to-video resolution=768P duration:=5 --format json` |
-| price-h3max-promo | `minimax/h3-max*` (not routed) | a separate family on a 40% promotion ending 2026-10-15; fal's $0.08 for H3 768P equals H3-Max's post-promotion rate | price | 2026-10-06 (expires 2026-10-15) | P1 §4.8; D2c row 59, C6; REG | estimate |
+| price-h3max-promo | `minimax/h3-max*` (`h3-max-turbo` routed as an alternate since 2026-10-08) | a separate family on a 40% promotion ending 2026-10-15; fal's $0.08 for H3 768P equals H3-Max's post-promotion rate | price | 2026-10-06 (expires 2026-10-15) | P1 §4.8; D2c row 59, C6; REG | estimate |
 | price-flux3-flf | `blackforestlabs/flux-3/first-last-frame-to-video` | 42.5 cr/s at 720p, 72.5 at 1080p; no audio differential published; a `/draft` sibling lists 15 cr/s (720p) | price | 2026-10-06 | D2c row 65; REG | estimate |
 | price-lucy | `decart/lucy-edit/pro` | 37.5 cr/s at 720p; the listed 480p rate (25) is unreachable (resolution is `const` 720p) | price | 2026-10-06 | D2c rows 74–75; REG | estimate |
 | price-ray2-modify | `fal-ai/luma-dream-machine/ray-2/modify` | no published rate | price | 2026-10-05 | D2c row 73 | `ai-gen estimate …` (exit 12 = unpriced) |
@@ -140,6 +140,9 @@ on a row older than its kind allows (schema and price rows: re-check at first us
 | beh-unknown-dropped | the SL8 proxy | unknown params are dropped silently | behaviour | 2026-07-22 | T3 #1 | D2c B15 invalid-value probe, ≤5 cr |
 | beh-charges | the SL8 proxy | a 422 is uncharged; exit 7 can be charged; exit 10 is a charged timeout | behaviour | 2026-08-23 | T3 #7 | — |
 | beh-urls-expire | outputs | hosted `*.fal.media` URLs expire: download at once | behaviour | 2026-06 | T3 #12 | — |
+| measured-h3max-turbo-flf | `minimax/h3-max-turbo/image-to-video` | with a start and an end frame at `768P`, 5 s: billed **30 cr** per clip against an `ai-gen estimate` of 19 (estimate takes no media flags, so it priced a start-frame-only call), during the H3-Max family's 40% promotion (`price-h3max-promo`). Quote first-last calls at 30 per 5 s until 2026-10-15; after that, at 50 per 5 s (30 / 0.6) until the bill is measured again | price (measured, promotional) | 2026-10-06 (expires 2026-10-15) | VID-T5 ledgers (sl8-video `f70fa45c`, `6d9b42c8`); VID-L100; Issue #124 row 12 | the ledger line of one first-last call, after 2026-10-15 |
+| measured-h3-480p-face | `minimax/h3/image-to-video` | delivered a realistic face at `480P`, 5 s, for 63 cr (12.5 cr/s × 5 s) | behaviour | 2026-10-06 | validation pack VV1 (sl8-video `6d9b42c8`); VID-L102 | — |
+| measured-seedance20-face-480p | `bytedance/seedance-2.0/image-to-video` | refused a realistic portrait still at 480p, 5 s, with HTTP 422 (exit 7) after a quote of 169 cr; whether the refusal was charged is unknown (it may be charged off-ledger, Issue #124 row 23). Faces at 480p go to H3 first | behaviour | 2026-10-06 | validation pack VV1 (sl8-video `6d9b42c8`); VID-L102 | VID-T8 measures the route on a non-face still each release |
 
 ## Stale and gone
 

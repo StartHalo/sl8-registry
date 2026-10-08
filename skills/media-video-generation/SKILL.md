@@ -14,15 +14,15 @@ description: >-
   (media-h3-prompter); stills (media-image-generation); ai-gen, manifests, gates
   (media-ai-gen); measuring files (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); fal endpoints and list prices as of 2026-10-05"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); media-ai-gen 1.0.3; fal endpoints and list prices as of 2026-10-05, SL8-measured bills as of 2026-10-08"
 metadata:
-  version: 1.0.2
-  revision: 2026-10-06d
+  version: 1.0.3
+  revision: 2026-10-08a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D01..VID-D29, VID-D102, VID-D105
+  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117
 ---
 # Video Generation
 
@@ -113,8 +113,8 @@ fails above 12 s at 480p and above 10 s at 720p (measured on SL8, facts.md).
 
 **The primaries' own rate is not in their schema.** Seedance publishes no
 per-second figure through the OpenAPI endpoint for any tier, so price the exact
-payload with `ai-gen estimate` before quoting (facts.md holds the dated list rates)
-and never inherit a number from the route it replaced. A
+payload with `ai-gen estimate` before quoting (facts.md holds the dated list rates, and in its
+`measured-*` rows the bills SL8 measured) and never inherit a number from the route it replaced. A
 quote carrying a stale rate is worse than no quote: it reads as verified.
 
 Two routes bill on something other than output seconds. **Reframe bills the
@@ -122,8 +122,11 @@ input** — `fal-ai/ltx-2.3/reframe` charges on the source's duration, so a 30s
 clip is a 30s bill however trivial the reframe. **SeedVR bills megapixels** —
 0.25 cr per megapixel of `width × height × frames`, so length and frame rate multiply.
 
-**Quote before you spend.** Run `ai-gen estimate` on the chosen route's params
-file (`rate × seconds` is the sanity check) and put the figure in `plan.json`, in
+**Quote before you spend.** Run `ai-gen estimate` on the chosen route's params file (`rate ×
+seconds` is the sanity check), then raise the figure to any `measured-*` bill row in facts.md that
+prices the same call higher: the estimate cannot see media flags, so H3-Max turbo first-last is
+quoted at **30 per 5 s** (`measured-h3max-turbo-flf`, promotional until 2026-10-15, then 50 until
+measured again). Put that figure in `plan.json`, in
 credits (about 250 cr per US dollar; never quote ai-gen's own USD figure, 2.5× off).
 When it clears what the brief approved or what remains of the run's budget, open a
 gate (Step 0); when the user named no duration, the declared 4 s default holds;
@@ -202,8 +205,9 @@ question is not.
    `$HOME/.agents/skills/media-ai-gen/SKILL.md`). It runs every model on this machine,
    writes the manifest row (HR9) and opens gates (HR12).
 2. Start the project record once (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init
-   --project <project>`), quote the call (`ai-gen estimate <id> --params-file <p.json> --format json`;
-   a chained job's quote is its total) and read what remains (`… manifest.mjs budget --project <project>`).
+   --project <project>`), quote the call (`ai-gen estimate <id> --params-file <p.json> --format json`,
+   raised to any `measured-*` bill row in facts.md that prices the same call higher; a chained job's
+   quote is its total) and read what remains (`… manifest.mjs budget --project <project>`).
 3. If the quote is more than what remains, and that includes a run with **no spend authority**
    (ceiling 0), open the gate and end the job there:
    `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-<item> --question "<what, route, seconds, credits>" --options '[{"id":"a","label":"<route, length>","credits":<quote>},{"id":"b","label":"Stop here","credits":0}]' --resume-at "<this step>" --quote <quote>`.
@@ -223,7 +227,13 @@ the delivery note, and proceed — do not open a gate to re-ask.
 ## Routing table
 
 Every row was checked against a live schema, as of 2026-10-05; the dated evidence per row
-is in [picks.md](references/picks.md). Fallbacks are named, not implied.
+is in [picks.md](references/picks.md). Fallbacks are named, not implied. A pick is a judgement until
+a release build of this machine has produced a clip on it: picks.md's **Release checks** section says
+which routes have (Seedance 2.0 image-to-video at 480p for 5 s, by VID-T8 on every Video release) and
+marks the rest `unproven on SL8`. That mark is evidence, not a ranking: this table and the content
+rule below still choose the route, primary first, and a release check only breaks a tie between
+routes the table ranks the same. Say in the delivery note which route you used and whether a
+release build has proved it.
 
 | Intent | Primary | Fallback | Why the primary wins |
 |---|---|---|---|
@@ -246,17 +256,29 @@ exposes **`safety_tolerance`**, a string `"1"`–`"6"`, so a refusal there has a
 **No Seedance route exposes any moderation field at all**: its filtering is
 server-side and undocumented, so a refusal has no remedy except changing route.
 
-So send moderation-sensitive frames to **Veo 3.1 Fast from the start**, and accept
-its narrower `4s`/`6s`/`8s` duration enum as the price. One run spent **three
+So route moderation-sensitive frames from the start, by the declared resolution and length.
+Exactly one of these three applies:
+- **720p at 4, 6 or 8 s, or above 720p** (Step 0's defaults, 4 s at 720p, land here): **Veo 3.1
+  Fast**; above 720p a length Veo cannot render is rounded to `4s`, `6s` or `8s`, and stated.
+- **720p at any other length** (5, 7, 9–15 s): a realistic face goes to `minimax/h3/image-to-video` at `768P`.
+- **480p, at any length**: a realistic face goes to `minimax/h3/image-to-video` at `480P`. Veo has no
+  480p, and on SL8 the Seedance default refused a realistic face at 480p that H3 delivered (VV1, picks.md).
+
+On H3, write the prompt with **media-h3-prompter**; H3 takes 5–15 s, so a shorter ask renders as 5 s
+(say so). H3 has no tolerance lever, so a 422 there is the wrong route, not a retry. The next
+route, the unattended default, is **Veo 3.1 Fast at 720p** at the Veo length nearest the ask,
+re-quoted first, `safety_tolerance` its lever, scaled down in the sandbox for a 480p ask; state the
+change and its price. If Veo refuses too, end that item `partial` and name both refusals. A brief
+that names another route overrides this. One run spent **three
 separate rounds of 422s** discovering this by collision — refused on a photoreal
 human reference, re-prompted, refused again on a skull-heavy frame — because
 route-by-content was treated as a repair rather than a first-pass decision. A 422 on
 a route with no tolerance control is not a transient failure to retry; it is the
 wrong route, and the retry ceiling below applies to it.
 
-*Observed on the Seedance 2.5 family. The 2.0 primaries have the same absent
-field, so the same reasoning holds, but the specific refusals were measured on 2.5
-— treat the boundary as unmapped rather than known, and record what you hit.*
+*First observed on the Seedance 2.5 family. The 2.0 primaries have the same absent field, and SL8
+has one measured 2.0 refusal: validation pack VV1, a realistic portrait still at 480p (facts.md
+`measured-seedance20-face-480p`). Beyond that one case the boundary is unmapped: record what you hit.*
 
 **Three of the four generation fallbacks are same-family on purpose — and that
 is a known limit, not an oversight.** `/fast/` is the right fallback for the
@@ -464,7 +486,7 @@ frozen shot reach a human reviewer.
 - **Never substitute a route silently.** Name the fallback and its different
   rate in the reply.
 
-Revision 2026-10-06a · picks and prices as of 2026-10-05 · re-verify per [facts.md](references/facts.md).
+Revision 2026-10-08a · picks as of 2026-10-08, list prices as of 2026-10-05 · re-verify per [facts.md](references/facts.md).
 
 ## House rules (HR-1.0)
 
