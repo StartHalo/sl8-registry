@@ -14,15 +14,15 @@ description: >-
   alone (media-motion-graphics); stills (media-image-generation); running ai-gen (media-ai-gen);
   measuring files (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.0.3; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.3
-  revision: 2026-10-06d
+  version: 1.0.4
+  revision: 2026-10-08a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119
 ---
 
 # Video Production
@@ -80,7 +80,7 @@ mid-job, so the review gates (structure, clips) are recorded and the job goes on
 other value means a person is attending and answers them.
 **On an existing project, the first command is**
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs status --project <project>`, then the resume
-protocol in media-ai-gen's `references/gates-and-manifest.md` (1.0.1): an open gate the brief answers
+protocol in media-ai-gen's `references/gates-and-manifest.md` (1.0.3): an open gate the brief answers
 is recorded with `gate.mjs answer` and the job resumes at its `resume_at`; an open **spend** gate the
 brief does not answer means spend nothing, restate it, and end `partial` again; an open text gate
 proceeds on its default, flagged in the delivery.
@@ -148,9 +148,17 @@ warning (HR19):
    `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init --project <project>`.
 3. Quote. At the end of stage 1, before the first paid call, quote **the whole job, one line per
    paid stage, with a running total**: stills, clips (on Σ`render_dur`), voiceover fragments, bed,
-   the stage-9 transcript. Each line comes from `ai-gen estimate <id> --params-file <p.json> --format json`
-   with the params you will send. Write the table into `plan.json` `budget` and PROGRESS.md. At
-   every later paid stage, re-quote that stage the same way.
+   the stage-9 transcript. Each line starts from `ai-gen estimate <id> --params-file <p.json> --format json`
+   with the params you will send, then is raised to the bill SL8 measured where the estimate runs low
+   (list prices under-bill, and the estimate cannot see media flags): `minimax/h3-max-turbo/image-to-video`
+   with a start and an end frame bills **30 per 5 s** at 768P against an estimate of 19 (a promotional
+   bill until 2026-10-15; then quote 50 per 5 s until it is measured again), and Kokoro bills about
+   **5 per call** however short the line (the siblings' facts). Write the table into `plan.json` `budget`
+   as media-ai-gen's budget shape, `{"credits", "approved_by"}` (the grant and who gave it), extended so
+   one plan shape serves both machines: `{"credits": 140, "approved_by": "brief", "lines": [{"stage",
+   "endpoint", "calls", "estimate", "quote"}], "total"}` (`quote`: what that line should bill; `total`:
+   their sum), and into PROGRESS.md. Re-quote each later paid stage the same way; a re-run (reshoot,
+   retake) adds its own line and raises `total` before the call.
 4. Read what remains: `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs budget --project <project>`.
    When it prints `remaining: null` (no ceiling), what remains is the brief's budget, or the quote
    of the gate the person last approved, less what the manifest records as spent.
@@ -287,12 +295,13 @@ split — the settled state goes in the still, the continuous motion goes in the
 and if the brief needs the change to be visible it needs two rows. Print
 `row n: transformation verbs found — none/[list]`.
 
-**P3 — The route matches the content, decided up front.** See the content
-constraint in `media-video-generation`'s routing notes. Photorealistic human
-likenesses and other moderation-sensitive frames go to a route that exposes a
-tolerance control, from the first attempt. Three separate 422 rounds were spent
-discovering this by collision. Print `row n: route chosen for content — <route>,
-because <reason>`.
+**P3 — The route matches the content, decided up front.** Route photorealistic
+human likenesses and other moderation-sensitive frames by the face rule in
+`media-video-generation`'s routing notes, from the first attempt, at the row's declared
+resolution and `render_dur`: Veo 3.1 Fast at 720p for 4, 6 or 8 s and at any length above
+720p; `minimax/h3/image-to-video` at 720p for any other length (`768P`) and at 480p for any
+length (`480P`); after a refusal, the next route that rule names. Three 422 rounds were spent
+discovering this by collision. Print `row n: route chosen for content — <route>, because <reason>`.
 
 Hand each row to `media-video-generation` with its `action`, `render_dur` (the length to render;
 `dur` is what the cut keeps), `look` and the shape from intake — and the still's file where stage 2

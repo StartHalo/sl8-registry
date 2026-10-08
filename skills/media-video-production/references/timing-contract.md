@@ -66,10 +66,13 @@ build the plan (`plan.json` `rows`) with one row per shot and keep it as the pip
 | `vo_start` | where this fragment's audio actually starts, set in stage 1b — **not** the same as `start` |
 | `overlay` | text **and any image asset** burned over this window, or empty |
 
-**`render_dur` must be a length the route can render — that floor is 4 seconds.
-`dur` is what the cut uses, and it may be shorter.** Every generation route here
-has a minimum: Seedance 2.0 takes whole seconds from `4` to `15`, Veo 3.1 Fast
-takes only `4s`, `6s` or `8s`. A shot shorter than the floor is therefore not
+**`render_dur` must be a length the route can render — the route's floor: 4 seconds
+on Seedance and Veo, 5 on MiniMax H3. `dur` is what the cut uses, and it may be
+shorter.** Every generation route here has a minimum: Seedance 2.0 takes whole
+seconds from `4` to `15`, Veo 3.1 Fast takes only `4s`, `6s` or `8s`, and
+`minimax/h3/image-to-video`, the route for a realistic face at 480p and at 720p for
+the lengths Veo cannot render (media-video-generation's face rule), takes whole
+seconds from `5` to `15` (a `4` is refused with a 422). A shot shorter than the floor is therefore not
 impossible, it is a **planned trim**: render at the floor, cut to `dur`. What a
 run must never do is discover the floor at assembly — one that planned
 `2/4/8/8/5/3` as render lengths came back `4/4/8/8/6/4` and had to be rescued by
