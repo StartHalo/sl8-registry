@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.0.3; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.5
-  revision: 2026-10-08b
+  version: 1.0.6
+  revision: 2026-10-08c
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120, VID-D121
 ---
 
 # Video Production
@@ -61,7 +61,7 @@ to do when the owner is unavailable — never "do it here anyway, unlabelled".
 | 7 | Mix, duck, normalise | this skill, in the sandbox | None needed — local work |
 | 8 | Burn on-screen text, last | **this skill, in the sandbox, with `media-motion-graphics`** — the one overlay mechanism on this machine | None; never skip, never ship silently untexted |
 | 8b | Captions of the voiceover, if asked for | `media-motion-graphics`, timed from measured words | Skip and say so — captions are an optional extra deliverable, not the lower-thirds |
-| 9 | **Watch and listen to the finished file** | `fal-ai/elevenlabs/speech-to-text/scribe-v2` through `ai-gen`; `fal-ai/video-understanding` only when priced (optional) | `fal-ai/sa2va/8b/video` or a contact sheet of mid-window frames for the watch; `fal-ai/speech-to-text` for the transcript — **but it returns no word timings**, so say the placement check could not be run |
+| 9 | **Watch and listen to the finished file** | `fal-ai/elevenlabs/speech-to-text/scribe-v2` through `ai-gen`; `fal-ai/video-understanding` (optional; bills 8, so quote it) | `fal-ai/sa2va/8b/video` or a contact sheet of mid-window frames for the watch; `fal-ai/speech-to-text` for the transcript — **but it returns no word timings**, so say the placement check could not be run |
 | 10 | Deliver with the measured figures | this skill | — |
 
 **Stages 3 and 8 both re-render pixels, and 8 must follow every one of them.**
@@ -148,7 +148,7 @@ warning (HR19):
    `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init --project <project>`.
 3. Quote. At the end of stage 1, before the first paid call, quote **the whole job, one line per
    paid stage, with a running total**: stills, clips (on Σ`render_dur`), voiceover fragments, bed,
-   the stage-9 transcript. Each line starts from `ai-gen estimate <id> --params-file <p.json> --format json`
+   stage 9 (each transcript at 2, and the watch call, which bills **8** against an estimate of 3). Each line starts from `ai-gen estimate <id> --params-file <p.json> --format json`
    with the params you will send, then is raised to the bill SL8 measured where the estimate runs low
    (list prices under-bill, and the estimate cannot see media flags): `minimax/h3-max-turbo/image-to-video`
    with a start and an end frame bills **30 per 5 s** at 768P against an estimate of 19 (a promotional
@@ -158,7 +158,7 @@ warning (HR19):
    one plan shape serves both machines: `{"credits": 140, "approved_by": "brief", "lines": [{"stage",
    "endpoint", "calls", "estimate", "quote"}], "total"}` (`quote`: what that line should bill; `total`:
    their sum), and into PROGRESS.md. Re-quote each later paid stage the same way; a re-run (reshoot,
-   retake) adds its own line and raises `total` before the call.
+   retake, a second transcript) or any call not yet quoted adds its own line and raises `total` before the call.
 4. Read what remains: `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs budget --project <project>`.
    When it prints `remaining: null` (no ceiling), what remains is the brief's budget, or the quote
    of the gate the person last approved, less what the manifest records as spent.
@@ -410,7 +410,7 @@ whole `$HOME/.agents/skills/media-motion-graphics/SKILL.md`), apply its Steps 1�
 audio file first and print its path and size, then transcribe it with word timings and report the
 largest silence with its timestamp next to the coverage, per-fragment placement, empty thirds and
 transcript fidelity. **Watch:** reconcile scene count, actions and on-screen text against the
-plan; the vision route runs only when it is priced, otherwise a contact sheet of mid-window frames
+plan; the vision route runs only when its line is in the quote, otherwise a contact sheet of mid-window frames
 stands in. The stage reports and never re-renders on its own.
 
 ## Stage 10 — Deliver
