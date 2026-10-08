@@ -79,7 +79,7 @@ A row marked **unverified** is a claim nobody has measured on SL8: use it, and s
 | schema-dubbing | `fal-ai/elevenlabs/dubbing` | `target_lang`* (ISO 639-1); `video_url` or `audio_url` (video wins); `source_lang` auto; `num_speakers` 1–50; `highest_resolution` =true; the output schema has only `video` | schema | 2026-10-05 | D2c rows 111, 112 | raw OpenAPI check |
 | schema-isolation | `fal-ai/elevenlabs/audio-isolation` | `audio_url` or `video_url`; no options | schema | 2026-10-05 | D2c row 120 | raw OpenAPI check |
 | schema-minimax-speech | `fal-ai/minimax/speech-2.8-hd` | text field `prompt`*; voice inside `voice_setting` (=`{voice_id: Wise_Woman, speed 1, vol 1, pitch 0}`); `output_format` url/**hex, default hex**; returns `audio` and `duration_ms` | schema | 2026-10-05 | D2c rows 121, 122; P1 §1, takeaway 11 | raw OpenAPI check |
-| schema-kokoro | `fal-ai/kokoro/american-english` | text field `prompt` (=""); `voice` enum of 20 (`af_…`, `am_…`, =`af_heart`); `speed` 0.1–5. Not routed in 1.0.0 | schema | 2026-10-05 | P1 info | raw OpenAPI check |
+| schema-kokoro | `fal-ai/kokoro/american-english` | text field `prompt` (=""); `voice` enum of 20 (`af_…`, `am_…`, =`af_heart`); `speed` 0.1–5. Routed since 1.0.3 as the draft voiceover (SKILL.md Routing) | schema | 2026-10-05 | P1 info | raw OpenAPI check |
 | schema-formats-tiered | ElevenLabs music, SFX, voice-changer | `mp3_44100_192` "requires Creator tier", `pcm_44100` "requires Pro tier" per the field description; whether the proxy's account has them is untested | schema | 2026-10-05 | D2c row 115 (unverifiable by schema) | D2c B14, ≤10 cr |
 
 ## Schema: transcription

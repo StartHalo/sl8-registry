@@ -14,15 +14,15 @@ description: >-
   captioning a video (media-video-production, media-motion-graphics); video clips
   (media-video-generation); running ai-gen (media-ai-gen); output checks (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.0.1 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.0.3 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.0.2
-  revision: 2026-10-06d
+  version: 1.0.3
+  revision: 2026-10-08a
   house-rules: HR-1.0
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39, VID-D101, VID-D106
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115
 ---
 # Audio Generation
 
@@ -80,6 +80,8 @@ read verbatim, or it leaves the script, and the delivery names the line that lef
    --project <project>`), write the params file, quote the call (`ai-gen estimate <id> --params-file
    <p.json> --format json`) and read what remains (`… manifest.mjs budget --project <project>`). A job
    with several paid steps (the take, a rewrite, the check transcription) is quoted as one total (HR5).
+   Quote each call at no less than its measured floor: Kokoro bills about **5 cr per call** against a
+   ~1 cr character estimate (facts.md `price-kokoro`), so a quote counts its calls.
 3. If the quote is more than what remains, and that includes a run with **no spend authority**
    (ceiling 0) or an unpriced route (`estimate` exits 12), open the gate and end the job there:
    `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-<item> --question "<what, route, credits>" --options '[{"id":"a","label":"<route>","credits":<quote>},{"id":"b","label":"Stop here","credits":0}]' --resume-at "<this step>" --quote <quote>`.
@@ -187,6 +189,7 @@ whichever entry you use into the project registry. `sample` is a file under
 | Job | Primary | Named fallback |
 |---|---|---|
 | Voiceover, one narrator | `fal-ai/elevenlabs/tts/multilingual-v2` | `fal-ai/elevenlabs/tts/turbo-v2.5` — same schema, faster, flatter. |
+| Voiceover, draft or scratch, cheapest | `fal-ai/kokoro/american-english`: text field `prompt`, `voice` one of 20 presets (=`af_heart`). Bills a floor of about 5 cr per call, so batch the lines of a block into one call, never one per sentence, and quote the floor, not the character estimate. | `fal-ai/elevenlabs/tts/turbo-v2.5` — when the take must sound finished. |
 | Voiceover, heavy performance | `fal-ai/elevenlabs/tts/eleven-v3` | `fal-ai/elevenlabs/tts/multilingual-v2`, when v3's missing controls matter more than its delivery. |
 | Two or more speakers | `fal-ai/elevenlabs/text-to-dialogue/eleven-v3` | `fal-ai/elevenlabs/tts/multilingual-v2` per line, concatenated in the sandbox. |
 | Voice swap | `fal-ai/elevenlabs/voice-changer` | Transcribe with `fal-ai/elevenlabs/speech-to-text/scribe-v2`, re-speak the exact transcript through `multilingual-v2`. Loses the original timing; say so. |
