@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.0.3; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.4
-  revision: 2026-10-08a
+  version: 1.0.5
+  revision: 2026-10-08b
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120
 ---
 
 # Video Production
@@ -441,6 +441,8 @@ Then state the delivery record — runtime, shape and routes; per-clip motion fi
 silence with its timestamp beside the coverage; placement; the mix figures; overlays; timing
 honesty; look continuity; native clip audio; total credits and reshoots; every waiver — in the
 block set out in [references/burn-and-deliver.md](references/burn-and-deliver.md#stage-10--the-delivery-record).
+**Last, write the outcome:** `artifacts/<project>/outcome.json` as `{"status": "complete", "final": "final/<file>", "credits": <total>}`
+when every stage ran, else `{"status": "partial", "reason": "<what did not run>"}`; a spend gate's `partial` stays. Bots read it, not your reply.
 
 ## Guardrails
 
