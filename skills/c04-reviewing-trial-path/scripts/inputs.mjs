@@ -1,16 +1,24 @@
 #!/usr/bin/env node
-// inputs.mjs: reads the saved request for this job's inputs (job card: Review our trial path).
-// Only the product is required: a "Product:" (or "Website:") line, or any web address in the request.
-// Every other input is assumed when missing, and the review's Assumptions section gives each one a
-// line starting "**<label>:**" (D40). Attachments count as screenshots (images) or customer voice (text).
-// A website line in artifacts/profile.md (what the founder said earlier) counts as the product when the
-// request names none.
-//   node inputs.mjs <request.md> [--attachments <dir>] [--profile artifacts/profile.md]  |  --selftest  |  --help
-// No prompts; JSON on stdout; exit 1 only when the product is missing; writes nothing.
+// inputs.mjs: reads the request for this job's inputs (job card: Review our trial path), and with --save
+// saves it word for word in the product's folder, so nothing is written before the product is known
+// (SHORTCOMINGS №182). Only the product is required: a "Product:" (or "Website:") line, or any web
+// address in the request. Every other input is assumed when missing, and the review's Assumptions
+// section gives each one a line starting "**<label>:**" (D40). Attachments count as screenshots (images)
+// or customer voice (text). A website line in artifacts/profile.md (what the founder said earlier)
+// counts as the product when the request names none.
+//   node inputs.mjs <request.md | -> [--save <artifacts dir>] [--attachments <dir>] [--profile artifacts/profile.md]
+//   node inputs.mjs --selftest | --help
+// "-" reads the request from stdin (a quoted heredoc). --save writes it to
+// <artifacts>/<project>/inputs/request-review.md (request-review-2.md … when a different earlier request is
+// there: it never overwrites) and prints the path as "saved"; with no product the project is new-project.
+// No prompts; JSON on stdout; exit 1 only when the product is missing; writes nothing without --save.
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 
-const HELP = 'usage: node inputs.mjs <request.md> [--attachments artifacts/attachments] [--profile artifacts/profile.md] | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label","value"}],"url","project","trafficGiven","say"}'
+const HELP = 'usage: node inputs.mjs <request.md | -> [--save artifacts] [--attachments artifacts/attachments] [--profile artifacts/profile.md] | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label","value"}],"url","project","trafficGiven","saved","say"}'
 const empty = v => !v || /^\s*(<[^>]*>|tbd|\[tbd\]|n\/?a|-|—|\?|none|unknown|not known)\s*$/i.test(v)
 export const OPTIONAL = {
   path: [/^(?:path|flow|steps)\s*[:—-]\s*(.+)$/im, 'Path', "from the home page's main sign-up or trial button to the first step the site describes"],
@@ -44,6 +52,17 @@ export function check (text, attachmentFiles = [], profileText = '') {
     say: missing.length ? "To do this I need: your product's website (for example \"Product: <name>, https://<your site>\")." : '',
   }
 }
+// save(text, artifactsDir, project): the request, word for word, never over a different earlier one
+export function save (text, artifactsDir, project) {
+  const dir = path.join(artifactsDir, project || 'new-project', 'inputs')
+  fs.mkdirSync(dir, { recursive: true })
+  for (let n = 1; n < 100; n++) {
+    const f = path.join(dir, n === 1 ? 'request-review.md' : `request-review-${n}.md`)
+    if (!fs.existsSync(f)) { fs.writeFileSync(f, text); return f }
+    if (fs.readFileSync(f, 'utf8') === text) return f
+  }
+  throw new Error(`more than 99 saved requests in ${dir}`)
+}
 const direct = (() => { try { return fs.realpathSync(process.argv[1]) === fs.realpathSync(new URL(import.meta.url).pathname) } catch { return false } })()
 if (direct) {
   const a = process.argv.slice(2)
@@ -54,19 +73,32 @@ if (direct) {
     const att = check('Review our trial path\nProduct: Ledgerline, https://ledgerline.example', ['a/shot.png', 'a/notes.txt'])
     const none = check('Review our trial path please')
     const prof = check('Review our trial path', [], '# Profile\n- Website: Ledgerline, https://ledgerline.example\n')
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'c04-inputs-')), req = 'Review our trial path\nProduct: Ledgerline, https://ledgerline.example\n'
+    const s1 = save(req, tmp, full.project), s2 = save(req, tmp, full.project), s3 = save(req + 'Traffic: 900 visits a month\n', tmp, full.project), s4 = save('Review our trial path please\n', tmp, none.project)
+    const cli = spawnSync(process.execPath, [fileURLToPath(import.meta.url), '-', '--save', tmp], { input: 'why don\'t visitors sign up?\nhttps://ledgerline.example\n', encoding: 'utf8' })
+    const viaStdin = JSON.parse(cli.stdout || '{}')
+    const stdinSaved = viaStdin.saved && fs.readFileSync(viaStdin.saved, 'utf8') === 'why don\'t visitors sign up?\nhttps://ledgerline.example\n'
+    fs.rmSync(tmp, { recursive: true, force: true })
     const t = [
       ['a full request assumes nothing; project from the name', full.ok && !full.assume.length && full.project === 'ledgerline' && full.trafficGiven],
       ['a bare URL is the product; four inputs assumed', bare.ok && bare.assume.length === 4 && bare.project === 'ledgerline' && !bare.trafficGiven],
       ['attachments count as screenshots and customer voice', att.ok && att.found.screenshots && att.found.customer_voice && att.assume.length === 2],
       ['no product ends partial', !none.ok && none.missing[0] === 'product'],
       ['a website in the profile counts as the product', prof.ok && prof.url === 'https://ledgerline.example' && prof.project === 'ledgerline'],
+      ['--save writes into the product\'s folder, word for word; the same request again is the same file; a different one never overwrites; no product is new-project', s1.endsWith(path.join('ledgerline', 'inputs', 'request-review.md')) && s2 === s1 && s3.endsWith('request-review-2.md') && s4.endsWith(path.join('new-project', 'inputs', 'request-review.md'))],
+      ['"-" reads the request from stdin and --save saves it in the product\'s folder only', cli.status === 0 && viaStdin.project === 'ledgerline' && stdinSaved && viaStdin.saved.includes(path.join('ledgerline', 'inputs'))],
     ]
     const failed = t.filter(x => !x[1]).map(x => x[0])
     console.log(JSON.stringify({ ok: !failed.length, cases: t.length, failed })); process.exit(failed.length ? 1 : 0)
   }
-  if (!fs.existsSync(a[0])) { console.log(JSON.stringify({ ok: false, errors: ['give the saved request file; see --help'] })); process.exit(2) }
-  const i = a.indexOf('--attachments'), dir = i > -1 ? a[i + 1] : null
+  const takes = new Set(['--attachments', '--profile', '--save'])
+  const src = a.find((x, k) => (x === '-' || !x.startsWith('--')) && !takes.has(a[k - 1]))
+  if (!src || (src !== '-' && !fs.existsSync(src))) { console.log(JSON.stringify({ ok: false, errors: ['give the request: a saved file, or "-" with the request on stdin; see --help'] })); process.exit(2) }
+  const text = src === '-' ? fs.readFileSync(0, 'utf8') : fs.readFileSync(src, 'utf8')
+  const opt = k => { const i = a.indexOf(k); return i > -1 ? a[i + 1] : null }
+  const dir = opt('--attachments'), pf = opt('--profile'), to = opt('--save')
   const files = dir && fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => !f.startsWith('.')).map(f => path.join(dir, f)) : []
-  const j = a.indexOf('--profile'), pf = j > -1 ? a[j + 1] : null
-  const r = check(fs.readFileSync(a[0], 'utf8'), files, pf && fs.existsSync(pf) ? fs.readFileSync(pf, 'utf8') : ''); console.log(JSON.stringify(r, null, 2)); process.exit(r.ok ? 0 : 1)
+  const r = check(text, files, pf && fs.existsSync(pf) ? fs.readFileSync(pf, 'utf8') : '')
+  if (to) { r.project = r.project || 'new-project'; r.saved = save(text, to, r.project) }
+  console.log(JSON.stringify(r, null, 2)); process.exit(r.ok ? 0 : 1)
 }

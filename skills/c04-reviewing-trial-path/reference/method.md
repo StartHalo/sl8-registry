@@ -21,8 +21,8 @@ this path: activation (reaching first value), time to value, free-to-paid.
 ## 2. The ResearchXL steps, from outside
 | Step | How this job does it |
 |---|---|
-| Technical | from `fetch-pages.mjs` facts: calls to action that resolve; forms present with fields and a submit; several labels or URLs for one action; a viewport tag; leftover template text; each page its own title. Rate the return on fixing: main path and cheap is high |
-| Heuristic | the five lenses below, page by page |
+| Technical | from `fetch-pages.mjs` facts: calls to action that resolve (a link whose address page script sets has none in the HTML: say so); forms with their fields, required marks, captcha and a submit; several labels or URLs for one action; a viewport tag; leftover template text; each page its own title. Rate the return on fixing: main path and cheap is high |
+| Heuristic | the five lenses below, page by page: one row per lens ("Heuristic: relevance" …), each quoting the words it rests on, or "not judged: <why>" |
 | Digital analytics | only the founder's figures: place them on the path (which step loses most); never invent a rate |
 | Mouse tracking | not done: kit item "Recording setup" |
 | Qualitative | the customer voice the founder sent (quote it); otherwise kit item "Interview script" |
@@ -33,7 +33,7 @@ Opinions to confirm later ("areas of interest"), judged from a busy buyer's side
 - **Relevance:** does the headline name the buyer's problem in their words?
 - **Clarity:** is it clear what this is, who it is for and what to do next? One main action per page; the next step named ("Start a 14-day trial" beats "Get started").
 - **Value:** why this, why now: outcomes, the price or how pricing works, proof next to the claim.
-- **Friction:** fields beyond email and one qualifying question; card required; no answer to setup effort, switching, data security, contract length.
+- **Friction:** fields beyond email and one qualifying question (from the form's fields and required marks); a captcha, or a submit that stays disabled until page script enables it; card required; no answer to setup effort, switching, data security, contract length.
 - **Distraction:** competing calls to action, navigation on the sign-up page, several offers of equal weight.
 
 Page by page: home (relevance, clarity), pricing (value, friction), sign-up or demo form (friction:

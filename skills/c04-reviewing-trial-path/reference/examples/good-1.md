@@ -16,8 +16,12 @@
 ## What was checked
 | Step | Done how | Found |
 |---|---|---|
-| Technical | fetch facts for the three pages: links, forms, viewport, titles | every page has the same title "Ledgerline"; two labels lead to sign-up ("Start free trial", "Get started"); the form posts and has a submit |
-| Heuristic | the five lenses on home, pricing and sign-up | relevance and clarity good on home; friction on the form (four required fields); value gap on pricing (one plan has no price) |
+| Technical | fetch facts for the three pages: links, forms, viewport, titles | every page has the same title "Ledgerline"; two labels lead to sign-up ("Start free trial", "Get started"); the form posts to /signup with the submit button "Create account"; no captcha in the HTML |
+| Heuristic: relevance | home, hero | "Send your first invoice in two minutes" and "Ledgerline turns your timesheets into invoices your clients pay on time." name the buyer's job in their words: good |
+| Heuristic: clarity | home, calls to action | "Start free trial" and "Get started" lead to the same sign-up page; only the first names the next step (C3) |
+| Heuristic: value | pricing, plan table | "Starter $0.40 an invoice" and "Team $29 a month" are priced, "Agency Contact us" is not (C4); the headline "Simple pricing for growing teams" names no cost (C5) |
+| Heuristic: friction | sign-up, form (fetch facts) | four required fields before the first invoice: "Work email", "Password", "Company size", "Phone number"; the last two are not needed to send one (C1, C2) |
+| Heuristic: distraction | sign-up, form | "Already have an account? Log in" is the only other link on the sign-up page: good |
 | Digital analytics | not given | the step that loses most cannot be named; kit and the test design job cover it |
 | Mouse tracking | not done: kit item "Recording setup" | — |
 | Qualitative | not done: kit item "Interview script" | — |
@@ -44,6 +48,7 @@
 ## What this review cannot show
 - What is above the fold or noticeable in five seconds: no screenshots, so those PXL questions score 0.
 - How the pages look and work on a phone, and their speed.
+- Anything page script builds or changes after the page loads: the fetch reads the HTML only.
 - Every screen after sign-up (step 4): the bot never signs in.
 - Which step loses the most people: no figures were given.
 
