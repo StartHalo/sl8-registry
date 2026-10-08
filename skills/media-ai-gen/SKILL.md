@@ -13,13 +13,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; node >=20; python3 (raw OpenAPI check)"
 metadata:
-  version: 1.0.2
-  revision: 2026-10-06b
+  version: 1.0.3
+  revision: 2026-10-07
   house-rules: HR-1.0
   upstream: [fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/wrap-it-up, fal-agent/fal-video-production]  # sources only; that CLI is not on this machine
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D01..IMG-D19, IMG-D70..IMG-D72
+  deltas: IMG-D01..IMG-D19, IMG-D70..IMG-D72, IMG-D74
 ---
 
 # ai-gen: the model runner on this machine
@@ -60,7 +60,7 @@ directly.
 7. **Never re-fire a job that may exist** (HR6). Once a request id exists, only `ai-gen result <id>`
    touches it again.
 8. **A job never answers its own spend gate** (HR12). The owner answers it, outside the job or in the
-   next job's brief; `gate.mjs answer` refuses the job run that opened the gate. When a paid step
+   next job's brief; `gate.mjs answer` and `gate.mjs waive` refuse the job run that opened the gate. When a paid step
    cannot run, open the gate and end `partial`: never substitute a local stand-in for a paid model
    and never install tools to make one (HR21).
 9. **The first ai-gen call in a fresh machine is slow, not hung:** it can take 1–3 minutes while the

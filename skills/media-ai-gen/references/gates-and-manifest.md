@@ -177,9 +177,11 @@ overwrite `outcome.json` with anything but `partial`.
    is open, with `resume_at` from the last answered or waived gate. **An open text gate never
    stops a job:** exit 0 lists it under `open_text` with its `default`; proceed on that default and
    flag it in the delivery (HR12).
-   **A job never answers its own spend gate:** `gate.mjs answer` refuses the job run that opened it
-   (it compares `SL8_SPEND_LEDGER` with the gate's `opened_by_run`, 1.0.2). The owner answers outside
-   any job, or the next job records the answer its brief carries.
+   **A job never answers or waives its own spend gate:** `gate.mjs answer` (1.0.2) and `gate.mjs waive`
+   (1.0.3) refuse the job run that opened it (they compare `SL8_SPEND_LEDGER` with the gate's
+   `opened_by_run`). The owner answers outside any job, or the next job records the answer its brief
+   carries. Changing or unsetting `SL8_SPEND_LEDGER` inside the job is not caught by the script; HR12
+   forbids it all the same.
 
    ```json
    {"open":[],"open_text":[{"id":"02","slug":"tone","kind":"text","question":"Tone?","default":"warm","resume_at":"step 2","answer":null}],

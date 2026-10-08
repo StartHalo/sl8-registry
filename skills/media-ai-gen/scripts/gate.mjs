@@ -8,7 +8,8 @@
 //          job run (SL8_SPEND_LEDGER): a job never answers its own spend gate (HR12, 1.0.2)
 //   status --project P          exit 10 while a spend gate is open and unanswered · 0 otherwise. An open text
 //          gate never stops a job (it proceeds on its default, HR12): it is listed under open_text, exit 0
-//   waive  --project P --gate NN --instruction TEXT     the user's explicit instruction (HR20)
+//   waive  --project P --gate NN --instruction TEXT     the user's explicit instruction (HR20); refused (exit 1)
+//          for a spend gate opened by this same job run, as answer is (HR12, 1.0.3)
 // Options: --artifacts DIR (default ./artifacts), --outcome FILE (default <artifacts>/P/outcome.json, which persists).
 // --options is a JSON array: [{"id":"a","label":"Render 2 clips at 480p","credits":216}, …].
 // Exit: 0 ok · 1 refused · 2 usage · 10 open spend gate (status only). Node >= 20, no dependencies.
@@ -93,6 +94,15 @@ export function open (o) {
   })
 }
 
+// HR12: a spend gate is the owner's question. The run that opened it never answers or waives it; a
+// later job whose brief carries the owner's answer (a different run), or the owner outside any job, does.
+// The run is sl8-agent's ledger path, so a job that changes or unsets SL8_SPEND_LEDGER is not caught here;
+// HR12 still forbids it and the run audit's rules check flags a self-answered gate.
+function refuseOwnSpendGate (g, verb) {
+  const run = process.env.SL8_SPEND_LEDGER ? path.resolve(process.env.SL8_SPEND_LEDGER) : null
+  if (g.kind !== 'text' && g.opened_by_run && run && run === g.opened_by_run) throw new Fail(`gate ${g.id} is a spend gate this job opened: a job never ${verb} its own spend gate (HR12); end the job partial and let the owner answer`)
+}
+
 export function answer (o) {
   const dir = projectDir(o)
   if (!o.gate || !o.option) throw new Fail('answer needs --gate NN and --option ID', 2)
@@ -100,10 +110,7 @@ export function answer (o) {
     const g = findGate(dir, o.gate)
     if (g.status !== 'open') throw new Fail(`gate ${g.id} is already ${g.status}`)
     if (!g.options.some((x) => x.id === o.option)) throw new Fail(`option '${o.option}' is not one of: ${g.options.map((x) => x.id).join(', ')}`, 2)
-    // HR12: a spend gate is the owner's question. The run that opened it never answers it; a later job
-    // whose brief carries the owner's answer (a different run), or the owner outside any job, does.
-    const run = process.env.SL8_SPEND_LEDGER ? path.resolve(process.env.SL8_SPEND_LEDGER) : null
-    if (g.kind !== 'text' && g.opened_by_run && run && run === g.opened_by_run) throw new Fail(`gate ${g.id} is a spend gate this job opened: a job never answers its own spend gate (HR12); end the job partial and let the owner answer`)
+    refuseOwnSpendGate(g, 'answers')
     g.status = 'answered'; g.answer = { option: o.option, by: o.by ?? null, at: new Date().toISOString() }
     save(dir, write(dir, g))
     return { ok: true, gate: g.id, option: o.option, resume_at: g.resume_at }
@@ -116,6 +123,7 @@ export function waive (o) {
   return withLock(dir, () => {
     const g = findGate(dir, o.gate)
     if (g.status !== 'open') throw new Fail(`gate ${g.id} is already ${g.status}`)
+    refuseOwnSpendGate(g, 'waives')
     const at = new Date().toISOString()
     g.status = 'waived'; g.waiver = { instruction: o.instruction, at }
     const m = write(dir, g)
