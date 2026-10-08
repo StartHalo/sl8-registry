@@ -2,6 +2,7 @@
 
 - **Product:** <name, website>
 - **Goal:** <from the request, or yours marked (proposed)>
+- **Against the goal:** <what the thresholds add up to in the quarter, in the goal's unit, against the goal over the same time; what reaching the goal needs beyond these tests>
 - **Budget:** <amount and currency, or 0: the founder's time only>
 - **Founder hours:** <hours> a week
 - **Weeks:** W1 = <date> to W13 = <date>
@@ -17,7 +18,7 @@
 ## Tests
 | # | Channel | What to do | Start week | Weeks | Cost | Hours a week | Threshold (set now) |
 |---|---|---|---|---|---|---|---|
-| 1 | <an A channel> | <one concrete tactic, for whom> | W1 | 4 | <number> | <number> | <a number deeper than clicks, by the end of W..> |
+| 1 | <an A channel> | <one concrete tactic of that channel, for the primary segment; a page or listing that does not exist is marked (to build); search phrases in *italics*> | W1 | 4 | <number> | <number> | <a number deeper than clicks, by the end of W..> |
 
 ## Standing actions
 | Action | Where | Hours a week | Cost |
@@ -31,4 +32,4 @@
 - **<label from inputs.mjs>:** not given. Assumed <what you assumed>. Send <what to send> to replace it.
 - <one line per input inputs.mjs listed under "assume", using its label, then one line per other
   assumption you made (a figure you did not have, a page that would not open), each with what to send>
-- or "- None: every input was given."
+- or, when every input was given and nothing else was assumed: - None: every input was given.
