@@ -1,0 +1,7 @@
+{
+  "name": "c04-router",
+  "version": "v1.0.0",
+  "description": "Starts every job on this bot. Reads the request, the bot's jobs and the project's status, then runs the bot's skills for the job in order, or declines work the bot does not do, and makes sure the job ends with an exact outcome. The Job Guide's call line opens every job with this skill; it is never invoked again inside a job or from a subagent.",
+  "generated_at": "2026-10-11T22:32:21.783Z",
+  "skill_md_sha256": "4d3210d3b9931f122b81e85dac5b11d8d1af281ff498cad06d3b799d42d15427"
+}
