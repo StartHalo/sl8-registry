@@ -1,7 +1,7 @@
 {
   "name": "c05-reviewing-sequence",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Reviews a micro-SaaS's email sequence before it is sent - each problem with the line quoted, the rule and its source, a severity and the fix written out, what to keep, what to verify outside the text, and the three fixes to make first. Use when a founder asks to review, check or critique their onboarding, trial or launch emails, or asks what's wrong with them.",
-  "generated_at": "2026-10-07T00:59:26.148Z",
-  "skill_md_sha256": "a51baf5dd8daa3c4d7673a5000173795821d0f7498c10776adc7d181e100c703"
+  "generated_at": "2026-10-11T03:02:50.442Z",
+  "skill_md_sha256": "f18fe182c58e465f3e96fd0cedfb63b2b754f55ed7f88f9826983a30bc0f2e6f"
 }

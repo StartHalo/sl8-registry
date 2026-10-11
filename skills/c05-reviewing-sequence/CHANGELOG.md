@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-10-11
+### Added
+- Release c05-reviewing-sequence v1.0.1.
+
 ## [v1.0.0] — 2026-10-07
 ### Added
 - Initial release (c05-reviewing-sequence).
