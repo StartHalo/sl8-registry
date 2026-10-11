@@ -6,7 +6,7 @@ description: Plans the next quarter's growth tests for a consumer app in any cat
 # Planning growth tests
 
 One job, one deliverable: `artifacts/<app>/growth-tests.md`. `<app>` is the app's name in lower case,
-with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-planning-growth-tests`.
+with hyphens. Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the app; without it there is no job. **Assumed when missing, and listed under Assumptions:** the goal (propose one, marked `(proposed)`), the budget (0: team time only), channels allowed. **Read when it exists:** the ICP (`artifacts/<app>/icp.md`).
 
@@ -32,7 +32,7 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
         Fix every error and rerun until `ok` is true.
 - [ ] 7. Update the project status. Write `artifacts/<app>/inputs/job-growth-tests.json`:
         `{"job":"plan-growth-tests","what":"<app>: marketing","state":"active","context":{"goal":"…","budget":"…","tests":"10","top test":"…"},"decisions":[…what the person should send or decide, one per Assumptions line that asks for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Growth test backlog","file":"<app>/growth-tests.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-growth-tests.json`.
+        Then run `node $S/../c01-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-growth-tests.json`.
 - [ ] 8. Reply in at most 8 lines: the top 3 tests, the total cost against the budget, what you assumed,
         and the file.
 
