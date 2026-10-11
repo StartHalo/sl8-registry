@@ -1,7 +1,7 @@
 {
   "name": "c03-briefing-launch",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "Briefs a small B2B SaaS's feature or integration launch on one page - objective, one proposition, reasons to believe, audience, a KPI with a number and a date, channels including the integration partner's, actions before, on and after launch day with owner, the founder's hours and cost, a budget and what is out of scope. Use when a founder asks to plan or brief the launch of a feature, an integration or a new plan.",
-  "generated_at": "2026-10-08T00:54:26.805Z",
-  "skill_md_sha256": "e23a4373c1a023b81c91c50f11d18df72a1bbaa4785629b94f06bfac525f920a"
+  "generated_at": "2026-10-11T22:29:21.284Z",
+  "skill_md_sha256": "f134ed4299438ca4304b472c3b5e9888f69cd72a7525ce91bbd6b1ae799281e3"
 }
