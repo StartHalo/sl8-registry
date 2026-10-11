@@ -6,7 +6,7 @@ description: Defines the ideal customer and positioning for a consumer app in an
 # Defining the ICP and positioning
 
 One job, one deliverable: `artifacts/<app>/icp.md`. `<app>` is the app's name in lower case, with
-hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-defining-icp`.
+hyphens. Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the app (name and store link); without it there is no job. **Assumed when missing, and listed under Assumptions:** what it does or is becoming, market, current users, competitors.
 
@@ -31,7 +31,7 @@ hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-defin
         Fix every error and rerun until `ok` is true.
 - [ ] 7. Update the project status. Write `artifacts/<app>/inputs/job-icp.json`:
         `{"job":"define-icp","what":"<app>: marketing","state":"active","context":{"app":"…","market":"…","primary segment":"…","positioning":"…"},"decisions":[…what the person should send or decide, one per Assumptions line that asks for something for the person, each {"text","state":"open","needs"}],"deliverables":[{"name":"ICP one-pager","file":"<app>/icp.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-icp.json`.
+        Then run `node $S/../c01-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-icp.json`.
 - [ ] 8. Reply in at most 8 lines: the primary segment, the positioning statement, what you assumed,
         and the file. Do not paste the whole document.
 
