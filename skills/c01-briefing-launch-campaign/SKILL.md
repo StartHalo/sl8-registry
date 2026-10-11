@@ -6,7 +6,7 @@ description: Briefs a launch campaign for a consumer app in any category or a ne
 # Briefing a launch campaign
 
 One job, one deliverable: `artifacts/<app>/campaign-brief.md`. `<app>` is the app's name in lower case,
-with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-briefing-launch-campaign`.
+with hyphens. Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** what launches; without it there is no job. **Assumed when missing, and listed under Assumptions:** the launch date (6 weeks from today, marked `(assumed)`), the audience (the ICP's primary segment, else from the store page, else your assumption), the budget (0: owned channels and team time only). **Read when they exist:** the ICP and the growth tests.
 
@@ -32,7 +32,7 @@ with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c01-
         Fix every error and rerun until `ok` is true.
 - [ ] 7. Update the project status. Write `artifacts/<app>/inputs/job-campaign.json`:
         `{"job":"brief-launch-campaign","what":"<app>: marketing","state":"active","context":{"launch":"…","launch date":"…","KPI":"…"},"decisions":[…what the person should send or decide, one per Assumptions line that asks for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Launch campaign brief","file":"<app>/campaign-brief.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-campaign.json`.
+        Then run `node $S/../c01-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-campaign.json`.
 - [ ] 8. Reply in at most 8 lines: the proposition, the KPI, the channels and budget, what you assumed,
         and the file.
 
