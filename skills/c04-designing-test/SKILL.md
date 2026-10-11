@@ -7,7 +7,7 @@ description: Designs a test for one change on a micro-SaaS's site or trial - the
 
 One job, one deliverable: `artifacts/<product>/tests/<change>.md`. `<product>` is the `project` that
 `inputs.mjs` prints (the product's name in lower case, with hyphens); `<change>` is a short slug of the
-change (`pricing-headline`). Run the scripts from this skill's folder: `S=~/.claude/skills/c04-designing-test`.
+change (`pricing-headline`). Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the change, in words or as a change ID (C1, C2 …) from the trial-path review. Without it
 there is no job. **Assumed when missing, and listed under Assumptions:** the product (from the change
