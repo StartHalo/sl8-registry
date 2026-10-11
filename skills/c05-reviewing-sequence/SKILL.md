@@ -6,7 +6,7 @@ description: Reviews a micro-SaaS's email sequence before it is sent - each prob
 # Reviewing an email sequence
 
 One job, one deliverable: `artifacts/<product>/sequence-review.md`. `<product>` is the product's name
-in lower case, with hyphens. Run the scripts from this skill's folder: `S=~/.claude/skills/c05-reviewing-sequence`.
+in lower case, with hyphens. Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the emails, from any of: files in `artifacts/attachments/`, emails pasted in the request,
 or "the sequence you wrote" (the project's `sequence.md` and `emails/`). Without them there is no job.
@@ -40,7 +40,7 @@ A review finds what to fix and writes each fix out; it does not rewrite the sequ
 - [ ] 6. Check the ranking: "Fix first" holds the findings that most stop the goal (blockers first).
 - [ ] 7. Update the project status. Write `artifacts/<product>/inputs/job-review.json`:
         `{"job":"sequence-review","what":"<product>: email","state":"active","context":{"emails reviewed":"<n>","blockers":"<n>","fix first":"…"},"decisions":[…one per Assumptions line that asks for something, and one "Fix the blockers before sending" when there are any, each {"text","state":"open","needs"}],"deliverables":[{"name":"Sequence review","file":"<product>/sequence-review.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-review.json`.
+        Then run `node $S/../c05-router/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-review.json`.
 - [ ] 8. Reply in at most 8 lines: the counts, the three fixes to make first, what you assumed, and the file.
 
 ## Rules
