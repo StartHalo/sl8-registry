@@ -7,7 +7,7 @@ description: Defines the ideal customer and positioning for a small B2B SaaS as 
 
 One job, one deliverable: `artifacts/<product>/icp.md`. `<product>` is the product's name in lower
 case, with hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c03-defining-icp`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the product (name and website); without it there is no job. **Assumed when missing, and
 listed under Assumptions:** the sales motion and price (from the pricing page), the best customers
@@ -49,7 +49,7 @@ read, plus doing nothing), review text (none: review sites are not read).
 - [ ] 8. Update the profile and the project status. Create or update `artifacts/profile.md` with only what the founder said
         in the request (company, product, website; the sales motion and price when given). Write `artifacts/<product>/inputs/job-icp.json`:
         `{"job":"define-icp","what":"<product>: marketing","state":"active","context":{"primary segment":"…","market category":"…","positioning":"…","sales motion":"… (given | assumed from <page>)"},"decisions":[…one per Assumptions line that asks the founder for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"ICP and positioning one-pager","file":"<product>/icp.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-icp.json`.
+        Then run `node $S/../c03-router/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-icp.json`.
 - [ ] 9. Reply with exactly these lines, filled in: at most 8, no code block, nothing else (the document is in the file):
         ```
         ICP and positioning for <Product>: artifacts/<product>/icp.md
