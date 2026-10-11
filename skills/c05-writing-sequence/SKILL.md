@@ -7,7 +7,7 @@ description: Writes a micro-SaaS's email sequence toward one goal (onboarding, t
 
 One job, one deliverable: `artifacts/<product>/sequence.md` and the built `artifacts/<product>/emails/`.
 `<product>` is the product's name in lower case, with hyphens. Run the scripts from this skill's
-folder: `S=~/.claude/skills/c05-writing-sequence`.
+folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the product (its name and website); without it there is no job. **Assumed when
 missing, and listed under Assumptions:** the goal (from the kind of sequence the request names:
@@ -51,7 +51,7 @@ sends, imports contacts or touches anyone's email address.
         Fix `sequence.md`, rebuild (step 7) and rerun until `ok` is true.
 - [ ] 9. Update the project status. Write `artifacts/<product>/inputs/job-sequence.json`:
         `{"job":"sequence","what":"<product>: email","state":"active","context":{"goal":"…","audience":"…","emails":"<n>","email tool":"…"},"decisions":[…what the founder should send or decide, one per Assumptions line that asks for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Email sequence","file":"<product>/sequence.md"},{"name":"Email files","file":"<product>/emails/"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-sequence.json`.
+        Then run `node $S/../c05-router/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-sequence.json`.
 - [ ] 10. Reply in at most 8 lines: the emails in order (subject and purpose), when a person leaves, what you
         assumed, what to send next (the postal address first if it is a placeholder), and the files.
 
