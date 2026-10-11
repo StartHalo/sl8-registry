@@ -7,7 +7,7 @@ description: Reviews a consumer app's written copy (store listing, website, emai
 
 One job, one deliverable: `artifacts/<app>/brand-review.md`. `<app>` is the app's name in lower case, with
 hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c02-reviewing-brand-copy`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the material to review, from any of: text pasted in the request, files in `artifacts/attachments/`,
 a public link, or "the listing you wrote" (the project's `store-listing.md`). Without it there is no job.
@@ -55,7 +55,7 @@ Assumptions as not reviewed, never a reason to stop.
         Drop any finding that is taste rather than a broken rule.
 - [ ] 8. Update the project status. Write `artifacts/<app>/inputs/job-review.json`:
         `{"job":"brand-review","what":"<App>: brand copy","state":"active","context":{"material reviewed":"…","high findings":"<n>","fix first":"…"},"decisions":[…one per Assumptions line that asks for something, and one "Fix the high findings before publishing" when there are any, each {"text","state":"open","needs"}],"deliverables":[{"name":"Brand copy review","file":"<app>/brand-review.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-review.json`.
+        Then run `node $S/../c02-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-review.json`.
 - [ ] 9. Reply in at most 8 lines: the counts, the three fixes to make first, what you assumed, and the file. End
         `delivered` when the review is saved and valid, even when part of the material was not reviewed; `partial`
         only when the material is missing (step 2 or step 4).
