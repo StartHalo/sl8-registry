@@ -7,7 +7,7 @@ description: Plans a small B2B SaaS's channel tests for the next 13 weeks with B
 
 One job, one deliverable: `artifacts/<product>/channel-tests.md`. `<product>` is the product's name in
 lower case, with hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c03-planning-channel-tests`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the product (name and website); without it there is no job. **Assumed when missing, and
 listed under Assumptions:** the goal (propose one, marked `(proposed)`), the budget (0: the founder's
@@ -47,7 +47,7 @@ the segment read from the site, marked `(assumed)`).
 - [ ] 8. Update the profile and the project status. Create or update `artifacts/profile.md` with only what the founder said
         in the request (product, website, founder hours, the budget's currency). Write `artifacts/<product>/inputs/job-channel-tests.json`:
         `{"job":"plan-channel-tests","what":"<product>: marketing","state":"active","context":{"goal":"… (given | proposed)","budget":"… (given | assumed)","founder hours":"… (given | from the profile | assumed)","first test":"…"},"decisions":[…one per Assumptions line that asks the founder for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Channel test plan","file":"<product>/channel-tests.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-channel-tests.json`.
+        Then run `node $S/../c03-router/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-channel-tests.json`.
 - [ ] 9. Reply with exactly these lines, filled in: at most 8, no code block, nothing else (the plan is in the file):
         ```
         Channel tests for <Product>, <W1 date> to <W13 date>: artifacts/<product>/channel-tests.md
