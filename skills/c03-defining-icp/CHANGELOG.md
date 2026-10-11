@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.2] — 2026-10-11
+### Added
+- Release c03-defining-icp v1.0.2.
+
 ## [v1.0.1] — 2026-10-08
 ### Added
 - Release c03-defining-icp v1.0.1.
