@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// record.mjs: writes this job's status record for the standard status script (run-sl8-job's status.mjs)
+// record.mjs: writes this job's status record for the standard status script (the router's scripts/status.mjs)
 // from the review itself, so the project's open decisions follow the review's Assumptions lines one to
 // one (SHORTCOMINGS №183) and nothing is typed by hand.
 //   node record.mjs artifacts/<product>/trial-path-review.md [--context "top three changes=C1 …, C2 …, C3 …"] [--dry-run]
@@ -16,6 +16,9 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
+// the router sits beside this skill on the machine (~/.claude/skills/<prefix>-router), so its status script is found from here
+const STATUS = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..', 'c04-router', 'scripts', 'status.mjs')
 
 const HELP = 'usage: node record.mjs artifacts/<product>/trial-path-review.md [--context "<field>=<value>"] [--dry-run] [--check <job.json>]\n       node record.mjs --waiting product|pages --project <product> [--artifacts artifacts] [--dry-run] | --selftest\n  prints {"ok","file","decisions","next"}'
 const JOB = 'trial-path-review', FILE = 'job-review.json'
@@ -73,7 +76,7 @@ export function compare (rec, written) {
 function write (rec, artifacts, project, dry) {
   const dir = path.resolve(artifacts), file = path.join(dir, project, 'inputs', FILE) // absolute: the status command works from any folder
   if (!dry) { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(rec, null, 2) + '\n') }
-  return { ok: true, file, wrote: !dry, decisions: rec.decisions.length, record: rec, next: `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project ${project} --record ${file} --artifacts ${dir}` }
+  return { ok: true, file, wrote: !dry, decisions: rec.decisions.length, record: rec, next: `node ${STATUS} --project ${project} --record ${file} --artifacts ${dir}` }
 }
 
 function selftest () {
