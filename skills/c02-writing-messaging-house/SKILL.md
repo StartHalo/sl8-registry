@@ -7,7 +7,7 @@ description: Writes a consumer app's messaging house from its store page and wha
 
 One job, one deliverable: `artifacts/<app>/messaging-house.md`. `<app>` is the app's name in lower case,
 with hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c02-writing-messaging-house`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the app (a store link, or its name and what it does). Without it there is no job.
 **Assumed when missing, and listed under Assumptions:** positioning (from `icp.md` when the project has
@@ -52,7 +52,7 @@ category; for the swap test only, never named in a message).
 - [ ] 8. Update the profile and the project status. Add to `artifacts/profile.md` only what the lead said or the
         store page shows (company, app name, store links, category). Write `artifacts/<app>/inputs/job-messaging.json`:
         `{"job":"messaging-house","what":"<App>: brand messages","state":"active","context":{"promise":"…","pillars":"…","audiences":"…","positioning source":"icp.md | request | assumed"},"decisions":[…one per Assumptions line that asks for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Messaging house","file":"<app>/messaging-house.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-messaging.json`.
+        Then run `node $S/../c02-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-messaging.json`.
 - [ ] 9. Reply in at most 8 lines: the promise, the three pillars, what you assumed, and the file. Do not publish
         anything. End `delivered` when the house is saved and valid; `partial` only when the app is missing (step 2).
 
