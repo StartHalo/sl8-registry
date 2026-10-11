@@ -1,0 +1,7 @@
+{
+  "name": "c02-router",
+  "version": "v1.0.0",
+  "description": "Starts every job on this bot. Reads the request, the bot's jobs and the project's status, then runs the bot's skills for the job in order, or declines work the bot does not do, and makes sure the job ends with an exact outcome. The Job Guide's call line opens every job with this skill; it is never invoked again inside a job or from a subagent.",
+  "generated_at": "2026-10-11T22:27:10.413Z",
+  "skill_md_sha256": "e1d7dedcdce1b0346bfc3ccfa559dc31ab1d702dc7a0783b9f137321585afdc2"
+}
