@@ -7,7 +7,7 @@ description: Briefs a small B2B SaaS's feature or integration launch on one page
 
 One job, one deliverable: `artifacts/<product>/launch-brief.md`. `<product>` is the product's name in
 lower case, with hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c03-briefing-launch`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** what launches; without it there is no job. **Assumed when missing, and listed under
 Assumptions:** the product (from the profile or what launches), the launch date (6 weeks from today,
@@ -54,7 +54,7 @@ status's, else 5 a week), the partner (from what launches). **Read when they exi
 - [ ] 8. Update the profile and the project status. Create or update `artifacts/profile.md` with only what the founder said
         in the request (product, website, founder hours, the budget's currency). Write `artifacts/<product>/inputs/job-launch.json`:
         `{"job":"brief-launch","what":"<product>: marketing","state":"active","context":{"what launches":"…","launch date":"… (given | assumed)","KPI":"… (given | proposed)"},"decisions":[…one per Assumptions line that asks the founder for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Launch brief","file":"<product>/launch-brief.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-launch.json`.
+        Then run `node $S/../c03-router/scripts/status.mjs --project <product> --record artifacts/<product>/inputs/job-launch.json`.
 - [ ] 9. Reply with exactly these lines, filled in: at most 8, no code block, nothing else (the brief is in the file):
         ```
         Launch brief for <what launches>, <launch date>: artifacts/<product>/launch-brief.md
