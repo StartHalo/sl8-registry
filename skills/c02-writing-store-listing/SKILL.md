@@ -7,7 +7,7 @@ description: Writes App Store and Google Play listing copy for a consumer app fr
 
 One job, one deliverable: `artifacts/<app>/store-listing.md`. `<app>` is the app's name in lower case, with
 hyphens; it is also the project. Run the scripts from this skill's folder:
-`S=~/.claude/skills/c02-writing-store-listing`.
+`S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the app (a store link; for an app not yet listed, its name and what it does). Without it there
 is no job. **Assumed when missing, and listed under Assumptions:** what is new (a refresh, no launch), search
@@ -50,7 +50,7 @@ the market and language (from the store page).
 - [ ] 8. Update the profile and the project status. Add the store links, category, market and language to
         `artifacts/profile.md`. Write `artifacts/<app>/inputs/job-listing.json`:
         `{"job":"store-listing","what":"<App>: store listing","state":"active","context":{"market":"…","what is new":"…","search terms":"…"},"decisions":[{"text":"Submit the new listing in App Store Connect and the Play Console","state":"open","needs":"the lead"},…one per Assumptions line that asks for something, each {"text","state":"open","needs"}],"deliverables":[{"name":"Store-listing copy","file":"<app>/store-listing.md"}]}`.
-        Then run `node ~/.claude/skills/run-sl8-job/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-listing.json`.
+        Then run `node $S/../c02-router/scripts/status.mjs --project <app> --record artifacts/<app>/inputs/job-listing.json`.
 - [ ] 9. Reply in at most 8 lines: the new subtitle and short description, the claims to verify, what you
         assumed, and the file. Do NOT submit anything: the lead changes the store listing. End `delivered` when the
         listing is saved and valid; `partial` only when the app is missing (step 2).
