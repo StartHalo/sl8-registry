@@ -7,7 +7,7 @@ description: Reviews a micro-SaaS's public trial path, from the home page to sig
 
 One job, one deliverable: `artifacts/<product>/trial-path-review.md`, with the pages read in
 `artifacts/<product>/pages/`. `<product>` is the `project` that `inputs.mjs` prints (the product's
-name in lower case, with hyphens). Run the scripts from this skill's folder: `S=~/.claude/skills/c04-reviewing-trial-path`.
+name in lower case, with hyphens). Run the scripts from this skill's folder: `S=${CLAUDE_SKILL_DIR}`.
 
 **Required:** the product's website. Without it there is no job. **Assumed when missing, and listed
 under Assumptions:** the path (from the home page's main sign-up or trial button to the first step
