@@ -4,6 +4,9 @@
 // and PROGRESS.md's Decisions section records each default taken (D40; the kit's step 1).
 // No prompts; JSON on stdout; exit 1 only when the required input is missing; writes nothing.
 import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 const HELP = 'usage: node inputs.mjs <request.md> | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label"}],"say":"…"}'
@@ -40,11 +43,18 @@ function selftest () {
   const full = check('Make a product reveal clip\nProduct: black pour-over kettle\nPackshot: kettle.png\nCamera move: push-in\nDuration: 5 s\nAspect: 16:9\nResolution: 480p\nTone: premium\nBudget: 250 credits')
   const prose = check('make a reveal video of our matte black kettle on a slate counter, slow push-in')
   const none = check('Make a product reveal clip')
-  const ok = full.ok && full.found.resolution === '480p' && full.assume.length === 2 && prose.ok && prose.found.product.from === 'brief' && prose.assume.length === 9 && !none.ok && none.missing[0] === 'product'
-  process.stdout.write(JSON.stringify({ ok, cases: 3 }) + '\n'); process.exit(ok ? 0 : 1)
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'c08-inputs-')), link = path.join(tmp, 'linked'), req = path.join(tmp, 'request.md')
+  fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link); fs.writeFileSync(req, 'Make a product reveal clip\nProduct: black pour-over kettle')
+  const viaLink = spawnSync(process.execPath, [path.join(link, 'inputs.mjs'), req], { encoding: 'utf8' })
+  const linked = /"ok": true/.test(viaLink.stdout || '')
+  fs.rmSync(tmp, { recursive: true, force: true })
+  const ok = full.ok && full.found.resolution === '480p' && full.assume.length === 2 && prose.ok && prose.found.product.from === 'brief' && prose.assume.length === 9 && !none.ok && none.missing[0] === 'product' && linked
+  process.stdout.write(JSON.stringify({ ok, cases: 4, linked }) + '\n'); process.exit(ok ? 0 : 1)
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: skills call this script through a symlinked skills folder.
+const real = p => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { process.stdout.write(HELP + '\n'); process.exit(0) }
   if (a.includes('--selftest')) selftest()

@@ -9,11 +9,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
+import { spawnSync } from 'node:child_process'
 import { check as inputs } from './inputs.mjs'
 
 const HELP = 'usage: node validate.mjs <artifacts/<project>/PROGRESS.md> [--request <request.md>] | --selftest\n  prints {"ok","errors":[…]}'
 const SECTIONS = ['Summary', 'Decisions', 'Asset inventory', 'Pipeline', 'Known gaps', 'Next steps']
 const json = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')) } catch { return null } }
+// manifest.mjs writes files[] as objects ({path, sha256, bytes}); older rows may hold plain path strings
+const filePath = (f) => (typeof f === 'string' ? f : f?.path)
 
 export function validate (progressFile, requestText = null) {
   const errors = [], dir = path.dirname(progressFile)
@@ -35,7 +38,7 @@ export function validate (progressFile, requestText = null) {
   const man = json(path.join(dir, 'manifest.json'))
   if (!man || !Array.isArray(man.assets)) errors.push('manifest.json missing or has no assets')
   else {
-    if (out?.final && !man.assets.some(r => r.status === 'done' && (r.files || []).includes(out.final))) errors.push(`manifest.json has no done row for ${out.final}`)
+    if (out?.final && !man.assets.some(r => r.status === 'done' && (r.files || []).some(f => filePath(f) === out.final))) errors.push(`manifest.json has no done row for ${out.final}`)
     if (man.assets.some(r => r.status === 'pending')) errors.push('manifest.json has a pending row: fetch it with ai-gen result')
     const plan = json(path.join(dir, 'plan.json'))
     const total = plan?.budget?.total
@@ -57,9 +60,18 @@ function selftest () {
   fs.writeFileSync(path.join(d, 'PROGRESS.md'), `# Kettle: Progress\n${prog}\n`)
   fs.writeFileSync(path.join(d, 'outcome.json'), JSON.stringify({ status: 'done', final: 'clips/reveal-01.mp4' }))
   fs.writeFileSync(path.join(d, 'plan.json'), JSON.stringify({ budget: { total: 220 } }))
-  fs.writeFileSync(path.join(d, 'manifest.json'), JSON.stringify({ assets: [{ item: 'hero', status: 'done', files: ['keyframes/hero.png'], credits: { estimate: 40 } }, { item: 'reveal', status: 'done', files: ['clips/reveal-01.mp4'], credits: { estimate: 178 } }] }))
+  fs.writeFileSync(path.join(d, 'manifest.json'), JSON.stringify({ assets: [{ item: 'hero', status: 'done', files: [{ path: 'keyframes/hero.png', sha256: 'a', bytes: 1 }], credits: { estimate: 40 } }, { item: 'reveal', status: 'done', files: [{ path: 'clips/reveal-01.mp4', sha256: 'b', bytes: 1 }], credits: { estimate: 178 } }] }))
   const P = path.join(d, 'PROGRESS.md'), R = 'Make a product reveal clip\nProduct: black pour-over kettle'
-  const results = [['a complete delivery passes', validate(P, R).length === 0]]
+  const results = [['a complete delivery passes (manifest files[] as objects)', validate(P, R).length === 0]]
+  const man = fs.readFileSync(path.join(d, 'manifest.json'), 'utf8')
+  fs.writeFileSync(path.join(d, 'manifest.json'), JSON.stringify({ assets: [{ item: 'hero', status: 'done', files: ['keyframes/hero.png'], credits: { estimate: 40 } }, { item: 'reveal', status: 'done', files: ['clips/reveal-01.mp4'], credits: { estimate: 178 } }] }))
+  results.push(['a manifest with plain path strings still passes', validate(P, R).length === 0])
+  fs.writeFileSync(path.join(d, 'manifest.json'), JSON.stringify({ assets: [{ item: 'hero', status: 'done', files: [{ path: 'keyframes/hero.png' }], credits: { estimate: 40 } }] }))
+  results.push(['no done row for the final clip fails', validate(P, R).some(e => /no done row for clips\/reveal-01.mp4/.test(e))])
+  fs.writeFileSync(path.join(d, 'manifest.json'), man)
+  const link = path.join(tmp, 'linked'); fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link)
+  const viaLink = spawnSync(process.execPath, [path.join(link, 'validate.mjs'), P, '--request', '/nonexistent'], { encoding: 'utf8' })
+  results.push(['run through a symlinked skills folder, it still validates and prints JSON', /"ok": true/.test(viaLink.stdout || '')])
   fs.writeFileSync(path.join(d, 'plan.json'), JSON.stringify({ budget: { total: 200 } }))
   results.push(['estimates over the budget fail', validate(P, R).some(e => /over plan/.test(e))])
   fs.writeFileSync(path.join(d, 'plan.json'), JSON.stringify({ budget: { total: 220 } }))
@@ -74,7 +86,9 @@ function selftest () {
   process.stdout.write(JSON.stringify({ ok: !failed.length, cases: results.length, failed }) + '\n'); process.exit(failed.length ? 1 : 0)
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: skills call this script through a symlinked skills folder.
+const real = p => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { process.stdout.write(HELP + '\n'); process.exit(0) }
   if (a.includes('--selftest')) selftest()
