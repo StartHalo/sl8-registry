@@ -68,6 +68,7 @@ Nothing is installed and there is no login: ai-gen is baked in and the platform 
 
 1. **Project slug.** `<project>` is the brief's `Project: <name>` in kebab case; if the brief names no project, the first five words of the brief in kebab case. Set it here, once, and never change it. It names `artifacts/<project>/` and `work/<project>/`, and the song file is `<project>.<ext>` (the source's `<slug>`). A brief that answers or resumes a gate must name the project; PROGRESS.md Next steps says so.
 2. Load `media-ai-gen` (Skill tool) and `media-audio-generation` (Skill tool).
+   **Bot check (BOT-C10), before anything is created:** save the request word for word to `work/request.md` and run `node ${CLAUDE_SKILL_DIR}/scripts/inputs.mjs work/request.md`. If it exits 1 (the request says nothing about the track), create nothing under `artifacts/`, spend nothing, and end partial with its `say` line, which the router puts in `/home/user/outcome.json`.
 3. `mkdir -p artifacts/<project>/audio artifacts/<project>/source work/<project>`
 4. `ai-gen doctor`. If it reports missing config or auth, report what it prints, write `node -e "require('fs').writeFileSync('artifacts/<project>/outcome.json',JSON.stringify({status:'failed',reason:'ai-gen doctor: <what it printed>',credits:0}))"` and end.
 5. Gate state:
@@ -330,7 +331,7 @@ Outcome:
 - A vocal route denial, an exit-8 stale pick, an estimate that failed twice, or exit 5: write `partial`:
   `node -e "require('fs').writeFileSync('artifacts/<project>/outcome.json',JSON.stringify({status:'partial',reason:'<denial or stop reason>',credits:<spent>}))"`
 
-Then check the pack (completeness, wiring and the budget sum; it never judges the music): `node ${CLAUDE_SKILL_DIR}/scripts/validate.mjs artifacts/<project> --budget <budget>`. Fix what it names and run it again until it exits 0.
+Then check the pack (completeness, wiring and the budget sum; it never judges the music): `node ${CLAUDE_SKILL_DIR}/scripts/validate.mjs artifacts/<project> --budget <budget>`. This check is required on every job that wrote outcome.json, before the status step: the job is not finished until it prints `"ok": true`. Fix what it names and run it again until it exits 0.
 
 Close the reply with the delivery line: the delivered file's path and endpoint; category and lyrics language; measured duration; defaults taken; credits spent; debts (markers fixed, lyrics replaced as non-original, loudness figures for review, 'not checked' items, cover not runnable, route denied); and the folder tree with its file count.
 
