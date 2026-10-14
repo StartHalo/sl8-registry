@@ -8,6 +8,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
+import osL from 'node:os'
+import pathL from 'node:path'
 import { check as inputs } from './inputs.mjs'
 const HELP = 'usage: node validate.mjs <artifacts/<project>/final/<image>.png> [--request <request.md>] | --selftest\n  prints {"ok","errors":[…]}'
 const SECTIONS = ['Summary', 'Decisions', 'Asset inventory', 'Pipeline', 'Known gaps', 'Next steps']
@@ -18,6 +21,11 @@ export function validate (file, requestText = null) {
   const head = fs.readFileSync(file).subarray(0, 8)
   if (!head.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) errors.push(`${path.basename(file)} is not a PNG`)
   const proj = path.basename(path.dirname(file)) === 'final' ? path.dirname(path.dirname(file)) : path.dirname(file)
+  // every cell in final/ is checked, not only the file named (checks.json 0.1.0 found one of three checked; 0.1.1)
+  const finalDir = path.join(proj, 'final')
+  if (fs.existsSync(finalDir)) for (const c of fs.readdirSync(finalDir).filter(f => /\.png$/i.test(f) && path.join(finalDir, f) !== path.resolve(file))) {
+    if (!fs.readFileSync(path.join(finalDir, c)).subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) errors.push(`${c} is not a PNG`)
+  }
   for (const f of ['qc/contact.jpg', ...EXTRA]) if (!fs.existsSync(path.join(proj, f))) errors.push(`missing ${f}`)
   let rows = 0
   try { const m = JSON.parse(fs.readFileSync(path.join(proj, 'manifest.json'), 'utf8')); rows = (m.assets || []).length } catch { errors.push('manifest.json missing or not JSON') }
@@ -36,7 +44,9 @@ export function validate (file, requestText = null) {
   if (/\[TBD\]|TODO/.test(prog || '')) errors.push('PROGRESS.md has a placeholder ([TBD] or TODO)')
   return { ok: !errors.length, errors }
 }
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: on the machine skills are reached through a symlinked folder (audit product-hero-1, 0.1.1).
+const realOf = p => { try { return fs.realpathSync(p) } catch { return p } }
+if (process.argv[1] && realOf(fileURLToPath(import.meta.url)) === realOf(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { console.log(HELP); process.exit(0) }
   if (a.includes('--selftest')) {
@@ -45,7 +55,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     fs.writeFileSync(img, Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), Buffer.alloc(16)]))
     fs.writeFileSync(path.join(p, 'qc', 'contact.jpg'), 'x')
     for (const f of EXTRA) { fs.mkdirSync(path.dirname(path.join(p, f)), { recursive: true }); fs.writeFileSync(path.join(p, f), '{}') }
-    fs.writeFileSync(path.join(p, 'manifest.json'), JSON.stringify({ assets: [{ item: 'x' }] }))
+    fs.writeFileSync(path.join(p, 'manifest.json'), JSON.stringify({ assets: [{ item: 'x', status: 'done', files: [{ path: 'final/x.png', sha256: '0', bytes: 24 }] }] }))  // objects-shaped files[], as manifest.mjs writes (0.1.1)
     const good = SECTIONS.map(s => `## ${s}\n\n${s === 'Decisions' ? 'Aspect 1:1 (default); setting: neutral seamless (default).' : 'text'}\n`).join('\n')
     fs.writeFileSync(path.join(p, 'PROGRESS.md'), good)
     const r1 = validate(img, 'Product: mug')
@@ -53,10 +63,14 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const r2 = validate(img)
     fs.writeFileSync(path.join(p, 'PROGRESS.md'), good.replace(/Aspect 1:1 \(default\); setting: neutral seamless \(default\)\./, 'Kept it simple.'))
     const r3 = validate(img, 'Product: mug')
+    fs.writeFileSync(path.join(p, 'final', 'y.png'), 'not a png'); const r5 = validate(img); fs.rmSync(path.join(p, 'final', 'y.png'))
     fs.writeFileSync(img, 'not a png'); const r4 = validate(img)
     fs.rmSync(tmp, { recursive: true, force: true })
-    const ok = r1.ok && !r2.ok && /Known gaps/.test(r2.errors.join()) && !r3.ok && /left out/.test(r3.errors.join()) && !r4.ok
-    console.log(JSON.stringify({ ok, cases: 4 })); process.exit(ok ? 0 : 1)
+    const viaLink = (() => { const d = fs.mkdtempSync(osL.tmpdir() + '/link-'), l = d + '/scripts'; fs.symlinkSync(pathL.dirname(fileURLToPath(import.meta.url)), l)
+      try { return execFileSync(process.execPath, [l + '/' + pathL.basename(fileURLToPath(import.meta.url)), '--help'], { encoding: 'utf8' }) } catch { return '' } finally { fs.rmSync(d, { recursive: true, force: true }) } })()
+    const linkOk = /usage: node/.test(viaLink)
+    const ok = (r1.ok && !r2.ok && /Known gaps/.test(r2.errors.join()) && !r3.ok && /left out/.test(r3.errors.join()) && !r4.ok && !r5.ok && /y\.png is not a PNG/.test(r5.errors.join())) && linkOk
+    console.log(JSON.stringify({ ok, cases: 6 })); process.exit(ok ? 0 : 1)
   }
   const ri = a.indexOf('--request'), req = ri > -1 && a[ri + 1] && fs.existsSync(a[ri + 1]) ? fs.readFileSync(a[ri + 1], 'utf8') : null
   if (!a[0] || a[0].startsWith('--')) { console.log(JSON.stringify({ ok: false, errors: ['give the delivered image; see --help'] })); process.exit(2) }
