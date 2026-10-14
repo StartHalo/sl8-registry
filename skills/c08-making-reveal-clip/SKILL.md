@@ -390,7 +390,7 @@ EOF
 ```
 
 - Summary: what was made, the final file and where it stands.
-- Decisions: every default taken and the routes.
+- Decisions: every default taken and the routes. Write one line per input in inputs.mjs's `assume` list, named by its label (Hero frame, Camera move, Duration, Aspect, Resolution, Brand tone, Budget …) with the value used; validate.mjs --request fails on any label it cannot find (D40).
 - Asset inventory: counts per folder; manifest.json is the map from each file to its prompt and model.
 - Pipeline: the steps run, each with its model; the route's release-check status (Seedance i2v proven only at 480p for 5 s, VID-T8).
 - Known gaps: measured duration, resolution and motion figures; audio off; any VQ-03 shortfall; the local motion control; owner review items with the sheet path; copy or a logo owed to media-motion-graphics.

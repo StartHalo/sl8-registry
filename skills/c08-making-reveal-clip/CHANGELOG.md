@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-10-14
+### Added
+- Release c08-making-reveal-clip v1.0.1.
+
 ## [v1.0.0] — 2026-10-14
 ### Added
 - Initial release (c08-making-reveal-clip).
