@@ -1,0 +1,7 @@
+{
+  "name": "c06-making-lifestyle-photo",
+  "version": "v1.0.0",
+  "description": "Product lifestyle photo, lifestyle shot, product in use, product in context, product photo into a lifestyle background. Makes one product lifestyle still on the SL8 Image Studio, with variants only when the brief asks for them. The still shows the customer's product in use in a specific real setting, with a person or surroundings, and keeps the product sharp, readable and true to the original. For brand, e-commerce and social jobs. With an attached product photo it edits the photo into the setting on fal-ai/nano-banana-pro/edit, or on openai/gpt-image-2/edit when a reference scene is also attached. When the brief demands pixel-identical product pixels, it uses a Bria cutout and a local composite. With no photo, it builds the scene from text on fal-ai/nano-banana-pro. It quotes every paid call first, writes one manifest row per generation, measures each output with media-qc and leaves a contact sheet for the owner. Not for hero packshots, white-background PDP images, ad safe-zone frames or reveal videos.",
+  "generated_at": "2026-10-14T05:29:07.625Z",
+  "skill_md_sha256": "217e67bd3abf669ef8e4ecef6749dc59511f3854ff554f1e4ef571a71d16c8ef"
+}
