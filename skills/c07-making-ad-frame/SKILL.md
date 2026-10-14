@@ -108,7 +108,7 @@ For any other ratio, derive a size by the same rules: sides in multiples of 16, 
 
 Load `media-ai-gen` and `media-image-generation` (Skill tool). No model runs in this step.
 
-First check that the brief names a product or resumes an existing project; if not, stop as the product row below says, before creating anything. Then, on every job, new or resumed, create the folders and initialise the manifest. Both are idempotent, and `work/<project>/` is lost between jobs:
+First save the request to `work/request.md` and run `node ${CLAUDE_SKILL_DIR}/scripts/inputs.mjs work/request.md`: it names the product, or the one thing missing, and the inputs to assume. If it exits 1 and the brief does not resume an existing project, stop as the product row below says, before creating anything. Then, on every job, new or resumed, create the folders and initialise the manifest. Both are idempotent, and `work/<project>/` is lost between jobs:
 
 ```bash
 mkdir -p artifacts/<project>/final artifacts/<project>/source artifacts/<project>/params artifacts/<project>/qc artifacts/<project>/rejected work/<project>
@@ -458,7 +458,7 @@ printf '{"status":"done"}\n' > artifacts/<project>/outcome.json
 
 Close with one line: the folder tree, the file count and the credits spent. Check: manifest.mjs verify exits 0; mediaqc artifact on final/ exits 0; `grep -c '^## ' artifacts/<project>/PROGRESS.md` prints 6.
 
-**Check the deliverables and write the project status.** Run `node ${CLAUDE_SKILL_DIR}/scripts/verify.mjs --project <project>`; it checks that every frame in plan.json exists, and that qc/contact.jpg, manifest.json, DELIVERY.md and PROGRESS.md (six sections) are there. Fix what it names and run it again. Then write `artifacts/<project>/source/job-status.json` as `{"job":"ad-frame","what":"<product> social ad","state":"closed","context":{"aspect":"<ratio>","copy_side":"<right|top>","packshot":"<file or none>","budget":"<credits>"},"decisions":[],"deliverables":[<one {"name","file"} per final/ file>]}` (state `waiting`, with the open gate as a decision, when a spend gate is open) and run `node ${CLAUDE_SKILL_DIR}/../c07-router/scripts/status.mjs --project <project> --record artifacts/<project>/source/job-status.json`.
+**Check the deliverables and write the project status.** Run `node ${CLAUDE_SKILL_DIR}/scripts/validate.mjs --project <project>`; it checks that every frame in plan.json exists, and that qc/contact.jpg, manifest.json, DELIVERY.md and PROGRESS.md (six sections) are there. Fix what it names and run it again. Then write `artifacts/<project>/source/job-status.json` as `{"job":"ad-frame","what":"<product> social ad","state":"closed","context":{"aspect":"<ratio>","copy_side":"<right|top>","packshot":"<file or none>","budget":"<credits>"},"decisions":[],"deliverables":[<one {"name","file"} per final/ file>]}` (state `waiting`, with the open gate as a decision, when a spend gate is open) and run `node ${CLAUDE_SKILL_DIR}/../c07-router/scripts/status.mjs --project <project> --record artifacts/<project>/source/job-status.json`.
 
 ## On SL8
 
