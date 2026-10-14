@@ -1,0 +1,7 @@
+{
+  "name": "c08-making-reveal-clip",
+  "version": "v1.0.0",
+  "description": "Product reveal video, product reveal clip, packshot animation, commercial product video, beverage pour, turntable, push-in, product motion clip. Makes one short, silent commercial clip that reveals a product from a hero frame with one simple camera move, on the SL8 Video Studio with ai-gen. It first generates the hero still (from the customer's packshot when one is attached) or uses the customer's approved frame. It then animates the frame on Seedance 2.0 image-to-video for final quality. It keeps the product's shape, label and logo intact and generates no text, prices or claims. It quotes the whole chain before spending and measures the result. Use it when a brand, e-commerce or ad brief asks for a product reveal or a short product clip made from one still.",
+  "generated_at": "2026-10-14T05:33:08.687Z",
+  "skill_md_sha256": "74bf4fa00a73684263652bf21cefb121eb66056d5acf4bfb7bbd40943fc62aa7"
+}
