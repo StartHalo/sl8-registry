@@ -1,7 +1,7 @@
 {
   "name": "c06-making-product-hero",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Product hero image, hero shot, launch still, landing-page or campaign hero, product background replacement. Makes one premium still in which the customer's exact product is the only hero object. It works from a text description (2 variants by default, up to 4, each differing from variant_a in one dimension, with variant_a as the stated default pick), from the customer's own product photo through a Nano Banana Pro edit, or by keeping the photo's product pixels unchanged with a Bria cutout composited over a generated empty background. It runs headless on the SL8 Image Studio through ai-gen. It reads every input from the brief and uses stated defaults, verifies each route's schema, quotes credits for the whole chain and gates on the total, writes one manifest row per output, measures every file with media-qc and pixdiff, and leaves fidelity and taste to the owner. Not for lifestyle scenes with people, PDP batches, social ad sets or reveal videos.",
-  "generated_at": "2026-10-14T05:29:51.523Z",
-  "skill_md_sha256": "fababd65ea561ff451c51ec3593baefcac153e6a04574c369ea986ff838049a3"
+  "generated_at": "2026-10-14T16:45:48.698Z",
+  "skill_md_sha256": "bb7fd5118c41d9bcfaf2158f85069ae27c0a9bee2f06bf6484d9160f7e54d19e"
 }
