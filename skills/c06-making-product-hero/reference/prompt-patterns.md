@@ -27,7 +27,7 @@ commercial product photography, no product deformation, no added labels
 - Glass: backlight, rim light, caustics, transparent edges, controlled
   reflections.
 - Metal: strip highlights, hard rim, dark flags, precise specular lines.
-- Plastic: softbox, clean shadow, realistic molded edges, no over-gloss.
+- Plastic: soft diffused key light, clean shadow, realistic molded edges, no over-gloss.
 - Fabric: side light, visible weave, natural folds, accurate color.
 - Food: soft directional light, steam or condensation only when plausible.
 - Jewelry: macro lens feel, dark cards, crisp sparkle, controlled highlights.
@@ -39,7 +39,8 @@ Use only when the selected model supports a negative prompt:
 ```text
 extra text, fake logo, misspelled label, deformed packaging, duplicated
 product, cropped product, warped geometry, bad reflections, messy background,
-unreadable brand mark, synthetic hands, low resolution
+unreadable brand mark, synthetic hands, low resolution, softbox, light stand,
+reflector, backdrop edge, studio equipment
 ```
 
-On SL8 only fal-ai/bria/background/replace takes negative_prompt. fal-ai/nano-banana-pro, its edit route, openai/gpt-image-2 and its edit route, and the FLUX draft routes have no such field, so write each component as a positive clause (single product fully in frame, clean geometry, intact packaging, clean background, sharp detail), and note in the delivery note that these exclusions are unenforced.
+On SL8 only fal-ai/bria/background/replace takes negative_prompt. fal-ai/nano-banana-pro, its edit route, openai/gpt-image-2 and its edit route, and the FLUX draft routes have no such field, so write each component as a positive clause (single product fully in frame, clean geometry, intact packaging, clean background, sharp detail, no studio equipment in frame (no softboxes, stands, reflectors or backdrop edges)), and note in the delivery note that these exclusions are unenforced.

@@ -49,7 +49,7 @@ Never stop to ask. Read each input from the brief or from the files in `artifact
 
 - Source media: product packshot (a file in `artifacts/attachments/` that the brief names) and logo file (composited locally in step 11, never sent to a model). If the brief names a file that is not there, stop and report it as the debt. Never switch paths silently.
 
-- Constraints: preserve packaging, avoid new labels, no fake readable copy.
+- Constraints: preserve packaging, avoid new labels, no fake readable copy, no studio equipment in frame (no softboxes, stands, reflectors or backdrop edges).
 
 - Model preference: use this kit's routing (reference/routing.md) unless the brief names a model
   or the job is unusually expensive. A named model wins, and if it breaks a house rule it is recorded as a waiver (step 1). For an expensive job, the step 6 quote and gate decide.
@@ -59,7 +59,7 @@ Defaults when the brief is silent:
 | Input | Default |
 |---|---|
 | product | required. Without it, write outcome.json {"status":"partial","reason":"no product named"} and PROGRESS.md, and stop |
-| product material and color | from the product description. With no material named, use the plastic cue (softbox, clean shadow, realistic molded edges) and flag it in the delivery note |
+| product material and color | from the product description. With no material named, use the plastic cue (soft diffused key light, clean shadow, realistic molded edges) and flag it in the delivery note |
 | product_photo | none, so the from-text-description path runs. A named photo missing from artifacts/attachments/ stops the job partial as the debt |
 | background_replacement | false. True only when the brief asks to keep the uploaded product unchanged and replace only the background; it needs product_photo |
 | setting (surface, background, props) | one plain surface on a seamless neutral background, no props |
@@ -70,7 +70,7 @@ Defaults when the brief is silent:
 | style | realistic |
 | draft | false. When true: fal-ai/flux/schnell, files named draft-<v>.png, nothing in final/, and the delivery note says they are drafts |
 | variants | 2 on the text path; 3 or 4 when the brief asks, never more. 1 on the photo paths. Variation rule in step 5 |
-| constraints | preserve packaging, avoid new labels, no fake readable copy, no hands unless requested |
+| constraints | preserve packaging, avoid new labels, no fake readable copy, no hands unless requested, no studio equipment in frame (no softboxes, stands, reflectors or backdrop edges): a light named in the prompt (softbox, strip light) describes the light on the product, never an object in the picture |
 | copy | none: the image carries no text. Only user-supplied copy is used, composited locally into the top band in step 11; on the background path the composite then reserves the top 20% of the canvas |
 | logo_file | none. When supplied, composited locally, never sent to a model |
 | resolution | 1K on Nano Banana; a square_hd-class image_size on gpt-image-2 and FLUX. 2K only when the brief needs small readable detail, priced first. The background plate uses 2K (same 37.5 cr list price as 1K); when the canvas is larger than the plate it is up-scaled and the delivery note states the factor |
@@ -207,7 +207,7 @@ Load `media-image-generation` (Skill tool). Read `${CLAUDE_SKILL_DIR}/reference/
 - **Background path:** the empty-plate prompt in `${CLAUDE_SKILL_DIR}/reference/background-path.md`. The product never enters the plate prompt.
 - **Lighting:** the material cue for the product's material.
 - **Photo path:** address the product as @Image1, with a short, exact product invariant.
-- **Negative components:** only fal-ai/bria/background/replace has negative_prompt. On every other route write each component as a positive clause (single product fully in frame, clean geometry, intact packaging, clean background), and note in the delivery note that these exclusions are unenforced.
+- **Negative components:** only fal-ai/bria/background/replace has negative_prompt. On every other route write each component as a positive clause (single product fully in frame, clean geometry, intact packaging, clean background, no studio equipment in frame (no softboxes, stands, reflectors or backdrop edges)), and note in the delivery note that these exclusions are unenforced.
 - **Copy:** when step 11 will add copy, ask for clean negative space in the upper fifth of the frame (on the background path composite.py reserves it).
 - **Variants (text path):** variant_a is the base prompt and keeps every clause the brief wrote. Each further variant (b, then c and d when asked) keeps all of variant_a's clauses and changes one dimension: the one the brief names; otherwise the first of lighting, camera angle, background (surface or backdrop) or prop set (props, or atmosphere such as dust, water or steam) that the brief leaves open, the next open one for each further variant. When the brief fixes all four, change camera height or lens feel inside camera angle (for example a low angle at the same view). Write each variant's dimension and value to plan.json.
 
