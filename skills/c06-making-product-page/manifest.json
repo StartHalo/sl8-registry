@@ -1,7 +1,7 @@
 {
   "name": "c06-making-product-page",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Product page images, PDP images, catalog photos, e-commerce listing sets, marketplace main images, packshots on seamless white or brand colour. Makes clean catalog and product-detail-page images on the SL8 Image Studio: the customer's product centred and front-facing on a seamless background, as one PDP image or as a matched listing set (white, brand colour, scale or detail, packaging close-up) built from one invariant prompt skeleton plus one clause per cell. It edits from an attached packshot so that shape, label, material and colour stay faithful, generates from text when there is none, and uses a Bria cutout and a local composite when the product must stay pixel-identical. Runs headless through ai-gen with stated defaults, cost gates, one manifest row per generation and media-qc figures. Use it when a merchant or brand needs storefront or marketplace product images on a plain seamless background. It does not make lifestyle scenes, ad creatives with copy, or video.",
-  "generated_at": "2026-10-14T05:30:30.622Z",
+  "generated_at": "2026-10-14T16:46:18.437Z",
   "skill_md_sha256": "eb57e9e472c6e90b612ba821ac9611d99f4696e924afc3af0c0904e5bc9143f2"
 }
