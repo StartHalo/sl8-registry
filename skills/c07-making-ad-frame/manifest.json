@@ -1,7 +1,7 @@
 {
   "name": "c07-making-ad-frame",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Makes one social ad image on the SL8 Image Studio: a single safe-zone frame of the product, with large clean negative space for a headline and CTA added later, in square, 4:5, 9:16, 16:9 or 21:9. Use it when a brief asks for one ad image, a social ad or a banner frame with room for copy, made from text or from a product packshot. It never invents claims, prices or copy. Exact copy the user supplies is composited locally afterwards, or listed as copy still owed. A model renders text only on the user's explicit instruction, recorded as a waiver. The skill runs to the end without asking, fills gaps with stated defaults, quotes every paid step first, and stops at a spend gate rather than overspend.",
-  "generated_at": "2026-10-14T05:31:38.701Z",
-  "skill_md_sha256": "0eaf064a57d6b46a2d7390441e088b26c34b6763e99550da9ca9116d5b69b257"
+  "generated_at": "2026-10-14T16:46:45.105Z",
+  "skill_md_sha256": "1e677bbd0e9d7f572a5d7f3ab8d93228a8df18d63f311d30fe1de595fb4ae108"
 }
