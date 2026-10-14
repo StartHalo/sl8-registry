@@ -8,9 +8,10 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
-const HELP = `usage: node validate.mjs <artifacts/<project> dir> [--budget <credits>] [--selftest]
+const HELP = `usage: node validate.mjs <artifacts/<project> dir, or a file inside it> [--budget <credits>] [--request <file>] [--selftest]
   Checks outcome.json, PROGRESS.md sections and, when outcome is done, the track, prompt.txt, lyrics.txt
   (vocal), a manifest row naming the delivered file, and credits spent <= budget unless a gate was answered.
   prints JSON: {"ok":true|false, "status":"done|partial|failed|null", "errors":[…]}`
@@ -19,6 +20,16 @@ const MARKER = /^\[(intro|verse|chorus|bridge|outro)( \d+)?\]/i
 
 const read = (f) => { try { return fs.readFileSync(f, 'utf8') } catch { return null } }
 const json = (f) => { const t = read(f); if (t === null) return undefined; try { return JSON.parse(t) } catch { return null } }
+
+/** The project folder for a path: the folder itself, or the artifacts/<project> folder that holds a file. */
+export function projectDir (p) {
+  let d = fs.statSync(p).isDirectory() ? p : path.dirname(p)
+  for (let i = 0; i < 4 && !fs.existsSync(path.join(d, 'outcome.json')) && !fs.existsSync(path.join(d, 'PROGRESS.md')); i++) {
+    if (path.basename(path.dirname(d)) === 'artifacts') break
+    d = path.dirname(d)
+  }
+  return d
+}
 
 export function check (dir, { budget = null } = {}) {
   const errors = []
@@ -47,9 +58,11 @@ export function check (dir, { budget = null } = {}) {
   const manifest = json(path.join(dir, 'manifest.json'))
   if (!manifest) errors.push('missing or unreadable manifest.json')
   else {
-    const rel = delivered ? path.relative(path.dirname(dir), delivered) : null
+    // a manifest row's files[] holds {path, sha256, bytes} objects (manifest.mjs); older rows held strings
+    const want = outcome.delivered ? String(outcome.delivered).replace(/^\.\//, '') : null
     const rows = manifest.assets || []
-    if (rel && !rows.some((r) => (r.files || []).some((f) => f.endsWith(rel)))) errors.push(`no manifest row names ${rel}`)
+    const fpath = (f) => String(typeof f === 'string' ? f : f?.path || '')
+    if (want && !rows.some((r) => r.status !== 'failed' && (r.files || []).some((f) => fpath(f) === want || fpath(f).endsWith('/' + want)))) errors.push(`no manifest row names ${want}`)
     const spent = rows.reduce((s, r) => s + (r.credits?.ledger ?? r.credits?.used ?? 0), 0)
     const approved = (manifest.gates || []).some((g) => g.status === 'answered' || g.answer)
     if (budget !== null && spent > budget && !approved) errors.push(`credits spent ${spent} exceed the budget ${budget} with no answered gate`)
@@ -84,21 +97,32 @@ function selftest () {
     ['credits over budget with no gate', mk('f', good('f')), { budget: 30 }, false],
     ['credits over budget after an answered gate', mk('g', good('g', { 'manifest.json': { assets: [{ id: 'song#1', status: 'done', files: ['artifacts/g/audio/g.mp3'], credits: { estimate: null, used: 60 } }], gates: [{ id: '01', status: 'answered', answer: 'a' }] } })), { budget: 30 }, true],
     ['the delivered file is not in the manifest', mk('h', good('h', { 'manifest.json': { assets: [], gates: [] } })), {}, false],
+    ['a manifest whose files[] are objects (manifest.mjs) passes', mk('i', good('i', { 'manifest.json': { assets: [{ id: 'song#1', status: 'done', files: [{ path: 'audio/i.mp3', sha256: 'x', bytes: 7 }], credits: { estimate: 38, used: 38 } }], gates: [] } })), {}, true],
+    ['an objects manifest naming another file fails', mk('j', good('j', { 'manifest.json': { assets: [{ id: 'song#1', status: 'done', files: [{ path: 'audio/other.mp3' }], credits: { used: 38 } }], gates: [] } })), {}, false],
   ]
   const results = cases.map(([name, d, o, ok]) => { const r = check(d, o); return { name, pass: (r.errors.length === 0) === ok, errors: r.errors } })
+  const dk = path.join(tmp, 'artifacts', 'i')
+  results.push({ name: 'a file inside the project resolves to the project', pass: projectDir(path.join(dk, 'audio', 'i.mp3')) === dk && projectDir(dk) === dk })
+  // called through a symlinked folder, as on the machine (a plain path compare skipped silently)
+  const link = path.join(tmp, 'linked'); fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link)
+  let viaLink = ''; try { viaLink = execFileSync(process.execPath, [path.join(link, 'validate.mjs'), '--help'], { encoding: 'utf8' }) } catch {}
+  results.push({ name: 'runs when called through a symlinked folder', pass: /usage: node validate\.mjs/.test(viaLink) })
   fs.rmSync(tmp, { recursive: true, force: true })
   const failed = results.filter((r) => !r.pass)
   process.stdout.write(JSON.stringify({ ok: !failed.length, cases: results.length, failed }, null, 2) + '\n')
   process.exit(failed.length ? 1 : 0)
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+// Compare real paths: on the machine skills are reached through a symlinked skills folder.
+const real = (p) => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const argv = process.argv.slice(2)
   const out = (o, c) => { process.stdout.write(JSON.stringify(o, null, 2) + '\n'); process.exit(c) }
   if (argv.includes('--help') || argv.includes('-h')) { process.stdout.write(HELP + '\n'); process.exit(0) }
   if (argv.includes('--selftest')) selftest()
-  const dir = argv.find((a, i) => !a.startsWith('--') && argv[i - 1] !== '--budget')
-  if (!dir || !fs.existsSync(dir)) out({ ok: false, errors: ['give an existing artifacts/<project> folder; see --help'] }, 2)
+  const arg = argv.find((a, i) => !a.startsWith('--') && !['--budget', '--request'].includes(argv[i - 1]))
+  if (!arg || !fs.existsSync(arg)) out({ ok: false, errors: ['give an existing artifacts/<project> folder or a file in it; see --help'] }, 2)
+  const dir = projectDir(arg)
   const b = argv.includes('--budget') ? Number(argv[argv.indexOf('--budget') + 1]) : null
   const r = check(dir, { budget: Number.isFinite(b) ? b : null })
   out({ ok: r.errors.length === 0, status: r.status, errors: r.errors.slice(0, 20) }, r.errors.length ? 1 : 0)

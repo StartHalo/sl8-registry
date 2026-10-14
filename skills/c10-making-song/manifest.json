@@ -1,7 +1,7 @@
 {
   "name": "c10-making-song",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Song, music, track, vocal song, instrumental, background music, lyrics to song, song writing, in any language. Generates one original song, vocal or instrumental, as an MP3 from a short brief or the customer's own lyrics, with fal-ai/minimax-music/v2.6 through ai-gen on the SL8 Video Studio. Expands the brief into a vivid English prompt with its own prompt guide, writes original lyrics with section markers when none are supplied, estimates and gates the spend, records one manifest row per generation and measures the file with media-qc. Runs headless: every question the source asked becomes a stated default. Use when a job asks for music creation, song writing, lyrics turned into a song, or background music for a mood or scene. A cover of a reference track is recognised but cannot run on SL8 and ends as a recorded debt with no spend. Do not use to play existing files, answer music theory questions or recommend music without generating any.",
-  "generated_at": "2026-10-14T05:35:02.879Z",
-  "skill_md_sha256": "89c59868a33c9201d40cfa2e63609a2b2777ea3f5456543df8951351a737dd87"
+  "generated_at": "2026-10-14T16:48:39.579Z",
+  "skill_md_sha256": "250a5a03fb4197e37975d1435b5b1c6d43f224fbf8124fc9fff8dc26256a9bb2"
 }
