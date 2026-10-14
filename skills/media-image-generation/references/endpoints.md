@@ -33,11 +33,15 @@ with both sides multiples of 16, the long edge ≤3840, aspect ≤3:1 and 655,36
 default `landscape_4_3`. `quality` is `auto`, `low`, `medium` or `high`, **default `high`**.
 `num_images` 1–4. `output_format` `png` (default), `jpeg`, `webp`; `background` `auto` (default),
 `transparent`, `opaque`. **No seed and no negative prompt.** Token-billed: at 1024², low / medium /
-high = **1.5 / 13.25 / 52.75 cr**.
+high = **1.5 / 13.25 / 52.75 cr**. **Pin `enable_safety_checker: true` and `sync_mode: false`**
+(both defaults, HR4): fal's schema says only "authorized callers may set false" on the checker, so
+it is not a lever, and `sync_mode: true` returns a data URI with no request history (OpenAPI
+`GptImage2Input`, 2026-10-13).
 
 **`openai/gpt-image-2/edit`** — `prompt` and `image_urls` required, **`image_urls` ≤16** (enforced
 by the schema). Optional `mask_url`. `image_size` defaults to `auto`; `quality`, `num_images`,
-`output_format` and `background` as above. **There is no `input_fidelity` field** (fal's own guide
+`output_format`, `background`, and the pinned `enable_safety_checker: true` and `sync_mode: false`
+as above (`GptImage2EditInput`). **There is no `input_fidelity` field** (fal's own guide
 says to set it; the proxy drops it silently). The edit also bills the input image tokens, so it
 costs at least the generation price.
 
