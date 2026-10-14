@@ -5,13 +5,16 @@
 //          writes artifacts/P/gates/NN-S.json + .md, indexes it in the manifest; a spend gate (the default kind)
 //          also writes artifacts/P/outcome.json partial, a text gate needs --default and prints proceed_with
 //   answer --project P --gate NN --option ID [--by WHO]   refused (exit 1) for a spend gate opened by this same
-//          job run (SL8_SPEND_LEDGER): a job never answers its own spend gate (HR12, 1.0.2)
+//          job run (SL8_SPEND_LEDGER): a job never answers its own spend gate (HR12, 1.0.2). Prints proceed:
+//          false and resume_at null for a stop option (credits 0 or stop: true): spend nothing (1.1.0)
 //   status --project P          exit 10 while a spend gate is open and unanswered · 0 otherwise. An open text
-//          gate never stops a job (it proceeds on its default, HR12): it is listed under open_text, exit 0
+//          gate never stops a job (it proceeds on its default, HR12): it is listed under open_text, exit 0.
+//          proceed: false and resume_at null when the last answered gate was answered with a stop option (1.1.0)
 //   waive  --project P --gate NN --instruction TEXT     the user's explicit instruction (HR20); refused (exit 1)
 //          for a spend gate opened by this same job run, as answer is (HR12, 1.0.3)
 // Options: --artifacts DIR (default ./artifacts), --outcome FILE (default <artifacts>/P/outcome.json, which persists).
-// --options is a JSON array: [{"id":"a","label":"Render 2 clips at 480p","credits":216}, …].
+// --options is a JSON array: [{"id":"a","label":"Render 2 clips at 480p","credits":216}, …]; an option with
+// "credits": 0 or "stop": true is a stop option: answering it ends the work, it never resumes (1.1.0).
 // Exit: 0 ok · 1 refused · 2 usage · 10 open spend gate (status only). Node >= 20, no dependencies.
 import fs from 'node:fs'
 import path from 'node:path'
@@ -34,6 +37,10 @@ function findGate (dir, nn) {
   if (!gate) throw new Fail(`no gate ${id} in ${gatesDir(dir)}`, 2)
   return gate
 }
+
+// A stop option spends nothing and ends the work: credits 0, or stop: true for one with no price (1.1.0).
+export const isStop = (option) => option?.stop === true || option?.credits === 0
+const proceeds = (g) => g.status === 'waived' || (g.status === 'answered' && !isStop(g.options.find((x) => x.id === g.answer?.option)))
 
 function render (g) {
   const rows = g.options.map((x) => `| ${x.id} | ${x.label} | ${x.credits ?? '—'} |`).join('\n')
@@ -113,7 +120,8 @@ export function answer (o) {
     refuseOwnSpendGate(g, 'answers')
     g.status = 'answered'; g.answer = { option: o.option, by: o.by ?? null, at: new Date().toISOString() }
     save(dir, write(dir, g))
-    return { ok: true, gate: g.id, option: o.option, resume_at: g.resume_at }
+    const proceed = proceeds(g)
+    return { ok: true, gate: g.id, option: o.option, proceed, resume_at: proceed ? g.resume_at : null }
   })
 }
 
@@ -139,12 +147,14 @@ export function waive (o) {
 export function status (o) {
   const dir = projectDir(o)
   const gates = fs.existsSync(dir) ? listGates(dir) : []
-  const row = (g) => ({ id: g.id, slug: g.slug, kind: g.kind === 'text' ? 'text' : 'spend', question: g.question, default: g.default ?? null, resume_at: g.resume_at, answer: g.answer?.option ?? null })
+  const row = (g) => ({ id: g.id, slug: g.slug, kind: g.kind === 'text' ? 'text' : 'spend', question: g.question, default: g.default ?? null, resume_at: g.resume_at, answer: g.answer?.option ?? null, ...(g.status === 'open' ? {} : { proceed: proceeds(g) }) })
   const pick = (s, test = () => true) => gates.filter((g) => g.status === s && test(g)).map(row)
   const open = pick('open', (g) => g.kind !== 'text'); const openText = pick('open', (g) => g.kind === 'text')
   const answered = pick('answered'); const waived = pick('waived')
   const last = [...answered, ...waived].sort((a, b) => a.id.localeCompare(b.id)).pop()
-  return { code: open.length ? 10 : 0, body: { open, open_text: openText, answered, waived, resume_at: open.length ? null : last?.resume_at ?? null } }
+  // A Stop answer on the last settled gate ends the work: proceed false, no resume_at to spend from (1.1.0).
+  const proceed = open.length ? false : last ? last.proceed : true
+  return { code: open.length ? 10 : 0, body: { open, open_text: openText, answered, waived, proceed, resume_at: proceed ? last?.resume_at ?? null : null } }
 }
 
 function main () {
