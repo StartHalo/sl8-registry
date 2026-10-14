@@ -15,7 +15,7 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.2
+  version: 1.0.3
   revision: 2026-10-06d
   house-rules: HR-1.0
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
@@ -160,9 +160,9 @@ table: what the frame must survive as.
 - **Removal never goes to NBP** (T3 #22). **FLUX and Seedream never carry any text** (T3 §3).
 - **A real person's likeness** needs documented consent before any route (HR17).
 - **Moderation exposure.** Nano Banana exposes `safety_tolerance` (a string `"1"`–`"6"`, default
-  `"4"`), a lever; gpt-image-2 has no moderation field, FLUX, Seedream and Recraft only
-  `enable_safety_checker`. A refusal on a route with no lever is the wrong route, not a transient
-  failure, and the retry ceiling applies. *The image refusal boundary is unmapped on SL8.*
+  `"4"`), a lever; gpt-image-2, FLUX, Seedream and Recraft only `enable_safety_checker` (gpt-image-2:
+  default true and not a lever, so pin it with `sync_mode: false`, HR4). A refusal on a route with
+  no lever is the wrong route, not a transient failure, and the retry ceiling applies. *The image refusal boundary is unmapped on SL8.*
 
 **The fallbacks cross families on purpose:** gpt-image and Nano Banana fail differently. The cost is
 grammar: re-render the prompt through the new family's contract, never resend it unchanged.
