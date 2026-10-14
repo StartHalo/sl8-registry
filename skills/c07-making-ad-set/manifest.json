@@ -1,7 +1,7 @@
 {
   "name": "c07-making-ad-set",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Makes a four-frame social ad creative set on the SL8 Image Studio: hook, proof, lifestyle and conversion frames of the same product, each with large clean negative space for copy added later, quoted as one sum before any frame runs. Use it when a brief asks for an ad set, ad creatives for a campaign, or hook, proof, lifestyle and conversion frames, made from text or from a product packshot. It never invents claims, prices or copy. Exact copy the user supplies is composited locally afterwards, or listed as copy still owed. A model renders text only on the user's explicit instruction, recorded as a waiver. The skill runs to the end without asking, fills gaps with stated defaults, quotes every paid step first, and stops at a spend gate rather than overspend.",
-  "generated_at": "2026-10-14T05:32:09.886Z",
-  "skill_md_sha256": "cb726f005f01c5fe173a2d2b0b91a20ee319f43267087e2e73839bc4c0af480b"
+  "generated_at": "2026-10-14T16:47:14.318Z",
+  "skill_md_sha256": "c20f622a74d641345df7b11ea92f8707a70383147703d30f454d564d5d18e0a4"
 }
