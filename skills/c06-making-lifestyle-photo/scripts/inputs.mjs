@@ -5,6 +5,9 @@
 // missing; writes nothing.
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
+import osL from 'node:os'
+import pathL from 'node:path'
 const HELP = 'usage: node inputs.mjs <request.md> | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label"}],"say":"…"}'
 // "Product: …" (or Label: value lines a chat sends); a request whose first line names the product also counts
 const REQUIRED = { product: /^(?:product|item)\s*[:—-]\s*(.+)$/im }
@@ -27,13 +30,18 @@ export function check (text) {
   for (const [k, [re, label]] of Object.entries(OPTIONAL)) { const m = text.match(re); if (m && filled(m[1])) found[k] = m[1].trim(); else assume.push({ field: k, label }) }
   return { ok: !missing.length, found, missing, assume, say: missing.length ? 'To do this I need: the product (what it is, its material and colour), as "Product: …".' : '' }
 }
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: on the machine skills are reached through a symlinked folder (audit product-hero-1, 0.1.1).
+const realOf = p => { try { return fs.realpathSync(p) } catch { return p } }
+if (process.argv[1] && realOf(fileURLToPath(import.meta.url)) === realOf(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { console.log(HELP); process.exit(0) }
   if (a.includes('--selftest')) {
     const full = check("Make a lifestyle photo of our product\nProduct: matte white ceramic mug\nProduct photo: mug.png\nSetting: Scandinavian kitchen\nPerson: no one in the scene\nPixel exact: no\nPlatform: story\nBudget: 100"), thin = check('Product: matte white ceramic mug'), worded = check("a lifestyle photo of our matte white ceramic mug"), none = check('Make one for us, please')
-    const ok = full.ok && !full.assume.length && thin.ok && thin.assume.length === Object.keys(OPTIONAL).length && worded.ok && !none.ok && none.missing[0] === 'product'
-    console.log(JSON.stringify({ ok, cases: 4 })); process.exit(ok ? 0 : 1)
+    const viaLink = (() => { const d = fs.mkdtempSync(osL.tmpdir() + '/link-'), l = d + '/scripts'; fs.symlinkSync(pathL.dirname(fileURLToPath(import.meta.url)), l)
+      try { return execFileSync(process.execPath, [l + '/' + pathL.basename(fileURLToPath(import.meta.url)), '--help'], { encoding: 'utf8' }) } catch { return '' } finally { fs.rmSync(d, { recursive: true, force: true }) } })()
+    const linkOk = /usage: node/.test(viaLink)
+    const ok = (full.ok && !full.assume.length && thin.ok && thin.assume.length === Object.keys(OPTIONAL).length && worded.ok && !none.ok && none.missing[0] === 'product') && linkOk
+    console.log(JSON.stringify({ ok, cases: 5 })); process.exit(ok ? 0 : 1)
   }
   if (!a[0] || !fs.existsSync(a[0])) { console.log(JSON.stringify({ ok: false, errors: ['give the saved request file; see --help'] })); process.exit(2) }
   const r = check(fs.readFileSync(a[0], 'utf8')); console.log(JSON.stringify(r)); process.exit(r.ok ? 0 : 1)
