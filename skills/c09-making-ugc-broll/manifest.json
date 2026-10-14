@@ -1,7 +1,7 @@
 {
   "name": "c09-making-ugc-broll",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "UGC ad, creator ad, creator-style video ad, testimonial-style ad, unboxing, first reaction, before-after, founder clip, faceless voiceover, product demo b-roll, split-screen proof, hook variants, social proof video, TikTok, Reels, Shorts, paid social vertical video. Makes a believable, platform-native, claim-safe creator-style video ad for a product on the SL8 Video Studio: a single clip, 2-5 b-roll clips in edit order with voiceover notes, or 3-5 hook variants with a manifest. Output is usually 9:16, with hooks at 6-15 s and ads at 15-45 s. Use it when a brand or marketer sends a product (a packshot, and optionally a script, claims and tone) and wants creator content rather than a polished studio commercial. Runs headless from the brief with stated defaults. Today the faceless route runs (product still, Seedance image-to-video b-roll, optional TTS voiceover). Talking-head, avatar and lip-sync routes are recorded as gaps and end partial at a gate.",
-  "generated_at": "2026-10-14T05:34:07.246Z",
+  "generated_at": "2026-10-14T16:48:12.454Z",
   "skill_md_sha256": "38aa3590ccb42e0d2308aee46d3bbd0161b90c8a1674c0a4de6f4df8e4e0ba4f"
 }
