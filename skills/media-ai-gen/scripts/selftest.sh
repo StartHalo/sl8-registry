@@ -96,6 +96,21 @@ SL8_SPEND_LEDGER="$T/run-b/spend.jsonl" check 0 next-job-answers node $S/gate.mj
 R=ownerout
 SL8_SPEND_LEDGER="$T/run-c/spend.jsonl" check 0 owner-gate-open node $S/gate.mjs open --project $R --slug approve-vo --question "Voice?" --options '[{"id":"a","label":"Voice","credits":5},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 5"
 check 0 owner-answers-outside-a-job env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $R --gate 01 --option a --by "owner"
+grep -q '"proceed":true' out.txt && grep -q '"resume_at":"step 5"' out.txt && { pass=$((pass+1)); echo "ok   proceed-answer-resumes"; } || { fail=$((fail+1)); echo "FAIL proceed-answer-resumes"; cat out.txt; }
+check 0 proceed-status node $S/gate.mjs status --project $R
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.answered[0].proceed!==true||b.resume_at!=="step 5")process.exit(1)' && { pass=$((pass+1)); echo "ok   proceed-status-resume-at"; } || { fail=$((fail+1)); echo "FAIL proceed-status-resume-at"; cat out.txt; }
+# 1.1.0: a Stop answer (0 credits, or stop: true) never resumes: answer and status say proceed: false and
+# offer no resume_at, so a job that follows the protocol spends nothing after the owner said stop
+U=stopped
+check 0 stop-gate-open node $S/gate.mjs open --project $U --slug approve-clips --question "Render two clips for 216 credits?" --options '[{"id":"a","label":"Render both clips","credits":216},{"id":"b","label":"Stop with the stills","credits":0}]' --resume-at "step 4: render clips" --quote 216
+check 0 stop-answer env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $U --gate 01 --option b --by "owner: stop"
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.proceed!==false||b.resume_at!==null)process.exit(1)' && { pass=$((pass+1)); echo "ok   stop-answer-proceed-false"; } || { fail=$((fail+1)); echo "FAIL stop-answer-proceed-false"; cat out.txt; }
+check 0 stop-status node $S/gate.mjs status --project $U
+node -e 'const b=JSON.parse(require("fs").readFileSync("out.txt"));if(b.open.length!==0||b.answered[0].proceed!==false||b.resume_at!==null||b.proceed!==false)process.exit(1)' && { pass=$((pass+1)); echo "ok   stop-status-no-resume"; } || { fail=$((fail+1)); echo "FAIL stop-status-no-resume"; cat out.txt; }
+V=stopflag
+check 0 stopflag-gate-open node $S/gate.mjs open --project $V --slug approve-vo --question "Voice the script?" --options '[{"id":"a","label":"Voice it","credits":5},{"id":"n","label":"Not now","stop":true}]' --resume-at "step 5"
+check 0 stopflag-answer env -u SL8_SPEND_LEDGER node $S/gate.mjs answer --project $V --gate 01 --option n --by "owner"
+grep -q '"proceed":false' out.txt && { pass=$((pass+1)); echo "ok   stop-flag-proceed-false"; } || { fail=$((fail+1)); echo "FAIL stop-flag-proceed-false"; cat out.txt; }
 # concurrency: 8 parallel adds must all land
 for i in 1 2 3 4 5 6 7 8; do printf "f$i" > artifacts/$P/hero/p$i.png; node $S/manifest.mjs add --project $P --json "{\"item\":\"par-$i\",\"node\":\"hero\",\"tool\":\"convert\",\"declared\":{},\"files\":[\"artifacts/$P/hero/p$i.png\"]}" > /dev/null & done; wait
 node -e 'const m=require("./artifacts/demo/manifest.json");if(m.assets.filter(a=>a.item.startsWith("par-")).length!==8)process.exit(1)' && { pass=$((pass+1)); echo "ok   parallel-adds-locked"; } || { fail=$((fail+1)); echo "FAIL parallel-adds"; }

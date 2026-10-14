@@ -174,7 +174,8 @@ overwrite `outcome.json` with anything but `partial`.
 
 1. **First command of every job on an existing project:** `gate.mjs status --project <p>`.
    Exit 10 = a **spend** gate is open and unanswered (listed under `open`); exit 0 = no spend gate
-   is open, with `resume_at` from the last answered or waived gate. **An open text gate never
+   is open, with `proceed` and `resume_at` from the last answered or waived gate (`proceed: false`
+   and `resume_at: null` after a Stop answer, step 5). **An open text gate never
    stops a job:** exit 0 lists it under `open_text` with its `default`; proceed on that default and
    flag it in the delivery (HR12).
    **A job never answers or waives its own spend gate:** `gate.mjs answer` (1.0.2) and `gate.mjs waive`
@@ -185,17 +186,23 @@ overwrite `outcome.json` with anything but `partial`.
 
    ```json
    {"open":[],"open_text":[{"id":"02","slug":"tone","kind":"text","question":"Tone?","default":"warm","resume_at":"step 2","answer":null}],
-    "answered":[{"id":"01","slug":"approve-clips","kind":"spend","question":"…","default":null,"resume_at":"step 4: render clips from keyframes/","answer":"a"}],
-    "waived":[],"resume_at":"step 4: render clips from keyframes/"}
+    "answered":[{"id":"01","slug":"approve-clips","kind":"spend","question":"…","default":null,"resume_at":"step 4: render clips from keyframes/","answer":"a","proceed":true}],
+    "waived":[],"proceed":true,"resume_at":"step 4: render clips from keyframes/"}
    ```
 2. **Open gate, and the person's message answers it** (an option id, or words that plainly pick one):
-   `gate.mjs answer --project <p> --gate 01 --option a --by "<their words>"`, then resume. This holds
-   for a text gate too, when the message picks an option other than its default.
+   `gate.mjs answer --project <p> --gate 01 --option a --by "<their words>"`. It prints `proceed`:
+   `true` resumes (step 4); `false` is a Stop (step 5). This holds for a text gate too, when the
+   message picks an option other than its default.
 3. **Open spend gate (exit 10), no answer in the message:** spend nothing, restate the question,
    end `partial` again.
 4. **Resume at `resume_at`.** The plan is intent; the filesystem is truth: `manifest.mjs verify`,
    then skip every item whose row is `done` and whose files verify. Fetch any `pending` row with
    `ai-gen result <id>` before submitting anything new: it may already be paid for.
+5. **A Stop answer never resumes (1.1.0).** An option with `"credits": 0`, or `"stop": true` for one
+   with no price, is a stop option. When the answer picks it, `answer` and `status` print
+   `proceed: false` and `resume_at: null`. Spend nothing; fetch only `pending` rows that are already
+   paid for, write PROGRESS.md (the stop goes under Known gaps, with the owner's words) and end the
+   job `partial`, delivering the work so far. Give every spend gate a stop option.
 
 ## Waivers
 
