@@ -4,6 +4,9 @@
 // and edit-order.md's Assumptions section gives each one a line starting "**<label>:**" (D40).
 // No prompts; JSON on stdout; exit 1 only when the required input is missing; writes nothing.
 import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 const HELP = 'usage: node inputs.mjs <request.md> | --selftest\n  prints {"ok","found":{…},"missing":[…],"assume":[{"field","label"}],"say":"…"}'
 const empty = v => !v || /^\s*(<[^>]*>|tbd|\[tbd\]|n\/?a|-|—|\?)\s*$/i.test(v)
@@ -24,15 +27,23 @@ export function check (text) {
   for (const [k, [re, label]] of Object.entries(OPTIONAL)) { const m = text.match(re); if (m && !empty(m[1])) found[k] = m[1].trim(); else assume.push({ field: k, label }) }
   return { ok: !missing.length, found, missing, assume, say: missing.length ? `To do this I need: ${missing.map(k => ASK[k]).join('; ')}.` : '' }
 }
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: on the machine skills are reached through a symlinked skills folder.
+const real = p => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { console.log(HELP); process.exit(0) }
   if (a.includes('--selftest')) {
     const full = check('Make UGC b-roll for our product\nProduct: a water bottle\nPackshot: bottle.png\nBeats: cap, sip\nClips: 2 x 5 s\nFormat: 9:16 480p\nTone: calm\nOn-screen text: Shop now\nBudget: 400')
     const thin = check('Make UGC b-roll\nProduct: a water bottle')
     const none = check('Make UGC b-roll for us')
-    const ok = full.ok && !full.assume.length && thin.ok && thin.assume.length === 7 && !none.ok && none.missing[0] === 'product' && /product/.test(none.say)
-    console.log(JSON.stringify({ ok, cases: 3 })); process.exit(ok ? 0 : 1)
+
+    // Called through a symlinked folder, as on the machine (the plain path compare skipped silently).
+    const lt = fs.mkdtempSync(path.join(os.tmpdir(), 'c09-link-')), link = path.join(lt, 'linked')
+    fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link)
+    let viaLink = ''; try { viaLink = execFileSync(process.execPath, [path.join(link, 'inputs.mjs'), '--help'], { encoding: 'utf8' }) } catch {}
+    fs.rmSync(lt, { recursive: true, force: true })
+    const ok = full.ok && !full.assume.length && thin.ok && thin.assume.length === 7 && !none.ok && none.missing[0] === 'product' && /product/.test(none.say) && /usage: node inputs\.mjs/.test(viaLink)
+    console.log(JSON.stringify({ ok, cases: 4 })); process.exit(ok ? 0 : 1)
   }
   if (!a[0] || !fs.existsSync(a[0])) { console.log(JSON.stringify({ ok: false, errors: ['give the saved request file; see --help'] })); process.exit(2) }
   const r = check(fs.readFileSync(a[0], 'utf8')); console.log(JSON.stringify(r, null, 2)); process.exit(r.ok ? 0 : 1)

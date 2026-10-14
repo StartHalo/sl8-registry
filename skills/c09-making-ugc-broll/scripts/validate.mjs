@@ -8,6 +8,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { execFileSync } from 'node:child_process'
 import { check as inputs } from './inputs.mjs'
 const HELP = 'usage: node validate.mjs artifacts/<project>/edit-order.md [--request <request.md>] | --selftest\n  prints {"ok","errors":[…],"clips":n}'
 const PROGRESS = ['Summary', 'Decisions', 'Asset inventory', 'Pipeline', 'Known gaps', 'Next steps']
@@ -42,7 +43,9 @@ export function validate (file, requestText) {
   }
   return { ok: !errors.length, errors, clips: starts.length }
 }
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+// Compare real paths: on the machine skills are reached through a symlinked skills folder.
+const real = p => { try { return fs.realpathSync(p) } catch { return path.resolve(p) } }
+if (process.argv[1] && real(fileURLToPath(import.meta.url)) === real(process.argv[1])) {
   const a = process.argv.slice(2)
   if (a.includes('--help')) { console.log(HELP); process.exit(0) }
   if (a.includes('--selftest')) {
@@ -63,8 +66,15 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const r4 = validate(mk(good, { credits: 300 }), req)
     const r5 = validate(mk(good.replace(/\n## Assumptions[\s\S]*$/, '\n')), req)
     const r6 = validate(mk(good), 'Make UGC b-roll\nProduct: bottle')
-    const ok = r1.ok && r1.clips === 2 && !r2.ok && !r3.ok && !r4.ok && !r5.ok && !r6.ok
-    console.log(JSON.stringify({ ok, cases: 6, failed: [r1, r2, r3, r4, r5, r6].map((r, i) => [i + 1, r.errors]).filter((x, i) => (i === 0) === !!x[1].length) })); process.exit(ok ? 0 : 1)
+
+    // Called through a symlinked folder, as on the machine (the plain path compare skipped silently).
+    const lt = fs.mkdtempSync(path.join(os.tmpdir(), 'c09-link-')), link = path.join(lt, 'linked')
+    fs.symlinkSync(path.dirname(fileURLToPath(import.meta.url)), link)
+    let viaLink = ''; try { viaLink = execFileSync(process.execPath, [path.join(link, 'validate.mjs'), '--help'], { encoding: 'utf8' }) } catch {}
+    fs.rmSync(lt, { recursive: true, force: true })
+    const r7 = /usage: node validate\.mjs/.test(viaLink)
+    const ok = r1.ok && r1.clips === 2 && !r2.ok && !r3.ok && !r4.ok && !r5.ok && !r6.ok && r7
+    console.log(JSON.stringify({ ok, cases: 7, link: r7, failed: [r1, r2, r3, r4, r5, r6].map((r, i) => [i + 1, r.errors]).filter((x, i) => (i === 0) === !!x[1].length) })); process.exit(ok ? 0 : 1)
   }
   if (!a[0]) { console.log(JSON.stringify({ ok: false, errors: ['give artifacts/<project>/edit-order.md; see --help'] })); process.exit(2) }
   const ri = a.indexOf('--request'), req = ri > -1 && a[ri + 1] && fs.existsSync(a[ri + 1]) ? fs.readFileSync(a[ri + 1], 'utf8') : null

@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-10-14
+### Added
+- Release c09-making-ugc-broll v1.0.1.
+
 ## [v1.0.0] — 2026-10-14
 ### Added
 - Initial release (c09-making-ugc-broll).
