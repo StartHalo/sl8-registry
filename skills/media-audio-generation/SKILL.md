@@ -14,10 +14,10 @@ description: >-
   captioning a video (media-video-production, media-motion-graphics); video clips
   (media-video-generation); running ai-gen (media-ai-gen); output checks (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.0.3 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.1.0 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.0.3
-  revision: 2026-10-08a
+  version: 1.0.4
+  revision: 2026-10-15
   house-rules: HR-1.0
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
@@ -228,7 +228,7 @@ set, since `info` shows a `const` as a plain default (HR2).
 | `fal-ai/elevenlabs/sound-effects/v2` | `text`* (max 450 chars), `duration_seconds` **0.5–22** (omit = model chooses), `prompt_influence` 0–1 d0.3, `loop` d false, `output_format` | Raise `prompt_influence` to ~0.7 for a literal named sound; leave low for ambience. `loop: true` for anything running under a longer scene. |
 | `sonilo/v1.1/text-to-sound-effects` | `prompt`*, `duration` int **1–180** d8, `audio_format` d **`aac`** | Override `audio_format` to match Delivery — `aac` is nobody's request. |
 | `fal-ai/elevenlabs/music` | `prompt` (max 4100) and/or `composition_plan`, `music_length_ms` **3000–600000**, `force_instrumental` d false, `respect_sections_durations` d true, `output_format` | `music_length_ms` and `force_instrumental` apply only alongside `prompt`, not `composition_plan`. Set `force_instrumental: true` for a bed under narration — left false it can arrive with vocals. |
-| `fal-ai/minimax-music/v2.6` | `prompt`* 10–2000, `lyrics` max 3500 with `[Verse]`/`[Chorus]` tags (required unless instrumental), `lyrics_optimizer` d false, `is_instrumental`, `audio_setting` | **No length field at all** — never promise a duration on this route. |
+| `fal-ai/minimax-music/v2.6` | `prompt`* 10–2000, `lyrics` max 3500 with structure tags `[Intro]`, `[Verse]`, `[Pre Chorus]`, `[Chorus]`, `[Post Chorus]`, `[Hook]`, `[Bridge]`, `[Interlude]`, `[Transition]`, `[Build Up]`, `[Break]`, `[Inst]`, `[Solo]`, `[Outro]` (required unless instrumental), `lyrics_optimizer` d false, `is_instrumental`, `audio_setting` | **No length field at all** — never promise a duration on this route. Written lyrics always carry the structure tags; the prompt works best as English style tags (genre, mood, vocals, instruments, BPM). Lyrics follow the brief's language; set another only when the brief asks, through the vocalist or genre (`Korean female vocalist`, `K-pop`), never by adding `with Korean lyrics`. |
 | `fal-ai/lyria3/pro` | `prompt`* (max 5000), `image_url` | `negative_prompt` exists but is deprecated and does nothing. No length control. |
 | `fal-ai/elevenlabs/speech-to-text/scribe-v2` | `audio_url`*, `language_code` (**ISO 639-3**: `eng`, `spa`, `deu`), `diarize` d **true**, `tag_audio_events` d **true**, `keyterms` ≤100 (+30% price) | Both defaults are on and both pollute a clean transcript — set them false unless asked for speaker labels or `[laughter]`. Returns `words[]` of `{text, start, end, type, speaker_id}`; `type` is `word`, `spacing` or `audio_event`, so **filter to `type == "word"` before using timings**. Put names and jargon in `keyterms`. |
 | `fal-ai/elevenlabs/speech-to-text` | as above, minus `keyterms` | Same `words[]` shape. Drop-in when scribe-v2 errors. |
