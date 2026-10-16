@@ -14,10 +14,10 @@ description: >-
   alone (media-motion-graphics); stills (media-image-generation); running ai-gen (media-ai-gen);
   measuring files (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.0.3; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.1.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.6
-  revision: 2026-10-08c
+  version: 1.0.7
+  revision: 2026-10-15
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
@@ -80,10 +80,10 @@ mid-job, so the review gates (structure, clips) are recorded and the job goes on
 other value means a person is attending and answers them.
 **On an existing project, the first command is**
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs status --project <project>`, then the resume
-protocol in media-ai-gen's `references/gates-and-manifest.md` (1.0.3): an open gate the brief answers
-is recorded with `gate.mjs answer` and the job resumes at its `resume_at`; an open **spend** gate the
-brief does not answer means spend nothing, restate it, and end `partial` again; an open text gate
-proceeds on its default, flagged in the delivery.
+protocol in media-ai-gen's `references/gates-and-manifest.md` (1.1.0): record a brief's answer with `gate.mjs
+answer`; the job resumes at its `resume_at` only when `answer` prints `proceed: true`. A Stop answer (an option
+with `"credits": 0` or `"stop": true`) prints `proceed: false` and `resume_at: null`: spend nothing and end `partial`.
+An unanswered **spend** gate: spend nothing, restate it, end `partial` again; a text gate proceeds on its default.
 
 Drop any question the brief already answers; each one it leaves unset proceeds on the stated
 default, written into `plan.json` `declared` and flagged in the delivery.
