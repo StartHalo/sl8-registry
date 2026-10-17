@@ -47,3 +47,41 @@
 - Mist filter: soft bloom, romance, beauty.
 - Crisp high shutter: action clarity.
 - Motion blur: speed, energy, handheld realism.
+
+## Worked stills
+
+Three film-look stills built in the skill's order (subject, context, lens and framing, atmosphere,
+mood and colour), adapted from fal's cinematography examples. Exclusions are written as what is
+there instead, and the prestige words are replaced by visual facts. Size and aspect go in the
+parameters, not here.
+
+Noir close-up (Nano Banana; its row writes exclusions as positives, so the source's closing
+"no text" becomes plain, unlettered surfaces):
+
+```text
+a detective sitting alone in a parked car at night, close-up from the passenger-seat angle,
+50mm lens feel, rain streaks on the window in the foreground, a hard streetlight slashing
+across his face from the left, low-key lighting with deep shadows, muted green and amber grade,
+a frozen still moment, every sign and surface in frame plain and unlettered
+```
+
+Sci-fi wide shot:
+
+```text
+a small astronaut crossing a vast white salt flat toward a black monolith, extreme wide shot,
+low horizon, 24mm lens feel, late-afternoon backlight throwing one long shadow toward camera,
+minimal composition with the figure on the lower third, quiet atmospheric haze, cool silver
+grade, an empty salt flat to the horizon
+```
+
+Warm interior drama:
+
+```text
+two siblings at a kitchen table after midnight, medium-wide static frame, 35mm lens feel,
+a warm practical lamp on the table as the key light, cool moonlight through the window behind,
+subtle haze, still, restrained postures, hands resting near untouched mugs, naturalistic grade,
+deep enough focus to read both faces
+```
+
+Each one passes the skill's three cinematic checks: the lens feel fits the shot size and angle,
+one light leads, and the grade keeps the faces and the figure readable.

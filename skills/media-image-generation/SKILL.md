@@ -15,13 +15,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.0.3
-  revision: 2026-10-06d
+  version: 1.1.0
+  revision: 2026-10-17a
   house-rules: HR-1.0
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D20..IMG-D49, IMG-D73
+  deltas: IMG-D20..IMG-D49, IMG-D73, IMG-D77, IMG-D78, IMG-D79..IMG-D82
 ---
 
 # Image generation
@@ -231,12 +231,15 @@ Universal principles (all families):
 3. **One controlled variable per iteration.** Comparison only works when one axis changes at a time.
 4. **Inspect schema before assuming a control exists.** `ai-gen info <id> --format json`. Negative
    prompt, seed, multi-prompt, and reference-image fields differ across families.
-5. **Per-family rules override universal advice.**
+5. **Per-family rules override universal advice.** When more than one row below could apply, the
+   route's own contract wins (gpt-image-2's five sections), then the product order for a product
+   still, then the cinematic order for any other film-look or story still. A still follows exactly one order.
 
 | Route | Contract | Load |
 |---|---|---|
 | gpt-image-2 (+edit) | Five sections: Scene / Subject / Important details / Use case / Constraints; edits as Change / Preserve / Constraints; every input labelled "Image 1: …" by role | [family-gpt-image-2.md](references/family-gpt-image-2.md) |
 | Nano Banana (Pro, 2, edit) | The universal principles and the craft files; no family guide ships in 1.0. State exclusions as positives: "rewrite 'no cars' as 'empty street'" (T3 #24) | — |
+| Cinematic or story still (a route without its own contract, such as Nano Banana) | Build in this order: subject; context (place, time, weather, story moment); lens and framing (distance, angle, focal-length feel, depth of field); atmosphere (haze, rain, practical lights, reflections, texture); mood and colour (palette, contrast, grade, exposure). Name camera motion only when motion blur is wanted. Skeleton: `[subject] in [context], framed as [shot size and angle], [lens feel], [lighting setup], [color grade], [texture], [continuity constraints]`. Size goes in the parameters, never in the prompt (HR3). Framing words (close-up, extreme wide, low angle, over-the-shoulder, rule of thirds, negative space) are vocabulary, not a list to pick from. Check the three cinematic items below on the written prompt before the paid call | [craft-lighting-lens-color.md](references/craft-lighting-lens-color.md) (worked stills) |
 | Any photoreal still | Six questions in order: who or what, doing what, where with one anchoring detail, light, camera, imperfections; one genre and one era | [craft-realism.md](references/craft-realism.md) |
 | Product, packshot, commercial | "Write prompts in this order so commercial intent stays clear": product invariant, commercial role, setting, lighting, camera, composition, brand tone, guardrails; the product-shot template; lighting matched to the material (glass "backlight + thin rim light", metal "hard strip highlights") | [craft-product.md](references/craft-product.md) |
 | Light, lens, depth, grade, texture vocabulary | Named setups only | [craft-lighting-lens-color.md](references/craft-lighting-lens-color.md) |
@@ -278,6 +281,10 @@ a delivered-versus-declared check catches that (T3 #16). Exit 1 is a failed item
 - Lighting matches the material (glass gets backlit, metal gets specular highlights).
 - No extra products or extra text in frame.
 - Photoreal: the anti-AI-look checklist in [craft-realism.md](references/craft-realism.md).
+- Cinematic still: lens feel, shot size and angle agree (not an extreme wide shot with an 85mm
+  portrait feel); there is one clear light direction; the grade supports the mood without
+  flattening subject detail. You check the written prompt for these before the paid call; the
+  owner judges the result.
 
 **On a miss, do not iterate on the prompt with more adjectives.** Add concrete imperfections by
 name; force a single primary light direction; replace "standing" with what the subject is doing;
