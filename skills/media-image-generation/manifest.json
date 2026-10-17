@@ -1,7 +1,7 @@
 {
   "name": "media-image-generation",
-  "version": "v1.0.3",
+  "version": "v1.1.0",
   "description": "Chooses and runs the image model for a still: text-to-image, photoreal and product stills, stylized illustration, vector icons, fast drafts, generative edits, multi-reference composites, inpainting, object removal, outpainting, relighting, upscaling and restoration through ai-gen. Gives each intent a primary endpoint and a named fallback, quotes credits first, declares defaults, pins default-on flags, checks values against the schema, writes the prompt to the route's contract and hands the file to media-qc. Use when: generate an image, picture, still, poster art, product shot, hero image, illustration, icon or draft; edit, remove an object, inpaint, outpaint, relight, upscale or restore with a model; which image model to use. NOT for: slider adjustments, crops, grades, cutouts, composites, exact text or logos (media-photo-editing); character reference sheets (media-character-sheet); running ai-gen, manifests and gates (media-ai-gen); measuring outputs (media-qc); video (not on this machine).",
-  "generated_at": "2026-10-14T05:02:14.765Z",
-  "skill_md_sha256": "5544406564cbf4a433a7107ed752b073e717042c8ed8ed4756790c5caddae8d6"
+  "generated_at": "2026-10-17T16:43:53.492Z",
+  "skill_md_sha256": "e6f46e49b8c670bd58e866b9ed3796cf50c537faebbec81688a00404cfe2cbf2"
 }
