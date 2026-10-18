@@ -15,6 +15,8 @@ number has a dated row in [facts.md](facts.md).
 - [Generation](#generation)
 - [Edit, extend, upscale, reframe, sound](#edit-extend-upscale-reframe-sound)
 - [Release checks (as of 2026-10-08)](#release-checks-as-of-2026-10-08)
+- [Same-family fallbacks](#same-family-fallbacks)
+- [Lip-sync (as of 2026-10-18)](#lip-sync-as-of-2026-10-18)
 - [Unproven on SL8 (as of 2026-10-05)](#unproven-on-sl8-as-of-2026-10-05)
 - [Rejected or gone](#rejected-or-gone)
 
@@ -72,6 +74,36 @@ number has a dated row in [facts.md](facts.md).
 | Add sound to a clip | `sonilo/v1.1/video-to-video-sound-effects` | 2026-10-05 | primary: "Returns a muxed video" (VG:179) | no SL8 run | primary |
 | Add sound to a clip | `fal-ai/kling-video/video-to-audio` | 2026-10-05 | fallback, flat price (VG:179) | no SL8 run; car-chase defaults confirmed in the schema (D2c row 81) | fallback |
 
+## Same-family fallbacks
+
+Moved from SKILL.md's routing section in 1.1.0 (VID-D135), unchanged:
+
+**Three of the four generation fallbacks are same-family on purpose — and that
+is a known limit, not an oversight.** `/fast/` is the right fallback for the
+common failure, which is cost or a refusal on one tier, and it needs no prompt
+rewriting because the grammar is identical. It is the *wrong* fallback for a
+family-wide outage or a capability the family lacks. When Seedance as a whole is
+unavailable or cannot do the job, the cross-family escapes are
+`fal-ai/kling-video/v3/pro/text-to-video` for text, `minimax/h3/image-to-video`
+and `/reference-to-video` for the supplied-input routes (5–15 s only; write the
+prompt with **media-h3-prompter**), and
+`blackforestlabs/flux-3/first-last-frame-to-video` past 15s. Say which you took
+and why. Never retry the same family a third time — see the retry ceiling below.
+
+## Lip-sync (as of 2026-10-18)
+
+A face driven by supplied speech (SKILL.md, Lip-sync). A route enters the table only with a dated
+measured bill through SL8's proxy (facts.md) and the owner's pass on the four review items.
+
+| Intent | Endpoint | As of | fal said | SL8 evidence | Status |
+|---|---|---|---|---|---|
+| Talking head | `veed/fabric-1.0` | 2026-10-18 | a portrait plus audio, no prompt (fal-recipes `character-lipsync.md`) | validation pack VP-195 (2026-10-18, sl8-video `caac3920`; `playground/runs/VP-195-2026-10-18T04-15-15-999Z`): the potter still plus a 4.13 s registry-voice line at `480p` became a 4.12 s 576×704 H.264/AAC clip for 100 cr (ledger; estimate 100); the whole frame moves (head, hands), and the owner passed all four review items | primary (proven) |
+| Talking head | `fal-ai/bytedance/omnihuman/v1.5` | 2026-10-16 | — | free estimate 200 cr for 5 s (`playground/lipsync-estimates-2026-10-16.json`); not run | unproven (candidate fallback) |
+| Talking head | `fal-ai/creatify/aurora` | 2026-10-16 | a portrait plus audio with visual direction (fal-recipes) | the proxy returned no price (exit 12), so a call would have no cap | out: unpriced |
+| Re-dub | `fal-ai/pixverse/lipsync` | 2026-10-18 | video plus audio; text when no audio | validation pack VP-195 (2026-10-18, sl8-video `caac3920`; `playground/runs/VP-195-2026-10-18T04-15-15-999Z`): re-dubbed the fabric clip with a 3.94 s line for 40 cr (ledger; estimate 40); the owner did not pass it on the four items | out: failed owner review |
+| Re-dub | `fal-ai/latentsync` | 2026-10-18 | video plus audio | validation pack VP-195 (2026-10-18, sl8-video `caac3920`; `playground/runs/VP-195-2026-10-18T04-15-15-999Z`): the same re-dub for 50 cr on the ledger against an estimate of 5; the owner did not pass it on the four items | out: failed owner review |
+| Re-dub | `fal-ai/sync-lipsync/v2` | 2026-10-16 | video plus audio (fal-recipes) | free estimate 750 cr for a 5 s line: the proxy prices whole minutes; fal lists $3 a minute; not run | unproven (next measurement) |
+
 ## Release checks (as of 2026-10-08)
 
 A pick is a judgement until a release build of this machine has produced a clip on it. This
@@ -103,7 +135,6 @@ test; use one when the brief names it, and pin its own dialect (P1 §1).
 | `minimax/h3-max/image-to-video` | number 0.92–15 s (output up to +0.7 s); `prompt_expansion_mode` required; 40% promotion ends 2026-10-15. Its `h3-max-turbo` sibling left this table on 2026-10-08 (proven by VID-T5; see Generation) | P1; D2c row 59 |
 | `fal-ai/kling-video/o3/standard/image-to-video` | `prompt` or `multi_prompt`; `generate_audio` defaults false; billing and prose prices disagree | P1 §4.7; D2c row 45 |
 | `xai/grok-imagine-video/image-to-video` · `google/gemini-omni-flash/image-to-video` · `alibaba/happy-horse/v1.1/image-to-video` | no audio switch; integer durations (1–15, 3–10, 3–15) | P1 §1 |
-| `veed/fabric-1.0` | lip-sync from an image plus audio, no prompt; bills per second of audio | P1 §1 |
 
 ## Rejected or gone
 

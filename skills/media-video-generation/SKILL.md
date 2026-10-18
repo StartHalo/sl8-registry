@@ -14,15 +14,15 @@ description: >-
   (media-h3-prompter); stills (media-image-generation); ai-gen, manifests, gates
   (media-ai-gen); measuring files (media-qc).
 license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); media-ai-gen 1.0.3; fal endpoints and list prices as of 2026-10-05, SL8-measured bills as of 2026-10-08"
+compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); media-ai-gen 1.1.0; fal endpoints and list prices as of 2026-10-05, SL8-measured bills as of 2026-10-18"
 metadata:
-  version: 1.0.3
-  revision: 2026-10-08a
+  version: 1.1.0
+  revision: 2026-10-18a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117
+  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117, VID-D129..VID-D135
 ---
 # Video Generation
 
@@ -246,6 +246,8 @@ release build has proved it.
 | Upscale | `fal-ai/topaz/upscale/video` | `fal-ai/seedvr/upscale/video` | Per-second billing is predictable; 19 restoration models |
 | Reframe to new aspect | `fal-ai/ltx-2.3/reframe` | `luma/agent/ray/v3.2/reframe` | Needs no prompt; Ray adds `3:4`, `4:3` and `21:9` and takes a prompt, but drops LTX's `4:5`/`5:4` — the enums overlap, neither contains the other |
 | Add sound to a clip | `sonilo/v1.1/video-to-video-sound-effects` | `fal-ai/kling-video/video-to-audio` | Returns a muxed video at 2.25 cr/s; Kling is flat 8.75 cr |
+| Talking head (a portrait plus speech) | `veed/fabric-1.0` at `480p` | no fallback: stop at a gate | The one route that passed owner review on SL8 (VP-195): it animates the whole frame, not only the mouth; bills per whole second of speech. Lip-sync section below first |
+| Re-dub (footage plus new speech, only the mouth changes) | no route: stop at a gate | — | Both measured candidates failed owner review (VP-195); the rest are unmeasured (picks.md) |
 
 **Route on content as well as on intent, and do it on the first attempt.** The
 table above picks a route by *what kind of job* it is. One thing overrides it:
@@ -280,22 +282,22 @@ wrong route, and the retry ceiling below applies to it.
 has one measured 2.0 refusal: validation pack VV1, a realistic portrait still at 480p (facts.md
 `measured-seedance20-face-480p`). Beyond that one case the boundary is unmapped: record what you hit.*
 
-**Three of the four generation fallbacks are same-family on purpose — and that
-is a known limit, not an oversight.** `/fast/` is the right fallback for the
-common failure, which is cost or a refusal on one tier, and it needs no prompt
-rewriting because the grammar is identical. It is the *wrong* fallback for a
-family-wide outage or a capability the family lacks. When Seedance as a whole is
-unavailable or cannot do the job, the cross-family escapes are
-`fal-ai/kling-video/v3/pro/text-to-video` for text, `minimax/h3/image-to-video`
-and `/reference-to-video` for the supplied-input routes (5–15 s only; write the
-prompt with **media-h3-prompter**), and
-`blackforestlabs/flux-3/first-last-frame-to-video` past 15s. Say which you took
-and why. Never retry the same family a third time — see the retry ceiling below.
+**Most fallbacks are same-family on purpose** (`/fast/`, same grammar); for a family-wide outage take a
+cross-family escape ([picks.md](references/picks.md#same-family-fallbacks)). Never retry a family a third time.
 
-**Lipsync is deliberately absent.** A talking head driven by supplied speech is
-a different job — search the catalog (`ai-gen models --search lipsync --format json`)
-and read the schema first,
-because those endpoints bill on *input* seconds.
+## Lip-sync: a talking head from a portrait and speech
+
+**1. Consent first (HR17).** Before routing, quoting or spending, settle whose face it is: a real
+person's photo or footage runs only with `"consent": "owner"` or `"consent": "written permission
+from <name>"` recorded in `plan.json` (media-audio-generation's two forms). Without it spend and
+quote nothing for that face, and say why in one line.
+**2. Speech comes first, from the registry.** Text becomes audio through media-audio-generation with
+the project's registry voice (`artifacts/<project>/audio/voices.json`); the lip-sync route gets that
+file. Never a speech endpoint in this step, never a route's built-in voice (`veed/fabric-1.0/text`).
+**3 to 5.** Declare the defaults in `plan.json` (HR12), quote voice-over then lip-sync on the
+speech's seconds with a running total, and run fabric at `480p`: read [lipsync.md](references/lipsync.md)
+whole first. No fallback and no re-dub route: stop at a gate.
+**Judged by the owner, not by you** (review items, never marked passed, HR14): the mouth shapes match the speech, blinking looks natural, the head pose is stable, and the audio is in sync.
 
 ## Per-endpoint parameters
 
