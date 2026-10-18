@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); no tool calls (prompt text only; media-video-generation runs the clip with ai-gen 2.2.0)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.1.0
+  revision: 2026-10-18a
   house-rules: HR-1.0
   upstream: fal-agent/fal-shot-craft  # pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D40..VID-D45
+  deltas: VID-D40..VID-D45, VID-D125..VID-D128
 ---
 # Shot Craft
 
@@ -176,7 +176,11 @@ the `look` field of each `plan.json` row (the timing contract in
 media-ai-gen/references/gates-and-manifest.md) — this step is the craft reason those
 columns exist. And because every clip is rendered blind to its neighbours, the
 anchor is *restated inside the receiving row* in absolute terms; a row that
-says "same kitchen as before" generates a different kitchen.
+says "same kitchen as before" generates a different kitchen. The one exception
+is a clip that starts from a supplied first frame (Step 7, image-to-video): an
+anchor the frame shows is carried by the frame and is not restated, while an
+anchor the frame cannot show (a continuing sound, an eyeline to something off
+frame, the scene's objective) is still written.
 
 Two sequencing rules that do the most work at ad length:
 
@@ -231,6 +235,28 @@ Two sequencing rules that do the most work at ad length:
 - **Self-contained rows.** Everything a row needs — wardrobe, location, prop,
   light — is written in that row in absolute terms, every time, however
   repetitive it reads. Repetition is the mechanism of consistency; see Step 5.
+- **Image-to-video: describe only what moves.** When a clip starts from a
+  supplied first frame, the frame already carries the subject, wardrobe,
+  setting and light, so the prompt names only the one action, the camera move
+  and any ambient motion (wind, haze, steam, water). It does not re-describe
+  what the frame shows: fal's Kling guide says "The reference frame defines
+  identity, wardrobe, lighting direction. The prompt should describe motion
+  only, not re-describe the static scene", and lists "Over-describe the static
+  frame in image-to-video" among its don'ts. Keep the motion physically
+  plausible for that frame, and ask for nothing it cannot support: a seated
+  figure does not sprint, and a closed box does not show an inside the frame
+  never had. On SL8 it is measured on `bytedance/seedance-2.0/image-to-video`: in an owner A/B on one
+  start frame (VP-194, 2026-10-18), the motion-only prompt held the frame as well
+  as a self-contained row and moved better. It applies there and on the `/fast/`
+  tier (same grammar, not measured separately). Other image-to-video routes are
+  unmeasured, and fal's provider guides disagree by family (Seedance 2.5, Wan 3.0,
+  LTX and H3 want the first frame described), so on those write the self-contained
+  row until a measurement says otherwise.
+  The exception covers a supplied first frame only. An image attached as a
+  reference (a character sheet, a product image) still has its descriptor words
+  repeated, as media-character-sheet requires; an H3 prompt still follows
+  media-h3-prompter; and if a Kling image-to-video route is ever routed, this
+  exception governs it.
 - **No lettering in the prompt.** On-screen text is burned in the edit, last —
   models render type unreliably, and a misspelt brand name in a paid clip is a
   reshoot. `media-script-writer` carries the same rule; the prompt describes the
@@ -252,11 +278,14 @@ An inapplicable check prints n/a, which is a pass.
    three words.
 4. `camera:` the move's motivation, or `locked off — stated in prompt`.
 5. `anchor:` what carries in from the previous row, restated here in absolute
-   terms — or `opening row`.
+   terms — or `opening row`. For an image-to-video row, `start frame` when the
+   frame shows the anchor; an anchor it cannot show is still printed here.
 6. `function:` this shot's one dramatic function, one word.
 7. `gesture:` no bare emotion adjective doing a behaviour's job — print the
    offender or `none`.
-8. `setting:` the three concrete details, listed.
+8. `setting:` the three concrete details, listed. For an image-to-video row,
+   `start frame`, and any setting detail the row names is printed as a failure
+   (it re-describes the still).
 9. `mute test:` (whole piece, once) problem, turn and payoff each visible with
    the sound off — name the shot number carrying each.
 10. `lettering and speech:` no text in frame, no dialogue on a silent route.
@@ -279,6 +308,20 @@ Line one earns its failures in the log: `settled state: becomes` ·
 `framing: none composed` · `camera: unstated` · `gesture: happy, relieved` ·
 `setting: one detail`. The craft version prints clean, and the difference is
 the whole skill.
+
+**Worked pair — image-to-video, from a supplied start frame** (adapted from
+fal's Kling example).
+
+> **Re-describes the still (fails 8 and the exception):** *A samurai with long
+> dark hair wearing armor in a misty bamboo forest, cinematic mood, walking
+> forward.*
+
+> **Motion only:** *Slow camera push-in toward the subject, subtle wind in
+> hair, ambient haze drift.*
+
+The motion-only row prints `anchor: start frame` and `setting: start frame`;
+the other prints `setting: long dark hair, armor, misty bamboo forest
+(re-describes the still)`, repainting what the frame already shows.
 
 ## Hand-offs
 
