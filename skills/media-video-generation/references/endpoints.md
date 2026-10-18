@@ -23,6 +23,7 @@ media-ai-gen for every `const` and `enum` (HR2).
 - [Upscale: Topaz and SeedVR](#upscale-topaz-and-seedvr)
 - [Reframe: LTX 2.3 and Ray 3.2](#reframe-ltx-23-and-ray-32)
 - [Sound for a clip: Sonilo and Kling video-to-audio](#sound-for-a-clip-sonilo-and-kling-video-to-audio)
+- [Talking head: VEED Fabric 1.0](#talking-head-veed-fabric-10)
 
 ## How inputs reach a route through ai-gen
 
@@ -265,3 +266,13 @@ prompt fields ship with content-bearing defaults**: `background_music_prompt` is
 accelerate in a drag race`. Send both explicitly every time — omitting them does
 not mean silence, it means a car chase. `asmr_mode` defaults `false`. **8.75 cr
 flat per video.**
+
+## Talking head: VEED Fabric 1.0
+
+**`veed/fabric-1.0`** (`Fabric10Input`, fal live schema 2026-10-16) — three fields, all required, no
+default-on flag: `image_url` (the portrait: `--image`), `audio_url` (the speech: `--audio-file`) and
+`resolution`, an enum of `480p` and `720p` (send `480p`, the measured tier). No prompt and no aspect
+field: the output keeps the portrait's framing (576×704 from a 4:5-ish still). **Bills per whole
+second of input speech: 20 cr/s at `480p`** (facts.md `measured-fabric-480p`); `720p` is unmeasured
+(`price-fabric-720p`). Never `veed/fabric-1.0/text`: its built-in voice skips the registry.
+
