@@ -15,13 +15,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no model is called); python-imaging 1.0.0 (Pillow 11.2.1, numpy); ffmpeg and ffprobe; fonts pack 1.1.0 (DejaVu, Inter, Outfit, Fraunces, Anton, Space Grotesk, Comic Neue; fontconfig)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.1.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-motion-graphics  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D80..VID-D89
+  deltas: VID-D80..VID-D89, VID-D164..VID-D167
 ---
 # Motion Graphics
 
@@ -40,7 +40,7 @@ frames.
 `media-script-writer` and are never written here. *When* graphics burn — last,
 after every re-rendering step — is `media-video-production` stage 8's ordering
 rule. Caption *timing* from spoken audio comes from words measured on the voiceover
-(`media-video-production` stage 8b), never estimated here. Lockup
+(`media-video-production` stage 8b) by default, not estimated here; a kit or brief may name another source. Lockup
 clearspace and minimum width are the brand's own numbers, from the brief. This document calls
 no model.
 
@@ -109,8 +109,8 @@ ladder, in order, with the choice printed:
 3. **DejaVu Sans Bold** — `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
    from the fonts pack, serviceable and
    never embarrassing. If even this is missing, say the burn ran without a
-   scalable font and mark the type check failed — do not fall through to the
-   bitmap default.
+   scalable font and mark the type check failed — the default action, rather than falling through to the
+   bitmap default. Known result: PIL's `load_default()` is a tiny bitmap face that cannot scale, the most likely cause of "the graphics look very simple", and a bitmap-default burn ships looking finished (Step 1.2, Guardrails).
 
 One family per ad, two weights maximum, loaded with `ImageFont.truetype` at a
 pixel size that yields the Step 1.1 cap height (measure a capital "H" with
@@ -289,7 +289,7 @@ trace of not having run. An inapplicable check prints n/a.
 5. `path:` the animated bounding box at entrance start, hold and exit end —
    inside the frame *and* the safe areas whenever `α ≥ 0.5`. A mark sliding in
    is off-frame by design at `t = 0`; the rule is fully inside for the whole
-   hold and never clipped while at half opacity or more.
+   hold and, by default, not clipped while at half opacity or more; a kit or brief may name another.
 6. `treatment:` which plate/scrim, and the colour source (brand kit / supplied /
    sampled), with the type-colour luminance decision.
 7. `burn:` all overlays in one encode — print the count — and the 4d mid-hold
@@ -341,7 +341,7 @@ Each states the action it takes on its own, with no answer required.
   window or copy problem, and the delivery says which row is waiting on it.
 - **A mark in motion obeys the same rules as a mark at rest** — fully in frame
   and clear of platform chrome for its entire visible hold, checked by the
-  printed path line, never fixed by cropping the mark.
+  printed path line; by default chrome overlap is fixed by placement, not by cropping the mark.
 - **The user's explicit style wins.** If they want linear motion, five fonts,
   or type in the bottom chrome zone, do it their way and note the cost in one
   line — this document is leverage, not law.
