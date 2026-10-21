@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.1.0 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.0.4
-  revision: 2026-10-15
+  version: 1.1.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195
 ---
 # Audio Generation
 
@@ -143,7 +143,7 @@ between jobs — the same file every run. A copy in `work/<project>/` or any
 per-run scratch directory defeats the registry's entire purpose, which is
 that clip four can find what clip one used. Keys are **roles in the project**
 (`narrator`, `host`, `villain`), not preset names; a second voice gets a second
-role key, never `narrator2`:
+role key rather than `narrator2` by default; a kit or brief may name its own keys:
 
 ```json
 {"narrator": {"endpoint": "fal-ai/elevenlabs/tts/multilingual-v2",
@@ -153,7 +153,7 @@ role key, never `narrator2`:
 ```
 
 **Read `bot/voices.json` first** when it exists: the bot's own voices, written
-outside the job and read-only here (never write it). For each role, the project
+outside the job. For each role, the project
 registry wins, since it is what this project already used; a role the project
 has not settled takes the bot's entry, else the seed,
 `$HOME/.agents/skills/media-audio-generation/references/voices.seed.json`. Copy
@@ -271,7 +271,7 @@ sent as text and fails the request. Inputs that are not the clean case:
   most words, and say which in the delivery: HR12).
 - **Music under speech, for Dub:** dubbing rebuilds the speech and the bed
   survives unevenly. Isolate, dub the voice, re-lay the original bed in the sandbox.
-- **Silence or no audio stream:** stop and say so. Do not run on an empty file.
+- **Silence or no audio stream:** stop and say so by default, rather than run on an empty file; a kit or brief may name other handling.
 
 ## Step 2 — Write the script to length
 
@@ -299,7 +299,8 @@ Three things that are **not** the mechanism and are barred as substitutes:
 - **Trimming the tail.** A cut final consonant reads as a broken edit.
 
 Padding runs one way only: if the finished audio is *shorter* than the window,
-append digital silence. Never pad by slowing the read.
+append digital silence. Known result: slowing the read (time-stretch or `speed`) audibly damages the
+voice or breaks the registry's one `speed` per role, and `speed` does not exist on `eleven-v3` (Step 2).
 
 ## Step 3 — Submit
 
@@ -381,8 +382,9 @@ Run only the checks for the job that ran; a check belonging to another job is
 
    Still overrunning after two: deliver the closest take **that does not exceed
    the target**, even if that means an earlier, shorter one, and say how much
-   silence was added. An overrun truncates in a fixed slot; short does not. Never
-   time-stretch, and never trim the tail mid-word.
+   silence was added. An overrun truncates in a fixed slot; short does not. Known
+   result: time-stretching (`atempo`, `rubberband`) audibly damages a voice, and a
+   cut final consonant reads as a broken edit (Step 2).
 3. **Voiceover, any:** if the script holds names, numbers or jargon, transcribe
    the output with `scribe-v2` and confirm those tokens survived. Misread numbers
    are the commonest defect and the easiest to skim past.
@@ -448,13 +450,13 @@ Record consent as `"consent": "owner"` or `"consent": "written permission from
   preset list for the closest match, steering `stability`/`style`, or writing
   v3 performance cues toward how someone in particular sounds are all the
   request **Whose voice** refuses, whatever the mechanism.
-- Never fit speech by stretching, trimming or re-speeding. Rewrite the words.
+- Default: fit speech by rewriting, not by stretching, trimming or re-speeding. Rewrite the words. Known result: time-stretching audibly damages a voice, a trimmed final consonant reads as a broken edit, and `speed` is a per-role registry setting absent on `eleven-v3` (Step 2).
 - Never imply a duration parameter where none exists — `multilingual-v2`,
   `turbo-v2.5`, `eleven-v3`, `text-to-dialogue` and `fal-ai/minimax-music/v2.6` have no
   length field.
-- Never estimate transcript timings from word count or duration. If no route
-  returns `words[]`, report that word timings are unavailable.
-- Never translate inside a Voiceover job. That is the Dub route, chosen
+- Default: transcript timings come from a route's `words[]`, not from word count or duration. If no route
+  returns `words[]`, report that word timings are unavailable. A kit or brief may name another way.
+- Default: translate outside a Voiceover job (a kit or brief may name another). That is the Dub route, chosen
   explicitly by the user.
 - Never resubmit a failed generation more than once before switching route.
 - Do not enable `diarize` or `tag_audio_events` on a transcript headed for
