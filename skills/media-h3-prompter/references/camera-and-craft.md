@@ -61,16 +61,16 @@ Let `M(D)` be the measured median and `P(D)` the measured upper working bound:
 | 14–15 | 3 | 4 |
 
 Start at `S=M(D)`. Increase only for instantly readable inserts, pursuit, or a
-true montage. Decrease for sustained verbal pressure. Never exceed four shots.
+true montage. Decrease for sustained verbal pressure. Known result: `P(D)`, the measured upper working bound, is 4 shots at 14–15 s and lower below that.
 
 Before timing, assign each shot one dominant function. Validity depends on a
 change of information, power, location, action phase, or point of view—not on
 equal division of seconds. Give the final consequence enough time to read.
-Keep ordinary spans at least 2.5 seconds when possible and never below 2.
+Keep ordinary spans at least 2.5 seconds when possible.
 
 ## Shot-type slot grammar
 
-Do not maintain or teach an approved vocabulary of shot types. Compose the
+By default no approved vocabulary of shot types is kept or taught; a kit or brief may supply its own. Compose the
 shot phrase from open modifier slots:
 
 `[SIZE?] [MOVE?] [ANGLE?] [TIME-OF-DAY?] [OTHER?] shot`
@@ -110,9 +110,9 @@ in 21,524 source records.
 
 Choose small amplitude for a local reframe and large amplitude for substantial
 spatial travel. Choose slow speed for inspection or pressure and fast speed
-for abrupt movement or pursuit. Do not qualify a move merely because a slot is
-available. Do not express speed twice, such as with both a speed adjective and
-an `at ... speed` clause.
+for abrupt movement or pursuit. By default a move gets a qualifier only when it changes the move, not
+because a slot is available. By default express speed once, not twice, such as with both a speed adjective and
+an `at ... speed` clause; a kit or brief may name another.
 
 ## Cuts and continuity
 
