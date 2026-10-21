@@ -18,13 +18,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image, pillow-heif, rawpy); imagemagick"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-05a
+  version: 1.1.0
+  revision: 2026-10-20a
   house-rules: HR-1.0
   upstream: fal-agent/photo-editing
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D50..IMG-D59
+  deltas: IMG-D50..IMG-D59, IMG-D123..IMG-D128
 ---
 # Photo editing
 
@@ -50,7 +50,7 @@ edit model (`media-image-generation`).
 | Background removal / matting                                               | Bria model (see below)                                      |
 | Change objects, faces, expressions ("make him smile", "remove the person") | Edit model (`media-image-generation`)                       |
 | Inpainting, outpainting, style transfer ("make it a painting")             | Edit model (`media-image-generation`)                       |
-| Upscaling, restoration, deblur/denoise beyond mild                         | Dedicated model (upscaler/restoration) via `media-image-generation`, never PIL resize-up |
+| Upscaling, restoration, deblur/denoise beyond mild                         | Dedicated model (upscaler/restoration) via `media-image-generation` by default, not a PIL resize-up |
 
 Mixed requests split: "make it black and white and add our logo" is all
 sandbox; "remove the guy in the back and crop to square" is an edit model for
@@ -58,8 +58,8 @@ the removal, then sandbox for the crop.
 
 ## Masks come from Bria, everything after is sandbox
 
-The sandbox has **no matting library** — do not attempt segmentation with
-opencv (GrabCut etc.); quality is unacceptable. For anything that needs a
+The sandbox has **no matting library** — known result for segmentation with
+opencv (GrabCut etc.): quality is unacceptable. For anything that needs a
 subject/background split, run `fal-ai/bria/background/remove` (single job per
 image, no batch; completes in seconds): first
 `ai-gen estimate fal-ai/bria/background/remove --format json` (HR5), then
@@ -89,14 +89,15 @@ answer — no sandbox step needed.
 - **One script per pipeline.** Download inputs, do every step, keep scratch in
   `work/<project>/`, write the final file to `artifacts/<project>/<node>/`, then
   one manifest row (`node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs add …`).
-  Don't round-trip intermediate steps through separate tool calls.
+  Default: intermediate steps stay in that one script rather than round-trip through separate
+  tool calls; a kit or brief may name another split.
 - The file under `artifacts/<project>/` is what the person sees — don't
   paste a URL or re-submit it to a model.
 
-Key Pillow moves (write real code around these; don't guess at APIs):
+Key Pillow moves (write real code around these):
 
-- Load with `ImageOps.exif_transpose(Image.open(...))` — always, or phone
-  photos come out rotated.
+- Load with `ImageOps.exif_transpose(Image.open(...))` by default. Known result:
+  without it, phone photos come out rotated.
 - Tonal: `ImageEnhance.Brightness/Contrast/Color/Sharpness`,
   `ImageOps.autocontrast`, `Image.point` for curves/levels.
 - B&W with control: mix channels via numpy (e.g. luminosity weights) rather
@@ -107,7 +108,7 @@ Key Pillow moves (write real code around these; don't guess at APIs):
 - HEIC/HEIF input (iPhone photos): `pillow_heif.register_heif_opener()`
   before `Image.open`.
 - RAW input (CR2/NEF/ARW/DNG): decode with `rawpy`
-  — never grade the embedded JPEG thumbnail Pillow shows you.
+  by default. Known result: the embedded JPEG thumbnail Pillow shows you is not the sensor data.
   `raw.postprocess(use_camera_wb=True, no_auto_bright=True, output_bps=16)`
   is the neutral import; keep the result 16-bit/float through the whole
   pipeline and convert once at export.
