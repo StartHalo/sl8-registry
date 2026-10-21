@@ -15,10 +15,11 @@ description: >-
 license: SL8 (native)
 compatibility: "sl8-image >=1.0.0 and sl8-video >=1.0.0 (Base 2.0.2); node >=20; ffmpeg and ffprobe 5.1 or later (Debian build: ebur128, tblend, signalstats, ssim); no ImageMagick or python needed"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-06a
+  version: 1.2.0
+  revision: 2026-10-20a
   house-rules: HR-1.0
   upstream: native
+  deltas: IMG-D129..IMG-D131
 ---
 
 # media-qc: measure the file, print the figures
@@ -168,7 +169,7 @@ sha256, and each copy is a real copy: no linked folder, symlinked file or shared
   (local control)". A clip under the floor is flagged for the fence, not silently rejected.
 - **Mix:** the separation against 9 LU, the duck depth against 12 dB, and the programme loudness
   and true peak: "speech 22.1 LU over the bed, duck 7.9 dB, −16.0 LUFS, −1.6 dBTP".
-- **Timing:** the largest gap next to the coverage, always: "largest gap 0.8 s, coverage 73%".
+- **Timing:** the largest gap next to the coverage, by default: "largest gap 0.8 s, coverage 73%"; a kit or brief may name another format.
 - Never write PASS, OK, "verified" or "looks good" for anything a check measures. An exit 0 is
   reported as the figures that matched.
 - An exit 3 is reported as "not checked" with its reason, and listed as a debt in the hand-off
