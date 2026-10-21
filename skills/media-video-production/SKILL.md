@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.1.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.0.7
-  revision: 2026-10-15
+  version: 1.1.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120, VID-D121
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120, VID-D121, VID-D191..VID-D192, VID-D198..VID-D199
 ---
 
 # Video Production
@@ -442,7 +442,7 @@ silence with its timestamp beside the coverage; placement; the mix figures; over
 honesty; look continuity; native clip audio; total credits and reshoots; every waiver — in the
 block set out in [references/burn-and-deliver.md](references/burn-and-deliver.md#stage-10--the-delivery-record).
 **Last, write the outcome:** `artifacts/<project>/outcome.json` as `{"status": "complete", "final": "final/<file>", "credits": <total>}`
-when every stage ran, else `{"status": "partial", "reason": "<what did not run>"}`; a spend gate's `partial` stays. Bots read it, not your reply.
+when every stage ran, else `{"status": "partial", "reason": "<what did not run>"}`; a spend gate's `partial` stays. Bots read it, not your reply. A brief that asks for a looping GIF gets one made locally as [references/gif-delivery.md](references/gif-delivery.md) says, listed with its size.
 
 ## Guardrails
 
@@ -481,7 +481,7 @@ Each states the action it takes on its own, with no further input required.
   watched or listened to — that is a real gap in the deliverable, not a formality.
 - **A shot that fails twice is not attempted a third time.** It goes to the fence
   marked failed, with the failure named.
-- **Do not re-implement a sibling's job when it fails to load.** Take the stage
+- **Default when a sibling fails to load (a kit or brief may name another).** Take the stage
   table's fallback, label the output as not the specialist's, and name the missing
   skill. Stage 3 has no fallback on purpose.
 - **Human faces and voices:** any real person's likeness or voice needs their documented consent

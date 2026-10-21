@@ -112,7 +112,7 @@ the choice. Name the failure, say which fix it needs (a longer line, a moved
 boundary, a re-recorded segment, a re-burn), and deliver the file with the finding
 attached. Never describe a cut as finished when this stage found a fault in it.
 
-**Do not use `google/gemini-omni-flash` for this.** It is a text-to-video
+**Default: the two endpoints above.** Known result for `google/gemini-omni-flash`: it is a text-to-video
 *generator* — its input is `prompt`, `duration` and `aspect_ratio`, and its output
 is a new video. Sending the finished ad to it produces an unrelated clip and
 reviews nothing. The name suggests an omni-modal reviewer and it is not one; the
