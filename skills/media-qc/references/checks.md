@@ -343,7 +343,7 @@ plan's folder, or `--root`), else `audio/vo-NN.<wav|mp3|m4a|aac|flac|ogg|opus>` 
 |---|---|
 | a typed length (`vo_measured_s`, `vo_dur` or `vo_s`) is more than `--tol` from the measured one | the duration was typed, not measured (legacy QC-02) |
 | the take is longer than its row's `dur` | an overrun: no later step can make time. An underrun is not a defect |
-| `vo_start` is before the row's `start`, or the take ends past the row's end | a line must not open before its picture or run into the next shot |
+| `vo_start` is before the row's `start`, or the take ends past the row's end | by default a line opens within its picture and ends before the next shot; a kit or brief may name another timing |
 | a row has no `start` or `dur` | its window was never written |
 | the largest silence anywhere (lead-in included) is over `--max-gap` | one long gap is the failure the timing contract exists for |
 | the tail is over `--max-tail` | spare seconds pooled at the end |
@@ -367,7 +367,7 @@ with a `vo`, is exit 3 too.
 
 **Figures.** `runtime_s`, `takes`, `rows[]` (`n`, `file`, `measured_s`, `typed_s`, `start`, `dur`,
 `vo_start`, `vo_end`), `speech_s`, `coverage_pct`, `lead_s`, `largest_gap_s`, `largest_gap_from_s`,
-`tail_s`, `gaps[]`, `thirds` (three booleans). Report the largest gap next to the coverage, always.
+`tail_s`, `gaps[]`, `thirds` (three booleans). Report the largest gap next to the coverage, by default; a kit or brief may name another format.
 
 ## duck
 
