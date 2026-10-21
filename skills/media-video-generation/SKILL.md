@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); media-ai-gen 1.1.0; fal endpoints and list prices as of 2026-10-05, SL8-measured bills as of 2026-10-18"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-18a
+  version: 1.2.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117, VID-D129..VID-D135
+  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117, VID-D129..VID-D135, VID-D178..VID-D190
 ---
 # Video Generation
 
@@ -59,7 +59,7 @@ Route here whenever none of those claims the request.
 **What handing off means, mechanically.** Load the sibling (Claude Code: the Skill tool;
 any other agent: read its whole `$HOME/.agents/skills/<skill>/SKILL.md`) and follow that document for the item it owns, and
 say in one line of the delivery note which item went to which skill. If the sibling is not
-installed or will not load, do not quietly build the thing yourself: name the
+installed or will not load, by default (a kit or brief may name another) name the
 skill the job needs, and offer a substitute only if you label it explicitly as
 not the specialist output.
 
@@ -247,7 +247,7 @@ release build has proved it.
 | Reframe to new aspect | `fal-ai/ltx-2.3/reframe` | `luma/agent/ray/v3.2/reframe` | Needs no prompt; Ray adds `3:4`, `4:3` and `21:9` and takes a prompt, but drops LTX's `4:5`/`5:4` — the enums overlap, neither contains the other |
 | Add sound to a clip | `sonilo/v1.1/video-to-video-sound-effects` | `fal-ai/kling-video/video-to-audio` | Returns a muxed video at 2.25 cr/s; Kling is flat 8.75 cr |
 | Talking head (a portrait plus speech) | `veed/fabric-1.0` at `480p` | no fallback: stop at a gate | The one route that passed owner review on SL8 (VP-195): it animates the whole frame, not only the mouth; bills per whole second of speech. Lip-sync section below first |
-| Re-dub (footage plus new speech, only the mouth changes) | no route: stop at a gate | — | Both measured candidates failed owner review (VP-195); the rest are unmeasured (picks.md) |
+| Re-dub (footage plus new speech, only the mouth changes) | no default route (default: stop at a gate) | — | Known result: both measured candidates failed owner review (VP-195); the rest are unmeasured (picks.md) |
 
 **Route on content as well as on intent, and do it on the first attempt.** The
 table above picks a route by *what kind of job* it is. One thing overrides it:
@@ -270,7 +270,7 @@ On H3, write the prompt with **media-h3-prompter**; H3 takes 5–15 s, so a shor
 (say so). H3 has no tolerance lever, so a 422 there is the wrong route, not a retry. The next
 route, the unattended default, is **Veo 3.1 Fast at 720p** at the Veo length nearest the ask,
 re-quoted first, `safety_tolerance` its lever, scaled down in the sandbox for a 480p ask; state the
-change and its price. If Veo refuses too, end that item `partial` and name both refusals. A brief
+change and its price. By default, if Veo refuses too, end that item `partial` and name both refusals. A brief
 that names another route overrides this. One run spent **three
 separate rounds of 422s** discovering this by collision — refused on a photoreal
 human reference, re-prompted, refused again on a skull-heavy frame — because
@@ -293,7 +293,7 @@ from <name>"` recorded in `plan.json` (media-audio-generation's two forms). With
 quote nothing for that face, and say why in one line.
 **2. Speech comes first, from the registry.** Text becomes audio through media-audio-generation with
 the project's registry voice (`artifacts/<project>/audio/voices.json`); the lip-sync route gets that
-file. Never a speech endpoint in this step, never a route's built-in voice (`veed/fabric-1.0/text`).
+file. Known result: a route's built-in voice (`veed/fabric-1.0/text`) skips the project's registry voice.
 **3 to 5.** Declare the defaults in `plan.json` (HR12), quote voice-over then lip-sync on the
 speech's seconds with a running total, and run fabric at `480p`: read [lipsync.md](references/lipsync.md)
 whole first. No fallback and no re-dub route: stop at a gate.
@@ -313,8 +313,8 @@ Accepts `negative_prompt`: Veo 3.1's text, image, first-last, **extend** and
 reframe, upscale and sound routes.
 Where the field is absent, carry the avoidance as a positive clause in the
 prompt itself — "empty concrete floor" rather than "no furniture" — and tell the
-user the exclusion is unenforced on that route. Never append a negative list to
-a positive prompt; that asks for exactly what you were avoiding.
+user the exclusion is unenforced on that route. Known result: a negative list appended to
+a positive prompt asks for exactly what you were avoiding.
 
 **Local files reach a route only through `ai-gen video`'s media flags:** `--image`
 or `--first-frame` (the start frame), `--last-frame` (`end_image_url`), `--video`
@@ -450,7 +450,7 @@ frozen shot reach a human reviewer.
   and the result reads as a mistake rather than a miss. One clear beat per clip;
   if the idea needs two, that is two clips, which by the rule above is also the
   cheaper way to get it.
-- **Never raise duration to fit more of the idea in.** Two 4s clips cost what
+- **Known result of raising duration to fit more of the idea in:** two 4s clips cost what
   one 8s clip costs and give two attempts. Length is the user's creative
   decision, not a quality lever.
 - **A generative route redraws every frame — and that includes extend and
@@ -470,8 +470,8 @@ frozen shot reach a human reviewer.
   free ffmpeg operation that loses the edges; reframe is a paid render that
   fabricates them. When the frame contains people, faces, logos or a product
   that must survive as shot, default to the free crop whenever the subject fits
-  the target frame; reach for reframe when the scene must genuinely extend and
-  the frame tolerates invention. This is read off the footage itself — a user's
+  the target frame, and to reframe when the scene must genuinely extend and
+  the frame tolerates invention; a kit or brief may name crop or reframe. This is read off the footage itself — a user's
   intake answer is evidence, not the verdict. State the choice, the rejected
   alternative and both prices in the delivery note; the conditional `Framing`
   field (Step 0) records it and never blocks the run. And
@@ -485,8 +485,8 @@ frozen shot reach a human reviewer.
   so on a multi-shot montage "extend this clip" silently means "extend the
   final shot". Proceed on that reading, say which shot is being continued in
   the delivery note, and size LTX's `context` to that shot alone.
-- **Never substitute a route silently.** Name the fallback and its different
-  rate in the reply.
+- **Default: a substituted route is named, not silent.** Name the fallback and its different
+  rate in the reply. Known result: a fallback route bills at a different rate from the primary (routing table; facts.md prices).
 
 Revision 2026-10-08a · picks as of 2026-10-08, list prices as of 2026-10-05 · re-verify per [facts.md](references/facts.md).
 

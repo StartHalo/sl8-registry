@@ -26,8 +26,8 @@ and named unmeasured at the gate.
 
 Local files go in with `ai-gen run veed/fabric-1.0 --image <portrait> --audio-file
 <speech> --params-file p.json --queue` (`p.json`: `{"resolution": "480p"}`; all three fields are
-required, and none is default-on). There is no fallback: if fabric refuses or fails, end the item
-`partial` and say so. A re-dub has no routed endpoint on this machine; stop at a gate that says so,
+required, and none is default-on). There is no default fallback: by default, if fabric refuses or fails, end the item
+`partial` and say so. Known result: only `veed/fabric-1.0` has passed owner review for a talking head (VP-195); the candidate fallback `fal-ai/bytedance/omnihuman/v1.5` is unproven (estimate 200 cr for 5 s, not run) and `fal-ai/creatify/aurora` is unpriced (exit 12). A re-dub has no routed endpoint on this machine; stop at a gate that says so,
 and offer the talking head from a still of the footage instead.
 
 ## fal's tips

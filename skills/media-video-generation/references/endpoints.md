@@ -41,7 +41,7 @@ charged). Where no flag reaches a field, put a hosted URL from an earlier result
 | Veo 3.1 fast first-last-frame | none: `--image` falls back to `image_url`, which this route drops | `first_frame_url`, `last_frame_url` (both required) |
 | Veo 3.1 fast reference-to-video | `--ref` → `image_urls` | — |
 | Veo 3.1 fast extend | `--video` → `video_url` | — |
-| Kling v3 pro image-to-video | `--image` → `start_image_url`; `--last-frame` → `end_image_url`. **Never `--ref` here**: it fills `elements` with bare file strings where the route wants objects | element members (`frontal_image_url`, `reference_image_urls`, `video_url`) |
+| Kling v3 pro image-to-video | `--image` → `start_image_url`; `--last-frame` → `end_image_url`. **Known result of `--ref` here** (ai-gen 2.2.0, cli-kling-ref): it fills `elements` with bare file strings where the route wants objects | element members (`frontal_image_url`, `reference_image_urls`, `video_url`) |
 | MiniMax H3 image-to-video | `--image` → `image_url`; `--last-frame` → `end_image_url` | `target_audio_url` |
 | MiniMax H3 reference-to-video | `--ref` → `reference_image_urls` (≤9) | `reference_video_urls`, `reference_audio_urls` |
 | Flux 3 first-last-frame | `--first-frame` → `start_image_url`; `--last-frame` → `end_image_url` | — |
@@ -126,7 +126,7 @@ and this fallback does not apply to it. It is for a Veo clip the user brings in,
 or one made deliberately via the Veo row. For everything else the extend fallback
 is effectively `fal-ai/ltx-2.3/extend-video` alone — if that route is down, say so
 rather than sending a Seedance clip here. `aspect_ratio` is `auto`, `16:9` or `9:16` (default
-`auto`) — never use it to get a vertical "for free": that re-renders the whole
+`auto`) — default: a vertical comes from reframe. Known result of using it to get a vertical "for free": that re-renders the whole
 source through the model, and the aspect change belongs to reframe. Extend
 re-encodes the entire file either way — a source that is not exactly 16:9 comes
 back rescaled (a 2544x1456 input returns 1920x1080), so even the untouched
@@ -274,5 +274,5 @@ default-on flag: `image_url` (the portrait: `--image`), `audio_url` (the speech:
 `resolution`, an enum of `480p` and `720p` (send `480p`, the measured tier). No prompt and no aspect
 field: the output keeps the portrait's framing (576×704 from a 4:5-ish still). **Bills per whole
 second of input speech: 20 cr/s at `480p`** (facts.md `measured-fabric-480p`); `720p` is unmeasured
-(`price-fabric-720p`). Never `veed/fabric-1.0/text`: its built-in voice skips the registry.
+(`price-fabric-720p`). Known result of `veed/fabric-1.0/text`: its built-in voice skips the registry.
 
