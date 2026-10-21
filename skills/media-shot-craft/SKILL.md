@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); no tool calls (prompt text only; media-video-generation runs the clip with ai-gen 2.2.0)"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-18a
+  version: 1.2.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-shot-craft  # pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D40..VID-D45, VID-D125..VID-D128
+  deltas: VID-D40..VID-D45, VID-D125..VID-D128, VID-D174..VID-D177, VID-D196..VID-D197
 ---
 # Shot Craft
 
@@ -54,7 +54,7 @@ person present (HR12).
 
 **Loaded as a reference by a sibling** — `media-script-writer` Step 4 or
 `media-video-production` stages 1–3. Ask **zero** questions;
-the caller owns intake. Apply Steps 1–7 to the rows being written, run the
+the caller owns intake. Apply Steps 1 and 3–7 to the rows being written, run the
 Step 8 validator on each, and return.
 
 **Triggered standalone** — a user asks for a clip prompt or wants an existing
@@ -96,23 +96,13 @@ Splitting costs nothing at the script stage and buys two independent tries.
 
 ## Step 2 — Expand a thin brief into a shootable micro-scene
 
-Most ad briefs are a product and a feeling. Neither is shootable. Before any
-prompt is worded, answer four planning rows — on paper, not in your head,
-because the row you skip is the one the prompt turns out to be missing:
+Moved to the kits that use it (Kits v2, C4.1): each carries it as `reference/media-shot-craft-step-2-micro-scene.md`. This skill
+provides the wording craft of the other steps; it does not expand a brief on its own.
 
-| Row | Decide | Where it lands |
-|---|---|---|
-| Place | one concrete location plus one lighting condition | the frame's anchors, restated in every row |
-| Subject | the product, plus at most one person with one visible identifying cue | stable continuity wording |
-| Change | the problem made visible → the product acting on it → the payoff state | the shot list's spine — an ad is a want meeting resistance, and the product is the turn |
-| Sound | one environmental bed plus two or three sounds caused by visible actions | only when the route generates audio; otherwise skip the row |
-
-Invention is bounded: add staging, light and sound freely, because they make
+What stays here is the bound on invention, a house rule (HR18) that every kit copy of the step keeps:
+add staging, light and sound freely, because they make
 the premise shootable without changing it. Do not add biography, story-changing
-props, or behaviour that alters what the brief claims — an invented detail in
-an ad is an unapproved claim wearing set dressing. And reject any beat that
-does not fit the shot count the script's arithmetic allows; the author cuts
-beats, or nobody does and the render does it badly.
+props, or behaviour that alters what the brief claims.
 
 ## Step 3 — Compose the framing from slots, not from a shot-name list
 
@@ -129,7 +119,7 @@ open slots, each of which answers a production question:
 | TIME-OF-DAY | does the light condition clarify the image? | it is visible in frame |
 | OTHER | which one production quality changes the result? | it is concrete — spatial, optical, or atmospheric |
 
-**One or two modifiers is the working norm.** Three or more must each be doing
+**One or two modifiers is the working norm** (the default; a kit or brief may name another). Three or more should each be doing
 an independent job, or the phrase is decoration and the model averages it into
 mush. Then put the composed phrase into a sentence that stages the world:
 
@@ -151,7 +141,7 @@ drift reads as indecision.
 When a move is qualified, qualify it concretely and once. A local reframe or a
 substantial travel; a slow inspecting creep or a fast pursuit. Middling
 qualifiers — moderate, medium, somewhat — are averaging instructions, and the
-model averages. And never state speed twice ("a slow push-in, moving slowly"):
+model averages. By default (a kit or brief may name another) state speed once, not twice ("a slow push-in, moving slowly"):
 duplicated direction does not reinforce, it just spends words the action
 needed.
 
@@ -223,7 +213,7 @@ Two sequencing rules that do the most work at ad length:
 
 ## Step 7 — Words that render
 
-- **The specific gesture, never the named emotion.** No actor exists to
+- **Default: the specific gesture, not the named emotion.** Known result: no actor exists to
   interpret "she looks relieved". Write what a camera would see: *her
   shoulders drop and she sets the phone face-down*. Every internal state
   either becomes one visible behaviour or comes out of the prompt.
@@ -350,9 +340,9 @@ Each states the action it takes on its own, with no answer required.
   the brief's premise may not. Where the premise cannot be made shootable
   inside that boundary, deliver the prompt with the minimum invention flagged
   rather than stalling.
-- **Never promise what rendering cannot deliver** — legible lettering,
+- **Known result: no prompt guarantees** legible lettering,
   lip-sync, or identity fidelity across shots. Wording affects odds, not
-  guarantees, and the reply never claims otherwise.
+  guarantees.
 - **A recognisable real person who is not in the brief does not enter a
   prompt** — not as a named likeness, not as a described one. The consent
   rule is HR17 (fal's portrait skill that held it is not on this machine);
