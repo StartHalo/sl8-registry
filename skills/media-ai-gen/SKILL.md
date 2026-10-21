@@ -13,13 +13,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; node >=20; python3 (raw OpenAPI check)"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-07
+  version: 1.2.0
+  revision: 2026-10-20a
   house-rules: HR-1.0
   upstream: [fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/wrap-it-up, fal-agent/fal-video-production]  # sources only; that CLI is not on this machine
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D01..IMG-D19, IMG-D70..IMG-D72, IMG-D74
+  deltas: IMG-D01..IMG-D19, IMG-D70..IMG-D72, IMG-D74, IMG-D83..IMG-D107
 ---
 
 # ai-gen: the model runner on this machine
@@ -27,8 +27,9 @@ metadata:
 **Every media skill on this machine runs its models through this skill.** `ai-gen` is the
 agent-first CLI for fal.ai endpoints. It sends every generation through the SL8 proxy, which holds
 the provider keys and bills credits; it never asks you for a key. Other media skills choose the
-endpoint and write the prompt; they execute with the commands here and do not wrap the fal HTTP API
-directly.
+endpoint and write the prompt. Default: they execute with the commands here. Known result: the SL8 proxy
+holds the provider keys and bills credits, and fal's own CLIs and hosted tools are not on this
+machine, so a direct fal HTTP call has no key (commands.md, Configuration).
 
 - Full command surface (every flag, the output envelope, exit codes, known defects):
   [references/commands.md](references/commands.md)
@@ -38,9 +39,9 @@ directly.
 
 ## Critical rules
 
-1. **Always use `--format json` when an agent will read the output.** Text mode is for humans
-   only. On a failure the error envelope is printed to stdout as JSON: branch on the exit code,
-   never on message text.
+1. **Default: `--format json` when an agent will read the output;** a caller may name text mode. Text mode is for humans
+   only. On a failure the error envelope is printed to stdout as JSON. Default: branch on the exit code;
+   a caller may branch on another field.
 2. **Always name the endpoint.** Pass `-m <endpoint>` (or the positional id on `run`), taking the
    id from the owning skill's `picks.md` / `facts.md` (HR22). **Never invent endpoint IDs.** Verify
    one with `ai-gen info <id>` (exit 8 means unknown) and discover with `ai-gen models --search <q>`.
@@ -50,13 +51,14 @@ directly.
    field the schema does not list is dropped silently by the proxy (HR3); a value the schema
    rejects fails with exit 7, which may be charged.
 4. **Estimate before every paid call, in credits.** `ai-gen estimate` with the same params file
-   you will run (about 250 credits = $1). Never quote ai-gen's own USD figure: it divides by 100
-   and overstates dollars 2.5×.
+   you will run (about 250 credits = $1). Known result: ai-gen's own USD figure (`estimated_usd`) divides by 100
+   and overstates dollars 2.5× (P1 takeaway 6).
 5. **Save files with `-o artifacts/<project>/<node>/`, not curl.** The CLI downloads by default;
    hosted URLs expire.
 6. **Use `--queue` (or `--async`, then `ai-gen result <id>`) for every paid call.** Only queued
    calls return a request id, and the request id is the only handle that recovers a job.
-   Never `status --wait`: it records the job in the spend ledger with no credits.
+   Known result: `status --wait` records the job in the spend ledger with no credits, and the ledger
+   counts a request id once, so the run under-counts (T2 takeaway 4).
 7. **Never re-fire a job that may exist** (HR6). Once a request id exists, only `ai-gen result <id>`
    touches it again.
 8. **A job never answers its own spend gate** (HR12). The owner answers it, outside the job or in the
@@ -64,8 +66,8 @@ directly.
    cannot run, open the gate and end `partial`: never substitute a local stand-in for a paid model
    and never install tools to make one (HR21).
 9. **The first ai-gen call in a fresh machine is slow, not hung:** it can take 1–3 minutes while the
-   proxy's pricing warms up; later calls answer in about a second. Never wrap `ai-gen` in `timeout`
-   under 300 s, and never read a slow first call as a failure.
+   proxy's pricing warms up; later calls answer in about a second. Default: any `timeout` around `ai-gen`
+   is 300 s or more, and a slow first call is waited out. Known result: the first call took 75–90 s or more (measured 2026-10-06), up to 1–3 minutes.
 
 ## Command index
 
@@ -77,7 +79,7 @@ directly.
 | `ai-gen run <id> --params-file <p.json> [media flags] -o <dir> --queue --format json` | Run any endpoint (the universal runner; sync unless `--queue`/`--async`) |
 | `ai-gen image` / `video` / `audio tts\|sfx\|v2a\|stt` | Typed shortcuts. `video` and `audio tts\|sfx\|v2a` require `-m` |
 | `ai-gen result <request-id> -o <dir> --format json` | Fetch and download a queued job from any process; not ready prints `ready:false`, exit 0 |
-| `ai-gen status <request-id> --format json` | Poll once (never with `--wait`) |
+| `ai-gen status <request-id> --format json` | Poll once. Known result: `status --wait` records the job in the spend ledger with no credits, and the ledger counts a request id once, so the run under-counts (T2 takeaway 4) |
 | `ai-gen balance` · `ai-gen doctor` | Account credits · config, reachability, proxy capabilities |
 | `ai-gen cancel <request-id>` | Not available: always exits 12; nothing is cancelled |
 | `node $HOME/.agents/skills/media-ai-gen/scripts/manifest.mjs init\|add\|verify\|budget\|waive` | The project manifest (HR9) |
@@ -146,8 +148,8 @@ that a field-name check pronounces healthy. If a `const` or `enum` excludes the 
 the route cannot serve the request: move to the owning skill's fallback before building a payload.
 **If the slug fails, search the catalog rather than guessing a name:** `ai-gen models --search <words>`,
 then `ai-gen estimate` each candidate, since the catalog prints no prices. Then read the new
-endpoint's schema for its real field names. Never assemble a payload from a sibling endpoint's
-parameters.
+endpoint's schema for its real field names. Default: build the payload from that schema.
+Known result: endpoints differ in field names and types (duration alone has five forms across routes, P1 2026-10-05), and a field the schema does not list is dropped silently (HR3).
 
 ### Long jobs: submit, then fetch by id
 
@@ -228,12 +230,12 @@ The full exit-code playbook and the retry ledger are in [recovery.md](references
 | Exit | Meaning | Charged? | Do |
 |---|---|---|---|
 | 0 | Success | yes (`credits_used`) | Manifest row, then media-qc |
-| 1 | Unknown, or `EMPTY_RESULT` (success with no file or text) | `EMPTY_RESULT`: yes | Read `error.code`; do not repeat a JSON-only utility call |
+| 1 | Unknown, or `EMPTY_RESULT` (success with no file or text) | `EMPTY_RESULT`: yes | Read `error.code`. Known result: JSON-only utility results fail `EMPTY_RESULT` after the charge, so a repeat is charged again (T2 §3c.3) |
 | 2 | Usage or local validation (also 413 payload too large) | no | Fix the command |
 | 3 · 4 | Missing config · auth 401 | no | `ai-gen doctor`; the machine is broken, report it (HR21) |
 | 5 | Insufficient credits (402) | no | Stop; report the balance |
 | 6 | Model denied (403) or unknown pricing | no | Another route from the owning skill |
-| 7 | Parameters rejected | client-side check: no; upstream: may be | Fix the named field (`error.details`); never blind-retry |
+| 7 | Parameters rejected | client-side check: no; upstream: may be | Fix the named field (`error.details`) by default. Known result: an upstream exit 7 may be charged, and resubmitting an unchanged payload fails again and may be charged again (fact 7, 2026-08-23) |
 | 8 | Model not found upstream | no | `ai-gen models --search`, then `info` |
 | 9 | Upstream or proxy infra error, 429 | may be | Sync already retried twice; for a queue job use `result <id>` |
 | 10 | Timeout; the job may still finish | yes | `ai-gen result <id>` |

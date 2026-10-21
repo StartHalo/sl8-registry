@@ -35,8 +35,8 @@ All the files must land in **named folders by role**: `final/` the finished, del
 clips; `source/` input references, uploads, brand assets, logos. **Split folders along whatever axis
 the project actually varies on**: languages (`clips_en/ clips_fr/`), platform (`final_9x16/
 final_16x9/`), variant (`variant_a/ variant_b/`); only fork the folders that actually differ per
-axis. Inputs the person uploaded stay in `artifacts/attachments/` and are never overwritten; copy
-what you reference into `source/`.
+axis. Inputs the person uploaded stay in `artifacts/attachments/`. Default: copy
+what you reference into `source/` rather than overwrite an upload.
 
 ## The manifest
 
@@ -127,7 +127,7 @@ shape.
 | Field | Meaning |
 |---|---|
 | `n` | shot number, the handle the user reshoots by |
-| `start`, `dur` | its window in the finished cut, in seconds. **`dur` must be renderable** |
+| `start`, `dur` | its window in the finished cut, in seconds. Known result: a route renders only the durations its schema allows (duration has five forms across routes, P1 2026-10-05) |
 | `render_dur` | what the route will actually return, which is usually longer than `dur`; measured with ffprobe after render |
 | `action` | **exactly one** physical beat |
 | `look` | lighting, grade and time of day, **and what it inherits from the row above** |

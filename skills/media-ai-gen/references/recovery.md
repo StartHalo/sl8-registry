@@ -14,8 +14,8 @@ a third attempt on the same route** (HR7). `$S` is `$HOME/.agents/skills/media-a
 
 ## Never re-fire
 
-Once a request id exists, only `ai-gen result <id>` (or one `ai-gen status <id>` poll, never with
-`--wait`) touches that job again. A resubmit pays twice for one output, and there is no cancel: a
+Once a request id exists, only `ai-gen result <id>` (or one `ai-gen status <id>` poll, by default
+without `--wait`) touches that job again. Known result: `status --wait` records the job in the spend ledger with no credits, and the ledger counts a request id once, so the run under-counts (T2 takeaway 4). A resubmit pays twice for one output, and there is no cancel: a
 job you abandon still runs and still bills.
 
 - **Get an id before you need one.** Run every paid call with `--queue` or `--async`; a sync call has
@@ -91,11 +91,12 @@ fails (exit 8, `UNRESOLVED` from the raw OpenAPI, or exit 6):
 1. **Search the catalog rather than guessing a name:** `ai-gen models --search <family name> --format json`
    (add `--refresh` if the cache predates the change). Prefer an id in the same family and namespace.
 2. **Read the new endpoint's schema** (`ai-gen info <id> --format json`, then the raw OpenAPI) for its
-   real field names. Never assemble a payload from a sibling endpoint's parameters.
+   real field names. Default: build the payload from that schema.
+   Known result: endpoints differ in field names and types (duration alone has five forms across routes, P1 2026-10-05), and a field the schema does not list is dropped silently (HR3).
 3. **Price it:** `ai-gen estimate <id> --params-file …`. The catalog prints no prices.
 4. **Run it as the fallback**, and record in the row and in PROGRESS.md that the pick was stale:
    "pick X failed (exit 8, 2026-10-05); ran Y instead at N cr". That line is how the owning skill's
-   `facts.md` gets corrected; do not edit another skill's files from a job.
+   `facts.md` gets corrected.
 
 ## When the run is out of budget
 
