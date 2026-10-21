@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no calls made here); python3; media-audio-generation 1.0.0 voice registry (rate_wps)"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-06d
+  version: 1.1.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/fal-script-writer  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D50..VID-D59, VID-D107
+  deltas: VID-D50..VID-D59, VID-D107, VID-D168..VID-D173
 ---
 # Script Writer
 
@@ -189,10 +189,10 @@ the way the hook already does: every row cut short and generated at the floor,
 cost rather than arithmetic — eight quick shots in a 15-second ad bill about 32
 generated seconds — so report the generated total in the delivery and let the
 shot count follow the brief's energy. A beat list that exceeds even that is cut
-by the author in Step 0b, never silently at assembly.
+by the author in Step 0b by default, not silently at assembly; a kit or brief may name another stage.
 
 **Default to the route media-video-generation actually uses, which is Seedance 2.0**
-— do not re-derive a route from this paragraph. This skill picking a different one
+— by default this paragraph does not re-derive a route; a kit or brief may name another. This skill picking a different one
 silently overrides the video skill's whole routing table: a run whose rows were
 planned against Veo's three-value enum came back `4/4/8/8/6/4` for a
 `2/4/8/8/5/3` contract and had to be rescued by trimming, purely because this step
@@ -250,7 +250,7 @@ in every row, so every downstream skill can take the table as-is.
 **The `Carries in` column is the only continuity that exists.** Write it as
 named, describable properties — `WARDROBE`, `LOCATION`, `PROP`, `TIME`,
 `PALETTE`, character tag — each restated inside that row's shot seed. Two tags
-may depend on something stronger, and both are planned, never assumed:
+may depend on something stronger, and both are planned by default, not assumed (a kit or brief may name another way):
 
 - **`FRAME`** — starts on the previous row's last frame.
   `fal-blocking-map` is not on this machine: flag the pair in the hand-off, where the previous clip's
@@ -329,7 +329,7 @@ inapplicable check is `n/a`, which is a pass.
    it is most of them, the piece should have been VO.
 
 Fix and re-run. If a script fails check 2 or 4 twice, the target length is wrong
-for the piece. Do not compress a third time: write the script at the next length
+for the piece. Default (a kit or brief may name another): rather than compress a third time, write the script at the next length
 up (15s → 30s → 60s → 90s), deliver it with the override flagged first in the
 delivery, and list what staying at the brief's length would have required
 cutting. This escalation needs no answer from anyone; when the cause is must-say
@@ -364,7 +364,7 @@ the individual hand-offs are correct:
   and any `FRAME` pair, with the previous clip's extracted last frame (Step 3).
 - → **media-audio-generation** — the VO column **one clip per row**, each with that
   row's target window, so narration is generated to length rather than trimmed.
-  Never hand it the column as a single continuous script: a one-piece read has to
+  Known result of handing it the column as a single continuous script: a one-piece read has to
   be cut apart afterwards by detecting silence, and it fails by crowding every
   word into the first seconds and leaving the tail silent.
 - `MAP` rows carry their staging in their own shot seeds (Step 3); the character
@@ -374,7 +374,7 @@ the individual hand-offs are correct:
 
 - **A row a model cannot generate alone is not a row.** If you cannot delete
   every other row and still generate this one, it is under-specified.
-- **Two speaking characters, maximum**, and never two in one row — crosstalk and
+- **Two speaking characters, maximum**; known result of two in one row: crosstalk and
   overlapping dialogue do not survive generation.
 - **Never put text in a shot seed.** On-screen text lives outside the table, named
   in the hand-off, and is burned in the edit (media-motion-graphics); models render lettering unreliably, and a misspelled
