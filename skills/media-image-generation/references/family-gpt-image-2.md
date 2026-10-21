@@ -88,7 +88,7 @@ Instruction: Dress the person from Image 1 using the jacket from Image 2.
 Preserve the face, body shape, pose, background, lighting from Image 1.
 ```
 
-Up to 16 input images supported; always assign a role to each.
+Up to 16 input images supported; by default assign a role to each, and a kit or brief may label them otherwise.
 
 ## Text-in-image patterns
 

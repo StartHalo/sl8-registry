@@ -35,7 +35,7 @@ Every id below resolved against fal's live OpenAPI on 2026-10-05. Prices and fie
 | Photoreal still | `fal-ai/nano-banana-pro` | 2026-10-05 | second for realism (model-routing:52; realism:33) | first for stills on SL8 (T3 §3, medium strength); 38 cr per frame measured (T3 #30) | primary |
 | Photoreal still | `openai/gpt-image-2` `quality=high` | 2026-10-05 | first: "Best general-purpose photoreal" (realism:32; model-routing:50; commercial:120) | never re-tested against NBP on SL8 (T3 §3) | fallback |
 | Photoreal still | `fal-ai/nano-banana-2` | 2026-10-05 | "Strong cheaper alternative" (model-routing:53; realism:34) | no SL8 run | alternate |
-| Photoreal still | `bytedance/seedream/v5/lite/text-to-image` | 2026-10-05 | "Best for Asian subjects and Asian-language signage realism" (realism:35, written with an extra `fal-ai/` prefix) | Seedream banned for any text on SL8 (T3 §3) | alternate, never with text |
+| Photoreal still | `bytedance/seedream/v5/lite/text-to-image` | 2026-10-05 | "Best for Asian subjects and Asian-language signage realism" (realism:35, written with an extra `fal-ai/` prefix) | Seedream banned for any text on SL8 (T3 §3) | alternate |
 | Same real person from a reference | `openai/gpt-image-2/edit` | 2026-10-05 | "For consistent characters, use `openai/gpt-image-2` first" (model-routing:79-80) | first for identity-preserving headshots, ★★★, one subject; NBP "0/4 twice" (T3 §3) | primary |
 | Same real person from a reference | `fal-ai/nano-banana-pro/edit` | 2026-10-05 | identity-preserving edit (image-to-image.md:11) | as above | fallback |
 | Stylized, illustration, anime | `fal-ai/nano-banana-pro` | 2026-10-05 | gpt-image-2, then NBP, then NB2 (commercial:121-122; model-routing:50-53) | characters 9/10 (T3 §3) | primary |
