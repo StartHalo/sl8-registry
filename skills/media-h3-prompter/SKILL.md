@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); fal minimax/h3 and minimax/h3-max schemas as of 2026-10-05; no tool calls (prompt text only; media-video-generation sends it with ai-gen 2.2.0)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-06a
+  version: 1.1.0
+  revision: 2026-10-21a
   house-rules: HR-1.0
   upstream: fal-agent/h3-cinematic-prompter
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D90..VID-D99
+  deltas: VID-D90..VID-D99, VID-D144..VID-D163
 ---
 # H3 Cinematic Prompter
 
@@ -33,8 +33,8 @@ metadata:
 
 Turn the user's material into a finished prompt ready to send to MiniMax
 Hailuo H3 on fal; `media-video-generation` sends it with `ai-gen` (Step 7).
-Write the prompt only. Do not submit, poll, or promise a
-video file.
+Write the prompt only. Known result: this skill makes no tool calls (no submit, poll, or video file);
+`media-video-generation` submits the prompt with ai-gen (compatibility line).
 
 Detect the mode without asking:
 
@@ -42,9 +42,9 @@ Detect the mode without asking:
 - Otherwise, use `t2va`.
 
 If the request concerns expanding, outpainting, resizing, or padding an image,
-do not claim the attachment for this workflow. Route it to an image-expansion
+by default this workflow does not claim the attachment. Route it to an image-expansion
 workflow: `media-image-generation` for expanding or outpainting,
-`media-photo-editing` for resizing or padding.
+`media-photo-editing` for resizing or padding. A kit or brief may name another route.
 
 Resolve missing creative details yourself. Ask no question: a job has no one
 to answer (HR12). When one choice would materially change the user's intent,
@@ -70,8 +70,8 @@ before the prompt.
 4. Open Shot 1 with `[Shot 1]` and the brief's visual style, then a comma:
    `[Shot 1] Live-action, cinematic,` for a live-action brief, and the
    brief's own style otherwise (`2D-animated,`, `3D CG,`, `claymation,`,
-   `papercraft stop-motion,` …). Never force live action onto a brief that
-   names another style. Give Shot 1 no
+   `papercraft stop-motion,` …). By default live action is not put onto a brief that
+   names another style; a kit may name another. Give Shot 1 no
    timestamp. Number shots contiguously from 1.
 5. Open every later shot with `[Shot N] At MM:SS.mmm,`. Make timestamps
    absolute, zero-padded, strictly increasing, on the half-second grid
@@ -80,14 +80,14 @@ before the prompt.
    language actually spoken.
 7. On first speech, identify a speaker with a descriptor phrase ending in
    vocal qualities plus contiguous ID `(S1)`, `(S2)`, and so on. On later
-   speech, use only the bare ID. Never assign an ID to a nonspeaker.
+   speech, use only the bare ID. By default a nonspeaker gets no ID; a kit or brief may name another.
 8. Default to `non_diegetic_music: N/A`, byte-exact. Depart only when the user
    authorizes music or a discrete visible hinge requires score; state that
    reason before the prompt.
 9. When formal camera qualifiers are used, amplitude is `small` or `large`
    and speed is `slow` or `fast`. `medium amplitude` and `medium speed` are
    forbidden; both occur zero times in 21,524 records.
-10. Treat shot type as a composition, never a pick-list. Build
+10. By default treat shot type as a composition, not a pick-list; a kit or brief may name its own shot vocabulary. Build
     `[SIZE? + MOVE? + ANGLE? + TIME-OF-DAY? + OTHER?] + shot`; normally use
     one or two production-meaningful modifiers.
 
@@ -105,8 +105,7 @@ screenplay condensation, thin premises, or deliberate camera direction. Read
 ### Step 1 — Fix the duration and mode
 
 Set `D` and detect `t2va` or `i2va`. Never ask which mode. In `i2va`, make the
-first described state coincide with the supplied frame; do not invent an
-earlier action or refer to Picture 1 again.
+first described state coincide with the supplied frame.
 
 ### Step 2 — Expand a thin premise before prompting
 
@@ -152,7 +151,7 @@ enforce each shot's words `<= floor(2.5 * that shot's usable speech seconds)`.
 Prefer short lines. If dialogue fails either test, trim lines first, then drop
 whole turns. Preserve the initiating line, scene-changing answer, and final
 consequence before greetings, repetition, exposition, or spectator reactions.
-Never cut a necessary shot merely to preserve excess dialogue.
+By default keep a necessary shot over excess dialogue.
 
 ### Step 5 — Draft picture, motion, and cuts
 
@@ -163,7 +162,7 @@ objective across each cut. Translate internal states into visible behavior.
 
 Compose shot modifiers by slot. Motivate every move and angle. If a move uses
 formal qualifiers, choose only one legal amplitude and at most one legal speed;
-do not duplicate speed in both the move adjective and formal slot.
+by default state speed once, not in both the move adjective and formal slot; a kit or brief may name another.
 
 ### Step 6 — Write sound and music
 
@@ -225,7 +224,7 @@ Run this validator against the draft:
 - Preserve user-supplied story facts; invent only what makes them shootable.
 - Keep `i2va` subjects, wardrobe, props, light, and location consistent with
   the reference; minimize invention outside the frame.
-- Do not claim word-accurate speech, lip-sync, or speaker-identity fidelity.
+- Known result: the H3 grammar controls audible speech but does not warrant word-accurate speech, lip-sync, or speaker-identity fidelity (format-spec, Dialogue grammar).
 - Keep every timestamp below requested duration; output may run slightly long,
   but that overshoot is not timing headroom.
 - Prefer one causal micro-scene over disconnected coverage.

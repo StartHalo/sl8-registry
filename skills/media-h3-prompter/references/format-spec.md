@@ -24,7 +24,7 @@ The output has exactly three fields in this order:
    action-synchronous sound.
 3. `non_diegetic_music:` — `N/A` by default; score only.
 
-Do not put duration, mode, commentary, or extra metadata inside the record.
+By default put no duration, mode, commentary, or extra metadata inside the record; a kit or brief may name another format.
 If an adjustment or non-default music reason must be reported, place one short
 sentence before the record.
 
@@ -46,8 +46,8 @@ Apply these `i2va` rules:
 1. Describe Shot 1 completely; the preamble does not replace visual prose.
 2. Make Shot 1's first state coincide with the image.
 3. Express motion as emerging from that state.
-4. Do not place a hidden cut inside Shot 1.
-5. Do not mention Picture 1 after the preamble.
+4. By default place no hidden cut inside Shot 1; a kit or brief may name another.
+5. By default Picture 1 is not mentioned after the preamble; a kit or brief may name another.
 6. Preserve reference-visible identity, wardrobe, props, lighting, and place.
 7. Add off-frame details only when continuity requires them.
 
@@ -65,7 +65,7 @@ Let total duration be integer `D`, `5 <= D <= 15`.
 - Spans: `t_(n+1) - t_n >= 2`; final span `D - t_S >= 2`.
 
 Treat a timestamp as the start of a new edit. Name its transition and landing
-view. Do not place multiple coverage changes inside one numbered shot.
+view. By default place at most one coverage change inside one numbered shot; a kit or brief may name another.
 
 ## Dialogue grammar
 
@@ -74,7 +74,7 @@ Wrap one complete utterance per tag:
 `<d>[Language] line text</d>`
 
 Use a real language name matching the spoken line. Keep punctuation inside the
-tag. Do not wrap narration, camera direction, or nonverbal sound in `<d>`.
+tag. By default narration, camera direction, and nonverbal sound stay outside `<d>`; a kit or brief may name another.
 
 Assign speaker IDs by first audible speech:
 
@@ -104,8 +104,8 @@ Count words inside dialogue tags only. Contractions count as one word. Trim a
 failed budget in this order: filler within lines, redundant lines, whole turns.
 Retain causal information over verbal texture.
 
-For calibration, use these measured upper bounds only as ceilings, never as
-targets:
+For calibration, use these measured upper bounds by default as ceilings, not as
+targets (a kit or brief may name another use):
 
 | D | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -142,7 +142,7 @@ Set `non_diegetic_music: N/A` unless either condition is true:
 
 Mood alone is insufficient. When score is permitted, specify only ensemble or
 lead instrument, rhythmic behavior, tempo, emotional color, mix relation to
-speech, and onset/change at the hinge. Never transcribe lyrics.
+speech, and onset/change at the hinge. By default the score is described, not the lyrics transcribed.
 
 ## Repair order
 
