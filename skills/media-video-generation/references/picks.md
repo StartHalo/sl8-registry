@@ -30,8 +30,8 @@ number has a dated row in [facts.md](facts.md).
   `docs/explore/`). "No SL8 run" means nobody here has measured it.
 - **Status:** `primary` · `fallback` · `escape` (fal's cross-family route for a family-wide outage
   or a missing capability) · `alternate` (verified id, use when the brief names it or both picks
-  fail) · `unproven on SL8 (as of 2026-10-05)` (provider currency, never a primary until a paid
-  test) · `rejected` · `gone`. `primary for that content` overrides the intent's primary for
+  fail) · `unproven on SL8 (as of 2026-10-05)` (provider currency, not a default primary until a paid
+  test; a brief may name one) · `rejected` · `gone`. `primary for that content` overrides the intent's primary for
   the content the row names (a moderation-sensitive frame, a realistic face).
 - **Release check:** whether a release build of this machine has produced a clip on the route,
   and which check keeps measuring it; see [Release checks](#release-checks-as-of-2026-10-08).
