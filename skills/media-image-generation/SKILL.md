@@ -15,13 +15,13 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-17a
+  version: 1.2.0
+  revision: 2026-10-20a
   house-rules: HR-1.0
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D20..IMG-D49, IMG-D73, IMG-D77, IMG-D78, IMG-D79..IMG-D82
+  deltas: IMG-D20..IMG-D49, IMG-D73, IMG-D77, IMG-D78, IMG-D79..IMG-D82, IMG-D108..IMG-D122, IMG-D132..IMG-D134
 ---
 
 # Image generation
@@ -93,7 +93,7 @@ route runs uncapped. A spend past what the brief approved opens a gate with medi
 `scripts/gate.mjs open …` and the job ends `partial`.
 
 **Draft when the concept is unproven** on `fal-ai/flux/schnell` (about 2 cr): a different grammar, so
-a draft that works is evidence about the composition, not the wording. Never draft text there.
+a draft that works is evidence about the composition, not the wording. Known result: FLUX and Seedream were banned for any text on SL8 (T3 §3, BOT-025 text-routing.md:5-6).
 
 ## Step 0 — Declared defaults, not questions
 
@@ -140,8 +140,8 @@ alternates per row are in [picks.md](references/picks.md). Fallbacks are named, 
 | Stylized, illustration, anime, concept art | `fal-ai/nano-banana-pro` | `openai/gpt-image-2` | SL8 incumbent (characters 9/10); a cross-family fallback covers a style NBP will not hold |
 | Lettering is part of the art (stylized type, signage in a scene) | `fal-ai/nano-banana-pro` | `openai/gpt-image-2` (`quality=high`) | 9.5/10 on simple text cards on SL8; exact copy is never this row (HR10) |
 | Vector illustration or icon (SVG; not an existing brand mark) | `fal-ai/recraft/v4.1/text-to-vector` | `fal-ai/recraft/v4/pro/text-to-vector` | SL8's pick for SVG and palette-locked graphics; `colors[]` fixes the palette |
-| Fast draft (composition, mood, options) | `fal-ai/flux/schnell` | `fal-ai/flux-2/klein/9b` | The only draft model SL8 verified (~2 cr) and ai-gen's own default; never text, never final |
-| Single edit (change one thing, keep the rest) | `fal-ai/nano-banana-pro/edit` | `openai/gpt-image-2/edit` | fal's first edit pick and SL8's incumbent; gpt edit when labels or geometry must hold |
+| Fast draft (composition, mood, options) | `fal-ai/flux/schnell` | `fal-ai/flux-2/klein/9b` | The only draft model SL8 verified (~2 cr) and ai-gen's own default; known result: FLUX and Seedream were banned for any text on SL8 (T3 §3, BOT-025 text-routing.md:5-6), and fal notes "Drafts at lower quality are misleading" |
+| Single edit (change one thing, keep the rest) | `fal-ai/nano-banana-pro/edit` | `openai/gpt-image-2/edit` | Default: fal's first edit pick and SL8's incumbent; gpt edit when labels or geometry need to hold; a kit or brief may name another route |
 | Multi-reference composite (product + scene, person + garment) | `openai/gpt-image-2/edit` | `fal-ai/nano-banana-pro/edit` | `image_urls` ≤16 enforced by schema, and its grammar labels each input by role |
 | Inpaint a masked region | `openai/gpt-image-2/edit` with `mask_url` | `fal-ai/nano-banana-pro/edit` (instruction only) | The only routed edit with a mask field |
 | Remove an object | `fal-ai/qwen-image-edit` | `fal-ai/bria/eraser` (needs a mask) | NBP "smears/hallucinates" at removal on SL8 |
@@ -154,18 +154,22 @@ alternates per row are in [picks.md](references/picks.md). Fallbacks are named, 
 
 **Route on content as well as on intent, and do it on the first attempt.** One thing overrides the
 table: what the frame must survive as.
-- **A product that must stay pixel-identical** (marketplace main image, compliance packshot) takes
-  no generative route at all: cutout and composite. A nano-banana-pro edit once "hallucinated a
-  different product: the mug became a luggage tag" (T3 #21).
-- **Removal never goes to NBP** (T3 #22). **FLUX and Seedream never carry any text** (T3 §3).
+- **A product that must stay pixel-identical** (marketplace main image, compliance packshot): default
+  cutout and composite, rather than a generative route. Known result: a nano-banana-pro edit once "hallucinated a
+  different product: the mug became a luggage tag" (T3 #21);
+  the Bria cutout and local composite was pixel-faithful (T3 #21, BOT-022).
+- **Removal:** known result: Nano Banana Pro edit is "WEAK at removal (smears/hallucinates)" on SL8 (T3 #22).
+  **Text:** known result: FLUX and Seedream were banned for any text on SL8 (T3 §3, BOT-025 text-routing.md:5-6).
 - **A real person's likeness** needs documented consent before any route (HR17).
 - **Moderation exposure.** Nano Banana exposes `safety_tolerance` (a string `"1"`–`"6"`, default
   `"4"`), a lever; gpt-image-2, FLUX, Seedream and Recraft only `enable_safety_checker` (gpt-image-2:
-  default true and not a lever, so pin it with `sync_mode: false`, HR4). A refusal on a route with
+  default true and not a lever, so pin it `true`, beside `sync_mode: false`, HR4). A refusal on a route with
   no lever is the wrong route, not a transient failure, and the retry ceiling applies. *The image refusal boundary is unmapped on SL8.*
 
 **The fallbacks cross families on purpose:** gpt-image and Nano Banana fail differently. The cost is
-grammar: re-render the prompt through the new family's contract, never resend it unchanged.
+grammar: by default, re-render the prompt through the new family's contract. Known result: each
+family has its own prompt contract (gpt-image-2's five sections; Nano Banana's exclusions written as
+positives), so a prompt written for one is not in the other's grammar.
 
 ## Per-endpoint parameters
 
@@ -201,7 +205,8 @@ Set each of these even when you want the default value, so the intent is visible
   and say so.
 - **Size and face defaults:** `auto_2K` on Seedream v5 pro (send `auto_1K` unless 2K was asked);
   `face_enhancement` (=true) on Topaz, `false` unless faces need it; `face_upscale` on CodeFormer.
-- **`sync_mode: false`** everywhere (`true` returns a data URI and no request id for the manifest),
+- **`sync_mode: false`** everywhere (`true` returns a data URI and no request id for the manifest;
+  the image routes here default to `false`, but the default differs by route, so send it explicitly),
   and the moderation level you mean: `safety_tolerance` or `enable_safety_checker`.
 
 ## Model IDs drift — query, never remember
@@ -286,7 +291,9 @@ a delivered-versus-declared check catches that (T3 #16). Exit 1 is a failed item
   flattening subject detail. You check the written prompt for these before the paid call; the
   owner judges the result.
 
-**On a miss, do not iterate on the prompt with more adjectives.** Add concrete imperfections by
+**Default on a miss: the moves below rather than more adjectives on the prompt.** Known result: fal's
+realism recipe records that prestige adjectives do not fix a miss, and that named imperfections, one
+light direction and a verb do (craft-realism.md, Quality bar); no SL8 run is cited. Add concrete imperfections by
 name; force a single primary light direction; replace "standing" with what the subject is doing;
 cut every prestige adjective. "If the result misses product fidelity, switch from text-only
 generation to a reference or edit workflow before retrying." If a result still fails realism,
@@ -307,7 +314,7 @@ generation to a reference or edit workflow before retrying." If a result still f
   logo, product, face or specific room must survive *as itself*, nothing that passes through a
   generative model preserves it. Check every generative output against the source before delivering.
 - **Probe the source before spending:** dimensions, format, alpha, EXIF orientation, input limits.
-- **Never substitute a route silently.** Name the fallback and its different price in the reply.
+- **Default: name any substituted route** and its different price in the reply; a kit or brief may name another report.
 - **Claims** (HR18): never invent review quotes, user counts, ratings, award badges, or clinical,
   financial or performance claims; "when claims are missing, use observable language".
 

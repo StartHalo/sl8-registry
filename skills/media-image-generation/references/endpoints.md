@@ -9,7 +9,8 @@ Re-check before use: `ai-gen info <id> --format json`, the raw OpenAPI check for
 **How inputs reach a route through ai-gen.** An array of images (`image_urls`) is filled by one
 `--ref <file>` per input, in order; a single `image_url` by `--image <file>`. Any other URL field
 (`mask_url`, `ref_image_url`) is not a media flag: give it a hosted URL or a data URI in the params
-file, never a local path. Sizes, quality and flags go in the params file or as `k=v`.
+file by default. Known result: ai-gen uploads only `--ref` and `--image` files; a local path inside
+the params JSON is not uploaded and the call 422s (T3 #2). Sizes, quality and flags go in the params file or as `k=v`.
 
 ## Contents
 
@@ -71,8 +72,8 @@ search +3.75 cr; high thinking +0.5 cr.**
 ## ByteDance Seedream v5
 
 The ids are **unprefixed**: `bytedance/seedream/v5/…`. Seedream rewrites every prompt and the
-rewrite cannot be turned off. **No negative prompt; never route text here** (SL8 bans Seedream for
-text).
+rewrite cannot be turned off. **No negative prompt.** Known result: Seedream was banned for text on SL8
+(T3 §3, BOT-025 text-routing.md:5-6).
 
 **`bytedance/seedream/v5/pro/text-to-image`** — `prompt` required. `image_size` a preset, `auto_1K`,
 `auto_2K` or `{width, height}` with 1024²–2048² pixels; **default `auto_2K`**. `enhance_prompt_mode`
@@ -136,14 +137,17 @@ image: pass it with `--image`). `negative_prompt` (default a single space), `gui
 
 All take a single **`image_url`** (`--image`).
 
-**`fal-ai/bria/background/remove`** — `image_url` only. Returns a transparent-PNG cutout whose
+**`fal-ai/bria/background/remove`** — `image_url` required; `sync_mode` (default `false`); an
+optional `prompt` that changes what the cutout keeps, billed $0.03 instead of $0.018 (raw OpenAPI,
+2026-10-20). Returns a transparent-PNG cutout whose
 alpha is the mask; pixel-faithful on SL8. **4.5 or 10 cr** (billing $0.018 against prose $0.04).
 media-photo-editing runs it and the composite.
 
 **`fal-ai/bria/background/replace`** — `image_url` required; `prompt` or `ref_image_url` for the
 new background; `negative_prompt`; **`refine_prompt` defaults `true`** (a rewriter);
-**`fast` defaults `true`**; `num_images` 1–4. **10 cr.** Never for a product that must stay
-pixel-identical.
+**`fast` defaults `true`**; `num_images` 1–4. **10 cr.** Known result on a product that must stay
+pixel-identical: a generative route redrew the product (a nano-banana-pro edit turned a mug into a
+luggage tag, T3 #21); the Bria cutout and local composite was pixel-faithful (T3 #21, BOT-022).
 
 **`fal-ai/bria/expand`** — `image_url` and **`canvas_size`** (`[width, height]`) required;
 `original_image_size`, `original_image_location` or `aspect_ratio` place the original; `prompt`,

@@ -243,7 +243,7 @@ Run through this before submitting any "realistic" prompt. Each item is a common
 - **Hair is a hat.** Demand individual flyaways, separation against background, color variation in different lights.
 - **Eyes are perfect mirrors.** Demand a single specific catch-light source, capillaries, slight redness, asymmetric eyelid weight.
 - **Hands are too many or too few.** Specify count and position. Realism prompts that mention hands at all should anchor them.
-- **Light comes from everywhere.** Name one primary source. Shadows on the subject must be consistent with that one source.
+- **Light comes from everywhere.** Name one primary source. By default shadows on the subject are consistent with that one source; a kit or brief may name another setup.
 - **Backgrounds are seamless gradients.** Demand a real wall, a real surface, a real depth, a corner, a shadow.
 - **Compositions are dead-center.** Off-center subject, asymmetric balance, accidental framing.
 - **Everything is in focus.** Pick what is sharp and what is soft, name the focal plane.
@@ -317,7 +317,7 @@ Aspect: 3:2 horizontal.
 
 ## Quality bar
 
-Before returning, walk through the anti-AI-look checklist. If any item fails, do not iterate on the prompt with more adjectives. Instead:
+Before returning, walk through the anti-AI-look checklist. If any item fails, by default, instead of iterating on the prompt with more adjectives (known result: this recipe records that prestige adjectives do not fix a miss, and that named imperfections, one light direction and a verb do; no SL8 run is cited):
 
 - Add concrete imperfections by name.
 - Re-read the light description and force a single primary direction.
