@@ -66,7 +66,7 @@ ai-gen info fal-ai/nano-banana-pro/edit --format json
 
 Prints status, category, the **input** schema (type, `enum`, `default`, min/max, `maxItems`), a
 registry credit figure for registered ids only, and an example command. Exit 8 when discovery has
-neither metadata nor schema. Always run it before `run` for an unfamiliar endpoint. Limits:
+neither metadata nor schema. Default: run it before `run` for an unfamiliar endpoint; a caller may skip it. Limits:
 - **A `const` is shown as a plain default.** Read the raw OpenAPI (next section) for every field
   you set.
 - **No output schema.** Read `raw` in the result envelope.
@@ -99,8 +99,8 @@ for n,s in sch.items():
 ## estimate: cost per call, in credits
 
 The first `estimate` (or any first `ai-gen` call) in a fresh machine can take 1–3 minutes while the
-proxy's pricing warms up; measured 2026-10-06: 75–90 s or more, then about 0.3 s per call. Never wrap it
-in `timeout` under 300 s. `estimate` takes `--params-file` or `k=v`, not the media flags (`--image`).
+proxy's pricing warms up; measured 2026-10-06: 75–90 s or more, then about 0.3 s per call. Default: any
+`timeout` around it is 300 s or more. Known result: the first call took 75–90 s or more (measured 2026-10-06), up to 1–3 minutes. `estimate` takes `--params-file` or `k=v`, not the media flags (`--image`).
 
 ```bash
 ai-gen estimate fal-ai/nano-banana-pro --params-file work/p/hero.params.json --format json
@@ -113,7 +113,7 @@ ai-gen estimate bytedance/seedance-2.0/image-to-video duration:='"5"' resolution
   appears priced by video duration (a known proxy mispricing).
 - **Work in credits only: about 250 credits = $1** (one proxy record: Seedance 2.0, 720p, 5 s =
   378 cr = $1.512, P1). The `estimated_usd` field is wrong on the registry path (credits ÷ 100,
-  2.5× too high): never quote it.
+  2.5× too high). Known result: quoting it overstates dollars 2.5× (P1 takeaway 6).
 - **`estimate` does not coerce types the way `run` does**, so `--duration 5` and `duration=5` can be
   priced as a different shape from the one sent. Estimate and run from the **same params file**
   with exact JSON types.
@@ -222,8 +222,8 @@ them inside the call: proxy storage upload first, else an inline data URI up to 
 ```
 
 Read `files[].local_path` and `hosted_urls[0]`; read `raw` only for fields the normalizer does not
-lift (a returned rewritten prompt, `seed`, word timings). Never match on a URL prefix: the hosts vary
-across the `*.fal.media` family (T3 #12). `--async` prints only `{request_id, model}`.
+lift (a returned rewritten prompt, `seed`, word timings). Known result: the hosts vary
+across the `*.fal.media` family, so a URL-prefix match misses files (T3 #12). `--async` prints only `{request_id, model}`.
 
 Error envelope, on stdout when not a terminal: `{"schema_version":"2.0","success":false,"error":
 {"code","exit_code","message","retryable","details"}}`. Validation detail sits in
@@ -243,9 +243,9 @@ ai-gen status <request-id> [-m <id>] --format json    # one poll; never add --wa
   records the job's credits in the ledger once per request id.
 - `-m` is optional for jobs submitted on this machine: the local job store
   (`~/.cache/ai-gen/jobs.json`, newest first, last 100) maps request id → model.
-- `status` without `--wait` is a cheap single poll. **Never use `status --wait`** (defect below).
+- `status` without `--wait` is a cheap single poll. Known result: `status --wait` records the job in the spend ledger with no credits, so the run under-counts (defect below).
 - `cancel` always exits 12: the proxy has no cancel route, and the job runs to completion and is
-  billed. So never fan out jobs you might abandon.
+  billed. Known result: every job you fan out and then abandon is billed (`cancel` always exits 12).
 
 ## balance and doctor
 
@@ -284,7 +284,7 @@ Filed for one ai-gen release bundle (approach §6). Until a fixed version ships,
 
 | Defect (ai-gen 2.2.0) | Source | Workaround |
 |---|---|---|
-| `status --wait` writes the job to the ledger with **no credits**; the ledger counts a request id once, so a later `result` cannot add the real charge and the run under-counts | T2 takeaway 4 (`status.ts:84-89`, `spend-ledger.ts:72-75`) | Never use `status --wait`. Use `--queue`, or `--async` then `ai-gen result <id>` |
+| `status --wait` writes the job to the ledger with **no credits**; the ledger counts a request id once, so a later `result` cannot add the real charge and the run under-counts | T2 takeaway 4 (`status.ts:84-89`, `spend-ledger.ts:72-75`) | Use `--queue`, or `--async` then `ai-gen result <id>`, by default in place of `status --wait`. Known result: the run under-counts (Defect cell; T2 takeaway 4) |
 | `estimated_usd` = credits ÷ 100; the real rate is ~250 cr/$ | P1 takeaway 6 (`proxy-client.ts:313`) | Work and quote in credits only |
 | `--audio on\|off` sets only `generate_audio`; Wan 3.0 uses `audio`, MiniMax `target_audio_url`, some have none | P1 takeaway 3 | Pin the audio field by its schema name in the params file; `--strict-params` exposes a miss |
 | `info` shows a `const` as a default | D2b §4 gap 1 (`schema-engine.ts:159-164`) | Raw OpenAPI printer before the first submit of a session |
@@ -294,7 +294,7 @@ Filed for one ai-gen release bundle (approach §6). Until a fixed version ships,
 | `--async` writes nothing to the ledger until `result`; parallel submits each see the full budget | T2 §3d (`pipeline.ts:105-109`) | Sum a fan-out's estimates against `budget` first; fetch every job |
 | JSON-only results (metadata, image-size, vision JSON) fail `EMPTY_RESULT` after the charge | T2 §3c.3 | Do that work locally (ffprobe, ImageMagick, python3) |
 | `estimate` does not re-coerce types | P1 hazard 1 | One params file with exact JSON types for both commands |
-| No cancel; no logs in the JSON; `image -n` help text says 1–4 whatever the model allows; no `--dry-run`; no content-filter exit code | T2 §3c; approach §6 | Read ranges from `info`; never submit what you might abandon |
+| No cancel; no logs in the JSON; `image -n` help text says 1–4 whatever the model allows; no `--dry-run`; no content-filter exit code | T2 §3c; approach §6 | Read ranges from `info`. Known result: there is no cancel route, so an abandoned job runs to completion and is billed (`cancel` always exits 12) |
 
 ## Proxy and billing facts
 
@@ -307,8 +307,8 @@ record any contradiction as a learning, not a silent edit.
 | 2 | Edit endpoints take `image_urls[]`; a raw local path inside `image_urls:=[…]` gets a 422 | 2026-07 |
 | 4 | `credits_used` over-reported ~8.4× on Seedance i2v (908 reported, 108 actual); `estimate` matched the bill; billing lags ~5 min | 2026-07-22 |
 | 5, 8 | A balance delta is not a run's cost; a per-call cap is not a run cap (2,601 cr spent against an 800 brief, every call within its own cap) | 2026-09 |
-| 6 | Per-call floors: Kokoro bills ~5 cr per call against a ~1 cr estimate, flux/schnell floors at 2 cr. Batch text into one call per block, never per sentence | 2026-07-22 |
-| 7 | Exit 7 can be charged, never auto-retry it; exit 13 submitted nothing; exit 10 is an already-charged timeout, recover with `result` | 2026-08-23 |
+| 6 | Per-call floors: Kokoro bills ~5 cr per call against a ~1 cr estimate, flux/schnell floors at 2 cr. Default: batch text into one call per block; a caller may split it, and each call pays the floor | 2026-07-22 |
+| 7 | Exit 7 can be charged (known result: resubmitting an unchanged payload fails again and may be charged again); exit 13 submitted nothing; exit 10 is an already-charged timeout, recover with `result` | 2026-08-23 |
 | 10 | Always pass `-m` and `-o`: defaults are a stale model and the flat artifacts root | 2026-08 |
 | 11 | Discovery is advisory: listed ids can 404 and unlisted ids can serve | 2026-07 |
 | 12 | `*.fal.media` URLs expire: download at once and journal the request id at submit | 2026-06 |
