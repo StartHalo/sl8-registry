@@ -1,0 +1,7 @@
+{
+  "name": "edit-highlights",
+  "version": "v1.0.0",
+  "description": "Highlight clips from one long video (VOD, podcast, webinar, interview, demo): frame-sample the source, transcribe it once with word timings (ElevenLabs Scribe v2 through ai-gen), choose standalone moments with a hook, context, development and payoff, snap speech-safe boundaries to word gaps, render each Reel locally with ffmpeg (pad or verified crop, 30 ms join fades, one caption layer remapped to output time), then review the encoded file (probes, black and silence detection, boundary frames and re-transcription). Also a recommend-only list, customer-chosen moments and show-me-first approval. Use when: cut clips, shorts or Reels from a long recording; find the best moments in a podcast or webinar; turn a VOD into vertical clips. NOT for: captions on a finished video (edit-captions); cutting to a given edit plan (edit-cut-reframe); music-synced montages (edit-beat-montage); dubbing (voice-dub); generated footage (media-video-production); overlay titles (media-motion-graphics); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:20:55.566Z",
+  "skill_md_sha256": "8f60e116f5efa6a4fceef3915068b66a3aa30e43a44655987303adbcfe347121"
+}
