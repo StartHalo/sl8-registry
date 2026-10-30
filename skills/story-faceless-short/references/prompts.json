@@ -1,0 +1,335 @@
+{
+  "about": "story-faceless-short prompt and rule table. SL8 wording: every row restates one research prompt of everygen/3danimatedexplainers-151f46 (no licence stated, copy false) and cites it in `from`. Braces {like this} are slots to fill. The wording was tuned by the vendor for Seedance 2.5 and Gemini image models; this restatement has not been run on fal Seedance 2.0 or Nano Banana Pro. Print a row with: python3 scripts/short.py show <slug>.",
+  "rows": [
+    {
+      "slug": "look-template",
+      "from": "everygen/3danimatedexplainers-151f46@LOOK PROMPT template (style key and every start frame)",
+      "use": "steps 13 and 14: the whole image prompt (style key and start frames)",
+      "prompt": "Make a frame in the same style as the reference images: a tidy 3D-animated explainer still that reads plainly as a 3D render, never a photograph and never a flat drawing, with no outline strokes. {the reference lines for this case, from the ref-* rows}. PEOPLE: {character line}; modelled in semi-realistic 3D as a grown-up built like an actual person, with a lifelike head-to-body ratio, eyes of normal size, clear brows, a natural nose, mouth and jaw, and believable hands; smooth skin with a light flush on the cheeks; hair modelled as sculpted clumps of strands; {expression: a calm and serious face, or the feeling as an actual face would carry it, such as lifted brows, slightly wider eyes and parted lips}. Avoid an animated-movie cartoon: nothing oversized about the eyes, head or hands, and no stretchy, overplayed features. Not clay, not a toy, not a photograph of somebody who exists. This single character only, and only their own pair of hands visible: nobody else, no extra arms or hands. TEXTURE: plain and touchable: {two to four materials of the set, such as plaster walls with gentle mottling, grained wood with worn corners, woven fabric with soft creases}; matte surfaces, never shiny plastic. SET: simple and uncluttered: {the SET line, listing all props the clip needs}. LIGHT: {daytime inside: bright, flat window daylight spread evenly, airy, with gentle contact shadows | daytime outside: strong noon sun, short sharp shadows, an empty sky of clear cyan | at night or somewhere dark: still bright and flat although it is night, an empty deep-blue sky, cool soft light that shows everything, and the fire or lamp as the single warm source}; never moody or film-like: no heavy shadow, glow, bloom, haze, fog, light shafts, flares, sparkle or floating embers. SHOT: {the subject doing what its words name, whole and large (when the clip pulls back to reveal a size, the close view it begins on), caught mid-action at the first instant of the clip} set in {setting}; {where the camera stands and its angle}; {lens, one of 28-35 mm wide, 35 mm medium, 50 mm close, 85 mm macro}; the subject clearly leads and takes up roughly 35 to 40 percent of the picture; a palette leaning cyan with {accent} as its only accent. Portrait 9:16. No text, lettering, captions, logos, watermark or interface."
+    },
+    {
+      "slug": "look-usage",
+      "from": "everygen/3danimatedexplainers-151f46@LOOK PROMPT usage header",
+      "use": "steps 13-14: how to fill look-template",
+      "prompt": "Fill every slot. With nobody in the picture, leave out the PEOPLE part (row no-people replaces it). Above 2,500 characters, trim SET and SHOT; PEOPLE and LIGHT are never trimmed."
+    },
+    {
+      "slug": "video-template",
+      "from": "everygen/3danimatedexplainers-151f46@VIDEO PROMPT template (one per clip, Seedance 2.5)",
+      "use": "step 16: the whole clip prompt, one per clip",
+      "prompt": "A 3D-animated explainer shot that keeps the start image's exact look: tidy semi-realistic 3D under flat, even lighting, {the key materials of the set, such as teal plaster walls, an old oak floor, a knitted jumper}; clean, true-to-life colour. Hold that look from start to finish: nothing extra like glow, haze, particles or dramatic lighting. Everything runs at true speed for the entire shot: {the quick things here, such as the drop, the flames, the jacket snapping in the wind} move exactly as quickly as they would in reality; nothing hovers, drifts or hangs. Never slowed down. A single unbroken {N}-second take, no edits. Camera: begins at {the start image's framing and lens: 28 mm wide, 35 mm medium, 50 mm close or 85 mm macro}, makes {one move driven by the action, such as a fast pull back while his arms extend, the camera easing steadily closer until the joint is all you see, or a crane up until the whole field shows}, and finishes on {closing framing}. 0.0-{t1}s: {who or what} {the action written as cause and then effect, naming where contact happens}, already in motion in the start image; {what else is set moving by it}. {t1}-{t2}s: {the following step, beginning when the narration reaches its next phrase and lasting only as long as it would in reality}. {t2}-{N}s: {what follows, still in motion, or what it becomes; the camera comes to rest}. Hold throughout: {the character line, word for word}, unchanged lifelike proportions, with a face moving like an actual human face, never a cartoon one; only his own pair of hands, nobody else; the same {room and two or three named props}; the same lighting. {see-through shots only: the skin stays clear like glass with the organ softly lit within, while the jumper, the face and the room remain in view.} Sound: {the background of this place, worded identically on every clip set there, such as a hushed indoor room or a constant rush of wind}, steady from start to finish; {each sound of the clip pinned to its moment, all inside its planned length, such as a jumper rustle at 0.4s and three dry knuckle cracks at 1.1s}; near and crisp, at a low level. {closing line from row sound-closing}. Never cut, never slowed. No subtitles, captions, labels, text, logo, watermark or interface. Nobody extra and no extra hands or fingers, nothing popping in from nowhere, nothing reshaping apart from {the change written above; delete this clause if none}, and a steady camera."
+    },
+    {
+      "slug": "video-usage",
+      "from": "everygen/3danimatedexplainers-151f46@VIDEO PROMPT usage header",
+      "use": "step 16: how to fill video-template",
+      "prompt": "One prompt per clip with every slot filled and under a 2,500-character limit. {N} equals the render duration. Use one timed step for each real stage of the action; the ones that count sit inside the planned length, and each lasts exactly as long as that action takes in reality, so a quick action lasts only part of a second."
+    },
+    {
+      "slug": "ref-key-clip1",
+      "from": "everygen/3danimatedexplainers-151f46@Style key = clip 1 frame: reference lines (PERSON, anchor, his frame)",
+      "use": "step 13 when the style key is clip 1's frame; drop the line of any reference you do not pass and renumber",
+      "prompt": "Image 1 is only a guide to how people are rendered: match how real its skin, face, hands and hair look, but on someone else, and take nothing from its room, outfit or pose. From image 2 take only the rendering, the lighting and how much surface texture there is, never its room or its objects. Image 3 only guides how plain the picture is and its colours; leave out its people and objects."
+    },
+    {
+      "slug": "ref-charkey-palette",
+      "from": "everygen/3danimatedexplainers-151f46@Character key: reference 2 line",
+      "use": "step 13 character key: the line for the palette reference",
+      "prompt": "Image 2 only guides how plain the picture is and its colours; leave out its people and objects."
+    },
+    {
+      "slug": "charkey-fills",
+      "from": "everygen/3danimatedexplainers-151f46@Character key: SET / LIGHT / SHOT fills",
+      "use": "step 13 character key: the SET, LIGHT and SHOT slots of look-template",
+      "prompt": "SET: an empty pale-cyan backdrop that curves into the floor, with a soft shadow beneath the figure and nothing more. LIGHT: bright, flat studio lighting spread evenly, with a gentle contact shadow. SHOT: {the star} stands turned three-quarters toward the lens, arms hanging loose, framed from the knees upward; 35 mm medium lens at chest level; {he or she} takes up around three quarters of the frame height."
+    },
+    {
+      "slug": "ref-frames-charkey",
+      "from": "everygen/3danimatedexplainers-151f46@Start frames when the key is a character key: reference lines",
+      "use": "step 14 when a character key exists (key first, setting anchor second, palette reference third)",
+      "prompt": "Image 1 is the character: keep the face, build, hair and outfit exactly as shown, and take nothing from its pose, framing or backdrop. From image 2 take only the rendering, the lighting and how much surface texture there is, never its room or its objects. Image 3 only guides how plain the picture is and its colours; leave out its people and objects."
+    },
+    {
+      "slug": "ref-frames-key-close",
+      "from": "everygen/3danimatedexplainers-151f46@Start frames, key = clip 1 and camera close to it: reference line",
+      "use": "step 14 when the key is clip 1's frame and the new frame sits near its camera",
+      "prompt": "Image 1 supplies just the character, the set and the lighting: put the camera somewhere entirely new and frame the shot as SHOT says, without reusing the layout of image 1."
+    },
+    {
+      "slug": "ref-key-last",
+      "from": "everygen/3danimatedexplainers-151f46@Start frames, new camera position: style-key-last line",
+      "use": "step 14 for a new camera position: the shot's anchor first, the style key last as image N",
+      "prompt": "Image {N} gives only the character, what he wears, the room and the lighting; ignore where its camera stood and how it was composed."
+    },
+    {
+      "slug": "camera-in-frame-example",
+      "from": "everygen/3danimatedexplainers-151f46@Start frames, new camera position: camera-by-what-is-in-frame example",
+      "use": "step 14: describe a new camera position by what is and is not in the picture",
+      "prompt": "his face stays out of the picture; both his hands take up the bottom two thirds; neither the window nor the clock on the wall can be seen."
+    },
+    {
+      "slug": "no-people",
+      "from": "everygen/3danimatedexplainers-151f46@No person in frame: PEOPLE replacement line",
+      "use": "steps 13-14: replaces the PEOPLE part when nobody is in the picture",
+      "prompt": "Nobody in the picture at all: no person, arm or hand anywhere."
+    },
+    {
+      "slug": "second-character",
+      "from": "everygen/3danimatedexplainers-151f46@Second character: PEOPLE addition",
+      "use": "step 14: added to a second person's own character line",
+      "prompt": "made exactly as lifelike as the character in image 1: a semi-realistic 3D grown-up built like an actual person, with lifelike proportions and eyes of normal size; somebody else, never a cartoon"
+    },
+    {
+      "slug": "ref-body-reveal",
+      "from": "everygen/3danimatedexplainers-151f46@Body reveal: reference lines",
+      "use": "step 14 organ-scale reveal: reveal anchor first, style key last",
+      "prompt": "From image 1 take only the way the body is shown as see-through, never its person or its room. Image 2 gives only the character, what he wears, the room and the lighting; ignore where its camera stood and how it was composed."
+    },
+    {
+      "slug": "ref-micro",
+      "from": "everygen/3danimatedexplainers-151f46@Micro journey: reference line",
+      "use": "step 14 cell-scale micro journey",
+      "prompt": "From image 1 take only how the microscopic world is rendered, its glow and its lighting, never the particular cells or forms in it"
+    },
+    {
+      "slug": "micro-world-line",
+      "from": "everygen/3danimatedexplainers-151f46@Micro journey: reference line",
+      "use": "step 14: pasted unchanged into every micro shot of one run",
+      "prompt": "A microscopic world in deep, saturated pinks, reds and purples, edged with a soft rim light, with a shallow depth of field."
+    },
+    {
+      "slug": "fix-too-real",
+      "from": "everygen/3danimatedexplainers-151f46@Too-real face fix: PEOPLE addition",
+      "use": "steps 15 and 18: added to PEOPLE when a face looks too photographic or a clip is refused as a possible real person",
+      "prompt": "features a little simpler, skin smoother"
+    },
+    {
+      "slug": "fix-doll",
+      "from": "everygen/3danimatedexplainers-151f46@Cartoon/doll fix: PEOPLE addition",
+      "use": "step 15: added to PEOPLE when a face looks like a doll or a cartoon",
+      "prompt": "eyes of normal size with fine detail in the irises and lashes"
+    },
+    {
+      "slug": "hands-line",
+      "from": "everygen/3danimatedexplainers-151f46@Frame rule: hands line for the prompt",
+      "use": "step 14: in every frame with a person",
+      "prompt": "just his own pair of hands in view, and nobody else's hands or body"
+    },
+    {
+      "slug": "blank-writing",
+      "from": "everygen/3danimatedexplainers-151f46@No readable writing: SHOT example",
+      "use": "step 14: any page, sign or screen in SHOT",
+      "prompt": "a page carrying three wavy pen strokes and not a single letter or word"
+    },
+    {
+      "slug": "banned-look-words",
+      "from": "everygen/3danimatedexplainers-151f46@Words that break the look (banned phrases from the falling-airman draft)",
+      "use": "steps 13-16: never in an image or clip prompt (short.py params refuses them)",
+      "prompt": "Some wording turns the house look into an animated feature. A tested fall draft went wrong on phrases that called the hero an animated film character, asked for a stylised luminous night with a big moon, puffy volumetric clouds lit from beneath, embers drifting about or glittering crystals, and gave him enormous eyes, a dropped jaw or an amazed grin. Write nothing of that kind: avoid the words cinematic, magical, glowing, stylized, luminous, sparkling, volumetric and feature-film, and never ask for cartoon acting."
+    },
+    {
+      "slug": "set-lines",
+      "from": "everygen/3danimatedexplainers-151f46@SET LINES (templates per setting)",
+      "use": "step 11 shot plan (one per place) and steps 13-14 SET slot; each names three to six props",
+      "prompt": "Room or comedy interior: a teal plaster room, one window letting in daylight, a tiled splashback or skirting board, a wooden floor and three to six named props (a kitchen might have a chopping block counter, a board, a kettle, a wicker basket and a pot of herbs; a lounge an upholstered armchair, a small table, a mug, a houseplant and a rug). | Interior for a story (an office, a hut, a workshop, a vehicle's interior): plaster, board or painted metal walls, a single window or door open to the light, a wooden or metal floor, and three to six props that belong to that time and place. | Street or story exterior: rough asphalt with some patched cracks and worn road markings, a chipped kerb, rendered buildings with flower boxes under the windows, three to six landmarks such as parked cars, a street lamp, a bench or a planted tree in a tub; leave out traffic, crowds, rubbish and signs. | Open sky: an empty sky, clear cyan in daylight and plain deep blue after dark, above flat cloud cover or a plain horizon, with the single aircraft or object shown whole. | Nature exterior (woodland, a snowfield, a beach): one simple ground such as smooth snow, short grass or sand, a handful of big trees or rocks, an empty sky; nothing falling or floating, no mist. | Studio explainer: an old plank desk in front of a cyan studio wall with soft plaster mottling, plus one supporting prop at most. | Cyan void: a cyan space without edges, the object resting on a soft contact shadow, for build and maths videos; all the texture is on the object. | Body studio: just the character against a clean cyan gradient with a soft shadow on the floor, no walls and no props, for videos about what goes on inside the body when no room is needed (pulling out a bone, swallowing something, turning see-through); texture comes from the body, the clothes and the hair. | Animal habitat: sky over a single sharply detailed patch of earth or plants, every blade and bit of bark visible, the rest soft. | Reveal: the set of the shot before, unchanged, with the hidden part shown where it really is."
+    },
+    {
+      "slug": "the-checks",
+      "from": "everygen/3danimatedexplainers-151f46@THE CHECKS (listed to the user above the first frames and first render cards)",
+      "use": "step 15 (run on every frame) and the review lines of steps 13 and 15",
+      "prompt": "1. One world: every frame keeps the same character, outfit and place; one person, only their own two hands, no stray limbs, and nothing lifted from a reference image. 2. The house look, not an animated movie: people have lifelike proportions, eyes of normal size and calm faces; neither a doll nor a photographed actor; no writing anywhere. 3. Plain and bright: lighting flat and even, night included, simple sets made of real materials; no glow, haze, sparkle or deep shadow. 4. Frames only: each one shows what its clip's words say, large and whole (the entire event rather than a fragment; when a clip pulls back to reveal a size, it begins close), already moving, holding the props the clip needs, matching its scene's time of day, and each frame unlike the others. Any frame that fails gets one redo in which only the failing part changes, and when the customer names frames, redo exactly those and change only what they point to."
+    },
+    {
+      "slug": "shotplan-format",
+      "from": "everygen/3danimatedexplainers-151f46@Shot plan chat format, worked example and totals line",
+      "use": "step 11: shot_plan.md, which the customer reads like a storyboard",
+      "prompt": "Write shot_plan.md as a storyboard. First line, the totals: for example '30 seconds, 9 clips: two hook clips, then one cut whenever the narration names something new'. Then, for each clip, a bold heading with its number, length, what is new and its words, a blank line, one dash bullet for the shot, and a blank line. The bullet reads: opening framing to closing framing: the action, then camera: its one move, then sound. When the camera travels on to a second new thing within the clip, name both, as in 'new: the cannon, then the knight in armour'. Example heading: **Clip 1 · 2.0s · new: knuckle pop** · 'When your knuckles crack,'. Example bullet: - medium on him to close on his knuckles: he pushes his joined hands forward and the fingers bend back · camera: a fast push in on the knuckles as they crack · sound: a jumper rustle, three dry cracks. After the last clip write only the character line and the style key line."
+    },
+    {
+      "slug": "shotplan-checks",
+      "from": "everygen/3danimatedexplainers-151f46@Shot plan checks before sending",
+      "use": "step 11: the six checks on every clip before the plan is final",
+      "prompt": "Check each clip and repair any that fails. 1. Its new thing has not been shown by any earlier clip; it is not simply the next moment of what the clip before already showed. 2. It opens on a framing plainly unlike the one the clip before ended on; the only exception is the see-through reveal. 3. Its picture shows its words large and literally: the entire event, not a fragment of it and not a bystander watching it. 4. Something in it changes every one to two seconds. 5. At true speed the action fills its length: a quick event is over within a second, so in a longer clip add the build-up before it or what follows after; nothing is slowed to fill time. 6. Falls, flights and crashes need three parts: a starting pose already off balance, a fixed object to judge speed by, and never a camera travelling alongside a body in open sky."
+    },
+    {
+      "slug": "first-step",
+      "from": "everygen/3danimatedexplainers-151f46@Render: first-step wording that starts a resting body",
+      "use": "step 16: gets a resting body moving at once",
+      "prompt": "in the start image the branch beneath him has already begun to break; at no moment does he sit, pause or keep his balance on it"
+    },
+    {
+      "slug": "timing-good",
+      "from": "everygen/3danimatedexplainers-151f46@Render: real-speed timing example (good)",
+      "use": "step 16: timing at true speed (follow this shape)",
+      "prompt": "from 0.0 to 0.5s the branch gives way and he falls straight through it; from 0.5 to 1.1s a further two branches crack; from 1.1 to 1.4s he lands in the drift and powder bursts up; from 1.4 to 4.0s the powder sinks back and the branches sway to rest"
+    },
+    {
+      "slug": "timing-bad",
+      "from": "everygen/3danimatedexplainers-151f46@Render: floated timing example (bad)",
+      "use": "step 16: timing that makes the fall float (never write this shape)",
+      "prompt": "from 0.0 to 1.2s he slams onto the branch ... from 1.2 to 3.0s he breaks through a further two branches lower down ... then sinks into the deep drift"
+    },
+    {
+      "slug": "cause-effect",
+      "from": "everygen/3danimatedexplainers-151f46@Render: cause -> effect -> aftermath phrasing example",
+      "use": "step 16: action phrasing",
+      "prompt": "his fingers are pushed back until the knuckles crack, his hand jerks, and the fingers spring apart"
+    },
+    {
+      "slug": "face-acting",
+      "from": "everygen/3danimatedexplainers-151f46@Render: real-face acting examples",
+      "use": "step 16: faces act like human faces",
+      "prompt": "his brows go up and his lips come apart | he flinches | she tightens her lips"
+    },
+    {
+      "slug": "sound-rewrite",
+      "from": "everygen/3danimatedexplainers-151f46@Sound: rewritten lines that rendered (grease-fire test)",
+      "use": "step 18: a sound line rewritten after a copyright block",
+      "prompt": "a gentle rush of fire | a steady crackling of flame"
+    },
+    {
+      "slug": "sound-closing",
+      "from": "everygen/3danimatedexplainers-151f46@Sound: mandatory closing line",
+      "use": "step 16: the last sentence of every sound line (short.py params refuses a clip prompt without it)",
+      "prompt": "No music, no singing, no speech and no voiceover."
+    },
+    {
+      "slug": "softer-wording",
+      "from": "everygen/3danimatedexplainers-151f46@Failure: softer wording example",
+      "use": "step 18: a gentler phrasing after an unexplained failure",
+      "prompt": "a slim blade passes through, rather than the knife splitting it"
+    },
+    {
+      "slug": "plan-steps",
+      "from": "everygen/3danimatedexplainers-151f46@Plan card: the seven steps",
+      "use": "step 3: the plan message (seven steps, in this order), after one sentence on the topic and length",
+      "prompt": "1. Script: I write and check it, then save it as artifacts/{p}/script.txt. 2. Voiceover: {tts model}, then {timing model} for the word times. 3. Style key: {image model}. 4. Start frames: {image model}, one for each clip. 5. Clips: {video model}, one for each clip. 6. Stitch with sound: ffmpeg on this machine, no paid call. 7. Captions: burned in on this machine from the script and the word times, no paid call. Counts come from the length: roughly one clip per 3 seconds, so a 30-second short needs around ten clips: a style key plus roughly nine further start frames, and roughly ten renders. Each paid step shows its quote, then the total including one redo per frame and one retry per clip. The shot plan fixes the real counts later."
+    },
+    {
+      "slug": "ask-voiceover",
+      "from": "everygen/3danimatedexplainers-151f46@ask_question after a voiceover decline",
+      "use": "step 9: reply line when the voiceover is turned down with no reason",
+      "prompt": "What would you like changed before I record it again: the opening line, one named line or fact, a shorter or longer cut, or another voice?"
+    },
+    {
+      "slug": "ask-key",
+      "from": "everygen/3danimatedexplainers-151f46@ask_question after a style key decline",
+      "use": "step 13: reply line when the style key is turned down with no reason",
+      "prompt": "What should I change in the style key: the character, the setting, the texture and light, or the framing?"
+    },
+    {
+      "slug": "ask-render",
+      "from": "everygen/3danimatedexplainers-151f46@ask_question after a render decline",
+      "use": "step 15: reply line when the frames are turned down with no reason",
+      "prompt": "Which of the frames would you like redone?"
+    },
+    {
+      "slug": "ask-stitch",
+      "from": "everygen/3danimatedexplainers-151f46@ask_question after a stitch decline",
+      "use": "step 19: reply line when the stitched cut is turned down with no reason",
+      "prompt": "Which of the clips would you like redone?"
+    },
+    {
+      "slug": "line-key",
+      "from": "everygen/3danimatedexplainers-151f46@Above-card line example (style key)",
+      "use": "step 13: the review line beside the style key",
+      "prompt": "All the other frames are built from this image, so approving it also approves the recorded voiceover and the plan of shots. Name anything to change; if nothing, the start frames come next."
+    },
+    {
+      "slug": "line-renders",
+      "from": "everygen/3danimatedexplainers-151f46@Line after the last render card",
+      "use": "step 16: the line once every clip is submitted",
+      "prompt": "The clips are rendering now and need a few minutes; I collect them myself and put the full cut together as soon as they arrive."
+    },
+    {
+      "slug": "line-captions",
+      "from": "everygen/3danimatedexplainers-151f46@Line above the captions card",
+      "use": "step 21: the line before the captions",
+      "prompt": "Finally the captions: small white words near the bottom, burned in from the script with the narration's word times; ask if you want them bigger, smaller or placed elsewhere."
+    },
+    {
+      "slug": "state-template",
+      "from": "everygen/3danimatedexplainers-151f46@STATE template (internal)",
+      "use": "step 0: the fields of artifacts/{p}/state.json (internal, never shown to the customer)",
+      "prompt": "premise · length_s · script {saved, words} · voiceover {status planned or recorded, seconds, voice} · shot_plan {clips, hook_clips} · places {place: its background sound, worded the same on every clip} · character_line · key {kind clip-1 or character, status} · frames {planned, made} · clips {planned, rendering, landed, retries per clip} · stitch {status} · captions {status made or skipped}"
+    },
+    {
+      "slug": "edit-settings",
+      "from": "everygen/3danimatedexplainers-151f46@Ryu settings for this class",
+      "use": "step 23: post-delivery edits, only when the customer asks in their own words (a caption is wrong, trim the end, tighten clip 4)",
+      "prompt": "Run only the steps the requested edit needs. No new transcript and no speech map: the words are known, so script.txt is the reference, word for word, for any caption fix. Keep the picture at 9:16. No automatic removal of pauses, because each cut already sits on its word and each clip is timed to the narration. Trim only where asked, never inside a spoken sentence and never through the payoff at the end. Never reframe. When the customer asks for a caption correction or a new caption style, re-render the house captions (small white words near the bottom) from script.txt and the existing word times, correcting the text against the script. Never add a premise line, music or extra sound effects; every clip has its own sound already. Keep the one narration take, each clip's own sound, every cut on its word and the payoff. Report the change in one sentence."
+    },
+    {
+      "slug": "word-budget",
+      "from": "everygen/3danimatedexplainers-151f46@Script: word budget table",
+      "use": "step 6: the budget for the picked length (short.py budget rescales it to the voice)",
+      "prompt": "The vendor's house voice read close to 3.1 words a second (sentences with many commas run slower): about 20 s takes 60-65 words, about 25 s 75-80, about 30 s 90-95, about 35 s 105-110, about 40 s 120-125 and about 50 s 150-155. Rescale these by the voice's own rate divided by 3.1. Write to the length you picked; inside the budget the content decides, so cut each sentence without new content and do not pad to reach a count. When the story needs one more beat to land and that makes it a step longer, take that one step and say so; never two. A length the customer named is met. Count the words before handing the script over and state the length as words divided by the rate. Whatever the estimate, timing follows the voiceover as recorded."
+    },
+    {
+      "slug": "hooks",
+      "from": "everygen/3danimatedexplainers-151f46@Script: hooks (his real openers with view counts and notes)",
+      "use": "steps 5-6: opening-line shapes (shapes only: never reuse a topic, sentence or example)",
+      "prompt": "Opening shapes that worked across the most-watched shorts of this genre; choose the one this idea fits and vary it between videos. A. Everyday action plus the surprising result, in a single sentence, with the rest of the video chasing why. B. The experiment anyone would try, then what fails first, stated flatly. C. A big number as set-up, then the smaller, scarier thing as the hook. D. A belief most people really hold, then the case that breaks it (skip it when the belief would have to be made up). E. The viewer's own habit, then when it fails. F. Premise plus open question in one line, answered next with 'You see,'. G. A moment we all know, then the hidden part. H. A true story dropped in at its strangest moment, with the backstory after. I. Danger already under way, with nothing to set up. J. A process opened on its strangest step. K. An instruction nobody expects to hear. L. A question about a thing everybody sees and nobody questions, then the explanation. A line that merely teases a surprise (the answer will shock you, here is what happens) is not a hook: the opening sentence states the thing itself."
+    },
+    {
+      "slug": "moves",
+      "from": "everygen/3danimatedexplainers-151f46@Script: the moves he repeats",
+      "use": "steps 5-6: the recurring narration moves",
+      "prompt": "The flip (most people think..., but...) within the opening two sentences, used only for a wrong belief most viewers truly hold; never invent one, and without one start on what happens. 'You see,' pivots to the hidden cause, used a single time. To hang the consequence on the payoff, use 'Meaning,' or 'which is why'. Escalating ladders (then... then... until...), with the worst or largest last. Scale through comparison: at most two numbers, the larger near the end, each tied to something people can picture. Addressing the viewer as you puts them at the centre; story shorts name roles instead of people (a sailor, a mother, her dog). Concrete physical verbs (grip, flip, pour, burst, sink), the bluntest everyday word over any euphemism, gore adjective or hype word; a technical term only when it is the subject, explained in the same breath; a sixth-grade reading level; amounts as things to picture, not units. One comparison, then what really happens; never a pile of substitute images that never states the mechanism. Concrete over abstract: each noun must be filmable, so swap words like pressure, process or system for what you would watch happen. Big pictures: give the camera, in every sentence, something it can film in full, and of two true facts making one point, pick whichever gives the larger image. One cast: the viewer or one role carries the short; a second person enters only if the story concerns them, in one clause."
+    },
+    {
+      "slug": "endings",
+      "from": "everygen/3danimatedexplainers-151f46@Script: endings",
+      "use": "steps 5-6: ending shapes, pick one",
+      "prompt": "Pick one ending: the flat outcome; the reason, landed; the scale reveal; a twist or a moral packed into the last clause; an open question, only for a paradox or a dilemma. Whichever it is, the final words carry the script's most surprising true fact; if research turned up a detail more surprising than the final step of the mechanism, end on that detail rather than on a recap."
+    },
+    {
+      "slug": "by-template",
+      "from": "everygen/3danimatedexplainers-151f46@Script: by template",
+      "use": "steps 5-6: narration shape per template",
+      "prompt": "Why or how it works: an opening shape, then 'You see,' leading into how it works, then a landed reason. Body process: an opening shape, then the process one step at a time (linked by words like once, as, then, or a few weeks later) and stopping when it is done. What if: an impossible premise played completely straight, consequences climbing, the largest last. True story: the most dramatic moment first, past tense, 'You see,' to rewind, escalation, one flat sentence for the outcome. How-to or build: each sentence one step, present tense or commands, joined by And, Then, Now, Next, with the finished result as the closing words. Survival: an opening shape, each attempt failing worse than the one before, the fix that truly works as the payoff."
+    },
+    {
+      "slug": "checklist",
+      "from": "everygen/3danimatedexplainers-151f46@Script: section 8 checklist",
+      "use": "step 7: run before and after the edit pass; short.py script-check measures the countable items",
+      "prompt": "The word count sits inside the budget for the length (count it). It is a question an ordinary person would ask, and they could follow each sentence. Sixth-grade reading level. A flip only for a belief people genuinely hold. A single answer, never two that compete. The opening uses the hook shape that suits this idea and carries who, what and why in roughly nine words. By the fifth second the premise is complete. The turn comes about 30 percent of the way in. Each sentence brings something new. Every clause can be pictured; no abstract noun remains. Every sentence gives the camera something large to film in full. A single cast. The closing words are the payoff and the most surprising true fact. Never a greeting, no first person, no hype word and no call to action. Rewrite until all of these hold."
+    },
+    {
+      "slug": "edit-pass",
+      "from": "everygen/3danimatedexplainers-151f46@Script: the edit pass",
+      "use": "step 7: always, before the script is saved",
+      "prompt": "Treat the first draft as the one an editor would cut, and edit it once before saving. Opening: draft two more openers in different shapes and keep the best; the one you keep states the odd thing in its opening sentence, in roughly nine words. Words: replace each abstract noun and each word a twelve-year-old would trip on, and give amounts as things to picture. Cut: take out about one word in ten (repeated ideas, whatever the image is already showing, filler words like very, basically or a lot of), but keep 'actually' where it marks the surprise. Rhythm: short sentences at the opening and the payoff, longer comma-linked ones in between, each one sayable in one breath. Ending: the last clause holds the most surprising true fact, with nothing after it. Then run the checklist again."
+    },
+    {
+      "slug": "examples",
+      "from": "everygen/3danimatedexplainers-151f46@Script: examples (four real scripts with notes)",
+      "use": "steps 5-6: what the four reference scripts teach (the scripts themselves are not shipped)",
+      "prompt": "The research holds four real scripts of the genre; they show rhythm and shape, never templates, and their topics, lines, numbers, endings and skeletons are never reused. What they teach: a body process of about 77 words ran 31 s, opening on something most viewers have experienced, with each later clause the next visible step and no detour; a what-if of about 80 words ran 29 s, with a flip anyone would guess in its first sentence, a 'But' turning it a quarter of the way in, an 'until' to escalate and the biggest number as its closing words; a why of about 80 words ran 27 s, putting premise and open question together in its opening sentence, 'You see,' delivering the mechanism and a human reason as the ending; a survival story of about 147 words ran 53 s, where each attempt fails worse than the last, every 'but' is a fresh obstacle, and the escape is the final words. Let the real sequence of events in your idea set the order."
+    },
+    {
+      "slug": "templates",
+      "from": "everygen/3danimatedexplainers-151f46@Templates T1-T6 (fit the idea to one)",
+      "use": "step 5: fit the idea to one template; the shot plan follows its shape",
+      "prompt": "T1 Why does X happen: someone in a single room does the thing, then the mechanism is revealed inside them where it happens, then the consequence, then the payoff. T2 Animal fact: the animal where it lives, then a reveal of the mechanism inside its world, then the payoff. T3 True story: open cold in the middle of the danger, rewind with 'You see,', escalate with 'until', then the outcome. T4 How-to or build: the object on a workbench, step after step, with the finished result as the closing words. T5 Invented gadget: it works, 'You see,' into how, 'But one morning...', it backfires, punchline. T6 What if: something physically impossible treated as real, 'If you...', what follows, a reveal inside its world, escalation, a deadpan verdict."
+    },
+    {
+      "slug": "anchor-slots",
+      "from": "everygen/3danimatedexplainers-151f46@Texture anchors (URLs and use)",
+      "use": "steps 0, 13, 14: the roles of the optional anchor images a kit or brief may supply (the vendor-hosted images are not used)",
+      "prompt": "An anchor is a finished frame at the approved level of texture, passed with the style key and each start frame for the setting it matches. Slots: KITCHEN (a person indoors in a kitchen); PERSON (any human character's face, skin, hair and clothes, style key only); ROOM (lounges, bedrooms, offices and other interiors); STREET (streets, pavements, towns, outdoor story places, open sky); STUDIO (hands holding an object at a desk, cyan studio wall); ANIMAL (animals, fur, gardens, nature, woods); BODY REVEAL (the inside of a person or animal, in place); BODY REVEAL CLOSE (a nearer inside view that still shows the clothing, a hand, the jaw and the room); MICRO (the microscopic world of cells, marrow, blood and tissue); OBJECT REVEAL (the inside of an object, in place)."
+    },
+    {
+      "slug": "openers",
+      "from": "everygen/3danimatedexplainers-151f46@Style bible: opener shapes (11a)",
+      "use": "steps 5-6: secondary evidence for openers (the script rows win on any disagreement)",
+      "prompt": "The first sentence drops the viewer straight into the experiment or the action, and a concrete noun or a physical verb appears within its first eight words. Recurring forms: If you {do something physical}...; As or When the {thing} {does something}...; a first step given as a command; a past-tense action in the middle of a story. Never a greeting, an announced topic, a restated title, or an opening on a hype adjective, a number, a date or a place. The rarer question openers aim at a thing everybody knows."
+    },
+    {
+      "slug": "endings-humor",
+      "from": "everygen/3danimatedexplainers-151f46@Style bible: endings (11e) and humor (11f)",
+      "use": "steps 5-6: secondary evidence for endings and humour (the script rows win on any disagreement)",
+      "prompt": "The final sentence is the final piece of content: no wrap-up, moral or call to action. Its forms: a deadpan punchline, a flat outcome, the promised object as the closing noun phrase, a meaning or which-is-why or technically verdict, or an unsolved mystery; many end on one hard word. The joke closes its sentence, and usually that sentence closes the short; it uses simpler words than the sentence preceding it; hedges carry it (technically, probably, kind of like, might just); no adjective ever announces that it is funny; and the calm never breaks, however dark or absurd the content gets."
+    }
+  ]
+}
