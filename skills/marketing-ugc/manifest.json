@@ -1,0 +1,7 @@
+{
+  "name": "marketing-ugc",
+  "version": "v1.0.0",
+  "description": "UGC-style creator ads from a brief: a claim-safe six-beat script with a 1-2 s hook, fal's seven-layer clip prompts, one route by what is supplied (a talking head on a generated portrait, or faceless product b-roll with a voiceover), 3-5 hook variants, an optional polished finish, each clip checked on frame grabs and delivered with its endpoint, request id and defects. Use when: a creator-style, testimonial-style, demo, unboxing, founder or faceless voiceover ad, TikTok, Reels or Shorts creative, hook variants to test, or a creator-ad row from marketing-campaign-pack or marketing-site-creator-video. NOT for: a multi-channel campaign (marketing-campaign-pack); a creator video where a supplied web page is on screen (marketing-site-creator-video); product stills or a product reveal (marketing-commercial); a presenter video over scenes (voice-presenter-video); burned captions (edit-captions); a single free-prompt clip (media-video-generation); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:28:23.425Z",
+  "skill_md_sha256": "f7e06d274dd2caa0dd912f98587556ff5478b1b7ed384fe68a2c68cafd685556"
+}
