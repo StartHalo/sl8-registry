@@ -1,0 +1,945 @@
+{
+ "about": "SL8's restated prompt table for story-faceless-long. Each row restates one prompt recorded in the capability assessment (the Higgsfield faceless-video skill and its style, script and delivery references, captured 2026-10-11 and 2026-10-26) in SL8 words, keeps its structure and instructions, and cites it by research id in `from`. Nothing is copied: the source states no licence. The wording was written for the vendor's own engines and has not been run on the fal models this skill defaults to. Placeholders are {CAPITALS}; fill them, never send a brace.",
+ "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/higgsfield/lld/{facelessvideo-103c40,faceless-intake-script,faceless-style-library,faceless-generation-delivery}.json",
+ "copied": false,
+ "rows": [
+  {
+   "slug": "style-sample",
+   "kind": "template",
+   "use": "step 7: the style key (index 0)",
+   "prompt": "A tidy {STYLE} look sample: a single easy-to-read subject, such as a small friendly object or a tiny scene, drawn in this look so that its linework, shading and colors are obvious at first sight. Pleasant, balanced and clear. Do not draw color swatches, palette bars, chips or squares, captions, letters, labels, a watermark or anything laid out like a reference sheet.",
+   "from": "higgsfield/faceless-intake-script@Style key sample prompt"
+  },
+  {
+   "slug": "style-sample-alt",
+   "kind": "template",
+   "use": "step 7: the same sample when the key is built from the house formula alone",
+   "prompt": "Render a {STYLE} look sample as an attractive, legible vignette (one recognizable small subject or a little scene) rather than shapeless blobs, so the stroke weight, the shading and the colors can be judged at a glance. Leave out swatch strips, colour squares, chips, labels, any text, a watermark and any sheet-like layout. It is a look anchor, never a final frame.",
+   "from": "higgsfield/facelessvideo-103c40@Style key sample prompt (prompts.md §1)"
+  },
+  {
+   "slug": "upload-style-only",
+   "kind": "template",
+   "use": "step 7: prefix when a customer's own images are the style donors",
+   "prompt": "Borrow only the rendering technique and the color grade of the attached image(s); do not reuse any person, character, object, writing or logo that appears in them.",
+   "from": "higgsfield/faceless-intake-script@Upload style-only prefix"
+  },
+  {
+   "slug": "sample-notice",
+   "kind": "message",
+   "use": "step 7: one line to the customer on a custom look",
+   "prompt": "A look sample may seem a little strange on its own; it only sets the style and is never a frame of the video.",
+   "from": "higgsfield/facelessvideo-103c40@Style-sample user notice"
+  },
+  {
+   "slug": "asset-character",
+   "kind": "template",
+   "use": "step 8: one character, 2:3",
+   "prompt": "One whole character standing in the middle of a plain, single-color flat backdrop, drawn exactly in this look: {STYLE}. Who: {DESCRIPTION, with a distinctive, readable outline}. No lettering and no watermark.",
+   "from": "higgsfield/faceless-intake-script@Character asset prompt"
+  },
+  {
+   "slug": "asset-location",
+   "kind": "template",
+   "use": "step 8: one location at the video's aspect",
+   "prompt": "{INTERIOR OR EXTERIOR} drawn exactly in this look: {STYLE}. Dressing: {MAIN FURNISHINGS}, with one named anchor object at {POSITION}. The place is empty: nobody in it, no characters and no figures. A wide view of the whole space. No lettering and no watermark.",
+   "from": "higgsfield/faceless-intake-script@Location asset prompt"
+  },
+  {
+   "slug": "asset-prop",
+   "kind": "template",
+   "use": "step 8: one prop, 1:1, including the through-line object",
+   "prompt": "One object on its own in the middle of a plain, single-color flat backdrop, drawn exactly in this look: {STYLE}. The object: {DESCRIPTION}. No hands, no setting and nothing else in frame. No watermark.",
+   "from": "higgsfield/faceless-intake-script@Prop asset prompt"
+  },
+  {
+   "slug": "identity-era",
+   "kind": "template",
+   "use": "step 8: a later era of a character, with the first incarnation attached",
+   "prompt": "This is the very person in the attached reference, shown later in life: {WHAT THE YEARS CHANGED}.",
+   "from": "higgsfield/faceless-intake-script@Identity-chain reference framing"
+  },
+  {
+   "slug": "identity-era-example",
+   "kind": "example",
+   "use": "step 8: the kind of change an era note carries",
+   "prompt": "the identical man at around fifty: a fuller build, grey through the beard, finer robes",
+   "from": "higgsfield/faceless-intake-script@Identity-chain era prompt"
+  },
+  {
+   "slug": "mannequin-chain",
+   "kind": "template",
+   "use": "step 8: every Mannequin cast member after the first",
+   "prompt": "Attach the first mannequin made for this video as an image reference and ask for the same build and the same render as that reference, now colored {ROLE COLOR}{, on the female base}, so bodies and material stay alike across the cast.",
+   "from": "higgsfield/faceless-style-library@Mannequin consistency chain prompt"
+  },
+  {
+   "slug": "mannequin-female",
+   "kind": "template",
+   "use": "step 8: any woman in the Mannequin style",
+   "prompt": "Female base, required for every woman: a feminine outline with a narrow waist, softly curved hips and gentle shoulders, wearing a simple smooth clay gown to the ankles. A woman never gets the male body.",
+   "from": "higgsfield/faceless-style-library@Mannequin female base"
+  },
+  {
+   "slug": "block-five",
+   "kind": "template",
+   "use": "step 14: every narration block (five cuts)",
+   "prompt": "Style: {STYLE}; {MOTION}. Match the attached references exactly in rendering and surface finish.\nPALETTE LOCK: {PALETTE LOCK}. Every color and the backdrop treatment come from the references alone; bring in no other color, no tinted, graded or painted backdrop the references lack, and do not recolor any character or object.\nOne ten-second scene told in FIVE shots joined by hard cuts. Never begin on a reference picture or on a sheet or swatch: build every shot fresh, with characters, place, colors and backdrop matching their references. Characters act and gesture only and never speak. Movement begins on the first frame.\nREFERENCES: @Image1 is the LOCATION ({SHORT DESCRIPTION}). @Image2 is {CHARACTER A} ({SHORT DESCRIPTION}). @Image3 is {CHARACTER B}. @Image4 is {PROP}.\nSHOT 1 (0.0-2.0 s) {FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 2 (2.0-4.0 s) {NEW FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 3 (4.0-6.0 s) {NEW FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 4 (6.0-8.0 s) {NEW FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 5 (8.0-10.0 s) {NEW FRAMING}: {PAYOFF ACTION}.\nCuts land at 2.0, 4.0, 6.0 and 8.0 seconds; no dissolve and no fade. {MOTION}, with motion carried through each shot and no frozen moment.",
+   "from": "higgsfield/facelessvideo-103c40@Block template (from prompts.md §3, used at Phase 4)"
+  },
+  {
+   "slug": "block-five-intake",
+   "kind": "template",
+   "use": "step 14: the same template as the script reference words it (kept for the copy check)",
+   "prompt": "Style: {STYLE}; {MOTION}. Rendering and surfaces follow the attached references to the letter.\nPALETTE LOCK: {PALETTE LOCK}; nothing outside the reference colors and backdrop treatment, no graded or painted background, no recolored figure.\nTen seconds, one scene, FIVE hard-cut shots. Stage every shot new; no opening on a reference image, sheet or swatch. Characters gesture and react and never speak. Motion from the first frame.\nREFERENCES: @Image1 the place; @Image2 the first character; @Image3 the second character; @Image4 the object.\nSHOT 1 (0.0-2.0 s) {FRAMING}: {ACTION}. HARD CUT. SHOT 2 (2.0-4.0 s) {NEW FRAMING}: {ACTION}. HARD CUT. SHOT 3 (4.0-6.0 s) {NEW FRAMING}: {ACTION}. HARD CUT. SHOT 4 (6.0-8.0 s) {NEW FRAMING}: {ACTION}. HARD CUT. SHOT 5 (8.0-10.0 s) {NEW FRAMING}: {PAYOFF ACTION}.\nFour hard cuts in all, at the even seconds; no dissolves; {MOTION} throughout.",
+   "from": "higgsfield/faceless-intake-script@Five-shot block template"
+  },
+  {
+   "slug": "block-timing",
+   "kind": "fragment",
+   "use": "step 14: the timing skeleton inside every block",
+   "prompt": "Five shots with hard cuts between them: SHOT 1 from 0.0 to 2.0 s, a HARD CUT, SHOT 2 from 2.0 to 4.0 s, and so on to SHOT 5 from 8.0 to 10.0 s (Kids use the four-shot pattern).",
+   "from": "higgsfield/faceless-generation-delivery@Block timing skeleton (five timed hard cuts)"
+  },
+  {
+   "slug": "block-kids",
+   "kind": "template",
+   "use": "step 14: Kids blocks (four cuts; vary the order every block)",
+   "prompt": "SHOT 1 (0.0-2.5 s) WIDE: {ACTION THAT SETS UP THE PLACE}.\nHARD CUT.\nSHOT 2 (2.5-5.0 s) CLOSE-UP of {CHARACTER}: {THEIR REACTION TO THE VOICE}.\nHARD CUT.\nSHOT 3 (5.0-7.5 s) EXTREME CLOSE-UP of {DETAIL OR PROP}: {THE OBJECT, UP CLOSE}.\nHARD CUT.\nSHOT 4 (7.5-10.0 s) MEDIUM: {THE PAYOFF OR CELEBRATION}.",
+   "from": "higgsfield/faceless-style-library@Kids 4-cut block template"
+  },
+  {
+   "slug": "block-four",
+   "kind": "template",
+   "use": "step 18: the fallback for a five-shot block that failed twice (four shots, one cut fewer); sizes free, adjacent sizes differ",
+   "prompt": "Style: {STYLE}; {MOTION}. Match the attached references exactly in rendering and surface finish.\nPALETTE LOCK: {PALETTE LOCK}.\nOne ten-second scene told in FOUR shots joined by hard cuts. Build every shot fresh from the references; characters act and gesture only and never speak. Movement begins on the first frame.\nREFERENCES: @Image1 is the LOCATION ({SHORT DESCRIPTION}). @Image2 is {CHARACTER A}. @Image3 is {PROP}.\nSHOT 1 (0.0-2.5 s) {FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 2 (2.5-5.0 s) {NEW FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 3 (5.0-7.5 s) {NEW FRAMING}: {ACTION}.\nHARD CUT.\nSHOT 4 (7.5-10.0 s) {NEW FRAMING}: {PAYOFF ACTION}.\nCuts land at 2.5, 5.0 and 7.5 seconds; no dissolve and no fade. {MOTION}, with no frozen moment.",
+   "from": "higgsfield/facelessvideo-103c40@Block template (from prompts.md §3, used at Phase 4)"
+  },
+  {
+   "slug": "block-three-kids",
+   "kind": "template",
+   "use": "step 18: the fallback for a Kids block that failed twice (three shots, two cuts); the clip check allows 3.7 s per shot for this block only",
+   "prompt": "SHOT 1 (0.0-3.3 s) WIDE: {ACTION THAT SETS UP THE PLACE}.\nHARD CUT.\nSHOT 2 (3.3-6.6 s) CLOSE-UP of {CHARACTER}: {THEIR REACTION TO THE VOICE}.\nHARD CUT.\nSHOT 3 (6.6-10.0 s) MEDIUM: {THE PAYOFF OR CELEBRATION}.",
+   "from": "higgsfield/faceless-style-library@Kids 4-cut block template"
+  },
+  {
+   "slug": "kids-timing",
+   "kind": "fragment",
+   "use": "step 14: Kids cut points",
+   "prompt": "Kids cut points: SHOT 1 0 to 2.5 s, SHOT 2 2.5 to 5 s, SHOT 3 5 to 7.5 s, SHOT 4 7.5 to 10 s.",
+   "from": "higgsfield/faceless-intake-script@Kids four-shot timing"
+  },
+  {
+   "slug": "no-talking",
+   "kind": "fragment",
+   "use": "step 14: every narration block",
+   "prompt": "Characters react and gesture only; nobody speaks.",
+   "from": "higgsfield/facelessvideo-103c40@No-talking prompt phrase"
+  },
+  {
+   "slug": "talk-rule",
+   "kind": "fragment",
+   "use": "step 14: narration versus dialogue blocks",
+   "prompt": "In a narration block characters only emote and never move their mouths, and the clip carries diegetic sound alone. A validated Kids dialogue block instead quotes each speaker's exact words, lets only those characters speak, and allows no narrator, music or extra voice.",
+   "from": "higgsfield/faceless-generation-delivery@Narration-block talk rule phrase"
+  },
+  {
+   "slug": "audio-constraints",
+   "kind": "fragment",
+   "use": "step 14: last two lines of every block (Seedance has no negative field, so avoidances are a CONSTRAINTS line)",
+   "prompt": "AUDIO: {DIEGETIC SOUND CUES ONLY}; no speech, no narrator and no music.\nCONSTRAINTS (keep all of these out): beginning on a reference picture, a sheet, a swatch or a still first frame; a held opening; any dissolve or fade; colors not in the references; a tinted, graded or painted backdrop the references lack; recolored characters; drifting style; extra or duplicated people; characters speaking or moving their lips; captions or any written words on screen; a photographic look{FLAT STYLES ONLY: ; a 3D-render look}; a watermark.{THE STYLE'S OWN CONSTRAINTS}",
+   "from": "higgsfield/faceless-intake-script@AUDIO + NEGATIVE lines"
+  },
+  {
+   "slug": "audio-constraints-alt",
+   "kind": "fragment",
+   "use": "step 14: the same lines as the parent skill words them (kept for the copy check)",
+   "prompt": "AUDIO: {DIEGETIC SOUND CUES ONLY}, and nothing spoken, narrated or musical.\nCONSTRAINTS: no reference image, sheet or swatch as the first frame and no frozen start; no dissolves or fades; no new colors or backgrounds beyond the references; no recoloring; no style drift; no added or cloned people; no talking and no lip movement; no captions or text; nothing photographic{FLAT STYLES ONLY: , nothing that reads as a 3D render}; no watermark.",
+   "from": "higgsfield/facelessvideo-103c40@AUDIO + NEGATIVE lines (prompts.md, both templates)"
+  },
+  {
+   "slug": "motion-flat",
+   "kind": "fragment",
+   "use": "step 14: {MOTION} for flat 2D styles without their own token",
+   "prompt": "limited 2D animation held on twos",
+   "from": "higgsfield/faceless-intake-script@{MOTION} flat 2D token"
+  },
+  {
+   "slug": "motion-dimensional",
+   "kind": "fragment",
+   "use": "step 14: {MOTION} for dimensional styles without their own token",
+   "prompt": "gentle hand-made movement with a light stop-motion character",
+   "from": "higgsfield/faceless-intake-script@{MOTION} dimensional token"
+  },
+  {
+   "slug": "kids-audio",
+   "kind": "rule",
+   "use": "step 14: AUDIO line for Kids clips",
+   "prompt": "Kids clips carry playful diegetic sound that the assembler keeps under the narrator: chimes, springy boings, pops, tinkling bells and little whooshes as characters hop. Name two to four cues, each tied to one movement, plus a soft room bed, and still say there is no speech, no narrator and no music.",
+   "from": "higgsfield/faceless-style-library@Kids clip AUDIO line rule"
+  },
+  {
+   "slug": "editorial-audio",
+   "kind": "rule",
+   "use": "step 14: AUDIO line for the Editorial style",
+   "prompt": "Each moving element earns one sound at most, and nothing makes a sound unless it moved. Two to four cues a block plus one bed: paper snaps and flicks as elements arrive, a rubber-stamp thud on the impact beat, quiet ticks as data steps in, and a low newsroom room tone under it all. Percussive, never a tune; still no speech, no narrator and no music (the bed is ambience, not a track).",
+   "from": "higgsfield/faceless-style-library@Editorial AUDIO line"
+  },
+  {
+   "slug": "label-fence",
+   "kind": "fragment",
+   "use": "not used: on-screen words are composited, never generated (STO-D304)",
+   "prompt": "no lettering anywhere apart from \"<LABEL>\", no garbled letters and no captions",
+   "from": "higgsfield/faceless-intake-script@Paper Diorama label fence"
+  },
+  {
+   "slug": "diorama-label",
+   "kind": "rule",
+   "use": "not used: replaced by an unlabeled prop (STO-D304)",
+   "prompt": "The diorama's trademark is one short printed label per scene, set on a prop: one or two words or a year, printed as worn letterpress on a ripped scrap of {ACCENT} paper. On a labeled block the usual ban on writing and captions is swapped for a ban on any writing except that label and on garbled letters; blocks without a label keep the whole ban. One label a block at most; a misspelled render gets one retry, after which the label goes and the prop stays. Every other style keeps symbols instead of words.",
+   "from": "higgsfield/faceless-style-library@Paper Diorama letterpress label and NEGATIVE swap"
+  },
+  {
+   "slug": "storybook-twos",
+   "kind": "fragment",
+   "use": "step 14: every Fairy Tale & Myth / Cinematic Storybook block, plus its constraints",
+   "prompt": "Put in every block: CLASSIC HAND-DRAWN 2D ANIMATION, drawn ON TWOS (about twelve drawings a second), with deliberately stepped pose-to-pose movement and tiny holds between poses, snappy key poses, NOT smooth, NOT fluid in-betweening, NOT slow motion; slow, graceful, dreamy camera moves are welcome. Add to CONSTRAINTS: smooth or fluid motion, slow motion, motion blur, a sixty-frames look. Keep the 3D-render ban, because this look is 2D.",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook on-twos block token + NEGATIVE"
+  },
+  {
+   "slug": "storybook-avoid",
+   "kind": "rule",
+   "use": "steps 14 and 17: moderation-safe staging for Storybook",
+   "prompt": "Grim images of death trip the video model's safety filter even in a painted fairy tale. Leave out cloaked boatmen and hooded figures, spirits of the dead, bodies, rivers of the dead, close menacing claw shadows and anything that reads as harm to a person. Carry a dark or underworld mood with buildings, light and landscape instead: gates, torchlight, fog, pale flowers, ruins, moonlight. Characters stay plainly adult and the usual child-safety rules hold. If a dark beat keeps failing, restage it as an empty, atmospheric place.",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook NSFW avoid list"
+  },
+  {
+   "slug": "kids-bed",
+   "kind": "rule",
+   "use": "step 23: the music bed prompt",
+   "prompt": "Turn the topic's mood into tempo, instruments and feel, in one sentence (two at most), instrumental with no singing and no lyrics. Calm or cosy topics: mellow lo-fi or warm marimba over airy pads at an easy middle tempo. Adventure or action: a brighter, bouncy small-band groove. Acoustic, jazz, lo-fi and small-combo wording tends to clear moderation; keep away from grand orchestral writing and from EDM or bass-drop terms, which are known to trip content filters. Download it and pass it to the assembler as --music.",
+   "from": "higgsfield/faceless-style-library@Kids music bed prompt rules"
+  },
+  {
+   "slug": "storybook-bed",
+   "kind": "rule",
+   "use": "step 23: the bed prompt for Fairy Tale & Myth / Cinematic Storybook",
+   "prompt": "The mood is dark and enchanted ambience: mysterious, calm, hushed and dreamlike, with long soft strings, a distant harp, a faint music box, a low choir pad and a far bell; instrumental, with no drums and no singing. It sits under the voice at --music-vol 0.09 with the duck, and is never bright or bouncy. A customer's own file always wins; if generation fails, ship without a bed and say so.",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook music mood"
+  },
+  {
+   "slug": "vo-line",
+   "kind": "template",
+   "use": "step 19: the text sent to the voice model: the plain spoken words (a direction wrapper only for a route that documents tags)",
+   "prompt": "{SPOKEN WORDS}\nDefault for fal-ai/elevenlabs/tts/multilingual-v2: send the line exactly as the manifest keeps it. That model has no direction or audio-tag syntax, so a bracketed delivery phrase, a timecode or a sound word would be read aloud. Delivery comes from word choice, the voice preset, `stability` and `style`, and `previous_text`/`next_text`. Only for a route whose facts row documents tags (eleven-v3 is silent on them, so name the route in a Known result first): [{DELIVERY}, {OPTIONAL BLOCK MOOD}, begins talking at once] {SPOKEN WORDS}.",
+   "from": "higgsfield/faceless-intake-script@VO line prompt format"
+  },
+  {
+   "slug": "delivery-example",
+   "kind": "example",
+   "use": "step 19: the delivery phrase, used only on a route that documents direction tags; otherwise it guides word choice and the style field",
+   "prompt": "dry, knowing explainer voice, even accent, crisp bright tone, brisk pace",
+   "from": "higgsfield/faceless-intake-script@{DELIVERY} example"
+  },
+  {
+   "slug": "mood-examples",
+   "kind": "example",
+   "use": "step 18: optional per-block mood",
+   "prompt": "a sly, bright reveal; low and secretive",
+   "from": "higgsfield/faceless-intake-script@Block mood examples"
+  },
+  {
+   "slug": "brackets",
+   "kind": "example",
+   "use": "step 19: performed sounds, only on a route that documents tags; on multilingual-v2 write the sound as a word in the line (it counts in the budget)",
+   "prompt": "[a small scoff] [a dry chuckle] [a sigh] [a soft laugh] [a mock gasp] [a whisper]",
+   "from": "higgsfield/faceless-intake-script@Performed brackets"
+  },
+  {
+   "slug": "kids-delivery",
+   "kind": "rule",
+   "use": "steps 10 and 19: Kids lines",
+   "prompt": "Kids lines take 17 to 21 words in each 10 s block, in the same voice but quicker and more excited. The excitement lives in the words themselves: short springy phrases, sound words and catch phrases written as spoken words (\"Oh wow!\", \"Whoa!\"), which count in the budget. On multilingual-v2 no bracket is sent (it has no tag syntax); a route that documents tags may take a {DELIVERY} phrase that names the feeling plainly, for example: thrilled, smiling storyteller, quick springy pace, bright happy tone, bubbling with delight.",
+   "from": "higgsfield/faceless-style-library@Kids EXCITED delivery example"
+  },
+  {
+   "slug": "kids-interplay",
+   "kind": "rule",
+   "use": "steps 10, 11 and 14: Kids narration and staging",
+   "prompt": "On screen the characters respond to the narrator: when the voice greets or asks something, that block's shot shows the reaction (a turn to camera and a wave, a nod, a gasp, a clap, a point, a finger to the lips), written into the shot and timed to the line. Mouths never move with the words; reacting is not talking. The narrator speaks both to the characters and to the viewer, and on lines aimed at the viewer the characters look straight into the lens. A question closes its block's line; the cut between blocks is the beat where the viewer answers, and the following block starts by giving the answer. Never leave a long gap inside a line for an answer.",
+   "from": "higgsfield/faceless-style-library@Kids interplay example lines"
+  },
+  {
+   "slug": "kids-call-examples",
+   "kind": "example",
+   "use": "step 10: Kids direct address",
+   "prompt": "\"Wave hello to Pip!\" \"Can YOU spot the blue kite?\"",
+   "from": "higgsfield/faceless-intake-script@Kids call-and-response examples"
+  },
+  {
+   "slug": "hook-example",
+   "kind": "example",
+   "use": "step 10: a cold open of eight words or fewer",
+   "prompt": "Nobody has ever seen most of the ocean.",
+   "from": "higgsfield/faceless-intake-script@Hook example"
+  },
+  {
+   "slug": "rewrite-pass",
+   "kind": "checklist",
+   "use": "step 10: before the script is locked",
+   "prompt": "1. Would the hook land with no context at all? 2. Can every number and date be traced to the research? 3. Does each block carry one idea, with every cut serving it? 4. Would shuffling the build blocks break the story (so they escalate)? 5. Is the turn a surprise and not a recap? 6. Does the closing line echo the hook and settle the through-line? 7. Is every full-block line 20 to 23 words (Kids 17 to 21), smooth, light on commas, paced for a full block, with humor that suits the channel? 8. In each block, does the shot text put the concrete things and amounts its own line names on screen, with no action motif twice in a row or over its budget?",
+   "from": "higgsfield/faceless-intake-script@Rewrite pass checklist"
+  },
+  {
+   "slug": "cold-open-example",
+   "kind": "example",
+   "use": "variants: long-form cold open",
+   "prompt": "He galloped toward the cannon fire sure of a win, and met his own soldiers running the other way.",
+   "from": "higgsfield/faceless-intake-script@Cold open example"
+  },
+  {
+   "slug": "rewind-example",
+   "kind": "example",
+   "use": "variants: long-form rewind line in block 3",
+   "prompt": "to see how he came to be on that road, we have to step back half a year",
+   "from": "higgsfield/faceless-intake-script@Rewind pivot line"
+  },
+  {
+   "slug": "handover-example",
+   "kind": "example",
+   "use": "variants: a chapter's closing hook",
+   "prompt": "and the reply arrived sooner than anybody had guessed",
+   "from": "higgsfield/faceless-intake-script@Chapter hand-over hook"
+  },
+  {
+   "slug": "uncertainty-example",
+   "kind": "example",
+   "use": "variants: an honest-uncertainty line",
+   "prompt": "historians have argued over what came next for two centuries",
+   "from": "higgsfield/faceless-intake-script@Honest-uncertainty line"
+  },
+  {
+   "slug": "meaning-example",
+   "kind": "example",
+   "use": "variants: the meaning chapter's contrast line",
+   "prompt": "the force that marched out was not the force that came home",
+   "from": "higgsfield/faceless-intake-script@Meaning contrast line"
+  },
+  {
+   "slug": "channel-explanations",
+   "kind": "message",
+   "use": "step 4: one-line meaning of each channel type",
+   "prompt": "Explainer walks through how something works or happened; History sets events in their time; Kids tells a gentle story for children; Fairy Tale & Myth retells a legend or myth.",
+   "from": "higgsfield/faceless-intake-script@Channel-type option explanations"
+  },
+  {
+   "slug": "kids-sound-modes",
+   "kind": "message",
+   "use": "step 3: Kids sound modes (the default is the first)",
+   "prompt": "Narrator alone (the default) or Narrator with characters who talk",
+   "from": "higgsfield/faceless-intake-script@Kids sound mode options"
+  },
+  {
+   "slug": "randomizer-queries",
+   "kind": "example",
+   "use": "step 4: searches when the brief asks for a surprise topic",
+   "prompt": "\"topics trending this week {MONTH YEAR}\", \"questions people searched most this week\"",
+   "from": "higgsfield/faceless-intake-script@Randomizer search queries"
+  },
+  {
+   "slug": "randomizer-titles",
+   "kind": "example",
+   "use": "step 4: the shape of a surprise topic",
+   "prompt": "\"Why X suddenly shows up everywhere\", \"What really makes X so expensive\"",
+   "from": "higgsfield/faceless-intake-script@Randomizer topic examples"
+  },
+  {
+   "slug": "intake-fields",
+   "kind": "rule",
+   "use": "step 4: the eight intake fields",
+   "prompt": "Before any call other than intake, all eight fields must be set: channel type, style, topic, length, aspect, subtitles on or off, cover yes or no, and the one locked voice. On this machine a field the brief leaves out takes its stated default and the delivery says so; nothing is asked.",
+   "from": "higgsfield/facelessvideo-103c40@Intake eight-field assertion"
+  },
+  {
+   "slug": "intake-missing",
+   "kind": "rule",
+   "use": "step 4: what counts as missing",
+   "prompt": "Missing means any of channel type, style, topic, length, shape, captions, cover, Kids sound mode, voice, or the title of a pasted script that has none.",
+   "from": "higgsfield/faceless-intake-script@Missing-intake condition"
+  },
+  {
+   "slug": "manifest-shape",
+   "kind": "schema",
+   "use": "step 11: work/<p>/script_manifest.json",
+   "prompt": "Top-level fields: the topic; the genre; animation_mode set to fully_animated; channel_type; the style key name; an assets roster (id, kind, name); through_line, giving its name, its asset, how it progresses and how it resolves; arc, giving the hook, the list of build beats, the turn and the payoff; blocks, where each holds its number n, arc_role, the spoken vo_line, its location, through_line_state, the shots list and assets_used; and sources as full research links. Genre follows the channel by a fixed map: an Explainer is education, a History video is history, Kids is kids and Fairy Tale & Myth is storytelling; never the display name. The through-line asset sits in every block's assets_used.",
+   "from": "higgsfield/facelessvideo-103c40@script_manifest.json shape"
+  },
+  {
+   "slug": "talking-fields",
+   "kind": "schema",
+   "use": "step 13: Kids Talking Characters fields",
+   "prompt": "Set talking_characters true at the top of the manifest and alternate block_kind between narration and dialogue, beginning with narration. Narration blocks keep 17 to 21 words. A dialogue block holds 16 to 22 words in all, spoken by one or two named characters, and its voice comes from the clip's own sound instead of a narrator take. The flag is never set in song mode.",
+   "from": "higgsfield/facelessvideo-103c40@Talking-characters manifest fields"
+  },
+  {
+   "slug": "talking-format",
+   "kind": "schema",
+   "use": "step 13: a dialogue block's vo_line and speakers",
+   "prompt": "In a dialogue block the vo_line field holds everything said in the order it is heard, and speakers lists the one or two speakers in that order; keep who says which line in the written script. The validator checks the flag, the alternation, the word bands and the number of speakers.",
+   "from": "higgsfield/faceless-style-library@Talking Characters manifest format"
+  },
+  {
+   "slug": "song-skeleton",
+   "kind": "template",
+   "use": "variants: song mode, split into the two fields the song model takes",
+   "prompt": "prompt (style): \"{A|A dance-along} children's song, sung by a {gentle|cheerful, lively} female singer whose voice smiles; a true tune with verses and a returning chorus, not narration; a steady constant beat at {100|112} BPM in plain 4/4 with no tempo changes, no slowing and no gaps between sections; eight-syllable lines in trochaic stress, sung one syllable per beat, each line starting on beat one as one 4-bar phrase; the chorus repeats verbatim; a {sweet|bouncy} nursery melody in {C|G} major moving in small steps inside one octave, verses lower and playful, the chorus a touch higher and brighter; {INSTRUMENT SET}; a clean, warm mix with the voice up front; {soft and tuneful|lively but sweet}, perfectly in tune and suited to toddlers.\"\nlyrics: \"[Intro] [Verse] four eight-syllable lines [Chorus] four lines full of action words [Verse] four lines [Chorus] the same four lines word for word [Verse] four lines [Chorus] the same four lines again [Outro]\"",
+   "from": "higgsfield/faceless-style-library@SONG PROMPT skeleton"
+  },
+  {
+   "slug": "song-moods",
+   "kind": "rule",
+   "use": "variants: song mode moods",
+   "prompt": "GENTLE, for slow walks, nature and bedtime: C major at 100 BPM in soft 4/4, with ukulele and acoustic guitar, glockenspiel, a light bass, a soft flute, gentle chorus handclaps and a touch of meadow ambience. DANCE-ALONG, for parties, exercise and action: G major at 112 BPM, a clap every other beat, a springy picked ukulele with the bass tied to the kick drum, marimba and sparkly bells, and a chorus full of action words such as clap, stomp, jump and spin.",
+   "from": "higgsfield/faceless-style-library@Song mood presets (GENTLE, DANCE-ALONG)"
+  },
+  {
+   "slug": "song-duration",
+   "kind": "rule",
+   "use": "variants: offering song mode",
+   "prompt": "On a Kids run (the Kids channel, or any channel in a Kids-catalog style) the duration choice also offers a real sung music video of one or two minutes beside the one-to-three-minute narrated lengths; choosing it locks song mode.",
+   "from": "higgsfield/faceless-style-library@Song mode duration option"
+  },
+  {
+   "slug": "song-maps",
+   "kind": "rule",
+   "use": "variants: song mode block maps",
+   "prompt": "Two-minute song, twelve blocks: block 1 the intro and the start of verse one; block 2 verse one; blocks 3 and 4 the first chorus; blocks 5 and 6 verse two; blocks 7 and 8 the second chorus; blocks 9 and 10 verse three; blocks 11 and 12 the last, fullest chorus. One-minute song, six blocks: block 1 intro and verse; blocks 2 and 3 chorus; block 4 verse; blocks 5 and 6 the last chorus. If the song and this plan drift apart by a few seconds, that is fine.",
+   "from": "higgsfield/faceless-style-library@Song block maps (12 and 6 blocks)"
+  },
+  {
+   "slug": "song-choreo",
+   "kind": "fragment",
+   "use": "variants: song mode block prompts",
+   "prompt": "Each block turns the meaning of its lyric line into movement and adds: the characters dance to a happy song for children, keeping to an even beat. The AUDIO line keeps to sounds in the scene (claps, hops), because the song itself is added during assembly.",
+   "from": "higgsfield/faceless-style-library@Song block choreography phrase"
+  },
+  {
+   "slug": "stickman-desc",
+   "kind": "fragment",
+   "use": "step 14: how Stickman is named in every prompt",
+   "prompt": "a rough paint-program web comic look: thin shaky black lines, flat solid fills, stick figures with egg heads and dot eyes, plain single-color backdrops",
+   "from": "higgsfield/facelessvideo-103c40@Stickman generic description"
+  },
+  {
+   "slug": "stickman-formula",
+   "kind": "formula",
+   "style": "stickman",
+   "prompt": "extremely minimal flat 2D web comic drawing: thin outlines of one even weight in black, egg-shaped heads with small dot eyes and a single stroke for a mouth, simple noodle arms and legs, flat solid color inside the lines, with NO shading, NO gradients and NO texture, a deadpan bare-bones design and plain backdrops of one flat color.",
+   "from": "higgsfield/faceless-intake-script@Stickman generic STYLE FORMULA"
+  },
+  {
+   "slug": "watercolor-oneliner",
+   "kind": "one-liner",
+   "style": "watercolor-chronicle",
+   "prompt": "Watercolor Chronicle: loose painted watercolor washes over fine ink sketching, a quiet period palette and soft paper grain; a storybook way to tell a documentary.",
+   "from": "higgsfield/faceless-intake-script@Watercolor Chronicle intake one-liner"
+  },
+  {
+   "slug": "watercolor-formula",
+   "kind": "formula",
+   "style": "watercolor-chronicle",
+   "prompt": "documentary illustration in hand-painted watercolor and ink: free, expressive washes laid over fine, assured ink drawing that shows each pen stroke, a quiet, restrained period palette leaning warm toward sepia, soft cotton-paper texture where washes bleed at their edges, sketchy unfinished margins that fade into bare paper at the frame edge, costume and architecture true to the period, painterly light from one side with soft shadows, a faint paper grain, and gentle painterly movement in which washes seem to breathe and lines feel alive, never mechanical; illustrated, not photographic, never live action.",
+   "from": "higgsfield/faceless-intake-script@Watercolor Chronicle STYLE FORMULA"
+  },
+  {
+   "slug": "watercolor-motion",
+   "kind": "motion",
+   "style": "watercolor-chronicle",
+   "prompt": "soft painterly movement, with breathing washes, living lines and a slight parallax between the painted layers",
+   "from": "higgsfield/faceless-intake-script@Watercolor {MOTION} slot"
+  },
+  {
+   "slug": "watercolor-palette",
+   "kind": "palette",
+   "style": "watercolor-chronicle",
+   "prompt": "the quiet period watercolor colors of the references, warm toward sepia; no bright modern hues, no neon and no gradients apart from the washes",
+   "from": "higgsfield/faceless-intake-script@Watercolor PALETTE LOCK line"
+  },
+  {
+   "slug": "studio3d-formula",
+   "kind": "formula",
+   "style": "studio-3d",
+   "prompt": "Studio 3D preschool look: chunky, rounded cartoon characters in 3D with a soft shiny toy finish, big lovable googly eyes and small friendly smiles, smooth surfaces between matte clay and glossy plastic with no hard edges, clear and readable outlines, bright, saturated candy colors such as red, yellow, blue, orange and green, soft gentle studio light with rounded soft shadows, a clean seamless pure white backdrop with plenty of empty space, a cheerful preschool CGI feel; not photographic, not live action, and no writing on screen.",
+   "from": "higgsfield/faceless-style-library@Studio 3D FORMULA"
+  },
+  {
+   "slug": "studio3d-motion-palette",
+   "kind": "motion+palette",
+   "style": "studio-3d",
+   "prompt": "{MOTION} (dimensional): bouncy, springy, friendly movement with hops, wobbles and blinks, and smooth, gentle camera moves; remove the 3D-render ban from CONSTRAINTS. PALETTE LOCK: the bright candy colors of the references on a seamless pure white backdrop; add no color and no gradient behind.",
+   "from": "higgsfield/faceless-style-library@Studio 3D MOTION + PALETTE LOCK"
+  },
+  {
+   "slug": "pastel-formula",
+   "kind": "formula",
+   "style": "pastel-flat-2d",
+   "prompt": "soft pastel preschool cartoon in flat 2D vector: a palette of soft pink, pale baby blue, mint, sandy yellow and lavender, every outline tinted one step darker than its fill and never black, big round eyes with white around large black pupils and tiny white highlights, simple rounded forms with natural curves, cel shading in clear flat shadow shapes, warm friendly faces, uncluttered backdrops shaded by a gentle, soft gradient, and nothing with sharp corners and no texture.",
+   "from": "higgsfield/faceless-style-library@Pastel Flat 2D FORMULA"
+  },
+  {
+   "slug": "pastel-motion-palette",
+   "kind": "motion+palette",
+   "style": "pastel-flat-2d",
+   "prompt": "{MOTION} (flat): simple, limited animation held on twos with soft bouncy easing; keep the 3D-render ban in CONSTRAINTS. PALETTE LOCK: the reference pastels (pink, a pale baby blue, mint, a sandy yellow and lavender), nothing new, outlines one shade darker and never black.",
+   "from": "higgsfield/faceless-style-library@Pastel Flat 2D MOTION + PALETTE LOCK"
+  },
+  {
+   "slug": "colorful3d-formula",
+   "kind": "formula",
+   "style": "colorful-3d",
+   "prompt": "bright stylized 3D cartoon: characters built round and chunky on purpose, with huge sparkling eyes full of feeling, broad warm grins and readable outlines, clean glossy toy-like surfaces, soft studio light with almost no shadow, glossy cartoon CGI and never photographic, an EXTREMELY VIVID candy palette pushed loud and punchy (cherry red, a sunny yellow, sky blue, orange and lime, all at full strength, never muted and never pastel), cosy storybook places made of soft, rounded shapes beneath a bright blue sky dotted with puffy clouds, a safe and cheerful mood where there is adventure yet never real danger, and lively, springy comic touches such as sweat drops, surprise marks and whoosh lines.",
+   "from": "higgsfield/faceless-style-library@Colorful 3D FORMULA"
+  },
+  {
+   "slug": "colorful3d-motion-palette",
+   "kind": "motion+palette",
+   "style": "colorful-3d",
+   "prompt": "{MOTION} (dimensional): lively, springy movement with comic accents and an energetic yet gentle camera that pushes in, orbits and cranes back; remove the 3D-render ban. PALETTE LOCK: the vivid, saturated candy primaries of the references, turned up bold; no drift toward muted or pastel and no new color; if heroes recur through the script, each one keeps its own single signature color.",
+   "from": "higgsfield/faceless-style-library@Colorful 3D MOTION + PALETTE LOCK"
+  },
+  {
+   "slug": "ink-formula",
+   "kind": "formula",
+   "style": "hand-drawn-ink",
+   "prompt": "thin-line illustration drawn by hand in ink: even, thin, slightly shaky black outlines on a PURE WHITE ground, figures and objects left without color, simple round-bodied figures with dots for eyes, tiny stroke mouths and wildly expressive eyebrows, soft, flat pale-grey shadow shapes beneath things, soft-edged and never hatched, all flat 2D with no gradients and no texture, STRICTLY NEUTRAL GREYSCALE with no color cast and no blue or cool tint and no tones except pure white, a neutral grey and black, quiet deadpan humor, tidy disciplined lines, never photographic.",
+   "from": "higgsfield/faceless-style-library@Hand-drawn Ink FORMULA"
+  },
+  {
+   "slug": "ink-motion-palette",
+   "kind": "motion+palette",
+   "style": "hand-drawn-ink",
+   "prompt": "{MOTION} (flat): simple, limited animation held on twos; keep the 3D-render ban. PALETTE LOCK: only pure white, a neutral grey and black; any color counts as a fault.",
+   "from": "higgsfield/faceless-style-library@Hand-drawn Ink MOTION + PALETTE LOCK"
+  },
+  {
+   "slug": "poster-formula",
+   "kind": "formula",
+   "style": "poster-vector",
+   "prompt": "cheerful, minimal poster cartoon in flat 2D vector: bold rounded geometric shapes without outlines, flat solid fills, NO gradients and NO texture, friendly round blobs for characters with little curved shut eyes or plain dot eyes and a small, simple smile, one quiet flat offset shadow in a darker tone per shape, a vivid, saturated set of colors (tangerine, sunny yellow, cobalt, bubblegum pink, grass green and deep navy) with touches of black and white, one plain flat backdrop color, and, as its trademark, a little white sparkle diamond.",
+   "from": "higgsfield/faceless-style-library@Poster Vector FORMULA"
+  },
+  {
+   "slug": "poster-motion-palette",
+   "kind": "motion+palette",
+   "style": "poster-vector",
+   "prompt": "{MOTION} (flat): snappy poster-like movement, shapes popping in with a slight overshoot; keep the 3D-render ban. PALETTE LOCK: the poster colors of the references with one flat color behind each scene; no gradient and no added color.",
+   "from": "higgsfield/faceless-style-library@Poster Vector MOTION + PALETTE LOCK"
+  },
+  {
+   "slug": "storybook-oneliner",
+   "kind": "one-liner",
+   "style": "cinematic-storybook",
+   "prompt": "Painted cinematic storybook: a rich fairy-tale look in 2D animation, with painterly light and deep shadow, finely dressed characters and enchanted places, drawn on twos the way classic cartoons were.",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook intake one-liner"
+  },
+  {
+   "slug": "storybook-formula",
+   "kind": "formula",
+   "style": "cinematic-storybook",
+   "prompt": "hand-painted 2D animation with a cinematic fairy-tale storybook look: soft painterly rendering, warm light shafts and deep, hazy shadows, semi-realistic, finely detailed characters whose faces show feeling, in ornate period dress, gothic and natural enchanted places, a muted jewel palette (dusk blue, deep burgundy, candle gold, forest green and near-black obsidian), delicate linework under soft graded shading, dramatic chiaroscuro, a dreamy enchanted mood and the polish of a 2D feature film; not photographic and without film grain.",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook FORMULA"
+  },
+  {
+   "slug": "storybook-palette",
+   "kind": "palette",
+   "style": "cinematic-storybook",
+   "prompt": "the muted jewel colors of the references (dusk blue, burgundy, candle gold, forest green, obsidian), a warm key light set against deep shadow, and no neon and no flat, bright cartoon primaries",
+   "from": "higgsfield/faceless-style-library@Cinematic Storybook PALETTE LOCK"
+  },
+  {
+   "slug": "editorial-oneliner",
+   "kind": "one-liner",
+   "style": "editorial",
+   "prompt": "Editorial documentary collage: cream paper, black-and-white archival cut-outs and one strong accent color (a large disc and a single colored hero), with the narrator carrying every word and no writing on screen.",
+   "from": "higgsfield/faceless-style-library@Editorial intake one-liner"
+  },
+  {
+   "slug": "editorial-formula",
+   "kind": "formula",
+   "style": "editorial",
+   "prompt": "flat editorial documentary collage set on a stage of warm cream paper with a faint fiber grain: black-and-white halftone archive photos cut out with rough white edges and a slightly shifted {ACCENT} outline behind each cut-out, a single {ACCENT} accent for the whole video (a big, flat {ACCENT} disc set behind the main subject, and among the monochrome exactly one hero element popped into color), ripped paper edges and strips of tape, soft paper shadows, hand-drawn {ACCENT} marker rings, arrows and underlines (abstract strokes, never letters), abstract data shapes without labels and flat stylized maps, slight print misregistration on inked parts, snappy staggered springy motion with a little overshoot; an illustrated collage, never photographic and never live action.",
+   "from": "higgsfield/faceless-style-library@Editorial FORMULA"
+  },
+  {
+   "slug": "editorial-motion",
+   "kind": "motion",
+   "style": "editorial",
+   "prompt": "crisp motion-graphics collage animation in which elements spring in one after another with a slight overshoot (a flat style: keep the 3D-render ban)",
+   "from": "higgsfield/faceless-style-library@Editorial MOTION slot"
+  },
+  {
+   "slug": "editorial-palette",
+   "kind": "palette",
+   "style": "editorial",
+   "prompt": "a warm cream paper ground, black-and-white halftone cut-outs and ONE {ACCENT} accent (the disc, the strokes and one popped element); nothing else in color, no gradients and no full-color scene",
+   "from": "higgsfield/faceless-style-library@Editorial PALETTE LOCK line"
+  },
+  {
+   "slug": "editorial-constraints",
+   "kind": "constraints",
+   "style": "editorial",
+   "prompt": "Add to CONSTRAINTS: legible writing, letters, words or numerals; live-action footage; a photographic look; a fully colored scene; any accent color other than the chosen one.",
+   "from": "higgsfield/faceless-style-library@Editorial NEGATIVE append"
+  },
+  {
+   "slug": "mannequin-oneliner",
+   "kind": "one-liner",
+   "style": "mannequin",
+   "prompt": "Clay mannequin reenactment: smooth, faceless figures in solid role colors playing out history in clean period settings.",
+   "from": "higgsfield/faceless-style-library@Mannequin intake one-liner"
+  },
+  {
+   "slug": "mannequin-formula",
+   "kind": "formula",
+   "style": "mannequin",
+   "prompt": "historical reenactment in clean 3D CGI with a clay render: smooth matte clay mannequins with no features at all (no face, no clothing detail, no seams), each character one solid color, a crisp viewport-like render in flat matte color with smooth surfaces, even neutral light with soft ambient bounce and no hard directional shadow, an even, very pale grey sky without clouds or gradient, plain and uncluttered settings true to the period, and CGI movement that is smooth, fluid and weighty, with genuine momentum and follow-through; not photographic, without film grain and without camera shake.",
+   "from": "higgsfield/faceless-style-library@Mannequin FORMULA"
+  },
+  {
+   "slug": "mannequin-motion-constraints",
+   "kind": "motion+constraints",
+   "style": "mannequin",
+   "prompt": "{MOTION} (dimensional): smooth, fluid CGI motion with weight, momentum and follow-through; remove the 3D-render ban (this look is a render; the photographic ban stays). Add to CONSTRAINTS: stiff stop motion, jittery doll movement, lagging or jumping motion, a cheap plastic-toy look, real claymation texture, grain, a shaking camera.",
+   "from": "higgsfield/faceless-style-library@Mannequin MOTION + NEGATIVE"
+  },
+  {
+   "slug": "mannequin-palette",
+   "kind": "palette",
+   "style": "mannequin",
+   "prompt": "each reference figure's solid matte role color, in period settings beneath an even, very pale grey sky; never time-of-day lighting, a sunset, a night scene or a blue sky",
+   "from": "higgsfield/faceless-style-library@Mannequin PALETTE LOCK"
+  },
+  {
+   "slug": "diorama-oneliner",
+   "kind": "one-liner",
+   "style": "paper-diorama",
+   "prompt": "Paper-diorama documentary: small sepia newsprint worlds, tactile cut-out figures, one accent color and moody tungsten light.",
+   "from": "higgsfield/faceless-style-library@Paper Diorama intake one-liner"
+  },
+  {
+   "slug": "diorama-formula",
+   "kind": "formula",
+   "style": "paper-diorama",
+   "prompt": "cinematic documentary told as a vintage paper diorama: tiny tabletop worlds made from yellowed sepia newsprint and card, ripped layered paper edges, a black-and-white halftone print texture, nameless halftone cut-out figures whose faces are hidden, one single {ACCENT} paper accent, worn printed texture on props, warm tungsten light with deep documentary shadows, a macro tilt-shift shallow focus, film grain and drifting paper dust, smooth hand-made stop-motion movement; nothing photographic, only hand-made paper materials.",
+   "from": "higgsfield/faceless-style-library@Paper Diorama FORMULA"
+  },
+  {
+   "slug": "diorama-motion",
+   "kind": "motion",
+   "style": "paper-diorama",
+   "prompt": "smooth, simple hand-made movement with a light stop-motion feel (a dimensional style: remove the 3D-render ban; the photographic ban always stays)",
+   "from": "higgsfield/faceless-style-library@Paper Diorama MOTION slot"
+  },
+  {
+   "slug": "diorama-palette",
+   "kind": "palette",
+   "style": "paper-diorama",
+   "prompt": "monochrome sepia newsprint plus ONE paper accent in {ACCENT}; no other color and no tinted or graded backdrop",
+   "from": "higgsfield/faceless-style-library@Paper Diorama PALETTE LOCK"
+  },
+  {
+   "slug": "papercraft-oneliner",
+   "kind": "one-liner",
+   "style": "papercraft",
+   "prompt": "Flat 2D papercraft (the Picture Story default): a collage of cut colored paper, flat shapes with clean scissor edges, light shadows between the layers and textured construction paper.",
+   "from": "higgsfield/faceless-generation-delivery@Picture Story style chip 1 description (Flat 2D Papercraft)"
+  },
+  {
+   "slug": "papercraft-formula",
+   "kind": "formula",
+   "style": "papercraft",
+   "prompt": "flat 2D papercraft collage: people and places cut out of colored construction paper, with clean scissor edges, flat stacked shapes with soft faint shadows between the paper layers, visible grain and fibers in the paper, cut-outs a little uneven as if trimmed by hand, a saturated paper palette with a matte finish, simple and readable layouts on a plain paper ground, a hand-made collage feel; not photographic, no gradients apart from the paper shadows, and no outlines because paper edges define every shape.",
+   "from": "higgsfield/faceless-generation-delivery@Picture Story Flat 2D Papercraft FORMULA"
+  },
+  {
+   "slug": "papercraft-palette",
+   "kind": "palette",
+   "style": "papercraft",
+   "prompt": "the matte construction-paper colors of the references, reading as real paper; no neon and no gradients",
+   "from": "higgsfield/faceless-generation-delivery@Picture Story PALETTE LOCK"
+  },
+  {
+   "slug": "edit-frame",
+   "kind": "template",
+   "use": "variants: every Picture Story edit frame (the previous frame is the only reference)",
+   "prompt": "Keep the attached picture EXACTLY as it is: the same framing, crop, camera, character, colors, background and style. Alter ONLY this: {ONE SMALL DETAIL, e.g. the eyes open, the brows pull together, the hand drops, the mouth opens, foam appears}. Redraw and restage nothing else.",
+   "from": "higgsfield/faceless-generation-delivery@KIND B edit prompt (verbatim shape)"
+  },
+  {
+   "slug": "edit-frame-alt",
+   "kind": "template",
+   "use": "variants: the same edit as the frame-by-frame section words it (kept for the copy check)",
+   "prompt": "Hold the reference picture as it stands (composition, crop, camera, character, palette, background, look) and change a single detail only: {e.g. knitted brows, open eyes, a lowered hand, a bit of foam}. Leave everything else untouched. Two to four of these edits chained on one shot make one moment.",
+   "from": "higgsfield/faceless-generation-delivery@Micro-variation edit prompt (frame-by-frame section)"
+  },
+  {
+   "slug": "burst-example",
+   "kind": "example",
+   "use": "variants: what a moment looks like as frames",
+   "prompt": "\"she woke, lying on her back\": F1 WIDE, Ana flat on the bed, eyes shut; F2 the same shot, eyes now open; F3 the same shot, head turned, squinting. \"a frown crossed her face\": F4 CLOSE-UP, face at rest; F5 the same shot, the frown arrives. \"she sat up\": F6 MEDIUM, halfway up. \"padded along the hall\": F7 the corridor, mid-step; F8 the same shot, rubbing her eyes. \"brushing her teeth\": F9 the brush at her mouth; F10 the same shot, hand lowered, a little foam left on her lip.",
+   "from": "higgsfield/faceless-generation-delivery@Picture Story mental model example (burst of edited frames)"
+  },
+  {
+   "slug": "shot-mix",
+   "kind": "example",
+   "use": "variants: a Picture Story shot rhythm",
+   "prompt": "for example the size sequence wide, medium, wide, close, wide, wide, medium, close, wide; a close-up handing over to a medium is the strongest change of shot",
+   "from": "higgsfield/faceless-generation-delivery@Shot mix example rhythm"
+  },
+  {
+   "slug": "cover-fields",
+   "kind": "rule",
+   "use": "step 27: the cover brief",
+   "prompt": "Reference: this run's style key, read for its look. Hook: a pasted script's locked title, or one exact promise of three to six words in the language and register of the video, taken from the current manifest; it is composited after the render, never drawn by the model. Scene: one sentence with the episode's hook and topic, not the script. People: up to three recurring characters from this run's roster, or a concept with nobody in it; never a made-up photographic person. Shape: 16:9, even for a vertical video. Look: this run's locked medium, materials and palette. One version only; nothing is reopened.",
+   "from": "higgsfield/faceless-generation-delivery@Thumbnail hand-off field list"
+  },
+  {
+   "slug": "stage-gate",
+   "kind": "message",
+   "use": "steps 9 and 15: the stage gate question, written to the gate file (never asked live)",
+   "prompt": "Images: the pictures are done; go on to video? Videos: the clips are done; go on to the voiceover? (Song mode: the clips are done; build the final video?) Audio: the voiceover is done; build the final video? Options: Continue (recommended) or Stop here. Written in the customer's language; the next stage never starts in the job that opened the gate.",
+   "from": "higgsfield/faceless-generation-delivery@Review question texts (parent stage review contract)"
+  },
+  {
+   "slug": "stage-gate-alt",
+   "kind": "message",
+   "use": "steps 9 and 15: the same gate as the parent skill words it (kept for the copy check)",
+   "prompt": "After a stage, open one gate and end the job: the stills are finished, continue to clips? The clips are finished, continue to narration (song mode: continue to the final cut)? The narration is finished, continue to the final cut? Two options, Continue (the recommended one) and Stop here, in the customer's language.",
+   "from": "higgsfield/facelessvideo-103c40@Stage review questions"
+  }
+ ],
+ "styles": {
+  "editorial": {
+   "title": "Editorial",
+   "one_liner": "editorial-oneliner",
+   "formula": "editorial-formula",
+   "motion": "editorial-motion",
+   "palette": "editorial-palette",
+   "constraints": "editorial-constraints",
+   "audio": "editorial-audio",
+   "family": "flat",
+   "flat_cut_check": true,
+   "accent": [
+    "burnt orange",
+    "coral red",
+    "mustard gold",
+    "petrol blue",
+    "deep crimson",
+    "forest green"
+   ],
+   "bed": null,
+   "stepped": null,
+   "default_for": [
+    "Explainer",
+    "History"
+   ]
+  },
+  "stickman": {
+   "title": "Stickman Cartoon",
+   "one_liner": "stickman-desc",
+   "formula": "stickman-formula",
+   "motion": "motion-flat",
+   "palette": null,
+   "family": "flat",
+   "flat_cut_check": true,
+   "bed": null,
+   "stepped": null,
+   "alternate_for": [
+    "Explainer",
+    "Picture Story"
+   ]
+  },
+  "paper-diorama": {
+   "title": "Paper Diorama",
+   "one_liner": "diorama-oneliner",
+   "formula": "diorama-formula",
+   "motion": "diorama-motion",
+   "palette": "diorama-palette",
+   "family": "dimensional",
+   "flat_cut_check": true,
+   "accent": [
+    "burnt orange",
+    "coral red",
+    "mustard gold",
+    "petrol blue",
+    "deep crimson",
+    "forest green"
+   ],
+   "bed": null,
+   "stepped": null,
+   "alternate_for": [
+    "History (geopolitics, money, power, institutions, investigation, or a 'cinematic' ask)"
+   ]
+  },
+  "mannequin": {
+   "title": "Mannequin",
+   "one_liner": "mannequin-oneliner",
+   "formula": "mannequin-formula",
+   "motion": "mannequin-motion-constraints",
+   "palette": "mannequin-palette",
+   "family": "dimensional",
+   "flat_cut_check": false,
+   "bed": null,
+   "stepped": null,
+   "alternate_for": [
+    "History"
+   ],
+   "note": "role colors are identity; the first mannequin is the body reference for the cast (mannequin-chain, mannequin-female); creatures are creature-shaped mannequins; at most child and adult variants; crowds are many distinct figures"
+  },
+  "watercolor-chronicle": {
+   "title": "Watercolor Chronicle",
+   "one_liner": "watercolor-oneliner",
+   "formula": "watercolor-formula",
+   "motion": "watercolor-motion",
+   "palette": "watercolor-palette",
+   "family": "flat",
+   "flat_cut_check": false,
+   "bed": null,
+   "stepped": null,
+   "default_for": [
+    "long-form History"
+   ]
+  },
+  "cinematic-storybook": {
+   "title": "Cinematic Storybook",
+   "one_liner": "storybook-oneliner",
+   "formula": "storybook-formula",
+   "motion": "storybook-twos",
+   "palette": "storybook-palette",
+   "family": "flat",
+   "flat_cut_check": false,
+   "bed": {
+    "prompt": "storybook-bed",
+    "music_vol": 0.09
+   },
+   "stepped": 12,
+   "default_for": [
+    "Fairy Tale & Myth"
+   ]
+  },
+  "studio-3d": {
+   "title": "Studio 3D",
+   "one_liner": "studio3d-formula",
+   "formula": "studio3d-formula",
+   "motion": "studio3d-motion-palette",
+   "palette": "studio3d-motion-palette",
+   "family": "dimensional",
+   "flat_cut_check": false,
+   "kids_catalog": true,
+   "bed": {
+    "prompt": "kids-bed",
+    "music_vol": 0.05
+   },
+   "stepped": null,
+   "default_for": [
+    "Kids"
+   ]
+  },
+  "pastel-flat-2d": {
+   "title": "Pastel Flat 2D",
+   "one_liner": "pastel-formula",
+   "formula": "pastel-formula",
+   "motion": "pastel-motion-palette",
+   "palette": "pastel-motion-palette",
+   "family": "flat",
+   "flat_cut_check": true,
+   "kids_catalog": true,
+   "bed": {
+    "prompt": "kids-bed",
+    "music_vol": 0.05
+   },
+   "stepped": null
+  },
+  "colorful-3d": {
+   "title": "Colorful 3D",
+   "one_liner": "colorful3d-formula",
+   "formula": "colorful3d-formula",
+   "motion": "colorful3d-motion-palette",
+   "palette": "colorful3d-motion-palette",
+   "family": "dimensional",
+   "flat_cut_check": false,
+   "kids_catalog": true,
+   "bed": {
+    "prompt": "kids-bed",
+    "music_vol": 0.05
+   },
+   "stepped": null
+  },
+  "hand-drawn-ink": {
+   "title": "Hand-drawn Ink",
+   "one_liner": "ink-formula",
+   "formula": "ink-formula",
+   "motion": "ink-motion-palette",
+   "palette": "ink-motion-palette",
+   "family": "flat",
+   "flat_cut_check": false,
+   "kids_catalog": true,
+   "bed": {
+    "prompt": "kids-bed",
+    "music_vol": 0.05
+   },
+   "stepped": null,
+   "alternate_for": [
+    "Picture Story"
+   ]
+  },
+  "poster-vector": {
+   "title": "Poster Vector",
+   "one_liner": "poster-formula",
+   "formula": "poster-formula",
+   "motion": "poster-motion-palette",
+   "palette": "poster-motion-palette",
+   "family": "flat",
+   "flat_cut_check": true,
+   "kids_catalog": true,
+   "bed": {
+    "prompt": "kids-bed",
+    "music_vol": 0.05
+   },
+   "stepped": null
+  },
+  "papercraft": {
+   "title": "Flat 2D Papercraft",
+   "one_liner": "papercraft-oneliner",
+   "formula": "papercraft-formula",
+   "motion": null,
+   "palette": "papercraft-palette",
+   "family": "flat",
+   "flat_cut_check": false,
+   "bed": null,
+   "stepped": null,
+   "default_for": [
+    "Picture Story"
+   ]
+  }
+ },
+ "voices": {
+  "about": "Default ElevenLabs preset per channel on fal-ai/elevenlabs/tts/multilingual-v2; a kit or brief may name another preset. None of these has been run for this skill; the only rate on record is 2.82 words a second for Brian (media-audio-generation facts row rate-brian-ml2, unverified on SL8), so every take is measured (takes.py). The vendor's own voice names have no mapping on fal.",
+  "Explainer": "Will",
+  "History": "George",
+  "long-form History": "George",
+  "Kids": "Jessica",
+  "Fairy Tale & Myth": "Callum",
+  "Picture Story": "Brian",
+  "alternates": [
+   "Brian",
+   "Callum",
+   "George",
+   "Charlie",
+   "Laura",
+   "Matilda",
+   "Daniel",
+   "Lily"
+  ]
+ }
+}
