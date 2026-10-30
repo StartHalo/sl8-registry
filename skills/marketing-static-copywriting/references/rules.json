@@ -1,0 +1,107 @@
+{
+ "about": "The rules of marketing-static-copywriting, one row per rule block, in SL8 wording. Each row restates one research prompt (the 'from' id at sl8-resesarch@559a1305, assessment 2026-10-27) from JuicyLucy's static-copywriting and ad-platform skills, which are proprietary: nothing here is copied, and workflow-check.mjs copy proves no row shares a run of more than 5 words with its source. Examples use the placeholder [Brand]; they show shape, never product scope. Defaults (counts, word windows) are defaults: a kit or brief may name others.",
+ "rows": [
+  {
+   "slug": "copy-target",
+   "step": 4,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@The copy target",
+   "prompt": "Before any line is drafted, write down in one sentence the single thing this ad has to land: one capability or one relief, phrased the way a customer talks. All variants say that same sentence in their own way for their own market. None of them renders it word for word into another language, and none drifts to a different idea halfway through the set. When the reference ad promises something the brand's claims do not support, the claims win: build the story around what the product really does, and drop a strong structure rather than let it carry an untrue claim."
+  },
+  {
+   "slug": "writing-rules",
+   "step": 5,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Core writing rules (six)",
+   "prompt": "1. Plain words, short sentences, the tone of a message to a friend. A word a twelve-year-old would stumble on goes. 2. Describe the reader's own concrete version of the problem rather than a generic goal (for example: the post that nobody saw, the evening lost to one banner in a design tool). Be precise about the pain, never about the result. 3. Open with what the reader gets to stop doing; how the product works (AI or otherwise) is secondary. 4. Read each line as the exact person it targets, tired, late in the evening, thumb on the feed: does it make them feel seen, or wary? 5. One idea per ad. Default window: within any 20 words, do not combine a discount, a deadline, a statistic and a promise. 6. Promise softly: phrasings such as 'can help you', 'made for people who', 'built for', 'many people begin to see'; never 'will', 'guaranteed' or 'never again'."
+  },
+  {
+   "slug": "platform-rules",
+   "step": 7,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Platform compliance rules (with the scam-text test)",
+   "prompt": "Platform layer, true for every advertiser: (a) No precise result figure offered as what the reader should expect; a range or a plain statement of a feature is acceptable (for example 'more orders coming in', 'leads arriving'), invented precision such as an exact order count by a time of day is not. (b) No absolutes about performance: never, always, guaranteed, 100%. Swap them for reduction phrasing: 'less time spent on', 'skip the manual part'. (c) Never pair a rock-bottom price with a dramatic result in one line. (d) A deadline only when a real promotion with a real end date is running; never a permanent 'ends tonight'. (e) No concept built as a handwritten note, a street flyer or a found scrap of paper, and no first-person earnings story with invented daily figures. (f) A how-it-works list ends on a feature or on what the reader no longer has to do, never on a promised cascade such as sales flooding in or going viral. (g) Lines about the reader's ad budget, ad spend or agency fees are high risk (financial-services review): write about the pain underneath instead. (h) The scam-text test, which outranks conversion: if the line could arrive word for word in a fraudulent SMS, rewrite it."
+  },
+  {
+   "slug": "two-layers",
+   "step": 7,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Two compliance layers",
+   "prompt": "Every line is checked twice. The platform layer is this skill's rules (platform-rules, rejected-shapes): the same for every advertiser. The brand layer is the brand's own bans: things this one customer may not say even when policy would allow them (a call-to-action style they forbid, a feature nobody may ever suggest it has). Passing one layer says nothing about the other; a line must clear both."
+  },
+  {
+   "slug": "story-order",
+   "step": 6,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Multi-line story order",
+   "prompt": "Copy that runs over several lines tells one story in this order: 1. where the reader is today (what they already have ready); 2. one concrete obstacle (each new piece begins from nothing, the same work again); 3. the product as what connects the two, with who does what made clear; 4. what it can do, said plainly (this one input turns into that); 5. a close that settles the same story with one relief or one choice, never a fresh price, discount or feature. Join lines with connecting words in the target language (but, so, with, which is why, and) so cause and effect survive. Two or three short paragraphs read better than a pile of one-line claims. Test: delete any one line; if the lines around it still mean the same, you wrote a list, so rewrite it as a story."
+  },
+  {
+   "slug": "agency",
+   "step": 6,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Agency rules",
+   "prompt": "Say who acts whenever a sentence could be read two ways. When the reader is in control, write 'With [Brand], you can ...'; when the product assists, write '[Brand] helps you ...'. Avoid lone command verbs (make, design, post) unless it is obvious who does them. Keep making and publishing apart: a design tool is where the work is made, a channel is where it goes out; never merge them into 'does it all'. When both are claimed, name one making action and one automating action, and only if the brand's claims support both."
+  },
+  {
+   "slug": "variation",
+   "step": 8,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Five-axis variation recipe",
+   "prompt": "Default: five variants per concept (a kit or brief may name another count), and they differ on five axes, not in wording only. 1. Entry point: who is reading, e.g. the swamped first-timer, the one who tried and gave up, the doubter, the solo owner short of hours, the shopper weighing options. 2. Format, one each: a checklist or how-it-works, a straight problem then relief, a question opener, a light first-person testimonial (a generic voice with no name, role, number, rating or 'customers say' attribution, flagged in the delivery as a style and not a quote: HR17, HR18), a POV moment. 3. Length, both kinds: at least one punch of fewer than ten words and one or more that lays out the problem first and the relief second. 4. Angle: hours saved, money saved, less stress, more confidence; do not let the set lean on a single one. 5. Compliance: every variant clears both layers. When a risky variant clearly wins, keep what made it land emotionally and rebuild it inside the rules; the risky wording itself is never kept because it converts."
+  },
+  {
+   "slug": "supplied-copy",
+   "step": 9,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@User-supplied copy branch",
+   "prompt": "The two layers govern lines this skill writes. When the customer hands over exact wording (a pasted line, 'use this text', an approved hook), the check reports and never blocks, and this branch ranks above every other rule, the brand's own bans included. Use their words exactly. Then, in the reply, name each risk precisely (which platform shape it matches, which brand ban it breaks, which claim it lacks support for) and give one compliant alternative per risk. Never change their words quietly, and never hold the batch back because of them."
+  },
+  {
+   "slug": "localization-lock",
+   "step": 10,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Localization copy lock (eight steps)",
+   "prompt": "Before any localized image is rendered: 1. write out the source ad's message and mark its hook, its mechanism, its proof or control line and its call to action; 2. rewrite it as short copy a native customer would write, keeping the approved claim (meaning carried over, not words); 3. check scope against the brand's claims; 4. check both layers; 5. keep the brand's protected Latin-script terms exactly as they are; 6. fix the line breaks to match the reference's hierarchy, with margins safe on a phone; 7. before the first render, write the exact copy into that language's provenance ledger; 8. after rendering, every glyph is inspected at full size, OCR only suggesting where to look and a person (or the reviewing agent) deciding. Shorter natural copy beats literal copy that forces small type. Script, direction and Simplified or Traditional Chinese come from the language table, never from memory."
+  },
+  {
+   "slug": "native-questions",
+   "step": 10,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Native-customer approval questions",
+   "prompt": "The same test in every language before localized copy is accepted: would a native customer use these words outside an ad agency? Does the term chosen name the thing this sentence is about? Does the passage read as if first written in this language rather than translated?"
+  },
+  {
+   "slug": "term-example",
+   "step": 10,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Spanish marketing-term table",
+   "prompt": "Example of choosing a term by the object it refers to (Spanish consumer copy, where the industry word 'creatividad' reads as jargon): several finished ads -> anuncios; variants of a single ad -> versiones del anuncio; how the ad looks -> diseños de anuncio; different messages or approaches -> formas de anunciarlo; ideas rather than finished assets -> ideas para tus anuncios."
+  },
+  {
+   "slug": "checklist",
+   "step": 11,
+   "from": "juicylucy-ads/staticcopywriting-e87f6c@Pre-submission checklist",
+   "prompt": "Thirteen items, each answered with what was seen, before the copy is handed on: 1 brand: the brand was named and its claims, bans and terms were read in this job; 2 numbers: no precise figure promised as the outcome; 3 absolutes: none of never, always, guaranteed or 100% about performance; 4 price-outcome: no rock-bottom price paired with a dramatic result in one line; 5 urgency: any deadline or discount matches a real dated promotion; 6 concept: no flyer or handwritten-note concept and no itemised earnings story; 7 list-ending: a checklist ends on a feature or a relief, not a promised result; 8 money: no high-risk ad-budget or fee framing; 9 brand-bans: every line clears the brand's bans; 10 claims: every claim is backed by the brand's claims; 11 plain: short sentences, everyday words, one idea per ad; 12 axes: the set differs on all five axes, not wording only; 13 scam-text: no line could pass as a fraudulent SMS."
+  },
+  {
+   "slug": "rejected-shapes",
+   "step": 7,
+   "from": "juicylucy-ads/adplatform-a2543e@recurring rejected structures (examples)",
+   "prompt": "Shapes that review keeps rejecting: 1. a how-it-works chain whose last link is a guaranteed result (upload once, the tool finds buyers, ads run, sales arrive, it goes viral); 2. exact unverifiable result counts, including tallies that climb day by day; 3. 'never do X by hand again' style absolutes; 4. a very low daily price carrying the whole ad (flagged even when the price is real); 5. countdowns and deep discounts that never actually end and run for every audience; 6. a pinned paper note or flyer with a personal earnings story and daily figures (the look alone is a scam trope); 7. a POV joke where tiny effort produces an absurd result, such as one photo and dozens of orders before noon."
+  },
+  {
+   "slug": "why-flagged",
+   "step": 7,
+   "from": "juicylucy-ads/adplatform-a2543e@why each pattern gets flagged (table)",
+   "prompt": "Why reviewers flag them: a guaranteed end result after a short list is the get-rich-quick shape, however true for some users; exact daily or hourly figures look invented because nobody can check them, and the more exact, the more suspicious; absolutes about performance count as unsupported guarantees; a rock-bottom price beside a dramatic result looks like bait even when accurate; permanent scarcity with no real promotion window is a deceptive practice; the flyer-and-income look is a known scam format and adds to any copy risk; the low-effort POV joke is the guaranteed-result shape again."
+  },
+  {
+   "slug": "money-framing",
+   "step": 7,
+   "from": "juicylucy-ads/adplatform-a2543e@money-framing trigger class",
+   "prompt": "Copy about the reader's spend on advertising or on an agency (stop paying for ads, drop the expensive agency) can be reviewed as a financial-services ad as well as for deception. Money framing plus a result claim is the riskiest combination of all."
+  },
+  {
+   "slug": "rewrite-shapes",
+   "step": 7,
+   "from": "juicylucy-ads/adplatform-a2543e@worked compliant rewrite shapes",
+   "prompt": "How to rewrite each risky shape and keep its appeal. Absolute to reduction: 'Done doing X by hand? [Brand] takes the busywork off you.' or 'Less time on X, more on the business.' Guaranteed chain to capability steps: close the list with a capability or with relief, such as 'One thing fewer to remember each morning' or 'You get your evenings back', never on a result. Absurd POV to relatable POV: the contrast is effort ('your co-founder is still wrestling with the design tool and this week's posts are already queued'), never revenue. Earnings story to modest testimonial: a plausible, unitemised change in one person's words. Permanent urgency to a dated offer: 'This week only, a lower price', and only for as long as that offer runs; otherwise drop the time pressure and lead with the benefit."
+  },
+  {
+   "slug": "retest",
+   "step": 9,
+   "from": "juicylucy-ads/adplatform-a2543e@re-testing a rejected line",
+   "prompt": "A line that won an appeal once is not cleared for later ones: another submission, another account or another reviewer may reject it. When the customer knowingly re-runs a risky line, write what they asked, name the exact pattern it matches, and plan for a rejection and an appeal rather than counting on first-pass approval. Keep that history with the brand's records, not in this skill."
+  }
+ ]
+}

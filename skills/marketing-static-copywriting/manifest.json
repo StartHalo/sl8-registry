@@ -1,0 +1,7 @@
+{
+  "name": "marketing-static-copywriting",
+  "version": "v1.0.0",
+  "description": "Static ad copy: hooks, overlay lines, body and call to action for image ads, written to one copy target sentence, checked against platform review rules and the brand's own bans, varied as a test set of five on five axes and handed on as a copy-set file; also locks localized copy in a provenance ledger before any render, and reports risks in customer-supplied wording without rewriting it. Text only, no generation calls. Use when: write or rewrite copy for a static ad batch, test variations per concept, check or fix a line ad review might reject, or lock target-language copy before localized ads are rendered. NOT for: rendering or localizing the ads (marketing-ad-localization); layout of a finished graphic (marketing-branded-graphic); campaign families (marketing-campaign-pack); remaking a reference ad (marketing-ad-remake); capturing the brand (marketing-brand-kit); picking winners (marketing-winner-analysis); video scripts.",
+  "generated_at": "2026-10-30T13:27:45.611Z",
+  "skill_md_sha256": "1aa4a4d14eac8da8683c5e157829877601c7598278b8cef15e81e79430d1d6a9"
+}
