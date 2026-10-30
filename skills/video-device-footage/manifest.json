@@ -1,0 +1,7 @@
+{
+  "name": "video-device-footage",
+  "version": "v1.0.0",
+  "description": "Found-footage clips that pass as a real device recording: one 4-12 s vertical 9:16 clip with native audio, written as one fictional, device-locked paragraph by one of seven writers (police or firefighter bodycam, courtroom security camera, security camera, video doorbell, phone bystander, hydraulic press, nature or process b-roll), then one text-to-video call, a read-back and a whole-clip contact-sheet check. Use when: a bodycam, CCTV, security-cam, doorbell-cam, courtroom-cam, caught-on-a-phone, press-crush or found-footage b-roll clip is asked for, or a short that must look caught on camera rather than filmed. NOT for: GTA-style game-capture clips (not offered); a stitched story, montage, captions, logo or voiceover (edit-beat-montage, edit-captions, media-video-production); a free-prompt text or image to video clip (media-video-generation); a script (media-script-writer); a sound bed alone (media-audio-generation); running ai-gen in general (media-ai-gen); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:22:09.001Z",
+  "skill_md_sha256": "be4b5b84b67d25b4ced74861f50c685e83fe99ee16c373ffb97cd223ef1f1c39"
+}

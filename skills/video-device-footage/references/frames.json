@@ -1,0 +1,228 @@
+{
+  "about": "The fixed texts of the seven device writers: openers, closers, the courtroom geography, the press Setup, the nature headers and closers, and a few load-bearing phrases. SL8 wording: each row restates the Everygen prompt named in `from` (no licence stated; never copied) and keeps its slots, its order and every ban. A slot is written [NAME: what goes there | or this]; fill it, keep the rest as written. `check` rows are compared with each paragraph by scripts/footage.mjs check (a missing fixed segment is a WARN). None of this wording has been run on Seedance 2.0 or the other lanes; the vendor tuned its own wording on a model it does not name.",
+  "rows": [
+    {
+      "slug": "bodycam/opener",
+      "variant": "bodycam",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/bodycamfootage-93836f@Step 7 section 1: opener + POV/render declaration template (three slots)",
+      "prompt": "Authentic [DEVICE: a police officer's body-worn camera | a firefighter's helmet camera] footage seen first-person through a [MOUNT: chest-mounted | helmet-mounted] unit: a very wide fisheye whose edges bow outward, riding low and tipped a little upward, the wearer's [HANDS: gloved hands and forearms | heavy turnout gloves] rising into the lower edge of frame, the picture bouncing and rocking with each stride and lurching on any sudden move. Low-cost body-camera sensor: focus deep and sharp from near to far with zero background softening, crude auto-exposure that flares bright and then drags itself back when the light shifts, skew from the rolling shutter whenever it turns quickly, light digital noise with a trace of compression blocks, [GRADE: cool, washed-down color with hard contrast, blacks crushed and highlights clipped] - never milky or hazy, never color-graded - a single recording with no break from start to end, free of any watermark, camera interface, timestamp or lettering on screen: only the raw file."
+    },
+    {
+      "slug": "bodycam/closer",
+      "variant": "bodycam",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/bodycamfootage-93836f@Step 7 section 5: closer template",
+      "prompt": "Real body-cam capture throughout: one first-person take without a single cut, the unit strapped to the wearer from first frame to last, never smoothing out into a stabilized shot and never drawing back to an outside filmed angle; no film effects, no shallow-focus blur, no slow motion, no cinema grade, no music; nowhere a caption, subtitle, watermark, date stamp, timestamp, camera interface or lettering on screen; only the sound the device itself picked up, mono and slightly distorted."
+    },
+    {
+      "slug": "bodycam/payoff-lines",
+      "variant": "bodycam",
+      "part": "speech shapes",
+      "check": false,
+      "from": "everygen/bodycamfootage-93836f@Proven payoff lines (rescue register, rotate)",
+      "prompt": "Rescue register, one per clip, never reused across a batch: a reassurance said twice and left unfinished ({steady... steady, I've got you}); a relieved count of the sign of life ({he's moving... he's moving}); a soft coaxing call ({come on, little one... there}); a breathless claim of the grab ({got her! got her}). Write a new line in one of these shapes each time."
+    },
+    {
+      "slug": "bodycam/action-commands",
+      "variant": "bodycam",
+      "part": "speech shapes",
+      "check": false,
+      "from": "everygen/bodycamfootage-93836f@Action-lane shouted commands",
+      "prompt": "Action lane, shouted, short and procedural, counted against the word budget: an order to let go of the object ({drop the knife - drop it!}); an order to get down ({down on the ground, now!}); the spoken warning real officers give before firing a taser ({Taser! Taser! Taser!}); an order about the hands ({put your hands behind you}); then a low, winded settle once control is reached ({okay... you're okay})."
+    },
+    {
+      "slug": "courtroom/opener",
+      "variant": "courtroom",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/aicourtvideos-8f0346@Camera identity opener (near verbatim)",
+      "prompt": "Grainy courtroom security footage from one camera fixed high in a corner: a slightly wide lens, subdued institutional color, light sensor noise, and a frame that never moves at all; no overlays, no timestamp, no camera interface - only the raw feed."
+    },
+    {
+      "slug": "courtroom/geography",
+      "variant": "courtroom",
+      "part": "geography",
+      "check": true,
+      "from": "everygen/aicourtvideos-8f0346@Scene geography template",
+      "prompt": "Scene geography, established first: a small wood-paneled courtroom viewed with real depth from a high rear corner - the bench raised and set back along the far wall in the upper frame, a [JUDGE: one adjective, gender and age] judge in black robes sitting high behind it and looking out across the room, the clerk a step lower at its side; then a clear stretch of empty floor; then, closer to the camera and mid-frame, [PLACE: the defense table | the witness stand | open floor] with [FOOL: the role and one wardrobe tag] turned toward the bench, [LAWYER: a lawyer in a gray suit next to him, or leave out], a bailiff against the side wall, and a thin gallery seen from behind along the bottom edge."
+    },
+    {
+      "slug": "courtroom/closer",
+      "variant": "courtroom",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/aicourtvideos-8f0346@Authenticity closer (near verbatim)",
+      "prompt": "Real courtroom-camera realism: no camera movement, no cinematic grade, no slow motion, no lettering or text of any kind, no subtitles, captions or watermarks."
+    },
+    {
+      "slug": "cctv/opener",
+      "variant": "cctv",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/cctv-e02220@Opener + camera/render declaration (near verbatim, three slots)",
+      "prompt": "Authentic security-camera footage: one surveillance camera fixed [MOUNT: high in a ceiling corner | beneath the roof eaves | on top of a tall pole] and looking steeply down over [LOCATION] at a wide angle, bolted in place and locked off, perfectly still for the whole recording, never panning, zooming, tilting or tracking anything. Cheap wide surveillance lens with gentle barrel distortion, everything sharp from foreground to background with no blur behind; [LOOK: DAYLIGHT - flat, slightly cool, washed-out color, windows and sky burned to white, shadows crushed | INFRARED NIGHT - grainy grey-scale night vision in infrared, a hot bright spot close to the lens that fades into black toward the edges, infrared bloom on near surfaces, eyes shining back white, heavy luminance grain]; a low frame rate that makes motion a little choppy and stepped, smearing and ghosting anything fast, light digital noise, and compression that turns blocky wherever something moves - not cinematic, not graded, not glossy - a single take with no break, with no camera label, no timestamp, no interface, no lettering on screen or watermark: only the raw feed."
+    },
+    {
+      "slug": "cctv/closer",
+      "variant": "cctv",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/cctv-e02220@Closer (near verbatim)",
+      "prompt": "Real fixed-surveillance realism: one take, locked off, from a camera fixed in place, motionless from start to end, never panning, zooming, tilting, tracking the action, cutting or reframing, and never composed or corrected; people and things pass through a frame nobody is steering; stuttering low-frame-rate motion, smeared by compression on anything quick; no film effects, no cinema grade, no slow motion, no shallow-focus blur, no music; nowhere a timestamp, date stamp, lettering on screen, camera label, channel name, interface, caption, subtitle or watermark; only thin, distant, mono on-camera sound with slight distortion, or no sound at all."
+    },
+    {
+      "slug": "doorbell/opener",
+      "variant": "doorbell",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/ringdoorbell-4f3b07@Section 1 template: opener + fixed-camera/render declaration with DAY / NIGHT IR / NIGHT COLOR sensor slots",
+      "prompt": "Authentic video-doorbell footage: a genuine motion-triggered clip from a wide-angle camera fixed at a home's front door about four feet off the ground, the lens aimed out toward the street side, with the door and its surrounding wall behind the camera where they can never be seen - looking a little downward across the porch toward the front path and the yard in a tall frame that runs from head to toe; a moderate fisheye bends straight lines such as railings, posts and the walkway outward, most strongly near the edges; focus deep, sharp right to the back, no background blur anywhere; the picture held dead still on its bracket, locked off, never panning, zooming, tilting or cutting. Cheap doorbell-sensor look - [SENSOR: DAY - a bit oversharpened and over-processed, punchy contrast, bright sky and sunlit lawn clipping to white while the porch in shade stays dim, light digital noise, faint compression shimmer, slight color fringing along hard edges | NIGHT IR - switched by itself to infrared: grainy black and white, a strong infrared hotspot lighting the nearest boards and dropping into pure black toward the edges and the far distance, heavy luminance grain, any animal's eyes flaring white, moths and insects drifting near the lens as glaring white orbs out of focus | NIGHT COLOR - a porch light that came on with the motion, casting a warm pool and hard shadows across a noisier, smeared color picture with crushed shadows] - never milky or hazy, never color-graded or cinematic; a single take without a break, with no logo, no date, no timestamp, no watermark, no lettering on screen and no camera interface, and the top-left corner left empty - only the raw recording."
+    },
+    {
+      "slug": "doorbell/closer",
+      "variant": "doorbell",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/ringdoorbell-4f3b07@Section 5 template: closer (near verbatim)",
+      "prompt": "Real fixed doorbell-camera realism: one take, locked off, from a camera fixed to the wall throughout, never panning, zooming, tilting, tracking or cutting, never turning into a handheld or cinematic shot; nothing moves except subjects crossing the frame while the fisheye stretches them; the lens stays pointed outward, which keeps the front door and the wall around it out of every frame; every subject arrives from far away or from an edge and physically travels across the frame - it never pops, fades or materializes in place; no film effects, no cinema grade, no slow motion, no shallow-focus blur, no music; no graphics, logos or watermarks baked in - nowhere a timestamp, date stamp, lettering on screen, camera menu, battery or wifi icon, caption or subtitle; only thin, slightly compressed doorbell-mic sound."
+    },
+    {
+      "slug": "phone/opener",
+      "variant": "phone",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/shotoniphone-92f669@Opener template (near verbatim, two slots)",
+      "prompt": "Authentic smartphone video shot by an amateur, vertical 9:16 - the actual file a phone recorded, seen strictly first-person through that phone's lens: only what the lens saw, and the phone, the person filming and any hand or arm holding it are never seen - the recording itself, not footage of somebody holding up a phone; the view handheld and shaky, [CAMERA: the mode's motion, written as what the view or the frame does, with no phone ever shown]. A cheap phone camera's look - its small wide lens slightly distorted at the edges, deep phone focus so everything is sharp near to far with no cinematic background blur, jumpy auto-exposure that flares toward a bright sky and recovers a beat late, autofocus that hunts soft then snaps sharp when the frame whips, skew and rolling-shutter wobble on fast swings, faint compression blocks and light sensor noise, [LIGHT: the scene's light and color] - never milky or hazy, never color-graded - one take without a break and nothing overlaid: no recording interface or camera app, no timestamp, no lettering on screen, no watermark, and never a phone or a hand anywhere in the picture - only the raw recording."
+    },
+    {
+      "slug": "phone/closer",
+      "variant": "phone",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/shotoniphone-92f669@Closer template (near verbatim)",
+      "prompt": "Real handheld phone-video realism: one first-person take with no cut, which is the recording itself, not footage of a hand or a phone; it never settles into a smooth stabilized glide, and never turns into a filmed cinematic angle; no film effects, no grading, no slow motion, no shallow-focus blur, no music; nowhere any lettering on screen, timestamp, date stamp, camera-app or phone interface, focus box, zoom slider, battery icon or red recording dot, nowhere a phone, hand or arm in the picture, and no subtitles, captions or watermarks; only natural phone-mic sound, mono and slightly distorted."
+    },
+    {
+      "slug": "phone/opener-lead",
+      "variant": "phone",
+      "part": "phrase",
+      "check": false,
+      "from": "everygen/shotoniphone-92f669@Opener lead phrase for the phone-in-frame ban",
+      "prompt": "the raw file the phone itself recorded, seen first-person through its lens, with no phone and no hand ever in the picture"
+    },
+    {
+      "slug": "phone/swarm-veto",
+      "variant": "phone",
+      "part": "phrase",
+      "check": false,
+      "from": "everygen/shotoniphone-92f669@Swarm veto phrase",
+      "prompt": "never a flat speckle of grain, a static-noise texture or a scatter of identical dots"
+    },
+    {
+      "slug": "phone/wind",
+      "variant": "phone",
+      "part": "phrase",
+      "check": false,
+      "from": "everygen/shotoniphone-92f669@Wind-distortion phrase",
+      "prompt": "wind hammering the mic until it clips and distorts"
+    },
+    {
+      "slug": "press/opener",
+      "variant": "press",
+      "part": "opener",
+      "check": true,
+      "from": "everygen/hydraulicpress-9aa6f6@Opener + render declaration template (two slots: [ANGLE + SPEED CLAUSE], [STAGING TELLS])",
+      "prompt": "Ultra-realistic footage of a genuine industrial hydraulic press slowly crushing one single object, shot from a locked-off camera, with a real heavy machine and real materials, actually recorded, never a simulation, a cartoon or a 3D render - [ANGLE AND SPEED: the hero angle, the two heavy steel plates almost filling the frame with the object held between them, and the speed]. Photorealistic and crisp, with true material texture, real grime and real weight, under hard practical light with deep shadows - [STAGING TELLS] - a fully clean picture: no readable labels, dials or gauges anywhere, no lettering on screen, no subtitles or captions, no logos and no watermarks."
+    },
+    {
+      "slug": "press/setup",
+      "variant": "press",
+      "part": "setup",
+      "check": true,
+      "from": "everygen/hydraulicpress-9aa6f6@Setup template (section 2, slot alternatives in brackets)",
+      "prompt": "Setup: [STAGING: an industrial press in heavy yellow and black, its painted frame worn and its platens bare scuffed steel | big polished round steel plates] taking up most of the frame, [OBJECT: named exactly, with its material in one clause] standing whole and centered on [BED: the scarred steel bed | the lower plate] in a narrow gap, with the ram's flat steel face already touching it or hovering just a finger's width over it."
+    },
+    {
+      "slug": "press/closer",
+      "variant": "press",
+      "part": "closer",
+      "check": true,
+      "from": "everygen/hydraulicpress-9aa6f6@Closer (verbatim every time)",
+      "prompt": "Real workshop-capture realism: one locked-off shot without a cut and without camera movement; the steel ram travels one way only, slowly, smoothly and relentlessly under enormous load, and never springs, wobbles or bounces like rubber; the press stays rigid metal the whole time, and the object keeps its exact identity and does precisely what its real material does in a press - flattening, oozing, shattering, splitting or holding out truthfully; the object breaks only where the descending steel is actually pressing it, never cracking or bursting before it is touched; every piece of debris, dust and ooze obeys gravity and momentum, thrown outward and coming to rest downward as heavy fragments, nothing floating or disappearing, nothing puffing up into glossy smooth tubes or gummy worms, nor any debris growing past the object's true volume; the ram completes its full stroke, all the way to the bottom; no melting or morphing, no cartoon physics, no cinema grade, no gauges, logos, captions, lettering on screen or watermarks; natural workshop sound, no music."
+    },
+    {
+      "slug": "nature/header-process",
+      "variant": "nature",
+      "part": "header",
+      "check": true,
+      "group": "nature-header",
+      "from": "everygen/natureclips-341612@Slot 1 header: creator/process",
+      "prompt": "Authentic creator footage from the real world, vertical 9:16, filmed handheld on a smartphone with deep focus, everything sharp -"
+    },
+    {
+      "slug": "nature/header-pov",
+      "variant": "nature",
+      "part": "header",
+      "check": true,
+      "group": "nature-header",
+      "from": "everygen/natureclips-341612@Slot 1 header: amateur POV",
+      "prompt": "Authentic first-person amateur footage, vertical 9:16, filmed on an action camera with deep focus -"
+    },
+    {
+      "slug": "nature/header-wildlife",
+      "variant": "nature",
+      "part": "header",
+      "check": true,
+      "group": "nature-header",
+      "from": "everygen/natureclips-341612@Slot 1 header: wildlife",
+      "prompt": "Authentic stock footage of wildlife, vertical 9:16, filmed on a long telephoto, the animal razor-sharp and only the distant background soft -"
+    },
+    {
+      "slug": "nature/header-market",
+      "variant": "nature",
+      "part": "header",
+      "check": true,
+      "group": "nature-header",
+      "from": "everygen/natureclips-341612@Slot 1 header: market/industry (with [place] slot)",
+      "prompt": "Authentic footage held by hand, vertical 9:16, recorded on a phone inside a busy [PLACE], deep focus -"
+    },
+    {
+      "slug": "nature/header-macro",
+      "variant": "nature",
+      "part": "header",
+      "check": true,
+      "group": "nature-header",
+      "from": "everygen/natureclips-341612@Slot 1 header: craft macro (rare)",
+      "prompt": "Real process footage, close up, vertical 9:16 -"
+    },
+    {
+      "slug": "nature/focus",
+      "variant": "nature",
+      "part": "phrase",
+      "check": false,
+      "from": "everygen/natureclips-341612@Core rule 3: depth-of-field dial phrase",
+      "prompt": "everything in sharp focus front to back, a deep depth of field with nothing blurred behind"
+    },
+    {
+      "slug": "nature/closer",
+      "variant": "nature",
+      "part": "closer",
+      "check": true,
+      "group": "nature-closer",
+      "from": "everygen/natureclips-341612@Slot 9 closer (near-fixed)",
+      "prompt": "Looks like real amateur footage: flat natural light, deep focus, true-to-life digital color, a single real-time shot with no cuts; no shallow depth of field, nothing cinematic, no color grade, no slow motion; no captions, no logos, no text, no watermark; nothing glossy or AI-perfect."
+    },
+    {
+      "slug": "nature/closer-wildlife",
+      "variant": "nature",
+      "part": "closer",
+      "check": true,
+      "group": "nature-closer",
+      "from": "everygen/natureclips-341612@Slot 9 wildlife swap",
+      "prompt": "Looks like real wildlife stock footage, the animal sharp: flat natural light, true-to-life digital color, a single real-time shot with no cuts; nothing cinematic, no color grade, no slow motion; no captions, no logos, no text, no watermark; nothing glossy or AI-perfect."
+    }
+  ]
+}
