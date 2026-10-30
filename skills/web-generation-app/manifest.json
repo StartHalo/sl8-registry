@@ -1,0 +1,7 @@
+{
+  "name": "web-generation-app",
+  "version": "v1.0.0",
+  "description": "Use when: build a generator, studio, preset or one-action app that makes images or videos for its users, add generation to a supplied app repo, or animate an app cover. Builds a TanStack Start app on this machine whose users run image or video generation jobs through one server-only ai-gen adapter, behind an app-local access guard, with a price estimate and confirmation before every paid submit, multipart uploads, a polled feed and history in SQLite, protected file delivery, a pre-delivery scan, and an optional cover reveal video made with Seedance first and last frames. NOT for: a marketing or landing site with no generation for its visitors (web-marketing-site); a 3D character showcase (web-3d-showcase); making images directly for a customer (media-image-generation, media-photo-editing, image-product-presets); running ai-gen in general (media-ai-gen); measuring media files (media-qc); a motion-graphics video (motion-graphics).",
+  "generated_at": "2026-10-30T13:31:58.653Z",
+  "skill_md_sha256": "c4a3efb6429f7bd03d913be3b4cff43b0dcd1a0e8fd74f866dbeca73f81fdc19"
+}
