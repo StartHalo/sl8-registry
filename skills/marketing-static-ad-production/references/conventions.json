@@ -1,0 +1,116 @@
+{
+ "about": "SL8 default conventions for marketing-static-ad-production: batch layout, the global ad-set number, folder and file names, allocation and the batch record. A kit may put its own file with the same keys in a conventions folder (statics.mjs where --conventions <dir>); each key group is read from there first, then from this file. Values restated from the JuicyLucy workspace conventions and ad-naming tool (research juicylucy-ads/juicylucy-b90136, juicylucy-ads/adnaming-d7bdfd); the name patterns are SL8's own.",
+ "layout": {
+  "campaign_root": "artifacts/<project>",
+  "dated_folder": "artifacts/<project>/<YYYY.MM.DD>",
+  "cycle_folder": "artifacts/<project>/<YYYY.MM.DD>/c<k>",
+  "masters": "artifacts/<project>/<YYYY.MM.DD>/c<k>/masters/<master id>/",
+  "approved": "artifacts/<project>/<YYYY.MM.DD>/c<k>/approved/<ad set folder>/<file>",
+  "finals": "artifacts/<project>/<YYYY.MM.DD>/c<k>/final/<language code>/<ad set folder>/<file>",
+  "record": "artifacts/<project>/<YYYY.MM.DD>/c<k>/batch.json"
+ },
+ "date": {
+  "format": "YYYY.MM.DD",
+  "rule": "From the intended publish day. An existing dated folder is reused only as a same-day continuation, and then nothing in it is changed, renumbered or reallocated: the new cycle is the next c<k>."
+ },
+ "sequence": {
+  "digits": 4,
+  "token": "#NNNN",
+  "scope": "Every folder and file name under the campaign root, at any depth, across every date, language and medium (a video batch on the same campaign shares the line).",
+  "reserve": "Scan for the highest number immediately before the folders are created; take one contiguous block for ad sets x languages; nothing is locked, so a second session must re-scan."
+ },
+ "ad_set": {
+  "pattern": "#{seq} {LL} - {batch} - {ads} Ads",
+  "fields": {
+   "LL": "the language code in capitals, the same token that leads every file name in the folder",
+   "batch": "a short descriptor of the concept or audience; no underscore",
+   "ads": "the number of distinct files the folder holds; a folder whose count changes is renamed"
+  },
+  "rule": "One language per ad-set folder."
+ },
+ "file": {
+  "pattern": "{LL} - {concept} - S_R-{ratio}_M-{mode}_{date}_v{version}.{ext}",
+  "fields": {
+   "LL": "language code in capitals",
+   "concept": "the concept name; no underscore and no ' - '",
+   "ratio": "9x16, 4x5, 1x1 or 16x9",
+   "mode": "copy, visual or remix (the master's mutation mode)",
+   "date": "the batch date YYYY.MM.DD; a localized copy inherits it",
+   "version": "1, then the next free number when the name already exists"
+  },
+  "inherit": "A localized copy keeps everything after the first ' - ' byte for byte; only the leading language token changes.",
+  "never": "Never type a file name, folder name or number by hand: statics.mjs writes them.",
+  "values": {
+   "mode": [
+    "copy",
+    "visual",
+    "remix"
+   ]
+  }
+ },
+ "allocation": {
+  "min_ad_sets_per_active_campaign": 5,
+  "languages_per_campaign": "ceil(min_ad_sets_per_active_campaign / ad sets per language): 1 -> 5, 2 -> 3, 3 -> 2, 4 -> 2, 5 or more -> 1",
+  "minimum": "The figure is a floor per active campaign, not a ceiling; rounding up may give more ad sets.",
+  "coverage": "Every campaign the customer's campaign structure marks active for new ads gets its share; a smaller requested total is corrected and reported in the allocation table, never met by leaving a campaign out.",
+  "ranking": "Within a campaign, rank candidate languages by conversion volume and cost efficiency together: never one metric alone, never a cost per result from a single conversion.",
+  "fresh": "Allocation reads the campaign structure and per-language results supplied for this run; an older export is never reused."
+ },
+ "languages": "marketing-ad-localization references/languages.json (codes, scripts, right-to-left flags); a code not in the table is confirmed before any folder or file uses it",
+ "batch_record": {
+  "about": "batch.json, one per cycle, written by the agent and read by statics.mjs history",
+  "fields": [
+   "date",
+   "cycle (integer, 1 for c1)",
+   "adapter",
+   "scope",
+   "selection_criteria",
+   "concepts[{name, source, prior_use, hypothesis, chosen_path}]",
+   "masters[{id, concept, mode, kept[], changed[], approved, languages[]}]",
+   "allocation[{campaign, language, ad_sets}]",
+   "folders[{code, folder, files[]}]",
+   "qa_fixes[]",
+   "exceptions[]",
+   "published: false",
+   "unused_variations[]"
+  ]
+ },
+ "safe_zones": {
+  "about": "Percent of the frame kept clear of text and the logo, so a platform's own interface (profile bar, caption, buttons) does not cover them. Keys are ratios; a kit's conventions file may replace the group.",
+  "9x16": {
+   "top": 14,
+   "bottom": 20,
+   "side": 6
+  },
+  "default": {
+   "top": 5,
+   "bottom": 5,
+   "side": 5
+  }
+ },
+ "copy_file": {
+  "about": "work/<project>/<master id>.copy.json, read by scripts/compose.py. Boxes are [x, y, w, h] as percent of the frame and must sit inside safe_zones; sizes are percent of the frame width. Step 15 writes the same boxes into the prompt's calm zones.",
+  "fields": {
+   "ratio": "9x16, 4x5, 1x1 or 16x9 (selects the safe zone)",
+   "font": "the brand's font file from the kit (fc-match confirms it); a line may name its own",
+   "scrim": "auto (a dark or light panel only where contrast would be under 4.5:1) or off",
+   "lines": "[{role: headline|proof|cta|brand, text, box, anchor: left|center|right, valign: top|middle|bottom, size_pct, min_size_pct, colour, max_lines, direction: ltr|rtl, language}]",
+   "logo": "{file (PNG; convert an SVG once), corner: top-left|top-right|bottom-left|bottom-right, width_pct (18), margin_pct (4); placed inside the safe area}"
+  },
+  "defaults": {
+   "headline": {
+    "size_pct": 9,
+    "max_lines": 3
+   },
+   "proof": {
+    "size_pct": 5,
+    "max_lines": 2
+   },
+   "cta": {
+    "size_pct": 6,
+    "max_lines": 1
+   }
+  },
+  "rules": "The headline is never set smaller than another line; every role present in the approved copy has a line; the logo box is the corner box the prompt kept empty (width_pct plus twice margin_pct wide, inside the safe area)."
+ }
+}
