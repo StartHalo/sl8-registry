@@ -1,0 +1,7 @@
+{
+  "name": "marketing-commercial",
+  "version": "v1.0.0",
+  "description": "Commercial product media from a brief: hero shots, PDP images, ad creative, lifestyle stills, e-commerce batches and a product reveal clip: the invariant first, the packshot held through an edit route, fal's eight-layer prompts, one varied axis per batch variant, clean copy space, a still approved before any video, each file checked against the packshot and delivered with its endpoint, request id and defects. Use when: a product shoot or product set from a brief, PDP or e-commerce images, background or platform variants, a product ad still, a reveal or demo clip from an approved still, or a product row from marketing-campaign-pack. NOT for: a named product preset (image-product-presets); a multi-channel campaign (marketing-campaign-pack); a finished graphic with copy and logo (marketing-branded-graphic); creator-style ads (marketing-ugc); cutouts and slider edits (media-photo-editing); a free-prompt still, object removal or upscaling (media-image-generation); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:26:46.652Z",
+  "skill_md_sha256": "b0c8b5d3da8d602a965708c33ebd8fee7d0e2e3658898deb179552138c7060fb"
+}
