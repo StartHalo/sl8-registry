@@ -1,0 +1,263 @@
+{
+  "about": "Every line video-ambient-loop says or sends: the customer's chat lines, the sentences scripts/loop_decide.py assembles into the picture, clip and music prompts, and the fix-table clauses. All are SL8 wording: they restate Everygen's Rain and ambient lines (no licence stated, so restated, never copied; workflow-sources.json everygen copy false) and are cited by research id in `from`. The vendor wrote and tuned them for Seedance 2.5, Nano Banana 2 and Lyria 3.5 in its own app; neither its wording nor these restatements have been run on this machine's models. The chat lines are defaults: a kit or brief may set its own. Square brackets are filled at run time; the copy check (workflow-check.mjs copy) compares each `prompt` with the research prompt in `from`.",
+  "rows": [
+    {
+      "slug": "plan-line",
+      "use": "chat, first output (step 3)",
+      "prompt": "[the scene in a few plain words], [real and unfiltered, for the real look only], [vertical, wide or square], [the length in words].",
+      "from": "everygen/rainambient-fe45fe@Plan line example (film look)"
+    },
+    {
+      "slug": "plan-line-example-film",
+      "use": "chat, an example of the plan line",
+      "prompt": "Night rain on a cosy window seat, vertical, close to two and a half minutes.",
+      "from": "everygen/rainambient-fe45fe@Plan line example (film look)"
+    },
+    {
+      "slug": "plan-line-example-real",
+      "use": "chat, an example of the plan line in the real look",
+      "prompt": "Heavy rain over a back garden, real and unfiltered, vertical, about a minute.",
+      "from": "everygen/rainambient-fe45fe@Plan line example (real look)"
+    },
+    {
+      "slug": "plan-steps",
+      "use": "chat, the three plain steps under the plan line (step 3)",
+      "prompt": "1. Build the scene: [scene, a few words] (and the music, when it was asked for). 2. Start the rain falling. 3. Assemble your video.",
+      "from": "everygen/rainambient-fe45fe@The steps and the plan"
+    },
+    {
+      "slug": "before-call",
+      "use": "chat, a few words before each paid call",
+      "prompt": "Preparing the scene:",
+      "from": "everygen/rainambient-fe45fe@Talking to them (fixed chat lines and banned words)"
+    },
+    {
+      "slug": "picture-back",
+      "use": "chat, when the picture is back (step 7); never describe the picture",
+      "prompt": "The scene is ready. Next, the rain starts to fall:",
+      "from": "everygen/rainambient-fe45fe@Picture-back line"
+    },
+    {
+      "slug": "clip-wait",
+      "use": "chat, alone, once, after the clip call is sent (step 8)",
+      "prompt": "Give it a few minutes.",
+      "from": "everygen/rainambient-fe45fe@Clip waiting line"
+    },
+    {
+      "slug": "final-wait",
+      "use": "chat, alone, once, while the video is encoded (step 16)",
+      "prompt": "Nearly done.",
+      "from": "everygen/rainambient-fe45fe@Stitch waiting line"
+    },
+    {
+      "slug": "redo",
+      "use": "chat, alone, before a redo (step 9); then clip-wait",
+      "prompt": "Once more, so the rain comes out right.",
+      "from": "everygen/rainambient-fe45fe@Redo line"
+    },
+    {
+      "slug": "handoff",
+      "use": "chat, the run's closing message (step 17)",
+      "prompt": "Your [scene, a few words] is ready: [the length in words] of [what the rain falls on and how it sounds], built to play over and over. [One short question offering two or three choices]?",
+      "from": "everygen/rainambient-fe45fe@Hand-off fill-in shape"
+    },
+    {
+      "slug": "handoff-choices",
+      "use": "chat, the choices the hand-off may offer (step 17)",
+      "prompt": "another scene; more length, offered only below the longest; a wide frame, offered only for a vertical one; soft piano under the rain, or the rain by itself when music is already in",
+      "from": "everygen/rainambient-fe45fe@Hand-off template and examples"
+    },
+    {
+      "slug": "handoff-example",
+      "use": "chat, an example hand-off",
+      "prompt": "Your forest in the rain is ready: about a minute of steady rain on the ferns and mossy stones, built to play over and over. Would you like a wide version, or soft piano under the rain?",
+      "from": "everygen/rainambient-fe45fe@Reference: historical hand-off example"
+    },
+    {
+      "slug": "mist-note",
+      "use": "chat, added to the hand-off when a travelling element was asked for and kept resting",
+      "prompt": "The mist stays resting in place, so the scene keeps calm every time it plays.",
+      "from": "everygen/rainambient-fe45fe@Mist hand-off line"
+    },
+    {
+      "slug": "thunder-note",
+      "use": "chat, added to the hand-off when thunder or lightning was asked for",
+      "prompt": "Thunder would come back at the same moment every time it plays, so this one has steady rain without it.",
+      "notes": "From research:everygen/rainambient-fe45fe#113 (a fine point, not a prompt)."
+    },
+    {
+      "slug": "longest-note",
+      "use": "chat, added to the hand-off when more than the longest length was asked for",
+      "prompt": "It is built to play again and again, so leave it running as long as you want.",
+      "from": "everygen/rainambient-fe45fe@Failures and changes"
+    },
+    {
+      "slug": "music-failed",
+      "use": "chat, in the hand-off when the music failed twice",
+      "prompt": "The soft piano did not come together this time; I can try it again.",
+      "from": "everygen/rainambient-fe45fe@Failures and changes"
+    },
+    {
+      "slug": "scene-failed",
+      "use": "chat, when the picture or the clip failed after its retry",
+      "prompt": "This scene would not come together. Shall I try a different one?",
+      "from": "everygen/rainambient-fe45fe@Failures and changes"
+    },
+    {
+      "slug": "video-failed",
+      "use": "chat, when the video could not be put together",
+      "prompt": "I could not finish your video just now. Shall I try again?",
+      "from": "everygen/rainambient-fe45fe@Failures and changes"
+    },
+    {
+      "slug": "kling-note",
+      "use": "chat, added to the hand-off when the clip came from Kling",
+      "prompt": "This version carries very little rain sound; I can make one where the rain is clearly heard.",
+      "from": "everygen/rainambient-fe45fe@Decide, don't ask (decision rules)"
+    },
+    {
+      "slug": "picture-rules",
+      "use": "picture prompt, after the scene's picture and light lines",
+      "prompt": "The rain shows as bright streaks against a dark background, every wet surface shines, and there is depth from a near object right by the lens out to a distant background. The place is empty, with nobody and no animals in it.",
+      "from": "everygen/rainambient-fe45fe@What a good one is (target description)"
+    },
+    {
+      "slug": "film-look-picture",
+      "use": "picture prompt, film look",
+      "prompt": "It looks like a frame from a calm, lovely film, with fine grain.",
+      "from": "everygen/rainambient-fe45fe@What a good one is (target description)"
+    },
+    {
+      "slug": "real-look-picture",
+      "use": "picture prompt, real look",
+      "prompt": "It looks like real, unedited footage: soft natural light, muted true-to-life colour, no filter and no grade.",
+      "from": "everygen/rainambient-fe45fe@What a good one is (target description)"
+    },
+    {
+      "slug": "calmer-picture",
+      "use": "lever for a refused picture or clip: replaces the picture line's people or busy details",
+      "prompt": "an empty place with nobody in it",
+      "from": "everygen/rainambient-fe45fe@Failures and changes"
+    },
+    {
+      "slug": "rain-sentence",
+      "use": "clip prompt, second sentence (every scene but the car and snowy windows)",
+      "prompt": "Falling rain shows as bright streaks from start to finish.",
+      "from": "everygen/rainambient-fe45fe@Loop clip prompt template"
+    },
+    {
+      "slug": "rain-sentence-car-window",
+      "use": "clip prompt, second sentence for the car window (asking for streaks across the frame made the picture roll the window down)",
+      "prompt": "Drops keep landing on the glass and running down it in thin bright trails from start to finish.",
+      "from": "everygen/rainambient-fe45fe@Real-look insert and car/snow window note"
+    },
+    {
+      "slug": "rain-sentence-snowfall-window",
+      "use": "clip prompt, second sentence for the snowy window",
+      "prompt": "Snow keeps falling past the glass in soft bright flakes from start to finish.",
+      "from": "everygen/rainambient-fe45fe@Real-look insert and car/snow window note"
+    },
+    {
+      "slug": "clip-body",
+      "use": "clip prompt, after the motion line and the rain sentence; the real-look insert goes right after its third sentence",
+      "prompt": "The shot is fixed on a tripod, with no panning, tilting, zooming or shaking; every bit of movement comes from the rain. It plays at normal speed, never slowed down or sped up. Only the rain moves the place: it stays empty of people and animals, nothing smokes or steams, nothing comes into view or goes out of it, and the light holds even.",
+      "from": "everygen/rainambient-fe45fe@Loop clip prompt template"
+    },
+    {
+      "slug": "clip-sound",
+      "use": "clip prompt, after the body (and the real-look insert)",
+      "prompt": "Sound: [sound line from the scene row], kept at one soft, steady volume from beginning to end and finishing as quietly as it starts.",
+      "from": "everygen/rainambient-fe45fe@Loop clip prompt template"
+    },
+    {
+      "slug": "clip-close",
+      "use": "clip prompt, last sentence",
+      "prompt": "The downpour keeps one even strength throughout, and the final frame matches the opening frame exactly, so it repeats with no visible seam.",
+      "from": "everygen/rainambient-fe45fe@Loop clip prompt template"
+    },
+    {
+      "slug": "real-look-insert",
+      "use": "clip prompt, real look only, right after 'and the light holds even.'; never the word phone",
+      "prompt": "Unprocessed look: true exposure, fine natural sensor noise, soft real-world colour, no grading.",
+      "from": "everygen/rainambient-fe45fe@Real-look insert and car/snow window note"
+    },
+    {
+      "slug": "windless",
+      "use": "motion line clause with trees in view (keeps gusts out of picture and sound)",
+      "prompt": "in windless air",
+      "from": "everygen/rainambient-fe45fe@Windless-air phrase"
+    },
+    {
+      "slug": "mist-resting",
+      "use": "motion line clause when a travelling element (mist, fog, cloud) was asked for",
+      "prompt": "a layer of mist lying low and settled among the trees",
+      "from": "everygen/rainambient-fe45fe@Requested mist kept resting phrase"
+    },
+    {
+      "slug": "music-line",
+      "use": "music prompt (step 6); with fal-ai/elevenlabs/music the bracket is dropped and music_length_ms is set",
+      "prompt": "A soft, low solo piano with a muffled felt tone, airy and unhurried, instrumental only, played as one unbroken piece of [the track length in words], never pausing or stopping.",
+      "from": "everygen/rainambient-fe45fe@Reference: Lyria length steer (2:45)"
+    },
+    {
+      "slug": "fix-rain-softer-window-seat",
+      "use": "fix: rain too loud (re-film with the scene's sound line made softer, surfaces kept); window seat example",
+      "prompt": "light rain tapping softly on the tall window glass and the wooden roof overhead",
+      "from": "everygen/rainambient-fe45fe@Fix line: rain too loud (window seat, stitch route)"
+    },
+    {
+      "slug": "fix-rain-heavier-window-seat",
+      "use": "fix: rain too soft (re-film with the sound line made heavier, surfaces kept); window seat example",
+      "prompt": "a heavy downpour beating close against the tall window glass and drumming on the wooden roof",
+      "from": "everygen/rainambient-fe45fe@Fix line: rain too soft (window seat)"
+    },
+    {
+      "slug": "fix-jump-at-restart",
+      "use": "fix: a visible jump at the restart point (re-film, naming the moving thing coming back to rest)",
+      "prompt": "the pine branches rock and come to rest in the very place they began",
+      "from": "everygen/rainambient-fe45fe@Fix line: jump at restart"
+    },
+    {
+      "slug": "fix-faint-rain-daylight",
+      "use": "fix: rain too faint in daylight (new picture with less sky)",
+      "prompt": "a dark row of trees and the walls of the house fill the view behind the falling rain",
+      "from": "everygen/rainambient-fe45fe@Fix line: faint rain in daylight"
+    },
+    {
+      "slug": "fix-too-dark",
+      "use": "fix: too dark (new picture, same look, stronger light line; never turn dusk or night into day)",
+      "prompt": "the lamp casts its glow across the window ledge and pane",
+      "from": "everygen/rainambient-fe45fe@Fix line: too dark"
+    },
+    {
+      "slug": "fix-too-glossy-film",
+      "use": "fix: too glossy in the film look (new picture, softer contrast, more haze)",
+      "prompt": "shot on 35mm stock, fine grain",
+      "from": "everygen/rainambient-fe45fe@Fix line: too glossy, film look"
+    },
+    {
+      "slug": "fix-too-glossy-real",
+      "use": "fix: too glossy in the real look (new picture; never the words film look)",
+      "prompt": "honest exposure, faint natural sensor noise, subdued colours, no gloss anywhere",
+      "from": "everygen/rainambient-fe45fe@Fix line: too glossy, real look"
+    },
+    {
+      "slug": "fix-something-appears",
+      "use": "fix: something appears (re-film; the camera sentence unchanged; the place named as staying empty, phrased positively)",
+      "prompt": "the street stays empty the whole time",
+      "from": "everygen/rainambient-fe45fe@Fix line: something appears"
+    },
+    {
+      "slug": "fix-leaves-hardly-move",
+      "use": "fix: rain or leaves hardly move (re-film with the moves made concrete, nothing shrunk)",
+      "prompt": "each leaf jumps and sinks under the drops and springs straight back up",
+      "from": "everygen/rainambient-fe45fe@Fix line: leaves hardly move"
+    },
+    {
+      "slug": "fix-generic-sound",
+      "use": "fix: a flat, featureless rain sound (re-film, naming the nearest surface)",
+      "prompt": "drops tapping right up close on the window glass and the ledge",
+      "from": "everygen/rainambient-fe45fe@Fix line: rain sounds generic"
+    }
+  ]
+}

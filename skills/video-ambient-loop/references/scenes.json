@@ -1,0 +1,349 @@
+{
+  "about": "Starter scene table for video-ambient-loop (WF48-a1 step 4). The vendor's own table (its rain cheat sheet) is not served upstream (research:everygen/rainambient-fe45fe#129), so every line here is SL8 wording, written from the rules the source documents: rain shows only as bright streaks against something dark and in what it lands on (#3, #50); only motion that comes back (#47); no stillness or shrinking words (#49, #51); no wind with trees in view (#52); the sound line names close surfaces and no standout sound (#53, #114). None of these rows has been run on any model: treat the first clip of each scene as a measurement (learnings VID-L381). A kit or brief may replace any row or add a scene; scripts/loop_decide.py checks the words of every motion and sound line it is given.",
+  "looks": {
+    "film": "A single warm lamp against a cool blue evening or night, or pale silver day; the picture reads like a frame from a calm film (research:everygen/rainambient-fe45fe#4).",
+    "real": "An overcast day, dusk, or a lone light after dark; muted true colour with no filter, like unedited footage (research:everygen/rainambient-fe45fe#4)."
+  },
+  "mood": [
+    {
+      "words": [
+        "cozy",
+        "cosy",
+        "sleep",
+        "sleeping",
+        "bedtime",
+        "nap"
+      ],
+      "scene": "window-seat",
+      "source": "research:everygen/rainambient-fe45fe@Decide, don't ask (decision rules); test runs 1, 4, 9 and 15 (research:everygen/rainambient-fe45fe@Reference: test runs table)"
+    },
+    {
+      "words": [
+        "study",
+        "studying",
+        "focus",
+        "homework"
+      ],
+      "scene": "city-window",
+      "source": "test runs 3 and 7 (research:everygen/rainambient-fe45fe@Reference: test runs table)"
+    }
+  ],
+  "default_scene": "window-seat",
+  "real_no_place_scene": "garden",
+  "rows": [
+    {
+      "slug": "window-seat",
+      "name": "window seat",
+      "plan": "Night rain on a cosy window seat",
+      "handoff": "rainy window seat",
+      "look": "film",
+      "match": [
+        "window seat",
+        "window nook",
+        "reading nook by the window"
+      ],
+      "picture": "A cushioned window seat in a dim wooden room at night, a folded wool blanket and an open book on the cushion close to the lens, a tall window wet with beaded drops, and dark pine trees outside under a black sky.",
+      "light": {
+        "film": "One small warm lamp glows on the sill against the cool blue night outside.",
+        "real": "One lamp on the sill is the only light, with the room around it in soft shadow."
+      },
+      "motion": "Rain falls in bright streaks in front of the dark pines outside; drops strike the window, bead up and run down the glass in thin trails, and small splashes jump on the wet outer sill.",
+      "sound": "steady rain tapping close on the tall window glass and drumming softly on the wooden roof overhead",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene, most runs (window seat in test runs 1, 4, 9, 15); these SL8 lines not run"
+    },
+    {
+      "slug": "garden",
+      "name": "back garden",
+      "plan": "Heavy rain over a back garden",
+      "handoff": "rainy back garden",
+      "look": "real",
+      "match": [
+        "garden",
+        "backyard",
+        "back yard",
+        "back garden",
+        "yard"
+      ],
+      "picture": "A small back garden in heavy rain seen from under the eave of a house: a wet stone path with puddles close to the lens, flower beds and low shrubs, and a dark hedge and wooden fence filling the background.",
+      "light": {
+        "film": "Soft silver daylight under a heavy grey sky, with one warm window glowing at the edge of the frame.",
+        "real": "Soft grey overcast daylight with muted natural colour."
+      },
+      "motion": "Rain falls in bright streaks against the dark hedge; drops splash in the puddles on the stone path and spread into rings, and the shrub leaves jump and sink under each drop and spring straight back up, in windless air.",
+      "sound": "rain pattering on the shrub leaves and splashing into the puddles on the stone path",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene rebuilt for loops in 5.0 (research:everygen/rainambient-fe45fe#86); these SL8 lines not run"
+    },
+    {
+      "slug": "open-lot",
+      "name": "empty lot",
+      "plan": "Rain over an empty lot at dusk",
+      "handoff": "rainy empty lot",
+      "look": "real",
+      "match": [
+        "parking lot",
+        "car park",
+        "empty lot",
+        "open lot",
+        "parking"
+      ],
+      "picture": "An empty paved lot at dusk: shining wet asphalt and painted lines close to the lens, shallow puddles, one tall lamp post, and a dark row of trees and a low building far behind.",
+      "light": {
+        "film": "One tall lamp casts a warm pool of light on the wet asphalt against the cool blue dusk.",
+        "real": "Dusk, with one tall lamp casting a pale light on the wet asphalt."
+      },
+      "motion": "Rain falls in bright streaks through the lamp light against the dark trees; drops splash on the wet asphalt and rings spread across the shallow puddles.",
+      "sound": "rain spattering close on wet asphalt and plinking into the shallow puddles",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene never run (research:everygen/rainambient-fe45fe#88); these SL8 lines not run"
+    },
+    {
+      "slug": "night-branch",
+      "name": "branch at night",
+      "plan": "Rain on a leafy branch at night",
+      "handoff": "rainy branch at night",
+      "look": "real",
+      "match": [
+        "branch",
+        "leaves at night",
+        "night branch",
+        "tree branch"
+      ],
+      "picture": "A close view of a leafy branch at night, wet leaves shining close to the lens, a dark garden and a black sky behind, and one porch light far away.",
+      "light": {
+        "film": "One far porch light glows warm against the cool blue night.",
+        "real": "One far porch light is the only light at night, the leaves catching its glow."
+      },
+      "motion": "Rain falls in bright streaks against the black sky; drops hit the wet leaves, which jump and sink and spring straight back up, and fall from the leaf tips onto the leaves below, in windless air.",
+      "sound": "rain pattering close on the wet leaves and tapping from leaf to leaf",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene never run (research:everygen/rainambient-fe45fe#88); these SL8 lines not run"
+    },
+    {
+      "slug": "car-window",
+      "name": "car window",
+      "plan": "Rain on a car window at night",
+      "handoff": "rainy car window",
+      "look": "film",
+      "match": [
+        "car",
+        "car window",
+        "windshield",
+        "windscreen",
+        "in the car"
+      ],
+      "picture": "Inside a parked car at night looking out through the side window: rain-beaded glass close to the lens, the dark door frame at the edge, and a dark street with soft warm shop lights far away.",
+      "light": {
+        "film": "The warm glow of distant street lamps against the cool blue night.",
+        "real": "Distant street lamps are the only light, soft through the wet glass."
+      },
+      "motion": "Drops land on the side window, bead up and run down the glass in thin bright trails in front of the dark street outside.",
+      "rain_sentence": "rain-sentence-car-window",
+      "sound": "rain drumming on the car roof and tapping close on the side window glass",
+      "trees": false,
+      "weak": false,
+      "tested": "vendor scene rebuilt for loops in 5.0; its rain sentence is replaced (research:everygen/rainambient-fe45fe#46, #86); these SL8 lines not run"
+    },
+    {
+      "slug": "snowfall-window",
+      "name": "snowy window",
+      "plan": "Snow falling past a window at night",
+      "handoff": "snowy window",
+      "look": "film",
+      "match": [
+        "snow",
+        "snowfall",
+        "snowy",
+        "snowing",
+        "winter window"
+      ],
+      "picture": "A frosted window at night seen from a warm room, a candle burning on the sill close to the lens, and heavy snow falling past dark fir trees outside.",
+      "light": {
+        "film": "One warm candle on the sill against the cool blue night outside.",
+        "real": "One candle is the only light, the snow outside lit faintly by it."
+      },
+      "motion": "Snow falls in bright flakes past the dark firs outside the glass, and the candle flame flickers on the sill.",
+      "rain_sentence": "rain-sentence-snowfall-window",
+      "sound": "a soft, even hush of snow brushing the window glass in a quiet room",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene; its rain sentence is replaced (research:everygen/rainambient-fe45fe#46); these SL8 lines not run"
+    },
+    {
+      "slug": "cabin-porch",
+      "name": "cabin porch",
+      "plan": "Rain on a cabin porch at dusk",
+      "handoff": "rainy cabin porch",
+      "look": "film",
+      "match": [
+        "cabin",
+        "porch",
+        "veranda",
+        "deck"
+      ],
+      "picture": "A covered wooden cabin porch at dusk: a rocking chair and a wet railing close to the lens, a lantern fixed to the wall by the door, rain pouring off the roof edge, and a dark pine forest beyond.",
+      "light": {
+        "film": "The wall lantern glows warm against the cool blue dusk.",
+        "real": "Dusk, with the wall lantern as the only light."
+      },
+      "motion": "Rain falls in bright streaks against the dark pines; water runs off the roof edge in a row of thin streams and splashes on the wet porch boards, in windless air.",
+      "sound": "rain drumming on the porch roof and splashing on the wooden boards and railing",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene (test runs 6, 11, 16); these SL8 lines not run"
+    },
+    {
+      "slug": "forest",
+      "name": "forest",
+      "plan": "Heavy rain in a quiet forest",
+      "handoff": "rainy forest",
+      "look": "film",
+      "match": [
+        "forest",
+        "woods",
+        "woodland",
+        "pine",
+        "jungle",
+        "rainforest"
+      ],
+      "picture": "A forest floor in heavy rain: ferns and mossy stones close to the lens, and tall dark trunks fading into the distance.",
+      "light": {
+        "film": "Soft silver daylight under the canopy, the trunks dark against it.",
+        "real": "Soft grey daylight under the canopy with muted natural colour."
+      },
+      "motion": "Rain falls in bright streaks in front of the dark trunks; drops hit the ferns, which jump and sink and spring straight back up, and splash on the mossy stones and the wet ground, in windless air.",
+      "sound": "rain pattering close on the fern leaves and the moss and on the wet forest floor",
+      "trees": true,
+      "weak": false,
+      "tested": "vendor scene (test runs 8, 17; the fused prompt test T5); these SL8 lines not run"
+    },
+    {
+      "slug": "lake",
+      "name": "lake",
+      "plan": "Rain over a calm lake",
+      "handoff": "rainy lake",
+      "look": "film",
+      "match": [
+        "lake",
+        "pond",
+        "lakeside",
+        "jetty",
+        "dock"
+      ],
+      "picture": "A lake shore in the rain: wet reeds and the end of a wooden jetty close to the lens, dark open water, and a black tree line on the far bank.",
+      "light": {
+        "film": "Soft silver daylight over the water, the far trees dark against it.",
+        "real": "Soft grey overcast daylight over the water with muted natural colour."
+      },
+      "motion": "Rain falls in bright streaks against the dark tree line; drops land on the lake and make tiny, even rings all over the surface, and splash on the wet jetty boards.",
+      "sound": "rain pattering on the lake surface and tapping on the wooden jetty boards",
+      "trees": true,
+      "weak": true,
+      "note": "The weakest loop: rings spreading on water never return to where they began, and large rings vanished at every join (research:everygen/rainambient-fe45fe#115).",
+      "tested": "vendor scene (test runs 10, 13, 19); these SL8 lines not run"
+    },
+    {
+      "slug": "city-window",
+      "name": "city window",
+      "plan": "Rain on a high city window at night",
+      "handoff": "rainy city window",
+      "look": "film",
+      "match": [
+        "city",
+        "apartment",
+        "skyline",
+        "high rise",
+        "downtown",
+        "urban"
+      ],
+      "picture": "A high apartment window at night: rain on the glass close to the lens, a desk lamp on the sill, and a dark city of small lit windows far below.",
+      "light": {
+        "film": "One warm desk lamp against the cool blue night city.",
+        "real": "One desk lamp is the only light in the room, the city lights soft beyond the glass."
+      },
+      "motion": "Rain falls in bright streaks against the dark buildings outside; drops strike the glass, bead up and run down it in thin trails.",
+      "sound": "rain tapping close on the window glass and pattering on the ledge outside",
+      "trees": false,
+      "weak": false,
+      "tested": "vendor scene (test runs 3, 7, 18); these SL8 lines not run"
+    },
+    {
+      "slug": "fireplace",
+      "name": "fireside",
+      "plan": "A fire inside while rain falls on the window",
+      "handoff": "rainy fireside",
+      "look": "film",
+      "match": [
+        "fireplace",
+        "fireside",
+        "fire",
+        "hearth"
+      ],
+      "picture": "A stone fireplace in a dim cabin room with the fire burning low, a rug and an armchair close to the lens, and a rain-streaked window at one side showing the black night.",
+      "light": {
+        "film": "The low fire glows warm against the cool blue night in the window.",
+        "real": "The fire is the only light, low and warm, the window dark beside it."
+      },
+      "motion": "Flames flicker and curl in the fireplace; outside the window, rain falls in bright streaks against the black night and runs down the glass.",
+      "sound": "rain tapping on the window glass over a low, even murmur from the fire",
+      "trees": false,
+      "weak": true,
+      "note": "A weaker loop: one fire crackle came back every 7 seconds, 11 dB above the rest (research:everygen/rainambient-fe45fe#114).",
+      "tested": "vendor scene (test run 14); these SL8 lines not run"
+    },
+    {
+      "slug": "tokyo-alley",
+      "name": "Tokyo side street",
+      "plan": "Rain in a Tokyo side street at night",
+      "handoff": "rainy Tokyo side street",
+      "look": "film",
+      "match": [
+        "tokyo",
+        "japan",
+        "alley",
+        "neon",
+        "side street"
+      ],
+      "picture": "A narrow Tokyo side street at night after closing: wet paving stones shining close to the lens, shuttered shopfronts, paper lanterns hanging under the eaves, a glowing vending machine, and dark buildings rising behind.",
+      "light": {
+        "film": "The warm lanterns and the vending machine glow against the cool blue night.",
+        "real": "The lanterns and the vending machine are the only light at night."
+      },
+      "motion": "Rain falls in bright streaks through the lantern light against the dark buildings; drops splash on the wet stones and rings spread across the puddles.",
+      "sound": "rain pattering on the wet stones and puddles and drumming on the awnings overhead",
+      "trees": false,
+      "weak": false,
+      "tested": "vendor scene (test run 2); these SL8 lines not run"
+    },
+    {
+      "slug": "storm",
+      "name": "storm",
+      "plan": "A heavy storm over a dark meadow",
+      "handoff": "stormy meadow",
+      "look": "film",
+      "match": [
+        "storm",
+        "stormy",
+        "thunderstorm",
+        "downpour",
+        "monsoon"
+      ],
+      "picture": "A wide meadow in a heavy storm at night: tall wet grass close to the lens, an old barn far off, a black sky, and a dark tree line on the horizon.",
+      "light": {
+        "film": "One warm light in the barn window against the cool blue storm sky.",
+        "real": "One light in the barn window is the only light in the storm."
+      },
+      "motion": "Heavy rain pours straight down in dense bright streaks against the black sky, in windless air; the tall grass stands upright and wet under it, and drops splash in the puddles.",
+      "sound": "heavy rain pouring down on the grass and splashing in the puddles, one dense, even roar",
+      "trees": true,
+      "weak": true,
+      "note": "The least steady scene: its level fell about 5 dB in 7 seconds, and thunder is left out because it returns at every repeat (research:everygen/rainambient-fe45fe#113, #114). The source still owed a clip test of its reworded line (#88).",
+      "tested": "vendor scene (test run 12, before thunder was removed); these SL8 lines not run"
+    }
+  ]
+}
