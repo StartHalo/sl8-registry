@@ -1,0 +1,7 @@
+{
+  "name": "voice-avatar-identity",
+  "version": "v1.0.0",
+  "description": "Reusable presenter avatar of the customer, the agent or a named character: one approved base portrait (the customer's photo, a footage frame, or a portrait from a description they approved), looks made as edits of it, a voice the customer picks after hearing three previews (or their own consented clone), all saved in an AVATAR record that later video skills read, plus an optional talking-head test on veed/fabric-1.0. Use when: create my avatar, a digital twin of me, give the agent a face and a voice, design a named presenter, add a look or outfit to an avatar, change an avatar's voice, test an avatar's face and voice together. NOT for: a presenter video or talking-head ad from a script (voice-presenter-video); cloning a voice on its own (voice-clone-setup); a voiceover (media-audio-generation); a talking head from any still (media-video-generation); a character sheet (media-character-sheet); a headshot or portrait alone (media-image-generation); retouching a photo (media-photo-editing).",
+  "generated_at": "2026-10-30T13:22:50.559Z",
+  "skill_md_sha256": "b0180d182d16fe10730fa441d1492932bc21b5a2eaa378334a3140946449ac2e"
+}
