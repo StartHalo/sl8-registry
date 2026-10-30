@@ -1,0 +1,7 @@
+{
+  "name": "screen-web-capture",
+  "version": "v1.0.0",
+  "description": "Website capture for videos and graphics: real pixels and page data from a live URL with headless Chrome. Three routes: a desktop project capture (scroll frames, full-page plate, brand tokens, visible text, downloaded assets) for HyperFrames promos and brand reads; mobile full-page and section stills with document positions for creator videos that show the site in insets; and the customer's own screenshots used as they are. A scripted gate decides pass or fail, and a failed capture is handed back with its reason, never filled with generated UI. Use when: a workflow or a customer needs a site's pages, scroll frames, section stills, colours, fonts, logo or copy taken from a URL; a promo, slideshow or ad starts from a website. NOT for: building the promo video (product-launch-video); Figma sources (figma); stock media, music or brand logos from catalogues (media-use); the HyperFrames render loop (hyperframes-cli); generating images (media-ai-gen); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:24:26.808Z",
+  "skill_md_sha256": "41e92b295427939e68f6e7df6a24c2c28dff767690d822dcb3cfa79e17b2f136"
+}
