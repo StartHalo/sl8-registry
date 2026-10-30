@@ -1,0 +1,32 @@
+{
+ "about": "Default language table for marketing-ad-localization (SL8). code: the token used in folder and file names; script; rtl; variant for Chinese; tess: the tesseract traineddata name (check `tesseract --list-langs`; a missing pack means OCR is unavailable for that language, never a failure); fc_lang: the fontconfig language for `fc-list ':lang=…'`. A kit or brief may supply its own table with the same keys.",
+ "languages": [
+  {"code": "en", "name": "English", "script": "Latin", "rtl": false, "tess": "eng", "fc_lang": "en"},
+  {"code": "de", "name": "German", "script": "Latin", "rtl": false, "tess": "deu", "fc_lang": "de"},
+  {"code": "fr", "name": "French", "script": "Latin", "rtl": false, "tess": "fra", "fc_lang": "fr"},
+  {"code": "es", "name": "Spanish", "script": "Latin", "rtl": false, "tess": "spa", "fc_lang": "es"},
+  {"code": "pt", "name": "Portuguese", "script": "Latin", "rtl": false, "tess": "por", "fc_lang": "pt"},
+  {"code": "it", "name": "Italian", "script": "Latin", "rtl": false, "tess": "ita", "fc_lang": "it"},
+  {"code": "nl", "name": "Dutch", "script": "Latin", "rtl": false, "tess": "nld", "fc_lang": "nl"},
+  {"code": "pl", "name": "Polish", "script": "Latin", "rtl": false, "tess": "pol", "fc_lang": "pl"},
+  {"code": "tr", "name": "Turkish", "script": "Latin", "rtl": false, "tess": "tur", "fc_lang": "tr"},
+  {"code": "ro", "name": "Romanian", "script": "Latin", "rtl": false, "tess": "ron", "fc_lang": "ro"},
+  {"code": "sv", "name": "Swedish", "script": "Latin", "rtl": false, "tess": "swe", "fc_lang": "sv"},
+  {"code": "lt", "name": "Lithuanian", "script": "Latin", "rtl": false, "tess": "lit", "fc_lang": "lt"},
+  {"code": "vi", "name": "Vietnamese", "script": "Latin", "rtl": false, "tess": "vie", "fc_lang": "vi"},
+  {"code": "id", "name": "Indonesian", "script": "Latin", "rtl": false, "tess": "ind", "fc_lang": "id"},
+  {"code": "ru", "name": "Russian", "script": "Cyrillic", "rtl": false, "tess": "rus", "fc_lang": "ru"},
+  {"code": "uk", "name": "Ukrainian", "script": "Cyrillic", "rtl": false, "tess": "ukr", "fc_lang": "uk"},
+  {"code": "kk", "name": "Kazakh", "script": "Cyrillic", "rtl": false, "tess": "kaz", "fc_lang": "kk"},
+  {"code": "el", "name": "Greek", "script": "Greek", "rtl": false, "tess": "ell", "fc_lang": "el"},
+  {"code": "hi", "name": "Hindi", "script": "Devanagari", "rtl": false, "tess": "hin", "fc_lang": "hi"},
+  {"code": "mr", "name": "Marathi", "script": "Devanagari", "rtl": false, "tess": "mar", "fc_lang": "mr"},
+  {"code": "ar", "name": "Arabic", "script": "Arabic", "rtl": true, "tess": "ara", "fc_lang": "ar"},
+  {"code": "he", "name": "Hebrew", "script": "Hebrew", "rtl": true, "tess": "heb", "fc_lang": "he"},
+  {"code": "zh-hans", "name": "Chinese (Simplified)", "script": "Han", "variant": "Simplified", "rtl": false, "tess": "chi_sim", "fc_lang": "zh-cn"},
+  {"code": "zh-hant", "name": "Chinese (Traditional)", "script": "Han", "variant": "Traditional", "rtl": false, "tess": "chi_tra", "fc_lang": "zh-tw"},
+  {"code": "ja", "name": "Japanese", "script": "Han+Kana", "rtl": false, "tess": "jpn", "fc_lang": "ja"},
+  {"code": "ko", "name": "Korean", "script": "Hangul", "rtl": false, "tess": "kor", "fc_lang": "ko"},
+  {"code": "th", "name": "Thai", "script": "Thai", "rtl": false, "tess": "tha", "fc_lang": "th"}
+ ]
+}
