@@ -1,0 +1,7 @@
+{
+  "name": "story-faceless-short",
+  "version": "v1.0.0",
+  "description": "Faceless 3D explainer short: a 9:16 narrated curiosity or explainer video of about 20 to 50 seconds with no on-camera presenter, built voiceover first. A researched script to a word budget, one narration take recorded before any image as the clock, word times from speech-to-text, a shot plan cut on the words, a style key and one start frame per clip, one image-to-video clip per beat with its own sound effects, a local stitch with the narration over every clip's sound, and small white captions from the script. Use when: a why-does-X, animal fact, true story, how-to, invented gadget or what-if short in a clean 3D animated explainer look, from a brief, a customer script or a web page. NOT for: videos over about 60 seconds, a music bed or a cover image (story-faceless-long); captions alone (edit-captions); one clip or one still (media-video-generation, media-image-generation); a voiceover alone (media-audio-generation); a presenter or avatar (voice-presenter-video); file checks (media-qc).",
+  "generated_at": "2026-10-30T13:29:25.442Z",
+  "skill_md_sha256": "71f0873f625f7b98b9509505d45eda09fd83708b13edddbe18c13ead972c04bd"
+}
