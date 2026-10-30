@@ -1,7 +1,7 @@
 {
   "name": "edit-cut-reframe",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Edits a customer's own footage into one finished file: trims; multi-cuts of chosen moments from a JSON edit plan rendered as one ffmpeg filter graph (reordered; each range padded, centre-cropped or crop-panned from viewed frames; join fades); resize or reframe to any even size; speed change; dead-air removal on request; captions burned last; intros and outros; voiceover or music replace, mix or duck; logo or text marks; slideshows; voice isolation or AI upscale on request; size-capped, GIF or WebM output; splice review. Use when: trim, cut, shorten, reorder, join, reframe, make a vertical or square version, resize, speed up, remove pauses, add a voiceover, music, watermark or intro, compress or convert a supplied video. NOT for: picking highlights (edit-highlights); captions alone on a finished video (edit-captions); beat-synced montages (edit-beat-montage); dubbing (voice-dub); generated or restyled footage (media-video-generation); multi-shot films (media-video-production); measuring files (media-qc).",
-  "generated_at": "2026-10-30T13:20:33.972Z",
-  "skill_md_sha256": "e6389005ca888bf6b9bfb39037f67574e2257426a8208dfd91b5e048fa1d3f7d"
+  "generated_at": "2026-10-30T23:15:02.202Z",
+  "skill_md_sha256": "d34554d97fd135f9873bdf3b94da8e0d6a28382088c98dfec71106eea4984c6f"
 }
