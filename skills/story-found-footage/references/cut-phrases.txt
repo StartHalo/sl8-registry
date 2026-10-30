@@ -1,0 +1,22 @@
+# Stock phrases that make narration read as generated (approach WF37-a1-s1 step 2,
+# research everygen/foundfootagestories-179c12#37). One per line, lowercase, alphabetical.
+# A line starting with re: is a regular expression. footage.py narration refuses any match.
+a bond like no other
+against all odds
+as it turns out
+but here's the thing
+in that moment
+like clockwork
+little did they know
+more than a pet
+one ordinary morning
+rain or shine
+re:\bmeet [A-Z][a-z]+
+somehow
+that fateful night
+that's when everything changed
+the rest is history
+this is the story of
+unbeknownst to
+what happened next
+you won't believe
