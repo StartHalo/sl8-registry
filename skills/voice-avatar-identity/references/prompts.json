@@ -1,0 +1,38 @@
+{
+  "schema": "voice-avatar-identity.prompts/1",
+  "about": "Prompt clauses for voice-avatar-identity, all in SL8 wording. A row's `from` is the research prompt it restates (workflow-check.mjs copy compares the two); `source` names the record it comes from. Print one with `node avatar.mjs clause <slug>`. Fill every <slot> before use: `avatar.mjs params image` refuses a prompt that still holds one. None of these clauses has been run on the fal routes this skill uses; the vendor's method was written for HeyGen's own avatar engine.",
+  "rows": [
+    {
+      "slug": "portrait",
+      "use": "step 7: the base portrait from the Appearance section (prompt route); at most 1000 characters in all",
+      "prompt": "<subject from the Appearance section: age, gender, ethnicity, hair, build, features, signature wardrobe>, <framing: head and shoulders | chest-up | full body>, looking straight at the camera with a relaxed neutral-to-slight-smile expression, even soft front lighting, plain uncluttered background, sharp focus on the face, <style words, for example photographic, realistic>.",
+      "from": "heygen/heygenavatar-cacc89@prompt avatar CLI body (worked example prompt)",
+      "source": "research:WF08-a2 adapted_prompts (the portrait skeleton: an SL8 interpretation so the portrait suits a talking-head route; untested)"
+    },
+    {
+      "slug": "identity-lock",
+      "use": "steps 7, 9 and 10: the last sentence of every prompt that edits a real or approved face (photo clean-up, every look, every correction)",
+      "prompt": "Identity: this is exactly the person in image 1. Hold their face without change: the bone structure and jaw, the shape of the eyes, the nose and lips, the skin tone, the hairline and the texture of their hair. Do not flatter, smooth, idealise or blend the face with anyone else's.",
+      "from": "higgsfield/thumbnailgeneration-e3191f@Identity Lock per photo-referenced person",
+      "source": "research:higgsfield/thumbnailgeneration-e3191f#8 (WF08 enrichment 1: soft wording such as 'same person' is not enough)"
+    },
+    {
+      "slug": "reference-roles",
+      "use": "steps 7 and 10: when more than one image is sent with --ref, one role sentence per image, in the order the --ref flags are given",
+      "prompt": "Image 1 is the face anchor and decides who this is. <For each further image k: Image k shows <the proportions | the wardrobe | another view of the same face> only.>",
+      "source": "research:creative-claw/creativeclawcreateavatar-881448#4 (WF08 enrichment 5); media-ai-gen commands.md (--ref order is the prompt's image order)"
+    },
+    {
+      "slug": "photo-cleanup",
+      "use": "step 7: the clean-up of an uneven customer photo (light, background), approved like a portrait prompt",
+      "prompt": "Retouch only the light and the background of this photo: even soft front light, a plain light-grey background, the head and shoulders centred in the frame, sharp focus on the face. Change nothing about the person. <the identity-lock row>",
+      "source": "research:WF08-a2 (step 13: even light, plain background, the face unchanged); research:higgsfield/thumbnailgeneration-e3191f#8"
+    },
+    {
+      "slug": "look",
+      "use": "step 10: one look (an outfit, a hairstyle the customer asked for, or an orientation) as an edit of the base portrait",
+      "prompt": "The person in image 1 with one change: <the change: an outfit, a hairstyle the customer asked for, or framed for a <16:9 landscape | 9:16 portrait | 1:1 square> shot>. Keep the plain background and the soft front light. <the identity-lock row>",
+      "source": "research:WF08-a2 (step 15); research:creative-claw/creativeclawcreateavatar-881448#17 (from the approved base, never the last look)"
+    }
+  ]
+}
