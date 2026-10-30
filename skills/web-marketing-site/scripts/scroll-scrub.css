@@ -1,0 +1,142 @@
+/* scroll-scrub.css: layout contract of the web-marketing-site engine.
+   Copy unchanged next to scroll-scrub.tsx. Change values only through the custom properties
+   (the engine's theme prop, set from the design brief); add no button or CTA styling here. */
+
+.ss-root {
+  --ss-bg: #0d0e10;
+  --ss-ink: #eeece7;
+  --ss-scrim: var(--ss-bg);
+  --ss-copy-max: 34rem;
+  --ss-copy-inset: clamp(1.5rem, 8vw, 7rem);
+  position: relative;
+  isolation: isolate;
+  background: var(--ss-bg);
+  color: var(--ss-ink);
+}
+
+/* The stage: one viewport, held while the story scrolls over it. */
+.ss-stage {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--ss-bg);
+  z-index: 0;
+}
+
+.ss-layer {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}
+
+.ss-layer .ss-poster,
+.ss-layer .ss-poster img,
+.ss-layer .ss-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.ss-layer .ss-video { z-index: 0; }
+.ss-layer .ss-poster { z-index: 1; }
+/* The poster stays until the clip has painted its first seeked frame. */
+.ss-layer[data-video-painted='true'] .ss-poster { visibility: hidden; }
+
+/* The story layer starts one viewport up, over the stage. */
+.ss-story {
+  position: relative;
+  margin-top: -100dvh;
+  z-index: 1;
+}
+
+.ss-band {
+  position: relative;
+  min-height: calc(var(--ss-weight, 1.4) * var(--ss-count, 1) * 100dvh);
+}
+
+.ss-connector { pointer-events: none; }
+
+.ss-chapter {
+  position: relative;
+  height: calc(var(--ss-weight, 1.4) * 100dvh);
+  pointer-events: none;
+}
+
+.ss-pin {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding-inline: var(--ss-copy-inset);
+  pointer-events: none;
+}
+
+.ss-copy {
+  position: relative;
+  max-width: var(--ss-copy-max);
+  padding: 2rem 0;
+  pointer-events: auto;
+}
+
+/* Legibility: a soft radial scrim of the page colour behind the copy block. */
+.ss-copy::before {
+  content: '';
+  position: absolute;
+  inset: -35% -30%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--ss-scrim) 88%, transparent) 0%,
+    color-mix(in srgb, var(--ss-scrim) 58%, transparent) 55%,
+    transparent 100%
+  );
+}
+
+.ss-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 860px) {
+  .ss-pin {
+    align-items: flex-end;
+    padding-bottom: 10dvh;
+  }
+  /* On phones the scrim rises from the bottom edge instead. */
+  .ss-copy::before {
+    inset: -60% -50vw -25% -50vw;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--ss-scrim) 88%, transparent) 0%,
+      color-mix(in srgb, var(--ss-scrim) 58%, transparent) 55%,
+      transparent 100%
+    );
+  }
+}
+
+/* Reduced motion: no stage, no clips; each band carries its own poster and every chapter is a full viewport. */
+@media (prefers-reduced-motion: reduce) {
+  .ss-stage { display: none; }
+  .ss-story { margin-top: 0; }
+  .ss-connector { display: none; }
+  .ss-band {
+    min-height: 0;
+    background: var(--ss-bg) var(--ss-poster) center / cover no-repeat;
+  }
+  .ss-chapter { height: auto; min-height: 100dvh; }
+  .ss-pin { position: relative; min-height: 100dvh; height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 860px) {
+  .ss-band { background-image: var(--ss-poster-mobile); }
+}

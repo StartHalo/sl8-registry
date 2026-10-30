@@ -1,0 +1,7 @@
+{
+  "name": "web-marketing-site",
+  "version": "v1.0.0",
+  "description": "Builds a distinctive marketing website as finished site files: a locked design brief, one generated reference board per section, a scroll-scrubbed generated film (or the customer's own non-animated choice), a generated asset kit, head kit and launch cover, then a mechanical gate, browser checks and a local production build. Use when: a customer orders a landing page, portfolio, product or company site, or a redesign of one, from a text brief with optional brand kit, product images and reference images. NOT for: a product that generates media for its users (web-generation-app); a standalone 3D product viewer (web-3d-showcase); dashboards, data tables, wizards or editors (not offered); a live hosted URL (not offered: the files are delivered); running ai-gen in general (media-ai-gen); a single still (media-image-generation); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:32:24.631Z",
+  "skill_md_sha256": "328fdc8996034811d48971f6f37ec7b2e76f3adb68e691ae981efcfb6436cb59"
+}

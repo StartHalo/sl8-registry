@@ -1,0 +1,120 @@
+{
+  "about": "Prompt templates for web-marketing-site, in SL8 wording. Each row restates the method of the research prompt named in `from` (Higgsfield website-builder, no licence stated; copy check: no shared run over 5 words). Fill every [slot] from the design brief; never send a [slot] unfilled. The wording was tuned by its vendor for other models and has not been run on ours: treat the first build as a test.",
+  "rows": [
+    {
+      "slug": "section-board",
+      "step": 11,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "Mockup of one section of a desktop marketing web page: the [section role] section. Look: [theme paradigm with the locked hex values], [typography character] lettering set in a believable hierarchy with this real headline: \"[planned headline]\". Composition anchor: [anchor for this board]. Background treatment: [background mode]. The [narrative spine] idea shows through [spine motif]. Calm generous spacing, an unmistakable reading order, studio-grade art direction; CTA styled as [CTA garment for this section]. Plain page only: no browser frame, no watermark.",
+      "from": "higgsfield/wb-website-craft@board prompt recipe (per section board)"
+    },
+    {
+      "slug": "storyboard",
+      "step": 10,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "A single landscape sheet split into a three-by-two grid of six frames that read left to right, top to bottom, as consecutive moments of ONE uninterrupted camera move through [subject and world]: [start state] in frame one, [end state] in frame six. Same subject, same light and same grade in every frame ([grade], [locked hexes]); it is one shot sampled six times, never six separate scenes. Leave every frame free of words, numbers, captions and logos.",
+      "from": "higgsfield/wb-website-craft@single-shot storyboard prompt directives"
+    },
+    {
+      "slug": "scrub-film",
+      "step": 13,
+      "default_model": "bytedance/seedance-2.0/reference-to-video",
+      "prompt": "[World grammar preamble, byte-identical to the brief]. One unbroken take, about fifteen seconds: [the single camera move or transformation], starting on [start state] and arriving at [end state]. The subject stays near the centre with open space around it for copy; behind it a dark, even, low-detail ground ([background]). The camera travels at one slow constant speed, easing only in the first and last moment. Exposure and white balance never change, nothing flickers, motion blur stays minimal. Grade: [grade], colours [locked hexes]. The image in the reference is a guide to look and progression, not the opening frame. Single take, steady camera, slow even motion, fixed exposure, and no visible words or logos anywhere.",
+      "from": "higgsfield/wb-website-craft@footage contract (film prompt content)"
+    },
+    {
+      "slug": "multi-leg-next",
+      "step": 14,
+      "default_model": "bytedance/seedance-2.0/image-to-video",
+      "prompt": "[World grammar preamble, byte-identical]. Carry on from this exact frame with the same forward speed and heading: [leg subject and focal action]. Any orbit, crane or detail push happens mid-clip; in the final second the camera returns to the same slow forward glide the next leg will start from. No cuts, no sideways smear, steady even speed, colours [locked hexes].",
+      "from": "higgsfield/wb-website-craft@multi-leg Architecture A leg procedure"
+    },
+    {
+      "slug": "connector",
+      "step": 15,
+      "default_model": "bytedance/seedance-2.0/image-to-video",
+      "prompt": "[World grammar preamble, byte-identical]. An aerial glide that begins exactly on the given first frame and lands exactly on the given last frame, rising out of [scene i] and descending toward [scene j]. Continuous forward motion only, never reversing; steady speed, colours [locked hexes].",
+      "from": "higgsfield/wb-website-craft@multi-leg Architecture B seam equalities"
+    },
+    {
+      "slug": "asset-suffix",
+      "step": 17,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "[asset description at its final aspect and size]. Palette locked to [hexes] ([mood words]); echo the [spine motif]. Pure image, free of any text, logo or watermark. [For a monochrome direction: grayscale image.]",
+      "from": "higgsfield/websitebuilder-82f65c@Asset prompt invariant"
+    },
+    {
+      "slug": "chroma-subject",
+      "step": 18,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "[subject], shown alone against a solid uniform #00FF00 ground, without any cast shadow, floor, props or reflections, crisp clean edges, palette [hexes], no lettering.",
+      "from": "higgsfield/websitebuilder-82f65c@Transparent cutout prompt and keying command"
+    },
+    {
+      "slug": "icon-sheet",
+      "step": 17,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "A grid of [6-12] line pictograms for [motifs], all drawn with one 2 px stroke weight, matching corner shapes and equal visual size on a shared grid, in [ink hex], each sitting apart on a solid #00FF00 ground so it can be cut out, with no words or letters.",
+      "from": "higgsfield/websitebuilder-82f65c@Custom icon set prompt"
+    },
+    {
+      "slug": "brand-pattern",
+      "step": 19,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "Tileable surface motif built from [motif] in [hexes]; it must repeat edge to edge with no visible join, flat lighting, no lettering.",
+      "from": "higgsfield/websitebuilder-82f65c@Seamless brand pattern prompt"
+    },
+    {
+      "slug": "cover-scene",
+      "step": 23,
+      "default_model": "openai/gpt-image-2 (graphic route); fal-ai/nano-banana-pro/edit with mood references (photo route)",
+      "prompt": "(1) [subject doing the product's core action, concrete and physical]. (2) Around it, [2-4 supporting props or layers] that fill the frame and tell the story; any screens or packaging stay unreadable. (3) [framing], the subject filling about two thirds of the frame [left or right] of centre, with open calm space on the [opposite side] over a real surface such as [wall, sky, backdrop], never a black void. (4) Two or three bold committed colours: [palette names]; nothing acid yellow-green. (5) [light and lens, or for the graphic route a style such as glossy 3D render or painterly still]. (6) The picture carries no words, letters, logos, captions or interface of any kind.",
+      "from": "higgsfield/websitebuilder-82f65c@Cover scene prompt doctrine (six blocks)"
+    },
+    {
+      "slug": "cover-retry-suffix",
+      "step": 23,
+      "default_model": "same as the failed candidate",
+      "prompt": "Strictly no lettering, words, logos or captions anywhere in the image.",
+      "from": "higgsfield/websitebuilder-82f65c@Cover regenerate suffix when lettering appears"
+    },
+    {
+      "slug": "cinema-hero",
+      "step": 28,
+      "default_model": "bytedance/seedance-2.0/image-to-video",
+      "prompt": "Starting from this exact image, one slow uninterrupted move of about five seconds whose progress can be scrolled: [push-in with focus pulling from soft to sharp | subject turning toward camera | a sweep of light | parts assembling]. The last moment must differ clearly from the first. Steady camera, slow even motion, no cuts. Grade [grade], colours [locked hexes].",
+      "from": "higgsfield/websitebuilder-82f65c@Hero film prompt and frame pipeline (cinema tier)"
+    },
+    {
+      "slug": "band-loop",
+      "step": 17,
+      "default_model": "bytedance/seedance-2.0/text-to-video",
+      "prompt": "A short product film of [subject or texture] moving gently in place, plain and literal, colours [locked hexes], steady camera, no words or logos.",
+      "from": "higgsfield/websitebuilder-82f65c@nsfw false-positive fix (words to remove)"
+    },
+    {
+      "slug": "logo-sting",
+      "step": 19,
+      "default_model": "bytedance/seedance-2.0/image-to-video",
+      "prompt": "The mark in this image stays exactly as drawn while [a single sweep of light crosses it | its parts settle into place]; plain [ground hex] background, steady camera, no added text."
+    },
+    {
+      "slug": "photo-regrade",
+      "step": 19,
+      "default_model": "fal-ai/nano-banana-pro/edit",
+      "prompt": "Keep image 1 exactly as photographed (people, product, framing, every detail) and change only its colour grade, contrast and light quality to match image 2: [grade words], [locked hexes]."
+    },
+    {
+      "slug": "og-art",
+      "step": 22,
+      "default_model": "openai/gpt-image-2",
+      "prompt": "Wide social preview artwork in the brand's own visual language: [spine motif] rendered as [composition], palette [hexes], with calm open space on the [side] for the title that is added later. Pure image, free of any text, logo or watermark."
+    },
+    {
+      "slug": "cover-reveal",
+      "step": 33,
+      "default_model": "bytedance/seedance-2.0/image-to-video",
+      "prompt": "Starting from this exact cover, the scene comes alive for about five seconds: [one physical action from the scene] while the camera holds steady; the lettering and frame stay perfectly still and unchanged."
+    }
+  ]
+}
