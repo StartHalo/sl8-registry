@@ -1,0 +1,7 @@
+{
+  "name": "image-product-presets",
+  "version": "v1.0.0",
+  "description": "Product photo presets: one product photo plus one of 45 preset names (/hero-shot, /flatlay, /in-hand, /water-splash, /benefits, /specs, /reel-cover and the rest) becomes one campaign-ready still from a fixed prompt and one reference-conditioned edit call; a set is several presets over the same photo. Each still is checked against the photo before delivery. Use when: a customer sends a product photo and names a preset, or asks for a styled packshot, an e-commerce or social set, a lifestyle or conceptual product scene, or a product info card that a preset covers. NOT for: a pixel-identical marketplace main image or compliance packshot (cutout and composite with media-photo-editing); a free-form brief, brand theme or planned campaign family (free-prompt stills: media-image-generation); video presets (not offered); character sheets (media-character-sheet); running ai-gen in general (media-ai-gen); scripted file checks (media-qc).",
+  "generated_at": "2026-10-30T13:19:15.992Z",
+  "skill_md_sha256": "cbd70b95dcab9881ce2f657c2297f8683f20e82d973cac00e6b1b2c11b75e5a9"
+}
