@@ -14,8 +14,8 @@ description: >-
 license: SL8 wording and SL8-authored script; method from JuicyLucy static-copywriting and ad-platform (proprietary), restated and cited
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); python3 3.11 (stdlib only); no ai-gen calls; rules as captured 2026-10-25 (JuicyLucy 0.33.2; platform specs last verified by the vendor 2026-08-17)"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-30a
   house-rules: HR-1.0
   upstream: [juicylucy-ads/staticcopywriting-e87f6c, juicylucy-ads/adplatform-a2543e]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; JuicyLucy 0.33.2 installed 2026-10-25)
@@ -178,7 +178,7 @@ testimonial-style line is generic, never attributed to a real person; lint fails
 or "customers say"), HR18 (no figure, rating,
 testimonial or claim beyond the brand's claims and `allowed_numbers`), HR19, HR20 (customer
 wording used as given, its risks reported), HR21, HR22 — see
-the shared house rules file `references/house-rules.md` (HR-1.0).
+the shared house rules file `$HOME/.agents/skills/media-ai-gen/references/house-rules.md` (HR-1.0).
 Not applicable: HR1–HR7, HR9, HR11, HR16 (no generation call: nothing is quoted, run or retried),
 HR10 (no rendering here; the caller composites or renders the locked copy).
 Open with HR18 (owner decision pending, learnings MKT-L463): HR18 asks for the customer's
