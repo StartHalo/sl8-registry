@@ -1,0 +1,87 @@
+{
+ "about": "Prompt and message templates for marketing-ad-remake, in SL8 wording. Rows with a `from` restate the research prompt they cite (pollo/advideoclone-19fd86 hosted text: no licence stated, so nothing is copied; checked with workflow-check.mjs copy). Angle-bracket slots are filled at run time; square brackets are optional parts. Written for Seedance 2.0 reference-to-video; the wording has not been run on this machine.",
+ "rows": [
+  {
+   "slug": "clone-prompt",
+   "use": "SKILL.md step 12: the prompt field of work/<p>/clone.params.json",
+   "from": "pollo/advideoclone-19fd86@Delta-only prompt composition rules",
+   "prompt": "In @Video1, put the product from @Image1 in place of <the original product>; carry over <what has to stay recognisable after the change, such as the label turned toward the camera>. [The person from @Image2 takes the place of <the original person>.] <Voice line from the voice-instruction row.> Hold on to: <elements to preserve>. No subtitles or captions, and nothing else added as text on screen."
+  },
+  {
+   "slug": "voice-instruction",
+   "use": "SKILL.md step 12: the sentence that carries the new script inside the clone prompt",
+   "from": "pollo/advideoclone-19fd86@Voice-over replacement instruction template (inside the clone prompt)",
+   "prompt": "New voice-over, spoken with the same delivery, speed and kind of voice as the original: \"<approved script>\"."
+  },
+  {
+   "slug": "voice-instruction-same-voice",
+   "use": "SKILL.md step 12: only with the customer's recorded statement that they hold the rights to the original narrator's voice (step 7)",
+   "from": "pollo/advideoclone-19fd86@Voice-over replacement instruction template (inside the clone prompt)",
+   "prompt": "New voice-over, in the original narrator's own voice, delivery and speed: \"<approved script>\"."
+  },
+  {
+   "slug": "voice-unchanged",
+   "use": "SKILL.md step 12, handling C: the voice sentence when the original lines stay",
+   "from": "pollo/advideoclone-19fd86@Delta-only prompt composition rules",
+   "prompt": "Leave the voice-over as it is in @Video1."
+  },
+  {
+   "slug": "label-line",
+   "use": "SKILL.md step 12: a brand name or logo change, written as part of the product so it is not read as added text",
+   "from": "pollo/advideoclone-19fd86@Delta-only prompt composition rules",
+   "prompt": "The pack itself carries the name <brand>, printed on its label."
+  },
+  {
+   "slug": "scene-fixed",
+   "use": "references/storyboard-route.md S8: the closing sentences of every scene prompt",
+   "from": "pollo/advideoclone-19fd86@Segment prompt fixed fragments (no subtitles, no music)",
+   "prompt": "No subtitles or captions, and nothing else added as text on screen. Sound effects are fine; no background music."
+  },
+  {
+   "slug": "character-lock",
+   "use": "references/storyboard-route.md S8: every scene prompt that shows a recurring character",
+   "from": "pollo/advideoclone-19fd86@Character-consistency instruction for every segment prompt",
+   "prompt": "<Identifier> looks exactly like the person in @Image<N>: face, hair, build and clothes all match [clothes change only where the storyboard says so]."
+  },
+  {
+   "slug": "timbre-example",
+   "use": "references/storyboard-route.md S3: one description of the voice, the same words in every scene",
+   "from": "pollo/advideoclone-19fd86@Voice-over timbre example",
+   "prompt": "calm male voice in his forties, steady and reassuring, unhurried, neutral accent"
+  },
+  {
+   "slug": "hook-sentence",
+   "use": "references/storyboard-route.md S2: the one-sentence reading of the first 3 s",
+   "from": "pollo/advideoclone-19fd86@Layer 1 hook sentence template",
+   "prompt": "<device> holds the viewer by stirring <a feeling or a want>"
+  },
+  {
+   "slug": "inquiry",
+   "use": "SKILL.md step 7: the one numbered pre-production message, with only the items still unclear",
+   "from": "pollo/advideoclone-19fd86@Pre-production inquiry items and inquiry rules",
+   "prompt": "1. In the reference, what should change and to what (the product, the person, the brand name)? Everything else stays as it is, including the style of its sound effects unless you want that changed too. 2. How should the narration be handled: A, I write new lines for your product; B, you send the lines to use; C, the original narration stays (only if it never names the product)?"
+  },
+  {
+   "slug": "check-question",
+   "use": "SKILL.md step 17: the one question after the clip is checked",
+   "from": "pollo/advideoclone-19fd86@Post-generation check question",
+   "prompt": "Here is what the checks found: <watch finding on the product and its label>; the new narration transcribes as \"<transcript>\" and the product name comes out as \"<word>\". Is that your product as it should look, can the label be read, and is the name said right? I can make one more attempt that changes only the swap or the narration line."
+  },
+  {
+   "slug": "scene-review-question",
+   "use": "references/storyboard-route.md S9: the one question after the scene clips are checked",
+   "from": "pollo/advideoclone-19fd86@Storyboard review question and delivery",
+   "prompt": "The scene checks found: <product and label finding>; <whether the character looks the same from scene to scene>; the product name comes out as \"<word>\"; <music heard or not>. Should I join the scenes as they are?"
+  },
+  {
+   "slug": "watch-reference",
+   "use": "SKILL.md step 4: the prompt of work/<p>/watch.params.json for the reference",
+   "prompt": "List this video's beats in order. For each beat give its start and end time in seconds, the shot size, any camera movement, what happens, where the product is in frame and how large, which way its label faces, whether a person is on screen and whether they speak, and any text shown, copied exactly as it appears. Then give the overall tone, where the call to action falls, and every moment where a person's face is clearly visible."
+  },
+  {
+   "slug": "watch-clip",
+   "use": "SKILL.md step 17 and storyboard S9: the prompt of the check on a generated clip",
+   "prompt": "Describe the product in this video: its shape, colours and the name printed on it, spelled exactly as it appears, and whether the label can be read. Say whether any subtitles, captions or added text appear, and where. If a person appears in more than one shot, saywhether they look like the same person each time. Say whether background music plays, and when."
+  }
+ ]
+}
