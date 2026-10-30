@@ -1,7 +1,7 @@
 {
   "name": "edit-beat-montage",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Beat-cut montage of a customer's own footage on their own music track: shot-detect the clips, fit a beat grid to the track with librosa, plan every cut in beats with three written rethinks, write an EDL, render it with the shipped numpy frame renderer (levels, black and white, punch, push, shake, zoom and whip transitions, flashes, spoken-word titles), master at -14 LUFS and CRF 16, then pass the cut, edge, loudness and format gates. A remake follows a supplied reference edit cut for cut with the customer's clips. Use when: a hype, sigma, highlight-reel or music-video style edit cut to a song, a beat-synced montage of supplied clips, or a shot-for-shot remake of a reference edit. NOT for: captions on a finished video (edit-captions); a plain trim or reframe (edit-cut-reframe); picking highlights from a long video (edit-highlights); a scripted multi-shot production (media-video-production); generating clips (media-video-generation); music or voice (media-audio-generation); measuring files (media-qc).",
-  "generated_at": "2026-10-30T13:19:47.887Z",
-  "skill_md_sha256": "dc0d497af6fd4bcbe54c6b7213f19093930ec7ebe451d1cce883183682c4a154"
+  "generated_at": "2026-10-30T23:07:22.502Z",
+  "skill_md_sha256": "39bc7492ed0148507db2c2652f34971f840b0d078c20048b11aa42a1a2a1592f"
 }

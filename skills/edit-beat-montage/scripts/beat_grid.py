@@ -57,6 +57,26 @@ def chain(strong, period, t0, tol):
     return ks, ts
 
 
+def detection_lag(y, sr, onset_t, onset_s, strong_pct, hop=512, fine_hop=128):
+    """Median delay of the strong onsets' envelope peaks after their attacks, in seconds (0 to one hop).
+    Each attack is the peak of a fine-hop onset envelope in the hop and a half before the coarse peak
+    (to a quarter hop after it). Clicks put it at one hop (23 ms at 22,050 Hz); real music often less."""
+    import numpy as np
+    import librosa
+    if not len(onset_t):
+        return 0.0
+    thr = float(np.percentile(onset_s, strong_pct))
+    env_f = librosa.onset.onset_strength(y=y, sr=sr, hop_length=fine_hop)
+    tf = librosa.times_like(env_f, sr=sr, hop_length=fine_hop)
+    h = hop / sr
+    lags = []
+    for t in onset_t[onset_s >= thr]:
+        sel = np.where((tf >= t - 1.5 * h) & (tf <= t + 0.25 * h))[0]
+        if len(sel):
+            lags.append(t - tf[sel[np.argmax(env_f[sel])]])
+    return float(np.clip(np.median(lags), 0.0, h)) if lags else 0.0
+
+
 def fit_grid(beat_t, onset_t, onset_s, strong_pct, bpm=None):
     import numpy as np
     p0 = 60.0 / bpm if bpm else float(np.median(np.diff(beat_t)))
@@ -107,12 +127,16 @@ def cmd_grid(a):
     on_f = librosa.onset.onset_detect(onset_envelope=env, sr=sr)
     onset_t = librosa.frames_to_time(on_f, sr=sr)
     onset_s = env[on_f] if len(on_f) else np.array([])
+    lag = detection_lag(y, sr, onset_t, onset_s, a.strong_pct)
+    # Onset and beat times are envelope peaks, which come up to one hop after the attack: move them
+    # back by the measured lag. Picking and the fit are unchanged; only the times shift.
+    onset_t, beat_t = onset_t - lag, beat_t - lag
     period, phase, used, basis, errs, strong = fit_grid(beat_t, onset_t, onset_s, a.strong_pct, a.bpm)
     n_beats = int(math.floor((dur - phase) / period)) + 1
     k = np.arange(n_beats)
     grid_t = phase + k * period
     # Downbeat guess: the bar offset whose beats carry the most onset strength.
-    env_t = librosa.times_like(env, sr=sr)
+    env_t = librosa.times_like(env, sr=sr) - lag   # the envelope on the attack-time axis
     at = np.interp(grid_t, env_t, env)
     # Tempo octave check: mean onset strength at the beats of the chosen period, of half the tempo
     # (every second beat) and of double the tempo (a beat between each pair).
@@ -163,7 +187,7 @@ def cmd_grid(a):
                 "bar_frames": [frame(k) for k in ks if (k - offset) % bpb == 0],
                 "seconds_left": round(dur - t_in, 3)}
     out = {"track": a.track, "duration_s": round(dur, 3), "fps": a.fps, "tempo_bpm_librosa": round(tempo, 2),
-           "period_s": round(period, 6), "bpm": round(60.0 / period, 3), "phase_s": round(phase, 5),
+           "period_s": round(period, 6), "bpm": round(60.0 / period, 3), "phase_s": round(phase, 5), "onset_lag_ms": round(lag * 1000, 2),
            "fit": {"basis": basis, "points": used, "median_err_ms": round(float(np.median(errs)) * 1000, 2),
                    "p90_err_ms": round(float(np.percentile(errs, 90)) * 1000, 2)},
            "tempo_octave": octave, "beats_per_bar": bpb, "bar_offset": offset,

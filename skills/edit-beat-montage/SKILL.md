@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield's Katana edit instructions (no licence stated), restated and cited, with points from HyperFrames (Apache-2.0), fal, JuicyLucy and EveryGen restated
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 (libx264, aac, ebur128, loudnorm, alimiter, minterpolate); python3 3.11 with numpy, scipy, librosa, Pillow and faster-whisper; fonts 1.1.0 (Anton, Inter) with fontconfig; siblings edit-captions, edit-cut-reframe and edit-highlights ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-30a
   house-rules: HR-1.0
   upstream: [higgsfield/katana-432bce, hyperframes/hyperframes-2afd9d, hyperframes/mediause-ec397d, fal/falaudiogeneration-ba1a03, juicylucy-ads/adplatform-a2543e, everygen/animalclips-e048e4]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield Katana instructions captured 2026-10-26)
   approach: WF27-a1
   attribution: Method from the SL8 capability assessment (WF27-a1), restated from Higgsfield's Katana edit instructions with points from HyperFrames (Apache-2.0), fal, JuicyLucy and EveryGen; scripts written by SL8 from the recorded numbers
-  deltas: VID-D300..VID-D319, VID-D612
+  deltas: VID-D300..VID-D319, VID-D612, VID-D621
 ---
 
 # Beat montage
@@ -150,7 +150,8 @@ celebrities and known characters); HR18, no invented quotes or claims.
    work/<p>/track.wav` (in a remake with no other track, the reference's own sound). No track: see
    [Not on this machine](#not-on-this-machine). Then
    `python3 $M/beat_grid.py grid work/<p>/track.wav --fps <fps> --out work/<p>/beats.json --need <seconds>`:
-   - a straight-line fit of the strongest onsets to their beat numbers gives period and phase; a
+   - onset times are moved back by the measured detection lag (the envelope peaks come up to one
+     hop after the attack; `onset_lag_ms` in the output); a straight-line fit of the strongest onsets to their beat numbers gives period and phase; a
      median error over 10 ms prints a warning, over 25 ms exits 1 (no reliable grid: try `--bpm`,
      `--beats-per-bar 3` or 6, or another track). The output lists the chosen tempo with half and
      double and an `ambiguous` flag: when it is set, state the chosen bpm and its octave in the notes
