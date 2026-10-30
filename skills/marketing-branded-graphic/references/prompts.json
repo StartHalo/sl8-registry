@@ -1,0 +1,26 @@
+{
+ "about": "Prompt templates for marketing-branded-graphic, filled by scripts/graphic.py prompt (fields in braces). SL8 wording: the background row starts from the assessment's adapted prompt for WF01-a1 (an SL8 interpretation, not vendor text) and restates two enrichment points in our words; none of it has been run on openai/gpt-image-2 or fal-ai/flux-2/klein/9b on this machine. The source skill has no prompt template; `from` names the source rule each row serves, for the copy check.",
+ "rows": [
+  {
+   "slug": "background",
+   "path": "B (hybrid): a text-free background, then the logo and copy composited locally",
+   "prompt": "Create a background for a {W}x{H} {PLATFORM} graphic. No text, no letters, no logos, no watermarks; {PEOPLE}. Style: {STYLE}. Colors: {COLORS}. Leave {QUIET} visually quiet: a real, calm surface such as a wall, sky or backdrop that can carry type, not a black void or busy texture. No readable screens, signs or labels on any object.",
+   "from": "fal/brandedgraphics-96ba6e@method choice rules",
+   "points": ["research:WF01-a1", "research:kling/klingaigenerateimage-572826#19", "research:higgsfield/websitebuilder-82f65c#79"]
+  },
+  {
+   "slug": "background-only",
+   "path": "D (background only): the background is the deliverable",
+   "prompt": "Create a {W}x{H} {PLATFORM} background image. No text, no letters, no logos, no watermarks; {PEOPLE}. Style: {STYLE}. Colors: {COLORS}. Any open area is a real surface, not a black void. No readable screens, signs or labels on any object.",
+   "from": "fal/brandedgraphics-96ba6e@method choice rules",
+   "points": ["research:WF01-a1", "research:fal/brandedgraphics-96ba6e#13", "research:higgsfield/websitebuilder-82f65c#79"]
+  },
+  {
+   "slug": "full",
+   "path": "C (full graphic from references): only on the customer's explicit request (HR10, HR20)",
+   "prompt": "Make the finished {W}x{H} {PLATFORM} graphic from the reference images. The first reference is the logo: reproduce it exactly, with the same shape, proportions and colours and clear space around it, and never redraw its lettering. Set only this text, spelled exactly, with nothing added: {COPY}. Colors: {COLORS}. Style: {STYLE}. No other words, slogans, watermarks or logos.",
+   "from": "fal/brandedgraphics-96ba6e@method choice rules",
+   "points": ["research:WF01-a1", "research:fal/brandedgraphics-96ba6e#12", "research:fal/marketing-85464f#17"]
+  }
+ ]
+}
