@@ -1,28 +1,28 @@
 ---
 name: media-video-production
 description: >-
-  Runs a multi-shot video job end to end: script and per-shot timing contract, hero stills, one
-  clip per shot, a clip review fence, voiceover placed per shot, music bed, sidechain duck and
-  loudness, titles burned last in one encode, a final watch-and-listen, and delivery
-  with stems, plan and manifest. Quotes each paid stage first; every approval is a gate file
-  (attended jobs stop there, unattended ones record it). Use when: make a
-  video, short film, explainer, promo or narrated piece from a brief, script or stills; put a
-  voiceover and music under generated clips; assemble, mix, duck, normalise or burn titles over a
-  multi-shot cut; resume a video project stopped at a gate. NOT for: one clip from a prompt
-  (media-video-generation); a voiceover, bed or transcript alone (media-audio-generation); a
-  script alone (media-script-writer); shot wording (media-shot-craft); overlay type and motion
-  alone (media-motion-graphics); stills (media-image-generation); running ai-gen (media-ai-gen);
-  measuring files (media-qc).
-license: Adapted from fal agent skills; no licence stated; used with attribution
-compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; media-ai-gen 1.1.0; media-qc 1.1.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
+  Runs a multi-shot video job end to end, as a piece or a shot-planned keyframe film: script or
+  screenplay with a per-shot timing contract, a plan gate, stills (a film: masters, a keyframe per
+  shot, a frame gate), one clip per shot with one move, a drift check and clip fence, voiceover
+  per shot, music, duck and loudness, titles last, watch-and-listen, delivery with stems.
+  Quotes each paid stage first; each approval is a gate file. Use when: make a video, short film,
+  story, explainer, promo, tour, trailer or narrated piece from a brief, script or stills; put
+  voiceover and music under generated clips; assemble, mix or burn titles over a multi-shot cut;
+  resume a project stopped at a gate. NOT for: one clip (media-video-generation); only a voiceover,
+  bed or transcript (media-audio-generation); a script alone (media-script-writer); shot wording
+  (media-shot-craft); overlays alone (media-motion-graphics); stills (media-image-generation);
+  running ai-gen (media-ai-gen); measuring files (media-qc).
+license: Adapted from fal agent skills (no licence stated; used with attribution); the film path is SL8 wording, its method from Pollo and Everygen guidance (no licence stated), restated and cited
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-image-generation 1.2.0; media-video-generation 1.2.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-21a
+  version: 1.2.0
+  revision: 2026-10-28a
   house-rules: HR-1.0
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
-  upstream-pin: export 2026-10-05
-  attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118, VID-D119, VID-D120, VID-D121, VID-D191..VID-D192, VID-D198..VID-D199
+  upstream-pin: export 2026-10-05; film path sl8-resesarch@559a1305 (assessment 2026-10-27)
+  approach: WF17-a2 (piece); film from the P01 pattern (WF39-a5, WF47-a1, WF35-a2, WF37-a1-s1, WF49-a1, WF28-a1)
+  attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05); film path restated from the SL8 capability assessment's Pollo and Everygen methods
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118..VID-D122, VID-D191..VID-D192, VID-D198..VID-D199, VID-D580..VID-D598
 ---
 
 # Video Production
@@ -53,7 +53,8 @@ to do when the owner is unavailable — never "do it here anyway, unlabelled".
 | # | Stage | Owner | Fallback when the owner will not load |
 |---|---|---|---|
 | 1 | Script, shot list, per-shot windows | `media-script-writer` | Draft the shot list here and **label it undrafted by the specialist**; keep the window arithmetic, it is this skill's contract |
-| 2 | Opening stills — **mandatory for hero shots**, optional elsewhere | `media-image-generation` | Animate from text and say so, noting that the hero shot was never approved as a frame |
+| 2 | Opening stills — **mandatory for hero shots**, optional elsewhere (a film: masters, then a keyframe for every shot) | `media-image-generation` | Animate from text and say so, noting that the hero shot was never approved as a frame (a film: none, stop) |
+| 2b | **Frame gate**, film only | this skill, as a gate file | None. The gate does not degrade |
 | 3 | Animate one clip per shot | `media-video-generation` | **No fallback — stop.** Clips are the deliverable; there is no degraded version worth billing for |
 | 4 | **Clip review fence** | this skill, as a gate file | None. The fence does not degrade |
 | 5 | Voiceover, **one file per fragment, unconcatenated and unpadded** | `media-audio-generation` | Deliver silent with the plan and manifest attached, and say the voiceover is outstanding |
@@ -115,16 +116,21 @@ default, written into `plan.json` `declared` and flagged in the delivery.
    asymmetry stated, and whichever way it goes the delivery says so. If the brief has
    any diegetic sound — a pour, a door, footfalls that should be heard
    rather than replaced — keep it.
+8. **Form** — `piece` (**default**: an ad, promo, explainer or narrated piece; stills for hero
+   shots) or `film`, **taken from the brief** (a story told in shots, a short film, a tour, a
+   trailer, a list short) or a kit: every shot gets an approved keyframe ([the film path](#the-film-path)).
 
-**Three further headers are declared here and fire later, as gate files** (media-ai-gen's
+**Further headers are declared here and fire later, as gate files** (media-ai-gen's
 `gate.mjs`). They ask about work that does not exist yet, so each fires at the stage that needs
 it. Each states what happens with no answer:
 
 - **`Approve structure`** — the story gate at stage 1c, before anything renders.
   **No answer means stop**, beat map delivered, nothing rendered. Waivable only
   here, alongside `Review`.
+- **`Approve frames`** — film only: the frame gate after stage 2, before any clip. **No answer
+  means stop**, plan and frames delivered.
 - **`Approve clips`** — the fence at stage 4. **No answer means stop**, clips
-  delivered, remaining stages unrun. Unattended, both review gates are recorded instead (Stage 4).
+  delivered, remaining stages unrun. Unattended, the review gates are recorded instead (Stage 4).
 - **`Reshoot`** — which clip numbers to redo: an option of the `Approve clips` gate, answered
   with the numbers. No answer means stop, as above.
 - **`Music`** — mood or a supplied track, settled only when `Voice` is on and the
@@ -177,6 +183,15 @@ warning (HR19):
    Record one manifest row per generation with `manifest.mjs add`. An unpriced route (`estimate`
    exit 12) is uncapped: take the stage's named fallback, or open the gate.
 
+## The film path
+
+`Form: film` runs every stage below in the same order, with four additions written out in
+[references/film.md](references/film.md), read before stage 1: a screenplay or plan behind the stage
+1c gate; masters, then an approved keyframe for **every** shot behind the `Approve frames` gate
+before any clip; **one move per clip**; and a **drift check** on every clip before the fence, which
+lists a miss as `DRIFT`. Narration, score and assembly are stages 5–10 unchanged. Shots driven by
+references instead of a keyframe (stage 2) are not offered on this machine yet; a keyframe stands in.
+
 ## Stage 1 — The timing contract
 
 Read [references/timing-contract.md](references/timing-contract.md) first: it holds stages 1, 1b
@@ -197,16 +212,8 @@ every third of the runtime. The full stage is in [references/timing-contract.md]
 ## Stage 1c — The story gate, before any pixels
 
 **Stop here and get the structure signed off.** This is the cheapest gate in the
-pipeline and the one that saves the most, because the structural shape of a piece
-is the single most expensive thing to change after clips exist — and it is the
-thing a reader can only judge once they see it stated plainly.
-
-A run whose brief storyboarded a gradual in-kitchen escalation was executed
-faithfully, and the author then rewrote the core structure **twice** after watching
-rendered clips — moving to a smash cut, then adding a beat. That was not a defect
-in the brief or the execution; it was a better idea arriving late, which is normal.
-What was wrong is that it arrived *after* animation instead of before, so each
-revision cost renders instead of costing a sentence.
+pipeline and the one that saves the most ([why](references/rationale.md#stage-1c--the-story-gate)).
+On a film it is the plan gate, showing the screenplay or plan ([film.md F2](references/film.md#f2--the-plan-gate-stage-1c)).
 
 Present the spine as a short numbered beat map — shot number, the one action, the
 `look`, and the VO fragment — plus the three questions that decide its shape:
@@ -237,6 +244,11 @@ spend money, which is the correct direction. Like the clip fence, it is waivable
 only from intake — and if it was waived, the delivery says the structure was never
 approved before rendering.
 
+**Product-ad imports** the capability assessment recommends here (a picture-pace walk of the beat
+map in 2.5 s steps, a product identity lock from the customer's photo with a wider prompt lint,
+platform safe-zone bands, paid-social variant sets) are not offered on this machine yet; the
+brief's words, the beat map and stage 8's read-back stand in.
+
 ## Stages 2–3 — Render the clips
 
 **Before wording or critiquing anything visual, load `media-shot-craft`** (Claude Code: the Skill
@@ -251,29 +263,20 @@ handed to `media-video-generation`. If it will not load, the plan fields and
 P1–P3 below are the minimum, and the delivery says the craft reference was
 unavailable.
 
-**Generate a still first for every hero shot, and iterate on the still.** A hero
+**Generate a still first for every hero shot, and iterate on the still** ([why](references/rationale.md#stages-23--hero-stills)). A hero
 shot is the one the piece is built to arrive at — the payoff, the reveal, the
-product moment, the frame someone will screenshot. Text-to-video gives you one
-expensive attempt at composition, subject and world all at once, and if the
-landscape comes out shapeless or the subject is badly placed you pay a full clip to
-find out. A still is a fraction of the cost and can be regenerated until it is
-right, and animating an approved frame then only risks the motion.
-
-This is not a quality nicety, it is where "the terrain looks simple and flat" gets
-fixed. Ask `media-image-generation` for the frame (after the pre-spend steps), look at it, say
+product moment, the frame someone will screenshot. Ask `media-image-generation` for the frame (after the pre-spend steps), look at it, say
 what is wrong in concrete terms — silhouette, scale, depth, how many planes the landscape has,
 where the horizon sits — and regenerate until it holds. **Then** animate it.
 
-Hero shots go through this. Ordinary shots may skip it. If you skip it on a hero
+Hero shots go through this. Ordinary shots may skip it; on a film none may (masters, keyframes and
+the frame gate: [film.md F3–F4](references/film.md#f3--masters-then-one-keyframe-per-shot-stage-2)). If you skip it on a hero
 shot, say so in the delivery, because the composition was then never approved by
 anyone before it was animated.
 
 ### Three preconditions. Print them, per row, before you submit anything
 
-Each of these existed as advice in an earlier version of this skill and each was
-skipped by a capable agent under momentum. They are steps now, and each produces a
-line you must print, because a check whose only output is your own confidence
-leaves no evidence of not having run.
+They are steps, not advice, and each prints a line ([why](references/rationale.md#the-three-preconditions)).
 
 **P1 — An image overlay on a shot that animates is composited into the still, not
 burned afterwards.** A logo burned onto moving footage rides the frame like a
@@ -284,7 +287,7 @@ asset is composited into the stage-2 still, and the row may not be submitted for
 animation until it is. Print `row n: image overlay composited into still — yes/no`.
 A `no` is a hard stop on that row, not a note.
 
-**P2 — One settled state per clip. No transformation verbs.** A single clip renders
+**P2 — One settled state and one move per clip. No transformation verbs.** A single clip renders
 one continuous motion, not a change of state. Prompts written as transitions —
 "resolves into a skull", "pre-fire to fire", "becomes", "transforms into", "morphs",
 "turns into", "shifts to" — ask one clip to be two shots, and the model answers by
@@ -292,8 +295,8 @@ cutting or resetting inside the frame, which reads as a glitch. Two reshoot roun
 went to this. **Treat those verbs as a lint failure on the prompt before submit**:
 scan each prompt for them, and if one is present, the fix is not a reword but a
 split — the settled state goes in the still, the continuous motion goes in the clip,
-and if the brief needs the change to be visible it needs two rows. Print
-`row n: transformation verbs found — none/[list]`.
+and if the brief needs the change to be visible it needs two rows. The camera makes one move or
+none; a second move is a second row. Print `row n: transformation verbs found — none/[list]; camera moves — 0/1`.
 
 **P3 — The route matches the content, decided up front.** Route photorealistic
 human likenesses and other moderation-sensitive frames by the face rule in
@@ -318,7 +321,8 @@ prints it. Carry three numbers per clip into the fence:
 the measured minimum one-second window, the frozen control, and the floor.
 
 A clip below the floor is **flagged, not silently rejected** — it may be a slow
-push-in the user wants. The fence is where that is decided.
+push-in the user wants. The fence is where that is decided. On a film, run the drift check on
+every clip next ([film.md F6](references/film.md#f6--the-drift-check-before-the-fence)).
 
 ## Stage 4 — The clip review fence
 
@@ -327,10 +331,7 @@ and compounds.**
 
 **First, reconcile the look ramp against the rendered clips — this is mandatory and
 it is not the stage-1 check.** Stage 1 checked the ramp you *intended*. This checks
-the ramp you *got*, which is the only one the viewer sees. A run wrote a correct
-plan and never ran this, and shot 5 came back warm between a deep-red shot 4
-and a fire-lit payoff — the pivot of the whole piece, visually disconnected from
-both sides.
+the ramp you *got*, which is the only one the viewer sees ([the run that skipped it](references/rationale.md#stage-4--the-look-reconcile)).
 
 Sample a mid-frame from every clip, in order, and measure each one's mean hue,
 saturation and luminance. Print the three numbers per shot as a table. Then judge
@@ -343,13 +344,13 @@ fine alone.
 Then write the clips into PROGRESS.md as a numbered list, one line each: number, the `action` it
 was meant to show, its motion figure against the floor, its hue/saturation/luminance
 against the row above, its cost, and a plain `LOOKS STATIC` or `LOOK RESET` where
-either check is under, with a contact sheet of the mid-frames
+either check is under (a film adds its drift line, and `DRIFT` on a miss), with a contact sheet of the mid-frames
 (`node $HOME/.agents/skills/media-qc/scripts/mediaqc.mjs sheet <frames> --out artifacts/<project>/qc/clips.jpg`).
 Then open **one** gate, header `Approve clips`, and end the job `partial`:
 
 - `Approve all — continue` → stages 5 onward, quoted from the pre-spend steps.
-- `Reshoot some` → the answer names the clip numbers (the `Reshoot` header). Reshoot only
-  those, re-measure, return to this fence. It repeats.
+- `Reshoot some` → the numbers travel in `gate.mjs answer --option b --by "owner: reshoot shot03"`
+  and the resume step reads `answer.by` (no free-text field, VID-L591). Reshoot only those, re-measure, return to this fence. It repeats.
 - `Stop here, give me the clips` → deliver the clips, the plan and the manifest.
 
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-clips --question "Approve the <n> clips listed in PROGRESS.md (sheet qc/clips.jpg) and continue for <quote> credits, or name the clips to reshoot?" --options '[{"id":"a","label":"Approve all: continue","credits":<quote>},{"id":"b","label":"Reshoot some: name the clip numbers","credits":<per-clip quote>},{"id":"c","label":"Stop here, give me the clips","credits":0}]' --resume-at "stage 5: voiceover, or the reshoots the answer names" --quote <quote>`
@@ -358,7 +359,7 @@ Then open **one** gate, header `Approve clips`, and end the job `partial`:
 records the clips, the sheet and the figures, and the job goes on to stage 5 without answering it.
 It still ends `partial` when a shot failed twice, or when the remaining stages' quote is more than
 what remains (the pre-spend steps open that spend gate). The delivery lists the fence, its figures
-and every `LOOKS STATIC` or `LOOK RESET` for the owner; a reshoot is a later job, and the stems make
+and every `LOOKS STATIC`, `LOOK RESET` or `DRIFT` for the owner; a reshoot is a later job, and the stems make
 its re-mix free.
 
 Three rules that make this a fence rather than a courtesy when a person is attending:
@@ -380,7 +381,7 @@ unconcatenated, as one file per fragment, and do not pad any of them**; and pin 
 the first call and send it on every fragment. Run the pre-spend steps first. An overrun is a
 defect (shorten the line or move a boundary); an underrun is not (re-centre the fragment on its
 `vo_start`). The full stage — the hand-off, the voice pin, the asymmetric checks, the re-measure
-and the scene-boundary rule — is in [references/timing-contract.md](references/timing-contract.md).
+and the scene-boundary rule — is in [references/timing-contract.md](references/timing-contract.md). Characters speaking in the clip's own audio are not offered on this machine yet.
 
 ## Stages 6–7 — Music and the mix
 
@@ -400,7 +401,7 @@ that gets forgotten). Before burning, check the region behind each overlay and, 
 **fix the picture, not the text** (a reframe, done before the burn). The type system and the burn
 itself are `media-motion-graphics`: load it (Claude Code: the Skill tool; any other agent: read its
 whole `$HOME/.agents/skills/media-motion-graphics/SKILL.md`), apply its Steps 1–6 to every `overlay` row, and burn every overlay, plus any voiceover captions
-(8b, timed from measured words), in one encode (HR10). **Never deliver a cut with an unburned
+(8b, timed from measured words), in one encode (HR10). An SRT timed from the script is not offered on this machine yet. **Never deliver a cut with an unburned
 `overlay` row silently.**
 
 ## Stage 9 — Watch and listen to the finished file
@@ -415,7 +416,7 @@ stands in. The stage reports and never re-renders on its own.
 
 ## Stage 10 — Deliver
 
-**Hand back the stems, not just the cut.** Every one of these already exists on
+**Hand back the stems, not just the cut** ([why](references/rationale.md#stage-10--stems)). Every one of these already exists on
 disk as a byproduct, so keeping them costs nothing — and not keeping them is what
 turns "make the music quieter" into a re-render. Deliver alongside the final file:
 
@@ -427,17 +428,13 @@ turns "make the music quieter" into a re-render. Deliver alongside the final fil
   **manifest** (`manifest.json`): one row per generation and per local step, with endpoint,
   request id, params, prompt, credits, attempt and files with sha256 (HR9; run
   `manifest.mjs verify` before delivery),
-- and the **native clip audio** as a stem if intake chose to keep it.
+- the **native clip audio** as a stem if intake chose to keep it,
+- and on a film the **masters and keyframes**, with the screenplay or plan.
 
 They go in named folders under `artifacts/<project>/` (`final/`, `clips/`, `keyframes/`, `audio/`,
 `source/`), with PROGRESS.md in media-ai-gen's skeleton (HR8).
 
-With those, any later change of mind about levels, ducking, a line's placement or
-the bed is a free re-mix in the sandbox. Without them it is a re-generation. A run
-that had to relight, re-animate and swap one shot, and separately re-do the whole
-mix for ducking, would have been minutes of local work instead of new calls.
-
-Then state the delivery record — runtime, shape and routes; per-clip motion figures; the largest
+Then state the delivery record — runtime, shape and routes; per-clip motion figures (a film: the frame gate and each drift line); the largest
 silence with its timestamp beside the coverage; placement; the mix figures; overlays; timing
 honesty; look continuity; native clip audio; total credits and reshoots; every waiver — in the
 block set out in [references/burn-and-deliver.md](references/burn-and-deliver.md#stage-10--the-delivery-record).
@@ -484,8 +481,10 @@ Each states the action it takes on its own, with no further input required.
 - **Default when a sibling fails to load (a kit or brief may name another).** Take the stage
   table's fallback, label the output as not the specialist's, and name the missing
   skill. Stage 3 has no fallback on purpose.
-- **Human faces and voices:** any real person's likeness or voice needs their documented consent
-  (HR17). Nothing ships with a recognisable real person who was not in the brief.
+- **Human faces and voices:** a real person's likeness or voice is refused on this machine until
+  SL8's consent text and privacy note are approved (HR17; not offered on this machine yet); invented
+  or described characters stand in. Nothing ships with a recognisable real person who was not in
+  the brief.
 
 ## House rules (HR-1.0)
 
