@@ -1,0 +1,7 @@
+{
+  "name": "edit-captions",
+  "version": "v1.0.0",
+  "description": "Burned-in speech captions on a customer's finished video, plus the SRT: a word clock from speech-to-text (local faster-whisper by default, Scribe v2 through ai-gen as the remote option), the authored script's wording, short captions, a hard transcript gate, one burn from a read-only clean master (bold, paper, clean or faceless fixed looks, or on request a clearance route that keeps captions off faces, hands and labels), then file checks. Use when: add captions or subtitles to a video, caption a talking head, UGC clip or short, restyle captions, keep captions clear of the speaker or product, or make an SRT timed to speech. NOT for: translating or dubbing (voice-dub); kinetic, karaoke or designed editorial captions (not offered); cutting or reframing (edit-cut-reframe); highlight clips (edit-highlights); a voiceover or a transcript alone (media-audio-generation); overlay titles (media-motion-graphics); a multi-shot production (media-video-production); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:20:11.198Z",
+  "skill_md_sha256": "8836a68e1c0f6fbba2575ded83f5d4916993ae1804a02dc663c6609f01797ed9"
+}
