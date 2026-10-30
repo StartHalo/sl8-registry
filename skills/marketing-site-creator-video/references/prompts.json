@@ -1,0 +1,127 @@
+{
+  "about": "Prompt parts, gate questions and checklists for marketing-site-creator-video. Every row is SL8's restatement of Higgsfield website-UGC guidance (no licence stated, so nothing is copied); `from` is the research prompt it restates. scripts/plan.py composes the clip prompts from the clip-* rows; send what it writes unchanged. Written for Higgsfield's own models (Soul 2, Seedream v5 pro, Seedance 2.5); none of this wording has been run on the default models of this machine.",
+  "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/higgsfield/lld/ugc-website-lane.json and retired-ugcwebsitevideo-423991.json",
+  "copied": false,
+  "rows": [
+    {
+      "slug": "creator-still",
+      "use": "step 8: the creator still. Fill {person} (gender, an explicit adult age, look), {wardrobe} (category and tier) and {scene} (the locked scene) as references/creator.md says.",
+      "prompt": "Photo of {person}, wearing {wardrobe}, taken as a tight vertical 3:4 head-and-shoulders selfie in {scene}. An ordinary phone-camera picture: natural skin, relaxed expression, eyes to the lens. Nothing in the hands and no product anywhere in view. No text in the image.",
+      "from": "higgsfield/retired-ugcwebsitevideo-423991@Creator request JSON (soul_2)"
+    },
+    {
+      "slug": "deslop",
+      "use": "step 9: the one realism edit of a generated creator (never of a customer's photo). Send unchanged.",
+      "prompt": "Leave the picture's framing, composition, pose, person and identity as they are: do not reframe, zoom or crop, and do not alter the face, hair, body or clothes. Improve only the realism of surfaces: lifelike skin with visible pores, natural texture and fine facial hair, true fabric and material detail, soft even daylight whose highlights fade gently, and a trace of real camera noise, so it reads as an unedited front-camera phone selfie with everything in focus. Hold the face's shape, width and proportions at exactly 1:1; never make it thinner, narrower or longer. Steer clear of the synthetic look: wax-like or plastic skin, pore-free airbrushing, beauty-filter softening, oversaturated colour, HDR glow, bloom or halos, over-sharpening, a teal and orange grade, blurred background or bokeh, and any cinematic or DSLR feel. Add no text and no watermark.",
+      "from": "higgsfield/retired-ugcwebsitevideo-423991@Creator de-slop prompt (seedream_v5_pro, verbatim, blockquote markers as in source)"
+    },
+    {
+      "slug": "clip-subject",
+      "use": "clip prompt part 1, every clip",
+      "prompt": "The person from @Image1, with the same face, hair and clothes; never describe or invent anyone new. One continuous take with no cuts.",
+      "from": "higgsfield/ugc-website-lane@One-shot clip prompt structure (7 parts)"
+    },
+    {
+      "slug": "clip-framing",
+      "use": "clip prompt part 2, every clip",
+      "prompt": "Vertical 9:16 medium shot from about mid-chest up. The person fills roughly two thirds of the frame with the head in the middle of the picture, both across and up and down, and no empty space above it. Eyes look straight into the phone lens. Hands stay above the lowest 15% of the frame.",
+      "from": "higgsfield/ugc-website-lane@SaaS framing target"
+    },
+    {
+      "slug": "clip-setting",
+      "use": "clip prompt part 3, every clip. Fill {scene} with the locked scene, word for word the same in every clip.",
+      "prompt": "Setting: {scene}. Filmed on a phone resting on a small stand facing them, lit by a window or a lamp, with a little handheld wobble. The same place in every clip.",
+      "from": "higgsfield/ugc-website-lane@Self-film environment"
+    },
+    {
+      "slug": "clip-delivery",
+      "use": "clip prompt part 4, every clip. {accent_extra} is empty, or the clip-accent-uk row when the look could read as British.",
+      "prompt": "Talks to the camera with relaxed hand gestures, like telling a friend about something, not reading a script and not a voiceover. Speaks with a natural American accent{accent_extra}. Pace about 2.4 to 2.7 words a second and never rushed: quicker through the linking words, slower on the number, the price and the call to action. Two or three small reactions spread through the clip, such as a short laugh or leaning in.",
+      "from": "higgsfield/ugc-website-lane@Delivery line to bake into the clip prompt"
+    },
+    {
+      "slug": "clip-accent-uk",
+      "use": "appended inside clip-delivery when the creator could read as British",
+      "prompt": ", not a British one",
+      "from": "higgsfield/ugc-website-lane@Voice / accent instruction"
+    },
+    {
+      "slug": "clip-spoken",
+      "use": "clip prompt part 5, every clip: the clip's own slice of script.txt, unchanged",
+      "prompt": "Says, word for word in English: \"{line}\"",
+      "from": "higgsfield/ugc-website-lane@One-shot clip prompt structure (7 parts)"
+    },
+    {
+      "slug": "clip-audio",
+      "use": "clip prompt part 6, every clip. Fill {ambience} with the sound of the locked scene, the same in every clip.",
+      "prompt": "Sound as the phone's front camera mic would catch it: close, a little compressed, not studio clean. Under the voice, quietly, only the everyday sound of {ambience}. No music. The voice stays clear and in front.",
+      "from": "higgsfield/ugc-website-lane@Audio texture rules and example"
+    },
+    {
+      "slug": "clip-body-ban",
+      "use": "clip prompt part 7a: every clip except the closer, and the single clip of a one-clip video up to its last beat",
+      "prompt": "Nothing is held, worn, opened or shown; the person only talks to the camera.",
+      "from": "higgsfield/ugc-website-lane@Bug D rule"
+    },
+    {
+      "slug": "clip-closer-product",
+      "use": "clip prompt part 7a for the closer of a physical product with a real product image passed as the second --ref",
+      "prompt": "In the last beat the person picks up and shows the product from @Image2, exactly as it looks in that image.",
+      "from": "higgsfield/ugc-website-lane@Closer action"
+    },
+    {
+      "slug": "clip-closer-device",
+      "use": "clip prompt part 7a for the closer of a site, app or service",
+      "prompt": "In the last beat the person picks up their phone and taps it, its display dark or turned away from the camera.",
+      "from": "higgsfield/ugc-website-lane@Bug E notes"
+    },
+    {
+      "slug": "clip-closer-neutral",
+      "use": "clip prompt part 7a for a physical product with no usable product image",
+      "prompt": "In the last beat the person gives a small nod and a warm smile to the camera.",
+      "from": "higgsfield/retired-ugcwebsitevideo-423991@Clip prompt carry list and closer rule"
+    },
+    {
+      "slug": "clip-ui-ban",
+      "use": "clip prompt part 7b, every clip",
+      "prompt": "Every phone, laptop or other device in view keeps its display dark or facing away: show no website, no app, no interface and no displayed content of any kind.",
+      "from": "higgsfield/ugc-website-lane@Bug E ban line (include in every clip)"
+    },
+    {
+      "slug": "capture-failure-gate",
+      "use": "step 6: the gate question when the first capture fails (gate.mjs open)",
+      "prompt": "The site could not be captured on the first try ({reason}). Send screenshots of the pages that matter most (the product or dashboard, reviews, prices, specifications) and they will be used exactly as sent, or make the video without the site: the creator talking with no screens shown.",
+      "from": "higgsfield/ugc-website-lane@Capture failure question and options"
+    },
+    {
+      "slug": "age-stop",
+      "use": "step 7: the stop message when a brief asks for a creator under 21",
+      "prompt": "This method only makes adult creators aged 21 or more, so nothing was generated. Please describe an adult creator and send the request again.",
+      "from": "higgsfield/retired-ugcwebsitevideo-423991@ugc-character.md (website copy): silent age-up rule"
+    },
+    {
+      "slug": "hook-self-check",
+      "use": "step 11: answered before any clip is submitted; any no means rewrite",
+      "prompt": "Six words or fewer? A hard detail (a number, a price, a percentage, a span of time, a contrast or a named outcome) inside the first breath? Opens on the claim itself, not on filler or on pointing at something? Says more than what the picture already shows?",
+      "from": "higgsfield/ugc-website-lane@Hook self-check"
+    },
+    {
+      "slug": "monologue-self-check",
+      "use": "step 11: read the whole monologue aloud against these before any clip is submitted",
+      "prompt": "Would a friend say it like that, or does it sound like an advert? Are the contractions there? Is there a casual linking phrase or two? Do sentence length and speed change, rather than keeping one even beat? Does the biggest line act out its feeling with one stretched or capitalised payoff word?",
+      "from": "higgsfield/ugc-website-lane@Monologue self-check"
+    },
+    {
+      "slug": "presubmit-check",
+      "use": "step 13: what scripts/plan.py check enforces on every clip prompt",
+      "prompt": "Refuse a prompt that mentions cuts, slots or a board (it would render as several shots); that names or describes the product in the picture of any clip but the closer; or that shows a website, interface, display or browser anywhere outside the fixed ban and closer lines. Each prompt must carry the framing, the American accent, the varied pace, the phone mic sound with the room's own ambience and the no-music line.",
+      "from": "higgsfield/ugc-website-lane@Pre-submit self-check"
+    },
+    {
+      "slug": "frozen-frame-qa",
+      "use": "step 16: what to look for in each clip's still frames",
+      "prompt": "Look at evenly spaced stills and at two or three taken in the middle of a word. Each must show a single person, two hands at most, the same identity throughout, clean mouth shapes, no made-up interface, no product before the closer, and no lettering burned into the picture. Rerun only a clip that fails.",
+      "from": "higgsfield/retired-ugcwebsitevideo-423991@Frozen-frame QA checklist"
+    }
+  ]
+}
