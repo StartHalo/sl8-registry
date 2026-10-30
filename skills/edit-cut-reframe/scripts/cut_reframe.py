@@ -2,8 +2,9 @@
 """cut_reframe.py: render an edit plan (validate_plan.py, schema sl8.edit.plan/1) as ONE ffmpeg filter
 graph: one input per range (seeked on input, so reordered ranges buffer nothing), setpts/asetpts with
 trim/atrim to the range length, framing (pad | center_crop | crop static or keyframed),
-optional speed (setpts N = 1/speed, atempo chained within 0.5-2.0), constant fps, setsar, audio fades
-at discontinuities only, concat, then captions last (an ASS file through libass) in the same encode.
+optional speed (setpts N = 1/speed, atempo chained within 0.5-2.0), constant fps, a missing picture tail
+of up to two frames held (tpad, then trim), setsar, audio fades at discontinuities only,
+concat, then captions last (an ASS file through libass) in the same encode.
 Optional two-pass loudness normalization of the whole output (audio only; video stream-copied).
 Writes the exact command, a JSON technical report and a 4x3 contact sheet next to the output.
 SL8-authored from the behaviour WF26-a1 records (steps 8, 9, 10, 18); Python 3.11 stdlib only.
@@ -90,7 +91,22 @@ def atempo_chain(speed):
     return parts
 
 
-def build(plan, captions=None, fontsdir=None):
+HOLD_FRAMES = 2   # a missing picture tail of at most this many output frames is held; a longer one is not
+
+
+def picture_span(path):
+    """(start, end) of the source's first video stream from ffprobe, or None when the stream gives no duration."""
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=start_time,duration",
+                        "-of", "json", path], capture_output=True, text=True)
+    try:
+        st = json.loads(r.stdout)["streams"][0]
+        start = float(st.get("start_time") or 0)
+        return start, start + float(st["duration"])
+    except (ValueError, KeyError, IndexError, TypeError):
+        return None
+
+
+def build(plan, captions=None, fontsdir=None, span=None):
     src = plan["source"]
     W, H = int(plan["width"]), int(plan["height"])
     fps = vp.resolve_fps(plan)
@@ -102,7 +118,7 @@ def build(plan, captions=None, fontsdir=None):
     ai = int(src.get("audio_stream_used") or 0)
     segs = plan["segments"]
     dur_src = float(src.get("duration_s") or 0)
-    chains, labels, ranges, joins, inputs, t_out = [], [], [], [], [], 0.0
+    chains, labels, ranges, joins, inputs, holds, t_out = [], [], [], [], [], [], 0.0
     for i, s in enumerate(segs):
         a, b = float(s["start"]), float(s["end"])
         sp = float(s.get("speed", 1) or 1)
@@ -111,9 +127,22 @@ def build(plan, captions=None, fontsdir=None):
         v = [f"[{i}:v:0]setpts=PTS-STARTPTS", f"trim=duration={num(b - a)}", framing_filter(s.get("framing"), W, H, plan.get("pad_color", "black"))]
         if abs(sp - 1) > 1e-9:
             v.append(f"setpts={num(1 / sp)}*PTS")
-        v += [f"fps={fps_txt}", "setsar=1", f"format=yuv420p[v{i}]"]
-        chains.append(",".join(v))
         length = (b - a) / sp
+        # The picture a range gets is [max(a, picture start), min(b, picture end)] from the probe. When
+        # it is shorter than the range by at most HOLD_FRAMES output frames (a screen capture or VFR
+        # clip whose picture starts or ends a frame after or before its sound), its last frame is held
+        # for exactly that gap and the range cut at its length. No gap, a larger gap, or no picture
+        # duration in the probe: nothing is held, and the duration check decides as before.
+        gap = 0.0
+        if span:
+            gap = ((b - a) - max(0.0, min(b, span[1]) - max(a, span[0]))) / sp
+        hold = gap if 1e-6 < gap <= HOLD_FRAMES / fps + 1e-6 else 0.0
+        v.append(f"fps={fps_txt}")
+        if hold:
+            v += [f"tpad=stop_mode=clone:stop_duration={num(hold)}", f"trim=duration={num(length)}"]
+        v += ["setsar=1", f"format=yuv420p[v{i}]"]
+        holds.append(round(hold, 4))
+        chains.append(",".join(v))
         if audio:
             prev_cont = i > 0 and abs(float(segs[i - 1]["end"]) - a) < 1e-3 and float(segs[i - 1].get("speed", 1) or 1) == sp
             next_cont = i + 1 < len(segs) and abs(float(segs[i + 1]["start"]) - b) < 1e-3 and float(segs[i + 1].get("speed", 1) or 1) == sp
@@ -155,7 +184,7 @@ def build(plan, captions=None, fontsdir=None):
     else:
         args += ["-an"]
     args += ["-movflags", "+faststart"]
-    return args, {"ranges": ranges, "joins": joins, "expected_s": round(t_out, 3), "fps": fps, "fps_filter": fps_txt, "audio": audio}
+    return args, {"ranges": ranges, "joins": joins, "expected_s": round(t_out, 3), "fps": fps, "fps_filter": fps_txt, "audio": audio, "held_s": holds}
 
 
 def probe(path):
@@ -217,7 +246,7 @@ def main():
         fail(1, "plan refused by validate_plan: " + "; ".join(errors), report, rep_path)
     if a.captions and not os.path.isfile(a.captions):
         fail(2, f"no captions file {a.captions}")
-    need = ["trim", "atrim", "setpts", "asetpts", "concat", "fps", "setsar", "scale", "pad", "crop", "afade", "aresample", "aformat"]
+    need = ["trim", "atrim", "setpts", "asetpts", "concat", "fps", "tpad", "setsar", "scale", "pad", "crop", "afade", "aresample", "aformat"]
     if a.captions:
         need.append("subtitles")
     if any(abs(float(s.get("speed", 1) or 1) - 1) > 1e-9 for s in plan["segments"]):
@@ -233,7 +262,7 @@ def main():
         what = ", ".join(missing)
         hint = " (libass: captions cannot be burned on this machine; render without --captions and name the gap)" if "subtitles" in missing else ""
         fail(2, f"missing on this machine: {what}{hint}", report, rep_path)
-    args, meta = build(plan, a.captions, a.fontsdir)
+    args, meta = build(plan, a.captions, a.fontsdir, picture_span(plan["source"]["path"]))
     partial = f"{stem}.partial{os.path.splitext(a.out)[1]}"   # renamed on success, so a failed render leaves no cut.mp4
     args.append(partial)
     with open(f"{stem}.cmd.txt", "w", encoding="utf-8") as f:
@@ -243,7 +272,7 @@ def main():
         j["planned_words_before"] = words_near(words, float(prev["end"]), True)
         j["planned_words_after"] = words_near(words, float(nxt["start"]), False)
     report.update({"ranges": meta["ranges"], "joins": meta["joins"], "expected_duration_s": meta["expected_s"],
-                   "fps": round(meta["fps"], 6), "command": f"{stem}.cmd.txt"})
+                   "fps": round(meta["fps"], 6), "held_s": meta["held_s"], "command": f"{stem}.cmd.txt"})
     if a.captions_report and os.path.isfile(a.captions_report):
         cr = vp.load_json(a.captions_report)
         report["captions"] = {"file": a.captions, "dropped_straddling_words": cr.get("dropped_straddling_words", []),

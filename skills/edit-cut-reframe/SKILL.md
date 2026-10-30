@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Creative Claw edit-media and its cut-and-reframe contract (Apache-2.0), restated and cited, with points from HeyGen, Everygen, HyperFrames, fal and Higgsfield
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 (libass for captions, checked at preflight); python3 3.11 stdlib; imagemagick 6.9; fonts and fonts-noto packs; HyperFrames CLI 0.8.61 only for HTML cards on request; siblings edit-captions, edit-highlights, edit-beat-montage and voice-dub ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-30a
   house-rules: HR-1.0
   upstream: [creative-claw/cc-cut-reframe-contract, creative-claw/creativeclaweditmedia-fbba56, heygen/retired-videoedit-fe9740, everygen/everygen-editor-tool-contracts, everygen/ryurefreshedsource-5dc49d, creative-claw/creativeclawcreatereels-b6e06c, hyperframes/mediause-ec397d, fal/falvideoproduction-09f33d, hyperframes/hyperframes-2afd9d, higgsfield/retired-ugctryonvideo-086072]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF26-a1
   attribution: Method from the SL8 capability assessment (WF26-a1), restated in SL8 wording from Creative Claw's editing skill for media and cut-and-reframe contract (Apache-2.0), with points from HeyGen, Everygen, HyperFrames (Apache-2.0), fal and Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: VID-D340..VID-D359
+  deltas: VID-D340..VID-D359, VID-D620
 ---
 
 # Cut, trim and reframe
@@ -180,7 +180,8 @@ framing and caption looks are in [references/plan.md](references/plan.md).
    - A speaker who leaves the crop on the contact sheet: add points or pad. Never stretch or guess.
 9. **Render once per output**: `cut_reframe.py edit-plan.json --out work/<p>/cut.mp4`. One filter
    graph over one input per range (seeked on input, so a reordered plan buffers nothing): trim to
-   the range, framing, speed, constant fps, then concat; a 30 ms fade (`audio_fade_ms`, at most 100)
+   the range, framing, speed, constant fps, and, when the probe shows a range's picture a frame or two
+   shorter than the range (a screen capture or VFR clip), its last frame held for exactly that gap, then concat; a 30 ms fade (`audio_fade_ms`, at most 100)
    at each discontinuity only, so contiguous ranges join with none and the audio stays in sync.
    Fades stop clicks; they do not fix a bad sentence cut: choose a better edge.
    - **Speed change** (on request): a range's `speed` (0.25-4 by default, `limits.speed_min` and `limits.speed_max`) sets video `setpts` to N = 1/speed
