@@ -1,0 +1,15 @@
+{
+  "portrait": "artifacts/<p>/source/fan.jpg",
+  "consent": "owner",
+  "sport": "football",
+  "context": "a derby at night",
+  "venue": "a floodlit city stadium",
+  "crowd_mood": "tense",
+  "reaction": "celebrating",
+  "format": "close-up cutaway",
+  "crop": "9:16",
+  "duration_s": 5,
+  "audio": false,
+  "budget_credits": 600,
+  "_optional": "also: action (text replacing the reaction's beat), still_note and motion_note (retry text), overlay_text and overlay_graphics (burned on in step 9); keys starting with _ are ignored"
+}
