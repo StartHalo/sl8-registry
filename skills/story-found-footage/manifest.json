@@ -1,0 +1,7 @@
+{
+  "name": "story-found-footage",
+  "version": "v1.0.0",
+  "description": "Narrated found-footage story shorts: a 30-45 s vertical story told by one calm narrator over 4-6 clips that look like doorbell, CCTV, bodycam, dashcam or trail-camera footage, with the clips' own quiet sound, a drawn camera timestamp and low-key captions. One ElevenLabs take timed by Scribe v2 sets the cuts; shot pictures are built from empty place and plain subject pictures, filmed on Seedance, checked with one redo round, stitched once with ffmpeg. Includes an animal rescue at a home base variant. Use when: a found-footage, doorbell-cam, security-camera, bodycam, dashcam or trail-cam story video, a narrated fake-footage short, or an animal rescue told from one camera. NOT for: one unnarrated device-look clip (video-device-footage); captions on an existing video (edit-captions); a faceless explainer (story-faceless-short); a voiceover alone (media-audio-generation); one generated clip (media-video-generation); a general multi-shot production (media-video-production); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:29:44.037Z",
+  "skill_md_sha256": "cd61bc64c1ae09522f4d3417c9eac7a60241e8ea2bd9e7eb6c771d7d0c5d062c"
+}

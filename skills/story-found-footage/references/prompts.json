@@ -1,0 +1,121 @@
+{
+ "about": "Prompt templates for story-found-footage. Each row is SL8's restatement of a template in the vendor's found-footage story pack (Everygen, captured 2026-10-26; no licence stated, so nothing is copied): the same slots and instructions, in our words. Fill the [slots] from the shot list (the Subject, Place, Sound and Story object lines go in word for word) and send the result through footage.py params, which checks the length limits and the required lines. The wording was written for the vendor's models (Nano Banana 2 and Seedance 2.5); it has not been run on the models this machine uses.",
+ "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/everygen/lld/foundfootagestories-179c12.json",
+ "copied": false,
+ "rows": [
+  {
+   "slug": "own-view",
+   "use": "Ends every camera block wherever it is pasted: the place picture, and a moving-camera shot picture with no place picture (step 4, 8, 9).",
+   "prompt": "The footage is the camera's point of view: whatever records it sits behind the glass and is never visible.",
+   "from": "everygen/foundfootagestories-179c12@The camera never sees itself (own-view line and device count)"
+  },
+  {
+   "slug": "no-device",
+   "use": "Every picture that is not a camera block says this in its count (steps 8, 9).",
+   "prompt": "nothing that records, such as a camera or phone",
+   "from": "everygen/foundfootagestories-179c12@The camera never sees itself (own-view line and device count)"
+  },
+  {
+   "slug": "no-text",
+   "use": "The last sentence of every place picture and shot picture prompt (steps 4, 8, 9).",
+   "prompt": "The frame carries no writing of any kind, so no clock readout, logos, watermarks, signs or subtitles.",
+   "from": "everygen/foundfootagestories-179c12@No-text line carried by every prompt"
+  },
+  {
+   "slug": "camera-doorbell",
+   "use": "Camera block, doorbell (step 4).",
+   "prompt": "Doorbell camera view. Fixed to the door frame roughly four feet up, angled down and looking away from the house: porch boards and a plain mat in the lowest quarter, steps and path in the middle, yard and road beyond. The door is out of frame, apart from perhaps a thin edge of its casing at one side. Heavy fisheye, straight lines curving toward the borders, dark rounded corners, sharp from near to far, flat washed-out HDR contrast, a low frame rate that makes motion jump, blocky smears on fast movement; the camera is fixed and does not move.",
+   "from": "everygen/foundfootagestories-179c12@Camera block: doorbell"
+  },
+  {
+   "slug": "camera-cctv",
+   "use": "Camera block, CCTV (step 4).",
+   "prompt": "Security camera view, mounted near the ceiling or high on a wall, nine to twelve feet up, tilted down over a room, yard or car park, the ground filling the lower half. A wide lens with a slight bend at the edges, deep focus; people seen from above, crowns and shoulders showing, faces small. Washed-out contrast, smeary noise reduction, a slight magenta or green tint under indoor light, a low frame rate that stutters. The camera is fixed and does not move; if it watches a door, it hangs elsewhere and points at that door.",
+   "from": "everygen/foundfootagestories-179c12@Camera block: CCTV"
+  },
+  {
+   "slug": "camera-bodycam",
+   "use": "Camera block, bodycam (step 4). A moving camera: no place picture when it is away from its place.",
+   "prompt": "Body camera view, clipped to a chest roughly four and a half feet off the ground and tipped slightly up. The wearer's forearms, sleeves or gloves push into the bottom corners; the wearer's face never appears. A very wide lens gives a plain rectangular frame with square corners and deep focus, and anything close to the lens looks large. The picture bounces and sways with each step and is never smooth; a bright sky blows out and the exposure catches up a moment late; quick turns smear with motion blur and blocky compression.",
+   "from": "everygen/foundfootagestories-179c12@Camera block: bodycam"
+  },
+  {
+   "slug": "camera-dashcam",
+   "use": "Camera block, dashcam (step 4). A moving camera.",
+   "prompt": "Dash camera view looking ahead through the windshield, level, with the car's hood filling the lowest fifth of the picture. A very wide lens gives a plain rectangular frame with square corners and deep focus. The road keeps up a constant fine shake, the sky is flat and blown out, the glass throws glare and reflections, and speed brings motion blur. The inside of the car and its driver never appear.",
+   "from": "everygen/foundfootagestories-179c12@Camera block: dashcam"
+  },
+  {
+   "slug": "camera-trail",
+   "use": "Camera block, trail camera (step 4).",
+   "prompt": "Trail camera view. The camera is belted to a trunk between two and three feet above the ground, fixed and level, with leaves and grass poking in at the edges of the frame. Wide lens, soft focus that never shifts, a slightly washed magenta colour in daylight. The frame rate is very low and compression is heavy. The camera is fixed and does not move.",
+   "from": "everygen/foundfootagestories-179c12@Camera block: trail camera"
+  },
+  {
+   "slug": "place-picture",
+   "use": "Step 8: one empty day picture per fixed camera, on the text-to-image route, no images in. Under 1,300 characters; never trim the camera block to fit.",
+   "prompt": "[camera block] [own-view] The place is empty for now. What the lens sees, from nearest to farthest: [Place line]. [The light this place really has.] Slightly messy, with [two ordinary things]. Slightly underexposed, with no area burnt out to white. There are no people or animals here, and [no-device]. [no-text]",
+   "from": "everygen/foundfootagestories-179c12@Place picture prompt template"
+  },
+  {
+   "slug": "subject-picture",
+   "use": "Step 8: one plain picture per main subject (three at most), no images in.",
+   "prompt": "An ordinary phone photo of [Subject line]. [Animal: on all four feet, body angled three-quarters to the lens, head raised. / Person: upright, looking at the lens, arms hanging at the sides, expression neutral.] The full body fits in the shot, standing on bare concrete against a pale, featureless wall. Even, flat daylight and gentle shadows. The subject is alone: no second animal or person, no props, no camera, no lettering and no logos.",
+   "from": "everygen/foundfootagestories-179c12@Subject picture prompt template"
+  },
+  {
+   "slug": "shot-picture",
+   "use": "Step 9: one per shot on the edit route; references in the fixed order (own camera's place picture, then the subjects in this shot). Under 1,100 characters. Add nothing to it: it already carries the realism rules.",
+   "prompt": "Keep the camera and the view of reference 1 exactly: [the three keep items from the Place line] stay where they are and appear nowhere else, seen through that lens in that light. What has changed: [who and what is in shot, main subject first; the position of each, in the wording of the Place line; what each is doing, caught mid-action; the story object in its state]. The [subject] is the one shown in reference 2: [Subject line]. [A second subject comes from reference 3, written the same way.] Use only those subjects from the references and leave their backgrounds behind. Unposed and off-centre, cut by the edge of the frame where that fits. It looks like real footage from this camera rather than a film still: no blurred background, no glossy finish, no extra limbs, no doubled subjects. In shot: only [the count: the subjects, e.g. one raccoon; then the story object; then any fixed item a subject is next to, e.g. one box], and [no-device]. [no-text]",
+   "from": "everygen/foundfootagestories-179c12@Shot picture prompt template"
+  },
+  {
+   "slug": "night-fixed",
+   "use": "Insert into a fixed-camera shot picture at night (step 9). Reference 1 is still the day place picture; the Subject line does not change.",
+   "prompt": "Night-time, seen in infrared: every part of the image, the [subject] included, is in black and white; whatever is close to the lens glows light, the distance sinks into black and eyes reflect bright white.",
+   "from": "everygen/foundfootagestories-179c12@Night insert, fixed camera"
+  },
+  {
+   "slug": "night-moving",
+   "use": "Insert into a bodycam or dashcam shot picture at night (step 9). These stay in colour, never infrared.",
+   "prompt": "Night-time, still in colour: all of it is dark apart from what [the headlights / the flashlight] pick out, and the sky is black.",
+   "from": "everygen/foundfootagestories-179c12@Night insert, bodycam or dashcam"
+  },
+  {
+   "slug": "moving-away",
+   "use": "A moving camera away from its place picture (step 9): an instruction for building that shot picture, not prompt text.",
+   "prompt": "With no place picture to start from (a bodycam arriving somewhere, a dashcam out on the road), begin with the camera block and the own-view line and then name three things in view, in place of the opening sentence about reference 1. Number the subject references from 1. In the count, name the part of the wearer, or of the car, that the frame shows (gloved hands along the bottom edge; the hood across the bottom).",
+   "from": "everygen/foundfootagestories-179c12@Moving camera away from its place picture"
+  },
+  {
+   "slug": "clip",
+   "use": "Step 11: one per shot. Only what moves and how it sounds: the picture already holds camera, place and subjects. Lead with the action. Under 1,100 characters. Leave the Sound part out on any route but Seedance.",
+   "prompt": "[Camera behaviour line.] A single unbroken take at true real-world speed. 0.0-[a]s: [the action, already happening, as plain physical movement]. [a]-[b]s: [what comes next, ending with the subject at a named spot in the frame]. [Who remains in shot; no one else enters.] The number of subjects and the way each faces do not change during the clip. Hold the look, the place and the subjects of the opening frame exactly[; fixed camera at night: and it stays black-and-white infrared until the final frame, every surface a shade of grey; bodycam or dashcam at night: and it stays dark until the final frame, lit by nothing but the headlights / the flashlight]. Normal speed throughout, one take, and no writing anywhere in the frame. Sound: [Sound line, word for word], quiet and steady from start to finish; [one or two small sounds of the action, each at its second]; all of it far below a talking voice. No music, singing, voices or narration.",
+   "from": "everygen/foundfootagestories-179c12@Clip prompt template"
+  },
+  {
+   "slug": "behave-fixed",
+   "use": "Camera behaviour line for doorbell, CCTV and trail camera clips (step 11).",
+   "prompt": "Footage from a fixed [doorbell / security / trail] camera, bolted down: it does not pan, zoom, follow or shift, so [the Place line's side-edge thing, word for word] keeps its position from frame to frame, with the lighting unchanged from the start.",
+   "from": "everygen/foundfootagestories-179c12@How each camera behaves (clip behaviour lines)"
+  },
+  {
+   "slug": "behave-bodycam",
+   "use": "Camera behaviour line for bodycam clips (step 11).",
+   "prompt": "Footage from a camera worn on the chest. The picture rises and dips with every step and tilts down when the wearer crouches, and the wearer's hands come in from the lower edge.",
+   "from": "everygen/foundfootagestories-179c12@How each camera behaves (clip behaviour lines)"
+  },
+  {
+   "slug": "behave-dashcam",
+   "use": "Camera behaviour line for dashcam clips (step 11).",
+   "prompt": "Footage from a camera behind the windshield. The view shifts only as the car does, and the car [keeps a steady pace / slows to a halt / is parked].",
+   "from": "everygen/foundfootagestories-179c12@How each camera behaves (clip behaviour lines)"
+  },
+  {
+   "slug": "count-question",
+   "use": "The question you answer yourself from a clip's sheet and frames (step 12); an extra or free-standing one fails the clip.",
+   "prompt": "Count the [story object or keep item]: how many are in the frame, and is each one fixed where the Place line puts it?",
+   "from": "everygen/foundfootagestories-179c12@ask_video count question example"
+  }
+ ]
+}
