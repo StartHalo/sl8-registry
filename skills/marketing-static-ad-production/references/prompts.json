@@ -1,0 +1,35 @@
+{
+ "about": "Prompt rows for marketing-static-ad-production, in SL8 wording. JuicyLucy published no generation prompt text (its brief is a list of required contents), so these rows restate that list and its rules; none has run on an SL8 Studio or on fal-ai/nano-banana-pro. Fill every {field}; quote every on-image string exactly. master-brief is the default (no lettering, HR10); lettered-brief runs only under a recorded HR20 waiver. Checked with workflow-check.mjs copy against the research prompts each row cites.",
+ "rows": [
+  {
+   "slug": "master-brief",
+   "use": "step 15: the default prompt of every master (a text-free plate; copy and logo are composited by compose.py in step 18, HR10), written to work/<p>/<master id>.prompt.txt",
+   "from": "juicylucy-ads/staticadproduction-39a415@generation brief and follow-up rule (workflow)",
+   "prompt": "One paid-social static ad picture, aspect {ratio}, made to carry words set on it afterwards. Reference: {what the reference image contributes}; take its idea and structure only, and none of its names, logos, offers or people. Treatment: {mode} — hold {kept}; alter {changed}. Draw no letters, numbers or words anywhere. Keep these zones calm and uncluttered for type added later, inside the safe area: {the copy file's boxes in plain words, e.g. the band from 22% to 44% of the height for the headline, the band at 62% for the call to action}. Leave the {corner} corner of the safe area, {logo box: width_pct plus twice margin_pct of the width, by about two thirds of that in height}, empty for a logo; draw no logo, badge, price, web address, QR code or rating. {composition row}"
+  },
+  {
+   "slug": "lettered-brief",
+   "use": "step 15, only when the brief asks the model to letter the ad (HR20 waiver recorded with manifest.mjs waive): replaces master-brief, and step 19 proof-reads every word",
+   "from": "juicylucy-ads/staticadproduction-39a415@generation brief and follow-up rule (workflow)",
+   "prompt": "One finished paid-social static ad, aspect {ratio}. Reference: {what the reference image contributes}; take its idea and structure only, and none of its names, logos, offers or people. Treatment: {mode} — hold {kept}; alter {changed}. Print this wording and no other words: {each line in quotes, in reading order}. The brand name is written in full as \"{exact brand name}\", spelled exactly so. Leave the {corner} corner of the safe area, {logo box}, empty and calm for a logo added later; draw no logo, badge, price, web address, QR code or rating. {composition row}"
+  },
+  {
+   "slug": "composition",
+   "use": "step 15: appended to every master brief unless the brief or kit sets its own layout",
+   "from": "juicylucy-ads/staticadproduction-39a415@composition doctrine",
+   "prompt": "Layout: a single hero visual, a single headline, at most one brief proof or how-it-works line and a single call to action; plenty of empty space and an obvious path for the eye. Keep every subject and every calm zone inside the safe area ({safe margins of the ratio}); the frame's outer {top}% and {bottom}% belong to the platform's interface. Avoid stacks of cards, stickers, alerts, arrows and repeated interface panels."
+  },
+  {
+   "slug": "follow-up",
+   "use": "step 17: the one regeneration of a weak or too-similar master (the lever, HR7)",
+   "from": "juicylucy-ads/staticadproduction-39a415@generation brief and follow-up rule (workflow)",
+   "prompt": "Same brief as before, restated whole, with one named change: {move the scene to a new setting | put the product on a new surface | set the headline in a new type style | shoot from a new angle}. It must read as a separate idea from {sibling or source}, not a recolour of it."
+  },
+  {
+   "slug": "recovery-brief",
+   "use": "step 17: a fresh call after a failed one; never a bare 'again'",
+   "from": "juicylucy-ads/staticadproduction-39a415@image-generation recovery",
+   "prompt": "Restate everything, as if the earlier call never happened: aspect {ratio}; scene {scene}; copy zones {zones} (or, under the lettered waiver, on-image wording {each line in quotes} and brand name \"{exact brand name}\"); type {type notes}; kept {kept}; altered {changed}. The reference and brand images are attached again with --ref."
+  }
+ ]
+}
