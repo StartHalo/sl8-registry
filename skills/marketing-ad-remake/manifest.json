@@ -1,0 +1,7 @@
+{
+  "name": "marketing-ad-remake",
+  "version": "v1.0.0",
+  "description": "Ad remake from a reference ad: a customer's product images (and optionally a character image) plus a short reference ad become a new ad clip that keeps the reference's structure, camera language and pacing. The reference is measured and watched locally, the narration is rewritten to the original line count and timing, and one Seedance 2.0 reference-to-video call with a delta-only prompt makes the clip; a reference over 15 s, or a clone that fails twice, goes through a storyboard of scene clips, joined. Use when: remake, clone, copy or redo an ad or marketing video with another product; make an ad like this one; swap the product or presenter in a reference ad. NOT for: an ad with no reference video (media-video-production, media-video-generation); translating an ad (marketing-ad-localization); dubbing or replacing a line in footage you keep (voice-dub, voice-line-replace); captions alone (edit-captions); ranking ads from an account export (marketing-winner-analysis); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:25:32.877Z",
+  "skill_md_sha256": "ec1a26b18abc9a47c24997b7746275896a42d37fa73178b466ff699dceb67253"
+}
