@@ -1,0 +1,385 @@
+{
+ "about": "Language map for voice-dub (WF23-a1 step 5). Each user string resolves to a display name with region (kept for delivery and for the proofread translation), the ISO 639-1 target_lang the dubbing model takes, and the ISO 639-3 language_code Scribe v2 takes. Region variants cannot be passed to the dubbing model: one code per language on the standard path. Display names and defaults follow HeyGen's heygen-translate locale guide (MIT, heygen-com/skills); the codes are ISO. Which target_lang values fal-ai/elevenlabs/dubbing accepts is NOT verified on SL8: read ai-gen info before the first dub of a new language. Match case-insensitively on user_said; no match: offer the two or three closest names. A kit or brief may add entries.",
+ "source": "WF23-a1 step 5; heygen/heygentranslate-6301ed#17-#22; fal/falaudiogeneration-ba1a03#28 (639-3 on Scribe)",
+ "verified_on_sl8": false,
+ "languages": [
+  {
+   "name": "English (United States)",
+   "region": "United States",
+   "target_lang": "en",
+   "language_code_scribe": "eng",
+   "user_said": [
+    "english",
+    "american english",
+    "us english"
+   ],
+   "default_for": "english"
+  },
+  {
+   "name": "English (United Kingdom)",
+   "region": "United Kingdom",
+   "target_lang": "en",
+   "language_code_scribe": "eng",
+   "user_said": [
+    "british english",
+    "uk english"
+   ]
+  },
+  {
+   "name": "English (Australia)",
+   "region": "Australia",
+   "target_lang": "en",
+   "language_code_scribe": "eng",
+   "user_said": [
+    "australian english"
+   ]
+  },
+  {
+   "name": "English (India)",
+   "region": "India",
+   "target_lang": "en",
+   "language_code_scribe": "eng",
+   "user_said": [
+    "indian english"
+   ]
+  },
+  {
+   "name": "Spanish (Spain)",
+   "region": "Spain",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "spanish",
+    "castilian",
+    "spain spanish"
+   ],
+   "default_for": "spanish",
+   "register_default": "mixed: usted in formal Spain",
+   "note": "Castilian; vosotros; Z/C as theta. A bare 'Spanish' defaults here and the delivery says so; the region reaches the voice only on the proofread path"
+  },
+  {
+   "name": "Spanish (Mexico)",
+   "region": "Mexico",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "mexican spanish",
+    "spanish mexico"
+   ],
+   "register_default": "tu in most LATAM",
+   "note": "Most-requested LATAM variant; US Hispanic audiences skew Mexican; neutral-LATAM"
+  },
+  {
+   "name": "Spanish (Argentina)",
+   "region": "Argentina",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "argentinian spanish",
+    "rioplatense"
+   ],
+   "note": "Argentina and Uruguay; vos instead of tu; Italian-influenced intonation"
+  },
+  {
+   "name": "Spanish (Colombia)",
+   "region": "Colombia",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "colombian spanish"
+   ],
+   "note": "Neutral, often called the clearest"
+  },
+  {
+   "name": "Spanish (Latin America)",
+   "region": "Latin America",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "latin american spanish",
+    "latam spanish"
+   ],
+   "note": "Pan-LATAM, for mixed-LATAM audiences when Mexico feels too regional"
+  },
+  {
+   "name": "Spanish (United States)",
+   "region": "United States",
+   "target_lang": "es",
+   "language_code_scribe": "spa",
+   "user_said": [
+    "us spanish"
+   ],
+   "note": "US Hispanic content; anglicisms preserved"
+  },
+  {
+   "name": "Portuguese (Portugal)",
+   "region": "Portugal",
+   "target_lang": "pt",
+   "language_code_scribe": "por",
+   "user_said": [
+    "european portuguese"
+   ],
+   "note": "Never the default for a bare 'Portuguese'"
+  },
+  {
+   "name": "Portuguese (Brazil)",
+   "region": "Brazil",
+   "target_lang": "pt",
+   "language_code_scribe": "por",
+   "user_said": [
+    "brazilian portuguese"
+   ],
+   "note": "Never the default for a bare 'Portuguese'"
+  },
+  {
+   "name": "Portuguese (ask)",
+   "user_said": [
+    "portuguese"
+   ],
+   "ask": true,
+   "options": [
+    "Portuguese (Portugal)",
+    "Portuguese (Brazil)"
+   ],
+   "note": "Not interchangeable: always ask, never default (owner decision pending on how a headless job asks, learnings VID-L483)"
+  },
+  {
+   "name": "French (France)",
+   "region": "France",
+   "target_lang": "fr",
+   "language_code_scribe": "fra",
+   "user_said": [
+    "french"
+   ],
+   "default_for": "french",
+   "register_default": "vous"
+  },
+  {
+   "name": "French (Canada)",
+   "region": "Canada",
+   "target_lang": "fr",
+   "language_code_scribe": "fra",
+   "user_said": [
+    "canadian french",
+    "quebec french",
+    "quebecois"
+   ]
+  },
+  {
+   "name": "German (Germany)",
+   "region": "Germany",
+   "target_lang": "de",
+   "language_code_scribe": "deu",
+   "user_said": [
+    "german"
+   ],
+   "default_for": "german",
+   "register_default": "Sie"
+  },
+  {
+   "name": "Italian (Italy)",
+   "region": "Italy",
+   "target_lang": "it",
+   "language_code_scribe": "ita",
+   "user_said": [
+    "italian"
+   ],
+   "default_for": "italian"
+  },
+  {
+   "name": "Dutch (Netherlands)",
+   "region": "Netherlands",
+   "target_lang": "nl",
+   "language_code_scribe": "nld",
+   "user_said": [
+    "dutch"
+   ],
+   "default_for": "dutch"
+  },
+  {
+   "name": "Polish (Poland)",
+   "region": "Poland",
+   "target_lang": "pl",
+   "language_code_scribe": "pol",
+   "user_said": [
+    "polish"
+   ],
+   "default_for": "polish"
+  },
+  {
+   "name": "Turkish (Turkey)",
+   "region": "Turkey",
+   "target_lang": "tr",
+   "language_code_scribe": "tur",
+   "user_said": [
+    "turkish"
+   ],
+   "default_for": "turkish"
+  },
+  {
+   "name": "Russian (Russia)",
+   "region": "Russia",
+   "target_lang": "ru",
+   "language_code_scribe": "rus",
+   "user_said": [
+    "russian"
+   ],
+   "default_for": "russian",
+   "lipsync_harder": true
+  },
+  {
+   "name": "Japanese (Japan)",
+   "region": "Japan",
+   "target_lang": "ja",
+   "language_code_scribe": "jpn",
+   "user_said": [
+    "japanese"
+   ],
+   "default_for": "japanese",
+   "lipsync_harder": true,
+   "register_default": "desu/masu (polite)"
+  },
+  {
+   "name": "Korean (Korea)",
+   "region": "Korea",
+   "target_lang": "ko",
+   "language_code_scribe": "kor",
+   "user_said": [
+    "korean"
+   ],
+   "default_for": "korean",
+   "lipsync_harder": true,
+   "register_default": "haeyo-che (polite informal; 7 speech levels)"
+  },
+  {
+   "name": "Chinese (Mandarin, Simplified)",
+   "region": "Mainland China",
+   "target_lang": "zh",
+   "language_code_scribe": "cmn",
+   "user_said": [
+    "chinese",
+    "mandarin",
+    "simplified chinese"
+   ],
+   "default_for": "chinese",
+   "lipsync_harder": true
+  },
+  {
+   "name": "Chinese (Taiwanese Mandarin, Traditional)",
+   "region": "Taiwan",
+   "target_lang": "zh",
+   "language_code_scribe": "cmn",
+   "user_said": [
+    "taiwanese mandarin",
+    "traditional chinese",
+    "taiwan"
+   ],
+   "lipsync_harder": true,
+   "note": "Region reaches the voice only on the proofread path"
+  },
+  {
+   "name": "Chinese (Cantonese, Traditional)",
+   "region": "Hong Kong, Macau",
+   "target_lang": "zh",
+   "language_code_scribe": "yue",
+   "user_said": [
+    "cantonese",
+    "hong kong"
+   ],
+   "lipsync_harder": true,
+   "note": "A different language from Mandarin. ISO 639-1 has no Cantonese code; whether the dubbing model can produce Cantonese is unverified (learnings VID-L488): use the proofread path or confirm with ai-gen info first"
+  },
+  {
+   "name": "Arabic",
+   "region": "pan-region",
+   "target_lang": "ar",
+   "language_code_scribe": "ara",
+   "user_said": [
+    "arabic"
+   ],
+   "default_for": "arabic",
+   "rtl": true,
+   "lipsync_harder": true,
+   "note": "A named country takes that country's variant on the proofread path"
+  },
+  {
+   "name": "Hebrew (Israel)",
+   "region": "Israel",
+   "target_lang": "he",
+   "language_code_scribe": "heb",
+   "user_said": [
+    "hebrew"
+   ],
+   "default_for": "hebrew",
+   "rtl": true
+  },
+  {
+   "name": "Urdu (Pakistan)",
+   "region": "Pakistan",
+   "target_lang": "ur",
+   "language_code_scribe": "urd",
+   "user_said": [
+    "urdu"
+   ],
+   "default_for": "urdu",
+   "rtl": true
+  },
+  {
+   "name": "Persian (Iran)",
+   "region": "Iran",
+   "target_lang": "fa",
+   "language_code_scribe": "fas",
+   "user_said": [
+    "persian",
+    "farsi"
+   ],
+   "default_for": "persian",
+   "rtl": true
+  },
+  {
+   "name": "Hindi (India)",
+   "region": "India",
+   "target_lang": "hi",
+   "language_code_scribe": "hin",
+   "user_said": [
+    "hindi"
+   ],
+   "default_for": "hindi",
+   "register_default": "aap (formal)"
+  },
+  {
+   "name": "Thai (Thailand)",
+   "region": "Thailand",
+   "target_lang": "th",
+   "language_code_scribe": "tha",
+   "user_said": [
+    "thai"
+   ],
+   "default_for": "thai",
+   "register_default": "polite + ka/krap"
+  },
+  {
+   "name": "Indonesian (Indonesia)",
+   "region": "Indonesia",
+   "target_lang": "id",
+   "language_code_scribe": "ind",
+   "user_said": [
+    "indonesian",
+    "bahasa indonesia"
+   ],
+   "default_for": "indonesian",
+   "register_default": "formal"
+  },
+  {
+   "name": "Vietnamese (Vietnam)",
+   "region": "Vietnam",
+   "target_lang": "vi",
+   "language_code_scribe": "vie",
+   "user_said": [
+    "vietnamese"
+   ],
+   "default_for": "vietnamese",
+   "register_default": "neutral"
+  }
+ ]
+}

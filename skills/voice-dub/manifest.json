@@ -1,0 +1,7 @@
+{
+  "name": "voice-dub",
+  "version": "v1.0.0",
+  "description": "Dubs a customer's finished video into other languages with the same presenter: their voice carried over, lips optionally re-synced, captions burned or as SRT, or an audio-only track. HeyGen's translate decision layer (discovery, consent, triage, five content profiles, proofread choice, one delivery line per language) over fal ElevenLabs dubbing and sync-lipsync through ai-gen, with a subtitle-review route (Scribe v2, reviewed translation, a voice per cue). Use when: dub or translate this video, make it in Spanish and French, localise a talking head, interview or podcast, re-sync lips to a translated track the customer supplies. NOT for: a new video in another language from a script (voice-presenter-video); cloning a voice on its own (voice-clone-setup); replacing a line in the same language (voice-line-replace); a voiceover or a transcript alone (media-audio-generation); captions without translation (edit-captions); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:23:26.850Z",
+  "skill_md_sha256": "4ef2c45ab5b023fe86a8cae8c21a8654aeb7c50970953ed753e0170b073b5a69"
+}
