@@ -1,0 +1,133 @@
+{
+ "about": "Prompt templates for story-sing-along. Each row restates, in SL8 wording, a template from the Everygen nursery-rhymes pack as the capability assessment recorded it (WF46-a1-s1); `from` names the research prompt it restates. Fields in {braces} are filled by scripts/sing.py; fields in [brackets] are written by the agent. None of this wording has been run on our models: the vendor tuned its own on lyria-3-clip, GPT Image 2 and Seedance 2.5.",
+ "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/everygen/lld/nurseryrhymes-fcc8ba.json",
+ "copied": false,
+ "rows": [
+  {
+   "slug": "song-lyria",
+   "use": "song prompt for fal-ai/lyria3/pro (sing.py song-prompt --route lyria appends one compact timed row per line)",
+   "prompt": "Original children's sing-along song, {mood} mood, {genre}, {bpm} BPM, in {key}, {time_signature} time. Compose fresh, original music that borrows from no known song. Instruments: {instruments}. Vocals: {voice}, every word sung clearly, a single note per syllable, each lyric line filling exactly one bar after one bar of music alone. {n_lines} sung lines in total plus the opening and closing bars, roughly {length_s} seconds long. {sound_note} Every timed row is sung once, at its time. Finish cleanly on one last note. Timed lyrics, one row per bar, each row its start time then the words:",
+   "from": "everygen/nurseryrhymes-fcc8ba@Lyria song prompt template with timed lyric rows"
+  },
+  {
+   "slug": "song-minimax",
+   "use": "style prompt for fal-ai/minimax-music/v2.6; the words go in the lyrics field with [Verse] and [Chorus] tags (sing.py song-prompt --route minimax)",
+   "prompt": "{mood} children's sing-along song, {genre}, {bpm} BPM, {instruments}, {voice}, every word sung clearly. Fresh, original music that borrows from no known song.",
+   "from": "everygen/nurseryrhymes-fcc8ba@Lyria song prompt template with timed lyric rows"
+  },
+  {
+   "slug": "look-lock",
+   "use": "first sentence of every image and video prompt in one run, filled once and kept in state.json as look_lock",
+   "prompt": "Glossy, bright 3D cartoon for toddlers with springy squash-and-stretch movement, rich saturated colour, soft rounded [setting] forms, [light].",
+   "from": "everygen/nurseryrhymes-fcc8ba@LOOK LOCK and LIGHT values"
+  },
+  {
+   "slug": "character-sheet",
+   "use": "the one character sheet (openai/gpt-image-2, 16:9)",
+   "prompt": "Model sheet of one character in a glossy, bright 3D toddler-cartoon style (high-end children's TV look, soft rounded forms, shiny toy-like surfaces). Four equal panels in a row on a plain medium-grey ground, split by thin white lines: (1) the whole body from the front, (2) the whole body from the side, (3) the whole body from behind, (4) a big close-up of the face. Character: [name], [species, or an object with a face], [three to five design facts: its colour, body shape, clothing and one prop]. Identical design across all four panels, soft even studio lighting. No text, letters or logos anywhere.",
+   "from": "everygen/nurseryrhymes-fcc8ba@CHARACTER SHEET prompt and HERO LINE"
+  },
+  {
+   "slug": "start-frame",
+   "use": "one start frame per clip (openai/gpt-image-2/edit, 9:16, references in this order: the sheet as Image 1, plus clip 1's frame as Image 2 from clip 2 on)",
+   "prompt": "Image 1 is the model sheet: take only the hero's design from it and draw one single scene, never panels. [From clip 2 on, add: Image 2 is the previous clip's frame: keep its set and light.] [look_lock] [hero clause] ([hero line]). Set, worded as in every other frame: [set sentence] [prop pin] Moment: [the clip's first shot: its framing, and the hero already halfway through the move, never posing or standing still]. [sky pin, only after letters appeared in a sky] [closer]",
+   "from": "everygen/nurseryrhymes-fcc8ba@START FRAMES rules"
+  },
+  {
+   "slug": "hero-clause",
+   "use": "the hero, in the same words in every prompt",
+   "prompt": "[baby animal], round and [texture], coloured [colour], with two body features that name the species: [feature one] and [feature two]. For a species whose grown-up form is better known, or after a take drifted, extend it: clearly a [animal] and never a [wrong read], its [feature] fully drawn and separate from the body.",
+   "from": "everygen/nurseryrhymes-fcc8ba@C HERO rules, HERO CLAUSE and disambiguator"
+  },
+  {
+   "slug": "side-characters",
+   "use": "exactly two side characters, in the same words in every prompt",
+   "prompt": "[side character one: size, kind, where it is] [its reaction] along with the beat, and [side character two: look, kind, where it is] [its reaction] right on every [accent sound].",
+   "from": "everygen/nurseryrhymes-fcc8ba@D SIDE CHARACTERS template and worked examples"
+  },
+  {
+   "slug": "prop-pin",
+   "use": "the props named a second time inside every start frame and clip prompt",
+   "prompt": "Keep these props in view around the [hero] throughout the shot: [prop A], [prop B], [prop C], [prop D]; props cover the [ground] from edge to edge and leave no empty patch, and the [foreground prop] fills the near foreground.",
+   "from": "everygen/nurseryrhymes-fcc8ba@B PROP PIN template and worked examples"
+  },
+  {
+   "slug": "indoor-light",
+   "use": "added to the set sentence for any interior",
+   "prompt": "Indoors, write the daylight into the set sentence: walls painted [first bright colour] and [second bright colour], the whole room in clear even daylight and not a single deep shadow.",
+   "from": "everygen/nurseryrhymes-fcc8ba@E INDOOR LIGHT clause"
+  },
+  {
+   "slug": "camera",
+   "use": "the camera wording for a moving shot and for a locked shot",
+   "prompt": "Camera at [hero] eye level, travelling beside it in one smooth tracking move with a light bob on the beat; never two named moves at once. Locked shots: camera fixed at [hero] eye level.",
+   "from": "everygen/nurseryrhymes-fcc8ba@F CAMERA line"
+  },
+  {
+   "slug": "clip-header",
+   "use": "head of the multi-shot clip prompt for bytedance/seedance-2.0/image-to-video (sing.py clip-prompt)",
+   "prompt": "{look_lock} A shot sequence of {seconds} seconds for a toddler sing-along music video at {bpm} BPM: hard cuts land on the times listed below, and the picture is in motion from frame one. One set for every shot: {set_sentence} {prop_pin} Cast, matching the start frame exactly: {cast} Performance for the whole clip: {performance}",
+   "from": "everygen/nurseryrhymes-fcc8ba@CLIP PROMPT A header template"
+  },
+  {
+   "slug": "clip-row",
+   "use": "one row per shot, about 200 characters, written by the agent into shotplan.json as shots[].row (sing.py adds the times)",
+   "prompt": "[framing] with [camera: locked at the hero's eye level, or its single move]. [Who is on screen, and how many]. [The sung line performed as a physical action: which body part moves which prop, and which way]. [The beat hit: the splash, hop or wave]. [The facial expression].",
+   "from": "everygen/nurseryrhymes-fcc8ba@CLIP PROMPT A shot-row template"
+  },
+  {
+   "slug": "clip-sound",
+   "use": "sound line of every clip prompt",
+   "prompt": "Audio: soft ambient room or nature sound only; no music, no vocals, no singing.",
+   "from": "everygen/nurseryrhymes-fcc8ba@CLIP PROMPT A closer"
+  },
+  {
+   "slug": "clip-closer",
+   "use": "last words of every image and video prompt",
+   "prompt": "Playful, joyful toddler-cartoon energy; no text anywhere in the frame, and no captions, watermarks or logos.",
+   "from": "everygen/nurseryrhymes-fcc8ba@G HOUSE CLOSER and sky pin"
+  },
+  {
+   "slug": "sky-pin",
+   "use": "added before the closer after a take baked letters into a sky",
+   "prompt": "The sky is plain clear blue with a few soft round clouds, and nothing written anywhere in the picture: no letters, symbols, signatures or watermarks on any surface.",
+   "from": "everygen/nurseryrhymes-fcc8ba@G HOUSE CLOSER and sky pin"
+  },
+  {
+   "slug": "clip-one-shot",
+   "use": "way B: one continuous shot on fal-ai/kling-video/v3/pro/image-to-video or minimax/h3/image-to-video (sing.py clip-prompt --shot)",
+   "prompt": "{look_lock} A single unbroken {seconds}-second take with no cuts, in motion from the first frame, moving to a {bpm} BPM beat. Shot size {framing}; camera {camera}. From 0:00 to {act_end}: {action} After that, until the end: {after}.",
+   "from": "everygen/nurseryrhymes-fcc8ba@CLIP PROMPT B one-shot template"
+  },
+  {
+   "slug": "line-named-classic",
+   "use": "the one brief line for a classic the customer named",
+   "prompt": "The song model refuses the old words, so I wrote a fresh [theme] song in the same spirit.",
+   "from": "everygen/nurseryrhymes-fcc8ba@Named-classic brief line"
+  },
+  {
+   "slug": "line-lyrics",
+   "use": "after the lyrics are posted",
+   "prompt": "Here are the lyrics. The song fixes every word, so tell me now if you'd like any of them changed.",
+   "from": "everygen/nurseryrhymes-fcc8ba@Lyrics hand-off line"
+  },
+  {
+   "slug": "line-song-rewritten",
+   "use": "when the song is rewritten on the fallback route",
+   "prompt": "The song model turned those words down, so here's a fresh set in the same spirit.",
+   "from": "everygen/nurseryrhymes-fcc8ba@WHEN THE SONG FAILS ladder and its user lines"
+  },
+  {
+   "slug": "line-delivery",
+   "use": "the first delivery line",
+   "prompt": "[Title] is ready: a [N]-second sing-along with the words on screen.",
+   "from": "everygen/nurseryrhymes-fcc8ba@Delivery line"
+  },
+  {
+   "slug": "line-export-failed",
+   "use": "after the final render fails twice",
+   "prompt": "The final render failed twice; say 'export' and I'll try again.",
+   "from": "everygen/nurseryrhymes-fcc8ba@Export failure message"
+  }
+ ]
+}
