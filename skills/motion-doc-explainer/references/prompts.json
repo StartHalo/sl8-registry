@@ -1,0 +1,71 @@
+{
+  "about": "Prompt and template wording this skill sends or writes, restated in SL8 words. Each row cites the research prompt it replaces (from); workflow-check.mjs copy proves no row shares a run of more than five words with it. None of this wording has been run on the models this machine uses.",
+  "rows": [
+    {
+      "slug": "author-rules",
+      "from": "explain-video-generator/explainer-markup-contract@Author rules block (stream rules, sent before the shared contract)",
+      "use": "SKILL.md step 2: the rules the author holds while writing chunks",
+      "prompt": "You write this explainer as markup in numbered files under chunks/; they are joined into document.xml, checked by preflight.py, voiced and drawn on this machine into one MP4. The frame in config.json is fixed for the job, so apply its column of the frame table. Customer pictures become slides only after preflight.py register gives them an att-NN id; a picture that will not register is left out and named in the delivery. Each file is a closed fragment that repeats nothing. Every say is finished narration, voiced word for word. Says find slides by anchor, never by position. Aim for ten to fifty slides. Give every explainer at least one picture or one infographic that teaches a specific point. Plan for about 1,500 spoken words: a harder subject gets a tighter script. Read every linked page or file yourself first; when one cannot be read, the explainer says so."
+    },
+    {
+      "slug": "trigger",
+      "from": "explain-video-generator/explaincompanionkit-8081e1@skill trigger description (frontmatter)",
+      "use": "SKILL.md frontmatter description (opening)",
+      "prompt": "Narrated explainer video from a customer's documents, slides, code, pull request or web pages: the agent reads the source, writes slide markup with spoken narration that points at exact lines, checks it with scripts, voices each line, draws every slide as a HyperFrames composition and assembles one MP4."
+    },
+    {
+      "slug": "closing-sentence",
+      "from": "explain-video-generator/explainer-markup-contract@Template: image prompt mandatory closing sentence",
+      "use": "the last sentence of every generated picture prompt",
+      "prompt": "No text, lettering or labels anywhere in the image."
+    },
+    {
+      "slug": "style-line-example",
+      "from": "explain-video-generator/explainer-markup-contract@Template: example style phrase (one style for the whole explainer)",
+      "use": "an example style.txt line",
+      "prompt": "Soft gouache illustration, muted blue and amber palette, gentle window light"
+    },
+    {
+      "slug": "infographic-style",
+      "from": "explain-video-generator/explainer-markup-contract@Template: infographic style sentence",
+      "use": "an example infographic item prompt",
+      "prompt": "Style: flat editorial illustration on cream paper with navy and amber accents."
+    },
+    {
+      "slug": "quadrant-labels",
+      "from": "explain-video-generator/explainer-markup-contract@Template: quadrant label line",
+      "use": "an example quadrant label line",
+      "prompt": "Labels: capacity, burst"
+    },
+    {
+      "slug": "inferred-reason",
+      "from": "explain-video-generator/explainer-markup-contract@Template: inferred-reason phrasing",
+      "use": "how narration marks a reason the agent inferred",
+      "prompt": "The code around it suggests ..."
+    },
+    {
+      "slug": "intro-and-first-say",
+      "from": "explain-video-generator/explainer-markup-contract@Template: intro slide + first say",
+      "use": "references/fixture.xml opening",
+      "prompt": "<item anchor=\"intro\" title=\"Token bucket rate limiting\" text=\"A token bucket lets bursts through while holding the average rate steady.\"></item> <say lang=\"en-GB\" title=\"Token buckets\" text=\"[Token bucket rate limiting](#intro) keeps traffic fair without blocking bursts.\"/>"
+    },
+    {
+      "slug": "followups",
+      "from": "explain-video-generator/explainer-markup-contract@Template: follow-ups",
+      "use": "references/fixture.xml closing",
+      "prompt": "<followup prompt=\"How does a leaky bucket differ from a token bucket?\"/> <followup prompt=\"How do you share one rate limit across many servers?\"/>"
+    },
+    {
+      "slug": "animation-rule",
+      "from": "explain-video-generator/explaincompanionkit-8081e1@animation module shape rule",
+      "use": "references/markup-grammar.md animation section (variant B)",
+      "prompt": "Real formulas belong on their own slide. Animate only where movement itself teaches the mechanism. The item body is one Python Manim CE file with a single Scene subclass whose construct() builds the scene from play, wait and add calls, using only the shapes, structures and animations the grammar lists. Eight to twenty-five seconds, finishing on a half-second wait; the clip is stretched to its narration at assembly. No MathTex or Tex inside a scene."
+    },
+    {
+      "slug": "infographic-composed",
+      "from": "explain-video-generator/explainer-markup-contract@Template: infographic item + six says",
+      "use": "SKILL.md step 15: the one picture prompt built from the item (the vendor's own composer is not exposed)",
+      "prompt": "One image split into four equal panels in a two by two grid, thin gutters between them. Top left panel, heading \"<title 1>\": <quadrant 1 drawing>; small labels reading <labels 1>. Top right panel, heading \"<title 2>\": <quadrant 2 drawing>; small labels reading <labels 2>. Bottom right panel, heading \"<title 3>\": <quadrant 3 drawing>; small labels reading <labels 3>. Bottom left panel, heading \"<title 4>\": <quadrant 4 drawing>; small labels reading <labels 4>. Headings and labels spelled exactly as quoted, large and legible; no other words anywhere. <the item's Style: sentence>"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "motion-doc-explainer",
+  "version": "v1.0.0",
+  "description": "Narrated explainer video from a customer's documents, slides, code, pull request or web pages: the agent reads the source, writes slide markup (code, diffs, lists, cards, tables, pictures, a four-part infographic, optional Manim animations) whose narration points at exact lines, checks it with scripts, voices every line with ElevenLabs, times a pointer from Scribe word timings, draws each slide as a HyperFrames composition and assembles one MP4, keeping the editable markup and source notes. Use when: explain this repo, doc, PDF, deck, PR or page as a video; a code walkthrough, onboarding or refactor explainer with spoken narration and highlights; a translated or revised copy of one. NOT for: a motion-designed PR changelog video (pr-to-video); a topic explainer with no customer source (faceless-explainer); a photo slideshow (slideshow); overlay titles or kinetic type (motion-graphics); captions on an existing video (captions-overlay).",
+  "generated_at": "2026-10-30T13:24:45.852Z",
+  "skill_md_sha256": "0e083a01ff183f9fd7a784e9f5026460de7d51811b1eeee9c3f568f88e226978"
+}
