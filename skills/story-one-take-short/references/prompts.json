@@ -1,0 +1,214 @@
+{
+  "about": "The prompt blocks, recipes and checklists of story-one-take-short, in SL8's words. scripts/story_take.py reads this file: it pastes the style-block row first and the constraints-block row last, word for word, and takes scene lines from the negatives row. Every row names the research prompt it restates in 'from'; workflow-check.mjs copy proves no row shares a run of more than five words with it. The wording has not been run on Seedance 2.0 (the source tuned it on Seedance 2.5 at Everygen).",
+  "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/everygen/lld/animated-421cf1.json (Everygen Shorts Studio v2.1; no licence stated, so nothing is copied) and records/stage3/approaches/WF54-a1-s1.json",
+  "copied": false,
+  "rows": [
+    {
+      "slug": "settings",
+      "title": "Default settings",
+      "from": "everygen/animated-421cf1@§1 fixed settings table",
+      "prompt": "Default route: one bytedance/seedance-2.0/text-to-video call; a kit or brief may name another. Each default is sent explicitly, because the endpoint's own defaults differ: resolution \"480p\" (left unset, the endpoint picks 720p), aspect_ratio \"9:16\" (\"16:9\" only when the customer asks for landscape), duration a whole-second string from \"10\" to \"15\" (\"12\" unless the archetype needs \"15\"; never \"auto\"), generate_audio true. The whole short is a single render. Its shot changes happen inside that render, each one opened by the word cut, where each beat begins. Separate clips are never stitched, and there are no fades, dissolves or other transitions."
+    },
+    {
+      "slug": "style-block",
+      "title": "Style block (pasted first, unchanged)",
+      "from": "everygen/animated-421cf1@§2 STYLE BLOCK (paste verbatim, never edit)",
+      "prompt": "STYLISED 3D FEATURE-ANIMATION SHORT, vertical 9:16. The look of a big-studio animated feature film: appealing caricatured characters built on sound skeletons, skin that glows softly where light passes into it, individually rendered strands of hair and fur, clothing that creases and trails behind each movement. One warm key light with visible atmosphere, soft bounced fill everywhere, close-ups with a narrow focus band and a smooth blurred background. Bold saturated colour with strong opposing hues and rich, glowing shadows. Every character acts the whole time: clear key poses linked by wind-ups, follow-through and overshoot, big readable faces, real body weight, and hair, cloth and fur that keep moving after the body stops. Animated, never filmed; no photographic people; never a sequence of still images."
+    },
+    {
+      "slug": "landscape-swap",
+      "title": "The one permitted edit to the style block",
+      "from": "everygen/animated-421cf1@§2 landscape swap rule",
+      "prompt": "Only when the customer says landscape: replace the words vertical 9:16 in the style block with widescreen 16:9, and send aspect_ratio \"16:9\". Nothing else in the block ever changes."
+    },
+    {
+      "slug": "constraints-block",
+      "title": "Constraints block (always last; only [N] is filled)",
+      "from": "everygen/animated-421cf1@§3 CONSTRAINTS BLOCK (always last, fill only [N])",
+      "prompt": "CONSTRAINTS: [N] characters in total, each exactly as cast, never doubled and never repeated elsewhere in the shot · faces, hair, build and the complete outfit down to the shoes stay the same across every cut · correct hands with five fingers each, no limb added or lost · nobody else appears: no passers-by, no onlookers, no crowd · no written words of any kind: no captions, subtitles, lettering on signs, digits, watermarks, interface graphics or logos · no real brands or trademarks · every prop holds its size, shape and place from cut to cut · no melting, morphing or bending geometry · nothing passes through a solid surface · nothing hangs unsupported in the air · feet grip the ground and never slide · the camera's distance matches where the characters really stand and it never jumps · one render with hard cuts inside it and nothing else: no split-screen, no fades or dissolves, no empty or white frames · normal speed throughout, no slowed or ramped motion · light comes only from the stated source, never re-lit, no extra lights, no overall colour cast · never a dull, grey or washed-out palette · stylised 3D animation in every frame, never photographic live action · instrumental music only: nobody sings, no lyrics, no narrator or voice-over; the only voice allowed is the one short line or wordless sound written under VOICE, if there is one."
+    },
+    {
+      "slug": "exaggeration",
+      "title": "Exaggeration budget",
+      "from": "everygen/animated-421cf1@§4.1 exaggeration budget rule",
+      "prompt": "Give all of the cartoon exaggeration to a single character: the troublemaker, often an animal, a baby or a toddler. The other character plays it straight and acts like a real person. Two cartoonish characters together look unsettling; one cartoon against a straight partner reads as a joke. Say in the prompt which character is exaggerated and which is grounded."
+    },
+    {
+      "slug": "four-phases",
+      "title": "Wind-up, move, overshoot, settle",
+      "from": "everygen/animated-421cf1@§4.2 anticipation-action-overshoot-settle",
+      "prompt": "Write all four stages into every physical beat. Wind-up: a short move the opposite way, held for an instant (crouching, leaning back, bracing, a breath in, dropped shoulders). Move: the action, with its direction and its force named. Overshoot: the pose travels past where it is going, then returns. Settle: a single small rebound, then the body is still, with hair, cloth and fur coming to rest a moment after it."
+    },
+    {
+      "slug": "squash-limits",
+      "title": "Squash and stretch limits",
+      "from": "everygen/animated-421cf1@§4.3 squash & stretch limits",
+      "prompt": "Grown-up humans keep real proportions and real weight: their bodies are never stretched or squashed, and their exaggeration is carried only by brows, eyes, mouth and cheeks. Babies, toddlers and animals may squash and stretch freely: rubbery mouths, bodies drawn long in a jump, flattened landings, reaching too far. Limbs never bend past their joints, and a face's bones never change shape; only its soft parts move."
+    },
+    {
+      "slug": "face-acting",
+      "title": "Faces and the expression snap",
+      "from": "everygen/animated-421cf1@§4.4 facial acting and expression-flip phrase",
+      "prompt": "With the sound turned off, the faces alone must tell the story, even at the size of a feed thumbnail: brows all the way up or down, eyes wide open or screwed shut, mouth gaping or clenched, cheeks bunching in a wince, lips pushed out in a sulk. A change of expression is the one move with no wind-up: it snaps. Phrase it like this: his smile falls to a blank stare in one frame, without any build-up, and stays there."
+    },
+    {
+      "slug": "weight-cues",
+      "title": "Weight cues",
+      "from": "everygen/animated-421cf1@§4.5 weight cues",
+      "prompt": "Show weight with one cue in each beat: a cushion sinking under a body, sand bursting up at each step, a table trembling under a grip that turns the knuckles pale, a loaded bar bending while its plates clatter, a chair groaning as a large body lowers onto it. Large bodies move slowly and carefully, and that holding back is the acting."
+    },
+    {
+      "slug": "secondary-motion",
+      "title": "Follow-on movement",
+      "from": "everygen/animated-421cf1@§4.6 secondary motion",
+      "prompt": "Give each shot at least one follow-on movement: hair trailing a turn of the head, overshooting and coming to rest; a tail streaming out behind a sprint; fur shivering on impact; fabric pressing against the body and then trailing it; ears flapping; a loose object wobbling after it is put down."
+    },
+    {
+      "slug": "phrase-bank",
+      "title": "Phrase bank (constructions to reuse)",
+      "from": "everygen/animated-421cf1@§4.7 phrase bank",
+      "prompt": "she sinks into a deep squat, pauses, then springs up, both arms flying past full reach before her shoulders bob once and come to rest | he steps back half a pace to load the swing; his hips turn first and his arms whip through, sailing past the mark and dragging to a halt | her eyebrows shoot up and her mouth falls open in one frame, nothing leading into it; she keeps the stunned look a whole second before one slow blink | the dog gathers itself low, tail whipping once, then leaps with its body pulled long and legs thrown wide, and folds into a ball as it lands, coat rippling from the impact | his fringe trails the turn of his head by a beat, swings past and falls back onto his forehead | she lays it down with only her fingertips, elbows tucked, her whole frame shrunk small to stay delicate | he sets his feet wide, takes hold, bends at the hips and keeps the strain for a moment before he pulls | her stern mouth breaks into a broad grin across half a second, eyes creasing, chin rising | he throws both fists up high, chest pushed forward, and keeps the pose while his chest heaves | the toddler bobs up and down on two feet, arms flopping, weight rocking from side to side"
+    },
+    {
+      "slug": "banned-words",
+      "title": "Words that make motion weightless",
+      "from": "everygen/animated-421cf1@§4.8 banned motion words",
+      "prompt": "Leave these words out of every beat, because they make motion look weightless: hovering, ethereal, gliding, slow-motion, floating, seamlessly transitions, drifting, slowly moves, and gently sways unless a named thing is doing the swaying."
+    },
+    {
+      "slug": "archetype-a",
+      "title": "A · Soft giant",
+      "from": "everygen/animated-421cf1@Archetype A - SOFT GIANT recipe",
+      "prompt": "A · Soft giant (a two-hander built on contrast). For: someone large, tough or intimidating meeting something tiny or tender, or the reverse, where the small or fragile one beats the big one (gyms, strongmen, bikers, tattooed fathers, grandmothers, small children, tea parties, makeovers). Shape: 4 to 6 shots of about 2 to 2.5 s, 12 s in all: show the big one being big; the small one or a delicate object interrupts; the big one goes along with it, or the small one performs, all played dead straight; the payoff is the big one's face changing, held at least 2 s; optionally a third character walks in and reacts. Camera: a fixed wide shot for the scale joke, an extreme close-up of the delicate action, a slow push in to a close-up for the face, and the last wide held. Pace: quick set-up, then stay put; stay on the payoff, no cutaway. Sound: a light, playful score, delicate foley on the small action, one laugh or a single word on the turn. Movement: the big one stays grounded and holds back, with small exact moves and large facial acting; the small one has all the bounce."
+    },
+    {
+      "slug": "archetype-b",
+      "title": "B · Chaos at home",
+      "from": "everygen/animated-421cf1@Archetype B - HOUSEHOLD CHAOS recipe",
+      "prompt": "B · Chaos at home. For: a child, a baby, a brother or sister, or a partner making a mess at home; parent humour. Shape: 5 to 8 shots of 1.5 to 2.5 s, 12 to 15 s: open in the middle of the mischief; it grows; one large physical act that visibly changes the room; a grown-up walks in and goes rigid in a long blank stare, held at least 2 s (the payoff); optionally a closing shot where it turns out fine. Camera: fixed medium shots and very tight face close-ups; at most one unusual angle (through glass, or straight down from above), used once. Pace: hold the grown-up's reaction over several beats; the stillness is the joke. Sound: almost silent: an inquisitive cue under the set-up, a comic whoosh on the big act, the music cutting out to nothing under the stare, a gentle resolving cue on the closing shot; baby babble is optional. Movement: the child is springy and elastic; the grown-up is grounded, and their reaction snaps in with no wind-up."
+    },
+    {
+      "slug": "archetype-c",
+      "title": "C · Pet troublemaker",
+      "from": "everygen/animated-421cf1@Archetype C - PET GREMLIN recipe",
+      "prompt": "C · Pet troublemaker. For: an animal causing the trouble (cats, dogs, mayhem, the middle of the night, bath time, playing favourites). Shape: 5 to 7 shots of about 2 s, 12 to 15 s: the animal is already misbehaving in the first frame; a person spots it and reacts; it gets worse (dodging, hiding, squirming, running off); a twist or a betrayal; the payoff is the animal staring straight into the lens, held at least 2 s. Camera: fixed shots plus low framing at the animal's eye height, one tracking shot for a chase, the final shot fixed and long. Pace: 2 s cuts while it escalates, then all movement stops. Sound: a comic score, animal sounds timed to the beats (claws, a thump, a meow), at most one line from a person. Movement: the animal takes the whole exaggeration budget (full squash and stretch, long leaps, flattened landings); the person stays completely natural."
+    },
+    {
+      "slug": "archetype-d",
+      "title": "D · Bait and switch",
+      "from": "everygen/animated-421cf1@Archetype D - BAIT & SWITCH recipe",
+      "prompt": "D · Bait and switch. For: something frightening, tense or menacing that proves to be sweet or harmless, or a trick being exposed. Shape: 7 to 9 shots, 1 to 1.5 s each while the tension builds and 3 s on the reveal, 15 s in all: an everyday set-up; a warning sign (a noise from off screen, a shadow); quick cutting between reaction shots of frozen, wide-eyed figures; a slow, wary approach; the reveal, held long, warm, with big real smiles. Camera: fixed shot and reverse shot on the faces, one tense walking shot, a push in on the reveal. Pace: build quickly and land slowly; cuts come half as often once the reveal arrives. Sound: a tense rising sting, one beat of total silence, then a warm swell; no dialogue at all. Movement: fear is stiff, frozen bodies with eyes as wide as they go; relief is loose shoulders, open hands and the whole body letting go; the gap between the two is the joke."
+    },
+    {
+      "slug": "archetype-e",
+      "title": "E · Gag stack",
+      "from": "everygen/animated-421cf1@Archetype E - GAG STACK recipe",
+      "prompt": "E · Gag stack (a set of short sketches). For: a theme rather than a plot (a heatwave, all the types of some thing, one person stuck in silly situations), where nothing carries through from one moment to the next. Shape: no more than 5 or 6 tiny sketches in the one render (with more, none of them land), 2 to 3 s each and 15 s at most in total (5 of about 3 s or 6 of about 2.5 s), each a complete sight gag on the topic, each sillier than the one before, the last one gentle or cosy. Camera: each sketch a fixed composition with one push in for its own punchline. Pace: only hard cuts, never a transition, no pause. Sound: music and foley only; nobody speaks. Movement: every sketch needs one clear physical action that ends in a visible result, never a frozen picture; either keep ONE character through every sketch, or say outright that each sketch has its own character in its own room."
+    },
+    {
+      "slug": "archetype-f",
+      "title": "F · Heartstring",
+      "from": "everygen/animated-421cf1@Archetype F - HEARTSTRING recipe",
+      "prompt": "F · Heartstring. For: an idea that is tender, sad, nostalgic or about love within a family; no joke. Shape: 5 to 7 shots of 2 to 3 s, 15 s: a quiet everyday moment; one small act of care; a second character quietly does the same or turns up; the moment of recognition; a long-held hug or face, at least 3 s. Camera: measured: fixed mediums, one slow low push in, tight close-ups on faces, one two-shot walking together. Pace: cut on feelings being revealed, not on jokes; slow down towards the end. Light tells this story: write one change from cool to warm (or lamp light to sunrise) at the turn, stated once; it is the only exception to the one-light rule. Sound: a swelling instrumental and nothing else; no dialogue; no effects beyond footsteps and cloth. Movement: held back and heavy: careful slow hands, small expressions, blinks, a quivering lip; no cartoon exaggeration at all; the weight carries all of the acting."
+    },
+    {
+      "slug": "archetype-g",
+      "title": "G · Fixed-camera oner",
+      "from": "everygen/animated-421cf1@Archetype G - FIXED-CAM ONER recipe",
+      "prompt": "G · Fixed-camera oner. For: an observational, repeating idea (a couple failing to fall asleep, a selfie session, the same routine each morning), or a premise without a payoff. Shape: not a single cut; one unbroken locked shot. One character never stops moving; the other barely moves. Run the joke 3 or 4 times, varied each time, with one small step up in the middle, and finish close to the opening pose. Camera: no movement and no cuts at all. Choose one found-footage rig and say which: a selfie stick seen from the phone with the phone in the frame, a ceiling or baby-monitor view looking straight down; or a corner camera mounted low. Pace: comes from the cycles of action, not from editing. Sound: room ambience plus a light score, a single laugh to close. Movement: the restless character needs 3 or 4 different actions, each written out with wind-up, overshoot and settle, or the repetition reads as the clip stalling."
+    },
+    {
+      "slug": "archetype-h",
+      "title": "H · Toon-logic escalation",
+      "from": "everygen/animated-421cf1@Archetype H - TOON-LOGIC ESCALATION recipe",
+      "prompt": "H · Toon-logic escalation. For: an idea that is absurd, meme-like or impossible on purpose: parody of a situation or a wild what-if. Gags about a real, named person are refused (SKILL.md step 2). Shape: 7 or 8 shots of about 2 s, 15 s: an impossible sight gag in the first frame sets the tone; the plan comes together; a big wind-up beat (bracing, pulling back, a tug of war, something elastic bent tight); the launch or impact follows a true parabola; a formal, symmetrical, fixed reveal of the absurd result; one deliberate still beat to finish. Camera: locked off for each gag, a tracking shot for any running, a blurred whip pan as it launches, one sweeping wide shot for the arc, a perfectly symmetrical fixed shot for the reveal. Pace: the fastest of the eight, with one held still beat as the contrast. Sound: a sneaky scheming cue, a whoosh on the launch, a fanfare as the result appears; at most a giggle plus one reaction word. Movement: the logic may be cartoonish but the physics may not: bodies still travel in arcs, still have mass and still land hard. Nothing floats."
+    },
+    {
+      "slug": "triage",
+      "title": "Can a camera film it?",
+      "from": "everygen/animated-421cf1@§6.1 plausibility triage",
+      "prompt": "Before writing, ask whether a camera on a real set could film it. If it could, write it as it is. If it could not, but it could be faked on set, play it as comic contrast rather than strange physics: show strain, effort and believable technique, and leave the impossible part to the reaction shots (a child does not hold up a falling tree; she props one branch with a stick, and the stunned parent's face carries the joke). If it could not, and the impossibility is the point (flying, melting, transforming), choose archetype H, and place that moment after a wind-up beat and along a real arc, never hanging in mid-air."
+    },
+    {
+      "slug": "off-screen",
+      "title": "Cut away from the impossible frame",
+      "from": "everygen/animated-421cf1@§6.2 off-screen rule",
+      "prompt": "Cut away at the instant something impossible would happen, then show the outcome and the faces. A hard cut is free and spares the model the frame it renders worst. A beat that truly cannot be rendered becomes three: the wind-up, cut, what is left afterwards, cut, the reaction."
+    },
+    {
+      "slug": "unrenderable",
+      "title": "Never ask for these at 480p",
+      "from": "everygen/animated-421cf1@§6.3 never ask Seedance for these at 480p",
+      "prompt": "At 480p, never ask the model for: precise finger work (threading, typing, tying knots, doing up buttons, using a fine tool); legible writing, digits, signs, screens, labels or logos; a crowd, extras in the background, or more than 3 characters in motion; more than 2 locations in one render; fluids or ropes simulated at large scale (a pour works, a splash that crosses the room does not); a reflection that has to match; a character studying or handling a small detailed object. These limits were learned on Seedance 2.5 and have not been run on Seedance 2.0."
+    },
+    {
+      "slug": "silhouette",
+      "title": "Outline, not name",
+      "from": "everygen/animated-421cf1@§6.4 silhouette examples",
+      "prompt": "Name small objects by their outline, not their name: a squat round cup with a looped handle rather than a branded coffee mug, a thin flat oblong rather than a phone, a little striped bar with rounded ends rather than a toy dumbbell. A name invites logos and fine detail the model cannot draw at 480p."
+    },
+    {
+      "slug": "count",
+      "title": "Count everything; one entry point for a small animal",
+      "from": "everygen/animated-421cf1@§6.5 count everything + single-point emergence constraint",
+      "prompt": "Give every character, every limb that does something and every prop that could repeat an exact number (exactly two plates on each side of the one bar, exactly four apples, one brown dog). Anything not counted gets copied. Small animals are copied even when counted: a puppy, kitten or bird that appears partway through will come out as two unless the staging rules out a second one. Bring it in from ONE named place (one puppy pushes out from under the sofa) and keep it in view from then on: it never leaves the frame and comes back, and never crosses the frame while the place it came from is still visible. Add to the constraints: only one [animal] is ever on screen, with no duplicate."
+    },
+    {
+      "slug": "beat-ceiling",
+      "title": "Beat ceiling and signs of life in a hold",
+      "from": "everygen/animated-421cf1@§6.5b beat ceiling and micro-life",
+      "prompt": "A beat longer than 4 s turns static, so split it with cut, instead. A held payoff never freezes: even a hold of 2 s or more keeps small signs of life (a breath, a single blink, hair or fur coming to rest); write them in."
+    },
+    {
+      "slug": "one-light",
+      "title": "One light source",
+      "from": "everygen/animated-421cf1@§6.6 one light source",
+      "prompt": "Name exactly one light source (a strip of overhead tube lights, one reading lamp by the bed, low evening sun through a single window). Never describe mood with colour words: colour wording relights the whole scene. The relighting bans already sit in the constraints block. Only archetype F may write one deliberate cool-to-warm change at the emotional turn."
+    },
+    {
+      "slug": "negatives",
+      "title": "Scene lines added after the constraints block",
+      "from": "everygen/animated-421cf1@§6.7 anti-artifact negatives",
+      "prompt": "Add the lines that fit the scene to the end of the constraints block. Contact or wrestling: no limb passes through a body, hands never merge, no joint bends the wrong way. Lifting and weights: the bar and plates stay stiff and the right size, metal never bends or warps, no weight floats. Animals: anatomy correct for the species, four legs and one tail, never human hands on an animal, only one [animal] on screen at any moment with no duplicate (with two species, one such clause per species: the take file's animal is then a list). Water and pouring: liquid drops straight down under gravity, no droplets hanging in the air. Several cuts: the room and its furniture stay in the same layout in every cut. Fast action: faces never smear, no ghosting and no doubled images.",
+      "lines": {
+        "contact": "no limb passes through a body, hands never merge, no joint bends the wrong way",
+        "lifting": "the bar and plates stay stiff and the right size, metal never bends or warps, no weight floats",
+        "animals": "anatomy correct for the species, four legs and one tail, never human hands on an animal, only one [animal] on screen at any moment with no duplicate",
+        "water": "liquid drops straight down under gravity, no droplets hanging in the air",
+        "multi-cut": "the room and its furniture stay in the same layout in every cut",
+        "fast-action": "faces never smear, no ghosting and no doubled images"
+      }
+    },
+    {
+      "slug": "audio",
+      "title": "Audio block",
+      "from": "everygen/animated-421cf1@§8 audio spec",
+      "prompt": "Sound gets a block of its own with three parts. SCORE, every time: a single instrumental bed described by its job, with its shape over time and its timings (for example: bright comic strings; a nervous rising figure from 5 s; the music stops dead at 8 s under the stare; a warm settling phrase from 10 s until it ends). No vocals in the score, since the constraints block rules out lyrics, singing, narration and voice-over; it allows only the VOICE line below, so that line and the block never contradict each other. SFX, always: on-screen foley, beat by beat, matching what is seen (paws on tiles, a bar landing, a chair creak, cloth brushing, a cup set down, water running). VOICE, optional, at most one: one brief line of speech, or one wordless sound (a gasp, a laugh, a puzzled huh, over here), placed at the turn or at the payoff and written in braces as {line}; never explanation. None for archetypes E and F."
+    },
+    {
+      "slug": "template",
+      "title": "Assembly template (scripts/story_take.py builds it)",
+      "from": "everygen/animated-421cf1@§9 ASSEMBLY TEMPLATE",
+      "prompt": "[style-block row, unchanged apart from the landscape swap]\n\nCHARACTERS: [each cast once, in full, shoes included], all identical in every cut. [Name the exaggerated one and the grounded one.]\n\nSETTING: [the single location]. [The single light source]. [Every prop, with its number.]\n\nFIRST FRAME: [the action already under way].\n\n[0.0]-[t1]s - [framing and camera] [the action with wind-up, move, overshoot and settle; a cue for weight; the face; a follow-on movement]\n\ncut, [t1]-[t2]s - [next beat]\n\ncut, [tk]-[end]s - [PAYOFF: a big change, held 2 s or more]\n\nAUDIO: SCORE - [...] · SFX - [...] · VOICE - {line}\n\n[constraints-block row with [N] replaced, then the matching negatives lines]"
+    },
+    {
+      "slug": "example",
+      "title": "Worked example (SL8's own; the real prompt carries both blocks in full)",
+      "from": "everygen/animated-421cf1@Worked example 2: output prompt",
+      "note": "Line: our huge rottweiler is scared of the new kitten. Turn: the big dog gives in to the kitten. Archetype A, inverted (the small one wins). Camera-plausible, so written straight. The kitten is in view from the first frame, so no entry point is needed. Counted: one dog, one kitten, one bed, one ball; N = 2. 12 s, 5 beats; the last beat is the payoff hold. Negatives: animals, multi-cut.",
+      "prompt": "[STYLE BLOCK]\n\nCHARACTERS: exactly one dog and exactly one kitten. (1) A very large black-and-tan rottweiler, broad chest, short dark claws, a worn red collar with no tag. (2) One tiny grey kitten with white paws, oversized pale-blue eyes and a short upright tail. Each stays identical in every cut. The kitten carries all of the exaggeration (springy pounces, bodies drawn long, bouncy landings); the rottweiler is the grounded one, moving slowly and carefully with real weight, acting only through ears, brows and eyes.\n\nSETTING: one living room with a tiled floor. One tall window with morning sun is the only light. Exactly one round dog bed, exactly one rubber ball against the wall. No mirrors.\n\nFIRST FRAME: the rottweiler is already backing away across the tiles, head low, the kitten standing square in front of him.\n\n0.0-2.5s - low wide, fixed camera at floor height. The dog shuffles backward, rear legs bending as he lowers his hips, claws ticking on the tiles; his ears fold flat and his brows pinch up. The kitten arches, fur bristling along its back, tail standing straight up, then hops forward a single step and lands squarely.\n\ncut, 2.5-4.5s - close-up on the kitten, fixed. It coils down, rump wiggling once, pauses, then springs with its body pulled long, front paws wide, and lands pressed flat to the tiles, whiskers quivering, before popping upright.\n\ncut, 4.5-7.0s - medium, fixed. The dog's bulk drops into the round bed, the cushion sinking under him; he curls tight, chin pressed down, eyes peeking over the rim. His jowls wobble and settle a beat after he stops.\n\ncut, 7.0-9.0s - tight close-up on the dog's face, fixed. The kitten's small paw enters the frame and taps his nose once. His eyes go wide in one frame, no build-up, and he stays frozen, nostrils twitching.\n\ncut, 9.0-12.0s - medium wide, fixed. The kitten climbs onto his broad back, turns a full circle and curls into a ball between his shoulders. The dog lets out one slow breath, sinking deeper into the bed, eyes half closing in surrender; the kitten's tail curls and settles while the dog's chest rises and falls.\n\nAUDIO: SCORE - a light tiptoeing woodwind theme; a tiny brass sting on the pounce at 2.5s; the music stops for one beat at 7.0s under his frozen face; a warm, soft resolve from 9.0s to the end. SFX - claws ticking on tile, a soft thump as the kitten lands, the bed cushion creaking, one nose tap. VOICE - one tiny squeak from the kitten on the tap {mew}.\n\n[CONSTRAINTS BLOCK with N = 2] · anatomy correct for the species, four legs and one tail, never human hands on an animal, only one kitten on screen at any moment with no duplicate · the room and its furniture stay in the same layout in every cut."
+    },
+    {
+      "slug": "preflight",
+      "title": "Pre-flight: all sixteen lines before any spend",
+      "from": "everygen/animated-421cf1@§12 pre-flight checklist",
+      "prompt": "1. The style block comes first, exactly as stored (the landscape swap is the only edit). 2. The constraints block closes the prompt, with [N] replaced and the scene lines from the negatives row added. 3. One archetype only, and the number and length of its shots are kept. 4. The opening frame catches the action already happening. 5. Each beat carries wind-up, overshoot and settle wording, a facial state, a cue for weight and a follow-on movement; none is a lone verb. 6. One character is named as exaggerated and one as grounded. 7. The payoff changes the main subject in a big, well-framed way, held 2 s or more, and is never a small prop. 8. Every noun that can be counted carries a number. 9. Each character is cast once, completely, shoes included, followed by identical in every cut. 10. A single light source, named once; no colour word used for mood. 11. Small or detailed objects are given by outline, not by name. 12. No captions, text or overlays asked for anywhere. 13. The audio block holds SCORE and SFX and no more than one VOICE line. 14. Nothing from the unrenderable row. 15. Nothing that matches a blocked story shape. 16. Settings: duration a whole-second string from \"10\" to \"15\" (never \"auto\"), resolution \"480p\", aspect_ratio \"9:16\" (or \"16:9\" when asked), generate_audio true, one render."
+    },
+    {
+      "slug": "blocked-shapes",
+      "title": "Blocked story shapes and known failures",
+      "from": "everygen/animated-421cf1@§13 blocked narrative shapes and known failures",
+      "prompt": "Seedance's safety filter refuses whole story shapes as well as names: once a shape is refused, a new character or setting will not get it through, so change what happens instead. Shapes known to be refused (on Seedance 2.5; not yet tried on 2.0), so never write them: a creature lurking beneath a child's bed; a modest newcomer put to the test who turns out to be a hidden expert. When two renders fail on the same shape, the shape is the cause: rewrite the mechanic rather than dressing it differently. Other failures seen: a colour word used for mood relights the scene (name one light and leave it); anything not counted is copied (a second dog, an extra hand, a twin at the back); a named small object comes out warped at 480p (describe its outline); asking for 720p or 1080p cost more with no visible gain at that stage (Seedance 2.5); beats written as a pose plus one verb look stiff, like a slideshow."
+    }
+  ]
+}
