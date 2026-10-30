@@ -1,0 +1,7 @@
+{
+  "name": "video-ambient-loop",
+  "version": "v1.0.0",
+  "description": "Seamless looping ambient video: one rain scene whose picture and sound loop with no jump, about 30 seconds, 1, 2 or 2.5 minutes long, vertical unless wide or square is asked, film or real unfiltered look, optional soft piano. Decides every choice from the request without asking, makes one loop-frame picture, films one 7-second clip with that picture as first and last frame and native rain audio, checks frames, seam, voices and level with scripts, then builds a self-closing ffmpeg blend cell and repeats it; hard-cut windows are the fallback. Use when: rain video, rain ambience, rain sounds for sleep or study, cozy rainy window, snowy window, ambient background loop, looping rain for a TV. NOT for: one clip from a prompt (media-video-generation); a narrated or multi-shot video (media-video-production); music, a soundscape or sound effects alone (media-audio-generation); a still (media-image-generation); scenes with people, arrivals or thunder (not this method); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:21:49.206Z",
+  "skill_md_sha256": "aa1125cec291837cfe9796fecc8f361727bf56e00af030add649b9c99453a64c"
+}
