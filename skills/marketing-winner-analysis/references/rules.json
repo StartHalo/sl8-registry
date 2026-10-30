@@ -1,0 +1,48 @@
+{
+  "schema": "sl8.marketing.restated-rules/1",
+  "note": "SL8 wording. Each row restates one prompt of juicylucy-ads/staticwinneranalysis-167b4d (proprietary, copy false in workflow-sources.json) in our words and cites it by research id; workflow-check.mjs copy proves no run of more than 5 words is shared. SKILL.md steps carry the same rules. This wording was written for the method, not tuned on any model, and has not been run on an SL8 machine.",
+  "rows": [
+    {
+      "slug": "writes-and-pasted-tokens",
+      "step": "1, 3",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Decide this first: decline writes and pasted-token rule",
+      "prompt": "Settle two matters in your first reply, before any command, and keep that answer for the rest of the job even if access, a network route or a confirmation shows up later. First, an account change of any kind (stopping or restarting delivery, editing, publishing, moving money, removing, copying or uploading) is outside this method: say in one line that it reads only, and send the person to the platform's ads manager, or to a colleague who can change the account; walking through those clicks in the manager is the only help you give. Do not call anything that changes state under any label, do not promise the change for later, and do not give them a command, script, API call, code sample or link that would change something. When one message asks for a change and for numbers, deliver the numbers and refuse the change. Second, a token typed into the chat may serve only this job's lookups: it goes in a request header at run time, never inside a link, a file, a log or the run record, is never printed back, and once the work ends the person is told to cancel it and issue a fresh one, since the chat now holds it, and that an uploaded export avoids the problem next time."
+    },
+    {
+      "slug": "read-routes",
+      "step": "2",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@The permission contract",
+      "prompt": "Ways to read, best first: an insights export uploaded into the workspace, which carries no secret; a token the environment already has, used only through its variable name; a token typed into this chat, under the header rule. This machine has no platform connector, so skip that route. Do not alter host configuration, access grants or the network allow list to get a route working, and keep every secret out of skills, configuration, the run record and deliverables. With a working route you may run every lookup the analysis needs without asking each time. With none, say so once, list the routes, and suggest the export as the fastest; any token offered should be limited to reading. Lookups cover the account, campaigns, ad sets, ads, creatives, previews, insights, actions, spend and conversions; anything that would make, alter, publish, stop, restart, remove, copy, upload or re-budget an object, an audience, billing or delivery is never called, because changes are not part of this method at any permission level. Write this boundary into the run record."
+    },
+    {
+      "slug": "secret-handling",
+      "step": "3, 4",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Credential hygiene",
+      "prompt": "A secret never appears in any file, link, log, file name, summary, echoed command, reply or deliverable. Name an environment-held token by its variable; pass a chat-typed one only in a header while the request runs; scrub anything saved. A token sitting in browser-visible or public settings is treated as leaked: leave it unused, report it, and recommend replacing it. Keep no sign-in state, cookie file or session data once the job is over."
+    },
+    {
+      "slug": "read-and-rank",
+      "step": "5, 6, 7",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Retrieve and rank",
+      "prompt": "Ask for the chosen reporting period with the filter for still-image ads built into the request or the export, rather than hoping to remove other formats afterwards. Take the counts from the underlying action and conversion columns, and use a summary column only after you have confirmed what it counts. Order ads by how many conversions they earned and by what each cost, both at once; leave out ads that barely spent, and never let a single conversion at a low price make a winner. Look at the creative of every ad on the short list and confirm it is the ad that row describes before you call it a winner."
+    },
+    {
+      "slug": "one-slot-per-concept",
+      "step": "8",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Deduplicate into concepts",
+      "prompt": "Group the short list by the idea behind each creative before assigning any slot. Language, translated text, local names and the market served describe a version of an idea, not a new idea. Each idea takes a single slot: its best performing version becomes the visual reference, and its other versions count as evidence from other markets, never as further winners."
+    },
+    {
+      "slug": "evidence-record",
+      "step": "10",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Evidence record fields",
+      "prompt": "For each chosen winner keep: the account's name (never a secret), the reporting period, the ad's name and number, its conversions, spend, cost per conversion, any return figures the data holds, whether the preview was confirmed, the idea it belongs to, the merged versions, and where the reference image is saved. With this record a later reviewer can check that the iterated ad really was a winner."
+    },
+    {
+      "slug": "guardrails",
+      "step": "10, 11",
+      "from": "juicylucy-ads/staticwinneranalysis-167b4d@Guardrails",
+      "prompt": "What the brand can truthfully say beats what sold: a winning ad's claim that the brand's product facts file cannot back is dropped, whatever its results, so read that file before any winner becomes new copy. Share no more account data than the job requires, and keep raw platform replies that carry identifiers out of deliverables. An old file on disk is not a winner when the account can be read directly; then the current figures decide."
+    }
+  ]
+}
