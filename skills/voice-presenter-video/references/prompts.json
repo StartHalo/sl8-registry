@@ -1,0 +1,71 @@
+{
+ "note": "SL8 wording, restated from the HeyGen legacy avatar-video skill (heygen-com/skills-legacy, outside the copyable heygen-com/skills surface: copy false) as recorded in the capability assessment (sl8-resesarch@559a1305). Each row cites the research prompt it restates; workflow-check.mjs copy keeps every row to runs of 5 words or fewer shared with that prompt. {name} marks a value the run fills (presenter.mjs fill). The wording was written for HeyGen's own voice and avatar engines and has not been run on our fal routes.",
+ "rows": [
+  {
+   "slug": "portrait",
+   "use": "Step 3, a presenter portrait from the eight descriptors when no photo is given; fal-ai/nano-banana-pro by default",
+   "prompt": "Photoreal studio portrait, {pose_words}, of a {age} {gender} of {ethnicity} appearance: {appearance}. Facing the lens squarely, calm neutral face with lips together, soft even light, a plain {background} backdrop, nothing covering the face, no lettering anywhere. {style} look, framed {orientation}. An invented person, not anyone real.",
+   "from": "heygen/retired-avatarvideo-8ce216@AI photo avatar request (8 required fields)"
+  },
+  {
+   "slug": "demo-60",
+   "use": "Step 6 starting point: a product demo of about 60 s (about 150 words once filled)",
+   "prompt": "Meet {product}, the simplest way to {main_benefit}. <break time=\"1s\"/> My name is {presenter}. <break time=\"0.5s\"/> In the next minute you will see three moves. <break time=\"1s\"/> Move one: {first_move}. <break time=\"0.5s\"/> Move two: {second_move}. <break time=\"0.5s\"/> Move three: {third_move}. <break time=\"1s\"/> Teams used to spend {old_time} on this; with {product} it takes {new_time} instead. <break time=\"0.5s\"/> Want to try it? <break time=\"1s\"/> Go to {website_spoken}.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script template: Product Demo (60 seconds, ~150 words)"
+  },
+  {
+   "slug": "tutorial-90",
+   "use": "Step 6 starting point: the opening of a tutorial, about 90 s (about 225 words once filled)",
+   "prompt": "This lesson is about {topic}. <break time=\"0.5s\"/> My name is {presenter}, and I will walk you through it step by step. <break time=\"1s\"/> When we finish, you can {outcome_a}, {outcome_b} and {outcome_c}. <break time=\"1s\"/> We begin with the groundwork. <break time=\"1.5s\"/> {part_one} <break time=\"1s\"/> With {idea} in place, the next piece is {next_piece}. <break time=\"1.5s\"/> {part_two} <break time=\"1s\"/> One last piece remains: {last_piece}. <break time=\"1.5s\"/> {part_three} <break time=\"1s\"/> That covers what you need to begin. <break time=\"0.5s\"/> Leave your questions below.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script template: Tutorial Introduction (90 seconds, ~225 words)"
+  },
+  {
+   "slug": "announce-30",
+   "use": "Step 6 starting point: an announcement of about 30 s (about 75 words once filled)",
+   "prompt": "Some good news today. <break time=\"0.5s\"/> {announcement} is here. <break time=\"1s\"/> For you that means {gain_a}, plus {gain_b}. <break time=\"0.5s\"/> From {date} on, you can {capability}. <break time=\"1s\"/> The details are at {location_spoken}. <break time=\"0.5s\"/> Tell us how it works for you.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script template: Announcement (30 seconds, ~75 words)"
+  },
+  {
+   "slug": "rhythm-sections",
+   "use": "Step 6 rhythm: moving from one section to the next",
+   "prompt": "Thanks for joining this overview. <break time=\"1s\"/> We will look at three parts of the product. <break time=\"0.5s\"/> The home screen comes first. <break time=\"1.5s\"/> Everything there is built to stay out of your way. <break time=\"0.5s\"/> Most tasks take a single tap.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script: section transitions example"
+  },
+  {
+   "slug": "rhythm-suspense",
+   "use": "Step 6 rhythm: building to a reveal",
+   "prompt": "For a while now, we have kept something quiet. <break time=\"1s\"/> It took the whole team most of a year. <break time=\"1.5s\"/> Today we can finally show you <break time=\"0.5s\"/> the new assistant.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script: building suspense example"
+  },
+  {
+   "slug": "rhythm-list",
+   "use": "Step 6 rhythm: a short list, one item per beat",
+   "prompt": "You get three things with it. <break time=\"0.5s\"/> It is fast. <break time=\"0.5s\"/> It is dependable. <break time=\"0.5s\"/> It is easy to learn. <break time=\"1s\"/> We will take them one by one.",
+   "from": "heygen/retired-avatarvideo-8ce216@Script: list with rhythm example"
+  },
+  {
+   "slug": "break-one",
+   "use": "Step 6: a single pause between two thoughts",
+   "prompt": "Thanks for being here. <break time=\"1s\"/> Here is what changed this week.",
+   "from": "heygen/retired-avatarvideo-8ce216@Break tag example in script"
+  },
+  {
+   "slug": "say-map",
+   "use": "Step 6: spoken forms for --say (the voice reads them; captions and overlays keep the written form)",
+   "prompt": "{\"API\": \"A P I\", \"SQL\": \"sequel\", \"Kubernetes\": \"koo-ber-net-eez\", \"acme.com\": \"acme dot com\", \"2026\": \"twenty twenty-six\", \"40%\": \"forty percent\"}",
+   "from": "heygen/retired-avatarvideo-8ce216@Pronunciation hints"
+  },
+  {
+   "slug": "delivery-energetic",
+   "use": "Step 11, only on a talking-head route that takes a prompt (not veed/fabric-1.0): delivery for lively content",
+   "prompt": "Leans a little toward the camera and talks with open, moving hands.",
+   "from": "heygen/retired-avatarvideo-8ce216@motion_prompt example"
+  },
+  {
+   "slug": "delivery-calm",
+   "use": "Step 11, only on a talking-head route that takes a prompt: the low-key default delivery",
+   "prompt": "Small nods on the key words, steady gaze, relaxed shoulders.",
+   "from": "heygen/retired-avatarvideo-8ce216@motion_prompt examples (field table)"
+  }
+ ]
+}

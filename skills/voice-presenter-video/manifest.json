@@ -1,0 +1,7 @@
+{
+  "name": "voice-presenter-video",
+  "version": "v1.0.0",
+  "description": "Presenter or talking-head video speaking a customer's exact script: a generated or AVATAR portrait (approved first), one ElevenLabs narration per scene, one veed/fabric-1.0 talking head per scene, one ffmpeg join and loudness pass, optional HyperFrames titles, green-screen overlay and captions. Unproven routes: re-voicing presenter footage, a text-only draft; batches personalised versions. Use when: a spokesperson or avatar video from a script, an AI presenter explaining a product, a talking character with my script, a LinkedIn or Reels presenter clip, re-voice my presenter clip, many personalised presenter videos. NOT for: creating or changing a reusable avatar (voice-avatar-identity); a voiceover alone (media-audio-generation); a single talking head from any still (media-video-generation); a produced explainer with B-roll and motion graphics (media-video-production); captions on an existing video (edit-captions); dubbing into another language (voice-dub); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:24:06.119Z",
+  "skill_md_sha256": "3cd2d3f81f508f7372d4998b4beefa5e400339ec1f3217b9d00e9ab67dfbefea"
+}
