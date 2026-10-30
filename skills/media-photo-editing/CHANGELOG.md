@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.2.0] — 2026-10-30
+### Added
+- Release media-photo-editing v1.2.0.
+
 ## [v1.1.0] — 2026-10-21
 ### Added
 - Release media-photo-editing v1.1.0.
