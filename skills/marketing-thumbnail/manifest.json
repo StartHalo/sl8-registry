@@ -1,0 +1,7 @@
+{
+  "name": "marketing-thumbnail",
+  "version": "v1.0.0",
+  "description": "Video thumbnail or cover: one finished image, or a set of variants, that sells a video at feed size. A concept from 16 frameworks, an eleven-block house prompt that locks each character image, one Nano Banana Pro render per variant, a check at full size and at 120 px, surgical tweaks, and the headline baked last by a local headless-Chromium script, never drawn by the model. Use when: make a YouTube thumbnail or video cover, a set of thumbnail variants with different expressions or takes, a split, before-after or versus thumbnail, put a character or a logo on a thumbnail, add a bold headline to a render, tweak a finished thumbnail, a cover handed over by a video skill, or a thumbnail from a real frame. NOT for: a branded graphic or poster with copy (marketing-branded-graphic); saving a brand (marketing-brand-kit); free-prompt stills (media-image-generation); cutouts and retouching (media-photo-editing); character sheets (media-character-sheet); running ai-gen (media-ai-gen); file checks (media-qc).",
+  "generated_at": "2026-10-30T13:28:03.974Z",
+  "skill_md_sha256": "25f69fc28fb329083bc66c7274051b80fdf807eb38f17a60d3c64f4c74348a77"
+}
