@@ -1,0 +1,7 @@
+{
+  "name": "voice-line-replace",
+  "version": "v1.0.0",
+  "description": "New lines in a customer's existing footage of a person speaking: each line is found by word timings, the new words are made in the same voice (the speaker's recording, a consented clone or a stock voice), auditioned and fitted to the old interval, only those intervals are lip-synced (fal sync-lipsync v2, one attempt each), checked by a speech-to-text round trip, ffprobe and sampled frames, and rejoined with the rest of the footage in one near-lossless re-encode. Whole-clip sync and audio-only are the variants. Use when: change, fix or correct a line said on camera, replace dialogue, re-voice a few words, update a price or name a presenter said. NOT for: translating or dubbing a video (voice-dub); making a voice clone (voice-clone-setup); a presenter or avatar video (voice-presenter-video, voice-avatar-identity); a voiceover with no footage (media-audio-generation); captions alone (edit-captions); cutting or reframing (edit-cut-reframe); new generated shots (media-video-generation); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:23:50.786Z",
+  "skill_md_sha256": "544d4ccb20fd7fcd61c5cee3c07827f7512a5892407073afcc7f745dc4eef960"
+}
