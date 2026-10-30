@@ -1,7 +1,7 @@
 {
   "name": "media-shot-craft",
-  "version": "v1.2.0",
+  "version": "v1.3.0",
   "description": "Craft rules for wording the visual prompt of one generated video clip on any text- or image-to-video route, tuned for 15-30 second commercials: one settled state per clip, a thin brief expanded into a shootable micro-scene, framing composed from slot modifiers, a motivated or explicitly locked camera, cuts only on change with an anchor carried across, story compressed to ad scale, and the specific gesture instead of the named emotion, with a printed validator. Prompt text only; calls no model. Loaded by media-script-writer and media-video-production; also standalone. Use when: improve a video prompt, write a shot, clip or motion prompt, camera direction for AI video, punch up a shot list, clips look flat or generic, make ad shots more cinematic, shot craft. NOT for: submitting the clip, route or cost (media-video-generation); timing, word budgets and shot counts (media-script-writer); running the pipeline (media-video-production); H3 prompt grammar (media-h3-prompter); stills (media-image-generation).",
-  "generated_at": "2026-10-21T22:20:14.137Z",
-  "skill_md_sha256": "2ef39b5392b53c6ada3f16900b4940083e4c0ed94a219aa3eb126d36975fea6c"
+  "generated_at": "2026-10-30T13:21:16.447Z",
+  "skill_md_sha256": "80e7e6a7a56e66898cbdf5ddd937cf3deee32b425e9af015a026c84b5da9c2ad"
 }

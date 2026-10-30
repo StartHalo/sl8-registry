@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); no tool calls (prompt text only; media-video-generation runs the clip with ai-gen 2.2.0)"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-21a
+  version: 1.3.0
+  revision: 2026-10-28a
   house-rules: HR-1.0
   upstream: fal-agent/fal-shot-craft  # pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D40..VID-D45, VID-D125..VID-D128, VID-D174..VID-D177, VID-D196..VID-D197
+  deltas: VID-D40..VID-D45, VID-D125..VID-D128, VID-D174..VID-D177, VID-D196..VID-D197, VID-D600..VID-D619
 ---
 # Shot Craft
 
@@ -54,7 +54,7 @@ person present (HR12).
 
 **Loaded as a reference by a sibling** — `media-script-writer` Step 4 or
 `media-video-production` stages 1–3. Ask **zero** questions;
-the caller owns intake. Apply Steps 1 and 3–7 to the rows being written, run the
+the caller owns intake. Apply Steps 1–7 to the rows being written, run the
 Step 8 validator on each, and return.
 
 **Triggered standalone** — a user asks for a clip prompt or wants an existing
@@ -96,13 +96,23 @@ Splitting costs nothing at the script stage and buys two independent tries.
 
 ## Step 2 — Expand a thin brief into a shootable micro-scene
 
-Moved to the kits that use it (Kits v2, C4.1): each carries it as `reference/media-shot-craft-step-2-micro-scene.md`. This skill
-provides the wording craft of the other steps; it does not expand a brief on its own.
+Most ad briefs are a product and a feeling. Neither is shootable. Before any
+prompt is worded, answer four planning rows — on paper, not in your head,
+because the row you skip is the one the prompt turns out to be missing:
 
-What stays here is the bound on invention, a house rule (HR18) that every kit copy of the step keeps:
-add staging, light and sound freely, because they make
+| Row | Decide | Where it lands |
+|---|---|---|
+| Place | one concrete location plus one lighting condition | the frame's anchors, restated in every row |
+| Subject | the product, plus at most one person with one visible identifying cue | stable continuity wording |
+| Change | the problem made visible → the product acting on it → the payoff state | the shot list's spine — an ad is a want meeting resistance, and the product is the turn |
+| Sound | one environmental bed plus two or three sounds caused by visible actions | only when the route generates audio; otherwise skip the row |
+
+Invention is bounded: add staging, light and sound freely, because they make
 the premise shootable without changing it. Do not add biography, story-changing
-props, or behaviour that alters what the brief claims.
+props, or behaviour that alters what the brief claims — an invented detail in
+an ad is an unapproved claim wearing set dressing. And reject any beat that
+does not fit the shot count the script's arithmetic allows; the author cuts
+beats, or nobody does and the render does it badly.
 
 ## Step 3 — Compose the framing from slots, not from a shot-name list
 
