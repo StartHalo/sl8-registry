@@ -1,0 +1,86 @@
+{
+ "about": "SL8's restated prompt and message table for marketing-ad-localization. The source method (JuicyLucy static-image-craft and static-localization, proprietary) is restated in SL8 words and cited by research id; nothing is copied. The vendor rendered with its own host image tool and gave no generation prompt, so the render template is SL8's and has not been run on fal-ai/nano-banana-pro/edit. Placeholders are in angle-free capitals inside square brackets. Never put a font name in a prompt.",
+ "rows": [
+  {
+   "slug": "render",
+   "use": "step 8: every Track B attempt (prompt field of the params file)",
+   "prompt": "Make a new version of this advertisement in [TARGET LANGUAGE], written in [SCRIPT] script. Rebuild the whole picture from the reference: same idea, same person or product, same pose and clothing, same objects, layout, framing, camera angle, setting, palette, light, lettering look, reading order, icons and proportions. The only change is the language of the words. Show these words exactly, each where its counterpart sits in the reference, and nothing else: [STRINGS: one entry per piece of ad text, in reading order, each as its role and its quoted text, for example headline \"...\"; supporting line \"...\"; call to action \"...\"; price badge \"...\"; web address \"...\"; legal line \"...\"; date \"...\"; tagline \"...\"] followed by [PER-STRING TYPE NOTES: one short description per string of its weight, case, size relative to the others and placement]. Strings the customer keeps identical on purpose (a web address, a numeral) are still quoted, so they are drawn and not dropped. These tokens keep their Latin letters unchanged: [PROTECTED TOKENS]. [LOGO WORDMARKS: brand logos and wordmarks stay exactly as in the reference.] Marks printed on the product or its pack ([PRODUCT MARKS]) stay exactly as they appear in the reference; do not translate them. [EDGE MARGIN, only when the canvas ratio will be cropped: keep all text and key objects well inside the edges.] [RTL ONLY: Text runs right to left; the headline starts at the right edge and the reading order of every block is mirrored.] Leave no word from the original language, no watermark and no text beyond the quoted strings. Keep every face completely clear of lettering. Keep the photograph crisp and real.",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@Track B required order",
+   "also": [
+    "research:juicylucy-ads/staticimagecraft-1841a5#6",
+    "research:creative-claw/cc-image-model-guides#20",
+    "research:creative-claw/cc-image-model-guides#23",
+    "research:higgsfield/product-image-presets#20",
+    "research:fal/charactersheet-a2ae87#25",
+    "research:juicylucy-ads/staticimagecraft-1841a5#30"
+   ]
+  },
+  {
+   "slug": "adaptation",
+   "use": "step 8, cultural adaptation runs only: replaces the second sentence of render",
+   "prompt": "Rebuild the scene for [MARKET]: buildings, people, vehicles, clothing, weather and street detail may change to suit that market, while the role each element plays in the ad, the message order and the layout stay as in the reference.",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@Track B production contract",
+   "also": [
+    "research:juicylucy-ads/staticimagecraft-1841a5#5"
+   ]
+  },
+  {
+   "slug": "defect-retry",
+   "use": "step 10: the one named lever added to render for the second attempt (pick the clause for the defect seen)",
+   "prompt": "Text defect: repeat the exact quoted words and describe the letterforms (for example heavy condensed capitals, rounded sans, thin serif), never a font name. Layout defect: say where each block sits and how much margin it keeps. Face defect: say the lettering stays above or beside the face with a clear gap. Fidelity defect: name the drifted element (the product shape, the pose, the background) and say it must match the reference.",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@Defect retry checklist",
+   "also": [
+    "research:fal/charactersheet-a2ae87#25",
+    "research:juicylucy-ads/staticimagecraft-1841a5#7"
+   ]
+  },
+  {
+   "slug": "moderation-retry",
+   "use": "step 11: replaces the subject wording of render after a safety block",
+   "prompt": "Describe people only as the same grown-up person with the same outfit, stance, framing and light as the reference; drop every other description of the body or clothing that the ad does not need. Ask for nothing new: the request is the reference image with its words in [TARGET LANGUAGE].",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@Moderation-block minimal retry (with the neutral phrasing)",
+   "also": [
+    "research:juicylucy-ads/staticimagecraft-1841a5#14",
+    "research:juicylucy-ads/staticimagecraft-1841a5#16"
+   ]
+  },
+  {
+   "slug": "track-a-question",
+   "use": "step 13: the question in the Track A gate file and the delivery",
+   "prompt": "[FILE] in [TARGET LANGUAGE] could not be made by redrawing the whole ad: [REASON: the provider's safety check refused it / both attempts failed the checks]. Rewording the request further would only be an attempt to get past that check, so it will not be tried. Another way exists: keep the original picture untouched and swap only its words for the [TARGET LANGUAGE] copy. Reply a to use that way for this file, or b to leave it undelivered.",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@Message when Track B cannot pass",
+   "also": [
+    "research:juicylucy-ads/staticimagecraft-1841a5#17"
+   ]
+  },
+  {
+   "slug": "people-regenerate",
+   "use": "step 12, cultural adaptation runs only: a person who fails the people check is replaced",
+   "prompt": "A new, ordinary adult who fits [MARKET], photographed naturally: real skin with pores and small asymmetries, separate strands of hair, natural eyes and teeth, two hands with five fingers each, in the same pose and role as the reference person. Not a known or real individual.",
+   "from": "juicylucy-ads/staticimagecraft-1841a5@People gate",
+   "also": [
+    "research:juicylucy-ads/staticimagecraft-1841a5#24"
+   ]
+  },
+  {
+   "slug": "worker-brief",
+   "use": "step 5: the brief the coordinator gives each language worker (Agent tool)",
+   "prompt": "You own [LANGUAGE] ([CODE]) only: final/[CODE]/, qa/[CODE]/ and candidates/[CODE]/ under artifacts/[PROJECT]/, from manifest run/manifests/[CODE].json. Do not touch another language or the project report, and do not edit run/STATE.md: report to the coordinator instead. Add manifest rows (manifest.mjs add) only for your own items, keyed as in SKILL.md step 3; never open a spend gate (report the need to the coordinator and wait); pass the per-call estimate as --max-cost, never the campaign quote. Load marketing-ad-localization and follow steps 6 to 16 for every source in name order: copy locked in the provenance ledger first, then one render from the original only, at most two image-producing attempts, quoted and recorded. After each folder, run its folder check and send the coordinator: finals saved, attempts, retries, check result, the next source file and any rate or capacity event. At the end of the language, run step 19 (verify and OCR) and write FINAL_QA.md.",
+   "from": "juicylucy-ads/staticlocalization-916db0@Language-worker kickoff prompt",
+   "also": [
+    "research:juicylucy-ads/staticlocalization-916db0#49",
+    "research:juicylucy-ads/staticlocalization-916db0#52"
+   ]
+  },
+  {
+   "slug": "coordinator-brief",
+   "use": "step 5: what the coordinator holds itself to (written at the top of run/STATE.md)",
+   "prompt": "Goal: every source ad in [SOURCE ROOT] remade in [LANGUAGES], filed under the planned names. Each render starts from its own original and never from a rejected one. Plan the names and counts before writing, then check them from the folders, not from messages. Begin with two working languages at once and add one more only after a folder passes cleanly; on a rate or capacity error, pause the newest, fall back to the last steady number and say so. Keep STATE.md current enough that another session could continue from the next file.",
+   "from": "juicylucy-ads/staticlocalization-916db0@Coordinator kickoff prompt",
+   "also": [
+    "research:juicylucy-ads/staticlocalization-916db0@Adaptive concurrency rule",
+    "research:juicylucy-ads/staticlocalization-916db0#11"
+   ]
+  }
+ ]
+}
