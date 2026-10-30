@@ -1,0 +1,7 @@
+{
+  "name": "video-fan-cam",
+  "version": "v1.0.0",
+  "description": "Personalized fan-cam clip: one person's photo becomes a short live sports-broadcast spectator cutaway in two paid stages. An edit model makes an identity-preserving broadcast still (gpt-image-2 edit by default), the still is checked against the photo before any video spend, then image-to-video animates only the approved still (Kling v3 pro by default, Seedance 2.0 the other route) and the clip is reviewed frame by frame. Generic broadcast styling only; exact score text or graphics are burned on afterwards. Use when: put a consenting person in the stands at a match, a crowd-reaction or spectator cutaway from a selfie or portrait, a fan-cam clip for a sport, a broadcast-style reaction video. NOT for: a still or headshot edit alone (media-image-generation); animating any other still, or a talking head (media-video-generation); a score bug or titles on an existing clip (media-motion-graphics); a multi-shot film (media-video-production); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:22:33.282Z",
+  "skill_md_sha256": "1d43f038c90ae9428c7aa3250282e1d92f42ca2c5bde01bffa74ae3117175f92"
+}

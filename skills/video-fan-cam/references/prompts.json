@@ -1,0 +1,181 @@
+{
+  "about": "Prompt templates and slot fills for video-fan-cam, read by scripts/fancam.mjs. The two templates are the assessment's adapted prompts A1 (still) and A2 (motion) from WF38-a1, reshaped by the WF38 enrichments; the format and reaction fills and the reframe variant are SL8's construction. None of this wording has been run on any model on SL8. An empty {aspect_line} drops out for gpt-image-2 (its size is set by image_size). A reaction row with `tight` replaces its fields for the head-and-shoulders formats (close-up cutaway, replay) so the beat stays in frame. A clip under 4 s keeps the last two moves of a three-move beat. The default pair (celebrating, close-up cutaway) is the first thing VID-L420 tests.",
+  "status": "ours, untested",
+  "slots": "{sport} {venue} {context} {crowd_mood} {crop} {framing} {expression} {still_note} come from the brief and the format and reaction rows for the still; {may_move} {beat} {range} {camera} {camera_end} {motion_note} for the clip. An empty optional slot drops out with its lead-in.",
+  "copy_check": "Rows with `from` restate a source whose wording may not be copied (everygen, copy false in workflow-sources.json); workflow-check.mjs copy tests their `prompt` against it. Rows without `from` cite only copyable sources (fal agent skills, used with attribution; Kling AI skill, MIT) or the assessment's own A1/A2, listed in `cites`; `copied` names any line kept word for word.",
+  "rows": [
+    {
+      "slug": "still",
+      "kind": "template",
+      "prompt": "Edit Image 1 into one frame of a live sports broadcast: a spectator cutaway of this person in the crowd. Keep the facial features exactly the same as Image 1, and keep the hair, skin marks and build recognizable. Setting: {sport} at {venue}{context}, crowd mood {crowd_mood}. Framing: {framing}. Expression and pose: {expression}. Look: candid live TV camera, telephoto compression, stadium lighting, not a posed studio portrait. Generic broadcast styling only: no real network logos, no real team marks, no scoreboard text, no captions, no readable text anywhere in the frame.{still_note}{aspect_line}",
+      "cites": [
+        "research:WF38-a1",
+        "research:fal/fancam-031b77@Prompt Guardrails",
+        "research:fal/fancam-031b77#9",
+        "research:fal/fancam-031b77#10",
+        "research:fal/fancam-031b77#11",
+        "research:fal/fancam-031b77#13",
+        "research:fal/charactersheet-a2ae87#12",
+        "research:fal/charactersheet-a2ae87@edit-mode identity clause (nano-banana-pro/edit)"
+      ],
+      "copied": [
+        "fal/charactersheet-a2ae87@edit-mode identity clause (nano-banana-pro/edit): keep the facial features exactly the same as Image 1"
+      ]
+    },
+    {
+      "slug": "motion",
+      "kind": "template",
+      "prompt": "Animate this exact frame; do not redraw it. Fixed: the person's face, hair, build and clothing, their place in the crowd, the venue and the lighting. May move: {may_move}; the crowd behind reacts naturally. Action: {beat}, with the last second left for the settled state. Range: {range}. Camera: {camera}, ending {camera_end}. The camera holds mostly steady with only mild handheld inertia, never shaking, jolting or hunting for focus. The person stays recognizable in every frame. No new text or logos appear.{motion_note}",
+      "from": "everygen/rankingvideos-1aa4ce@Impact-shake fix line",
+      "cites": [
+        "research:WF38-a1",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#34",
+        "research:kling/klingaigeneratevideo-5f0e8c#39",
+        "research:kling/klingaigeneratevideo-5f0e8c#50",
+        "research:everygen/rankingvideos-1aa4ce#32",
+        "research:everygen/rankingvideos-1aa4ce@Impact-shake fix line"
+      ]
+    },
+    {
+      "slug": "format:close-up cutaway",
+      "kind": "format",
+      "prompt": "a tight telephoto cutaway on the person, head and shoulders, sharp against a soft crowd",
+      "camera": "a locked-off telephoto shot with slight drift",
+      "camera_end": "on the same head-and-shoulders framing",
+      "cites": [
+        "research:fal/fancam-031b77#5",
+        "research:kling/klingaigeneratevideo-5f0e8c#34"
+      ]
+    },
+    {
+      "slug": "format:crowd pan",
+      "kind": "format",
+      "prompt": "a wider shot of the stands, the person in the front rows on one third of the frame with neighbours around them",
+      "camera": "a slow sideways pan along the row",
+      "camera_end": "with the person centred in the frame",
+      "cites": [
+        "research:fal/fancam-031b77#5",
+        "research:kling/klingaigeneratevideo-5f0e8c#34"
+      ]
+    },
+    {
+      "slug": "format:scoreboard moment",
+      "kind": "format",
+      "prompt": "a medium shot of the person reacting, a stadium screen behind them too soft and distant to read",
+      "camera": "a held medium shot with slight drift",
+      "camera_end": "on the same medium framing",
+      "cites": [
+        "research:fal/fancam-031b77#5",
+        "research:fal/fancam-031b77#11",
+        "research:kling/klingaigeneratevideo-5f0e8c#34"
+      ]
+    },
+    {
+      "slug": "format:replay",
+      "kind": "format",
+      "prompt": "a medium close shot as if from a broadcast replay camera",
+      "camera": "a smooth, slightly slowed replay move pushing in gently",
+      "camera_end": "a little closer on the face",
+      "cites": [
+        "research:fal/fancam-031b77#5",
+        "research:kling/klingaigeneratevideo-5f0e8c#34"
+      ]
+    },
+    {
+      "slug": "reaction:shocked",
+      "kind": "reaction",
+      "prompt": "mouth open, eyes wide, hands rising toward the head",
+      "beat": "watching the play, then a gasp as both hands go to the head, then holding still and staring",
+      "may_move": "face, hands, arms and shoulders",
+      "range": "small (head and hands only, seated or standing as in the first frame)",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ]
+    },
+    {
+      "slug": "reaction:celebrating",
+      "kind": "reaction",
+      "prompt": "mid-cheer, arms up, a wide smile",
+      "beat": "watching, then jumping up to cheer with arms raised, then settling with a smile and a wave",
+      "may_move": "face, arms and upper body, rising to stand",
+      "range": "medium (rising from the seat at most, in the same place in the row)",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ],
+      "tight": {
+        "prompt": "mid-cheer, a wide smile, one fist raised to the shoulder",
+        "beat": "watching, then breaking into a cheer with a fist raised to the shoulder, then settling with a smile and a wave",
+        "may_move": "face, head, shoulders and one hand",
+        "range": "small to medium (head and shoulders stay in frame; the body stays in its seat)"
+      }
+    },
+    {
+      "slug": "reaction:nervous",
+      "kind": "reaction",
+      "prompt": "hands clasped at the chin, lips pressed together",
+      "beat": "watching tensely, then leaning forward as the hands tighten, then holding the breath with eyes fixed on the play",
+      "may_move": "face, hands and a small lean forward",
+      "range": "small (the body stays in its seat)",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ]
+    },
+    {
+      "slug": "reaction:chanting",
+      "kind": "reaction",
+      "prompt": "mid-chant, mouth open, one fist raised",
+      "beat": "chanting with the crowd, then pumping the fist in time, then holding the fist up while still chanting",
+      "may_move": "mouth, the raised arm and the shoulders",
+      "range": "small to medium (one arm moves, the body stays in place)",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ]
+    },
+    {
+      "slug": "reaction:laughing",
+      "kind": "reaction",
+      "prompt": "laughing, eyes creased, head tilted back a little",
+      "beat": "smiling, then bursting out laughing and glancing at a neighbour, then settling with a grin",
+      "may_move": "face, head and shoulders",
+      "range": "small",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ]
+    },
+    {
+      "slug": "reaction:emotional",
+      "kind": "reaction",
+      "prompt": "eyes glistening, one hand over the mouth",
+      "beat": "watching, then pressing a hand to the mouth as the eyes well up, then holding there, moved",
+      "may_move": "face and one hand",
+      "range": "small",
+      "cites": [
+        "research:fal/fancam-031b77#4",
+        "research:fal/fancam-031b77#12",
+        "research:kling/klingaigeneratevideo-5f0e8c#50"
+      ]
+    },
+    {
+      "slug": "variant:reframe",
+      "kind": "variant",
+      "prompt": "a wider crowd shot taken from farther back and a little higher, the person smaller in the frame and turned partly away from the camera, still identifiable",
+      "from": "everygen/foundfootagestories-179c12@Error-message redo ladder",
+      "cites": [
+        "research:everygen/foundfootagestories-179c12#80",
+        "research:everygen/foundfootagestories-179c12@Error-message redo ladder",
+        "research:everygen/everygen-generation-tool-contracts#8"
+      ]
+    }
+  ]
+}
