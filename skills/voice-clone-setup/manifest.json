@@ -1,0 +1,7 @@
+{
+  "name": "voice-clone-setup",
+  "version": "v1.0.0",
+  "description": "A consented clone of a person's own voice, saved for later speech. One message asks for a clean 1 to 2 minute solo recording, names who processes it, quotes the consent statement and asks the language; the sample is cut once with ffmpeg; fal MiniMax voice-clone makes a stored voice by default (Qwen reference clone or one-off Chatterbox clip on request); the person judges an audition on their own name, a number and a sentence; the voice is reused, re-made from the kept sample when its id lapses, replaced or deleted on request. A named real person's voice or a sample of unknown origin is refused. Use when: clone my voice, use or save my voice, speak this in my cloned voice, audition or re-record my voice, my clone stopped working, delete my voice. NOT for: stock or timed voiceover, voice swap (media-audio-generation); dubbing (voice-dub); an avatar or presenter (voice-avatar-identity, voice-presenter-video); new lines or lip-sync in footage (voice-line-replace); writing the script (media-script-writer).",
+  "generated_at": "2026-10-30T13:23:09.324Z",
+  "skill_md_sha256": "0d40cf85db2e830c9b2e9ecc96b80c9ed13deea1a3cf95f897d29346531ac496"
+}
