@@ -1,0 +1,7 @@
+{
+  "name": "marketing-brand-kit",
+  "version": "v1.0.0",
+  "description": "Brand kit: captures, extracts or edits a brand as one saved kit (colours with roles, fonts with their files, logo variants, reference images, Markdown notes on audience, tone and visual direction), written merge-safe and read back, then applied to generation with the exact logo composited, never redrawn. Values come from the customer, their files or the official brand page read by a local headless browser; ambiguous values wait for the customer. Use when: set up my brand, create or edit a brand theme or style guide, pull the brand from a website, import a logo pack or fonts, make a logo transparent, or make a still, edit or series on brand from a kit. NOT for: a finished branded graphic (marketing-branded-graphic); free-prompt stills (media-image-generation); cutouts and composites in general (media-photo-editing); motion rules or animated brand titles (media-motion-graphics; motion rules not offered); product presets (image-product-presets); running ai-gen (media-ai-gen); file checks (media-qc).",
+  "generated_at": "2026-10-30T13:25:52.478Z",
+  "skill_md_sha256": "48eff0cc5e9aab0e27c4fa4b39c1d4a479f0ddf182510e7bdd1de6da3427b280"
+}
