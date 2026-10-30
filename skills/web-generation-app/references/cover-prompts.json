@@ -1,0 +1,56 @@
+{
+  "about": "Cover reveal wording for web-generation-app steps 20-24. Each row restates, in SL8 words, a prompt recorded from Higgsfield's website-builder cover animator (no licence stated, so nothing is copied) or is SL8 wording from the assessment (WF51-a1, WF51 enrichment). The vendor tuned its wording for its own Seedance 2.0 wrapper; none of these rows has been run on bytedance/seedance-2.0/image-to-video or on the edit models here. Fill the [BRACKETS] from the cover; send the result as the params file's prompt.",
+  "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment/records/p2/higgsfield/lld/wb-app-lane.json",
+  "copied": false,
+  "rows": [
+    {
+      "slug": "offer",
+      "step": 20,
+      "prompt": "The cover video is the one paid item at publish. Offer it once: \"Would you like a 5-second animated version of the cover?\" Make it only after a yes. The cover image is an input to the video, not part of it.",
+      "from": "higgsfield/wb-app-lane@Cover video offer question"
+    },
+    {
+      "slug": "beats",
+      "step": 21,
+      "prompt": "At 5 s (scale these times to the length asked, about 30 %, 70 % and 100 % of the clip). 0 to 1.5 s: the scene is already alive and there is no text yet; give it the motion that suits this cover's own subject (fur rippling, stars circling, clouds drifting, lights flickering) and a slow push-in. 1.5 to 3.5 s: the title enters with a motion chosen for its lettering (blocky pixel type steps in piece by piece, glossy bubble letters swell up, tall condensed capitals drop hard), the tagline rises into view, then the pill slides in with a small bounce. 3.5 to 5 s: only small motion while every element settles into the precise closing layout, which is the end frame.",
+      "from": "higgsfield/wb-app-lane@Cover beat design (0-1.5 s / 1.5-3.5 s / 3.5-5 s)"
+    },
+    {
+      "slug": "reveal",
+      "step": 23,
+      "prompt": "A polished [N]-second motion reveal of a cover image, with smooth film-like easing. Open on the supplied start frame, which carries no text, badges or buttons: [OPENING SCENE AND ITS AMBIENT MOTION, e.g. \"the small mascot turns slowly while its fur catches the light and stars drift past\"]. Next, the headline \"[TITLE TEXT]\" arrives [ENTRANCE THAT SUITS ITS LETTERING], the subtitle rises below it, and the little rounded call-to-action pill glides into place with a gentle bounce. Every element settles precisely where it belongs, and the clip finishes on the supplied final frame exactly, motionless through the closing moments. A slow camera push-in throughout. [TAIL]",
+      "from": "higgsfield/wb-app-lane@Cover reveal prompt template"
+    },
+    {
+      "slug": "tail-positive",
+      "step": 23,
+      "prompt": "The scene stays stable; the only text is the title and tagline; nothing new enters the frame.",
+      "note": "Default [TAIL]. SL8 wording from the WF51 enrichment (fal/falvideogeneration-fe0127#25): Seedance routes have no negative prompt field, so the avoidance is stated as positives and is not enforced."
+    },
+    {
+      "slug": "tail-negative",
+      "step": 23,
+      "prompt": "Keep it steady: no flicker, no added lettering, nothing new appearing.",
+      "note": "The control [TAIL] for the draft comparison (path P8): a 'no' list in the vendor's form, in SL8 words. On fal a 'no X' list can invite X."
+    },
+    {
+      "slug": "og-static",
+      "step": 21,
+      "prompt": "The flat colour border, the corner dots and the capsule stay completely still from start to end.",
+      "from": "higgsfield/wb-app-lane@OG-cover static append sentence",
+      "note": "Append to the reveal prompt only when the cover being animated is the OG version."
+    },
+    {
+      "slug": "regenerate",
+      "step": 24,
+      "prompt": "If the last frame strays from the cover or stray text shows up mid-clip, make one more take and name the flaw in the prompt, for example: \"once the title lands it holds still\".",
+      "from": "higgsfield/wb-app-lane@Wire og_video_url and review/regenerate rule"
+    },
+    {
+      "slug": "start-frame",
+      "step": 22,
+      "prompt": "Edit this cover image: take out the title, the tagline, the pill button and every logo, and fill the space they leave with the surrounding background, so the hero scene and the whole composition stay exactly as they are. Keep the colours, lighting, style and framing unchanged. No text anywhere.",
+      "note": "SL8 wording from the assessment (WF51-a1 adapted prompt for the new step 22, INTERPRETATION, untested)."
+    }
+  ]
+}
