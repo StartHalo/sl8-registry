@@ -1,0 +1,7 @@
+{
+  "name": "web-3d-showcase",
+  "version": "v1.0.0",
+  "description": "3D character showcase for the web: a theme brief or reference images become approved full-body character stills, then GLB models through an async image-to-3D job, then companions, tileable ground textures and a looping video or still background per character, then a responsive Three.js character selector with palette swaps, optimized and checked in headless Chromium. Approval of the stills comes before any 3D spend. Also a GLB set or game asset pack without the app. Use when: a customer orders a 3D character selector, roster or showcase page, GLB models from character art or a photo, or 3D game characters with textures. NOT for: a marketing or landing site (web-marketing-site); an app that calls generation models for its own users (web-generation-app); a character sheet or turnaround alone (media-character-sheet); single stills or scenes (media-image-generation); running ai-gen in general (media-ai-gen); 2D sprites, 3D scenes or non-character environments (not offered).",
+  "generated_at": "2026-10-30T13:31:40.254Z",
+  "skill_md_sha256": "c4dbff926351647c181a74501154cf378aad86e4fe29540599e565e62cd5c4fc"
+}
