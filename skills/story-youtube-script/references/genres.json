@@ -1,0 +1,159 @@
+{
+  "about": "The router's genre table for story-youtube-script, read by SKILL.md steps 4-6 and by scripts/script_check.py. `prompt` is the entry gate in SL8 wording, restated from the cited research prompt (`from`); every number is a default a kit or brief may override. `monetization_phrases` are regex stems matched at a word start; `short_form_wpm` is the host-speech pace in short form where the guide differs from the lane; the 3-minute short-form budgets of the guides are in `short_form_3min_words`. Pace and length figures are the vendor's per-genre averages from anonymised English transcripts and have not been measured on an SL8 voice.",
+  "source": "sl8-resesarch@559a1305:assessments/2026-10-27-capability-assessment (WF55-a1; higgsfield/retired-youtubescript-6a4c8b)",
+  "short_form_max_min": 4,
+  "word_tolerance": 0.10,
+  "section_rate_tolerance": 0.25,
+  "short_form_3min_words": { "business-finance": [420, 470], "tech-review": [500, 580], "commentary": [350, 420], "storytelling-documentary": [420, 470], "true-crime": [420, 470], "explainer": [420, 470] },
+  "short_form": { "timestamp_gap_s": [15, 30], "retention_lines": [3, 5], "vertical_first_visual_s": 2 },
+  "banned_everywhere": [
+    "in today's video",
+    "today we're going to talk about",
+    "today we'll be looking at",
+    "before we start",
+    "smash that like",
+    "smash the like"
+  ],
+  "callback_phrases": [
+    "as i promised",
+    "like i promised",
+    "like i said earlier",
+    "as i said earlier",
+    "remember that",
+    "remember this",
+    "callback!",
+    "i said i'd get to"
+  ],
+  "monetization_phrases": [
+    "sponsor\\w*",
+    "brought to you by",
+    "affiliate\\w*",
+    "promo code",
+    "use code",
+    "link in the description",
+    "merch(?:andise)?\\b",
+    "patreon",
+    "my course",
+    "newsletter",
+    "discount",
+    "use my link",
+    "my link"
+  ],
+  "rows": [
+    {
+      "slug": "business-finance",
+      "guide": "references/business-finance.md",
+      "patterns": "references/business-finance-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when the viewer is promised a result they can act on in their own money, work, business or habits, and the script is carried by advice, a named framework, an operator's own evidence or a decision. A company, money or AI subject alone never qualifies; a company's history goes to documentary, a product ruling to tech review, a mechanism to explainer.",
+      "title_verbs": "what should I do to improve, earn, build or decide",
+      "lanes": {
+        "host-led list": { "minutes": [8, 20], "wpm": [140, 150] },
+        "voiceover essay": { "minutes": [10, 28], "wpm": [140, 150] },
+        "direct-response talk": { "minutes": null, "wpm": [140, 150] }
+      },
+      "default_lane": "host-led list",
+      "hook_limit_s": 30,
+      "hook_words": [40, 80],
+      "long_form_timestamp_gap_s": null,
+      "banned": ["one must", "get rich quick is easy"]
+    },
+    {
+      "slug": "tech-review",
+      "guide": "references/tech-review.md",
+      "patterns": "references/tech-review-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when a specific product or tool is put through its paces: tested, compared, ranked, demonstrated, reported on as news, or taught by using it. The payoff is a ruling, a buy-or-use choice, a result seen on screen or a finished task with the product, never general career or business advice.",
+      "title_verbs": "which should I buy or use; I tested or compared",
+      "lanes": {
+        "single product": { "minutes": [10, 25], "wpm": [160, 200] },
+        "gauntlet or ranking": { "minutes": null, "wpm": [160, 200] },
+        "news analysis": { "minutes": null, "wpm": [200, 235] },
+        "tutorial or demo": { "minutes": null, "wpm": [160, 200] }
+      },
+      "default_lane": "single product",
+      "hook_limit_s": 15,
+      "hook_sentences_max": 3,
+      "long_form_timestamp_gap_s": null,
+      "banned": ["some say", "people say"]
+    },
+    {
+      "slug": "commentary",
+      "guide": "references/commentary.md",
+      "patterns": "references/commentary-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when the host takes a declared side on one specific thing: a work, something a creator made, a claim, or a trend in the culture. The script lives on reacting, criticising, mocking or reading closely; a neutral lesson in how something works, or a plain timeline, goes to another guide.",
+      "title_verbs": "what is wrong or brilliant about this",
+      "lanes": {
+        "comic commentary": { "minutes": [15, 30], "wpm": [140, 150] },
+        "deadpan mock-explainer": { "minutes": [2, 8], "wpm": [140, 150] },
+        "sincere video essay": { "minutes": [6, 10], "wpm": [140, 150] }
+      },
+      "default_lane": "sincere video essay",
+      "short_form_wpm": [117, 140],
+      "hook_limit_s": 30,
+      "hook_words": [40, 80],
+      "long_form_timestamp_gap_s": 90,
+      "banned": []
+    },
+    {
+      "slug": "storytelling-documentary",
+      "guide": "references/storytelling-documentary.md",
+      "patterns": "references/storytelling-documentary-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when checked real events, a challenge, or the arc of a person, company or period are told through time order, conflict, investigation and reveals. The reward is the sequence of events and its significance; a set of takeaways is not.",
+      "title_verbs": "what happened next; how did they rise or fall",
+      "lanes": {
+        "game or challenge": { "minutes": [30, 80], "wpm": [140, 150] },
+        "scale ladder": { "minutes": [30, 80], "wpm": [140, 150] },
+        "economic argument": { "minutes": [30, 80], "wpm": [140, 150] },
+        "cinematic procedural": { "minutes": [30, 80], "wpm": [140, 150] },
+        "forensic mystery": { "minutes": [30, 80], "wpm": [140, 150] },
+        "investigative essay": { "minutes": [30, 80], "wpm": [140, 150] },
+        "company saga": { "minutes": [30, 80], "wpm": [140, 150] },
+        "comic retelling": { "minutes": [30, 80], "wpm": [140, 150] }
+      },
+      "default_lane": "investigative essay",
+      "hook_limit_s": 30,
+      "hook_words": [40, 80],
+      "long_form_timestamp_gap_s": null,
+      "banned": []
+    },
+    {
+      "slug": "true-crime",
+      "guide": "references/true-crime.md",
+      "patterns": "references/true-crime-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when one particular crime, disappearance, interrogation, court or bodycam record, scam or dark legal case is rebuilt from that case's own evidence, under ethical and legal care. Fraud prevention or scam mechanics with no case behind them belong elsewhere.",
+      "title_verbs": "how was this case solved",
+      "lanes": {
+        "narrated story": { "minutes": [20, 45], "wpm": [140, 150] },
+        "footage analysis": { "minutes": null, "wpm": [140, 150] },
+        "conversational": { "minutes": [30, 60], "wpm": [140, 150] }
+      },
+      "default_lane": "narrated story",
+      "hook_limit_s": 45,
+      "hook_words": [40, 80],
+      "long_form_timestamp_gap_s": null,
+      "banned": ["experts say", "criminologists say", "moreover", "furthermore"]
+    },
+    {
+      "slug": "explainer",
+      "guide": "references/explainer.md",
+      "patterns": "references/explainer-patterns.md",
+      "from": "higgsfield/retired-youtubescript-6a4c8b@affirmative entry gates (six genres)",
+      "prompt": "Pick this guide only when a single how or why question is settled through cause and effect, correcting a false belief, a demonstration or an analogy. Science, history, economics, places, firms and technology come here only when grasping the mechanism is the reward.",
+      "title_verbs": "how or why does this work",
+      "lanes": {
+        "host-led": { "minutes": null, "wpm": [140, 150] },
+        "voiceover essay": { "minutes": null, "wpm": [140, 150] },
+        "inquiry-led": { "minutes": null, "wpm": [140, 150] }
+      },
+      "default_lane": "voiceover essay",
+      "hook_limit_s": 30,
+      "hook_words": [40, 80],
+      "long_form_timestamp_gap_s": null,
+      "banned": ["as we can see", "it is important to note", "in conclusion"]
+    }
+  ]
+}

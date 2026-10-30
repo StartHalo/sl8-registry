@@ -1,0 +1,7 @@
+{
+  "name": "story-youtube-script",
+  "version": "v1.0.0",
+  "description": "Long-form YouTube scripts in one of six genres (business and finance, tech review, commentary, documentary, true crime, explainer): a router picks the genre from the brief's promise and evidence; the genre guide gives three hooks, a beat plan, a timestamped spoken script with bracketed cues written to the target length, and a retention map; four minutes or less uses a short-form mode. Text only, no paid calls; facts sourced or tagged for checking. Use when: write a YouTube script, a video essay, a documentary or true-crime narration, a tech review or explainer script, hooks and a retention plan for a long video, or the spoken script a faceless or presenter pipeline will voice. NOT for: ad, commercial or film-scene scripts (not offered here); a timed shot table for generated video (media-script-writer); clips or voice (media-video-generation, media-audio-generation); a finished faceless video (story-faceless-long, story-faceless-short); a presenter video (voice-presenter-video).",
+  "generated_at": "2026-10-30T13:31:10.135Z",
+  "skill_md_sha256": "baeae72c3dd1f06aa932e79102a66dd6c1f875b83d9641cdc0001a2e51ecae44"
+}
