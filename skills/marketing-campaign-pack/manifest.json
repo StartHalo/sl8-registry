@@ -1,0 +1,7 @@
+{
+  "name": "marketing-campaign-pack",
+  "version": "v1.0.0",
+  "description": "Multi-channel campaign asset pack: a brief, product images and a brand kit become a campaign matrix written before any generation (five roles: hook, proof, context, conversion, retention; seven fields per asset), seven-layer prompts, one variation axis per variant, a priced plan, then stills, clips and creator-ad clips per channel through ai-gen, a four-check quality bar and a manifest with defects. Use when: a launch kit, campaign matrix, paid social variants, hook tests, or several assets across roles and channels for one campaign. NOT for: one isolated asset (a product still: image-product-presets or media-image-generation; a finished branded graphic or banner with copy: marketing-branded-graphic; a single talking-head clip: voice-presenter-video; a single clip: media-video-generation); capturing the brand (marketing-brand-kit); localizing ads (marketing-ad-localization); remaking a reference ad (marketing-ad-remake); picking winners (marketing-winner-analysis); measuring files (media-qc).",
+  "generated_at": "2026-10-30T13:26:29.974Z",
+  "skill_md_sha256": "35563b95276751f8b8b59267960d8bac821ba555415d84c7c3fab9b5b90ef504"
+}
