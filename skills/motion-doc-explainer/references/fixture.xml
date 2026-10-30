@@ -1,0 +1,50 @@
+<item anchor="intro" title="Token bucket rate limiting" text="A token bucket lets bursts through while holding the average rate steady."></item>
+<say lang="en-GB" title="Token buckets" text="[Token bucket rate limiting](#intro) keeps traffic fair without blocking bursts."/>
+<item layout="cards" anchor="limiter-choices" title="Three ways to limit">
+<item anchor="fixed-window" title="Fixed window" text="Counts requests per clock minute."/>
+<item anchor="sliding-log" title="Sliding log" text="Keeps a timestamp for every request."/>
+<item anchor="token-bucket" title="Token bucket" text="Spends tokens that refill at a steady rate."/>
+</item>
+<say lang="en-GB" title="Choices" text="[Three ways to limit](#limiter-choices) trade memory for accuracy. A [fixed window](#fixed-window) is cheap but lets a double burst through at the boundary, a [sliding log](#sliding-log) is exact but stores every request, and the [token bucket](#token-bucket) sits between them."/>
+<item type="code" anchor="take-code" title="Spending a token" language="python" filename="bucket.py"><![CDATA[
+def take(self, now):
+    gained = (now - self.last) * self.rate
+    self.tokens = min(self.capacity, self.tokens + gained)
+    self.last = now
+    if self.tokens >= 1:
+        self.tokens -= 1
+        return True
+    return False
+]]></item>
+<say lang="en-GB" title="Refill then spend" text="[Spending a token](#take-code) starts by [topping the bucket up](#take-code:L2-3 'gained = ...+ gained)'): elapsed time times the rate, capped at [the capacity](#take-code:L3 'self.capacity'). Then [one request costs one token](#take-code:L6 'self.tokens -= 1'), and an empty bucket [returns False](#take-code:L8 'return False')."/>
+<item type="diff" anchor="clock-diff" title="Use a monotonic clock" text="One change stops refills jumping when the wall clock moves." language="python" filename="limiter.py">
+<item side="before" anchor="clock-before"><![CDATA[
+import time
+
+def allow(bucket):
+    return bucket.take(time.time())
+]]></item>
+<item side="after" anchor="clock-after"><![CDATA[
+import time
+
+def allow(bucket):
+    return bucket.take(time.monotonic())
+]]></item>
+</item>
+<say lang="en-GB" title="Monotonic clock" text="[Use a monotonic clock](#clock-diff) because [the old call](#clock-before:L4 'time.time()') reads the wall clock, which can jump back. [The new call](#clock-after:L4 'time.monotonic()') only moves forward, so a clock change can no longer hand out a free refill."/>
+<item type="image" anchor="turnstile" title="A steady stream" prompt="A busy railway station turnstile at dawn, commuters passing one by one while a small brass dispenser drops tokens into a tray. Seen from a low angle with long soft shadows. Soft gouache illustration, muted blue and amber palette, gentle window light No text, lettering or labels anywhere in the image."></item>
+<say lang="en-GB" title="The picture" text="[A steady stream](#turnstile) of commuters is the same idea: everyone gets through, just not all at once."/>
+<item type="infographic" anchor="bucket-parts" title="Inside the bucket" prompt="Style: flat editorial illustration on cream paper with navy and amber accents.">
+<item anchor="q-capacity" title="Capacity" prompt="A tall glass jar with a marked rim, half full of round tokens. Labels: capacity, burst"/>
+<item anchor="q-refill" title="Refill rate" prompt="A slow tap dripping tokens into the jar beside a small clock. Labels: rate, per second"/>
+<item anchor="q-spend" title="Spending" prompt="A hand lifting one token out of the jar toward an open door. Labels: one request"/>
+<item anchor="q-reject" title="Rejection" prompt="An empty jar beside a closed door with a small red stop sign. Labels: empty, retry later"/>
+</item>
+<say lang="en-GB" title="Overview" text="[Inside the bucket](#bucket-parts) four ideas work together to decide every request, and seeing them side by side shows why bursts pass while a steady flood is slowed to the rate you chose."/>
+<say lang="en-GB" title="Capacity" text="[Capacity](#q-capacity) is the size of the jar. It sets the largest burst that can pass at once."/>
+<say lang="en-GB" title="Refill" text="[The refill rate](#q-refill) is how many tokens drip in per second. It fixes the long-run average."/>
+<say lang="en-GB" title="Spending" text="[Spending](#q-spend) takes one token for one request. A request with a token goes through the door."/>
+<say lang="en-GB" title="Rejection" text="[Rejection](#q-reject) happens when the jar is empty. The caller is told to retry later."/>
+<say lang="en-GB" title="Together" text="[Together](#bucket-parts) capacity, refill, spending and rejection make a limiter that forgives bursts and still holds the average."/>
+<followup prompt="How does a leaky bucket differ from a token bucket?"/>
+<followup prompt="How do you share one rate limit across many servers?"/>
