@@ -1,9 +1,9 @@
 ---
 name: ai-image-generation
-description: "Generate images using ai-gen CLI with FLUX, Stable Diffusion, Ideogram, Recraft and 7+ models via SL8 proxy. Use when user asks to create, generate, or make images, illustrations, photos, art, or visual content. Triggers: image generation, text-to-image, create image, generate picture, AI art, flux, stable diffusion, ideogram, recraft."
+description: "Generate images using ai-gen CLI with any fal.ai image model via SL8 proxy. Curated defaults include FLUX, Stable Diffusion, Ideogram, Recraft, plus pass-through for any model on fal.ai. Use when user asks to create, generate, or make images, illustrations, photos, art, or visual content. Triggers: image generation, text-to-image, create image, generate picture, AI art, flux, stable diffusion, ideogram, recraft."
 metadata:
   author: StartHalo
-  version: 1.0.0
+  version: 1.1.0
   tags: image, generation, ai-gen, flux, stable-diffusion
   category: content-generation
 ---
@@ -12,7 +12,7 @@ metadata:
 
 ## Overview
 
-Generate images from text prompts using the `ai-gen` CLI. Supports 7 curated models including FLUX (fastest), Stable Diffusion 3.5, Ideogram (best text rendering), and Recraft (illustration style). All generation happens via the SL8 service proxy.
+Generate images from text prompts using the `ai-gen` CLI. **All fal.ai image models are supported** — the CLI accepts any fal.ai model ID via `-m`. The tables below show curated recommendations with verified credit costs and defaults, but any model on fal.ai works.
 
 Use this skill when the user asks to create, generate, or make any kind of image, illustration, photo, artwork, or visual content.
 
@@ -26,6 +26,10 @@ This uses the default model (`fal-ai/flux-schnell`) and saves the image to the c
 
 ## Available Models
 
+**Any fal.ai image model works** — pass the model ID with `-m`. The curated models below have verified credit costs and tested defaults.
+
+### Curated Models
+
 | Model ID | Credits | Speed | Best For |
 |----------|---------|-------|----------|
 | `fal-ai/flux-schnell` | 2 | ~5s | **Recommended.** Fastest generation, good quality |
@@ -37,6 +41,43 @@ This uses the default model (`fal-ai/flux-schnell`) and saves the image to the c
 | `fal-ai/recraft-v3` | 12 | ~15s | Illustration and vector-style |
 
 Credit costs are at default 1024x1024 resolution. Higher resolutions cost more.
+
+### Discovering More Models
+
+fal.ai hosts 600+ models. The curated list above is a starting point — many more image models are available.
+
+**Via CLI:**
+
+```bash
+# Search for image models by name
+ai-gen models --search flux --type image
+
+# Search for any image-related model
+ai-gen models --search "image"
+```
+
+Curated models are marked with ★ in search results.
+
+**Via fal.ai Models API (no auth required):**
+
+```bash
+# List text-to-image models
+curl -s "https://api.fal.ai/v1/models?category=text-to-image&status=active&limit=20"
+
+# Search by keyword
+curl -s "https://api.fal.ai/v1/models?q=flux&status=active"
+```
+
+The `endpoint_id` from the API response is the model ID you pass to `-m`.
+
+**Using any discovered model:**
+
+```bash
+# Use the full endpoint_id from the API or search results
+ai-gen image "a sunset" -m fal-ai/flux-pro/v1.1
+```
+
+The CLI passes the model ID directly to the proxy — no catalog entry needed.
 
 ## Usage Examples
 
@@ -218,7 +259,7 @@ ai-gen image "a detailed scene" --timeout 120000
 ```
 Error: Model not found
 ```
-Check the model ID with `ai-gen models --type image` to list available image models.
+Check the model ID with `ai-gen models --type image` to list curated models, or `ai-gen models --search <query> --type image` to search all fal.ai models.
 
 ## Related Skills
 

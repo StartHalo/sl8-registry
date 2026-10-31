@@ -1,9 +1,9 @@
 ---
 name: ai-video-generation
-description: "Generate videos using ai-gen CLI with MiniMax, Kling, Wan, HunyuanVideo and 8+ models via SL8 proxy. Supports text-to-video and image-to-video. Use when user asks to create, generate, or make videos, animations, or motion content. Triggers: video generation, text-to-video, image-to-video, create video, animate image, AI video, minimax, kling, wan, hunyuan."
+description: "Generate videos using ai-gen CLI with any fal.ai video model via SL8 proxy. Supports text-to-video and image-to-video with curated defaults plus pass-through for any model on fal.ai. Use when user asks to create, generate, or make videos, animations, or motion content. Triggers: video generation, text-to-video, image-to-video, create video, animate image, AI video, minimax, kling, wan, hunyuan."
 metadata:
   author: StartHalo
-  version: 1.0.0
+  version: 1.1.0
   tags: video, generation, ai-gen, text-to-video, image-to-video
   category: content-generation
 ---
@@ -16,6 +16,8 @@ Generate videos from text prompts or images using the `ai-gen` CLI. Supports two
 
 - **Text-to-video** — Describe a scene and generate a video from scratch
 - **Image-to-video** — Animate a static image into a video clip
+
+**All fal.ai video models are supported.** The CLI accepts any fal.ai model ID via `-m`. The tables below are curated recommendations, but you can use any model available on fal.ai by passing its full model ID.
 
 All video models use queue-based generation (jobs take 1-15 minutes). The CLI handles polling automatically.
 
@@ -35,26 +37,71 @@ ai-gen video --image https://example.com/photo.jpg "the person slowly smiles"
 
 ## Available Models
 
-### Text-to-Video
+**Any fal.ai video model works** — pass the model ID with `-m`. The curated models below have verified credit costs and tested defaults.
 
-| Model ID | Credits | Speed | Best For |
-|----------|---------|-------|----------|
-| `fal-ai/minimax-video` | 50 | ~2-4 min | **Recommended.** Fast, good quality |
-| `fal-ai/kling-video` | 57 | ~5-10 min | High quality, detailed motion |
-| `fal-ai/wan-t2v` | 30 | ~1-3 min | Budget option, lightweight |
-| `fal-ai/hunyuan-video` | 45 | ~10-15 min | Long-form, high quality |
+### Curated Text-to-Video Models
 
-### Image-to-Video
+| Model ID | Speed | Best For |
+|----------|-------|----------|
+| `fal-ai/kling-video/v3/pro/text-to-video` | ~3-8 min | **Recommended.** Latest Kling, best quality |
+| `fal-ai/minimax-video` | ~2-4 min | Fast, good quality |
+| `fal-ai/kling-video/v2.5-turbo/pro/text-to-video` | ~2-5 min | Good balance of speed and quality |
+| `fal-ai/wan-t2v` | ~1-3 min | Budget option, lightweight |
+| `fal-ai/hunyuan-video` | ~10-15 min | High quality, open-source |
 
-| Model ID | Credits | Speed | Best For |
-|----------|---------|-------|----------|
-| `fal-ai/minimax-i2v` | 50 | ~2-4 min | **Recommended.** Fast, good quality |
-| `fal-ai/kling-i2v` | 60 | ~3-6 min | High quality, precise motion |
-| `fal-ai/wan-i2v` | 35 | ~2-4 min | Budget option |
+### Curated Image-to-Video Models
 
-Credit costs are at default 5s duration. Longer durations cost more.
+| Model ID | Speed | Best For |
+|----------|-------|----------|
+| `fal-ai/kling-video/v3/pro/image-to-video` | ~3-8 min | **Recommended.** Latest Kling, best quality |
+| `fal-ai/minimax-i2v` | ~2-4 min | Fast, good quality |
+| `fal-ai/kling-video/v2.5-turbo/pro/image-to-video` | ~2-5 min | Good balance of speed and quality |
+| `fal-ai/wan-i2v` | ~2-4 min | Budget option |
 
-**Note:** `fal-ai/runway-gen3` (image-to-video) is deprecated and should not be used for new work.
+Credit costs vary by model and duration. Use budget models (wan) for testing.
+
+**Note:** `fal-ai/runway-gen3` (image-to-video) and `fal-ai/kling-video` (v1) are deprecated. Use the versioned endpoints above.
+
+### Discovering More Models
+
+fal.ai hosts 600+ models. The curated list above is a starting point — many more video models are available including Sora 2, Veo 3, Kling v3, Seedance, and others.
+
+**Via CLI:**
+
+```bash
+# Search for text-to-video models
+ai-gen models --search kling --type video
+
+# Search for any video-related model
+ai-gen models --search "video"
+```
+
+Curated models are marked with ★ in search results.
+
+**Via fal.ai Models API (no auth required):**
+
+```bash
+# List text-to-video models
+curl -s "https://api.fal.ai/v1/models?category=text-to-video&status=active&limit=20"
+
+# List image-to-video models
+curl -s "https://api.fal.ai/v1/models?category=image-to-video&status=active&limit=20"
+
+# Search by keyword
+curl -s "https://api.fal.ai/v1/models?q=kling&status=active"
+```
+
+The `endpoint_id` from the API response is the model ID you pass to `-m`.
+
+**Using any discovered model:**
+
+```bash
+# Use the full endpoint_id from the API or search results
+ai-gen video "a sunset" -m fal-ai/kling-video/v3/pro/text-to-video
+ai-gen video --image photo.jpg "animate" -m fal-ai/kling-video/v3/pro/image-to-video
+```
+
+The CLI passes the model ID directly to the proxy — no catalog entry needed.
 
 ## Usage Examples
 
@@ -67,7 +114,7 @@ ai-gen video "ocean waves crashing on a rocky shore at sunset"
 ### Text-to-video with specific model
 
 ```bash
-ai-gen video "a timelapse of flowers blooming" -m fal-ai/kling-video
+ai-gen video "a timelapse of flowers blooming" -m fal-ai/kling-video/v3/pro/text-to-video
 ```
 
 ### Image-to-video (animate an image)
@@ -79,7 +126,7 @@ ai-gen video --image https://example.com/landscape.jpg "clouds moving across the
 The CLI auto-selects an image-to-video model when `--image` is provided. Override with `-m`:
 
 ```bash
-ai-gen video --image https://example.com/portrait.jpg "the person blinks and smiles" -m fal-ai/kling-i2v
+ai-gen video --image https://example.com/portrait.jpg "the person blinks and smiles" -m fal-ai/kling-video/v3/pro/image-to-video
 ```
 
 ### Set video duration
@@ -229,27 +276,27 @@ ai-gen video "a complex scene" --timeout 900000
 
 ### Image URL not accessible
 ```
-Error: Model fal-ai/minimax-i2v requires 'image_url'
+Error: Model requires 'image_url'
 ```
 For image-to-video, provide a publicly accessible image URL with `--image`. Local file paths are not supported — upload the image first and use the URL.
 
 ### Model requires image_url
 If you use an image-to-video model without `--image`, you'll get:
 ```
-Error: Model fal-ai/kling-i2v requires 'image_url'. Use --image <url> or choose a text-to-video model.
+Error: Model requires 'image_url'. Use --image <url> or choose a text-to-video model.
 ```
 
 ### Insufficient credits
 ```
 Error: Insufficient credits
 ```
-Video models cost 30-60 credits per generation. Try a budget model like `fal-ai/wan-t2v` (30 credits).
+Try a budget model like `fal-ai/wan-t2v` which uses fewer credits.
 
 ### Model not found
 ```
 Error: Model not found
 ```
-Check the model ID with `ai-gen models --type video` to list available video models.
+Check the model ID with `ai-gen models --type video` to list curated models, or `ai-gen models --search <query> --type video` to search all fal.ai models.
 
 ## Related Skills
 
