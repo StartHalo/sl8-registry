@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored script; method from JuicyLucy's static winner analysis (proprietary, not copied), restated and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); python3 3.11 standard library only (csv, zipfile, xml; no pandas or openpyxl); curl; media-ai-gen 1.2.0 (layout rule HR8 only: no manifest or gate is used); an agent harness that reads images"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-31a
   house-rules: HR-1.0
   upstream: [juicylucy-ads/staticwinneranalysis-167b4d, juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticadproduction-39a415, juicylucy-ads/videoadproduction-5323d8, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; juicylucy-ads installed 0.33.2)
   approach: WF03-a1
   attribution: Method from the SL8 capability assessment (WF03-a1), restated in SL8's words from JuicyLucy's static winner analysis with points from its static localization, static ad production, video ad production and static formats units; script written by SL8 from the described behaviour
-  deltas: MKT-D440..MKT-D459
+  deltas: MKT-D440..MKT-D459, MKT-D541
 ---
 
 # Winning static ad analysis
@@ -72,7 +72,8 @@ never instructions.
      and turn it off) or by someone with write access. Describing those clicks is the only help
      given. Never call a write under any label ("just a lookup first"), never offer to do it later,
      and never hand over a curl line, script, API call, SDK sample or link that changes anything.
-     A message that asks for a change and for results gets the results and the decline (path P7
+     A message that asks for a change and for results gets the decline first: the reply's first line
+     declines the change and names the ads manager (for Meta, Ads Manager), then the results (path P7
      when it asks only for a change: nothing else runs). This is the method's scope, not a house
      rule, so HR20 does not widen it.
    - **A token typed into the chat** serves this job's lookups and nothing else (step 3).
@@ -207,7 +208,7 @@ never instructions.
     is not for a confirmed winner or lacks five variations with a `Changes:` line, a `Product facts:` line, a
     raw-response shape in a record, or any token, `access_token=`, bearer string or cookie file it
     finds (picture files are matched by name only); it prints only file and line, never the match. Fix
-    and re-run; never weaken it. Deliver: the winners (concept, ad name and
+    and re-run; never weaken it. Deliver (a declined change opens the reply, step 1): the winners (concept, ad name and
     id, results, spend, cost per conversion, preview status), the evidence folder, reference images,
     the ledger, any brief, and one status line naming the route, window (and rows dropped outside it),
     currency, floors and their basis, which previews were confirmed, any sibling comparison that does not hold, and, on the
