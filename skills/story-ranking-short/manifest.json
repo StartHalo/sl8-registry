@@ -1,7 +1,7 @@
 {
   "name": "story-ranking-short",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Ranking listicle short: a vertical 9:16 countdown of about 23.5 s (6 items, or 5 for a top 5; 3 to 9 items) from a text brief. An approved script with a quote, one realistic phone-footage still per item (Nano Banana Pro), one Seedance image-to-video clip per still with its own pop, filmer reaction and bass hit, then a hard-cut ffmpeg stitch with the hook title and a numbered list that fills in one line per item. Three approvals (script, first still, all stills) come before the paid steps. Use when: a ranking, top 5, ranked list or countdown short is asked for (no top 10 yet). NOT for: a narrated faceless short (story-faceless-short); a single-take short (story-one-take-short); found-footage stories (story-found-footage); a multi-shot production with voiceover and music (media-video-production); captions on a finished video (edit-captions); music or voice (media-audio-generation); a single still (media-image-generation); running ai-gen in general (media-ai-gen); file checks (media-qc).",
-  "generated_at": "2026-10-30T13:30:22.063Z",
-  "skill_md_sha256": "55e75904d67e5c5370761db7f6e004206e32ed9b21f493eb06a18a02c8e90d92"
+  "generated_at": "2026-10-31T19:30:26.201Z",
+  "skill_md_sha256": "db25b883c671da91b560088b226b1e5459d83166f63c86fd81e50ac5ae8782a5"
 }

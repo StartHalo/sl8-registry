@@ -14,14 +14,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's ranking-videos workflow (no licence stated), restated and cited; three fal agent-skill phrases used with attribution
 compatibility: "story-studio 1.0.0 (E2-narrow chain: video-studio, image-studio, base-studio); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1; python3 3.11 with Pillow and numpy; fonts pack (Anton, Inter) and fonts-noto; edit-captions and media-audio-generation on the same machine; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-31a
   house-rules: HR-1.0
   upstream: [everygen/rankingvideos-1aa4ce, fal/falvideogeneration-fe0127, fal/falprompting-c6c3f4, fal/cinematography-2503ac, fal/falmotiongraphics-dc3541, fal/charactersheet-a2ae87, fal/characterdesign-c8e4b8, fal/falvideoproduction-09f33d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen capture 2026-10-26)
   approach: WF49-a1
   attribution: Method from the SL8 capability assessment (WF49-a1), restated in SL8 wording from Everygen's ranking-videos SOP; points and three continuity phrases from fal agent skills (used with attribution); companion prompts, cast, pacing and scripts written by SL8
-  deltas: STO-D380..STO-D399
+  deltas: STO-D380..STO-D399, STO-D443
 ---
 
 # Ranking short
@@ -148,7 +148,8 @@ tool or font. Load media-ai-gen (ai-gen, manifest, gates) and media-qc before th
    `speed-lead`; shake or jolt `steady`; floaty, morphing, doubled or vanishing things
    `motion-realism`; payoff missing (rewrite the payoff in script.json as a visible result) or cut
    off `payoff-timing`; the same voice as another clip (give it a new filmer from audio.md);
-   boom missing or off `boom` (or `--no-boom`); text wobble `text-lock-painted`. A second failure is
+   boom missing or off `boom` (or `--no-boom`); text wobble `text-lock-painted`; shorter than its
+   window `length` (the same params sent again, no `--fix` row). A second failure is
    never a third call (HR7): keep the better take, log the failure on its row, and name it in the
    hand-off. A refusal that the clip "may contain a real person" (exit 7 on a realistic face) has
    one retry with the person shown from behind, at a distance or as hands only. **People fallback**:
@@ -161,9 +162,9 @@ tool or font. Load media-ai-gen (ai-gen, manifest, gates) and media-qc before th
    overlay route
    `ffmpeg -v error -y -i artifacts/<p>/clips/<clip> -i work/<p>/overlay/overlay_KK.png -t <window> -filter_complex "[0:v]scale=720:1280:flags=lanczos,setsar=1,fps=30[v];[v][1:v]overlay=0:0[o]" -map "[o]" -map 0:a -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -ar 48000 -ac 2 work/<p>/norm/norm_KK.mp4`;
    painted route the same without the overlay input
-   (`-vf "scale=720:1280:flags=lanczos,setsar=1,fps=30"`). A clip shorter than its window shortens
-   the window (pacing.md; if `impact_s` is then past the new window minus 0.5, name it as debt);
-   never pad. Then
+   (`-vf "scale=720:1280:flags=lanczos,setsar=1,fps=30"`). A clip shorter than its window was
+   redone once in step 8; only a redo that is still short shortens the window (pacing.md; if
+   `impact_s` is then past the new window minus 0.5, name it as debt); never pad. Then
    `node $R list --script work/<p>/script.json --dir work/<p>/norm --out work/<p>/list.txt`,
    `ffmpeg -v error -y -f concat -safe 0 -i work/<p>/list.txt -c copy -movflags +faststart artifacts/<p>/final/ranking.mp4`
    and `node $R verify --script work/<p>/script.json --file artifacts/<p>/final/ranking.mp4 --dir work/<p>/norm`

@@ -13,9 +13,11 @@ window. A top 10 is **not offered on this machine yet** (SKILL.md step 3).
 - `render` is what the clip is asked for: a bare-integer string `"4"` to `"15"` (never `"4s"`), at
   least 4, and `ceil(window) + 1`, because Seedance 2.0 has returned about 1 s less than asked (facts
   `schema-seedance20-duration`, `beh-seedance-length`). The quote uses `render`.
-- After each clip lands, its real length comes from ffprobe. A clip shorter than its window shortens
-  that window to the clip (write the new `window` into script.json and say so); never pad, which
-  would freeze the last frame.
+- After each clip lands, its real length comes from ffprobe. A clip shorter than its window fails
+  the clip checks and gets its one redo (SKILL.md step 8, lever `length`: the same params sent
+  again), so the windows and the total hold. Only a redo that is still short shortens that window to
+  the better take (write the new `window` into script.json, say so and name it as debt); never pad,
+  which would freeze the last frame.
 
 ## The clip prompt (`ranking.mjs params clip`)
 In order: the speed lead, who films and what happens, the payoff timing, one clear follow-up, the
@@ -24,6 +26,7 @@ lock, and a closing "What should not change" clause. Avoidances are written as w
 never as a negative list: Seedance has no negative-prompt field (facts `schema-seedance-no-negative`).
 
 ## Clip checks (per clip, before the next step)
+- Length from ffprobe at least the item's `window` (a shorter clip is a failed clip: Windows above).
 - Frames at 0 s, 1 s, 2 s, 3 s, the middle and the last second
   (`ffmpeg -v error -ss <t> -i <clip> -frames:v 1 work/<p>/frames/K_<t>.jpg`), viewed: the payoff
   is visible by second 3; real-time speed; steady camera; no doubled, vanishing or flipped object;
