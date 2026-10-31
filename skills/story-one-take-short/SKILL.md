@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording; method from Everygen's Shorts Studio animated-short skill (no licence stated), restated and cited
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-video-generation 1.2.0 (facts rows); python3 3.11 (stdlib); ffmpeg 5.1 and ffprobe; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-31a
   house-rules: HR-1.0
   upstream: [everygen/animated-421cf1]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF54-a1-s1
   attribution: Method from the SL8 capability assessment (WF54-a1-s1), restated from Everygen's Shorts Studio v2.1 animated-short guidance; prompt blocks, worked example and script written by SL8
-  deltas: STO-D360..STO-D379
+  deltas: STO-D360..STO-D379, STO-D442
 ---
 
 # One-take animated short
@@ -219,9 +219,10 @@ exits 1 when a frame could not be cut and 2 when ffmpeg or ffprobe is missing (H
     mechanic (steps 6, 10-12, never just new characters or a new setting), re-run steps 13-15, and
     because a third attempt on one route is never run in the same job (HR7), open a spend gate with
     the rewritten plan quoted and end `partial`. Each retry is quoted first (step 15).
-21. **Deliver [21].** Hand back the clip from `artifacts/<p>/final/`, the settings line from
-    `probe.json` (`Seedance 2.0 · 480p · aspect_ratio 9:16 · <measured> s · audio on · one
-    generation`, as it actually ran), and say it is AI-generated. Finish PROGRESS.md with the turn,
+21. **Deliver [21].** Hand back the clip from `artifacts/<p>/final/`. The reply always carries two
+    lines, word for word, in every run (a rehearsal, a stand-in clip or a `partial` end included):
+    the settings line from `probe.json` (`Seedance 2.0 · 480p · aspect_ratio 9:16 · <measured> s ·
+    audio on · one generation`, as it actually ran) and `This video is AI-generated.` Finish PROGRESS.md with the turn,
     the archetype, the pre-flight lines, the quote and credits, the request id, attempts, and the
     figures from steps 18-19. Name the debt still owed (HR15): the SCORE, SFX and VOICE are not
     checked by ear on this machine, only that sound is present.

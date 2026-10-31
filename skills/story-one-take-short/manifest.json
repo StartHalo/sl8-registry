@@ -1,7 +1,7 @@
 {
   "name": "story-one-take-short",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "One-line idea to one finished 10-15 s animated story short with sound, rendered as a single Seedance 2.0 text-to-video generation with hard cuts inside it: one of eight comedy or heartstring archetypes, a render triage, one exaggerated character, timed beats with wind-up and overshoot, a SCORE, SFX and VOICE block, the locked style and constraints blocks, a sixteen-line pre-flight, one quoted render, then measured and frame-reviewed. Stylised 3D animation, 9:16 by default. Use when: a customer types one line and wants an animated gag, a pet or family moment, a bait-and-switch, a gag stack or a heartwarming clip, in one take. NOT for: a multi-shot film from a brief or script (media-video-production); a narrated faceless short (story-faceless-short); found footage (story-found-footage); a song (story-sing-along); a ranking video (story-ranking-short); a clip bound to reference images, or any single clip prompt in general (media-video-generation); measuring files (media-qc).",
-  "generated_at": "2026-10-30T13:30:04.931Z",
-  "skill_md_sha256": "3a35c4b1f0e7199a91aaa90ff6a76c46c3588349e777ded9687382cc780f47c8"
+  "generated_at": "2026-10-31T19:30:08.618Z",
+  "skill_md_sha256": "bee1f11ba8c0464c0356d6ba19fc9d384ba90b728ee435d88d9e090d5a369150"
 }
