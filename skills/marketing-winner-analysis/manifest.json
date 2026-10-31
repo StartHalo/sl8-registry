@@ -1,7 +1,7 @@
 {
   "name": "marketing-winner-analysis",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "Winning static ad analysis, read only: turns an ad account's insights (an uploaded CSV or XLSX export by default, or read-only lookups with a token) into a short list of winning still-image concepts, ranked on conversions and cost together from the raw conversion columns, each preview checked against its row, one slot per concept, with a dated ledger of unused winners, an evidence record per winner, reference images and an optional five-variation brief. Declines every account change. Use when: find my winning static ads, which image ads performed best, analyse an ads export, pick winners to iterate, build a brief from a winning ad. NOT for: pausing, editing or re-budgeting ads (never offered); making the new statics (marketing-branded-graphic); market versions of an ad (marketing-ad-localization); remaking a reference ad (marketing-ad-remake); video ads; brand kits (marketing-brand-kit); measuring media files (media-qc).",
-  "generated_at": "2026-10-30T13:28:42.196Z",
-  "skill_md_sha256": "563178344d81cdcd69869259b474e7acdf456f5a35f4b9547511a80e80b7e7fd"
+  "generated_at": "2026-10-31T19:31:08.999Z",
+  "skill_md_sha256": "eda98cb2eec3980e044d34d70ebdf30ee5d2cfa011849afecdc3583fbd95b341"
 }
