@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's 3D explainer workflow (no licence stated), restated and cited; enrichment points from fal agent skills (no licence stated; used with attribution), restated
 compatibility: "story-studio >=1.0.0 (from sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions 1.0.0; ffmpeg 5.1 with libass; python3 3.11; faster-whisper (baked weights; only the local-timing route); fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-31a
   house-rules: HR-1.0
   upstream: [everygen/3danimatedexplainers-151f46, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, fal/falvideogeneration-fe0127]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF35-a2
   attribution: Method from the SL8 capability assessment (WF35-a2), restated in SL8 wording from Everygen's 3D animated explainer workflow, with enrichment points from fal's audio, video-generation and video-production skills; scripts written by SL8 from the described behaviour
-  deltas: STO-D320..STO-D339
+  deltas: STO-D320..STO-D339, STO-D441
 ---
 
 # Faceless 3D explainer short
@@ -89,7 +89,9 @@ level, and that choice holds for the whole run.
 2. **Pick the length** without asking: a named length wins; "quick" or "short" is about 20 s;
    "detailed", "in depth" or "the full story" is 45 to 50 s; otherwise the length the idea needs to
    land once (most 25 to 35 s). After research it may grow one step, never two. Write `length_s` to
-   state.json. A customer script's length is its word count divided by the voice's rate.
+   state.json: the picked length in whole seconds (20 for "quick"), kept as picked. The recorded
+   take's length goes in `voiceover.seconds` (step 9), never over `length_s`. A customer script's
+   length is its word count divided by the voice's rate.
 3. **Plan and quote.** One sentence (the topic and about how long), then the plan from row
    `plan-steps` with the models filled in. Counts: `python3 $K/short.py budget --length <s> --wps <rate>`
    (rate: **default 2.6 w/s** until a take is measured: the voice entry's 2.82 is an unmeasured seed and an earlier SL8 take ran about 2.5; step 9 replaces it with the measured rate). Quote each paid call with `ai-gen estimate <model> --params-file <f> --format json`
