@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.3.1] — 2026-11-01
+### Added
+- Release media-shot-craft v1.3.1.
+
 ## [v1.3.0] — 2026-10-30
 ### Added
 - Release media-shot-craft v1.3.0.

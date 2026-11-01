@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); no tool calls (prompt text only; media-video-generation runs the clip with ai-gen 2.2.0)"
 metadata:
-  version: 1.3.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.3.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/fal-shot-craft  # pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D40..VID-D45, VID-D125..VID-D128, VID-D174..VID-D177, VID-D196..VID-D197, VID-D600..VID-D619
+  deltas: VID-D40..VID-D45, VID-D125..VID-D128, VID-D174..VID-D177, VID-D196..VID-D197, VID-D600..VID-D619, VID-D758, VID-D760
 ---
 # Shot Craft
 
@@ -288,7 +288,15 @@ An inapplicable check prints n/a, which is a pass.
    (it re-describes the still).
 9. `mute test:` (whole piece, once) problem, turn and payoff each visible with
    the sound off — name the shot number carrying each.
-10. `lettering and speech:` no text in frame, no dialogue on a silent route.
+10. `lettering and speech:` no text in frame, no dialogue on a silent route
+   (this checks the prompt: text the prompt itself asked for).
+11. `marks:` (each keyframe, once made) stray signs, logos, labels, plates,
+   exit signs or watermarks the brief did not ask for — print `none` or the
+   list; such text is usually a redo of that keyframe (default), and a prop
+   label the scene needs can stay.
+12. `move seen:` (each clip, once made) the move in the clip against the row's
+   `camera:` line — print `as asked` or the move seen; an unrequested pull-back,
+   pan or zoom is one redo of that clip with the move restated (default).
 
 **Worked pair — the same 6-second beat, so the checks can be seen failing.**
 The flat version is the known-bad artefact; keep it, because a validator only
@@ -354,14 +362,14 @@ Each states the action it takes on its own, with no answer required.
   lip-sync, or identity fidelity across shots. Wording affects odds, not
   guarantees.
 - **A recognisable real person who is not in the brief does not enter a
-  prompt** — not as a named likeness, not as a described one. The consent
-  rule is HR17 (fal's portrait skill that held it is not on this machine);
-  this skill's safe action is simply to write the scene without them.
+  prompt** — not as a named likeness, not as a described one (HR17: consent
+  is handled by the app; imitating a named real person the brief has not
+  supplied is not); this skill's safe action is simply to write the scene without them.
 - **The user's explicit instruction beats any rule here.** If they want the
   emotion named or four modifiers stacked, write it their way and note the
   craft cost in one line — this document is leverage, not law.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR10 (Step 7: no lettering in the prompt; on-screen text is burned
 last), HR12 (Step 0: no question is asked; defaults are taken and gaps named),
