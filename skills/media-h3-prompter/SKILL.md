@@ -19,13 +19,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); fal minimax/h3 and minimax/h3-max schemas as of 2026-10-05; no tool calls (prompt text only; media-video-generation sends it with ai-gen 2.2.0)"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-21a
-  house-rules: HR-1.0
+  version: 1.1.1
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/h3-cinematic-prompter
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D90..VID-D99, VID-D144..VID-D163
+  deltas: VID-D90..VID-D99, VID-D144..VID-D163, VID-D763
 ---
 # H3 Cinematic Prompter
 
@@ -229,7 +229,7 @@ Run this validator against the draft:
   but that overshoot is not timing headroom.
 - Prefer one causal micro-scene over disconnected coverage.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR2 and HR22 (invariant 1's bounds and Step 7's field values are
 dated fal schema facts; check them live with `ai-gen info` before sending),
@@ -238,8 +238,8 @@ in the hand-off), HR10 (no exact text or logo goes into the record; on-screen
 text is burned later by media-motion-graphics), HR12 (no question is asked:
 the mode is detected, the Defaults apply, and a material choice is stated
 before the prompt), HR15 (Step 7 names what travels to
-media-video-generation), HR17 (speakers are invented descriptors; no real
-person's likeness or voice without documented consent), HR18 (preserve the
+media-video-generation), HR17 (speakers are invented descriptors; consent
+is the app's, and no named real person the brief did not supply), HR18 (preserve the
 brief's facts and invent only what makes them shootable, never a claim), HR19
 (the validator and the repair order are ordered steps), HR20 (score departs
 from `N/A` when the user asks for it) — see media-ai-gen/references/house-rules.md.
