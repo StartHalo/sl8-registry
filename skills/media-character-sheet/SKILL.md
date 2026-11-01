@@ -17,9 +17,9 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-05a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/character-sheet
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
@@ -88,8 +88,8 @@ Report: sheet file, endpoint, seed, final prompt, the CHARACTER ANCHOR text verb
 
 This skill owns one character's identity sheet and its anchor text. Scene storyboards, multi-character boards, and animating the character are out of scope.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
-Relies on: HR1, HR2, HR3 (an unlisted field, such as an `input_fidelity` the schema lacks, is dropped without an error), HR4, HR5, HR6, HR7 (the retry ladder above allows three attempts; the third must leave the route — rung 3 or 4 — or open a gate), HR8, HR9, HR10 (a name or title that must be exact is composited afterwards with `media-photo-editing`; quoted in-model text is not exact text), HR11, HR12 (a job has no one to answer: take inputs from the brief, default the rest and say so), HR13, HR14, HR15, HR16, HR17 (from-photo mode: a real person's likeness only with their documented consent), HR20, HR21, HR22 (the routing picks above are dated) — see `media-ai-gen/references/house-rules.md`.
+Relies on: HR1, HR2, HR3 (an unlisted field, such as an `input_fidelity` the schema lacks, is dropped without an error), HR4, HR5, HR6, HR7 (the retry ladder above allows three attempts; the third must leave the route — rung 3 or 4 — or open a gate), HR8, HR9, HR10 (a name or title that must be exact is composited afterwards with `media-photo-editing`; quoted in-model text is not exact text), HR11, HR12 (a job has no one to answer: take inputs from the brief, default the rest and say so), HR13, HR14, HR15, HR16, HR17 (from-photo mode: consent is handled outside the skills), HR20, HR21, HR22 (the routing picks above are dated) — see `media-ai-gen/references/house-rules.md`.
 
 Not applicable: HR18 (a character sheet carries no claims); HR19 (an authoring rule; no ignored warning is on record for this skill yet).
