@@ -4,7 +4,7 @@ description: >-
   Reusable presenter avatar of the customer, the agent or a named character: one approved base
   portrait (the customer's photo, a footage frame, or a portrait from a description they
   approved), looks made as edits of it, a voice the customer picks after hearing three previews
-  (or their own consented clone), all saved in an AVATAR record that later video skills read, plus
+  (or their own clone), all saved in an AVATAR record that later video skills read, plus
   an optional talking-head test on veed/fabric-1.0. Use when: create my avatar, a digital twin of
   me, give the agent a face and a voice, design a named presenter, add a look or outfit to an
   avatar, change an avatar's voice, test an avatar's face and voice together. NOT for: a presenter
@@ -13,16 +13,16 @@ description: >-
   (media-video-generation); a character sheet (media-character-sheet); a headshot or portrait alone
   (media-image-generation); retouching a photo (media-photo-editing).
 license: SL8 wording; record template, checkpoint lines and greeting examples adapted from HeyGen heygen-avatar (MIT, heygen-com/skills); points from Creative Claw (Apache-2.0) and fal (used with attribution); the identity-lock clause restated from Higgsfield (no licence stated) and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; ffmpeg and ffprobe 5.1; imagemagick 6.9; siblings voice-clone-setup and voice-presenter-video ship in the same Video 1.5.0 bundle; fal endpoints as of 2026-10-27"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; node 22; ffmpeg and ffprobe 5.1; imagemagick 6.9; siblings voice-clone-setup and voice-presenter-video ship in the same Video 1.5.0 bundle; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.3
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [heygen/heygenavatar-cacc89, creative-claw/creativeclawcreateavatar-881448, higgsfield/thumbnailgeneration-e3191f, fal/falvideoproduction-09f33d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF08-a2
   attribution: Method from the SL8 capability assessment (WF08-a2) after HeyGen's heygen-avatar 3.2.0 (MIT, heygen-com/skills), whose record template, checkpoint lines and greeting examples are adapted; points from Creative Claw create-avatar (Apache-2.0) and fal video production (fal agent skills, used with attribution); the identity-lock clause restated from Higgsfield
-  deltas: VID-D440..VID-D459, VID-D613
+  deltas: VID-D440..VID-D459, VID-D613, VID-D635..VID-D636, VID-D745, VID-D767
 ---
 
 # Avatar identity: one face, one voice, one record
@@ -52,12 +52,9 @@ field rules and the contract other skills follow are in
 - **The subject and the customer's language.** Optional: a photo (JPEG or PNG, at least 512×512,
   one clear front-facing face), footage of the customer, a voice sample, an ElevenLabs voice id
   they own.
-- **Consent for a real person's face or voice** (HR17) is recorded as `owner` or
-  `written permission from <name>` and needs the SL8 consent text and privacy note. **That text is
-  not approved yet (owner decision pending, learnings VID-L444), so this skill refuses a real
-  person's photo, footage, voice sample or clone** and offers the description route; the
-  recording rules below take effect when the text is approved. A named real person who is not the
-  customer is refused whatever the framing; a named character is fictional.
+- **Consent** (HR17, HR-1.2): handled by the app that runs the job, not by this skill. A photo, footage or voice sample the
+  brief supplies is used as supplied, and a voice sample goes to voice-clone-setup (step 13). A
+  named real person the brief has not supplied is never imitated; a named character is fictional.
 - **A budget** (the brief's, or `SL8_SPEND_CEILING`). Known results (facts `price-nbp`,
   `price-ml2-line`, `measured-fabric-480p`): a portrait or look 37.5 cr, a preview line 1 to 2 cr,
   the talking-head test 20 cr per started second of speech at 480p. The facts rows cited here live
@@ -98,7 +95,7 @@ field rules and the contract other skills follow are in
    more (media-ai-gen commands.md), and retry a timed-out preflight once before concluding anything.
    If ai-gen or the gateway fails, tell the customer in one plain line that the
    image and voice services are not reachable and nothing was spent, put the doctor figures in
-   PROGRESS.md, and stop: the machine is broken, never repaired in a job (HR21).
+   PROGRESS.md, and stop: the machine is broken (HR21: the baked stack first).
 3. **Route the subject** [5], in this order: **user** on an explicit "my", "me", "of me" or the
    customer's own photo, footage or voice (ask their name if it is not obvious); **named
    character** on an explicit given name (a living or public person's name is refused here, before
@@ -129,16 +126,12 @@ field rules and the contract other skills follow are in
    --stage identity`. Appearance holds stable appearance only (face, hair, build, signature
    wardrobe), never a scene, setting or pose.
 6. **Reference media** [10] (user, or any request for photo realism; agents and named characters
-   skip it). Until the SL8 consent text is approved (VID-L444), a real person's photo or footage is
-   refused here and the description route taken. Once it is: use a Reference already in the record,
+   skip it). Use a Reference already in the record,
    else ask once: "Got a headshot? It gives better face consistency for videos of you. I can also
    generate from your description — just say 'skip.'" Bot job: nobody answers; with no Reference
    and no photo in the brief, take the description route and say so in the delivery.
-   - **Consent first:** a real person's photo or footage needs `owner` (the customer, of
-     themselves) or `written permission from <name>`; an origin the customer cannot state is
-     refused and the description route offered (HR17). Write the Consent line to the record and
-     run `node $A record $D/AVATAR-<NAME>.md --stage identity`; with a photo or footage Reference
-     and no Consent it exits 1. No consent line, no `convert` or `ffmpeg` on the file.
+   - Run `node $A record $D/AVATAR-<NAME>.md --stage identity` before the file is converted
+     (consent is the app's; the record's Consent line is optional).
    - A URL is downloaded first (`curl -fL -o work/$P/<name>-in.<ext> '<url>'`); a web page is never
      a photo. `node $A photo <file>` checks JPEG or PNG by its bytes, both sides at least 512 px,
      and the size. Look at it: one clear, front-facing, well-lit face. Reject a mixture of
@@ -246,9 +239,7 @@ field rules and the contract other skills follow are in
     sources, so the shortlist is a guess that listening corrects. **Browse:** the customer's own
     ElevenLabs voice id first (`--pick id:<voice id>,…`; the route accepts a preset name or an id,
     facts `schema-voice-names`), then presets, three in all. A later batch takes three untried
-    names. Ask whether the id is the customer's own or used with written permission and write it
-    to Consent; an id that is a clone of someone else's voice is refused (HR17, and see the
-    consent status above). `shortlist` prints the id without its `id:` prefix: pass that bare
+    names. An id that clones a named real person the brief has not supplied is not used (HR17). `shortlist` prints the id without its `id:` prefix: pass that bare
     value to `--voice`; `state` keeps the prefix.
 12. **Previews, then the pick** [18, 19]. One short sample sentence in `user_language` (the
     greeting style of step 16), the same for all three. For each option n:
@@ -268,21 +259,19 @@ field rules and the contract other skills follow are in
     --question "Which voice?" --options '[{"id":"1","label":"<V1>"},{"id":"2","label":"<V2>"},{"id":"3","label":"<V3>"},{"id":"more","label":"Three other voices","credits":<next batch quote>},{"id":"stop","label":"Stop without a voice","credits":0}]'
     --resume-at "step 12: the pick goes to step 14; more goes to step 11"` opens a gate with
     no default; end `partial`. The previews stay in `voice-previews/` with their manifest rows.
-13. **Own voice** [21]. Only the speaker's own voice, or one with written permission, recorded as
-    `owner` or `written permission from <name>` (HR17). Until the SL8 consent text is approved
-    (VID-L444) this skill refuses a voice sample and offers the preset route. Once it is: load
+13. **Own voice** [21]. A voice sample the brief supplies (consent is the app's, HR17): load
     **voice-clone-setup** (same Video bundle) with the sample (`$D/<name>/voice_sample.wav`, or the
-    customer's recording): it holds the consent statement, the sample preparation, the clone, the
+    customer's recording): it holds the sample preparation, the clone, the
     audition the customer approves and the reuse rules. This skill does not clone by itself; it
     records the entry voice-clone-setup returns and never edits that entry. The clone routes are
-    listed in [references/routes.md](references/routes.md). Keep the consented source sample: an
+    listed in [references/routes.md](references/routes.md). Keep the source sample: an
     expired id is re-cloned from it.
 14. **Save the record** [22]. Fill the SL8 lines (base portrait, Looks, portrait source, model and
     prompt file, identity references, voice endpoint, voice, voice name, Voice Designed, settings,
-    Voice Batch, consent, Last Synced as `date -u +%Y-%m-%dT%H:%M:%SZ`), keep the closing note, and
+    Voice Batch, Last Synced as `date -u +%Y-%m-%dT%H:%M:%SZ`), keep the closing note, and
     run `node $A record $D/AVATAR-<NAME>.md` (exit 0). When the job's project keeps a voice
     registry (`artifacts/<project>/audio/voices.json`, media-audio-generation), a **preset** voice is
-    added under a role key with these fields: `endpoint`, `voice`, `language`, `consent` (`n/a`),
+    added under a role key with these fields: `endpoint`, `voice`, `language`,
     `rate_wps` (the `pace` figure of step 16's greeting, or 2.82 labelled `seed`), `rate_source`,
     `created_at`, `last_used_at`. A **clone** entry belongs to voice-clone-setup's `voices.mjs`; do
     not edit it. The record stays the source of truth. Confirm in one message, in
@@ -345,7 +334,7 @@ field rules and the contract other skills follow are in
 **Consumer contract** [27]: the order in which other skills find this record, take the portrait
 and pin the voice is in [references/avatar-file.md](references/avatar-file.md#consumer-contract-approach-step-27).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (aspect, count and format declared by `avatar.mjs params`; the portrait measured by
 `avatar.mjs photo`, the test by media-qc), HR2, HR3 (`--strict-params`), HR4 (the params files pin
@@ -356,8 +345,8 @@ used as it is; orientation, frame grabs and padding run locally), HR11 (every lo
 starts from the base portrait and the original photo), HR12 (checkpoints in chat with the customer,
 gates in a bot job, no question tool), HR13 (`avatar.mjs` checks), HR14 (likeness, voice and
 lip-sync are judged by the customer; frames are reported, never a PASS), HR15 (the hand-off names
-the debts), HR16 (if `ai-gen info` shows a prompt-rewrite field, pin it off), HR17 (consent for a
-real face or voice; never a named real person), HR19, HR20, HR21, HR22 — see
+the debts), HR16 (if `ai-gen info` shows a prompt-rewrite field, pin it off), HR17 (consent is the app's;
+never a named real person the brief did not supply), HR19, HR20, HR21, HR22 — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR18 (a greeting makes no claim).
 No departure from HR12: the portrait approval and the voice pick have no stated default, so a bot

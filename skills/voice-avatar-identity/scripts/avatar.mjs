@@ -8,7 +8,7 @@
 //             a single file is also copied to <stem>.<ext> (the delivered name); --pick N copies candidate N instead
 //   shortlist --state S.json (--pick A,B,C | --next)  three untried voices for the next batch; batch index from 0
 //   pace      --text-file F --speech A              measures: words, seconds, words per second, the air at each end, billed seconds (no limit)
-//   record    <AVATAR-NAME.md> [--stage identity|saved]   the record's sections and SL8 fields; identity also fails a photo or footage Reference without a Consent line (HR17)
+//   record    <AVATAR-NAME.md> [--stage identity|saved]   the record's sections and SL8 fields; the Consent line is optional (consent is the app's, HR17)
 //   clause    <slug>                               print one row of references/prompts.json
 // Prints one JSON line {check, exit, ...figures, fails[], notes[]}. It never prints PASS: the exit code is the
 // verdict (HR14). Exit 0 ok · 1 check failed · 2 usage · 3 a tool is missing.
@@ -216,7 +216,7 @@ function pace () {
   out('pace', { words: n, duration_s: Number(d.toFixed(3)), words_per_second: Number(wps.toFixed(2)), lead_s: Number(lead.toFixed(2)), tail_s: Number(tail.toFixed(2)), billed_seconds: Math.ceil(d) }, fails, notes)
 }
 
-const SL8_KEYS = ['Subject', 'Base portrait', 'Looks', 'Portrait source', 'Portrait model and prompt', 'Identity references', 'Voice endpoint', 'Voice', 'Voice Name', 'Voice Designed', 'Voice Settings', 'Voice Batch', 'Consent', 'Last Synced']
+const SL8_KEYS = ['Subject', 'Base portrait', 'Looks', 'Portrait source', 'Portrait model and prompt', 'Identity references', 'Voice endpoint', 'Voice', 'Voice Name', 'Voice Designed', 'Voice Settings', 'Voice Batch', 'Last Synced']
 function record () {
   const file = rest[0]; const stage = opt('stage') ?? 'saved'
   if (!file || !fs.existsSync(file)) return usage('record', `record needs an existing AVATAR file (got ${file})`)
@@ -238,9 +238,6 @@ function record () {
   const s = sections.SL8
   if (stage === 'identity') {
     if (s && Object.entries(s).some(([k, v]) => k !== 'Consent' && v)) fails.push('the SL8 section is filled before the portrait exists: leave it empty (only Consent may be written now) until the record is saved')
-    const ref = (sections.Appearance?.Reference ?? '').trim().toLowerCase()
-    const consentNow = s?.Consent ?? ''
-    if (ref && !['none', 'unspecified', 'n/a'].includes(ref) && !/^(owner|written permission from \S.*)$/.test(consentNow)) fails.push('Appearance Reference is a real person\'s photo or footage: write SL8 Consent (owner, or written permission from <name>) before any file is converted or sent (HR17)')
     return out('record', { file, stage }, fails, notes)
   }
   if (!s) return out('record', { file, stage }, [...fails, 'no ## SL8 section'])
@@ -259,13 +256,10 @@ function record () {
   if (s['Identity references'] && s['Identity references'] !== 'none') for (const p of s['Identity references'].split(',').map((x) => x.trim())) if (!exists(p)) fails.push(`SL8: identity reference ${p} is not on disk`)
   if (s['Voice Designed'] && !['true', 'false'].includes(s['Voice Designed'])) fails.push('SL8: Voice Designed is true or false')
   if (s['Voice Batch'] && s['Voice Batch'] !== 'n/a' && !/^\d+$/.test(s['Voice Batch'])) fails.push('SL8: Voice Batch is a batch index or n/a')
-  const consent = s.Consent ?? ''
-  if (consent && !/^(owner|written permission from \S.*|n\/a)$/.test(consent)) fails.push('SL8: Consent is owner, written permission from <name>, or n/a')
-  const real = s.Subject === 'user' || ['photo', 'footage-frame'].includes(s['Portrait source']) || s['Voice Designed'] === 'true' || (s.Voice && !PRESETS.includes(s.Voice) && s['Voice Designed'] === 'false')
-  if (real && (!consent || consent === 'n/a')) fails.push('SL8: a real person\'s face or a cloned voice needs Consent owner or written permission from <name> (HR17)')
+  // Consent is handled by the app that runs the job (HR17, HR-1.2): the Consent line is optional and not checked.
   if (s['Last Synced'] && (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s['Last Synced']) || Number.isNaN(Date.parse(s['Last Synced'])))) fails.push('SL8: Last Synced is an ISO timestamp')
   if (!/looks are files, not server records/i.test(text)) fails.push('the closing note (looks are files; a clone id expires after 7 days unused) is missing')
-  if (s['Voice Designed'] === 'true') notes.push('a cloned voice: a MiniMax custom_voice_id is deleted after 7 days unused; voice-clone-setup re-clones from the kept consented sample')
+  if (s['Voice Designed'] === 'true') notes.push('a cloned voice: a MiniMax custom_voice_id is deleted after 7 days unused; voice-clone-setup re-clones from the kept source sample')
   out('record', { file, stage, subject: s.Subject ?? null, looks: s.Looks ?? null }, fails, notes)
 }
 
