@@ -1,7 +1,7 @@
 {
   "name": "media-script-writer",
-  "version": "v1.1.1",
+  "version": "v1.1.2",
   "description": "Writes the script for a generated video before anything is generated: premise, want against need, acts, a turn, escalation and resolution, delivered as a timed shot table. Every row carries a cut length and a generated length the route can render, a voiceover or dialogue line held to a word cap computed from the speaking voice's registry rate, and a continuity cell naming what carries in from the row above. No model calls; text and timing arithmetic only. Use when: write a script, story, short film, brand film, narrative video, VO script, shot list, storyboard copy, beat sheet, AI video screenplay, timed narration, or turn a brief into shots. NOT for: ad scripts built on hook, problem, demo, proof, offer and tagline beats (Ad mode is not on this machine); wording one shot's visual prompt (media-shot-craft); generating clips (media-video-generation); generating the voiceover (media-audio-generation); assembling a finished video (media-video-production).",
-  "generated_at": "2026-11-01T14:28:18.295Z",
+  "generated_at": "2026-11-01T14:32:25.543Z",
   "skill_md_sha256": "b92b9c204443b9907843303684069e4dcab17fe86afc126546f923b1a5afe404"
 }
