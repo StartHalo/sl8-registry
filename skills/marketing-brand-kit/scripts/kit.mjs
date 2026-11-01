@@ -10,6 +10,8 @@
 //                                                 so importing a file after a read does not invalidate the read)
 //   import    FILE|URL --kit NAME --name N --kind logo|font|image|reference [--tags a,b] [--from ORIGINAL] [--referer PAGE_URL]
 //                                                 stable copy into source/, recorded in assets[] with its source
+//   logo-variant FILE                             the logo's variant read from the mark itself, never its name: colour in the mark is
+//                                                 `color`; a greyscale mark is `light` when pale, `dark` when dark, `mono` between
 //   font-meta FILE [--declared-weight N --declared-style S]   weight, style and format read from the font file itself (fc-scan, then the OS/2 table);
 //                                                 the declared pair is a flagged last resort
 //   validate  --kit NAME | --patch FILE           closed role vocabularies and field shapes
@@ -427,7 +429,47 @@ function cmdDelete () {
   out({ deleted: entry.name, default_cleared: wasDefault })
 }
 
-const COMMANDS = { new: cmdNew, list: cmdList, show: cmdShow, import: cmdImport, validate: cmdValidate, merge: cmdMerge, verify: cmdVerify, contrast: cmdContrast, prompt: cmdPrompt, delete: cmdDelete, 'font-meta': () => { const [f] = positional(); if (!f) throw new Fail('font-meta FILE', 2); const m = fontMeta(f); out(m); if (m.error) process.exitCode = 1 } }
+// A logo's variant from its own pixels (raster, via Pillow) or its own fills (SVG, area-weighted): never from its name.
+function classify (samples) {
+  // samples: [{ r, g, b, w }] in 0-255 with a weight; colourful = saturation over 0.35 at a visible value
+  let total = 0; let colourful = 0; let lum = 0
+  for (const { r, g, b, w } of samples) {
+    const mx = Math.max(r, g, b); const mn = Math.min(r, g, b)
+    const sat = mx ? (mx - mn) / mx : 0
+    total += w; lum += w * (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+    if (sat > 0.35 && mx > 51) colourful += w
+  }
+  if (!total) return { error: 'no visible mark' }
+  const share = colourful / total; const L = lum / total
+  const variant = share >= 0.15 ? 'color' : L > 0.7 ? 'light' : L < 0.3 ? 'dark' : 'mono'
+  return { variant, colourful_share: Math.round(share * 1000) / 1000, mean_luminance: Math.round(L * 1000) / 1000 }
+}
+function svgSamples (text) {
+  const hex = (v) => { const m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(v || '').trim()); if (!m) return null; const h = m[1].length === 3 ? m[1].split('').map((c) => c + c).join('') : m[1]; return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) } }
+  const vb = /viewBox="\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)"/.exec(text); const area = vb ? Number(vb[1]) * Number(vb[2]) : 10000
+  const out = []
+  for (const m of text.matchAll(/<(rect|circle|ellipse|path|polygon|polyline|text)\b([^>]*)>/g)) {
+    const a = (k) => { const x = new RegExp(`\\b${k}="([^"]*)"`).exec(m[2]); return x ? x[1] : null }
+    const style = a('style') || ''; const fill = (/fill:\s*([^;]+)/.exec(style)?.[1]) ?? a('fill') ?? '#000000'
+    const c = hex(fill); if (!c) continue
+    const n = (k) => Number(a(k) || 0)
+    const w = m[1] === 'rect' ? n('width') * n('height') : m[1] === 'circle' ? Math.PI * n('r') ** 2 : m[1] === 'ellipse' ? Math.PI * n('rx') * n('ry') : area / 10
+    if (w > 0) out.push({ ...c, w })
+  }
+  return out
+}
+function cmdLogoVariant () {
+  const [f] = positional(); if (!f) throw new Fail('logo-variant FILE', 2)
+  if (!fs.existsSync(f)) throw new Fail(`${f} does not exist`, 2)
+  if (/\.svg$/i.test(f)) { out({ file: f, from: 'svg fills (area-weighted)', ...classify(svgSamples(fs.readFileSync(f, 'utf8'))) }); return }
+  const py = 'import sys,json\nfrom PIL import Image\nim=Image.open(sys.argv[1]).convert("RGBA")\nim.thumbnail((256,256))\npx=list(im.getdata())\nopaque=[p for p in px if p[3]>=128]\nhas_alpha=len(opaque)<len(px)\nif not has_alpha:\n  bg=px[0]\n  opaque=[p for p in px if max(abs(p[i]-bg[i]) for i in range(3))>24]\nprint(json.dumps({"alpha":has_alpha,"samples":[[p[0],p[1],p[2]] for p in opaque]}))'
+  const r = spawnSync('python3', ['-c', py, f], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
+  if (r.status !== 0) throw new Fail(`could not read ${f} (${String(r.stderr).trim().split('\n').pop()})`)
+  const j = JSON.parse(r.stdout)
+  out({ file: f, from: j.alpha ? 'raster, opaque pixels' : 'raster, pixels unlike the corner background', ...classify(j.samples.map(([r2, g, b]) => ({ r: r2, g, b, w: 1 }))) })
+}
+
+const COMMANDS = { new: cmdNew, list: cmdList, show: cmdShow, import: cmdImport, validate: cmdValidate, merge: cmdMerge, verify: cmdVerify, contrast: cmdContrast, prompt: cmdPrompt, delete: cmdDelete, 'logo-variant': cmdLogoVariant, 'font-meta': () => { const [f] = positional(); if (!f) throw new Fail('font-meta FILE', 2); const m = fontMeta(f); out(m); if (m.error) process.exitCode = 1 } }
 if (import.meta.url === `file://${process.argv[1]}`) {
   try {
     if (!COMMANDS[cmd]) throw new Fail(`usage: kit.mjs ${Object.keys(COMMANDS).join('|')} … (see the header of this file)`, 2)
