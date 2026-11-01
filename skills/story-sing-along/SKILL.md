@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and an SL8-authored script; method from the Everygen nursery-rhymes pack (no licence stated), restated and cited; points from fal and Creative Claw (Apache-2.0), restated
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions (same Video bundle); ffmpeg 5.1 (libass, libx264, aac); python3 3.11; fonts 1.1.0 (Comic Neue) and fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-11-01a
   house-rules: HR-1.0
   upstream: [everygen/nurseryrhymes-fcc8ba, fal/falaudiogeneration-ba1a03, creative-claw/cc-model-contracts-image-audio, fal/charactersheet-a2ae87, everygen/animated-421cf1, fal/videocompositing-6a3f7a, creative-claw/creativeclawcreatereels-b6e06c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen guidance captured 2026-10-26)
   approach: WF46-a1-s1
   attribution: Method from the SL8 capability assessment (WF46-a1-s1), restated in SL8 wording from Everygen's nursery-rhymes guidance, with points from fal's audio, character-sheet and compositing skills and Creative Claw's model contracts and reels skill (Apache-2.0); script written by SL8 from the described behaviour
-  deltas: STO-D400..STO-D419
+  deltas: STO-D400..STO-D419, STO-D446
 ---
 
 # Nursery-rhyme sing-along
@@ -240,7 +240,9 @@ state.json, lyric_map.json, captions.ass: kept for later changes), `song/`, `key
     and look: captions present, low and clear of the hero's face. No music, effects, zooms, punch-ins
     or text overlays unless asked. The final MP4 is rendered every run; a failed render is retried once,
     then the `line-export-failed` line.
-18. **Deliver.** The `line-delivery` line with the real song length, the final MP4 attached; then one
+18. **Deliver.** The reply opens with the `line-delivery` line, word for word with the title and the
+    real song length filled in, in every run (placeholder or stand-in media and a `partial` end
+    included: caveats come after it), the final MP4 attached; then one
     status line: the routes used, the defaults taken (including the delivered size, 480p unless the
     customer asked for more), what was measured, and what was not (sung pronunciation unheard, frames
     judged by eye). Write `PROGRESS.md` and close with the folder tree,
