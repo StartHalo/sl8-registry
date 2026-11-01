@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield caption skills (no licence stated), restated and cited
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with libass; python3 3.11 with Pillow, numpy and faster-whisper (small and medium weights baked at build); display-fonts and fonts-noto packs; siblings voice-dub, edit-cut-reframe and edit-highlights ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28c
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [higgsfield/retired-subtitles-f4e918, higgsfield/videomontage-f65c69, fal/falaudiogeneration-ba1a03, hyperframes/hyperframes-b53c5b, higgsfield/facelessvideo-103c40, juicylucy-ads/mu-audio-guides, higgsfield/retired-ugctryonvideo-086072, heygen/heygentranslate-6301ed]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF24-a1
   attribution: Method from the SL8 capability assessment (WF24-a1), restated from Higgsfield's subtitles and video-montage caption guidance with points from fal, HyperFrames (Apache-2.0), HeyGen (MIT) and JuicyLucy; scripts written by SL8 from the described behaviour
-  deltas: VID-D320..VID-D339, VID-D540..VID-D559, VID-D602..VID-D603
+  deltas: VID-D320..VID-D339, VID-D540..VID-D559, VID-D602..VID-D603, VID-D619..VID-D621
 ---
 
 # Captions
@@ -71,7 +71,7 @@ clear position for an interval (`CAPTION_INCOMPLETE`), or the source's retry bud
    for the remote route, `ai-gen info fal-ai/elevenlabs/speech-to-text/scribe-v2 --format json`
    (ai-gen's default STT model, wizper, has `chunk_level` fixed to segments, so it cannot time
    words).
-   - The faster-whisper weights are baked at build: never fetch or install anything (HR21). If the
+   - The faster-whisper weights are baked at build: never download weights (HR21). If the
      import or the weights fail, rerun the preflight once; still failing, use Scribe v2 (step 7)
      only when the caller allows remote STT (say the audio leaves the machine; the caller decides
      for sensitive footage), else return the clean video and explain.
@@ -277,7 +277,7 @@ clear position for an interval (`CAPTION_INCOMPLETE`), or the source's retry bud
     gate failed, caption_incomplete); do not fill the gap with empty boxes, crop or reframe the
     video, shrink text below a readable size, or generate new footage.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (output duration, streams and words declared and measured), HR2, HR3, HR4 (the one
 remote call, Scribe v2: read its schema with `ai-gen info` before setting `language_code` or
@@ -289,6 +289,6 @@ clean master), HR12 (a stated default look, no question tool; a spend over budge
 (`--gate` and the burner's refusals exit non-zero), HR14 (frames are reported, never a written
 PASS; on the clearance route `clear` and `text_ok` are per-frame observations with a note, and the
 scripts measure hashes, coverage and box overlap), HR15 (a hand-off names the caption debt), HR18 (the script's words are used as written,
-nothing added), HR19, HR20, HR21 (no installs, no weight downloads), HR22 — see
+nothing added), HR19, HR20, HR21 (the baked stack first, no weight downloads), HR22 — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR16 (no prompt is written), HR17 (no likeness or voice is made).
