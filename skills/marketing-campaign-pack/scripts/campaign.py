@@ -54,6 +54,10 @@ def check(path):
     channels = intake.get('channels') or []
     claims = intake.get('claims') or {}
     approved = [str(c) for c in (claims.get('approved_copy') or [])]
+    for r in claims.get('refused') or []:
+        # A refused claim is recorded by its kind, never its words, so the words reach no prompt, matrix or manifest.
+        if isinstance(r, str) or (isinstance(r, dict) and any(k in r for k in ('line', 'text', 'claim', 'quote'))):
+            fails.append(f'intake.claims.refused: record a refused claim by its kind and reason ({{"kind": "ranking claim", "reason": "HR18"}}), never its words')
     assets = m.get('assets') or []
     if not assets:
         fails.append('no assets: the matrix must list one row per asset before any generation')
@@ -116,9 +120,12 @@ def check(path):
                 fails.append(f'{aid}: a creator-ad row needs consent (HR17); without it spend nothing for the row')
             if not isinstance(a.get('price'), dict) or not isinstance(a['price'].get('credits'), (int, float)):
                 fails.append(f'{aid}: a creator-ad row needs a numeric price (an unpriced route cannot run inside a budget)')
+        gen = str(a.get('gen_aspect') or crop)  # the ratio the route makes when it cannot make the crop (4:5 is cut from 3:4)
+        if a.get('gen_aspect') and not re.fullmatch(r'\d+:\d+', gen):
+            fails.append(f'{aid}: gen_aspect {gen!r} must be W:H')
         if fmt == 'mp4' and 'seedance' in route:
-            if crop not in SEEDANCE_ASPECT:
-                fails.append(f'{aid}: Seedance 2.0 has no {crop} aspect (enum {sorted(SEEDANCE_ASPECT)})')
+            if gen not in SEEDANCE_ASPECT:
+                fails.append(f'{aid}: Seedance 2.0 has no {gen} aspect (enum {sorted(SEEDANCE_ASPECT)}): keep crop {crop} and set gen_aspect')
             d = a.get('duration')
             if not (isinstance(d, str) and d.isdigit() and 4 <= int(d) <= 15):
                 fails.append(f'{aid}: Seedance duration must be a bare-integer string "4" to "15", got {d!r}')
@@ -126,8 +133,8 @@ def check(path):
                 src = a.get('from_still')
                 if not src or src not in by_id:
                     fails.append(f'{aid}: image-to-video needs from_still naming a still row in this matrix')
-                elif by_id[src].get('crop') != crop:
-                    fails.append(f'{aid}: still {src} is {by_id[src].get("crop")}, the clip is {crop}: make the still at the clip ratio')
+                elif str(by_id[src].get('gen_aspect') or by_id[src].get('crop')) != gen:
+                    fails.append(f'{aid}: still {src} is made at {by_id[src].get("gen_aspect") or by_id[src].get("crop")}, the clip at {gen}: make the still at the clip ratio')
         base = a.get('variant_of')
         if base:
             b = by_id.get(base)
