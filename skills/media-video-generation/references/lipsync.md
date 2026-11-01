@@ -1,6 +1,6 @@
 # Lip-sync: defaults, quote and run
 
-Loaded from SKILL.md's Lip-sync section, after consent (step 1) and the registry speech (step 2) are
+Loaded from SKILL.md's Lip-sync section, after step 1 (whose face) and the registry speech (step 2) are
 settled. Prices and their dates are in [facts.md](facts.md); routes in [picks.md](picks.md); fabric's
 fields in [endpoints.md](endpoints.md).
 
