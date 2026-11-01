@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Creative Claw edit-media and its cut-and-reframe contract (Apache-2.0), restated and cited, with points from HeyGen, Everygen, HyperFrames, fal and Higgsfield
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 (libass for captions, checked at preflight); python3 3.11 stdlib; imagemagick 6.9; fonts and fonts-noto packs; HyperFrames CLI 0.8.61 only for HTML cards on request; siblings edit-captions, edit-highlights, edit-beat-montage and voice-dub ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-30a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-10-31b
+  house-rules: HR-1.1
   upstream: [creative-claw/cc-cut-reframe-contract, creative-claw/creativeclaweditmedia-fbba56, heygen/retired-videoedit-fe9740, everygen/everygen-editor-tool-contracts, everygen/ryurefreshedsource-5dc49d, creative-claw/creativeclawcreatereels-b6e06c, hyperframes/mediause-ec397d, fal/falvideoproduction-09f33d, hyperframes/hyperframes-2afd9d, higgsfield/retired-ugctryonvideo-086072]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF26-a1
   attribution: Method from the SL8 capability assessment (WF26-a1), restated in SL8 wording from Creative Claw's editing skill for media and cut-and-reframe contract (Apache-2.0), with points from HeyGen, Everygen, HyperFrames (Apache-2.0), fal and Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: VID-D340..VID-D359, VID-D620
+  deltas: VID-D340..VID-D359, VID-D622..VID-D626, VID-D740
 ---
 
 # Cut, trim and reframe
@@ -65,7 +65,7 @@ framing and caption looks are in [references/plan.md](references/plan.md).
      missing gateway or font. Name the gap before any edit starts, never substitute another tool,
      and never describe a result that was not made. Record the gap in the sidecar's
      `checks_not_done` and in PROGRESS.md under Known gaps, so the owner can file the studio
-     request. Nothing is installed or downloaded (HR21).
+     request. The baked stack comes first (HR21).
 2. **Read the order and pick only the operations it needs**: trim, multicut (cut, reorder, reframe),
    scale, captions, transcribe, isolate, frames, audio (replace, mix, join), bookends, overlay
    (marks), compose, upscale, bg_remove (a logo), speed, deadair, loudness, compress, convert. No
@@ -219,7 +219,7 @@ framing and caption looks are in [references/plan.md](references/plan.md).
       "Caption pass details". `word_box` is **not offered on this machine yet** (use highlight or box).
       When the customer wants to choose a look, render one preview still per candidate and deliver them
       beside the default render.
-      Rule: fonts are never downloaded (HR21); a customer's font file goes through `fontsdir`, and a named face
+      Rule: the machine's fonts come first (HR21); a customer's font file goes through `fontsdir`, and a named face
       that is not on the machine falls back to the Noto face, said in the delivery.
 12. **Simple resize or vertical version** (§12, no multi-cut): even dimensions and an explicit mode.
     Pad keeps the whole frame; crop is a centre crop with no subject tracking, used only when the
@@ -334,7 +334,7 @@ framing and caption looks are in [references/plan.md](references/plan.md).
     delivery names what an estimate leaves out. The run's spend comes from `manifest.mjs budget`, not
     from a balance delta.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (size, rate, duration and audio declared in the plan and the report, measured with
 media-qc; the report's `declared` is derived from the plan, not independent, so a paid upscale or cutout
@@ -350,7 +350,7 @@ asks for, said in the delivery; captions re-burn from the uncaptioned file),
 HR12 (stated defaults and gate files, no question tool), HR13 (`validate_plan.py`, `cut_reframe.py`
 and media-qc are the checks), HR14 (frames and proxies are reported, never a written PASS), HR15 (a
 hand-off names what is still owed, such as captions not burned), HR18 (bookend copy is the customer's,
-never invented), HR19, HR20, HR21 (no installs, no font or tool downloads), HR22 — see
+never invented), HR19, HR20, HR21 (the machine's fonts and tools first), HR22 — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR16 (no prompt is written), HR17 (no likeness or voice is made; isolation only cleans
 the customer's own recording).

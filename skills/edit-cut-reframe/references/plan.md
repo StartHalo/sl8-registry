@@ -129,7 +129,7 @@ Defaults (a kit or brief may set others; knobs `--wpc`, `--font`, `--font-size`,
   translate unless asked.
 - Spellings: `keyterms` in the Scribe params; corrections `[{from, to}]` after transcription.
 - Font: none unless the customer names one. A font file the customer supplies is used through
-  `fontsdir`; fonts are never downloaded (HR21), so a named face that is not on the machine and
+  `fontsdir`; the machine's fonts come first (HR21), so a named face that is not on the machine and
   not supplied falls back to the Noto face, said in the delivery. Check the face covers the
   script (`fc-list :lang=<code>`) before rendering.
 - Choosing a look: with no look named, burn the default clean look. When the customer wants to
