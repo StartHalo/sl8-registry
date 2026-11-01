@@ -191,7 +191,7 @@
       "slug": "sound-closing",
       "from": "everygen/3danimatedexplainers-151f46@Sound: mandatory closing line",
       "use": "step 16: the last sentence of every sound line (short.py params refuses a clip prompt without it)",
-      "prompt": "No music, no singing, no speech and no voiceover."
+      "prompt": "No music, no singing, no voices, no narration."
     },
     {
       "slug": "softer-wording",
