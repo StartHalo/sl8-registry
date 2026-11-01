@@ -16,14 +16,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from JuicyLucy static-localization and static-image-craft (proprietary), restated and cited; points from Creative Claw (Apache-2.0), fal and Higgsfield
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 (libraqm via harfbuzz), numpy, opencv; tesseract with per-language packs; imagemagick 6.9; fonts and fonts-noto packs; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticimagecraft-1841a5, creative-claw/cc-image-model-guides, fal/charactersheet-a2ae87, higgsfield/product-image-presets]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF02-a1
   attribution: Method from the SL8 capability assessment (WF02-a1), restated from JuicyLucy's static localization skills with points from Creative Claw (Apache-2.0), fal and Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: MKT-D300..MKT-D319
+  deltas: MKT-D300..MKT-D319, MKT-D540..MKT-D541
 ---
 
 # Localized static ads
@@ -48,7 +48,7 @@ python3 $L/track_a.py boxes|retype …
 ```
 
 Both scripts exit 0 pass or written, 1 a failed check or refusal, 2 a missing tool or library
-(the machine is broken: report it, never install, HR21).
+(the machine is broken: report it, HR21).
 
 ## What a request needs
 
@@ -272,7 +272,7 @@ Both scripts exit 0 pass or written, 1 a failed check or refusal, 2 a missing to
     `fal-ai/nano-banana-pro/edit`, `openai/gpt-image-2/edit`, `bytedance/seedream/v5/lite/edit`
     (the catalog id; facts `schema-seedream-id`) and Track A; quote every one first (HR5).
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (each final's size and format declared from the contract and measured by
 `loc.py verify` and media-qc), HR2 (`aspect_ratio` values read from the raw OpenAPI), HR3, HR4
