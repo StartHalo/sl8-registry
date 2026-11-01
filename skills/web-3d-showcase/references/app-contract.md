@@ -46,7 +46,7 @@ mkdir -p $V/examples/jsm/environments; cp $T/examples/jsm/environments/RoomEnvir
   file from elsewhere (research: creative-claw/creativeclawrenderhtml-1ac902#56).
 - The import map in `index.html` resolves the bare `three` that the addons import themselves:
   `{"imports": {"three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/examples/jsm/"}}`.
-- Any addon file missing from the machine's copy: stop and report it (HR21); never fetch it.
+- Any addon file missing from the machine's copy: stop and report it (HR21: the machine's copy first).
 - A CDN import map (jsDelivr, the exact version) only when the brief sets `network: "cdn"`; the
   handover then says the page needs that host, and the render check runs with `--allow-network`
   (research: hyperframes/slideshow-b1b6c0#46).

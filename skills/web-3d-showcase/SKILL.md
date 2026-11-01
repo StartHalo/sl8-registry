@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from fal's regenerate-3d skill (fal Codex plugin 1.1.0, no licence stated, used with attribution), restated and cited; points from fal, Creative Claw and HyperFrames (Apache-2.0)
 compatibility: "sl8-web (built FROM sl8-motion, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-character-sheet 1.0.0; media-qc 1.2.0; node 22; three (Motion pack, vendored); gltf-transform; playwright with chrome-headless-shell 152; imagemagick 6.9; ffmpeg 5.1; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [fal/falregenerate3d-8bbb22, fal/modelrouting-3dbdaa, fal/falmedia-29e0b7, fal/charactersheet-a2ae87, fal/falgamedev-391da0, fal/falrecipes-bfdf9d, creative-claw/creativeclawrenderhtml-1ac902, hyperframes/slideshow-b1b6c0]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF12-a1
   attribution: Method from the SL8 capability assessment (WF12-a1), restated from fal's regenerate-3d and model-routing skills with points from fal media, character-sheet and gamedev, Creative Claw (Apache-2.0) and HyperFrames (Apache-2.0); scripts written by SL8
-  deltas: WEB-D300..WEB-D319
+  deltas: WEB-D300..WEB-D319, WEB-D360..WEB-D364
 ---
 
 # 3D character showcase
@@ -85,7 +85,7 @@ WebGL). It prints figures and screenshot paths; look at every screenshot yoursel
      and `ai-gen models --search 3d --format json > work/<p>/3d-search.json` (the category name is
      not confirmed; keep both); `gltf-transform --version`; the `three` location (references/app-contract.md);
      `node -e "require.resolve('playwright')" || ls $(npm root -g)/playwright`. A missing tool is a
-     broken machine: report it, never install (HR21).
+     broken machine: report it (HR21: the baked stack first).
    - **Quote the whole job** (HR5; research: fal/falmedia-29e0b7#7): write each call's params file,
      then `ai-gen estimate <id> --params-file <file> --format json` for one still, one 3D job, one
      texture and one background; multiply by the counts, add one retry per 3D item (HR7), and
@@ -213,7 +213,7 @@ WebGL). It prints figures and screenshot paths; look at every screenshot yoursel
     materials, lazy loading, responsive layout, and the `window.__showcase` hook for the check. Character
    names and UI text are HTML, never generated (HR10). P10: stills on camera-facing planes.
    - **React app (P3) is not offered on this machine yet**: the machine's React and Vite sit in an
-     npm cache and installing from it is a runtime install. Deliver the static app with
+     npm cache, and this method has no project install step yet. Deliver the static app with
      `mountShowcase(element, configUrl)` exported from `app.js` for the customer's React project,
      and say so.
    - **GLB set (P7) and asset pack (P8)** have no app: the viewer screenshots are the render check.
@@ -259,7 +259,7 @@ WebGL). It prints figures and screenshot paths; look at every screenshot yoursel
 - **Image-to-video background loops from the still** and 2D sprites, 3D scenes or non-character
   objects: no method in the source (a GLB set of a single object follows P7 and is our reading).
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (sizes, formats and counts declared in the brief and params files, measured by
 `render_check.mjs size`, `gltf-transform inspect` and `ffprobe`), HR2, HR3, HR4 (quality, audio,
@@ -270,7 +270,7 @@ UI text are HTML; local resize, compression, looping and recolouring), HR11 (eve
 from the approved still), HR12 (stated defaults in the brief; the approval before 3D and any spend
 over budget is a gate file and a `partial` end; no question tool), HR13 (`render_check.mjs`), HR14
 (figures and screenshots, never a written PASS), HR15 (the handover names each gap), HR16 (pin any
-prompt-rewrite field the schema shows), HR18 (no claims in prompts or UI copy), HR19, HR20, HR21 (no
-installs, no CDN fetches at check time), HR22 — see media-ai-gen/references/house-rules.md.
+prompt-rewrite field the schema shows), HR18 (no claims in prompts or UI copy), HR19, HR20, HR21 (the
+baked stack first, no CDN fetches at check time), HR22 — see media-ai-gen/references/house-rules.md.
 Applies with care: HR17 (characters are invented; a reference image of a real person needs that
 person's documented consent).
