@@ -13,16 +13,16 @@ description: >-
   (edit-highlights); a scripted multi-shot production (media-video-production); generating clips
   (media-video-generation); music or voice (media-audio-generation); measuring files (media-qc).
 license: SL8 wording and SL8-authored scripts; method from Higgsfield's Katana edit instructions (no licence stated), restated and cited, with points from HyperFrames (Apache-2.0), fal, JuicyLucy and EveryGen restated
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 (libx264, aac, ebur128, loudnorm, alimiter, minterpolate); python3 3.11 with numpy, scipy, librosa, Pillow and faster-whisper; fonts 1.1.0 (Anton, Inter) with fontconfig; siblings edit-captions, edit-cut-reframe and edit-highlights ship in the same Video 1.5.0 bundle"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; ffmpeg 5.1 (libx264, aac, ebur128, loudnorm, alimiter, minterpolate); python3 3.11 with numpy, scipy, librosa, Pillow and faster-whisper; fonts 1.1.0 (Anton, Inter) with fontconfig; siblings edit-captions, edit-cut-reframe and edit-highlights ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-30a
-  house-rules: HR-1.0
+  version: 1.0.4
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [higgsfield/katana-432bce, hyperframes/hyperframes-2afd9d, hyperframes/mediause-ec397d, fal/falaudiogeneration-ba1a03, juicylucy-ads/adplatform-a2543e, everygen/animalclips-e048e4]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield Katana instructions captured 2026-10-26)
   approach: WF27-a1
   attribution: Method from the SL8 capability assessment (WF27-a1), restated from Higgsfield's Katana edit instructions with points from HyperFrames (Apache-2.0), fal, JuicyLucy and EveryGen; scripts written by SL8 from the recorded numbers
-  deltas: VID-D300..VID-D319, VID-D612, VID-D621
+  deltas: VID-D300..VID-D319, VID-D612, VID-D616..VID-D618, VID-D741, VID-D749, VID-D764
 ---
 
 # Beat montage
@@ -56,8 +56,8 @@ python3 $M/verify.py work/<p>/edl.json work/<p>/master.mp4 --out work/<p>/verify
 ```
 
 Every script exits 0 done; 1 bad input or a failed check, with the reason on one line; 2 a tool,
-library, model weight or font is missing. Exit 2 means the machine is broken: report it, never
-install anything (HR21). The master is built and checked in `work/<p>/`; only a master that passes
+library, model weight or font is missing. Exit 2 means the machine is broken: report it; the
+baked stack comes first (HR21). The master is built and checked in `work/<p>/`; only a master that passes
 step 14 is copied to `artifacts/<p>/final/` in step 15.
 
 ## Routes
@@ -89,8 +89,8 @@ frame of the edit comes from the customer's clips or photos, or is generated fro
 reference only guides framing, motion and rhythm. Tracks,
 references and clips are files the customer supplies; this method never fetches them from YouTube,
 TikTok or piracy sites. No music or sound effects are synthesised or written in code; extra effects
-are licensed stock the customer supplies. House rules (always): HR17, no real person's likeness or
-voice without their documented consent and never a named real person imitated (this covers
+are licensed stock the customer supplies. House rules (always): HR17, consent is handled by the app that
+runs the job, and a named real person the brief has not supplied is never imitated (this covers
 celebrities and known characters); HR18, no invented quotes or claims.
 
 ## Steps (approach step numbers in brackets)
@@ -185,7 +185,7 @@ celebrities and known characters); HR18, no invented quotes or claims.
    `punch` or `push`. A push or hold from a photo: **Default: `bytedance/seedance-2.0/image-to-video`**;
    a product, object, character or garment replaced inside a reference shot: **Default:
    `fal-ai/kling-video/o3/pro/video-to-video/edit`**
-   (untested); a kit or brief may name others. Consent (HR17), quote, gate, call and manifest row:
+   (untested); a kit or brief may name others. Quote, gate, call and manifest row:
    [references/inserts.md](references/inserts.md#inserts-from-a-subject-photo). A pure edit skips
    this step.
 10. **EDL [10].** Write `work/<p>/edl.json` ([references/edl.md](references/edl.md)): header from
@@ -270,7 +270,7 @@ celebrities and known characters); HR18, no invented quotes or claims.
   a live session asks for the track; a bot job ends and says it is missing. Music is never generated
   or written in code for this method.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (the EDL header declares size, rate and length; `verify.py` measures them), HR2,
 HR3, HR4 (Seedance `generate_audio`, `resolution`; Scribe `diarize`, `tag_audio_events` pinned),
@@ -280,5 +280,5 @@ preview, one more gate run, one retry per insert), HR8 (`artifacts/<p>/final/`, 
 the renderer in the one picture encode, never by a model), HR11 (every shot is cut from the
 customer's original file), HR12 (stated defaults; a spend over budget is a gate; no question
 tool), HR13 (gates are `verify.py` and `media-qc` exits), HR14 (figures, never a written PASS),
-HR15, HR16, HR17 (consent before a generated likeness), HR18 (titles are words actually spoken),
-HR19, HR20, HR21 (no installs, no weight downloads), HR22 — see media-ai-gen/references/house-rules.md.
+HR15, HR16, HR17 (consent is the app's; no named real person the brief did not supply), HR18 (titles are words actually spoken),
+HR19, HR20, HR21 (the baked stack first, no weight downloads), HR22 — see media-ai-gen/references/house-rules.md.
