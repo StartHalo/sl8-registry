@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; two sentences quoted from fal's branded-graphics skill (adapted from fal agent skills; no licence stated; used with attribution); enrichment points restated and cited
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 and numpy; imagemagick 6.9; fontconfig (fc-query, fc-match); chrome-headless-shell 152 with Playwright; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [fal/brandedgraphics-96ba6e, creative-claw/creativeclawsetup-b53df6, heygen/retired-visualstyle-33a109, fal/marketing-85464f, kling/klingaigenerateimage-572826, higgsfield/websitebuilder-82f65c, creative-claw/creativeclawrenderhtml-1ac902, higgsfield/thumbnailgeneration-e3191f, fal/falvideoproduction-09f33d, hyperframes/hyperframescli-e1e7eb, videozero/videozeroeditorialguiderouter-041880, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; fal branded-graphics version 1, published 2026-10-15)
   approach: WF01-a1
   attribution: Method from the SL8 capability assessment (WF01-a1), from fal's hosted branded-graphics skill, with points restated from Creative Claw, HeyGen, Kling, Higgsfield, VideoZero and JuicyLucy; scripts written by SL8
-  deltas: MKT-D360..MKT-D379
+  deltas: MKT-D360..MKT-D379, MKT-D542..MKT-D543
 ---
 
 # Branded graphic
@@ -186,8 +186,8 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
    there is no `magick`. **rsvg-convert is not offered on this machine yet**: an SVG composition is
    rendered by `render.mjs shot` and an SVG logo by `render.mjs raster`, both in Chromium. With
    neither Pillow nor a browser, hand over the SVG or HTML source with an explicit statement that
-   the raster was not made or checked; it does not replace a requested PNG. Never install a tool
-   (HR21).
+   the raster was not made or checked; it does not replace a requested PNG. The baked stack comes
+   first (HR21).
 9. **Compose and export at the exact canvas** [9]: background, supplied images, the logo, then the
    copy in the brand typeface, loaded from its file.
    - Routes C and D first: the generated file is at the generation size (a multiple of 16, so 1080
@@ -276,7 +276,7 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
 - **A batch from a data table** (one graphic per row) is not offered on this machine yet: run this
   skill once per row, one project each.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (canvas and format declared in `brief.md` and, for a paid call, in the manifest row;
 measured by `graphic.py check` and `mediaqc.mjs image`), HR2, HR3, HR4 (quality, count and format pinned by
