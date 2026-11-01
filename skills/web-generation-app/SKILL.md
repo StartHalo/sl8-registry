@@ -14,14 +14,14 @@ description: >-
 license: SL8 wording and SL8-authored code and scripts; method from Higgsfield's website-builder app lane (no licence stated), restated and cited, with points from fal (used with attribution) and Kling (MIT), restated
 compatibility: "web-studio >=1.0.0 (sl8-motion, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22.23; npm cache with @tanstack/react-start, react, zod, tailwindcss, lucide-react, typescript, better-sqlite3; ripgrep; ffmpeg 5.1; imagemagick 6.9; playwright with chrome-headless-shell 152; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [higgsfield/wb-app-lane, higgsfield/wb-platform-infra, fal/falvideogeneration-fe0127, fal/falworkflow-5122d6, fal/fal-mcp-tools, kling/kling-cli-lifecycle, kling/klingaigeneratevideo-5f0e8c, everygen/everygen-model-registry]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield website-builder 2.2.1 captured 2026-10-20)
   approach: WF51-a1
   attribution: Method from the SL8 capability assessment (WF51-a1), restated from Higgsfield's website-builder app lane and security guide, with points from fal, Kling (MIT) and Everygen; all code and scripts written by SL8
-  deltas: WEB-D320..WEB-D339
+  deltas: WEB-D320..WEB-D339, WEB-D365..WEB-D367
 ---
 
 # Generation web app
@@ -91,8 +91,8 @@ pending the owner, WEB-L332). Say so in one line in the delivery when a brief as
    `node -e "require('better-sqlite3')"`: the module is a native addon whose binary an npm cache does
    not hold, so a failure here is a machine gap: stop and report, or fall back to Node's built-in
    `node:sqlite` and say so (WEB-L322). Any package the cache lacks is also a machine gap: stop and
-   report it, never fetch it (departs from HR21; owner decision pending on project
-   installs, WEB-L322). `git init`, and commit after every step. Never paste a fresh page over the
+   report it. These offline installs are pinned by the lockfile and project-local: record
+   them in the manifest and name them in the reply (HR21, HR-1.1). `git init`, and commit after every step. Never paste a fresh page over the
    home screen or swap layouts. Trust the types and `npx tsc --noEmit` rather than reading library
    source; write `import type { ReactNode, CSSProperties } from "react"`. Define the `start` and
    `test` scripts as in app-skeleton.md (the scaffold has no `start` of its own).
@@ -317,7 +317,7 @@ shape, the registered models, which checks ran with their figures (scan, tsc, ro
 screenshots, the one real call), what stays unverified (the scaffold commands, `--queue` restart recovery, public exposure), any
 stated default the brief did not settle, and the cover's state (made, gated, or not offered).
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (the cover's declared duration, size and audio are measured), HR2, HR3, HR4 (audio,
 duration and resolution pinned in every registry entry and params file), HR5 (every paid call the
@@ -328,8 +328,8 @@ gate, no question tool), HR13, HR14, HR15, HR16 (where a registered route return
 prompt, the generations row stores it), HR19, HR20, HR22 — see media-ai-gen/references/house-rules.md.
 Departs by method from HR10 (owner decision pending, WEB-L323): the cover reveal draws the title and
 tagline with a video model mid-clip; the last frame is the approved cover, and step 24 is the check.
-Also departs from HR21 (owner decision pending, WEB-L322): step 2 and the clean-clone check run
-`npm install --offline` from the baked cache and stop on any package it lacks.
+HR21 (HR-1.1): step 2 and the clean-clone check run `npm install --offline` from the baked cache,
+pinned and project-local, recorded in the manifest and named in the reply; they stop on any package it lacks.
 HR17: no real person's face or voice until SL8's consent text is approved (WEB-L332); what the app
 lets its own users make is part of the open decision on who uses it (WEB-L320). Not applicable: HR18 (the method writes no claims; a cover's
 text is the customer's own).
