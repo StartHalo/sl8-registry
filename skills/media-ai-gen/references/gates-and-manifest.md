@@ -61,6 +61,10 @@ what you reference into `source/` rather than overwrite an upload.
 One row per generation (HR9), including failed attempts. `add --result <envelope> --params <file>`
 fills the fields marked *auto* from ai-gen's JSON; you supply the rest with `--json`.
 
+A file a row records is never rewritten: `verify` compares every recorded file with its sha256 and
+fails on any change. A redo, a regrade or a fix writes a new file name and adds its own row
+(`attempt` + 1 and its `lever`, or a local row whose `parents` name the file it came from).
+
 | Field | Required | Source | Meaning |
 |---|---|---|---|
 | `item` | yes | you | The logical asset (`hero`, `shot-03`); retries share it |
