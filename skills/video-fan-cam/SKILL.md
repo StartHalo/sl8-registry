@@ -6,23 +6,23 @@ description: >-
   (gpt-image-2 edit by default), the still is checked against the photo before any video spend,
   then image-to-video animates only the approved still (Kling v3 pro by default, Seedance 2.0 the
   other route) and the clip is reviewed frame by frame. Generic broadcast styling only; exact score
-  text or graphics are burned on afterwards. Use when: put a consenting person in the stands at a
+  text or graphics are burned on afterwards. Use when: put a person in the stands at a
   match, a crowd-reaction or spectator cutaway from a selfie or portrait, a fan-cam clip for a
   sport, a broadcast-style reaction video. NOT for: a still or headshot edit alone
   (media-image-generation); animating any other still, or a talking head (media-video-generation);
   a score bug or titles on an existing clip (media-motion-graphics); a multi-shot film
   (media-video-production); measuring files (media-qc).
 license: SL8 wording; fal fan-cam and character lines adapted (no licence stated, used with attribution); Kling AI motion lines (MIT); everygen and Higgsfield restated and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-motion-graphics 1.1.0; node 22; ffmpeg and ffprobe 5.1; imagemagick 6.9; fal endpoints as of 2026-10-27"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; media-motion-graphics 1.1.0; node 22; ffmpeg and ffprobe 5.1; imagemagick 6.9; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [fal/fancam-031b77, fal/charactersheet-a2ae87, fal/characterdesign-c8e4b8, kling/klingaigeneratevideo-5f0e8c, everygen/rankingvideos-1aa4ce, everygen/foundfootagestories-179c12, everygen/everygen-generation-tool-contracts, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, higgsfield/product-video-presets]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF38-a1
   attribution: Method from the SL8 capability assessment (WF38-a1), built on fal's fan-cam skill (fal Codex plugin 1.1.0) with identity points from fal's character-sheet and character-design skills and motion points from Kling AI's generate-video skill (MIT); everygen and Higgsfield points restated in SL8 wording
-  deltas: VID-D420..VID-D439, VID-D610
+  deltas: VID-D420..VID-D439, VID-D610, VID-D742, VID-D765
 ---
 
 # Fan-cam clip
@@ -48,7 +48,7 @@ node $F params still|clip work/<p>/brief.json --model <id> --out work/<p>/<item>
 node $F check still|clip work/<p>/brief.json work/<p>/<item>-<n>.params.json [--reframe]   # every field is the script's
 ```
 
-`references/brief.example.json` shows every key with its type. `fancam.mjs` exits 0 written; 1 a brief problem, each one named (no portrait, no consent, no sport,
+`references/brief.example.json` shows every key with its type. `fancam.mjs` exits 0 written; 1 a brief problem, each one named (no portrait, no sport,
 a value outside its list, a duration the route cannot render, a text key that is not a string) or a failed check; 2 usage, an
 unreadable file or a model it has no field mapping for.
 
@@ -59,19 +59,17 @@ unreadable file or a model it has no field mapping for.
   reaction (shocked, celebrating, nervous, chanting, laughing, emotional); a broadcast format
   (close-up cutaway, crowd pan, scoreboard moment, replay); duration and crop (usually 9:16 or
   16:9: 9:16 vertical for social, 16:9 horizontal for a broadcast look).
-- **Consent (HR17):** whose face it is. `consent` is `owner` (the person in the photo is the
-  customer) or `written permission from <name>`. A supplied photo is not consent.
+- **Consent (HR17):** handled by the app that runs the job, not by this skill; the supplied portrait
+  is used as supplied, and a named real person the brief has not supplied is never imitated.
 
 ## Steps (approach step numbers in brackets)
 
-1. **Brief and consent** [1]. The brief becomes `work/<p>/brief.json` (written at the end of step 2,
-   once the project exists): `portrait` (its copy in `artifacts/<p>/source/`), `consent`, `sport`,
+1. **Brief** [1]. The brief becomes `work/<p>/brief.json` (written at the end of step 2,
+   once the project exists): `portrait` (its copy in `artifacts/<p>/source/`), `sport`,
    `context`, `venue`, `crowd_mood`, `reaction`, `format`, `crop`, `duration_s`, optional `audio`,
    `action` (replaces the reaction row's beat), `overlay_text`, `overlay_graphics` and
    `budget_credits`, and the retry levers `still_note` and `motion_note` (steps 5 and 7). Types: text keys are strings, `duration_s` a whole number, `audio` a JSON true or false, `portrait` a path that exists from the working directory (example file in `references/`).
-   - Until the SL8 consent text and privacy note are approved by the owner (VID-L436), refuse a portrait
-     of a real person in one line and spend nothing; the `consent` value below is recorded for when it is.
-   - No consent: quote and spend nothing for that face, and say why in one line. No portrait or no
+   - No portrait or no
      sport: in an interactive session with the customer present ask only for that; a bot job ends
      and says what is missing. Everything else takes a stated default, named in the delivery
      (reaction celebrating, close-up cutaway, 9:16, 5 s, crowd mood excited, a venue typical of the
@@ -271,7 +269,7 @@ unreadable file or a model it has no field mapping for.
     owner, HR14), and any debt still owed. Close with the folder tree, the file count and
     the credits spent.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (still size, clip aspect, duration and sound declared by `fancam.mjs params`,
 measured with media-qc), HR2, HR3 (each route gets only its own fields; `--strict-params`), HR4
@@ -279,8 +277,8 @@ measured with media-qc), HR2, HR3 (each route gets only its own fields; `--stric
 stages quoted before the first paid call; each retry quoted again), HR6, HR7 (one retry with a named
 lever, then the other route; at most 3 attempts per stage), HR8, HR9, HR10 (exact score text and
 graphics are burned last, never generated), HR11 (every still edits the original portrait; the clip
-animates only the approved still), HR12 (stated defaults; a missing portrait, sport or consent ends
+animates only the approved still), HR12 (stated defaults; a missing portrait or sport ends
 a bot job; a spend over budget is a gate), HR13, HR14 (observations per item, never a written pass),
-HR15, HR16 (a rewrite field, if a route shows one, is pinned off), HR17 (the person's consent is
-recorded before anything is quoted; never imitate a named real person), HR18 (no invented results,
+HR15, HR16 (a rewrite field, if a route shows one, is pinned off), HR17 (consent is the app's; never
+imitate a named real person the brief did not supply), HR18 (no invented results,
 events or claims), HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
