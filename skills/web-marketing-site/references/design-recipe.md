@@ -71,7 +71,7 @@ branding; generating the site's own assets during the build is fine.
   trend an official system; a glass look is a labelled approximation.
 - Read `package.json` and the machine's package list before importing anything. Only permissive
   licences (MIT, Apache-2.0, BSD, Zlib, Unlicense); never a paid or proprietary component kit.
-  No generators, registry fetches or CDN scripts (HR21).
+  No generators, registry fetches or CDN scripts (HR21: the baked stack first).
 - Pattern names (bento, sticky stack, marquee...) name intent; they authorise no code fetch.
 
 ## The design brief
