@@ -1,4 +1,4 @@
-# House rules HR-1.1 (media skills)
+# House rules HR-1.2 (media skills)
 
 ## Contents
 - [What these rules are](#what-these-rules-are)
@@ -35,7 +35,7 @@ Every `media-*` skill on this machine follows one numbered set of rules.
 | HR14 | **The agent never writes PASS** for something a script can measure, and never grades its own taste. Report figures; taste goes to the owner's review. | An agent reported "identity: PASS" with 4 of 5 tokens missing. |
 | HR15 | **A hand-off names the file and the debt still owed on it** (e.g. "captions still to burn on cut-03.mp4"). | On-screen text that every step assumed another step would add. |
 | HR16 | **The rewriter is part of the model.** Many routes rewrite prompts by default. Turn rewriting off when your prompt is complete; when it cannot be turned off, store the rewritten prompt if returned and say so. | Results blamed on the model were the rewriter's. |
-| HR17 | **Consent turns on whose likeness or voice it is,** not on how it is asked. No real person's face or voice without their documented consent; never imitate a named real person. | Provider terms and basic safety. |
+| HR17 | **Consent is handled outside the skills,** by SL8 or the app that runs the job. A skill never refuses, gates or asks on consent for a person's face or voice; it never imitates a named real person the brief has not supplied. | No one uses the skills directly; consent is taken where the customer is (Khalid, 2026-10-31). |
 | HR18 | **Claims need substantiation.** Never invent statistics, ratings, reviews, prices, awards or testimonials; a user's typed claim on a commercial asset needs their confirmation. | A convincing asset carries the weight of a printed claim. |
 | HR19 | **Emphasis is not enforcement.** If a warning was ignored once, turn it into an ordered step with a printed artefact, and delete the old warning. | Bold warnings were skipped under momentum. |
 | HR20 | **The user's explicit instruction wins,** even against these rules. Do it, state the cost in one line, and record it in the manifest's `waivers`. | Leverage, not law. |
@@ -47,10 +47,11 @@ Every `media-*` skill on this machine follows one numbered set of rules.
 Every `media-*` SKILL.md ends with:
 
 ```
-## House rules (HR-1.1)
+## House rules (HR-1.2)
 Relies on: HR1, HR5, … — see media-ai-gen/references/house-rules.md
 Not applicable: HR17 (no likeness or voice in this skill), …
 ```
 
-HR-1.1 (2026-10-31) changed HR21 only. A footer and `metadata.house-rules` read HR-1.1 in the
-skills whose wording changed with it; a skill whose footer HR-1.1 does not contradict keeps HR-1.0.
+HR-1.1 (2026-10-31) changed HR21 only. HR-1.2 (2026-11-01) changed HR17 only: no consent gating in
+any skill. A footer and `metadata.house-rules` read the newer version in the skills whose wording
+changed with it; a skill whose footer the newer version does not contradict keeps its version.

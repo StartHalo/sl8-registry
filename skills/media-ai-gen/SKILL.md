@@ -13,9 +13,9 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; node >=20; python3 (raw OpenAPI check)"
 metadata:
-  version: 1.2.1
-  revision: 2026-10-31a
-  house-rules: HR-1.1
+  version: 1.2.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/wrap-it-up, fal-agent/fal-video-production]  # sources only; that CLI is not on this machine
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
@@ -244,7 +244,7 @@ The full exit-code playbook and the retry ledger are in [recovery.md](references
 | 13 | Cost cap exceeded | no, nothing submitted | Re-plan or gate |
 | 14 | Generation OK, download failed | yes | Re-download (above) |
 
-## House rules (HR-1.1)
+## House rules (HR-1.2)
 
 Relies on: HR1, HR2, HR3, HR4, HR5, HR6, HR7, HR8, HR9, HR12, HR13, HR14, HR15, HR16, HR19, HR20,
 HR21, HR22 — see media-ai-gen/references/house-rules.md.
