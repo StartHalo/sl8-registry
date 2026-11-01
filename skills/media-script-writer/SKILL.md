@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no calls made here); python3; media-audio-generation 1.0.0 voice registry (rate_wps)"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-21a
-  house-rules: HR-1.0
+  version: 1.1.2
+  revision: 2026-10-31b
+  house-rules: HR-1.1
   upstream: fal-agent/fal-script-writer  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D50..VID-D59, VID-D107, VID-D168..VID-D173
+  deltas: VID-D50..VID-D59, VID-D107, VID-D168..VID-D173, VID-D633..VID-D634, VID-D755
 ---
 # Script Writer
 
@@ -169,6 +169,11 @@ entry = next((r[role] for r in regs if role in r), json.load(open(seed))['narrat
 rate, cuts = entry['rate_wps'], [2.0, 4.0, 10.0]   # cut seconds, one per shot
 print(rate, entry.get('rate_measured_at'), [int(s * rate * 0.9) for s in cuts], sum(cuts), int(sum(cuts) * rate * 0.9))
 ```
+
+**Closing logo frame** (default; a kit or brief may set another): the closing
+logo and site frame holds about **4 s**, and the narration's last line lands as
+it settles, with no narration budgeted past it. Seconds a shorter frame frees go
+to footage rows, not to more title frames: subtract it from the target first.
 
 ### Cut length is not generated length
 
@@ -397,7 +402,7 @@ the individual hand-offs are correct:
   fast pacing → the cutting is faster than generated clips hold up under;
   consolidate and say why.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (Step 0 declares length, voice and aspect before any downstream
 spend), HR5 (Step 1 reports the generated total, which is what the clips cost),
@@ -407,7 +412,7 @@ roster), HR13 and HR14 (Step 5 is arithmetic run in python3, reported as
 figures), HR15 (the hand-offs name what is still owed), HR17 (no real person's
 words or likeness invented for a character), HR18 (Step 3 claims), HR19 (Step 5
 is a numbered check, not a warning), HR20 (the brief's explicit instruction
-wins, except over a claim it cannot substantiate), HR21 (no installs), HR22
+wins, except over a claim it cannot substantiate), HR21 (the baked stack first), HR22
 (route lengths are confirmed from the schema, and the rate from the registry) —
 see media-ai-gen/references/house-rules.md.
 Not applicable: HR2, HR3, HR4, HR6, HR7, HR9, HR11, HR16 (this skill submits
