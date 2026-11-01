@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored script; method from JuicyLucy's static winner analysis (proprietary, not copied), restated and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); python3 3.11 standard library only (csv, zipfile, xml; no pandas or openpyxl); curl; media-ai-gen 1.2.0 (layout rule HR8 only: no manifest or gate is used); an agent harness that reads images"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-11-01a
   house-rules: HR-1.0
   upstream: [juicylucy-ads/staticwinneranalysis-167b4d, juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticadproduction-39a415, juicylucy-ads/videoadproduction-5323d8, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; juicylucy-ads installed 0.33.2)
   approach: WF03-a1
   attribution: Method from the SL8 capability assessment (WF03-a1), restated in SL8's words from JuicyLucy's static winner analysis with points from its static localization, static ad production, video ad production and static formats units; script written by SL8 from the described behaviour
-  deltas: MKT-D440..MKT-D459, MKT-D541
+  deltas: MKT-D440..MKT-D459, MKT-D553
 ---
 
 # Winning static ad analysis
