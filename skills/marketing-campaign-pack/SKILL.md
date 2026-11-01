@@ -16,14 +16,14 @@ description: >-
 license: Adapted from fal agent skills (fal Codex plugin 1.1.0 marketing skill; no licence stated; used with attribution); JuicyLucy ad-platform points restated in SL8 wording and cited (proprietary, not copied)
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 and ffprobe; python3 3.11 with Pillow; imagemagick 6.9; tesseract; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-11-01a
   house-rules: HR-1.0
   upstream: [fal/marketing-85464f, fal/ugc-3c015f, fal/commercial-4335f5, fal/falprompting-c6c3f4, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, fal/modelrouting-3dbdaa, juicylucy-ads/adplatform-a2543e]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF15-a1
   attribution: Method from the SL8 capability assessment (WF15-a1), built on fal's marketing skill (roles, fields, prompt order and quality bar kept in fal's words, with attribution) and enriched from fal's ugc, commercial, prompting, video and routing skills; safe-zone and claims points restated from JuicyLucy's ad-platform skill
-  deltas: MKT-D380..MKT-D399
+  deltas: MKT-D380..MKT-D399, MKT-D557..MKT-D558
 ---
 
 # Campaign asset pack
@@ -189,8 +189,10 @@ File shape, layer template and ratio table: [references/matrix.md](references/ma
       until ready). Text to video: `-m bytedance/seedance-2.0/text-to-video` and no `--image`. `<file>` is the
       still's `files[0].local_path` in `work/<project>/<still id>.result.json`.
     - Seedance 2.0 has no 4:5: a 4:5 feed clip is made at 3:4 (default; 1:1 is the named alternative),
-      still and clip alike, then cropped to 4:5 with `ffmpeg -vf crop=iw:iw*5/4` (a tool row; the
-      matrix row's `final_crop` is `4:5`), and the change is stated. Known result (facts `beh-seedance-length`): a 5 s request
+      still and clip alike, then cropped to 4:5 with `ffmpeg -vf crop=iw:iw*5/4` (a tool row). The
+      matrix row keeps `crop` `4:5` (the channel's ratio) and records the made ratio in `gen_aspect`
+      (`3:4`) on the clip and its still alike; `campaign.py check` reads `gen_aspect` for the route,
+      and the change is stated. Known result (facts `beh-seedance-length`): a 5 s request
       returned 4.06 s, so measure the length (`node $Q streams <clip>`), never the request. Known
       result (facts `measured-seedance20-face-480p`): Seedance refused a realistic portrait still; for
       a realistic face follow media-video-generation's moderation routing.
@@ -230,7 +232,9 @@ File shape, layer template and ratio table: [references/matrix.md](references/ma
     How SL8 applies it:
     - **Format:** the rendered file's pixel size, not the requested canvas (`node $Q image <file> --aspect <crop>`).
     - **Claims:** an unsupported claim is rewritten as something the viewer can see ("the texture looks
-      lighter", not "cures acne"), else removed. Per line: keep the appeal; drop absolutes,
+      lighter", not "cures acne"), else removed. A refused or removed claim is recorded by its kind and
+      reason only (`intake.claims.refused`: `{"kind": "ranking claim", "reason": "HR18"}`), never in its
+      words, so they reach no prompt, matrix, manifest or reply. Per line: keep the appeal; drop absolutes,
       unverifiable specifics, guaranteed outcomes and scam-like formats. A precise figure that is not in
       the supplied claims is a stronger warning than a vague one (HR18). Rendered wording: read it
       letter by letter; `tesseract <still> -` is a lead, not a verdict.
