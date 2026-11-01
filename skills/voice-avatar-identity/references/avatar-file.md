@@ -47,7 +47,7 @@ Write it at step 5 with the SL8 lines empty (nothing after the colon), and fill 
 - Voice Designed: <true if cloned from a sample, false if picked from the preset list>
 - Voice Settings: <stability, similarity_boost, style, speed>
 - Voice Batch: <index of the shortlist batch the pick came from, or n/a>
-- Consent: <owner | written permission from <name> | n/a>
+- Consent: <optional: the app's value, if it gives one>
 - Last Synced: <ISO timestamp>
 
 Note: looks are files, not server records: resolve the portrait from the Looks line, else the base
@@ -59,11 +59,8 @@ custom_voice_id is deleted after 7 days without use.
   scene, a setting, a pose or a lighting mood: every later generation that reads the file inherits
   them.
 - **Never invent a trait.** A trait nobody gave is `unspecified`.
-- **Consent** is `n/a` only for an agent or a fictional named character made from a prompt. A
-  user's photo or footage, a frame of a real person, or a cloned voice needs `owner` or
-  `written permission from <name>` (HR17); `record` fails without it. The Consent line is the one SL8
-  line written early: with a photo or footage Reference, `record --stage identity` fails until it
-  is set. The SL8 consent text is not approved yet, so the skill refuses real people (VID-L444).
+- **Consent** is handled by the app that runs the job (HR17, HR-1.2): the Consent line is optional,
+  may carry the app's value, and `record` does not check it.
 - **Role aliases** `AVATAR-USER.md` and `AVATAR-AGENT.md` are relative symlinks beside the named
   files. A named character gets none. The named file is canonical; an alias can go stale when the
   agent or user is renamed, which the next run's staleness check re-links.
@@ -91,6 +88,5 @@ lip-sync, any kit) reads the record this way:
    source of truth.
 6. **A missing file** (a look, the base): regenerate it from the base portrait and the stored prompt
    with voice-avatar-identity, or keep the record as it is; never substitute another face. A clone
-   id unused for 7 days is gone: re-clone from the kept consented sample with voice-clone-setup.
-7. **Consent travels with the record:** read the Consent line before animating a real person's
-   portrait (HR17).
+   id unused for 7 days is gone: re-clone from the kept source sample with voice-clone-setup.
+7. **Consent is the app's** (HR17): the record's Consent line, when present, travels with it.
