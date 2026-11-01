@@ -49,7 +49,7 @@ the scribe-v2 calls.
 | Result | Next action |
 |---|---|
 | `cut_reel.py` exit 1, spec refused (range out of bounds, crop outside the frame, odd size, missing meaning check) | Correct that field in `cut_<k>.json` and rerun; nothing paid was spent |
-| `cut_reel.py` exit 2 (a tool, filter, encoder or font missing) | Stop with the preflight message; never install (HR21) |
+| `cut_reel.py` exit 2 (a tool, filter, encoder or font missing) | Stop with the preflight message (HR21: the baked stack first) |
 | ai-gen exit 9 (429, 5xx, a queued job that failed) | Check the manifest and the envelope first; one retry with the same model (it counts as the attempt, HR7); a second failure goes to the sentence-level fallback gate (SKILL.md step 12) |
 | ai-gen exit 10 (timeout) | Already charged: `ai-gen result <request id> --format json`, never resubmit (HR6) |
 | ai-gen exit 2 with 413 (audio too large) | Chunked transcription is not offered on this machine yet: transcribe a stated part of the source (SKILL.md step 6) |
