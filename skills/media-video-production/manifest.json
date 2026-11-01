@@ -1,7 +1,7 @@
 {
   "name": "media-video-production",
-  "version": "v1.2.0",
+  "version": "v1.2.1",
   "description": "Runs a multi-shot video job end to end, as a piece or a shot-planned keyframe film: script or screenplay with a per-shot timing contract, a plan gate, stills (a film: masters, a keyframe per shot, a frame gate), one clip per shot with one move, a drift check and clip fence, voiceover per shot, music, duck and loudness, titles last, watch-and-listen, delivery with stems. Quotes each paid stage first; each approval is a gate file. Use when: make a video, short film, story, explainer, promo, tour, trailer or narrated piece from a brief, script or stills; put voiceover and music under generated clips; assemble, mix or burn titles over a multi-shot cut; resume a project stopped at a gate. NOT for: one clip (media-video-generation); only a voiceover, bed or transcript (media-audio-generation); a script alone (media-script-writer); shot wording (media-shot-craft); overlays alone (media-motion-graphics); stills (media-image-generation); running ai-gen (media-ai-gen); measuring files (media-qc).",
-  "generated_at": "2026-10-30T13:21:32.363Z",
-  "skill_md_sha256": "fe0648dc6ca26fe315012a958453272b1eaaa4eb296f00464e83c5ce2ecb98ed"
+  "generated_at": "2026-11-01T14:24:36.214Z",
+  "skill_md_sha256": "e2ec97cac7369465a71e6cf5bd337fcf6269c5ba61ebd7c67228a83545c2a487"
 }

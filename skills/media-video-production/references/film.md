@@ -94,8 +94,8 @@ first, all of them before any keyframe:
 - one per prop the story turns on, in its first state.
 
 A photo the customer supplies of a place or a prop is that subject's master. A real person's face
-or voice is refused on this machine until SL8's consent text and privacy note are approved
-(HR17; not offered on this machine yet; the brief's invented or described characters stand in).
+or voice the brief supplies is used as supplied; consent is handled by the app that runs the job
+(HR17, SKILL.md "Human faces and voices").
 
 Then one **keyframe** per row: the shot's first instant, posed mid-action, with only the row's
 `cast` in frame.
@@ -143,6 +143,8 @@ to right, top to bottom) beside the gate, then open the gate and end the job `pa
 
 `node $HOME/.agents/skills/media-ai-gen/scripts/gate.mjs open --project <project> --slug approve-frames --question "Approve the <n> keyframes in PROGRESS.md (sheet qc/frames.jpg) and render the clips for <quote> credits, or name the frames to redo?" --options '[{"id":"a","label":"Approve: render the clips","credits":<quote>},{"id":"b","label":"Redo some: name the frame numbers","credits":<per-frame quote>},{"id":"c","label":"Stop here, give me the plan and frames","credits":0}]' --resume-at "stage 3: clips, or the frames the answer names" --quote <quote>`
 
+- Before the gate, run the keyframe check in [brief-fidelity.md](brief-fidelity.md#keyframe-check-stage-2-before-the-frame-gate)
+  (no stray marks, no unrequested move) and print its lines in PROGRESS.md.
 - **No clip is submitted before this gate is answered** or, unattended (`autonomy: autonomous`),
   recorded: add `--kind text --default a`, go on, and list the gate in the delivery.
 - **The numbers travel in the answer.** `gate.mjs answer` has no free-text field: answer option `b`
