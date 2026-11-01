@@ -16,14 +16,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from the Higgsfield faceless-video skill (no licence stated), restated and cited; points from fal (attribution), Kling (MIT), Creative Claw (Apache-2.0), InVideo and Everygen (no licence stated), restated
 compatibility: "story-studio 1.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions 1.0.0; ffmpeg 5.1; python3 3.11 with Pillow; faster-whisper with small weights baked; fonts and display-fonts packs; fal endpoints as of 2026-10-28"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [higgsfield/facelessvideo-103c40, higgsfield/faceless-intake-script, higgsfield/faceless-style-library, higgsfield/faceless-generation-delivery, fal/falvideoproduction-09f33d, fal/falaudiogeneration-ba1a03, fal/falvideogeneration-fe0127, invideo/invideo-model-registry, creative-claw/cc-video-model-guides, kling/klingaigenerateimage-572826, everygen/3danimatedexplainers-151f46]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield faceless-video captured 2026-10-11 and 2026-10-26)
   approach: WF53-a1
   attribution: Method from the SL8 capability assessment (WF53-a1), restated in SL8 wording from Higgsfield's faceless-video skill and its references, with points from fal, Kling, Creative Claw, InVideo and Everygen; scripts written by SL8 from the described behaviour
-  deltas: STO-D300..STO-D319
+  deltas: STO-D300..STO-D319, STO-D437..STO-D438
 ---
 
 # Long faceless narrated video
@@ -79,7 +79,7 @@ cover) follow the same 0/1/2 rule.
    work/$P/calib`.
    On a new machine run `selftest.py` once. faster-whisper is baked on this machine: if the load
    still fails, the remote route is Scribe v2 (step 20); with neither, the degraded route of step
-   22 applies. Any other failure stops the job before anything is spent. Never install anything (HR21).
+   22 applies. Any other failure stops the job before anything is spent. The baked stack comes first (HR21).
 3. **Modes, from the whole request.** A structured `animation_mode`: `fully_animated` is the motion
    montage; `scene_based` is Picture Story and never falls back to motion. "Picture story",
    "stills", "slideshow story", "storybook video" or "frame by frame" locks Picture Story whatever
@@ -371,7 +371,7 @@ cover) follow the same 0/1/2 rule.
   (`timeline.py build`), new framings and one-detail edits of the previous frame, `timeline.py bind`,
   then `assemble.py --stills`.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (plan.json declares every output; the assembler and media-qc measure it), HR2 and
 HR4 (the Seedance, voice, music and Scribe values are read from the schema before the first call
