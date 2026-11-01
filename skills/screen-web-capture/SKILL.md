@@ -15,14 +15,14 @@ description: >-
 license: Apache-2.0 for the passages from HyperFrames (heygen-com/hyperframes), with attribution; the rest SL8 wording and SL8-authored scripts, method from Higgsfield website-lane guidance (no licence stated), restated and cited
 compatibility: "sl8-motion (Motion, built from sl8-image 1.5.0 and Base 2.1.0); hyperframes CLI 0.8.61 via the hyperframes pack 1.5.0 offline wrapper; chrome-headless-shell 152.0.7977.30 (/etc/sl8/chrome-path); playwright as pinned at the Image 1.5.0 build; node 22; python3 3.11 with Pillow; ffmpeg 5.1; curl"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [hyperframes/websitetohyperframes-c794ad, hyperframes/hyperframescli-e1e7eb, higgsfield/ugc-website-lane, higgsfield/retired-ugcwebsitevideo-423991, higgsfield/ugcvideo-7f44bf, fal/brandedgraphics-96ba6e]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: companion of WF21-a1, WF20-a1, WF19-a1, WF01-a1, WF02-a1, WF18-a2, WF33-a1 (no approach of its own; Issue #293)
   attribution: Capture steps from the SL8 capability assessment (WF21-a1 steps 3-6, WF20-a1 steps 4-6, WF19-a1 step 7); reading and summary text adapted from HyperFrames website-to-hyperframes (Apache-2.0); mobile-still method restated from Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: HF-D320..HF-D339
+  deltas: HF-D320..HF-D339, HF-D338..HF-D340
 ---
 
 # Website capture
@@ -75,7 +75,7 @@ another. Default device for B: the Playwright iPhone 13 profile; `--device deskt
 2. **Preflight once.** `hyperframes --version`; `hyperframes capture --help` (confirm `--json` and
    `--skip-vision` on this CLI; without `--skip-vision`, the `env -u` prefix alone keeps vision off);
    `cat /etc/sl8/chrome-path`; for route B `ls "$(npm root -g)"/playwright`; `python3 -c 'import PIL'`; `ffmpeg -version`.
-   A missing tool is a broken machine: report it and stop that route, never install (HR21). Both
+   A missing tool is a broken machine: report it and stop that route (HR21: the baked stack first). Both
    routes need outbound web access to the customer's site.
 3. **Route A: capture.** Run the command above into a fresh folder. `--timeout <ms>` bounds page
    navigation only; `--capture-budget <ms>` is the cooperative budget after navigation; an outer
@@ -131,14 +131,14 @@ another. Default device for B: the Playwright iPhone 13 profile; `--device deskt
     between loads); open a full-page file with ffmpeg, or with Pillow once `Image.MAX_IMAGE_PIXELS = None` is
     set, never with ImageMagick, which fails silently past 16K pixels. See the reference for the commands.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (the route's outputs are declared in step 1 and checked by the gate), HR8 (caller's
 folder or `artifacts/<p>/`, scratch in `work/<p>/`), HR10 (real pixels only; logos and text are
 never redrawn), HR12 (stated route and device defaults; a failure is a status file, never a
 question), HR7 (route A retries once, into a fresh folder, then hands off), HR13 (`capture_gate.py` decides pass or fail by exit code), HR14 (the gate reports
 figures; the agent's viewing notes are notes, never a PASS), HR15 (the hand-off names what the
-caller still owes), HR18 (copy and numbers come only from the captured text), HR19, HR20, HR21 (no
-installs; a missing Playwright or Chrome is reported) — see media-ai-gen/references/house-rules.md.
+caller still owes), HR18 (copy and numbers come only from the captured text), HR19, HR20, HR21 (the
+baked stack first; a missing Playwright or Chrome is reported) — see media-ai-gen/references/house-rules.md.
 Not applicable: HR2, HR3, HR4, HR5, HR6, HR9, HR16, HR22 (no model or paid call is made: vision
 captioning is off), HR11 (nothing is edited), HR17 (no likeness or voice is made).
