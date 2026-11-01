@@ -82,7 +82,7 @@ this file says only what differs. Defaults may be overridden by a kit or brief.
 
 ## Fairy Tale & Myth
 
-- Cinematic Storybook by default; 2-3 minutes (12-18 blocks), five cuts a block, a hushed tone
+- Cinematic Storybook by default; 2-3 minutes (12-18 blocks), five shots joined by four cuts a block, a hushed tone
   (`script-craft.md`). Voice: Default Callum; a kit or brief may name another.
 - Every block prompt carries the on-twos token and its constraints (`storybook-twos`), and the
   assembly takes `--stepped 12`: image updates are re-timed to about twelve a second while the

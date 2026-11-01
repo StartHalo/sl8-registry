@@ -153,6 +153,16 @@ def main():
            "-map", "[v]", "-map", "5:a", "-c:v", "libx264", "-c:a", "aac", "-shortest", os.path.join(five, "block01.mp4"))
         r = py("clipcheck.py", "--clips-dir", five, "--aspect", "16:9", "--no-stt")
         check("clipcheck passes a five-shot clip with four cuts", r.returncode == 0, r.stdout[-300:])
+        six = os.path.join(t, "six")
+        os.makedirs(six)
+        ff("-f", "lavfi", "-i", "testsrc2=size=640x360:rate=25:duration=1.6", "-f", "lavfi", "-i", "smptehdbars=size=640x360:rate=25:duration=1.6",
+           "-f", "lavfi", "-i", "life=size=640x360:rate=25:mold=10:life_color=#ff8800:seed=3", "-f", "lavfi", "-i",
+           "rgbtestsrc=size=640x360:rate=25:duration=1.6", "-f", "lavfi", "-i", "mandelbrot=size=640x360:rate=25", "-f", "lavfi", "-i",
+           "color=c=red:size=640x360:rate=25:duration=1.6", "-f", "lavfi", "-i", "sine=frequency=300:duration=9.6", "-filter_complex",
+           "[2:v]trim=duration=1.6,setpts=PTS-STARTPTS[l];[4:v]trim=duration=1.6,setpts=PTS-STARTPTS[m];[0:v][1:v][l][5:v][3:v][m]concat=n=6:v=1:a=0,format=yuv420p[v]",
+           "-map", "[v]", "-map", "6:a", "-c:v", "libx264", "-c:a", "aac", "-shortest", os.path.join(six, "block01.mp4"))
+        r = py("clipcheck.py", "--clips-dir", six, "--aspect", "16:9", "--no-stt")
+        check("clipcheck passes a clip with one cut more than the five shots ask (fewer fail, more do not)", r.returncode == 0, r.stdout[-300:])
         shutil.copy(os.path.join(clips, "block01.mp4"), os.path.join(five, "block01.mp4"))
         r = py("clipcheck.py", "--clips-dir", five, "--aspect", "16:9", "--no-stt")
         check("clipcheck refuses a clip with no cuts and a shot over 3 s", r.returncode == 1 and "cuts" in r.stdout)
