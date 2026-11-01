@@ -107,8 +107,7 @@ refuses a long scene, split it at a sentence end and record the limit as a learn
 ## Presenter photo
 
 This section is for an image of an invented or non-human presenter (a mascot, an illustrated or
-rendered figure); a photo of a real person is refused until SL8's consent text is approved (SKILL.md
-step 2). A character image animates well when it is a JPEG or PNG, at least 512 × 512 px, under 10 MB, with one
+rendered figure), or a photo of a real person the brief supplies (consent is the app's, SKILL.md step 2). A character image animates well when it is a JPEG or PNG, at least 512 × 512 px, under 10 MB, with one
 clear face looking at the camera, even light, a neutral expression and a plain background. Side
 profiles animate badly and full-body shots may not animate at all. `presenter.mjs photo` measures the
 first three; you look at the rest.
