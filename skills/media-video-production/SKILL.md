@@ -13,16 +13,16 @@ description: >-
   (media-shot-craft); overlays alone (media-motion-graphics); stills (media-image-generation);
   running ai-gen (media-ai-gen); measuring files (media-qc).
 license: Adapted from fal agent skills (no licence stated; used with attribution); the film path is SL8 wording, its method from Pollo and Everygen guidance (no licence stated), restated and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-image-generation 1.2.0; media-video-generation 1.2.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; media-image-generation 1.2.0; media-video-generation 1.2.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.2.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05; film path sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF17-a2 (piece); film from the P01 pattern (WF39-a5, WF47-a1, WF35-a2, WF37-a1-s1, WF49-a1, WF28-a1)
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05); film path restated from the SL8 capability assessment's Pollo and Everygen methods
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118..VID-D122, VID-D191..VID-D192, VID-D198..VID-D199, VID-D580..VID-D598
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118..VID-D122, VID-D191..VID-D192, VID-D198..VID-D199, VID-D580..VID-D598, VID-D743, VID-D750..VID-D754, VID-D762
 ---
 
 # Video Production
@@ -71,7 +71,7 @@ That ordering is why burn-in is stage 8 and not stage 5.
 Stages 1, 1b and 5 are written out in [references/timing-contract.md](references/timing-contract.md),
 stages 6–7 in [references/mix-and-duck.md](references/mix-and-duck.md), stage 8 and the delivery
 record in [references/burn-and-deliver.md](references/burn-and-deliver.md), and stage 9 in
-[references/watch-and-listen.md](references/watch-and-listen.md). Read each before its stage.
+[references/watch-and-listen.md](references/watch-and-listen.md). Read each before its stage, and [references/brief-fidelity.md](references/brief-fidelity.md) (end card, brand names, feature screens, keyframe check, routes) before stage 1.
 
 ## Step 0 — Declared defaults, no card
 
@@ -180,7 +180,7 @@ warning (HR19):
    installing tools (`pip`, `npm`, model downloads; HR21). The first `ai-gen estimate` in a fresh
    machine can take 1–3 minutes: wait for it; a slow quote is not a reason to go local.
 6. Submit with `--queue`, `-o artifacts/<project>/<node>/` and `--format json`; never `status --wait`.
-   Record one manifest row per generation with `manifest.mjs add`. An unpriced route (`estimate`
+   Record one manifest row per generation with `manifest.mjs add --result <that call's JSON>`, so each row names its own endpoint. An unpriced route (`estimate`
    exit 12) is uncapped: take the stage's named fallback, or open the gate.
 
 ## The film path
@@ -481,12 +481,11 @@ Each states the action it takes on its own, with no further input required.
 - **Default when a sibling fails to load (a kit or brief may name another).** Take the stage
   table's fallback, label the output as not the specialist's, and name the missing
   skill. Stage 3 has no fallback on purpose.
-- **Human faces and voices:** a real person's likeness or voice is refused on this machine until
-  SL8's consent text and privacy note are approved (HR17; not offered on this machine yet); invented
-  or described characters stand in. Nothing ships with a recognisable real person who was not in
-  the brief.
+- **Human faces and voices (HR17):** consent for a person's face or voice is handled by the app that runs the job, not by this
+  skill; a real person the brief supplies (a photo, footage, a voice) is used as supplied, and a named real person the brief has
+  not supplied is never imitated. Nothing ships with a recognisable real person who was not in the brief.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (`plan.json` declares, media-qc measures), HR2, HR3, HR4 (`generate_audio` pinned
 either way), HR5 (the whole job quoted per stage with a running total), HR6, HR7 (one retry per
