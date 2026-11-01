@@ -3,27 +3,27 @@
 // (the file media-audio-generation reads and writes; keys are project roles, not voice names).
 // The role's private files live in artifacts/<p>/audio/voices/<role>/ (made by sample.mjs).
 //   show    --project P [--role R]
-//   preflight --project P --role R --route minimax|qwen|oneshot [--consent C]   the record's refusals, before any paid call; writes nothing
-//   record  --project P --role R --route minimax|qwen|oneshot --consent C --consent-words W --terms-url U --privacy-url U
+//   preflight --project P --role R --route minimax|qwen|oneshot   the record's refusals, before any paid call; writes nothing
+//   record  --project P --role R --route minimax|qwen|oneshot [--consent C]
 //           [--language L] [--result clone.result.json] [--reference-text-file F] [--replace | --reclone | --switch-route]
-//           C is "owner" or "written permission from <name>": the only two forms (empty blocks the run).
-//           W is the person's reply, verbatim; it is stored with the two URLs the statement quoted and a timestamp.
-//           --switch-route: same role, same original recording, another route; keeps consent and proof, keeps the
+//           Consent is handled by the app that runs the job (HR17, HR-1.2): C, when the app gives one, is stored as given
+//           and never checked.
+//           --switch-route: same role, same original recording, another route; keeps the recording's fields, keeps the
 //           old route's id (previous_route) until the new audition is approved; the old voice is not deleted.
 //           minimax needs --result (the `ai-gen result` envelope; the id is raw.custom_voice_id) and
 //           writes <role dir>/clone.json for the manifest row; qwen needs --reference-text-file.
-//           --reclone: same role, same route and sample, new id after a lapse, stored consent kept.
-//   check   --project P --role R [--endpoint ID] [--for audition|production]   consent, route and model, files, days unused;
+//           --reclone: same role, same route and sample, new id after a lapse.
+//   check   --project P --role R [--endpoint ID] [--for audition|production]   withdrawn, route and model, files, days unused;
 //           --for production (the default) exits 1 unless the audition verdict is approved; the audition call itself uses --for audition
 //   touch   --project P --role R                   last_used_at = now (every use, and before finishing)
-//   withdraw --project P --role R                  the person withdrew consent: consent null, check blocks
+//   withdraw --project P --role R                  the person asked to stop using this voice: check blocks
 //   rate    --project P --role R --text-file F --duration-ms N [--file AUDIO]   measured rate_wps (words per second);
 //           a language written without word spaces (Chinese, Japanese, Thai ...) gets rate_cps and rate_wps stays null
 //   verdict --project P --role R --verdict approved|adjust|re-record|pending [--file AUDIO] [--by "<their words>"]
 //           approved needs --by, the person's reply verbatim
 //   lang    --project P --role R --language-boost NAME   the speech model's language value, once read
 //   delete  --project P --role R --confirm         the role's record, its folder, the job's working copies of the personal data
-//           and the manifest rows (marked rejected); the consent gate files stay as the consent record
+//           and the manifest rows (marked rejected); the gate files stay
 // Options: --artifacts DIR (default ./artifacts), --work DIR (default ./work). Prints ONE JSON line.
 // Stored paths are relative to artifacts/<p>/ (audio/voices/<role>/...), so any working directory finds them.
 // Exit: 0 ok · 1 refused or blocked · 2 usage · 3 no record for the role.
@@ -36,7 +36,6 @@ const ROUTES = {
   qwen: { endpoint: 'fal-ai/qwen-3-tts/clone-voice/1.7b', clone_endpoint: null, lapse_days: null },
   oneshot: { endpoint: 'resemble-ai/chatterboxhd/text-to-speech', clone_endpoint: null, lapse_days: null }
 }
-const CONSENT = /^(owner|written permission from [^<>\s][^<>]*)$/
 const DAY = 86400000
 
 function out (exit, body) { process.stdout.write(JSON.stringify({ check: 'voices', exit, ...body }) + '\n'); process.exit(exit) }
@@ -97,21 +96,14 @@ if (cmd === 'record' || cmd === 'preflight') {
   if (sw) {
     if (!prev) out(1, { role: r, error: 'no voice is saved for this role: --switch-route needs one' })
     if (prev.route === o.route) out(1, { role: r, error: `the role is already on ${o.route}` })
-    if (!CONSENT.test(prev.consent ?? '')) out(1, { role: r, error: 'the stored consent is empty or withdrawn: a route switch needs it' })
+    if (prev.withdrawn_at) out(1, { role: r, error: 'the person asked to stop using this voice: a route switch needs a new record' })
   } else if (o.reclone) {
     if (o.route !== 'minimax' || !prev || prev.route !== 'minimax') out(1, { role: r, error: '--reclone is --route minimax on an existing minimax record for this role' })
-    if (!CONSENT.test(prev.consent ?? '')) out(1, { role: r, error: 'the stored consent is empty or not one of the two forms: a re-clone needs it' })
-  } else if ((consent || !dry) && !CONSENT.test(consent)) {
-    out(1, { role: r, error: 'consent must be "owner" or "written permission from <the speaker\'s name>": possessing or uploading a file is not consent, and an empty value blocks the run' })
+    if (prev.withdrawn_at) out(1, { role: r, error: 'the person asked to stop using this voice: a re-clone needs a new record' })
   }
   const base = r.replace(/\d+$/, '')
   if (base !== r && reg[base]) out(1, { role: r, error: `a second voice gets its own role key, never ${r} beside ${base}` })
   if (prev && !o.replace && !o.reclone && !sw) out(1, { role: r, existing: { route: prev.route, voice: prev.voice ?? null, created_at: prev.created_at }, error: `role ${r} already has a voice: reuse it, switch its route on the same recording (--switch-route), or replace it only after naming it to the person and getting their confirmation (--replace)` })
-  const proof = []
-  if (!o.reclone && !sw && !dry) {
-    for (const k of ['consent-words', 'terms-url', 'privacy-url']) if (typeof o[k] !== 'string' || !o[k].trim()) proof.push(`--${k}`)
-    if (proof.length) out(1, { role: r, error: `the consent proof is missing ${proof.join(', ')}: store the person's reply verbatim and the two links the statement quoted` })
-  }
   const dir = roleDir(r)
   const files = fs.existsSync(dir) ? fs.readdirSync(dir) : []
   const original = files.find((f) => /^original\./.test(f))
@@ -123,14 +115,14 @@ if (cmd === 'record' || cmd === 'preflight') {
   }
   const sampleSha = original && files.includes(sampleName) ? sha(path.join(dir, sampleName)) : null
   const originalSha = original ? sha(path.join(dir, original)) : null
-  if (o.reclone && prev.clone_sample_sha256 && sampleSha && prev.clone_sample_sha256 !== sampleSha) out(1, { role: r, error: 'the sample differs from the one the stored consent covers: a different recording needs new consent (a replacement, not a re-clone)' })
-  if (sw && originalSha && prev.original_sha256 && prev.original_sha256 !== originalSha) out(1, { role: r, error: 'the original recording differs from the one the stored consent covers: a different recording needs new consent (a replacement, not a route switch)' })
+  if (o.reclone && prev.clone_sample_sha256 && sampleSha && prev.clone_sample_sha256 !== sampleSha) out(1, { role: r, error: 'the sample differs from the stored one: a different recording is a replacement, not a re-clone' })
+  if (sw && originalSha && prev.original_sha256 && prev.original_sha256 !== originalSha) out(1, { role: r, error: 'the original recording differs from the stored one: a different recording is a replacement, not a route switch' })
   if (sampleSha) {
     for (const [k, e] of Object.entries(reg)) {
       if (k !== r && e.clone_sample_sha256 && (e.clone_sample_sha256 === sampleSha || (originalSha && e.original_sha256 === originalSha))) out(1, { role: r, error: `this recording is already saved as role ${k}: reuse that record rather than making a duplicate` })
     }
   }
-  if (dry) out(0, { role: r, route: o.route, preflight: 'ok', consent: o.reclone || sw ? prev.consent : consent, notes })
+  if (dry) out(0, { role: r, route: o.route, preflight: 'ok', notes })
   let voice = null
   const extra = {}
   if (o.route === 'minimax') {
@@ -169,15 +161,14 @@ if (cmd === 'record' || cmd === 'preflight') {
   let entry
   if (o.reclone) entry = { ...prev, voice, ...extra, recloned_at: at, last_used_at: at }
   else if (sw) {
-    // Consent, proof, language and the original stay; the old route's fields are kept whole until the new audition is approved.
+    // Language and the original stay; the old route's fields are kept whole until the new audition is approved.
     const { endpoint, voice: pv, route: pr, clone_endpoint, clone_sample, clone_sample_sha256, reference_text, clone_record, audition } = prev
     entry = { ...prev, ...fresh, reference_text: extra.reference_text, clone_record: extra.clone_record, previous_route: { endpoint, voice: pv ?? null, route: pr, clone_endpoint, clone_sample, clone_sample_sha256, reference_text, clone_record, audition, kept_until: 'the new audition is approved' }, switched_at: at }
     for (const k of ['reference_text', 'clone_record']) if (entry[k] === undefined) delete entry[k]
   } else {
     entry = {
       ...fresh,
-      consent,
-      consent_proof: { words: o['consent-words'].trim(), terms_url: o['terms-url'].trim(), privacy_url: o['privacy-url'].trim(), at },
+      ...(consent ? { consent } : {}),
       language: typeof o.language === 'string' ? o.language : 'en',
       language_boost: null,
       sample_path: inRoot(path.join(dir, original)),
@@ -193,7 +184,7 @@ const e = need(reg, r)
 
 if (cmd === 'check') {
   const fails = []; const notes = []
-  if (!CONSENT.test(e.consent ?? '')) fails.push('consent is empty or not one of the two forms: the run is blocked')
+  if (e.withdrawn_at) fails.push(`the person asked on ${e.withdrawn_at} to stop using this voice: the run is blocked`)
   const route = ROUTES[e.route]
   if (!route) fails.push(`route ${e.route} is unknown`)
   if (typeof o.endpoint === 'string' && route && o.endpoint !== route.endpoint) fails.push(`${o.endpoint} cannot speak a ${e.route} clone: use ${route.endpoint} (a clone is not portable across models; never re-clone just to change models)`)
@@ -204,7 +195,7 @@ if (cmd === 'check') {
   const sample = e.clone_sample && fs.existsSync(abs(e.clone_sample))
   if (!sample) {
     if (e.route === 'qwen' || e.route === 'oneshot') fails.push(`the sample ${e.clone_sample} is gone: this route cannot speak without it`)
-    else notes.push(`the sample ${e.clone_sample} is gone: a lapsed id cannot be re-made without a new recording and new consent`)
+    else notes.push(`the sample ${e.clone_sample} is gone: a lapsed id cannot be re-made without a new recording`)
   }
   const days = e.last_used_at ? Math.floor((Date.now() - Date.parse(e.last_used_at)) / DAY) : null
   const lapse = route?.lapse_days != null && days != null && days >= route.lapse_days
@@ -222,9 +213,9 @@ if (cmd === 'check') {
 if (cmd === 'touch') { e.last_used_at = now(); save(reg); out(0, { role: r, last_used_at: e.last_used_at }) }
 
 if (cmd === 'withdraw') {
-  // Withdrawn consent is no consent: check exits 1 until the person agrees again (a new record).
-  e.consent = null; e.consent_withdrawn_at = now(); save(reg)
-  out(0, { role: r, consent: null, consent_withdrawn_at: e.consent_withdrawn_at, notes: ['the voice is not used until the person agrees again; delete it only if they ask (step 14)'] })
+  // The person asked to stop using this voice (their instruction, HR20): check exits 1 from now on.
+  e.withdrawn_at = now(); save(reg)
+  out(0, { role: r, withdrawn_at: e.withdrawn_at, notes: ['the voice is not used again; delete it only if they ask (step 14)'] })
 }
 
 if (cmd === 'lang') {
@@ -271,7 +262,7 @@ if (cmd === 'delete') {
   // The job's working copies hold the voice id, the person's name and their transcript: they go too.
   if (fs.existsSync(workDir)) {
     for (const f of fs.readdirSync(workDir)) {
-      if (/^(clone|audition|transcript|consent-message)/.test(f)) { removed.push(rel(path.join(workDir, f))); fs.rmSync(path.join(workDir, f), { recursive: true, force: true }) }
+      if (/^(clone|audition|transcript|recording-message|consent-message)/.test(f)) { removed.push(rel(path.join(workDir, f))); fs.rmSync(path.join(workDir, f), { recursive: true, force: true }) }
     }
   }
   // The manifest rows stay as history but no longer point at files that are gone.
@@ -294,7 +285,7 @@ if (cmd === 'delete') {
     manifest_rows_rejected: rows,
     not_removed: [
       'the person\'s own upload (for example under artifacts/attachments/) is theirs and stays: name it',
-      'the consent gate files under artifacts/<p>/gates/ stay as the record of the consent given: say so',
+      'the gate files under artifacts/<p>/gates/ stay: say so',
       'copies uploaded to fal storage for the calls, and a MiniMax voice id, are not deleted by this; the id lapses after 7 unused days'
     ]
   })

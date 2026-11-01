@@ -1,37 +1,37 @@
 ---
 name: voice-clone-setup
 description: >-
-  A consented clone of a person's own voice, saved for later speech. One message asks for a clean
-  1 to 2 minute solo recording, names who processes it, quotes the consent statement and asks the
-  language; the sample is cut once with ffmpeg; fal MiniMax voice-clone makes a stored voice by
+  A clone of a person's own voice, saved for later speech. When the brief lacks them, one message
+  asks for a clean 1 to 2 minute solo recording and the language, and names who processes it; the sample is cut once with ffmpeg; fal MiniMax voice-clone makes a stored voice by
   default (Qwen reference clone or one-off Chatterbox clip on request); the person judges an
   audition on their own name, a number and a sentence; the voice is reused, re-made from the kept
-  sample when its id lapses, replaced or deleted on request. A named real person's voice or a
-  sample of unknown origin is refused. Use when: clone my voice, use or
+  sample when its id lapses, replaced or deleted on request. Consent is the app's; a named real person
+  the brief did not supply is not imitated. Use when: clone my voice, use or
   save my voice, speak this in my cloned voice, audition or re-record my voice, my clone stopped
   working, delete my voice. NOT for: stock or timed voiceover, voice swap (media-audio-generation);
   dubbing (voice-dub); an avatar or presenter (voice-avatar-identity, voice-presenter-video); new
   lines or lip-sync in footage (voice-line-replace); writing the script (media-script-writer).
 license: SL8 wording, with the messages adapted from Creative Claw clone-voice 5.4.2 (Apache-2.0) and the refusal list from fal agent skills (no licence stated; used with attribution)
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0 (manifest.mjs, gate.mjs); media-qc 1.2.0; media-audio-generation 1.1.0 (references/facts.md); ffmpeg 5.1 and ffprobe; node 22; siblings voice-dub, voice-line-replace, voice-avatar-identity and voice-presenter-video ship in the same Video 1.5.0 bundle"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2 (manifest.mjs, gate.mjs); media-qc 1.2.1; media-audio-generation 1.1.0 (references/facts.md); ffmpeg 5.1 and ffprobe; node 22; siblings voice-dub, voice-line-replace, voice-avatar-identity and voice-presenter-video ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [creative-claw/creativeclawclonevoice-a9fd28, fal/falaudiogeneration-ba1a03, creative-claw/cc-voice-references]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF09-a1
   attribution: Method from the SL8 capability assessment (WF09-a1); consent, recording and hand-over wording adapted from Creative Claw creativeclaw-clone-voice 5.4.2 (Apache-2.0); Whose voice rules adapted from fal agent skills (the audio generation skill; no licence stated, used with attribution); scripts written by SL8
-  deltas: VID-D460..VID-D479, VID-D615
+  deltas: VID-D460..VID-D479, VID-D615, VID-D746, VID-D770
 ---
 
 # Your cloned voice
 
-Makes a consented, reusable clone of a person's own voice and keeps it for later speech. One
-message asks for the recording and the person's agreement; the sample is cut once from their
+Makes a reusable clone of a person's own voice and keeps it for later speech. Consent for a person's
+face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). One message
+asks for what the brief lacks (the recording, the language); the sample is cut once from their
 original; one clone call makes the voice; a short audition on their own name, a number and a
 natural sentence is judged by them; then the stored voice is reused, re-made when its id lapses,
-replaced or deleted on request. Possessing or uploading a recording is never consent.
+replaced or deleted on request.
 
 The method was written for a vendor's own clone providers (Cartesia, ElevenLabs, Fish), which are
 not on this machine. Neither its wording nor the fal routes below have been run here: treat the
@@ -47,19 +47,17 @@ node $V/voices.mjs check --project <p> --role <role> --endpoint fal-ai/minimax/s
 
 Both print one JSON line. `sample.mjs` exits 0 usable, 1 not usable (no audio, under the route
 minimum, silent: nothing is kept), 3 ffmpeg missing. `voices.mjs` exits 0, 1 refused or blocked
-(empty consent, wrong model, a duplicate, a missing sample, an audition not yet `approved` when
+(a withdrawn voice, wrong model, a duplicate, a missing sample, an audition not yet `approved` when
 `check` is for production), 3 no record for the role. Stored paths are relative to `artifacts/<p>/`,
 so any working directory finds them. The first `ai-gen` call on a fresh machine takes 1 to 3
 minutes: give it a 300 s timeout (commands.md). Messages: [references/consent.md](references/consent.md).
 
 ## What a request needs
 
-- **One recording** of the person's own voice, or of a speaker who gave them permission: one audio
+- **One recording** of the person's own voice: one audio
   file, or a video whose sound is used (`artifacts/attachments/`). No recording: step 2's stock
   voice.
-- **Their reply** agreeing to the statement and naming the language (step 5).
-- **The terms and privacy links**: the brief fields `terms_url` and `privacy_url` (a kit may carry
-  them as defaults). Their wording is pending the owner's approval (VID-L461).
+- **The language** of the recording, when the brief does not name it (step 5).
 - Optional: the **role** key (default `narrator`), the **route** (default MiniMax), the project
   (the caller's, else `my-voice`).
 
@@ -84,19 +82,17 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
    turns on whose voice is asked for, not how: a supplied sample, a typed name, "the preset closest
    to him" and settings tuned toward a person are one request. **Refuse, every time, whatever the
    mechanism:**
-   - the voice of a named real person the user does not own or hold documented permission to use
-     (politician, executive, celebrity, streamer, colleague), however framed, including parody,
+   - the voice of a named real person the brief has not supplied (politician, executive, celebrity, streamer, colleague), however framed, including parody,
      satire, "internal only" and "it's only a test";
    - any script putting words in a real speaker's mouth that they did not say, where a listener
-     could take it as genuine;
-   - any sample whose origin the user cannot state.
+     could take it as genuine.
 
-   A legal assurance is not consent; consent has exactly two forms (step 6). On a refusal, act on
+   On a refusal, act on
    this skill's authority without waiting: send the one-line refusal, and when the request also
    asked for speech, hand the text to media-audio-generation for an ordinary preset chosen for the
    brief's register: never the nearest match to the refused person, neutral settings, no imitation
-   instruction in the text; it records the choice and its reason in the registry. No recording, or
-   no agreement, is the same: no clone, a stock voice offered. Designing a new voice from a
+   instruction in the text; it records the choice and its reason in the registry. No recording is
+   the same: no clone, a stock voice offered. Designing a new voice from a
    description is **not offered on this machine yet**.
 3. **Find the role's record** [3]. Keys are project roles (`narrator`, `host`), never voice names; a
    second voice gets a second role, never `narrator2`. A role that already
@@ -119,28 +115,20 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
    what remains, unpriced, or no budget known: in an interactive session say the total in chat and
    wait for the person's reply; in a bot job open a spend gate for the owner and end `partial`
    (HR12): `node $S/gate.mjs open --project <p> --slug approve-clone-<role> --question "<route, calls, credits>" --options '[{"id":"a","label":"Clone and audition","credits":<total>},{"id":"b","label":"Stop","credits":0}]' --resume-at "step 5" --quote <total>`.
-5. **One message** [4]. First `node $V/sample.mjs measure <recording>` when one is attached
-   (free): exit 1 (no audio, silent) or under 10 s means send the recording request only, with no
-   consent text yet. Without both `terms_url` and `privacy_url` the statement cannot be quoted
-   whole: send nothing and make no call; tell the person plainly "the voice-cloning terms are not
-   set up yet, so I have not cloned anything", and write VID-L461 to the job log only. Otherwise fill "The one message" in references/consent.md:
-   the recording request, the processor named for the route, the statement quoted in full, the
-   language question (dropped when the language is named), the transcript request on the Qwen route
-   and the replacement line from step 3. Send it once, even when the recording is already attached:
+5. **One message, only when something is missing** [4]. First `node $V/sample.mjs measure <recording>`
+   when one is attached (free). With a usable recording (exit 0, 10 s or more) and the language known,
+   send nothing and go on to step 7. Otherwise fill "The one message" in references/consent.md: the
+   recording request, the processor named for the route, the language question (dropped when the
+   language is named), the transcript request on the Qwen route and the replacement line from step
+   3. Send it once:
    - **the person is present** in an interactive session: send it as one chat message and wait for
      the reply (no question tool, HR12);
    - **a bot job** (no one present): the message is the job's reply. Write it to
-     `work/<p>/consent-message.md`, open the consent gate with it as the question (the clone is the
-     paid step it unlocks) and end `partial` with no paid call:
-     `node $S/gate.mjs open --project <p> --slug consent-<role> --question "$(cat work/<p>/consent-message.md)" --options '[{"id":"a","label":"I agree (language named)","credits":<total>},{"id":"b","label":"Do not clone","credits":0}]' --resume-at "step 6" --quote <total>`.
-     The person's reply answers it in the next job:
-     `node $S/gate.mjs answer --project <p> --gate <NN> --option a --by "<their words, verbatim>"`.
-6. **Fix the consent once** [5]. Their own voice is `owner`; another speaker's, with that speaker's
-   permission, is `written permission from <speaker's name>`: the only two forms, and an empty value
-   blocks the run. Their words stay in the gate file (bot job) or go in the clone row's `notes`
-   (interactive). Never ask again after the upload, and never ask separately whether it is their
-   voice; ask again only for a different speaker or recording, or when they hesitate or withdraw.
-   A withdrawal means no consent: clone nothing; for a saved voice run
+     `work/<p>/recording-message.md`, open a gate with it as the question and end `partial` with no
+     paid call:
+     `node $S/gate.mjs open --project <p> --slug recording-<role> --question "$(cat work/<p>/recording-message.md)" --options '[{"id":"a","label":"Recording sent (language named)","credits":<total>},{"id":"b","label":"Do not clone","credits":0}]' --resume-at "step 7" --quote <total>`.
+6. **Consent** [5] (HR17, HR-1.2) is handled by the app that runs the job, not by this skill: nothing
+   is asked or recorded here. A person who asks to stop using a saved voice: run
    `node $V/voices.mjs withdraw --project <p> --role <role>` (check then blocks it) and offer step 14.
 7. **Prepare the sample** [6].
    `node $V/sample.mjs prep <recording> --route <route> --dir artifacts/<p>/audio/voices/<role>`
@@ -170,8 +158,7 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
      node $S/manifest.mjs add --project <p> --result work/<p>/clone.submit.json --params work/<p>/clone.params.json \
        --json '{"item":"clone-<role>","node":"audio/voices/<role>","status":"pending","declared":{"returns":"custom_voice_id"},"credits":{"estimate":<clone quote>}}'
      ai-gen result <request_id> -o artifacts/<p>/audio/voices/<role>/ --format json > work/<p>/clone.result.json   # again while "ready": false
-     node $V/voices.mjs record --project <p> --role <role> --route minimax --consent "<step 6 value>" \
-       --consent-words "<their reply, verbatim>" --terms-url <terms_url> --privacy-url <privacy_url> --language <code> --result work/<p>/clone.result.json
+     node $V/voices.mjs record --project <p> --role <role> --route minimax --language <code> --result work/<p>/clone.result.json
      node $S/manifest.mjs add --project <p> --result work/<p>/clone.result.json --params work/<p>/clone.params.json \
        --json '{"item":"clone-<role>","node":"audio/voices/<role>","status":"done","declared":{"returns":"custom_voice_id"},"credits":{"estimate":<clone quote>},"files":["audio/voices/<role>/clone.json"],"parents":["audio/voices/<role>/sample-minimax.mp3"]}'
      ```
@@ -180,14 +167,13 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
      a preview file with the id; the real answer shape is a facts row owed after the first clone
      (VID-L462), and a preview in the role folder is private like the rest.
    - qwen and oneshot make no clone call: `voices.mjs record --route qwen --reference-text-file work/<p>/transcript.txt`
-     (the transcript the person sent and checked, with the same `--consent-words`, `--terms-url` and
-     `--privacy-url` flags) or `--route oneshot`, then step 11 is the first call.
+     (the transcript the person sent and checked) or `--route oneshot`, then step 11 is the first call.
 9. **Never change route silently** [9]. When the person picks another route, say first what it
    loses (minimax: the id lapses after 7 unused days; qwen: no stored voice, the sample is sent on
-   every call; oneshot: nothing reusable). A switch on the same recording and consent is not a
+   every call; oneshot: nothing reusable). A switch on the same recording is not a
    replacement: `sample.mjs prep <original> --route <new>` (no `--force`), then
    `voices.mjs record --route <new> --switch-route` (plus `--result` or `--reference-text-file`);
-   it keeps the consent and proof, the old route's id stays in `previous_route` until the new
+   it keeps the recording's fields, the old route's id stays in `previous_route` until the new
    audition is approved, and nothing is deleted. On any failure, including a plan or capacity message,
    report the real message and stop: no stock voice or other route swapped in to hide it, and the
    record is not written (a replacement keeps the old one). A queued call that timed out (exit 10)
@@ -240,8 +226,8 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
     - **adjust**: fix the smallest thing (spelling, niqqud, a word, one `voice_setting` value) and
       make one more audition, quoted first (HR5) and recorded with `"attempt":2,"lever":"<what changed>"` (HR7). One voice per speaker.
     - **re-record**, or a second audition still off: noise or a wrong identity needs a cleaner
-      recording (a new recording is a new consent, step 5), not more paid synthesis; a long clean
-      sample may take the qwen route instead (step 9's switch, no new consent).
+      recording (step 5), not more paid synthesis; a long clean sample may take the qwen route
+      instead (step 9's switch).
     - **oneshot**: deliver with the "One-shot delivery" message: a one-off match, never a reusable
       clone, with the accent warning when the sample's language differs from the script's.
 13. **Reuse, lapse and replacement** [14]. Later speech uses the stored voice, not the sample (qwen
@@ -254,13 +240,13 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
     `voice_setting.voice_id`, `rate_wps`); its hand-off names the debt: run `voices.mjs touch` after
     each use (HR15). A script with a claim follows that skill's claim rule (HR18).
     - **Lapse.** When `check` shows `lapse_likely` and the speech call fails with an error about the
-      voice (the exact text is not on record), quote and re-clone once from the kept sample under
-      the stored consent, without asking again: step 8's calls, the second clone row
+      voice (the exact text is not on record), quote and re-clone once from the kept sample,
+      without asking again: step 8's calls, the second clone row
       carrying `"attempt":2,"lever":"re-clone"` and `"parents"` of the first, with
       `voices.mjs record … --reclone` (the record is updated, not duplicated), then retry the speech once with the new id (lever:
       re-clone). Say in the delivery that the voice was re-made from the same recording, and ask the
-      person to listen for a difference. No kept sample: no re-clone; it needs a new recording and
-      consent (step 5). Under 7 unused days the same error is reported as it is (step 9).
+      person to listen for a difference. No kept sample: no re-clone; it needs a new recording
+      (step 5). Under 7 unused days the same error is reported as it is (step 9).
     - **Replacement** destroys the clone the old recording made: name the role and its voice,
       explain, and have the person confirm (the replacement line of step 5); then
       `sample.mjs prep … --force` and `voices.mjs record … --replace`. Never replace a good voice
@@ -268,9 +254,9 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
 14. **Delete, on the person's explicit request only** [15], never on this skill's own initiative.
     It needs no ai-gen. `node $V/voices.mjs delete --project <p> --role <role> --confirm` removes the
     record, the role folder (kept recording, samples, auditions), the job's working copies
-    (`work/<p>/clone*`, `audition*`, `transcript*`, `consent-message*`) and marks the manifest rows
+    (`work/<p>/clone*`, `audition*`, `transcript*`, `recording-message*`) and marks the manifest rows
     `rejected`. Send the "Deletion" message: it cannot be undone, and it names what stays (their
-    own upload; the consent gate files, as the record of what was agreed; the copies
+    own upload; the gate files; the copies
     sent to the provider, which this cannot delete).
 15. **Visible speech** [16] is a later job: make the speech first with the approved voice. Laying
     speech over a video is not lip-sync, and a persona's image does not bring its voice. Lip-sync onto
@@ -282,14 +268,14 @@ Default: minimax; a kit or brief may name another. Known result (media-audio-gen
 and its measured seconds, `rate_wps`, the verdict still owed, and the registry path
 `artifacts/<p>/audio/voices.json`.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (the audition's audio and duration declared, then measured), HR2, HR3, HR4 (the
 params files pin `output_format`, `voice_setting` and every default-on clone field), HR5 (clone and
 audition quoted as one total against the budget), HR6, HR7 (one re-run per audition, with its
 lever; one re-clone per lapse), HR8 (the role folder under `artifacts/<p>/audio/voices/`), HR9
 (each call gets a manifest row), HR10 (the sample is cut and measured locally), HR11 (every sample
-comes from the original), HR12 (stated defaults; the consent question and any spend over budget are
+comes from the original), HR12 (stated defaults; the recording request and any spend over budget are
 gate files in a bot job), HR13 (`sample.mjs`, `voices.mjs`, `mediaqc.mjs`), HR14, HR15, HR16 (a
 text normalisation or rewrite field shown by the schema is pinned in the audition params file), HR17 (Whose
 voice), HR18, HR19, HR21, HR22 (facts rows of media-audio-generation `references/facts.md`) — see
