@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield website-UGC skills (no licence stated), restated and cited, with points from fal, HeyGen and HyperFrames (Apache-2.0)
 compatibility: "marketing-studio 1.0.0 built from sl8-video 1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22 with Playwright on chrome-headless-shell 152; ffmpeg 5.1 with libx264 and libass; python3 3.11 with Pillow and faster-whisper; display-fonts pack (Metropolis); fal endpoints and facts rows as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-10-31b
   house-rules: HR-1.1
   upstream: [higgsfield/ugc-website-lane, higgsfield/retired-ugcwebsitevideo-423991, fal/falaudiogeneration-ba1a03, heygen/retired-videoedit-fe9740, hyperframes/websitetohyperframes-c794ad, higgsfield/websitebuilder-82f65c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF20-a1
   attribution: Method from the SL8 capability assessment (WF20-a1), restated in SL8 wording from Higgsfield's website lane of ugc-video and its retired ugc-website-video skill, with points from fal, HeyGen and HyperFrames (Apache-2.0); scripts written by SL8 from the described behaviour
-  deltas: MKT-D400..MKT-D419, MKT-D544..MKT-D545
+  deltas: MKT-D400..MKT-D419, MKT-D544..MKT-D545, MKT-D548..MKT-D550
 ---
 
 # Creator video about a website
@@ -87,7 +87,10 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
    with the declared output (9:16, 1080x1920, the duration, audio on, H.264) and the budget (HR1).
 4. **Capture the site** [4]. Pick 6-10 section labels from the page's own wording (the hero's brand
    or H1 text first, then dashboard, search, editor, a couple of reviews, pricing and one plan,
-   specs, product views; tabs and accordions are opened by the script), then
+   specs, product views; tabs and accordions are opened by the script). Take them from the page's
+   h1-h4, tab and summary text (read the page source first), each label distinct: a label captures one
+   element, so a repeated heading is captured once (pick another heading for the sixth), and a word
+   inside a card (a plan name) is often not reachable. Then
    `node $K/capture.mjs <url> --outdir work/<p>/capture --sections "<labels>" > work/<p>/capture/capture.jsonl`.
    It uses Playwright's iPhone 13 profile, blocks Google One Tap at the network layer (analytics
    stays unblocked), dismisses consent buttons in two rounds, scrolls in 500 px steps with a pause
@@ -115,7 +118,9 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
    under 3 cards) do not retry, search the web or generate any screen. A brief that already says
    what to do wins: screenshots attached go to `artifacts/<p>/source/` and become the cards as sent
    (`composite.py cards --screens <dir> --out-dir work/<p>/cards`: no mobile reshaping, no 3:4 crop,
-   no hero cut, never cover-cropped); "without the site" goes to talking-head-only. Otherwise open a
+   no hero cut, never cover-cropped); "without the site" goes to talking-head-only. Every capture
+   failure counts, a second page or URL in the same job included; never judge one harmless
+   yourself. Otherwise open a
    spend-kind gate (the default kind, so the job ends `partial`)
    with the `capture-failure-gate` question and three options (screenshots, talking-head-only with its
    quote, stop at 0 credits) before any spend (HR12). Never
@@ -232,7 +237,9 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
     voice, loudness and room tone can change at a join: measure each clip with
     `node $Q loudness <clip> --target -16 --tol 3` and keep the integrated figures; clips more than
     3 LU apart, or a voice you hear change at a join in the frames' audio, are reported in the
-    delivery as a known defect (the clips are never regenerated for it without a gate). Under 3
+    delivery as a known defect (the clips are never regenerated for it without a gate). A clip off
+    the -16 LUFS target is reported the same way: never level or normalise the audio for loudness
+    (the overlay copies it, step 20). Under 3
     usable cards: this spine, copied, is the talking-head-only
     `final/final.mp4`, and steps 18-20 are skipped.
 18. **Card set** [18]. Cards are the stills themselves (step 5) or the customer's screenshots as
