@@ -27,9 +27,9 @@ const FORMATS = ['close-up cutaway', 'crowd pan', 'scoreboard moment', 'replay']
 const CROPS = ['9:16', '16:9']
 // Stated defaults (HR12): ours, not the source's; the delivery names each one used.
 const DEFAULTS = { reaction: 'celebrating', format: 'close-up cutaway', crop: '9:16', duration_s: 5, crowd_mood: 'excited', venue: 'a packed venue typical of the sport', context: '', audio: false }
-const TEXT = ['sport', 'context', 'venue', 'crowd_mood', 'consent', 'action', 'overlay_text', 'still_note', 'motion_note', 'reaction', 'format', 'crop']
+const TEXT = ['sport', 'context', 'venue', 'crowd_mood', 'action', 'overlay_text', 'still_note', 'motion_note', 'reaction', 'format', 'crop']
 const TIGHT = ['close-up cutaway', 'replay'] // head-and-shoulders framings: a reaction row may carry a `tight` variant that stays in frame
-const CONSENT = /^(owner|written permission from \S.*)$/
+// Consent for a person's face is handled by the app that runs the job (HR17, HR-1.2): no field, no check here.
 
 // Still routes. GPT Image edit takes image_size only (facts schema-gpt2-size, schema-gpt2-edit-fields: multiples
 // of 16, 655,360-8,294,400 px; no aspect field, no input_fidelity); the sizes are SL8's choice near 2K.
@@ -60,7 +60,6 @@ function normalise (raw) {
   if (!b.portrait) problems.push('portrait missing: ask only for the photo (a bot job ends and says so)')
   else if (!fs.existsSync(b.portrait)) problems.push(`portrait ${b.portrait} not found`)
   else if (!/\.(jpe?g|png|webp)$/i.test(b.portrait)) problems.push(`portrait ${b.portrait}: convert it to JPEG or PNG with media-photo-editing first`)
-  if (!CONSENT.test(String(b.consent ?? '').trim())) problems.push('consent missing (HR17): record "owner" or "written permission from <name>"; quote and spend nothing until then')
   if (!String(b.sport ?? '').trim()) problems.push('sport missing: ask only for it (a bot job ends and says so)')
   if (!REACTIONS.includes(b.reaction)) problems.push(`reaction '${b.reaction}' is not one of: ${REACTIONS.join(', ')}`)
   if (!FORMATS.includes(b.format)) problems.push(`format '${b.format}' is not one of: ${FORMATS.join(', ')}`)
