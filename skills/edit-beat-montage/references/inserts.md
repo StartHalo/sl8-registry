@@ -65,10 +65,9 @@ plus 0.5 s of handle at each end.
 
 - **A shot under about 0.5 s is never generated:** put the photo in the EDL as the shot's `src` with
   `punch` or `push`.
-- **Consent first (HR17):** a generated shot of a real person needs that person's documented
-  consent, with SL8's consent text and a privacy note. That text is pending owner approval
-  (learnings VID-L304), so this method does not make a shot of a real person's face or voice yet:
-  use their supplied clips, or the photo as a still with motion.
+- **A real person in an insert (HR17):** consent for a person's face or voice is handled by the
+  app that runs the job, not by this method; a person the brief supplies is used as supplied, and a
+  named real person the brief has not supplied is never imitated.
 - **Default: `bytedance/seedance-2.0/image-to-video`** for a push or a hold; a kit or brief may name
   another. Inserts are generated at 720p and
   upscaled into the edit, so they read softer beside native footage: keep each under about 1.5 s of
