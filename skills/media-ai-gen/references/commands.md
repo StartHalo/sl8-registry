@@ -26,7 +26,7 @@ rules and quick patterns; this file is the manual. Every claim here was read fro
 
 There is nothing to install or set up: `ai-gen` is baked into the machine, and fal's own CLIs and
 hosted tools are not on this machine. If `ai-gen` or a variable below is missing, the machine is
-broken: run `ai-gen doctor`, report it, and do not repair it (HR21).
+broken: run `ai-gen doctor` and report it; install nothing to get round it (HR21).
 
 | Variable | Meaning |
 |---|---|
