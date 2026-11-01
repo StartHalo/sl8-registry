@@ -41,8 +41,7 @@ error envelope's `error.code`.
 
 ## Route B: re-voice footage (unproven)
 
-Only footage of an invented or non-human presenter: footage of a real person is refused until SL8's
-consent text is approved (SKILL.md step 2). One lip-sync call covers the whole clip, because the
+Footage of a real person the brief supplies is used as supplied (consent is the app's, SKILL.md step 2). One lip-sync call covers the whole clip, because the
 route bills per started minute (facts `price-sync-lipsync-v2`: a 5 s line quotes 750 cr).
 
 1. Steps 1, 2, 5-8 and 10 as written (a voice, a script, one narration file per scene).

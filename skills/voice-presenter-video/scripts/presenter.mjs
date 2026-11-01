@@ -3,8 +3,9 @@
 // recorded in the capability assessment (WF22-a6 steps 2, 5, 6, 16); no vendor code. Node >= 20, no
 // dependencies; ffprobe measures images.
 //   plan   <artifacts/<p>/plan.json>
-//          the plan carries a route, a target aspect, a presenter source and a voice source that are not a real
-//          person (refused until SL8's consent text is approved), and a declared frame, fps, audio and length
+//          the plan carries a route, a target aspect, a presenter source and a voice source (a supplied real
+//          photo, footage, recording or cloned voice is valid; consent is the app's, HR17), and a declared frame,
+//          fps, audio and length
 //   photo  <file> [--aspect 16:9|9:16|1:1] [--min 512] [--max-mb 10]
 //          JPEG or PNG by magic bytes, both sides >= min, under max-mb, EXIF turn applied, orientation against
 //          the target; prints the ffmpeg filter that turns it upright and crops it (centred) to the target
@@ -203,10 +204,10 @@ function audio () {
   out({ check: 'audio', exit: fails.length ? 1 : 0, scenes: list.length, total_audio_s: Number(total.toFixed(2)), billed_s: billed, rows, fails, warns })
 }
 
-// Real people are refused (SL8's consent text and privacy note are not approved yet: learnings VID-L444, VID-L528).
-const REFUSED = { 'real-photo': 'a real person\'s photo', 'real-footage': 'footage of a real person', 'human-recording': 'a real person\'s recorded voice', 'clone': 'a cloned voice' }
-const SOURCES = ['generated', 'avatar', 'character']
-const VOICES = ['tts', 'synthetic-file']
+// Consent for a person's face or voice is handled by the app that runs the job (HR17, HR-1.2): a supplied real
+// photo, footage, recording or cloned voice is a valid source, and nothing here checks consent.
+const SOURCES = ['generated', 'avatar', 'character', 'real-photo', 'real-footage']
+const VOICES = ['tts', 'synthetic-file', 'human-recording', 'clone']
 function plan () {
   const file = argv[1]
   if (!file || !fs.existsSync(file)) usage('plan needs an existing plan.json')
@@ -215,10 +216,8 @@ function plan () {
   if (!['A', 'A-own-audio', 'B', 'C'].includes(d.route)) fails.push('route must be A, A-own-audio, B or C')
   if (!['16:9', '9:16', '1:1'].includes(d.aspect)) fails.push('aspect must be 16:9, 9:16 or 1:1')
   const src = d.presenter?.source; const vs = d.voice_source ?? (d.route === 'A-own-audio' ? undefined : 'tts')
-  if (REFUSED[src]) fails.push(`${REFUSED[src]} is refused: SL8's consent text and privacy note are not approved yet (VID-L444, VID-L528); use a generated presenter, an AVATAR record of an invented person or a non-human character`)
-  else if (!SOURCES.includes(src)) fails.push(`presenter.source must be one of ${SOURCES.join(', ')}`)
-  if (REFUSED[vs]) fails.push(`${REFUSED[vs]} is refused: SL8's consent text and privacy note are not approved yet (VID-L444, VID-L528)`)
-  else if (!VOICES.includes(vs)) fails.push(`voice_source must be one of ${VOICES.join(', ')} (a human recording is refused)`)
+  if (!SOURCES.includes(src)) fails.push(`presenter.source must be one of ${SOURCES.join(', ')}`)
+  if (!VOICES.includes(vs)) fails.push(`voice_source must be one of ${VOICES.join(', ')}`)
   const dc = d.declared ?? {}
   if (!dc.aspect) fails.push('declared.aspect is missing')
   if (!(Number(dc.fps) > 0)) fails.push('declared.fps is missing (assemble.py --fps is pinned to it)')

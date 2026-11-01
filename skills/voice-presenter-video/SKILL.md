@@ -12,16 +12,16 @@ description: >-
   explainer with B-roll and motion graphics (media-video-production); captions on an existing video
   (edit-captions); dubbing into another language (voice-dub); measuring files (media-qc).
 license: SL8 wording and SL8-authored scripts; method from HeyGen's legacy avatar-video skill (heygen-com/skills-legacy, outside the copyable surface), restated and cited; points from fal (used with attribution), Creative Claw (Apache-2.0), HyperFrames (Apache-2.0), HeyGen heygen-com/skills (MIT) and Higgsfield (no licence stated), restated and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; python3 3.11; ffmpeg and ffprobe 5.1; hyperframes-suite 1.3.0 (hyperframes-core, hyperframes-cli); siblings voice-avatar-identity, edit-captions, media-audio-generation and media-video-generation ship in the same Video 1.5.0 bundle; fal endpoints as of 2026-10-27"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; node 22; python3 3.11; ffmpeg and ffprobe 5.1; hyperframes-suite 1.3.0 (hyperframes-core, hyperframes-cli); siblings voice-avatar-identity, edit-captions, media-audio-generation and media-video-generation ship in the same Video 1.5.0 bundle; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [heygen/retired-avatarvideo-8ce216, fal/falaudiogeneration-ba1a03, creative-claw/cc-voice-references, fal/falvideoproduction-09f33d, creative-claw/cc-model-contracts-speech, creative-claw/creativeclawgeneratevoiceover-4c393d, hyperframes/websitetohyperframes-c794ad, heygen/heygenvideo-46dbf1, fal/ugc-3c015f, creative-claw/creativeclawbuildfilm-53a16d, hyperframes/mediause-ec397d, higgsfield/videomontage-f65c69]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF22-a6
   attribution: Method from the SL8 capability assessment (WF22-a6), restated from HeyGen's legacy avatar-video skill, with points from fal agent skills (used with attribution), Creative Claw (Apache-2.0), HyperFrames (Apache-2.0), HeyGen heygen-video (MIT) and Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: VID-D520..VID-D539, VID-D609..VID-D611
+  deltas: VID-D520..VID-D539, VID-D609..VID-D611, VID-D748, VID-D766
 ---
 
 # Presenter video from a script
@@ -88,22 +88,23 @@ behind a spend gate: the proxy returns no price for it (exit 12), so no call to 
    the longest audio a talking-head call takes if the schema or `info` states one (VID-L524).
    **Write `artifacts/<p>/plan.json`** before any paid call (HR1): `route` (`A`, `A-own-audio`, `B`,
    `C`), `aspect`, `platform`, `models`, `presenter` (`source`: `generated`, `avatar` or `character`),
-   `voice`, `voice_source` (`tts` or `synthetic-file`), `scene_max_s` and `declared`
+   `voice`, `voice_source` (`tts`, `synthetic-file`, `human-recording` or `clone`), `scene_max_s` and `declared`
    (`{"aspect":"<target>","fps":25,"audio":"required","duration_s":<script estimate>}`: fps 25 is
    the Default the join is pinned to, a kit or brief may name another). Then
    `node $V/presenter.mjs plan artifacts/<p>/plan.json` must exit 0.
-   **Consent** (HR17): a real person's face or voice (a photo or footage of a person, a human
-   recording, a cloned voice) is refused until SL8's consent text and privacy note are approved
-   (VID-L444, VID-L528; not offered on this machine yet). `plan` exits 1 for such a source: quote and
-   spend nothing for it, say why in one line, and offer the description route (a generated
-   presenter) or a non-human character. An invented person or an AVATAR record of one is fine.
+   **Consent** (HR17): handled by the app that runs the job, not by this skill. A real person's face
+   or voice the brief supplies (`presenter.source` `real-photo` or `real-footage`, `voice_source`
+   `human-recording` or `clone`) is used as supplied; a named real person the brief has not supplied
+   is never imitated. A cloned voice is made by voice-clone-setup from a sample the brief supplies and
+   read from the registry's presenter role (step 5).
 3. **Presenter image** [2]. In this order:
    - **AVATAR record** (`artifacts/avatars/AVATAR-<NAME>.md`, or the path the brief gives): use the
      look matching the target aspect, else its base portrait, and its voice entry (step 5), after
      `node $HOME/.agents/skills/voice-avatar-identity/scripts/avatar.mjs record <file>` exits 0. It
      was approved when it was made, so step 4 is satisfied unless the brief asks to see it again.
-   - **Character image** (a mascot, an illustrated or rendered figure the customer owns; never a
-     photo of a real person, step 2): `node $V/presenter.mjs photo <file> --aspect <target>`; then
+   - **Character image or supplied photo** (a mascot, an illustrated or rendered figure the customer
+     owns, or a real person's photo the brief supplies, `presenter.source` `real-photo`):
+     `node $V/presenter.mjs photo <file> --aspect <target>`; then
      look at it yourself (one clear front-facing face, even light, neutral expression, plain
      background). A failed check is told to the customer with the fix (a larger, front-facing,
      well-lit image; a HEIC file goes through media-photo-editing first). An image of another shape
@@ -274,7 +275,7 @@ behind a spend gate: the proxy returns no price for it (exit 12), so no call to 
   not offered on this machine yet. The local alternative is this skill's fal routes, ffmpeg keying and
   `presenter.mjs fill`.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (plan.json declares frame, fps, audio and length; media-qc measures), HR2, HR3, HR4
 (portrait `resolution`, `aspect_ratio`, `num_images`; fabric `resolution`; TTS `voice` and `speed`),
@@ -283,7 +284,7 @@ retry per scene with a named lever), HR8, HR9, HR10 (keying, joining, loudness, 
 are local; text is never generated into the picture), HR11 (every scene animates the approved
 portrait, never a render of a render), HR12 (stated defaults, gate files, no question tool), HR13
 (`presenter.mjs`, `assemble.py`), HR14 (lip sync and identity are reported, judged by the owner),
-HR15, HR16 (the delivery prompt only on aurora), HR17 (a real face or voice is refused until SL8's
-consent text is approved; generated presenters are invented), HR18 (the customer's words as
+HR15, HR16 (the delivery prompt only on aurora), HR17 (consent is the app's; a supplied face or
+voice is used as supplied; generated presenters are invented), HR18 (the customer's words as
 written), HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
 Not applicable: none.
