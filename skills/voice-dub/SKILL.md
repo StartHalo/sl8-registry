@@ -3,9 +3,9 @@ name: voice-dub
 description: >-
   Dubs a customer's finished video into other languages with the same presenter: their voice
   carried over, lips optionally re-synced, captions burned or as SRT, or an audio-only track.
-  HeyGen's translate decision layer (discovery, consent, triage, five content profiles, proofread
+  HeyGen's translate decision layer (discovery, triage, five content profiles, proofread
   choice, one delivery line per language) over fal ElevenLabs dubbing and sync-lipsync through
-  ai-gen, with a subtitle-review route (Scribe v2, reviewed translation, a voice per cue).
+  ai-gen, with a subtitle-review route (Scribe v2, reviewed translation, per cue a clone when the customer asks to keep their voice, else a stock voice).
   Use when: dub or translate this video, make it in Spanish and French, localise a talking head,
   interview or podcast, re-sync lips to a translated track the customer supplies. NOT for: a new
   video in another language from a script (voice-presenter-video); cloning a voice on its own
@@ -13,16 +13,16 @@ description: >-
   transcript alone (media-audio-generation); captions without translation (edit-captions); measuring
   files (media-qc).
 license: SL8 wording and SL8-authored scripts; decision layer, locale tables and customer messages adapted from HeyGen heygen-translate (MIT, heygen-com/skills); fal audio points used with attribution; HeyGen legacy and CLI schema points restated and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-audio-generation (Video 1.5.0); ffmpeg and ffprobe 5.1; python3 3.11 with opencv; yt-dlp (Video 1.5.0, new); fonts-noto; fal endpoints as of 2026-10-27"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; media-audio-generation (Video 1.5.0); ffmpeg and ffprobe 5.1; python3 3.11 with opencv; yt-dlp (Video 1.5.0, new); fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.3
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [heygen/heygentranslate-6301ed, heygen/retired-videotranslate-579d98, heygen/heygen-cli-request-schemas-video-translate, fal/falaudiogeneration-ba1a03, fal/ugc-3c015f]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF23-a1
   attribution: Method from the SL8 capability assessment (WF23-a1) after HeyGen's heygen-translate 3.2.0 (MIT, heygen-com/skills), whose decision layer, locale guide and customer messages are adapted; its legacy video-translate and the heygen CLI request schemas restated as contracts; points from fal audio generation and UGC (fal agent skills, used with attribution); scripts written by SL8
-  deltas: VID-D480..VID-D499, VID-D606..VID-D607
+  deltas: VID-D480..VID-D499, VID-D606..VID-D607, VID-D637..VID-D638, VID-D747, VID-D768
 ---
 
 # Dub a video into another language
@@ -40,42 +40,28 @@ S=$HOME/.agents/skills/media-ai-gen/scripts
 Q=$HOME/.agents/skills/media-qc/scripts/mediaqc.mjs
 ```
 
-Load **media-ai-gen** (commands, manifest, gates) and **media-audio-generation** (consent forms,
-voice registry, Scribe and TTS fields) with the Skill tool before step 2. Every model and route below
+Load **media-ai-gen** (commands, manifest, gates) and **media-audio-generation** (voice registry, Scribe and TTS fields) with the Skill tool before step 2. Every model and route below
 is a default: a kit or brief may name another.
 
 **Routes** (pick in step 9; P/B are the assessment's path ids):
 - **Standard** (proofread off): dub per language → lip re-sync or keep the picture → mux. P1, P2.
 - **Audio-only**: dub the audio → MP3. P3.
 - **Proofread**: transcript → reviewed SRT → a voice per cue → track → lip re-sync or keep the
-  picture → mux. P4 (cloned voice), P5 (stock voice), P6 (no re-sync, sidecar SRT). Needs a
+  picture → mux. P4 (cloned voice, when the customer asks to keep their voice), P5 (stock voice,
+  otherwise), P6 (no re-sync, sidecar SRT). Needs a
   reviewer who reads the target (step 18); with none it ends `partial` at a gate.
 - **Own dub track**: the customer's translated audio, lip re-sync only. P7.
 
-## Phase 1: route, consent, discovery
+## Phase 1: route, discovery
 
 1. **Route.** Run only when a finished video **with speech** exists and the customer wants it in
    another language. Not this skill (say so in one line; never load another workflow): a new video
    in another language from a script, avatar creation, TTS-only, text-only translation, a silent or
    animation-only source (it fails at the audio step). Check the audio stream:
    `ffprobe -v error -show_streams -select_streams a <source>` (no stream: stop).
-2. **Consent gate.** Dubbing carries the speaker's voice into the new language, and lip re-sync
-   changes their face: before step 11, record consent for **every person who speaks or appears** in
-   `artifacts/<p>/consent.json`: `{"speakers":[{"name":"<name>","consent":"owner"}, …]}`, one entry per
-   speaker, each in exactly one of the two forms media-audio-generation admits: `"owner"` or
-   `"written permission from <name>"`. Parody, internal-only or "only a test" framing is not consent;
-   a legal assurance is neither form; a named real person the customer neither is nor holds
-   permission for is refused (HR17). The gate is a script: once the speaker count is known (step 3),
-   `python3 $D/consent.py artifacts/<p>/consent.json --speakers <n>` must print `CONSENT OK` (exit 3
-   blocks); its printout is the step's artefact and its first line opens steps 4 and 11. **An empty
-   or failing consent blocks steps 4-21.** With no consent, deliver nothing paid: say what is needed
-   (consent text in [messages.md](references/messages.md)). Step 19 writes the cloned voice into
-   media-audio-generation's voice registry with the same `consent` value, which is the record that
-   skill reads (it blocks a cloned voice with consent null). **A real person's voice or face is
-   refused until SL8's consent text and privacy note are approved** (owner decision pending,
-   learnings VID-L499): say so in one line and stop; the two recorded forms are necessary, not
-   sufficient. Whether a stock-voice dub without re-sync may run without consent is also pending
-   (VID-L484); until then it does not.
+2. **Consent** (HR17, HR-1.2): handled by the app that runs the job, not by this skill. The
+   speakers in the source are dubbed as supplied; a named real person the brief has not supplied is
+   never imitated, and no voice is chosen for its resemblance to anyone.
 3. **Discovery** (the only phase that asks; phases 2 and 3 are silent). Take everything the brief,
    kit or message already gives. Required: the source (a link or a file) and the target language(s),
    asked as an open question, no picker. Important, with defaults: speaker count (default 1 for one
@@ -87,10 +73,10 @@ is a default: a kit or brief may name another.
      customer's language ([messages.md](references/messages.md)) and end the turn. In a job with no
      one to answer, defaults stand and the delivery names them; the inputs the method never
      defaults (source, target language, the speaker count of multi-person content, a bare
-     "Portuguese", consent) stop the job **before any spend**:
+     "Portuguese") stop the job **before any spend**:
      `node $S/gate.mjs open --project <p> --slug dub-inputs --question "<what is missing>" --options '[{"id":"provide","label":"Provide the missing input"},{"id":"stop","label":"Stop here"}]' --resume-at "step 3"`
      and end `partial` (owner decision pending, learnings VID-L483).
-4. **Quote, test clip.** Credits only (about 250 credits = $1). Run the consent check first (step 2).
+4. **Quote, test clip.** Credits only (about 250 credits = $1).
    Recorded figures: dubbing 150 credits per **started** minute per language (media-audio-generation
    facts, 2026-10-05); `fal-ai/sync-lipsync/v2` about 750 credits per started minute (proxy estimate,
    media-video-generation facts, 2026-10-16); Scribe v2 2 credits a minute (+30% with keyterms);
@@ -184,7 +170,7 @@ then `node $S/manifest.mjs verify --project <p>`):
 `node $S/manifest.mjs add --project <p> --result artifacts/<p>/clips_<lang>/result.json --params work/<p>/dub_<lang>.params.json --json '{"item":"dub_<lang>","node":"clips_<lang>","declared":{"duration_s":<d>,"audio":true},"credits":{"estimate":<q>}}'`.
 `declared` per route: dubbing, the source duration in flags.json (step 8 writes `duration_s` there)
 and audio yes (add `"width"`, `"height"` when a video returns); lip re-sync, the dub's duration and
-the source width and height; a cue or the clone, `"audio":true` and the cue's expected seconds.
+the source width and height; a stock-voice cue, `"audio":true` and the cue's expected seconds.
 
 10. **Speech isolation** (music or noise only; on a clean take it thins the voice):
     from `work/<p>/source.mp3` (step 6),
@@ -278,14 +264,15 @@ the source width and height; a cue or the clone, `"audio":true` and the cue's ex
     (a name, a number, "OK", a kept glossary term) is a warning to read, not an edit to make. For
     ja, ko, zh and th the glossary matches without word boundaries. In a job with no one to review: open a gate with the SRT and end `partial` (learnings
     VID-L483).
-19. **A voice per cue.** Cloned voice (default when consent is recorded): a clean sample of 10 s or
-    more per speaker cut from the source audio (from the isolated audio only when the source is
-    noisy), `ai-gen run fal-ai/minimax/voice-clone --audio-file work/<p>/spk1.wav --queue --strict-params --max-cost <q> -o artifacts/<p>/voices/ --format json`
-    → `custom_voice_id`. Store the sample and the consent with it, not only the id, and add the voice to
-    media-audio-generation's voice registry with the same `consent` value as consent.json: an id
-    unused for 7 days is deleted, so a re-run clones again. Per cue (or per sentence group),
+19. **A voice per cue.** Default from the method: the cloned voice (P4) when the customer asks to
+    keep their voice, otherwise the stock voice (P5); the quote of step 4 comes first either way.
+    Cloned voice: a clean sample of 10 s or more per speaker cut from the source audio (from the isolated audio only when the source is
+    noisy),
+    `ai-gen run fal-ai/minimax/voice-clone --audio-file work/<p>/spk1.wav --queue --strict-params --max-cost <q> -o artifacts/<p>/voices/ --format json`
+    → `custom_voice_id`, stored with its sample in media-audio-generation's voice registry (an id
+    unused for 7 days is deleted, so a re-run clones again), then per cue
     `{"prompt":"<cue text>","voice_setting":{"voice_id":"<custom_voice_id>"},"output_format":"url"}` to
-    `ai-gen run fal-ai/minimax/speech-2.8-hd --params-file … --queue --strict-params --max-cost <q> -o artifacts/<p>/clips_<lang>/cues/ --format json`,
+    `ai-gen run fal-ai/minimax/speech-2.8-hd --params-file … --queue --strict-params --max-cost <q> -o artifacts/<p>/clips_<lang>/cues/ --format json`. Each cue is
     renamed to `cue_NNN.mp3` (NNN = the SRT cue number). Stock voice: `fal-ai/elevenlabs/tts/multilingual-v2`
     with `{"text":"<cue>","voice":"<preset>","language_code":"<639-1>","apply_text_normalization":"on"}`
     (always MP3), one preset per speaker from media-audio-generation's registry, never chosen for
@@ -346,7 +333,7 @@ the source width and height; a cue or the clone, `"audio":true` and the cue's ex
     | QC fails for a language | hold that language, deliver the others, name the debt (HR15) |
     | gateway or model error | `ai-gen doctor`, `ffprobe` the source, report the model's message as provider-side |
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (duration, size and streams declared in flags.json and measured), HR2 and HR4 (every
 field set is checked against `ai-gen info` and pinned), HR3, HR5 (every paid call quoted, the
@@ -354,8 +341,8 @@ fan-out summed against the budget), HR6 (no resubmission; no cancel exists), HR7
 language, then audio-only or the original picture), HR8, HR9, HR10 (captions burned in the final
 encode), HR11 (re-sync and mux always from the original footage), HR12 (no question tool; defaults
 stated; spend past the budget is a gate), HR13 (triage, SRT checks and track fitting are scripts),
-HR14 (no PASS on lip-sync or voice), HR15, HR17 (consent before any voice is carried or lips
-re-synced), HR18 (the translation adds no claims), HR19, HR20, HR21 (no installs), HR22 (prices
+HR14 (no PASS on lip-sync or voice), HR15, HR17 (consent is the app's; no named real person
+the brief did not supply), HR18 (the translation adds no claims), HR19, HR20, HR21 (the baked stack first), HR22 (prices
 and fields from the facts files and live `ai-gen`) — see media-ai-gen/references/house-rules.md.
 Not applicable: HR16 (no prompt is rewritten by these routes).
 Departs by method from HR12 (owner decision pending, learnings VID-L483): the inputs the method never
