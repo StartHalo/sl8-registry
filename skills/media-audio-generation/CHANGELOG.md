@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.1.2] — 2026-11-01
+### Added
+- Release media-audio-generation v1.1.2.
+
 ## [v1.1.1] — 2026-11-01
 ### Added
 - Release media-audio-generation v1.1.1.
