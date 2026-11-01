@@ -15,13 +15,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no model is called); python-imaging 1.0.0 (Pillow 11.2.1, numpy); ffmpeg and ffprobe; fonts pack 1.1.0 (DejaVu, Inter, Outfit, Fraunces, Anton, Space Grotesk, Comic Neue; fontconfig)"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-21a
-  house-rules: HR-1.0
+  version: 1.1.2
+  revision: 2026-10-31b
+  house-rules: HR-1.1
   upstream: fal-agent/fal-motion-graphics  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D80..VID-D89, VID-D164..VID-D167
+  deltas: VID-D80..VID-D89, VID-D164..VID-D167, VID-D631..VID-D632, VID-D757
 ---
 # Motion Graphics
 
@@ -101,8 +101,8 @@ ladder, in order, with the choice printed:
    `artifacts/<project>/source/`. Use it for everything.
 2. **A real grotesque from the machine's fonts pack.** Inter, then Space
    Grotesk, then Outfit (Anton is a condensed display face, for a title-only
-   treatment). Resolve the file with `fc-match -f '%{file}' 'Inter'`; never fetch
-   or install a font (HR21). These are variable fonts, one file per family: load
+   treatment). Resolve the file with `fc-match -f '%{file}' 'Inter'`; the machine's
+   fonts come first (HR21). These are variable fonts, one file per family: load
    it with `ImageFont.truetype`, then take a Bold or SemiBold weight for titles
    with `font.set_variation_by_name('Bold')` (`font.get_variation_names()` lists
    the names), Regular for eyebrows.
@@ -274,6 +274,7 @@ fresh improvisation. Position anchors are after safe-area insets (Step 1.5).
 | CTA banner | centred, 65% of frame height — never in the bottom chrome | one line | solid bar | `fade-rise`, holds to the cut's end |
 | End card | near-empty field, title low and centred, eyebrow above, logo with the brand's clearspace | eyebrow + title + logo | solid field in brand colour or footage still with scrim | `scale-settle` |
 | Caption block | centred, 55% of frame height on 9:16 | one level, title × 0.6, max 4 words a line | none — stroke + shadow carry it | `word-pop` |
+| Feature screen | a phone (9:19.5) or laptop (16:10) screen graphic drawn at the screen's pixel size, then scaled to the full frame with a 2 px transparent border, mapped onto the screen's four corners with `perspective=...:sense=destination` and `overlay`ed, inside the cut's one encode: `[1:v]format=rgba,scale=W-4:H-4,pad=W:H:2:2:color=0x00000000,perspective=x0=..:y0=..:x1=..:y1=..:x2=..:y2=..:x3=..:y3=..:sense=destination[s];[0:v][s]overlay=format=auto` (corners top-left, top-right, bottom-left, bottom-right; tested 2026-10-31) | the feature's own words from the brief + one element (a booked-slot card, a coach's name card) | brand colour field, the brand's type, white panels | `fade-rise` inside the screen; animated product UI is Motion Studio's (HyperFrames) |
 
 ## Step 6 — Checks, printed
 
@@ -346,7 +347,7 @@ Each states the action it takes on its own, with no answer required.
   or type in the bottom chrome zone, do it their way and note the cost in one
   line — this document is leverage, not law.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (4a probes the cut and every frame count derives from it), HR8 (frames and stems
 under `artifacts/<project>/`), HR10 (type and logos never pass through a model; every overlay in one
