@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield website-UGC skills (no licence stated), restated and cited, with points from fal, HeyGen and HyperFrames (Apache-2.0)
 compatibility: "marketing-studio 1.0.0 built from sl8-video 1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22 with Playwright on chrome-headless-shell 152; ffmpeg 5.1 with libx264 and libass; python3 3.11 with Pillow and faster-whisper; display-fonts pack (Metropolis); fal endpoints and facts rows as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [higgsfield/ugc-website-lane, higgsfield/retired-ugcwebsitevideo-423991, fal/falaudiogeneration-ba1a03, heygen/retired-videoedit-fe9740, hyperframes/websitetohyperframes-c794ad, higgsfield/websitebuilder-82f65c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF20-a1
   attribution: Method from the SL8 capability assessment (WF20-a1), restated in SL8 wording from Higgsfield's website lane of ugc-video and its retired ugc-website-video skill, with points from fal, HeyGen and HyperFrames (Apache-2.0); scripts written by SL8 from the described behaviour
-  deltas: MKT-D400..MKT-D419
+  deltas: MKT-D400..MKT-D419, MKT-D544..MKT-D545
 ---
 
 # Creator video about a website
@@ -58,8 +58,8 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
    field you set (media-ai-gen `references/commands.md`, HR2),
    `ffmpeg -hide_banner -filters | grep -E ' ass '`, `fc-list : family style | grep -i metropolis` (use the ExtraBold
    family name if one is listed, else the family you see, as the `--font` value in step 21; the style
-   is Bold-flagged, so a family without a heavy face is drawn by libass at its nearest weight: say so). A missing tool is a broken machine: report it, never
-   install (HR21). A default model that `ai-gen info` does not list is an unavailable route: say so;
+   is Bold-flagged, so a family without a heavy face is drawn by libass at its nearest weight: say so). A missing tool is a broken machine: report it (the
+   baked stack first, HR21). A default model that `ai-gen info` does not list is an unavailable route: say so;
    never swap in another model on your own (a kit or brief may name one).
 2. **Intake** [2]. Collect: the URL (required), the duration, the wanted gender and look of the
    creator (a photo of a real person is refused: step 8), a scene or location wish, the site's type (software, service, store, marketplace,
@@ -293,7 +293,7 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
     could not be captured. Do not mention models, request ids, internal steps or scratch files to the
     customer (they stay in the manifest). Nothing is published; the customer posts the file.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (plan.json declares 9:16 1080x1920, duration and audio; every file is measured),
 HR2, HR3 (gpt-image-2 sizes by `image_size`; an unknown field is dropped), HR4 (`generate_audio`,
