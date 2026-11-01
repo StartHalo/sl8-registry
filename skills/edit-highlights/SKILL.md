@@ -16,14 +16,14 @@ description: >-
 license: Apache-2.0 for the wording kept from Creative Claw create-reels 5.4.2 (Creative Claw Co.), shown in quotation marks; SL8 wording and SL8-authored scripts elsewhere; points from Everygen (no licence stated) and VideoZero guides restated and cited
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with libass, libx264, aac and libmp3lame; python3 3.11 (standard library only); fonts-noto pack; scribe-v2 facts as of 2026-10-05; siblings edit-captions, edit-cut-reframe, edit-beat-montage and voice-dub ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: [creative-claw/creativeclawcreatereels-b6e06c, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, everygen/ryurefreshedsource-5dc49d, hyperframes/mediause-ec397d, videozero/videozeroeditorialguiderouter-041880]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF25-a1
   attribution: Method from the SL8 capability assessment (WF25-a1), adapted from Creative Claw's create-reels skill (Apache-2.0, wording changed for this machine) with points from fal, Everygen, HyperFrames (Apache-2.0) and VideoZero; scripts written by SL8 from the recorded cut contract
-  deltas: VID-D360..VID-D379, VID-D604..VID-D605
+  deltas: VID-D360..VID-D379, VID-D604..VID-D605, VID-D627..VID-D630
 ---
 
 # Highlight clips
@@ -58,7 +58,7 @@ Checklist and recovery table: [references/review.md](references/review.md).
 
 1. **Preflight.** Before touching the source: `python3 $H/cut_reel.py --preflight`, `ai-gen doctor`,
    `ai-gen balance`. A missing piece stops the job with this message, naming it; never substitute
-   another method silently, never install (HR21):
+   another method silently; the baked stack comes first (HR21):
    > Preflight failed: <tool> is not available on this Studio machine (needed: ffmpeg, ffprobe,
    > ai-gen with SL8 credentials). I cannot cut the clips without it, so I stopped before touching
    > the source. Ask for a Studio release that includes it, or run this on a machine that has it.
@@ -303,7 +303,7 @@ Checklist and recovery table: [references/review.md](references/review.md).
   alternative: this method with pad framing and pauses kept (VID-L363).
 - Chunked transcription (step 6), page-link sources (step 5), styled captions (step 15).
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (the brief declares size, fps, duration and audio; the report measures them), HR2
 (`language_code`, `diarize`, `tag_audio_events` and `keyterms` checked with `ai-gen info` and the
@@ -314,7 +314,7 @@ caption is local; captions burned last in one encode), HR11 (every render starts
 HR12 (stated defaults, approval and over-budget spend as gate files, no question tool), HR13 (the
 spec check, word check and report are scripts), HR14 (figures and observations, never pass), HR15
 (a hand-off names unresolved defects and unchecked items), HR18 (no virality claim; no splice that
-makes someone say what they did not), HR19, HR20, HR21 (no installs), HR22 (scribe-v2 schema and
+makes someone say what they did not), HR19, HR20, HR21 (the baked stack first), HR22 (scribe-v2 schema and
 price from media-audio-generation's facts rows) — see media-ai-gen/references/house-rules.md.
 Not applicable: HR16 (no prompt goes to a generative model), HR17 (no likeness or voice is made;
 the customer's own footage is cut as supplied).
