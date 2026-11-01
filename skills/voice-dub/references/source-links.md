@@ -23,8 +23,8 @@ total after `Content-Range: bytes 0-0/`.
 - A presigned link must stay valid until the download ends.
 
 ## Platform links
-YouTube or Vimeo: `yt-dlp -o 'work/<p>/source.%(ext)s' "<url>"`. The consent gate still applies to
-whoever appears in it.
+YouTube or Vimeo: `yt-dlp -o 'work/<p>/source.%(ext)s' "<url>"`. Consent for whoever appears in it is
+handled by the app (HR17).
 
 ## Probe and size
 `ffprobe -v error -show_entries stream=codec_type,width,height,bit_rate:format=duration,bit_rate -of json work/<p>/source.mp4 > work/<p>/source.probe.json`

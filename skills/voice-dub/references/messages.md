@@ -32,8 +32,6 @@ never paste request ids, JSON or model names into a reply.
 - *"Any product names, company names, or jargon I should keep in the original language?"*
 - *"Want to review and edit the subtitles before the final render? It adds a review round but lets
   you fix any wrong terms."*
-- Consent: *"Before I copy anyone's voice or re-sync their lips: is every person who speaks or
-  appears you, or do you have their written permission? Tell me which, and whose."*
 
 **Cost quote (batches, and any job over the budget):** *"That's [N] languages × [M] minutes =
 ~[N×M] minutes of dubbing, about [credits] credits [with lip re-sync / audio only]. Sound good?"* Quote
