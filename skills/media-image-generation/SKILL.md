@@ -15,9 +15,9 @@ description: >-
 license: MIT (fal-ai-community/skills README) for the fal-community parts; the fal-agent parts adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.0.0 (Base 2.0.2); ai-gen 2.2.0; python-imaging 1.0.0; media-qc 1.0.0; fal endpoints and list prices as of 2026-10-05"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-20a
-  house-rules: HR-1.0
+  version: 1.2.1
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: [fal-community/model-routing, fal-community/fal-models-catalog, fal-community/fal-prompting, fal-community/fal-recipes, fal-community/commercial, fal-community/marketing, fal-community/genmedia, fal-agent/fal-video-generation, fal-agent/fal-motion-graphics, fal-agent/cinematography, fal-agent/photo-editing, fal-agent/character-sheet, fal-agent/fal-gamedev]  # genmedia, video-generation, motion-graphics: structure and rules only, no command or router copied
   upstream-pin: fal-community 9ca850412943251fc9a466c4c29fdaf7a303a3d8 (2026-05-13); fal-agent export 2026-10-05
   attribution: Adapted from fal-ai-community/skills (MIT) and fal (fal.ai/agent/skills export 2026-10-05)
@@ -111,7 +111,7 @@ paid call (HR1), state each default you chose in the delivery note, and ask noth
 | Genre and era (photoreal) | "2024 flagship phone for candid genres and 2024 mirrorless for editorial, studio, food, nature, and architectural genres" |
 | Light | one named source with a direction: "Direction matters more than intensity" |
 | Text in image | none; a named empty safe area when copy follows (HR10) |
-| Identity | a generic person; a real person only with documented consent (HR17) |
+| Identity | a generic person unless the brief supplies a real one; consent is handled outside the skills (HR17) |
 | Model | the routing table; a model the user names wins (HR20) |
 | Format | `png`; `jpeg` "for shipped social" |
 
@@ -136,7 +136,7 @@ alternates per row are in [picks.md](references/picks.md). Fallbacks are named, 
 | Intent | Primary | Fallback | Why the primary wins |
 |---|---|---|---|
 | Photoreal still (no reference person) | `fal-ai/nano-banana-pro` | `openai/gpt-image-2` (`quality=high`) | SL8's incumbent for stills; 37.5 cr against 52.75; gpt-image-2 when a texture cue or in-frame detail misses |
-| The same real person from a reference photo | `openai/gpt-image-2/edit` | `fal-ai/nano-banana-pro/edit` | First on SL8 for identity-preserving headshots, where NBP scored 0/4 twice; consent first (HR17) |
+| The same real person from a reference photo | `openai/gpt-image-2/edit` | `fal-ai/nano-banana-pro/edit` | First on SL8 for identity-preserving headshots, where NBP scored 0/4 twice; consent is handled outside the skills (HR17) |
 | Stylized, illustration, anime, concept art | `fal-ai/nano-banana-pro` | `openai/gpt-image-2` | SL8 incumbent (characters 9/10); a cross-family fallback covers a style NBP will not hold |
 | Lettering is part of the art (stylized type, signage in a scene) | `fal-ai/nano-banana-pro` | `openai/gpt-image-2` (`quality=high`) | 9.5/10 on simple text cards on SL8; exact copy is never this row (HR10) |
 | Vector illustration or icon (SVG; not an existing brand mark) | `fal-ai/recraft/v4.1/text-to-vector` | `fal-ai/recraft/v4/pro/text-to-vector` | SL8's pick for SVG and palette-locked graphics; `colors[]` fixes the palette |
@@ -160,7 +160,8 @@ table: what the frame must survive as.
   the Bria cutout and local composite was pixel-faithful (T3 #21, BOT-022).
 - **Removal:** known result: Nano Banana Pro edit is "WEAK at removal (smears/hallucinates)" on SL8 (T3 #22).
   **Text:** known result: FLUX and Seedream were banned for any text on SL8 (T3 §3, BOT-025 text-routing.md:5-6).
-- **A real person's likeness** needs documented consent before any route (HR17).
+- **A real person's likeness** the brief supplies goes to the same-person row; consent is handled
+  outside the skills (HR17), so no step here refuses or gates on it.
 - **Moderation exposure.** Nano Banana exposes `safety_tolerance` (a string `"1"`–`"6"`, default
   `"4"`), a lever; gpt-image-2, FLUX, Seedream and Recraft only `enable_safety_checker` (gpt-image-2:
   default true and not a lever, so pin it `true`, beside `sync_mode: false`, HR4). A refusal on a route with
@@ -320,7 +321,7 @@ generation to a reference or edit workflow before retrying." If a result still f
 
 Revision 2026-10-05a · picks and prices as of 2026-10-05 · re-verify per [facts.md](references/facts.md).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1, HR2, HR3, HR4, HR5, HR6, HR7, HR8, HR9, HR10, HR11, HR12, HR13, HR14, HR15, HR16,
 HR17, HR18, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
