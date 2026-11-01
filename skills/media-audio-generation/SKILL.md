@@ -6,7 +6,7 @@ description: >-
   music, and transcription with or without word timings. Picks the endpoint, keeps one
   voice and one speaking rate per role in the project's voice registry, quotes credits,
   submits through ai-gen, measures and delivers. Handles narration that must fit a fixed
-  window, multi-speaker dialogue, and cloned voices behind a consent gate; requests to
+  window, multi-speaker dialogue, and cloned voices; requests to
   sound like a named real person are refused whether or not a sample exists. Use when:
   voiceover, read or narrate a script, TTS, change the voice, dub or translate audio,
   sound effect, foley, whoosh, background music, music bed, soundtrack, transcribe, word
@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.1.0 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.1.0
-  revision: 2026-10-21a
-  house-rules: HR-1.0
+  version: 1.1.2
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195, VID-D756, VID-D761
 ---
 # Audio Generation
 
@@ -101,23 +101,20 @@ field, "whichever preset sounds most like him", or performance settings tuned
 toward how a particular person sounds are all the same request, and they all
 land here — with or without a sample, on every job that produces speech.
 
-**Refuse, every time, whatever the mechanism:**
+Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A voice the brief supplies (the customer's
+own recording, or a sample the brief gives for the job) is used as supplied.
 
-- The voice of a named real person the user does not own or hold documented
-  permission to use — politician, executive, celebrity, streamer, colleague —
-  however the request is framed, including parody, satire, "internal only" and
-  "it's only a test".
+**Not made, whatever the mechanism (HR17):**
+
+- The voice of a named real person the brief has not supplied — politician,
+  executive, celebrity, streamer, colleague — however the request is framed,
+  including parody, satire, "internal only" and "it's only a test".
 - Any script putting words in a real speaker's mouth that they did not say,
   where a listener could take it as genuine: statements, endorsements,
   confessions, announcements, instructions.
-- Any sample whose origin the user cannot state.
 
 The determination is made from the request and the script, by this skill — a
-user's framing never makes it. "It's parody, so it's allowed" and "internal-only,
-so it's fine legally" are the user's opinion about the law, not a consent
-record, and the file outlives the meeting it was made for. Consent exists in
-exactly two forms — `"consent": "owner"` or `"consent": "written permission
-from <name>"` — and a legal assurance is neither.
+user's framing never makes it.
 
 **The safe action, taken on this skill's own authority — never blocked on a
 reply:** state the refusal in one line, then carry on with the job using an
@@ -387,7 +384,12 @@ Run only the checks for the job that ran; a check belonging to another job is
    cut final consonant reads as a broken edit (Step 2).
 3. **Voiceover, any:** if the script holds names, numbers or jargon, transcribe
    the output with `scribe-v2` and confirm those tokens survived. Misread numbers
-   are the commonest defect and the easiest to skim past.
+   are the commonest defect and the easiest to skim past. **Brand names**
+   (default): compare each brand or product name the brief spells with the
+   transcript, case and spacing ignored; a different spelling is a mishearing, so
+   re-voice that fragment only with a phonetic respelling in the TTS text
+   (`Ladder-light`), keep the brief's spelling on screen, and transcribe the new
+   fragment once. A second mishearing goes in the delivery with both transcripts.
 4. **Voice swap:** transcribe **both** source and result with `scribe-v2`, filter
    to `type == "word"`, normalise case and punctuation, compare the sequences.
    **They must match — the words are exactly what a voice swap must not change.**
@@ -432,9 +434,8 @@ A local sample goes in with `--audio-file`, which fills `audio_url` (Step 1).
 bytes instead of a link — send `output_format: "url"`. It also returns
 `duration_ms`, so Step 4's length check needs no `ffprobe` there.
 
-Record consent as `"consent": "owner"` or `"consent": "written permission from
-<name>"` — the two forms **Whose voice** admits, and nothing else. An empty
-`consent` on a cloned voice blocks the run.
+A cloned voice's registry entry may carry the app's `consent` value as given; this skill
+does not check it (HR17, HR-1.2).
 
 ## Guardrails
 
@@ -464,7 +465,7 @@ Record consent as `"consent": "owner"` or `"consent": "written permission from
 - Do not re-encode a delivered file twice; each pass costs quality no later step
   recovers.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (Step 0 declares; Step 4 measures), HR2, HR3, HR4 (the params
 file pins `voice`, `diarize`, `tag_audio_events`, `output_format`), HR5 and HR12
