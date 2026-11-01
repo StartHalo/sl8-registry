@@ -58,7 +58,7 @@
     {
       "slug": "animation-rule",
       "from": "explain-video-generator/explaincompanionkit-8081e1@animation module shape rule",
-      "use": "references/markup-grammar.md animation section (variant B)",
+      "use": "references/markup-grammar.md animation section (variant B; not offered on this machine, Manim is not installed)",
       "prompt": "Real formulas belong on their own slide. Animate only where movement itself teaches the mechanism. The item body is one Python Manim CE file with a single Scene subclass whose construct() builds the scene from play, wait and add calls, using only the shapes, structures and animations the grammar lists. Eight to twenty-five seconds, finishing on a half-second wait; the clip is stretched to its narration at assembly. No MathTex or Tex inside a scene."
     },
     {

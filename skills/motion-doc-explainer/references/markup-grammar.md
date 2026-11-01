@@ -154,6 +154,8 @@ exact content, never repeated by later slides that redraw its parts.
 
 ## Animation (variant B)
 
+**Not offered on this machine:** Manim is not installed, and `preflight.py` fails `type="animation"`. The rules below are kept for the day it is installed.
+
 Only when `config.json` has `"animation": true` and movement itself teaches the mechanism; one or
 two per explainer. The item is `type="animation"` and its CDATA is one Python Manim CE file:
 - one `Scene` subclass whose `construct()` builds the scene with `self.play`, `self.wait` and
@@ -171,9 +173,9 @@ two per explainer. The item is `type="animation"` and its CDATA is one Python Ma
 ## Not offered on this machine yet
 
 - **Diagrams** (`type="diagram"`, Mermaid) and **maths** (`type="math"`, KaTeX): neither library is
-  on this machine, and nothing is installed at run time. Use `ol` for a flow of steps, `cards` for
-  parties or states, a code slide for a data model, a picture for a scene, or (variant B) an
-  animation. `preflight.py` fails both types with this message.
+  on this machine (the baked stack comes first, and no stand-in is downloaded). Use `ol` for a flow of steps, `cards` for
+  parties or states, a code slide for a data model or a picture for a scene. `preflight.py` fails both types with this message.
+- **Animation** (`type="animation"`, variant B, Manim): Manim is not installed; `preflight.py` fails the type. Use a layout or code slide.
 - **Syntax colouring** on code: code renders in one colour with line and span highlights.
 
 ## Frame limits

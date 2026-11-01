@@ -3,7 +3,7 @@ name: motion-doc-explainer
 description: >-
   Narrated explainer video from a customer's documents, slides, code, pull request or web pages:
   the agent reads the source, writes slide markup (code, diffs, lists, cards, tables, pictures, a
-  four-part infographic, optional Manim animations) whose narration points at exact lines, checks it
+  four-part infographic) whose narration points at exact lines, checks it
   with scripts, voices every line with ElevenLabs, times a pointer from Scribe word timings, draws
   each slide as a HyperFrames composition and assembles one MP4, keeping the editable markup and
   source notes. Use when: explain this repo, doc, PDF, deck, PR or page as a video; a code
@@ -12,11 +12,11 @@ description: >-
   explainer with no customer source (faceless-explainer); a photo slideshow (slideshow); overlay
   titles or kinetic type (motion-graphics); captions on an existing video (captions-overlay).
 license: SL8 wording and SL8-authored scripts; method from the Scrimba Explain companion kit and markup contract (no licence stated for the assessed units), restated and cited;points from fal agent skills (no licence stated, used with attribution) and HyperFrames (Apache-2.0)
-compatibility: "hyperframes-studio E2-narrow (HyperFrames CLI 0.8.61, chrome-headless-shell 152, GSAP 3.14.2 loaded from the jsDelivr address hyperframes-core's examples use, or from a local file passed with --gsap-file); ai-gen 2.2.0; ffmpeg 5.1.9; python3 with Pillow; poppler-utils; gh; manim 0.20.1 (variant B); fonts 1.1.0 and fonts-noto; fal endpoints as of 2026-10-27"
+compatibility: "hyperframes-studio E2-narrow (HyperFrames CLI 0.8.61, chrome-headless-shell 152, GSAP 3.14.2 loaded from the jsDelivr address hyperframes-core's examples use, or from a local file passed with --gsap-file); ai-gen 2.2.0; ffmpeg 5.1.9; python3 with Pillow; poppler-utils; fonts 1.1.0 and fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-11-01d
+  house-rules: HR-1.1
   upstream: [explain-video-generator/explaincompanionkit-8081e1, explain-video-generator/explainer-markup-contract, explain-video-generator/explain-tool-declarations, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, fal/charactersheet-a2ae87, hyperframes/hf-docs-prompting, hyperframes/hyperframes-2afd9d, hyperframes/hf-docs-render-contract, hyperframes/mediause-ec397d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; markup contract snapshot 2026-10-11)
   approach: WF34-a1
@@ -61,8 +61,8 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
    - voice: **Default: the brief's voice id; with none named, `Brian`** (the one ElevenLabs voice
      with a measured rate on record, unverified on SL8); a kit or brief may name another. One voice
      for the whole explainer.
-   - animation (variant B): **Default: off**; on only when the brief asks for motion or a beat
-     cannot teach standing still.
+   - animation (variant B): **not offered on this machine** (Manim is not installed). Leave
+     `animation` false; teach a beat that needs motion as `ol`, `cards` or a code slide.
    `mkdir -p $J/{chunks,assets,audio,render,anim,qc,source}`; write `$J/config.json`
    `{"mode","lang","title","description","voice","animation":false,"fps":30}`;
    `node $S/manifest.mjs init --project $P`; `ai-gen doctor --format json` (failing: stop and name the
@@ -79,12 +79,11 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
    the explainer and the notes, never filled in. Check any version, release or date that may be
    newer than your training, or leave it out. An earlier explainer handed back is context only.
    - Repo or PR: a checkout handed in is read in place. `git` is not offered on this machine yet as
-     a listed tool. The job holds no GitHub credential, and `gh` refuses calls without a token even
-     for public repos, so read public sources with `curl` and no token: a PR's files and commits from
+     a listed tool. The job holds no GitHub credential and `gh` is not on this machine, so read public
+     sources with `curl` and no token: a PR's files and commits from
      `https://api.github.com/repos/<o>/<r>/pulls/<n>/files` and `.../pulls/<n>` (`base.sha`,
      `head.sha`), a file at a commit from `https://raw.githubusercontent.com/<o>/<r>/<sha>/<path>`.
-     Use `gh` only when `gh auth status` already shows a token. A private repo needs a credential this
-     job does not hold: report it unread (HR12).
+     A private repo needs a credential this job does not hold: report it unread (HR12).
    - PDF: `pdftotext -layout <file.pdf> $J/source/doc.txt`; pages with figures:
      `pdftoppm -r 80 -png <file.pdf> $J/source/page`, then read the page images.
    - PowerPoint or Google Slides: python-pptx is not offered on this machine yet; use a PDF export
@@ -93,7 +92,7 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
 4. **Plan the deck** in `$J/plan.md`: one row per slide with anchor, visual type, the source line
    it teaches from and target words per say. 10 to 50 slides and about 1,500 spoken words in all
    (a deeper subject gets a tighter script). One visual per slide chosen by content: code, diff,
-   picture, infographic, `ul`/`ol`/`cards`, one small table, or (variant B) an animation. Teach
+   picture, infographic, `ul`/`ol`/`cards` or one small table. Teach
    purpose before mechanism and mark inferred reasons. Code topics still get two to four picture
    slides around the core, and every explainer one picture or infographic. Exact content never
    goes into a picture. Omit any type the request rules out. Recipes: a codebase walkthrough
@@ -101,7 +100,7 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
    onboarding from screenshots (one action per picture slide, `ol` for ordered tasks, `cards` for
    choices); a general source. **Diagram and maths slides** (Mermaid, KaTeX) are not offered on
    this machine yet: plan a flow as `ol`, parties or states as `cards`, a model as code, a formula
-   as a short text line inside a layout entry, or (variant B) an animation.
+   as a short text line inside a layout entry.
    **Quote the whole job now,** before any paid call, from the plan: pictures (one `ai-gen estimate`
    per route, about 37.5 credits each), the infographic (about 52.75 at `high`), voice (one line per
    say, 1-2 credits, so at most 2 each) and Scribe (per say `ceil(minutes) x 2 x 1.3` credits, so at
@@ -126,8 +125,8 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
    `python3 $X/preflight.py excerpt <file> <first> <last>`; narrated with line refs and quoted
    spans (grammar: Code, Links). Code renders in one colour: syntax colouring is not offered on
    this machine yet; line and span highlights carry the pointer.
-10. **Diff slides** from the PR's before and after sources (`gh api ... ?ref=<base sha>` and
-    `?ref=<head sha>`); two panes, closed properly, narrated before, after, consequence. If the
+10. **Diff slides** from the PR's before and after sources (`raw.githubusercontent.com/<o>/<r>/<base sha>/<path>`
+    and the same at `<head sha>`); two panes, closed properly, narrated before, after, consequence. If the
     before source cannot be fetched, show the final version as code and say so.
 11. **Layout and table slides** (grammar: Layouts and tables).
 12. **Markup safety** (grammar: Document shape): markup only, escaped angle brackets, type or
@@ -166,14 +165,9 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
     `ai-gen run openai/gpt-image-2 ... -o $J/assets/infographic-<anchor>/`, saved as
     `$J/assets/infographic-<anchor>.png`, manifest row: as in step 14. Read the drawn labels;
     misspelled, regenerate once, then replace the slide with `cards` (P10) and record the swap.
-16. **Animations (variant B only).** Manim CE 0.20.1 is on this machine. Write each scene into its
-    item (grammar: Animation), then `python3 $X/preflight.py anim $J` writes `anim/<anchor>.py`, and
-    `manim render -qh --fps 30 -r <W>,<H> --media_dir $J/manim -o anim-<anchor> $J/anim/<anchor>.py <SceneName>`
-    (confirm flags with `manim render --help`); Manim writes under
-    `$J/manim/videos/<script>/<height>p<fps>/`: find it with `find $J/manim -name 'anim-<anchor>.mp4'`
-    and copy it to `$J/render/anim-<anchor>.mp4` (the build does not check the name). It
-    must exit 0 and run 8-25 s (`ffprobe`); look at its last frame for clipping. Failing that, drop
-    the animation for a layout or code slide.
+16. **Animations are not offered.** Manim is not installed on this machine (it never was), so there is no
+    variant B: write no `animation` item and do not run `preflight.py anim`. Teach the beat as a layout or
+    code slide.
 17. **Close and review.** Two `<followup>` nodes last (they become the end card), then the final
     quality pass (grammar, last section); revise on any yes. A written rule beats any example.
 18. **Assemble and check:** `python3 $X/preflight.py check --fixture` (the fixture must pass), then
@@ -216,6 +210,8 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
     The language code is ISO 639-3: `says` prints it (en eng, es spa, de deu, fr fra, pt por, ja jpn,
     ar ara, and others); for one it does not list, read `ai-gen info`. Diarization and sound tags are on by
     default and would pollute the words; identifiers and names go in `keyterms`. Then
+    `python3 $X/validate_extra.py $J` (the job files agree: manifest files and sizes, attachments, chunk sizes,
+    one `say-NN.words.json` per MP3 with times that never go backwards; exit 1 names each problem), and
     `python3 $X/align.py $J` writes `timeline.json`: each link starts on its label's first word. A say
     without word times (an STT without them, a failed call, alignment under 0.6) gets an even
     spread, is listed under `even`, and its pointer check is declared not run (P14). Says under
@@ -276,12 +272,12 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
 | P7 | Portrait or landscape | Frame table column; render size |
 | P8 / P9 | Recurring subject / an infographic | `reference=` / adds step 15 |
 | P10 | Infographic labels fail twice, or the model is out or over budget | The slide becomes `cards`; recorded |
-| P11 | Variant B | Adds step 16; step 22 retimes |
+| P11 | Variant B (animation) | Not offered on this machine; use a layout or code slide |
 | P12 / P13 | Another language / a revision | Step 25, then 18-24 |
 | P14 | No word times for a say | Even spread; pointer check declared not run |
 | P15 | Slides cannot render | Deliver `document.xml`, the say audio and stills; no MP4, and say why. Never swap in another workflow |
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (frame, size and length declared in `config.json` and measured by `probe`), HR2, HR3
 (the transcript and voice params are sent with `--strict-params`), HR4 (`apply_text_normalization`,
@@ -289,9 +285,9 @@ Relies on: HR1 (frame, size and length declared in `config.json` and measured by
 paid step quoted; the whole job checked against the budget), HR6, HR7 (one regeneration with a named
 change, then the layout fallback), HR8 (`work/$P/` and `artifacts/$P/explainer/`), HR9 (one manifest
 row per call), HR10 (code, labels and exact text are drawn by the renderer, never by a model), HR11,
-HR12 (stated defaults; a spend past the budget is a gate; no question tool), HR13 (four scripts that
+HR12 (stated defaults; a spend past the budget is a gate; no question tool), HR13 (five scripts that
 fail on bad input), HR14, HR15 (the status line names what is still owed), HR16 (the composed
 infographic prompt is complete; no rewriter is turned on), HR18 (only claims from the source notes),
-HR19, HR20, HR21 (nothing is installed: missing Mermaid, KaTeX and python-pptx are reported, not
-fetched), HR22. See `$HOME/.agents/skills/media-ai-gen/references/house-rules.md`.
+HR19, HR20, HR21 (the baked stack first; missing Mermaid, KaTeX and python-pptx are reported, not
+installed), HR22. See `$HOME/.agents/skills/media-ai-gen/references/house-rules.md`.
 Not applicable: HR17 (no real person's likeness or voice is cloned; a stock voice is used).

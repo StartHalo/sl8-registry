@@ -21,7 +21,7 @@ FIXTURE_STYLE = "Soft gouache illustration, muted blue and amber palette, gentle
 FIXTURE_CONFIG = {"mode": "square", "lang": "en-GB", "title": "Token bucket rate limiting",
                   "description": "How a token bucket limiter decides which requests pass, shown through its code, one small refactor, a picture and a four-part view."}
 TYPES = {"code", "diff", "image", "infographic", "animation", "diagram", "math"}
-NOT_OFFERED = {"diagram": "Mermaid", "math": "KaTeX"}
+NOT_OFFERED = {"diagram": "Mermaid", "math": "KaTeX", "animation": "Manim"}
 LAYOUTS = {"ul", "ol", "cards"}
 FORBIDDEN_TAGS = {"narrate", "fetch", "insert", "move", "update", "delete", "patch", "code", "diagram", "math", "image", "prop"}
 TOP_TAGS = {"item", "say", "followup"}
