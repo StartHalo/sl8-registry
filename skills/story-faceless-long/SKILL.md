@@ -16,14 +16,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from the Higgsfield faceless-video skill (no licence stated), restated and cited; points from fal (attribution), Kling (MIT), Creative Claw (Apache-2.0), InVideo and Everygen (no licence stated), restated
 compatibility: "story-studio 1.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions 1.0.0; ffmpeg 5.1; python3 3.11 with Pillow; faster-whisper with small weights baked; fonts and display-fonts packs; fal endpoints as of 2026-10-28"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-10-31b
   house-rules: HR-1.1
   upstream: [higgsfield/facelessvideo-103c40, higgsfield/faceless-intake-script, higgsfield/faceless-style-library, higgsfield/faceless-generation-delivery, fal/falvideoproduction-09f33d, fal/falaudiogeneration-ba1a03, fal/falvideogeneration-fe0127, invideo/invideo-model-registry, creative-claw/cc-video-model-guides, kling/klingaigenerateimage-572826, everygen/3danimatedexplainers-151f46]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield faceless-video captured 2026-10-11 and 2026-10-26)
   approach: WF53-a1
   attribution: Method from the SL8 capability assessment (WF53-a1), restated in SL8 wording from Higgsfield's faceless-video skill and its references, with points from fal, Kling, Creative Claw, InVideo and Everygen; scripts written by SL8 from the described behaviour
-  deltas: STO-D300..STO-D319, STO-D437..STO-D438
+  deltas: STO-D300..STO-D319, STO-D437..STO-D438, STO-D440
 ---
 
 # Long faceless narrated video
@@ -234,7 +234,8 @@ cover) follow the same 0/1/2 rule.
     run; a hands-off run may submit clips and takes together after SCRIPT LOCK.
 17. **Clip check, after the whole wave.** `python3 $K/clipcheck.py --clips-dir artifacts/$P/clips --script work/$P/script_manifest.json --aspect <16:9|9:16> [--flat 2,5] --motion --report work/$P/clipcheck.json`
     (exit 1 lists `fail_blocks` with the reason). A finished block is final unless it failed, was refused, or shows a
-    named fault. The script measures: cuts equal the block's shots minus one (four for five shots, three for Kids; flat
+    named fault. The script measures: cuts at least the block's shots minus one (four for five shots, three for Kids;
+    fewer fail, an extra cut does not; flat
     looks, marked `flat_cut_check` in the registry, are named in `--flat` and re-counted at 0.15 before any retry); no
     shot of 3 s or more (3.7 s in a block that has three shots); no static head (first 1.5 s) or tail (last 2 s); the
     stated aspect; an audio stream; and no more than two spoken words in a narration block (local speech-to-text on the

@@ -5,8 +5,9 @@
       [--flat 2,5] [--expect-cuts 4] [--no-stt] [--model small] [--model-dir DIR] [--motion] \
       [--mediaqc $HOME/.agents/skills/media-qc/scripts/mediaqc.mjs] [--report work/<p>/clipcheck.json]
 
-Per clip: the cuts (ffmpeg scene score, 0.3, or 0.15 for a block named in --flat) must equal the
-shots the script gave the block minus one (or --expect-cuts), no shot may reach max(3 s, 1.1 x its
+Per clip: the cuts (ffmpeg scene score, 0.3, or 0.15 for a block named in --flat) must be at least
+the shots the script gave the block minus one (or --expect-cuts); fewer cuts fail, an extra cut does
+not (the method regenerates on fewer cuts than asked), no shot may reach max(3 s, 1.1 x its
 planned length), the first 1.5 s and last 2 s must not be frozen, the picture must be the stated
 aspect, and the clip must carry an audio stream. Narration blocks are listened to with local
 faster-whisper: more than two recognised words fail (speech in a clip that must have none). Music
@@ -103,10 +104,10 @@ def main():
             fail_blocks.append(n)
             continue
         cuts = cut_times(path, 0.15 if n in flat else 0.3)
-        if len(cuts) != want and n in flat:
+        if len(cuts) < want and n in flat:
             cuts = cut_times(path, 0.15)
-        if len(cuts) != want:
-            why.append(f"{len(cuts)} cuts at {cuts}, the script gave {want}")
+        if len(cuts) < want:
+            why.append(f"{len(cuts)} cuts at {cuts}, fewer than the {want} the script gave")
         edges = [0.0] + cuts + [dur]
         gap = max(y - x for x, y in zip(edges, edges[1:]))
         limit = max(3.0, 1.1 * 10.0 / shots)
