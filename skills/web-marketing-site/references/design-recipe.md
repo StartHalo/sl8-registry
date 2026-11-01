@@ -76,7 +76,8 @@ branding; generating the site's own assets during the build is fine.
 
 ## The design brief
 
-`app/design-brief.md`, about 40 lines, every section filled with a specific line ("modern and
+`app/design-brief.md`, 30 to 50 lines in all (aim for about 40; count before you lock it and merge
+lines until it fits), every section filled with a specific line ("modern and
 clean", "Inter" or "blue accent" means it is not done). It is a contract: a later step that needs a
 change edits the brief first and says why.
 
