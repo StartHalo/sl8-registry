@@ -15,14 +15,14 @@ description: >-
 license: Theme contract copied from Creative Claw 5.4.2 (Apache-2.0) with attribution; method and all other wording SL8's, restated from Creative Claw, HyperFrames (Apache-2.0) and fal agent skills (used with attribution) and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; Playwright on chrome-headless-shell 152; imagemagick 6.9; fontconfig (fc-scan); curl; fal endpoints as of 2026-10-20"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-01a
+  version: 1.0.3
+  revision: 2026-11-01b
   house-rules: HR-1.0
   upstream: [creative-claw/cc-brand-theme, creative-claw/cc-mcp-tool-declarations, hyperframes/hyperframes-2afd9d, hyperframes/hyperframescli-e1e7eb, fal/brandedgraphics-96ba6e, fal/photoediting-ba8ff5, fal/fal-mcp-tools, fal/falmodelscatalog-4c46e7]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF14-a1
   attribution: Method from the SL8 capability assessment (WF14-a1), after Creative Claw's brand themes workflow (Apache-2.0; its theme data contract is copied in references/theme-contract.md); rules restated from HyperFrames (Apache-2.0) and fal agent skills
-  deltas: MKT-D340..MKT-D359, MKT-D547, MKT-D552
+  deltas: MKT-D340..MKT-D359, MKT-D547, MKT-D552, MKT-D554..MKT-D555
 ---
 
 # Brand kit
@@ -88,7 +88,10 @@ certain, and its hand-off names what waits for the customer (HR15).
    - fonts: family, source (`google` or `custom`), role (`heading`, `body`, `mono`, `accent`) and,
      for custom fonts, the files. Request only the weights a family ships: a weight it does not ship
      (600 or 700 from a 400-only family) renders a fake, synthesised bold; `verify` lists the shipped weights;
-   - logo variants (`light`, `dark`, `mono`, `color`), transparent where they will sit on imagery;
+   - logo variants (`light`, `dark`, `mono`, `color`), transparent where they will sit on imagery.
+     Every logo file the customer supplies goes into `logos[]`. Its variant comes from the file, not
+     its name or link text: `node $KIT logo-variant <file>` reads the mark itself (colour in the mark
+     is `color`; a greyscale mark is `light` when pale, `dark` when dark, `mono` between). Where the page's label disagrees with the file, the file wins and the hand-off says so;
    - one to several reference images;
    - notes in Markdown: audience, mood, composition, lighting, materials, typography character,
      prohibited treatments, tone of voice, and do and don't.
@@ -167,7 +170,10 @@ and do not rely on `--max-cost` alone, which caps one call, not the job.
      never from its name. When it still cannot read the file, use the weight and style the page's own
      `@font-face` declared (candidates.json `font_faces[]`) with `--declared-weight N --declared-style S`;
      the result says "declared by the page, not read from the file", and the hand-off repeats it. With
-     neither, do not guess: ask (interactive) or list it under `unconfirmed[]`.
+     neither, do not guess: ask (interactive) or list it under `unconfirmed[]`. Every font file the
+     customer supplies goes into `fonts[]` (family from `font-meta`, `source` `custom`, the weight read
+     from the file, its imported file): a file the page does not use gets role `accent` and an
+     `unconfirmed[]` entry asking for its role, so the file is kept and only the role waits.
 8. **Enlarge a reference, only when it is too small** [8]. Optional; the original is never
    overwritten: the copy lands in `prepared/` under ai-gen's file name and is recorded as `<name>-upscaled`.
    Default: `fal-ai/topaz/upscale/image` with `model` `High Fidelity V2`, `face_enhancement` false,
