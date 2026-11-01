@@ -1,7 +1,7 @@
 {
   "name": "media-qc",
-  "version": "v1.2.0",
+  "version": "v1.2.1",
   "description": "Measures delivered media with deterministic scripts and prints the figures, never a verdict word. Pictures: kind by magic bytes against the extension, size, aspect, format, real alpha, bit depth. Video: streams fit to deliver and concatenate (codec, pixel format, constant fps, frame count, sample rate), clips that disagree before a concat, motion against a frozen control, first and last frames against keyframes, declared duration, fps and audio. Audio: sound in every stretch, loudness (LUFS, true peak), a duck that dips under the voice and comes back, voiceover takes against the plan timing. Also kit copies and contact sheets. Use when: after every generation, edit or mix and before delivery; check or measure an image, clip, mix or voiceover; wrong size or alpha, frozen clip, wrong fps, silent track, A/V drift, loudness, ducking; declared vs delivered. NOT for: generating images (media-image-generation); edits (media-photo-editing); running models, manifests and gates (media-ai-gen); taste (owner review).",
-  "generated_at": "2026-10-21T13:02:16.715Z",
-  "skill_md_sha256": "c3a7e516bd0a631bce4d93ccea7d0694295e7104e83eaeb1431bfdd7fb4b3f52"
+  "generated_at": "2026-11-01T02:15:40.554Z",
+  "skill_md_sha256": "f6ea44937e8961c5dde9ef51b1f89514a10ca650190a855faaeb7bf8c3d609aa"
 }

@@ -15,11 +15,11 @@ description: >-
 license: SL8 (native)
 compatibility: "sl8-image >=1.0.0 and sl8-video >=1.0.0 (Base 2.0.2); node >=20; ffmpeg and ffprobe 5.1 or later (Debian build: ebur128, tblend, signalstats, ssim); no ImageMagick or python needed"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-20a
-  house-rules: HR-1.0
+  version: 1.2.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: native
-  deltas: IMG-D129..IMG-D131
+  deltas: IMG-D129..IMG-D131, IMG-D328..IMG-D330
 ---
 
 # media-qc: measure the file, print the figures
@@ -42,7 +42,7 @@ node $Q motion artifacts/<project>/clips/shot-01.mp4 --control work/<project>/fr
 | 0 | The file is what was asked | Copy the figures into the manifest row's `measured` and the delivery note |
 | 1 | It is not. Each `fails[]` entry starts with its QC code | The item failed: one retry that moves a named lever (HR7), or a debt named in the hand-off (HR15) |
 | 2 | Usage error | Fix the command; nothing was measured |
-| 3 | Cannot check: nothing declared, a take, plan or control missing, no rule for that kind, or a tool missing | Report "not checked" with the printed `error`, never as passed. Declare next time (HR1); report a missing tool, never install it (HR21) |
+| 3 | Cannot check: nothing declared, a take, plan or control missing, no rule for that kind, or a tool missing | Report "not checked" with the printed `error`, never as passed. Declare next time (HR1); report a missing tool (HR21: the baked stack first) |
 
 ## When to run which check
 
@@ -224,15 +224,15 @@ bad. A fixture this ffmpeg cannot encode (webm, mp3, h264) is printed as `skip`.
 - **Bot rules** such as a white ground, subject fill or palette count (Amazon's 255 / 85% / 1600 px)
   are bot parameters, not base checks.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1 (`declared` and `plan-measured` read what was declared; a missing declaration or take
 is exit 3), HR3 (a dropped parameter shows only in the measured file), HR7 (an exit 1 is the failed
 attempt the retry rule counts), HR8 (the sheet goes to `artifacts/<project>/qc/`), HR9 (the figures
 go to the manifest's `measured`), HR13, HR14, HR15 (an exit 3 or an `unchecked` field is a debt
 named in the hand-off), HR19 (when to run each check is an ordered table, not a warning), HR20 (a
-waived check still runs and its figures are reported), HR21 (a missing tool is exit 3 and a report,
-never an install) — see media-ai-gen/references/house-rules.md.
+waived check still runs and its figures are reported), HR21 (a missing tool is exit 3 and a report;
+the baked stack first) — see media-ai-gen/references/house-rules.md.
 
 Not applicable: HR2, HR4, HR5, HR6, HR12, HR16, HR22 (no model call, credits or prompt: media-qc runs
 only local ffprobe and ffmpeg); HR10, HR11 (it measures and never edits a file); HR17, HR18 (no
