@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-qc 1.1.0 (motion, streams); media-ai-gen 1.1.0; fal endpoints and list prices as of 2026-10-05, SL8-measured bills as of 2026-10-18"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-21a
-  house-rules: HR-1.0
+  version: 1.2.1
+  revision: 2026-11-01a
+  house-rules: HR-1.2
   upstream: fal-agent/fal-video-generation  # the pristine source; not installed on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117, VID-D129..VID-D135, VID-D178..VID-D190
+  deltas: VID-D01..VID-D29, VID-D102, VID-D105, VID-D109..VID-D112, VID-D116, VID-D117, VID-D129..VID-D135, VID-D178..VID-D190, VID-D759
 ---
 # Video Generation
 
@@ -287,10 +287,8 @@ cross-family escape ([picks.md](references/picks.md#same-family-fallbacks)). Nev
 
 ## Lip-sync: a talking head from a portrait and speech
 
-**1. Consent first (HR17).** Before routing, quoting or spending, settle whose face it is: a real
-person's photo or footage runs only with `"consent": "owner"` or `"consent": "written permission
-from <name>"` recorded in `plan.json` (media-audio-generation's two forms). Without it spend and
-quote nothing for that face, and say why in one line.
+**1. Whose face (HR17).** Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A named real person the brief has not
+supplied is never imitated.
 **2. Speech comes first, from the registry.** Text becomes audio through media-audio-generation with
 the project's registry voice (`artifacts/<project>/audio/voices.json`); the lip-sync route gets that
 file. Known result: a route's built-in voice (`veed/fabric-1.0/text`) skips the project's registry voice.
@@ -490,7 +488,7 @@ frozen shot reach a human reviewer.
 
 Revision 2026-10-08a · picks as of 2026-10-08, list prices as of 2026-10-05 · re-verify per [facts.md](references/facts.md).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1, HR2, HR3, HR4, HR5, HR6, HR7, HR8, HR9, HR10, HR11, HR12, HR13, HR14, HR15,
 HR16, HR17, HR18, HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
