@@ -1,4 +1,4 @@
-# House rules HR-1.0 (media skills)
+# House rules HR-1.1 (media skills)
 
 ## Contents
 - [What these rules are](#what-these-rules-are)
@@ -39,7 +39,7 @@ Every `media-*` skill on this machine follows one numbered set of rules.
 | HR18 | **Claims need substantiation.** Never invent statistics, ratings, reviews, prices, awards or testimonials; a user's typed claim on a commercial asset needs their confirmation. | A convincing asset carries the weight of a printed claim. |
 | HR19 | **Emphasis is not enforcement.** If a warning was ignored once, turn it into an ordered step with a printed artefact, and delete the old warning. | Bold warnings were skipped under momentum. |
 | HR20 | **The user's explicit instruction wins,** even against these rules. Do it, state the cost in one line, and record it in the manifest's `waivers`. | Leverage, not law. |
-| HR21 | **No runtime installs.** Never `pip install`, `npm install` or download tooling in a job. If a tool is missing, the machine is broken: report it, do not repair it. | The machine is immutable and tested; runtime installs break that. |
+| HR21 | **Use the baked stack first.** Never install a local stand-in for a paid model, or anything to get round a spend gate. Any other install is pinned, project-local, recorded in the run manifest and named in the reply. | VID-T4 (2026-10-06): a job installed piper-tts as a local stand-in for a paid voice. The guard is the spend gate (`gate.mjs` refuses a job's answer to its own gate), not a machine-wide install lock (HR-1.0's rule, replaced in HR-1.1). |
 | HR22 | **Facts come from the facts files.** Model ids, limits, prices and defaults come from the owning skill's `references/facts.md` or `picks.md` (each row dated), checked live with `ai-gen models` / `info` / `estimate`. Never restate a tool default from memory. | Model picks went stale within months in every skill set studied. |
 
 ## How a skill cites them
@@ -47,7 +47,10 @@ Every `media-*` skill on this machine follows one numbered set of rules.
 Every `media-*` SKILL.md ends with:
 
 ```
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 Relies on: HR1, HR5, … — see media-ai-gen/references/house-rules.md
 Not applicable: HR17 (no likeness or voice in this skill), …
 ```
+
+HR-1.1 (2026-10-31) changed HR21 only. A footer and `metadata.house-rules` read HR-1.1 in the
+skills whose wording changed with it; a skill whose footer HR-1.1 does not contradict keeps HR-1.0.

@@ -86,6 +86,12 @@ fills the fields marked *auto* from ai-gen's JSON; you supply the rest with `--j
 | `notes` | | you | Free text: a failed attempt's exit code and error code, a continuity note |
 | `waiver` | | you | The user's words when they ordered a third attempt (HR20) |
 
+An install (HR21) is a row too: `item` `install-<package>`, `node` `installs`, `tool` the exact
+install command with its pinned version and project-local target
+(npm: `--prefix work/<project>` and `<package>@<version>`; pip: `--target work/<project>/.pkgs` and
+`<package>==<version>`), `declared` `{}`, and `files` the pin file you wrote
+(`work/<project>/package.json` or `requirements.txt`). Name the install in the reply.
+
 A row with the same non-null `request_id` as an existing row **updates** it: that is how an async
 `pending` row becomes `done` when `ai-gen result` fetches it.
 

@@ -1,7 +1,7 @@
 {
   "name": "media-ai-gen",
-  "version": "v1.2.0",
+  "version": "v1.2.1",
   "description": "Runs generative models on this machine with ai-gen, the SL8 CLI over fal endpoints through the SL8 proxy: run a model, generate an image, video or audio file, find an endpoint, read its schema, estimate cost in credits, fetch a result by request id, recover from a timeout or an exit code, stay inside the spend ceiling, and record every generation in the manifest, gate files and PROGRESS.md. Every other media skill hands execution to it. Use when: run a model, generate, ai-gen, fal endpoint or model id, request id, estimate cost, credits, spend ceiling, manifest, gate, partial job, resume, exit code, timeout, delivery folder. NOT for: choosing an image model or writing its prompt (media-image-generation), editing pixels locally (media-photo-editing), checking outputs (media-qc).",
-  "generated_at": "2026-10-21T13:01:01.150Z",
-  "skill_md_sha256": "cd54b23ead6f5ec04a6b7dcc88566be23967eb58a2a30ad0fd96949bf9970b36"
+  "generated_at": "2026-11-01T02:14:59.297Z",
+  "skill_md_sha256": "696c0b522c0388ddd0fad0ce31aa20e4892ff09e5bad4f7edbdc07b919e80c55"
 }
