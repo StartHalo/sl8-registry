@@ -1,7 +1,7 @@
 {
   "name": "media-photo-editing",
-  "version": "v1.2.0",
+  "version": "v1.2.1",
   "description": "Photo editing, color grading and background removal on a supplied photo, done deterministically in python3 (Pillow, numpy, OpenCV, scikit-image): brightness, exposure, contrast, saturation, white balance, black and white, vignette, crop, resize, rotate, straighten, format conversion, compression, metadata strip, watermarks, text overlays, borders, compositing, sharpen, background blur, HEIC, RAW and .cube LUT inputs, matching a reference look, and Bria cutouts and masks. Measures with scopes before and after every edit. Use when: a photo needs an adjustment a darkroom or Photoshop slider could make, a background removed, replaced or blurred, or its colors fixed, enhanced or graded. NOT for: inventing new content, object removal, face or expression changes, inpainting, outpainting, style transfer, upscaling or restoration (media-image-generation); character reference sheets (media-character-sheet); running ai-gen in general (media-ai-gen); scripted output checks (media-qc).",
-  "generated_at": "2026-10-30T13:19:33.945Z",
-  "skill_md_sha256": "c57ad442cd42ecebd0b07dff3d404e6bc8ad2db4476a9274193988f6c942f247"
+  "generated_at": "2026-11-01T02:15:22.402Z",
+  "skill_md_sha256": "bac35c974b9ed8b718bcb924755f9963158d7c2ed0de7103801dfb65246acf06"
 }

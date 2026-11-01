@@ -17,13 +17,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-image >=1.5.0 (Base 2.1.0); ai-gen 2.2.0; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image, pillow-heif 1.8.0, rawpy 0.27.1); pillow-lut (new on Image 1.5.0); imagemagick 6.9"
 metadata:
-  version: 1.2.0
-  revision: 2026-10-28b
-  house-rules: HR-1.0
+  version: 1.2.1
+  revision: 2026-10-31a
+  house-rules: HR-1.1
   upstream: fal-agent/photo-editing
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: IMG-D50..IMG-D59, IMG-D123..IMG-D128, IMG-D135..IMG-D147
+  deltas: IMG-D50..IMG-D59, IMG-D123..IMG-D128, IMG-D135..IMG-D147, IMG-D326..IMG-D327
 ---
 # Photo editing
 
@@ -99,7 +99,7 @@ answer — no sandbox step needed.
 ## Working in the sandbox
 
 - Pre-installed: Pillow, numpy, opencv-python-headless, scikit-image, pillow-lut,
-  pillow-heif, rawpy, ImageMagick. Nothing else: never pip install (HR21); if
+  pillow-heif, rawpy, ImageMagick. Use these first (HR21); if
   a library is missing, report it. pillow-heif and rawpy are already on
   python-imaging 1.0.0; only pillow-lut is new on Image 1.5.0, baked but not yet
   run here (IMG-L135).
@@ -244,7 +244,7 @@ frame compounds). If `base.npy` is missing, re-run normalization from the
 - Genuinely unclear whether they want a look change or a content change → ask,
   one short question, before running anything.
 
-## House rules (HR-1.0)
+## House rules (HR-1.1)
 
 Relies on: HR1, HR5, HR6, HR7, HR8, HR9, HR10, HR11, HR12 (a job has no one to
 answer: where this skill says ask, proceed on the deterministic reading (HR10)
