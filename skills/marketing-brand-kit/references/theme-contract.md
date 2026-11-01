@@ -96,7 +96,8 @@ Downstream skills read these roles, so a value outside them is refused (`kit.mjs
   `logo`) are refused.
 - Read before writing: `merge` needs the sha256 that `kit.mjs show` printed, and refuses when the
   kit changed since (the refusal prints the current sha). The token covers every key except `assets[]`,
-  so `kit.mjs import` after a read does not invalidate it. The previous file is kept as `theme.json.bak`.
+  so `kit.mjs import` after a read does not invalidate it. `theme.json.bak` keeps the file's bytes from before the first write
+  while only imports follow; a write after a merge replaces it, so a job makes one merge and the backup is the kit before the job.
 - `--override` keeps `name`, `assets[]`, `missing[]` and `unconfirmed[]` unless the patch names them;
   a patch that names `assets` and drops rows needs `--allow-remove`, like any other collection.
 - Confirming an `unconfirmed[]` value is one patch: the full `colors` (or `fonts`, `logos`) collection
@@ -128,7 +129,7 @@ Downstream skills read these roles, so a value outside them is refused (`kit.mjs
 ```
 artifacts/brand-kits.json            # every kit on the machine, and the default
 artifacts/brand-<kit>/
-  theme.json  theme.json.bak         # the kit, and the file before the last write
+  theme.json  theme.json.bak         # the kit, and its bytes before this job's one merge
   source/                            # stable copies of logos, fonts, product images, style references
   source/extracted/                  # page.html, font-face.css (each @font-face with its unicode-range), page.png, candidates.json
   prepared/                          # transparent logos, enlarged references, rasterised SVGs (originals untouched)

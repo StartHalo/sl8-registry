@@ -15,14 +15,14 @@ description: >-
 license: Theme contract copied from Creative Claw 5.4.2 (Apache-2.0) with attribution; method and all other wording SL8's, restated from Creative Claw, HyperFrames (Apache-2.0) and fal agent skills (used with attribution) and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; Playwright on chrome-headless-shell 152; imagemagick 6.9; fontconfig (fc-scan); curl; fal endpoints as of 2026-10-20"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-10-31a
   house-rules: HR-1.0
   upstream: [creative-claw/cc-brand-theme, creative-claw/cc-mcp-tool-declarations, hyperframes/hyperframes-2afd9d, hyperframes/hyperframescli-e1e7eb, fal/brandedgraphics-96ba6e, fal/photoediting-ba8ff5, fal/fal-mcp-tools, fal/falmodelscatalog-4c46e7]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF14-a1
   attribution: Method from the SL8 capability assessment (WF14-a1), after Creative Claw's brand themes workflow (Apache-2.0; its theme data contract is copied in references/theme-contract.md); rules restated from HyperFrames (Apache-2.0) and fal agent skills
-  deltas: MKT-D340..MKT-D359
+  deltas: MKT-D340..MKT-D359, MKT-D540, MKT-D547
 ---
 
 # Brand kit
@@ -69,6 +69,10 @@ certain, and its hand-off names what waits for the customer (HR15).
      smallest patch, write, read back (steps 2, 6, 9-11).
    - **Extraction:** only a website or brand-kit page is given (step 4), or files and direct URLs
      when no browser can run (step 6).
+   - A kit the customer hands over as a file: `node $KIT new --kit "<Brand>" --from <their theme.json>`
+     installs it byte for byte, never rewritten or normalised by hand; `fix_in_first_patch` lists what
+     the one patch of step 9 must replace. Imports and the one merge of step 10 keep those bytes as
+     `theme.json.bak`; a second merge would replace them.
    - A new kit: `node $KIT new --kit "<Brand>"` (names are unique, case-insensitive; the first kit
      on the machine becomes the default). It prints `project`, the folder name (`brand-acme-corp`): **`<kit>` in every
      path below is that `project` value without its `brand-` prefix** (`acme-corp`; `node $KIT list` shows `project`), not the display name.
@@ -115,8 +119,12 @@ certain, and its hand-off names what waits for the customer (HR15).
    and never save a guess as exact.
    - Interactive: one message with each item as a closed list, its evidence (context, count,
      custom-property name) and a recommendation; record the answer.
+   - An answer the job already has (the brief, or an answers file the customer supplied) is the
+     confirmation: record it with its source in `confirm.md` and save the confirmed value in the one
+     write of step 10. No `unconfirmed[]` entry and no second patch, so `theme.json.bak` stays the
+     kit as it was before this job.
    - Bot job: put each item in the kit's `unconfirmed[]` (`item`, `candidates`, `evidence`,
-     `recommended`), write `artifacts/brand-<kit>/confirm.md` with the same list, and save only the
+     `recommended`), for each item with no answer at hand, write `artifacts/brand-<kit>/confirm.md` with the same list, and save only the
      certain values. The next job merges the customer's answers and empties `unconfirmed[]`: confirming a colour is
      **one patch** that carries the full `colors` collection with the confirmed colour added and
      `unconfirmed` without that entry (a patch that adds the colour but leaves it listed is refused).
@@ -175,7 +183,8 @@ and do not rely on `--max-cost` alone, which caps one call, not the job.
 10. **Write the kit** [10].
     `node $KIT merge --kit <name> --patch work/brand-<kit>/patch.json --expect-sha <sha>`, where `<sha>` is the one
     `show` printed (step 2), or a fresh `show` if the kit was edited since.
-    It keeps `theme.json.bak`, refuses a patch that drops collection entries (add `--allow-remove`
+    One merge per job: every change goes in this one patch, so `theme.json.bak` stays the kit as it was
+    before the job. It keeps `theme.json.bak`, refuses a patch that drops collection entries (add `--allow-remove`
     only when the customer asked for the removal), and applies `--override` (replace the whole kit)
     and `--set-default` only when the customer's request names them. Delete a kit only on the
     customer's explicit request: `node $KIT delete --kit <name> --by "<their words>"`.

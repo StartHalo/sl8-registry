@@ -3,7 +3,8 @@
 // A kit is artifacts/brand-<slug>/theme.json plus its stable copies in artifacts/brand-<slug>/source/.
 // artifacts/brand-kits.json lists the kits and names the default one.
 //
-//   new       --kit NAME                          create the kit folder and an empty theme (the first kit is the default)
+//   new       --kit NAME [--from THEME.json]      create the kit folder and an empty theme, or install the customer's existing theme.json
+//                                                 byte for byte (no rewrite; validate names what the first patch must fix); the first kit is the default
 //   list                                          the kits, with the default marked
 //   show      --kit NAME                          print theme.json and its sha256 (the read token merge needs; assets[] is not part of it,
 //                                                 so importing a file after a read does not invalidate the read)
@@ -13,7 +14,9 @@
 //                                                 the declared pair is a flagged last resort
 //   validate  --kit NAME | --patch FILE           closed role vocabularies and field shapes
 //   merge     --kit NAME --patch FILE --expect-sha SHA [--override] [--set-default] [--allow-remove]
-//                                                 write with the theme contract's merge rules; previous file kept as theme.json.bak
+//                                                 write with the theme contract's merge rules; theme.json.bak keeps the file's bytes from
+//                                                 before the first write while only imports follow it; a write after a merge replaces it,
+//                                                 so a job makes one merge (SKILL.md step 10)
 //   verify    --kit NAME                          re-read: every path opens, every remote URL answers, every role valid
 //   contrast  --kit NAME                          fg on bg contrast ratio; a warning, never a change
 //   prompt    --kit NAME                          the palette, type and notes block to translate into a prompt (paths relative to the working directory)
@@ -52,6 +55,14 @@ const slug = (s) => {
 // The read token: sha256 of theme.json WITHOUT assets[]. An import only appends an asset row, so it must not invalidate a read.
 const readToken = (buf) => { const t = JSON.parse(buf); delete t.assets; return sha(Buffer.from(JSON.stringify(t))) }
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8'))
+// theme.json.bak is the file's bytes before the first write. An import never changes the read token, so a backup whose token
+// equals the current file's was taken before those imports: keep it. A merge changes the token, so the next write replaces the
+// backup: one merge per job keeps the pre-job bytes (SKILL.md step 10).
+function keepBackup (dir, buf) {
+  const bak = path.join(dir, 'theme.json.bak')
+  if (fs.existsSync(bak)) { try { if (readToken(fs.readFileSync(bak)) === readToken(buf)) return } catch {} }
+  fs.writeFileSync(bak, buf)
+}
 const writeJson = (f, v) => fs.writeFileSync(f, JSON.stringify(v, null, 2) + '\n')
 const out = (v) => console.log(typeof v === 'string' ? v : JSON.stringify(v, null, 2))
 
@@ -216,12 +227,17 @@ function cmdNew () {
   const project = `brand-${slug(name)}`
   if (v.kits.some((k) => k.project === project)) throw new Fail(`folder ${project} is taken by another kit name`)
   const dir = path.join(root(), project)
+  const from = opt('from')
+  const given = from ? fs.readFileSync(from) : null
+  if (given) { try { JSON.parse(given) } catch { throw new Fail(`${from} is not JSON`) } }
   fs.mkdirSync(path.join(dir, 'source', 'extracted'), { recursive: true })
-  writeJson(themeFile(dir), { name, notes: '', colors: [], fonts: [], logos: [], images: [], assets: [], missing: [], unconfirmed: [] })
+  if (given) fs.writeFileSync(themeFile(dir), given) // the customer's file, byte for byte: the first write keeps these bytes as theme.json.bak
+  else writeJson(themeFile(dir), { name, notes: '', colors: [], fonts: [], logos: [], images: [], assets: [], missing: [], unconfirmed: [] })
+  const problems = given ? validate({ name, ...JSON.parse(given) }) : []
   v.kits.push({ name, project, created_at: new Date().toISOString() })
   if (!v.default) v.default = name // the first kit becomes the default; later ones only with --set-default
   fs.mkdirSync(root(), { recursive: true }); writeJson(f, v)
-  out({ kit: name, project, dir: path.relative(process.cwd(), dir), default: v.default === name, note: '<kit> in every path is the project value (the folder name), not the display name' })
+  out({ kit: name, project, dir: path.relative(process.cwd(), dir), default: v.default === name, installed_from: from ?? null, fix_in_first_patch: problems, note: '<kit> in every path is the project value (the folder name), not the display name' })
 }
 
 function cmdList () { const { v } = index(); out({ default: v.default, kits: v.kits.map((k) => ({ ...k, default: k.name === v.default })) }) }
@@ -284,6 +300,7 @@ function cmdImport () {
   if (!fs.statSync(dest).size) throw new Fail(`${rel} is empty`)
   const row = { name, kind, path: rel, source: remote ? src : inKit ? `prepared from ${opt('from', 'an original in source/')}` : path.basename(src), tags: (opt('tags', '') || '').split(',').map((s) => s.trim()).filter(Boolean), sha256: sha(fs.readFileSync(dest)), imported_at: new Date().toISOString() }
   // An import is not a theme edit: it only appends the asset row, and the read token (sha256) ignores assets[], so a read stays valid.
+  keepBackup(dir, fs.readFileSync(themeFile(dir)))
   t.assets = [...(t.assets ?? []), row]; writeJson(themeFile(dir), t)
   out({ ...row, sha256_of_file: row.sha256, kit_sha256: readToken(fs.readFileSync(themeFile(dir))) })
 }
@@ -318,7 +335,7 @@ function cmdMerge () {
   if (!next.name) next.name = entry.name
   const errs = validate(next)
   if (errs.length) { errs.forEach((e) => console.log(`FAIL ${e}`)); throw new Fail('merged kit fails validation; nothing written') }
-  fs.writeFileSync(path.join(dir, 'theme.json.bak'), buf)
+  keepBackup(dir, buf)
   writeJson(f, next)
   if (flag('set-default')) { const { f: xf, v } = index(); v.default = entry.name; writeJson(xf, v) }
   out({ written: path.relative(process.cwd(), f), backup: 'theme.json.bak', override, set_default: flag('set-default'), removed: lost, sha256: readToken(fs.readFileSync(f)) })
