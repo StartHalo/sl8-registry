@@ -45,6 +45,9 @@ BLOCKED = [
     r"\bjumping on the bed\b", r"\bhead,? shoulders,? knees and toes\b", r"\brow,? row,? row\b",
     r"\bdo not imitate\b", r"\bno copyrighted\b",
 ]
+# A clause that tells the music model which existing tune to use is an instruction, not a lyric: the song is always a
+# brand-new original melody, so no waiver covers it, not even in the customer's own words (cut the clause, keep the line).
+TUNE = [r"\bsung to\b", r"\btune of\b", r"\bmelody of\b"]
 NUMS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
 SLOW = re.compile(r"\b(slowly|gently|gradually)\b", re.I)
 CAPS = {"song": 1500, "image": 2300, "video": 2500}
@@ -195,7 +198,9 @@ def cmd_plan(a):
             over.append({"line": i, "syllables_est": n, "text": line})
         for b in BLOCKED:
             if re.search(b, line, re.I):
-                if "blocked" in waived:
+                if b in TUNE:
+                    fails.append("line %d names an existing tune (%s): cut that clause and keep the rest of the line; no waiver covers it, the song is a brand-new original melody" % (i, b))
+                elif "blocked" in waived:
                     waivers.append("line %d has a phrase the music filter often blocks: %s (waived: the customer's own words)" % (i, b))
                 else:
                     fails.append("line %d has a phrase the music filter blocks: %s (--waive blocked when the customer's own words use it)" % (i, b))
@@ -236,7 +241,7 @@ def scan(text, kind, warns=None, waive_blocked=False):
                          "and if the song is blocked, trim the style note before the lyrics" % (len(text), SONG_SOFT))
         for b in BLOCKED:
             if re.search(b, text, re.I):
-                (warns if waive_blocked and warns is not None else fails).append("blocked phrase %s" % b)
+                (warns if waive_blocked and b not in TUNE and warns is not None else fails).append("blocked phrase %s" % b)
     elif len(text) >= cap:
         fails.append("%d characters, the cap is under %d" % (len(text), cap))
     return fails
@@ -525,6 +530,8 @@ def cmd_shots(a):
     song_s = tl.get("song_s") or tl["planned_s"]
     lo, hi = (3.0, 6.0) if a.lullaby else (1.0, 5.0)
     starts = [r["start_s"] for r in tl["rows"] if r["kind"] in ("line", "gap", "intro")]
+    sung = [r["start_s"] for r in tl["rows"] if r["kind"] == "line"]
+    intro = next((r for r in tl["rows"] if r["kind"] == "intro"), None)
     fails, warns, t = [], [], 0.0
     prev = None   # carried across clips: a repeat over a clip boundary is still a repeat
     allshots = [s for c in sp["clips"] for s in c["shots"]]
@@ -544,8 +551,12 @@ def cmd_shots(a):
             s["start_s"] = round(t, 3)
             s["clip_t"] = round(t - c_start, 3)
             if not (lo - 1e-6 <= sec <= hi + 1e-6):
-                (warns if s.get("kind") in ("intro", "gap", "end") else fails).append(
-                    "%s shot %d is %.2f s (limits %.0f-%.0f s)" % (c["id"], si + 1, sec, lo, hi))
+                # only a shot with no sung line in it may leave the limits; a shot that carries a sung line plus the
+                # end row (or the intro) splits that row off into its own kind:end (or kind:intro) shot (pictures.md)
+                carries = any(t - 0.25 <= x < t + sec - 0.25 for x in sung)
+                (warns if s.get("kind") in ("intro", "gap", "end") and not carries else fails).append(
+                    "%s shot %d is %.2f s (limits %.0f-%.0f s)%s" % (c["id"], si + 1, sec, lo, hi,
+                    "; it carries a sung line, so give its intro or end row a shot of its own" if carries else ""))
             if prev is not None and s.get("framing") == prev:
                 fails.append("%s shot %d repeats the framing of the shot before (%s); change the size or the subject (pictures.md)" % (c["id"], si + 1, prev))
             prev = s.get("framing")
@@ -562,6 +573,9 @@ def cmd_shots(a):
             fails.append("%s starts at %.2f s, not on a sung-line start" % (c["id"], c_start))
         report.append({"id": c["id"], "start_s": c["start_s"], "length_s": length, "render_s": render,
                        "shots": len(c["shots"])})
+    if intro and intro["end_s"] - intro["start_s"] > 1.5 + 1e-6 and allshots[0].get("kind") != "intro":
+        fails.append("the intro is %.2f s (over %.1f s): give it its own wide kind:intro shot before line 1 (pictures.md)" % (
+            intro["end_s"] - intro["start_s"], 1.5))
     size = lambda f: str(f or "").split("\u00b7")[0].strip().lower()   # "close \u00b7 wipers" -> "close"
     if size(allshots[0].get("framing")) != size(allshots[-1].get("framing")):
         fails.append("the last shot's size (%s) does not match shot 1 (%s), so the video will not loop" % (
