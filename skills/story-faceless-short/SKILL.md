@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's 3D explainer workflow (no licence stated), restated and cited; enrichment points from fal agent skills (no licence stated; used with attribution), restated
 compatibility: "story-studio >=1.0.0 (from sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions 1.0.0; ffmpeg 5.1 with libass; python3 3.11; faster-whisper (baked weights; only the local-timing route); fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-01a
+  version: 1.0.3
+  revision: 2026-11-01b
   house-rules: HR-1.0
   upstream: [everygen/3danimatedexplainers-151f46, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, fal/falvideogeneration-fe0127]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF35-a2
   attribution: Method from the SL8 capability assessment (WF35-a2), restated in SL8 wording from Everygen's 3D animated explainer workflow, with enrichment points from fal's audio, video-generation and video-production skills; scripts written by SL8 from the described behaviour
-  deltas: STO-D320..STO-D339, STO-D441, STO-D444..STO-D445
+  deltas: STO-D320..STO-D339, STO-D441, STO-D444..STO-D445, STO-D447
 ---
 
 # Faceless 3D explainer short
