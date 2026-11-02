@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.3] — 2026-11-02
+### Added
+- Release story-faceless-long v1.0.3.
+
 ## [v1.0.2] — 2026-11-01
 ### Added
 - Release story-faceless-long v1.0.2.

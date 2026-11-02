@@ -5,6 +5,8 @@
         [--duration-retry-blocks 3,5] [--fewer-cuts 4] [--words-min A --words-max B]
       Motion montage gate. Prints a JSON report; on valid:true writes script.lock beside the
       manifest. Exit 0 valid, 1 invalid, 2 unreadable input.
+      script.lock also records `validated_with` (the duration, retry blocks, fewer cuts and word band of that pass),
+      so a replay re-runs exactly the validation that wrote the lock.
   faceless_script.py verify-lock --script work/<p>/script_manifest.json
       Exit 0 when the narration still matches script.lock, 1 when it was edited or never locked.
   faceless_script.py picture --script work/<p>/script_manifest.json --duration-seconds S
@@ -247,7 +249,10 @@ def validate(a):
               "errors": err, "warnings": warn}
     if not err:
         lock = {"narration_sha256": narration_lock([b.get("vo_line") for b in blocks]),
-                "block_count": len(blocks), "duration_seconds": dur, "mode": "motion"}
+                "block_count": len(blocks), "duration_seconds": dur, "mode": "motion",
+                # the arguments this pass ran with, so a replay or a check re-runs exactly this validation
+                "validated_with": {"duration_seconds": a.duration_seconds, "duration_retry_blocks": a.duration_retry_blocks or "",
+                                   "fewer_cuts": a.fewer_cuts or "", "words_min": a.words_min, "words_max": a.words_max}}
         with open(lock_path(a.script), "w", encoding="utf-8") as f:
             json.dump(lock, f, indent=1)
         report["lock"] = lock_path(a.script)
