@@ -10,12 +10,36 @@ preflight.py checks the markup grammar. This checks what preflight does not read
   - every attachment="att-NN" in the chunks is in the manifest, and no two manifest rows share an id
   - each chunk is at most 64,000 bytes and the chunks together at most 512,000
   - when audio/ exists: every say-NN.mp3 has a say-NN.words.json, and its words are a list of
-    {text, start, end} with start < end and starts that never go backwards
+    {text, start, end} with start < end and starts that never go backwards. The file may be the ai-gen
+    envelope of a scribe-v2 call (words under raw.words or data.words) or a bare {"words": [...]};
+    only type "word" entries are checked (spacing tokens and audio-event tags are skipped, as align.py does)
 """
 import json, os, re, sys
 
 MODES = {"square", "portrait", "landscape"}
 MAGIC = {"png": b"\x89PNG\r\n\x1a\n", "jpeg": b"\xff\xd8\xff", "gif": b"GIF8", "webp": b"RIFF"}
+
+
+def stt_words(data):
+    """The word entries of a say-NN.words.json, from a superset of the paths align.py reads.
+
+    The file is the ai-gen envelope of a scribe-v2 call (words under raw.words and data.words) or a bare
+    {"words": [...]} or a bare list. Only entries whose type is "word" are words: Scribe also returns
+    "spacing" tokens (often zero-length, start == end) and audio-event tags, which are not checked.
+    An entry with no type counts as a word. Returns None when no words list is found."""
+    if isinstance(data, list):
+        cands = [data]
+    elif isinstance(data, dict):
+        raw = data.get("raw") if isinstance(data.get("raw"), dict) else {}
+        inner = data.get("data") if isinstance(data.get("data"), dict) else {}
+        raw_data = raw.get("data") if isinstance(raw.get("data"), dict) else {}
+        cands = [data.get("words"), raw.get("words"), inner.get("words"), raw_data.get("words")]
+    else:
+        return None
+    for cand in cands:
+        if isinstance(cand, list):
+            return [w for w in cand if not isinstance(w, dict) or w.get("type", "word") == "word"]
+    return None
 
 
 def check(job):
@@ -80,9 +104,8 @@ def check(job):
             if not os.path.exists(wp):
                 P(f"audio/{name} has no say-{m.group(1)}.words.json")
                 continue
-            data = json.load(open(wp, encoding="utf-8"))
-            words = data.get("words") if isinstance(data, dict) else data
-            if not isinstance(words, list) or not words:
+            words = stt_words(json.load(open(wp, encoding="utf-8")))
+            if not words:
                 P(f"{os.path.basename(wp)}: no words list")
                 continue
             prev = 0.0
