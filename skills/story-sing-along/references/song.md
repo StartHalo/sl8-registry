@@ -38,7 +38,8 @@ exactly that many four-beat lines. `sing.py plan` refuses a count that is in no 
 phrase and a last line that is not line 1; when the customer's own words need either, pass
 `--waive blocked` or `--waive open-ending` (and `--waive length` for a count in no row): the waiver is
 written into the timeline and its text goes into the manifest `waivers` (HR20). Those checks stay
-defaults for words the agent writes.
+defaults for words the agent writes. A clause naming an existing tune ("sung to", "tune of", "melody of") is
+never waived: cut the clause and keep the rest of the line, since the song is a brand-new original melody.
 
 | About | 120 BPM | 92 BPM | 128 BPM |
 |---|---|---|---|
