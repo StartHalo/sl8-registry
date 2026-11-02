@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's found-footage story guidance (no licence stated), restated and cited; points from fal (no licence stated, used with attribution) and HyperFrames (Apache-2.0), restated
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with drawtext and libass; python3 3.11; fonts and display-fonts packs; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-11-02a
   house-rules: HR-1.0
   upstream: [everygen/foundfootagestories-179c12, everygen/animalclips-e048e4, everygen/cctv-e02220, fal/falaudiogeneration-ba1a03, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, fal/falmotiongraphics-dc3541, hyperframes/hyperframes-2afd9d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen guidance captured 2026-10-26)
   approach: WF37-a1-s1
   attribution: Method from the SL8 capability assessment (WF37-a1-s1), restated in SL8 wording from Everygen's found-footage story and animal-stories guidance, with points from Everygen's CCTV tests, fal's audio, video, production and motion-graphics skills and HyperFrames' caption guidance; scripts written by SL8 from the described behaviour
-  deltas: STO-D340..STO-D359
+  deltas: STO-D340..STO-D359, STO-D451..STO-D452
 ---
 
 # Found-footage story
@@ -164,7 +164,8 @@ when their step says so, and write every prompt from that text, never from memor
    all shots together; collect with `ai-gen result` as in step 8, name each `shot-<n>.png`, record its
    row with the place and subject pictures as `parents`. `--ref` order is the reference order.
 10. **Check every shot picture** [10] against the misses list in shots.md before its clip: one line
-    each in `work/<p>/checks.md`. One redo with the same references, changing only what failed. A
+    each in `work/<p>/checks.md` that says pass or miss (a part that cannot be judged, such as a stand-in
+    or placeholder picture, is named on that line, which still says pass or miss). One redo with the same references, changing only what failed. A
     redone picture with the wrong subject or place, or a picture that failed twice, stops all filming:
     open a spend gate naming the moment in one sentence and end `partial` (HR12). Never film a picture
     you have not looked at.
@@ -213,7 +214,7 @@ when their step says so, and write every prompt from that text, never from memor
     with `python3 $FF params music --prompt-file … --duration <s>`, instruments and mood named,
     quoted first; `fal-ai/lyria3/pro` has no price on record, so it opens a gate).
 15. **Captions and hand-off** [15]. `python3 $FF captions --timing work/<p>/timing.json --video artifacts/<p>/final/stitched.mp4 --ass work/<p>/captions.ass --out artifacts/<p>/final/final.mp4`:
-    the narration's own words with Scribe times, groups of at most 4 words, a new group at a sentence
+    the narration's own words with Scribe times, groups of 2 to 4 words (a one-word group joins its neighbour), a new group at a sentence
     end or a 150 ms pause, one on screen at a time, the first at 0.1 s or later. Default look: small
     white sans (Inter) with a soft shadow, bottom-anchored 25% up the frame, above the platform's
     bottom bar; a kit or brief may set `--margin 0.12` (the approach's own) or another. Then hand off

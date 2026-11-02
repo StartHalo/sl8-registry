@@ -1021,22 +1021,44 @@ def ass_time(t):
     return f'{h}:{m:02d}:{s:05.2f}'
 
 
-def cmd_captions(a):
-    tm = read_json(a.timing)
-    words = tm.get('words') or []
-    if not words:
-        die(f'{a.timing}: no aligned words; run footage.py timing first', 1)
+def group_words(words, max_words, pause_s):
+    """Caption groups: a new group at a sentence end, a pause or the word limit; then groups of 2-4 words (the method)."""
     groups, cur = [], []
     for i, w in enumerate(words):
         cur.append(w)
         nxt = words[i + 1] if i + 1 < len(words) else None
         end_sent = nxt is None or nxt['sentence'] != w['sentence']
-        pause = nxt is not None and nxt['start'] - w['end'] >= a.pause
-        if end_sent or pause or len(cur) >= a.max_words:
+        pause = nxt is not None and nxt['start'] - w['end'] >= pause_s
+        if end_sent or pause or len(cur) >= max_words:
             groups.append(cur)
             cur = []
     if cur:
         groups.append(cur)
+    # Groups of 2-4 words (the method): a one-word group joins its neighbour in the same sentence, or takes the last
+    # word of a 3- or 4-word group before it; a one-word sentence stays alone.
+    k = 0
+    while k < len(groups):
+        g = groups[k]
+        if len(g) == 1:
+            prev = groups[k - 1] if k > 0 else None
+            nxt = groups[k + 1] if k + 1 < len(groups) else None
+            same = lambda h: h is not None and (h[-1]['sentence'] == g[0]['sentence'] or h[0]['sentence'] == g[0]['sentence'])
+            if prev and same(prev) and len(prev) < max_words:
+                prev.extend(g); groups.pop(k); continue
+            if nxt and same(nxt) and len(nxt) < max_words:
+                nxt[:0] = g; groups.pop(k); continue
+            if prev and same(prev) and len(prev) >= 3:
+                g.insert(0, prev.pop())
+        k += 1
+    return groups
+
+
+def cmd_captions(a):
+    tm = read_json(a.timing)
+    words = tm.get('words') or []
+    if not words:
+        die(f'{a.timing}: no aligned words; run footage.py timing first', 1)
+    groups = group_words(words, a.max_words, a.pause)
     events = []
     for k, g in enumerate(groups):
         start = max(g[0]['start'], 0.1) if k == 0 else g[0]['start']  # never at 0
