@@ -3,7 +3,7 @@ name: voice-presenter-video
 description: >-
   Presenter or talking-head video speaking a customer's exact script: a generated or AVATAR portrait
   (approved first), one ElevenLabs narration per scene, one veed/fabric-1.0 talking head per scene,
-  one ffmpeg join and loudness pass, optional HyperFrames titles, green-screen overlay and captions.
+  one ffmpeg join and loudness pass, captions by default, optional HyperFrames titles and green-screen overlay.
   Unproven routes: re-voicing presenter footage, a text-only draft; batches personalised versions.
   Use when: a spokesperson or avatar video from a script, an AI presenter explaining a product, a
   talking character with my script, a LinkedIn or Reels presenter clip, re-voice my presenter clip,
@@ -14,14 +14,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from HeyGen's legacy avatar-video skill (heygen-com/skills-legacy, outside the copyable surface), restated and cited; points from fal (used with attribution), Creative Claw (Apache-2.0), HyperFrames (Apache-2.0), HeyGen heygen-com/skills (MIT) and Higgsfield (no licence stated), restated and cited
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; node 22; python3 3.11; ffmpeg and ffprobe 5.1; hyperframes-suite 1.3.0 (hyperframes-core, hyperframes-cli); siblings voice-avatar-identity, edit-captions, media-audio-generation and media-video-generation ship in the same Video 1.5.0 bundle; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-01a
+  version: 1.0.3
+  revision: 2026-11-02a
   house-rules: HR-1.2
   upstream: [heygen/retired-avatarvideo-8ce216, fal/falaudiogeneration-ba1a03, creative-claw/cc-voice-references, fal/falvideoproduction-09f33d, creative-claw/cc-model-contracts-speech, creative-claw/creativeclawgeneratevoiceover-4c393d, hyperframes/websitetohyperframes-c794ad, heygen/heygenvideo-46dbf1, fal/ugc-3c015f, creative-claw/creativeclawbuildfilm-53a16d, hyperframes/mediause-ec397d, higgsfield/videomontage-f65c69]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF22-a6
   attribution: Method from the SL8 capability assessment (WF22-a6), restated from HeyGen's legacy avatar-video skill, with points from fal agent skills (used with attribution), Creative Claw (Apache-2.0), HyperFrames (Apache-2.0), HeyGen heygen-video (MIT) and Higgsfield; scripts written by SL8 from the described behaviour
-  deltas: VID-D520..VID-D539, VID-D609..VID-D611, VID-D748, VID-D766
+  deltas: VID-D520..VID-D539, VID-D609..VID-D611, VID-D748, VID-D766, VID-D798..VID-D799
 ---
 
 # Presenter video from a script
@@ -87,7 +87,7 @@ behind a spend gate: the proxy returns no price for it (exit 12), so no call to 
    file for field names, limits and sizes; write what you read into `work/<p>/run-notes.md`, with
    the longest audio a talking-head call takes if the schema or `info` states one (VID-L524).
    **Write `artifacts/<p>/plan.json`** before any paid call (HR1): `route` (`A`, `A-own-audio`, `B`,
-   `C`), `aspect`, `platform`, `models`, `presenter` (`source`: `generated`, `avatar` or `character`),
+   `C`), `aspect`, `platform`, `captions` (Default `true`; a brief that says "no captions" sets `false`), `models`, `presenter` (`source`: `generated`, `avatar` or `character`),
    `voice`, `voice_source` (`tts`, `synthetic-file`, `human-recording` or `clone`), `scene_max_s` and `declared`
    (`{"aspect":"<target>","fps":25,"audio":"required","duration_s":<script estimate>}`: fps 25 is
    the Default the join is pinned to, a kit or brief may name another). Then
@@ -240,7 +240,9 @@ behind a spend gate: the proxy returns no price for it (exit 12), so no call to 
     loudnorm with `linear=true` (Default -14 LUFS for social, -16 LUFS otherwise, true peak -1.5
     dBTP, LRA 11, hyperframes mediause-ec397d#64; a kit or brief may name another), and a check that
     the result lasts as long as the clips together. A missing or repeated scene number fails it.
-15. **Overlays and captions** (optional) [14]. Titles and lower thirds: load `hyperframes-core` and
+15. **Captions (on by default) and overlays (optional)** [14]. Default: burn captions, since most
+    social video plays muted; a brief that says "no captions" turns them off (`plan.json` `captions`),
+    and the delivery says which. Titles and lower thirds: load `hyperframes-core` and
     `hyperframes-cli` and render one composition at the presenter's size and rate with the render
     command hyperframes-cli gives, to `work/<p>/overlaid.mp4` (allow its render time); overlays stay
     at least 3 s, never cover the face, and show the written form. Captions last, by `edit-captions`

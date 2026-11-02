@@ -73,7 +73,8 @@ approved portrait as a still, or the first finished scene) and the real file swa
 
 ## Captions
 
-Captions are burned last, after overlays, by `edit-captions` (load it whole; it owns transcription,
+Captions are on by default (a brief that says "no captions" turns them off; `plan.json` `captions`).
+They are burned last, after overlays, by `edit-captions` (load it whole; it owns transcription,
 the burn and its checks): pass the overlaid or assembled file as its input and the script's written
 form, one scene per line (`work/<p>/captions-script.txt`, written by `presenter.mjs script` in step 6),
 as `--script`. Its default engine is local faster-whisper; its remote
