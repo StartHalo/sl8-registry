@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.1.0 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.1.2
-  revision: 2026-11-01a
+  version: 1.1.3
+  revision: 2026-11-02a
   house-rules: HR-1.2
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195, VID-D756, VID-D761
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195, VID-D756, VID-D761, VID-D790..VID-D791
 ---
 # Audio Generation
 
@@ -192,6 +192,7 @@ whichever entry you use into the project registry. `sample` is a file under
 | Voice swap | `fal-ai/elevenlabs/voice-changer` | Transcribe with `fal-ai/elevenlabs/speech-to-text/scribe-v2`, re-speak the exact transcript through `multilingual-v2`. Loses the original timing; say so. |
 | Dub | `fal-ai/elevenlabs/dubbing` | Transcribe with `scribe-v2`, translate the text, re-speak through `multilingual-v2` with `language_code` set to the target. |
 | Sound effect | `fal-ai/elevenlabs/sound-effects/v2` | `sonilo/v1.1/text-to-sound-effects` — required above 22 s, up to 180 s. |
+| Music bed under a voice-over or a video (default when a pipeline asks for a bed) | `fal-ai/minimax-music/v2.6` with `is_instrumental: true`: 38 credits a song whatever its length (facts row price-minimax-music); no length field, so the caller trims it with a fade | `fal-ai/elevenlabs/music` with `music_length_ms` and `force_instrumental: true` when the length has to be exact (bills by length: about 300 credits for 75 s). |
 | Music | `fal-ai/elevenlabs/music` | `fal-ai/minimax-music/v2.6` for a song with written lyrics; `fal-ai/lyria3/pro` for a one-line prompt with no length control. |
 | Transcript, word timings | `fal-ai/elevenlabs/speech-to-text/scribe-v2` | `fal-ai/elevenlabs/speech-to-text` — v1 Scribe, same `words` shape. |
 | Transcript, plain text | `nvidia/nemotron-asr-multilingual/asr` | `fal-ai/cohere-transcribe`, then `fal-ai/wizper`. |
