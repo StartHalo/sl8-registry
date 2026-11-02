@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield website-UGC skills (no licence stated), restated and cited, with points from fal, HeyGen and HyperFrames (Apache-2.0)
 compatibility: "marketing-studio 1.0.0 built from sl8-video 1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22 with Playwright on chrome-headless-shell 152; ffmpeg 5.1 with libx264 and libass; python3 3.11 with Pillow and faster-whisper; display-fonts pack (Metropolis); fal endpoints and facts rows as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-10-31b
+  version: 1.0.3
+  revision: 2026-11-02a
   house-rules: HR-1.1
   upstream: [higgsfield/ugc-website-lane, higgsfield/retired-ugcwebsitevideo-423991, fal/falaudiogeneration-ba1a03, heygen/retired-videoedit-fe9740, hyperframes/websitetohyperframes-c794ad, higgsfield/websitebuilder-82f65c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF20-a1
   attribution: Method from the SL8 capability assessment (WF20-a1), restated in SL8 wording from Higgsfield's website lane of ugc-video and its retired ugc-website-video skill, with points from fal, HeyGen and HyperFrames (Apache-2.0); scripts written by SL8 from the described behaviour
-  deltas: MKT-D400..MKT-D419, MKT-D544..MKT-D545, MKT-D548..MKT-D550
+  deltas: MKT-D400..MKT-D419, MKT-D544..MKT-D545, MKT-D548..MKT-D550, MKT-D559
 ---
 
 # Creator video about a website
@@ -178,7 +178,14 @@ its exit codes. Scratch goes to `work/<p>/`; the project is `artifacts/<p>/` wit
 11. **Check and save it** [11]. Answer the `hook-self-check` and `monologue-self-check` rows, then
     `python3 $K/plan.py script --monologue work/<p>/monologue.json --plan work/<p>/clips.json --out-dir work/<p>`.
     Every FAIL is rewritten before anything is generated; a WARN is read and either fixed or kept on
-    purpose. It writes `script.txt`, `hook.txt` (at most 6 words, one value for both vendor limits: MKT-L401)
+    purpose. **A script the customer supplied is used word for word, never rewritten:** split it into
+    hook, beats and closer as written, save it to `work/<p>/customer_script.txt` and add
+    `--customer-script work/<p>/customer_script.txt`. Taste checks (the opener, where the site is named) are
+    then waived and recorded in `beats.json` with the reason "customer's own words"; the script must still
+    match the supplied words exactly and fill one text per planned clip. A FAIL that changes what is made
+    or shown (a hook over 6 words, which is also the plate; a clip over its word band; `[pause]`; a second
+    pause; a banned word) is not waived: put it to the customer in one closed question (the plate cut to its
+    first 6 words, more clip time, or their edit) and never rewrite their words yourself. It writes `script.txt`, `hook.txt` (at most 6 words, one value for both vendor limits: MKT-L401)
     and `beats.json`.
 12. **Write every clip prompt** [12]. For each clip,
     `python3 $K/plan.py prompt --k <K> --plan work/<p>/clips.json --monologue work/<p>/monologue.json --scene "<locked scene>" --ambience "<what that room sounds like>" --closer device|product|neutral [--uk-look] --out work/<p>/prompts/clip_<K>.prompt.txt`.

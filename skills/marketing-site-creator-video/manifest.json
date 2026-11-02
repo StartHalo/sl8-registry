@@ -1,7 +1,7 @@
 {
   "name": "marketing-site-creator-video",
-  "version": "v1.0.2",
+  "version": "v1.0.3",
   "description": "Creator-style video about a customer's website, web app or online store: a phone-style capture of the real site, one locked generated or supplied creator, an English hook-body-closer monologue on word budgets, one Seedance 2.0 talking-head clip per 15 s with native audio, the real screenshots as timed insets over the creator in one encode, and burned word-timed captions with a hook plate. Use when: a UGC or creator video about a site, SaaS, app or store where the supplied page must appear on screen, a site tour or app tour told by a creator, or resume such a job. NOT for: a product-only creator ad where the page will not appear (not offered here); remaking a reference ad (marketing-ad-remake); captions on an existing video (edit-captions); a presenter or avatar video (voice-presenter-video); multi-shot productions (media-video-production); single clips (media-video-generation); brand capture (marketing-brand-kit); ai-gen use (media-ai-gen); file checks (media-qc).",
-  "generated_at": "2026-11-01T20:00:21.273Z",
-  "skill_md_sha256": "b89da2bce871b9889fe4958971ce017c9b1ee5beca2349c6cbc6a65d867e3853"
+  "generated_at": "2026-11-02T01:04:16.747Z",
+  "skill_md_sha256": "1e7b3043866894a2ce7d4b1098683909e283259295cc0f5dcbf34ea0348dd7d6"
 }

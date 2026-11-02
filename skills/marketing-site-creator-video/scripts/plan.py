@@ -7,7 +7,8 @@ SL8-authored from the behaviour the capability assessment records for WF20-a1 st
   plan.py clips --duration D [--out plan.json]
       Clip lengths: ceil(D/15) clips of 15 s, the remainder last; a last clip under 4 s borrows from
       the one before it (16 -> 12+4, 31 -> 15+12+4). D is a whole number of seconds, 4 or more.
-  plan.py script --monologue m.json --plan plan.json --out-dir DIR
+  plan.py script --monologue m.json --plan plan.json --out-dir DIR [--customer-script FILE]
+      (a supplied script: kept word for word; only taste FAILs, the opener and the site naming, are waived and recorded)
       Checks the monologue and writes DIR/script.txt, DIR/hook.txt and DIR/beats.json.
   plan.py prompt --k K --plan plan.json --monologue m.json --scene TEXT --ambience TEXT
                  --closer device|product|neutral [--uk-look] --out FILE
@@ -94,6 +95,7 @@ def cmd_clips(a):
 def cmd_script(a):
     m, plan = load(a.monologue), load(a.plan)
     fails, warns = [], []
+    supplied = open(a.customer_script, encoding='utf-8').read().strip() if a.customer_script else None
     hook, body, closer, clips = m.get('hook', ''), m.get('body', []), m.get('closer', ''), m.get('clips', [])
     site = m.get('site', '')
     hw = words(hook)
@@ -151,8 +153,22 @@ def cmd_script(a):
         caps = [w for w in words(sent) if re.fullmatch(r"[A-Z]{2,}[!?.,']*", w) and w.strip("!?.,'") not in (site.upper(),)]
         if len(caps) > 2:
             warns.append(f'more than two CAPS words in: "{sent[:60]}"')
+    waived = []
+    if supplied is not None:
+        # The customer's own words: kept word for word, never rewritten. Only the structure must hold (the clips are
+        # exactly the script, one text per planned clip); only taste rules are waived (below) and recorded with their reason.
+        # Only taste rules are waived: the opener and where the site is named. What changes what is generated or shown
+        # stays a FAIL (an empty or over-long hook, which is also the plate; a clip over its word band; [pause]; more than
+        # one pause; banned words): the customer is asked, never silently overruled and never silently rewritten.
+        waivable = ('hook opens with', 'the first body beat does not name the site')
+        waived = [f for f in fails if f.startswith(waivable)]
+        fails = [f for f in fails if f not in waived]
+        if norm(full) != norm(supplied):
+            fails.append('the script is not the customer\'s supplied script word for word: a customer\'s own words are never rewritten')
     for f in fails:
         print(f'FAIL {f}')
+    for w in waived:
+        print(f'WAIVED {w} (customer\'s own words)')
     for w in warns:
         print(f'WARN {w}')
     if fails:
@@ -163,7 +179,9 @@ def cmd_script(a):
     beats = {'hook': {'text': hook, 'words': len(hw)},
              'body': [{'section_label': b['section_label'], 'text': b['text'], 'words': len(words(b['text']))} for b in body],
              'closer': {'text': closer, 'words': len(words(closer))},
-             'total_words': len(words(full))}
+             'total_words': len(words(full)),
+             'customer_script': supplied is not None,
+             'waived': [{'rule': w, 'reason': "customer's own words"} for w in waived]}
     json.dump(beats, open(os.path.join(a.out_dir, 'beats.json'), 'w'), indent=1)
     print(json.dumps({'ok': True, 'total_words': beats['total_words'], 'warnings': len(warns)}))
     return 0
@@ -257,7 +275,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     sp = ap.add_subparsers(dest='cmd', required=True)
     c = sp.add_parser('clips'); c.add_argument('--duration', required=True); c.add_argument('--out')
-    s = sp.add_parser('script'); s.add_argument('--monologue', required=True); s.add_argument('--plan', required=True); s.add_argument('--out-dir', required=True)
+    s = sp.add_parser('script'); s.add_argument('--customer-script'); s.add_argument('--monologue', required=True); s.add_argument('--plan', required=True); s.add_argument('--out-dir', required=True)
     p = sp.add_parser('prompt'); p.add_argument('--k', type=int, required=True); p.add_argument('--plan', required=True)
     p.add_argument('--monologue', required=True); p.add_argument('--scene', required=True); p.add_argument('--ambience', required=True)
     p.add_argument('--closer', choices=['device', 'product', 'neutral'], default='device'); p.add_argument('--uk-look', action='store_true'); p.add_argument('--out', required=True)
