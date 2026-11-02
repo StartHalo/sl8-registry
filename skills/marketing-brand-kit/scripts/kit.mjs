@@ -159,6 +159,11 @@ function dropped (current, patch) {
     const keep = new Set((patch[k] ?? []).map((x) => (typeof x === 'string' ? x : x?.name ?? '').toLowerCase()))
     for (const x of current[k]) { const n = (typeof x === 'string' ? x : x?.name ?? ''); if (!keep.has(n.toLowerCase())) lost.push(`${k}: ${n}`) }
   }
+  // missing[] replaces whole too: a patch that lists missing items must carry the earlier ones, or the debt is lost silently.
+  if ('missing' in patch && Array.isArray(current.missing)) {
+    const keep = new Set((patch.missing ?? []).map((x) => String(x?.item ?? x ?? '').toLowerCase()))
+    for (const x of current.missing) { const n = String(x?.item ?? x ?? ''); if (!keep.has(n.toLowerCase())) lost.push(`missing: ${n}`) }
+  }
   return lost
 }
 
