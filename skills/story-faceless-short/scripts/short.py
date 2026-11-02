@@ -400,8 +400,8 @@ def cmd_params(a):
         fail(f"the prompt lacks the row's '{need_no_text}' clause")
     if a.kind == "clip":
         closing = rows()["sound-closing"]["prompt"]
-        if closing not in prompt:
-            fail(f"the prompt does not contain the closing sound line: {closing}")
+        if not prompt.rstrip().endswith(closing):
+            fail(f"the prompt does not end with the closing sound line: {closing}")
         if "Camera:" not in prompt:
             fail("no 'Camera:' sentence: the camera move is its own sentence before the timed steps")
         if not re.search(STEP_STAMP, prompt):

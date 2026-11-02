@@ -136,7 +136,7 @@ later frame uses the style key as its only reference (P14).
   (#36: a loud first-frame sound jumped 11 dB at a cut). A 2.0 s clip: sounds at 0.3 s and 1.0 s,
   nothing after 1.5 s.
 - Never "loud", "huge", "booming", "explosion", "dramatic" or "epic"; a blast is a dull thump (#35).
-- Every sound line ends with row `sound-closing` (#37): asking only for silence, or only for no
+- Every clip prompt ends with row `sound-closing` (#37; the source's VIDEO PROMPT "ending" it): asking only for silence, or only for no
   music, left the vendor's model to invent sound, and those clips were blocked as copyright.
 - Words barely change a clip's level (#38: about 2 dB); the picture decides. Balance levels in the
   stitch, never in prompts.
