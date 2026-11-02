@@ -1,7 +1,18 @@
-# Brief fidelity: end card, brand names, feature screens, keyframes, routes
+# Brief fidelity: end card, brand names, feature screens, keyframes, routes, ladder, photos
 
 Five defaults from the first owner-graded Video 1.5.0 run (VID-T42-v14, the 75 s Ladderlight
-explainer, 2026-10-30). Each is a default: a kit or brief may set another.
+explainer, 2026-10-30), and two from the graded product ad (VID-T16-w04, Harbor Roast,
+2026-11-02): the quality ladder and supplied product photos. Each is a default: a kit or brief may
+set another.
+
+## Contents
+- [End card length](#end-card-length-plan-stage-1)
+- [Brand names are spoken right](#brand-names-are-spoken-right-stage-5-checked-at-stage-9)
+- [Features shown in the picture](#features-shown-in-the-picture-plan-stages-2-and-6)
+- [Keyframe check](#keyframe-check-stage-2-before-the-frame-gate)
+- [Each clip's route in its manifest row](#each-clips-route-in-its-manifest-row-stages-2-and-3)
+- [Quality ladder](#quality-ladder-stage-1-quote)
+- [Supplied product photos that disagree](#supplied-product-photos-that-disagree-stage-1)
 
 ## End card length (plan, stage 1)
 
@@ -80,3 +91,46 @@ seen). media-shot-craft's validator carries the same two lines.
 Record each generation's own row with `manifest.mjs add --result <that call's JSON>`, one call per
 clip, so the row carries the endpoint the clip ran on. A row added from another clip's result names
 the wrong route, and a batch of rows with one result names one route for all of them.
+
+## Quality ladder (stage 1 quote)
+
+When the default clip route at the declared resolution does not fit what remains of the grant,
+step down in this order, one step at a time, and re-quote after each step:
+
+1. **The same model at a lower resolution.** On Seedance 2.0 that is the base route at `480p`
+   (list rate 33.6 credits a second, about 134 for a 4 s clip; base at `720p` is about 303).
+2. **Then a lower tier** of the same family, at the lowest resolution it takes: `/fast/` at `480p`
+   (26.9 a second), then `/mini/` at `480p` (18 a second). Rates: media-video-generation's
+   endpoints.md; price the exact payload with `ai-gen estimate`.
+3. **Then the spend gate** (pre-spend step 5), with the clip line at the default route's quote.
+
+Fewer or shorter shots change the structure the brief or the story gate fixed, so they are not a
+ladder step: offer them as an option of the spend gate. On another family the order is the same:
+its own lower resolution first, then its cheaper tier. The face rule (P3) still picks the route for
+a realistic face.
+
+Name the step in `plan.json` (`declared.clip_route`: the route, the resolution and the ladder step,
+e.g. "bytedance/seedance-2.0/image-to-video at 480p: ladder step 1, 720p (303 a clip) did not fit
+four clips in 1000"), in the quote line, and in the delivery, with the render size and the delivery
+size when the clips are scaled up.
+
+## Supplied product photos that disagree (stage 1)
+
+Before any still, look at every supplied product photo (the Read tool) and write one line each in
+PROGRESS.md: file, label text read verbatim, packaging (shape, colour, size). Photos disagree when
+the label text, the packaging or the product differ between them ("single origin one" and "single
+origin two" on two bags of one blend).
+
+When they disagree:
+
+1. **Pick one hero.** Default: the photo whose label is fully legible and closest to the product
+   the brief names; on a tie, the first one supplied. Record it as `declared.hero_product` in
+   `plan.json`, with the reason.
+2. **Use only the hero** as the reference image for every product shot (stills and clips), so the
+   label reads the same in every shot. The other photos are not references.
+3. **Ask first when a person is attending:** put the difference and the hero pick into the
+   `Approve structure` gate's question at stage 1c, with one approve option per photo, the default
+   hero first as option `a` ("Approve, hero bag-1.jpg"), so the answer settles both and `--default a`
+   picks the declared hero. Unattended, the gate is recorded on its default and the job goes on with the hero.
+4. **Flag it in the delivery:** which photos differ and how, the hero used, and any difference
+   between the hero's label and the brief's product name.

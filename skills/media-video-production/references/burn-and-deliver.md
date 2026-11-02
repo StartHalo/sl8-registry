@@ -76,7 +76,10 @@ as the lower-thirds. With no measured timings, skip captions and say so.
 
 After the stems, state, in one short block:
 
-- Runtime, shape, and the route each clip used.
+- Runtime, shape, and the route each clip used, with its resolution and any quality-ladder step
+  (render size against delivery size when scaled up).
+- The bed: its route and length, or that the brief said "no music"; the watch pass that ran (the
+  vision route, or the contact sheet and why); the hero product photo and how the others differed.
 - **Per clip:** its motion figure, the floor, and the frozen control — so a reader
   can tell a measurement from an opinion.
 - **Largest silence measured at stage 9**, with its timestamp, and speech coverage

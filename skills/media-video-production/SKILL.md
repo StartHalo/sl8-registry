@@ -15,14 +15,14 @@ description: >-
 license: Adapted from fal agent skills (no licence stated; used with attribution); the film path is SL8 wording, its method from Pollo and Everygen guidance (no licence stated), restated and cited
 compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen >=1.2.2; media-qc 1.2.1; media-image-generation 1.2.0; media-video-generation 1.2.0; ffmpeg and ffprobe; python-imaging 1.0.0 (Pillow 11.2.1, numpy, opencv-python-headless, scikit-image); fonts pack 1.1.0; fal endpoints as of 2026-10-05"
 metadata:
-  version: 1.2.2
-  revision: 2026-11-01a
+  version: 1.2.3
+  revision: 2026-11-02a
   house-rules: HR-1.2
   upstream: fal-agent/fal-video-production  # source only; that skill is not on this machine
   upstream-pin: export 2026-10-05; film path sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF17-a2 (piece); film from the P01 pattern (WF39-a5, WF47-a1, WF35-a2, WF37-a1-s1, WF49-a1, WF28-a1)
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05); film path restated from the SL8 capability assessment's Pollo and Everygen methods
-  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118..VID-D122, VID-D191..VID-D192, VID-D198..VID-D199, VID-D580..VID-D598, VID-D743, VID-D750..VID-D754, VID-D762
+  deltas: VID-D60..VID-D79, VID-D100, VID-D103, VID-D104, VID-D108, VID-D113, VID-D118..VID-D122, VID-D191..VID-D192, VID-D198..VID-D199, VID-D580..VID-D598, VID-D743, VID-D750..VID-D754, VID-D762, VID-D780..VID-D789
 ---
 
 # Video Production
@@ -52,17 +52,17 @@ to do when the owner is unavailable — never "do it here anyway, unlabelled".
 
 | # | Stage | Owner | Fallback when the owner will not load |
 |---|---|---|---|
-| 1 | Script, shot list, per-shot windows | `media-script-writer` | Draft the shot list here and **label it undrafted by the specialist**; keep the window arithmetic, it is this skill's contract |
+| 1 | Script, shot list, per-shot windows | `media-script-writer` (an ad brief: its Ad mode) | Draft the shot list here and **label it undrafted by the specialist**; keep the window arithmetic, it is this skill's contract |
 | 2 | Opening stills — **mandatory for hero shots**, optional elsewhere (a film: masters, then a keyframe for every shot) | `media-image-generation` | Animate from text and say so, noting that the hero shot was never approved as a frame (a film: none, stop) |
 | 2b | **Frame gate**, film only | this skill, as a gate file | None. The gate does not degrade |
 | 3 | Animate one clip per shot | `media-video-generation` | **No fallback — stop.** Clips are the deliverable; there is no degraded version worth billing for |
 | 4 | **Clip review fence** | this skill, as a gate file | None. The fence does not degrade |
 | 5 | Voiceover, **one file per fragment, unconcatenated and unpadded** | `media-audio-generation` | Deliver silent with the plan and manifest attached, and say the voiceover is outstanding |
-| 6 | Music bed | `media-audio-generation` | Accept a user-supplied track, or deliver without music and say so |
+| 6 | Music bed, **on by default** (a brief's "no music" turns it off) | `media-audio-generation` | Accept a user-supplied track, or deliver without music and say so |
 | 7 | Mix, duck, normalise | this skill, in the sandbox | None needed — local work |
 | 8 | Burn on-screen text, last | **this skill, in the sandbox, with `media-motion-graphics`** — the one overlay mechanism on this machine | None; never skip, never ship silently untexted |
 | 8b | Captions of the voiceover, if asked for | `media-motion-graphics`, timed from measured words | Skip and say so — captions are an optional extra deliverable, not the lower-thirds |
-| 9 | **Watch and listen to the finished file** | `fal-ai/elevenlabs/speech-to-text/scribe-v2` through `ai-gen`; `fal-ai/video-understanding` (optional; bills 8, so quote it) | `fal-ai/sa2va/8b/video` or a contact sheet of mid-window frames for the watch; `fal-ai/speech-to-text` for the transcript — **but it returns no word timings**, so say the placement check could not be run |
+| 9 | **Watch and listen to the finished file** | `fal-ai/elevenlabs/speech-to-text/scribe-v2` through `ai-gen`; `fal-ai/video-understanding` (on by default; bills 8, so quote it; a brief may opt out) | `fal-ai/sa2va/8b/video` or a contact sheet of mid-window frames for the watch; `fal-ai/speech-to-text` for the transcript — **but it returns no word timings**, so say the placement check could not be run |
 | 10 | Deliver with the measured figures | this skill | — |
 
 **Stages 3 and 8 both re-render pixels, and 8 must follow every one of them.**
@@ -71,7 +71,7 @@ That ordering is why burn-in is stage 8 and not stage 5.
 Stages 1, 1b and 5 are written out in [references/timing-contract.md](references/timing-contract.md),
 stages 6–7 in [references/mix-and-duck.md](references/mix-and-duck.md), stage 8 and the delivery
 record in [references/burn-and-deliver.md](references/burn-and-deliver.md), and stage 9 in
-[references/watch-and-listen.md](references/watch-and-listen.md). Read each before its stage, and [references/brief-fidelity.md](references/brief-fidelity.md) (end card, brand names, feature screens, keyframe check, routes) before stage 1.
+[references/watch-and-listen.md](references/watch-and-listen.md). Read each before its stage, and [references/brief-fidelity.md](references/brief-fidelity.md) (end card, brand names, feature screens, keyframe check, routes, quality ladder, product photos) before stage 1.
 
 ## Step 0 — Declared defaults, no card
 
@@ -133,9 +133,10 @@ it. Each states what happens with no answer:
   delivered, remaining stages unrun. Unattended, the review gates are recorded instead (Stage 4).
 - **`Reshoot`** — which clip numbers to redo: an option of the `Approve clips` gate, answered
   with the numbers. No answer means stop, as above.
-- **`Music`** — mood or a supplied track, settled only when `Voice` is on and the
-  brief named no music. No answer means **deliver without a bed**, which is a
-  complete piece, so this one never blocks: a stated default, flagged in the delivery.
+- **`Music`** — Default: **a bed** when the brief names none: an instrumental on
+  `fal-ai/minimax-music/v2.6` (about 38 credits, its own quote line), ducked under the voice. A
+  supplied track replaces it; "no music" in the brief turns it off, and the piece without a bed is a
+complete piece, so this one never blocks: a stated default, flagged in the delivery.
 
 Stage 9 asks nothing. It measures, and reports what it measured.
 
@@ -155,7 +156,7 @@ warning (HR19):
 3. Quote. At the end of stage 1, before the first paid call, quote **the whole job, one line per
    paid stage, with a running total**: stills, clips (on Σ`render_dur`), voiceover fragments, bed,
    stage 9 (each transcript at 2, and the watch call, which bills **8** against an estimate of 3). Each line starts from `ai-gen estimate <id> --params-file <p.json> --format json`
-   with the params you will send, then is raised to the bill SL8 measured where the estimate runs low
+   with the params you will send (clips over what remains: the [quality ladder](references/brief-fidelity.md#quality-ladder-stage-1-quote)), then is raised to the bill SL8 measured where the estimate runs low
    (list prices under-bill, and the estimate cannot see media flags): `minimax/h3-max-turbo/image-to-video`
    with a start and an end frame bills **30 per 5 s** at 768P against an estimate of 19 (a promotional
    bill until 2026-10-15; then quote 50 per 5 s until it is measured again), and Kokoro bills about
@@ -247,7 +248,7 @@ approved before rendering.
 **Product-ad imports** the capability assessment recommends here (a picture-pace walk of the beat
 map in 2.5 s steps, a product identity lock from the customer's photo with a wider prompt lint,
 platform safe-zone bands, paid-social variant sets) are not offered on this machine yet; the
-brief's words, the beat map and stage 8's read-back stand in.
+brief's words, the beat map and stage 8's read-back stand in. **Supplied product photos that disagree** (label text, packaging): one hero photo for every product shot, flagged in the delivery ([brief-fidelity.md](references/brief-fidelity.md#supplied-product-photos-that-disagree-stage-1)).
 
 ## Stages 2–3 — Render the clips
 
@@ -411,7 +412,7 @@ whole `$HOME/.agents/skills/media-motion-graphics/SKILL.md`), apply its Steps 1�
 audio file first and print its path and size, then transcribe it with word timings and report the
 largest silence with its timestamp next to the coverage, per-fragment placement, empty thirds and
 transcript fidelity. **Watch:** reconcile scene count, actions and on-screen text against the
-plan; the vision route runs only when its line is in the quote, otherwise a contact sheet of mid-window frames
+plan. Default: the vision route (`fal-ai/video-understanding`, its line in the quote); a contact sheet of mid-window frames (when the brief opts out, or the route is unpriced or unaffordable; the delivery says which ran)
 stands in. The stage reports and never re-renders on its own.
 
 ## Stage 10 — Deliver
