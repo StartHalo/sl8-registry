@@ -78,6 +78,10 @@ def main():
         r = py("faceless_script.py", "validate", "--script", man, "--duration-seconds", "30")
         check("validate accepts a clean 3-block script and writes script.lock",
               r.returncode == 0 and os.path.exists(os.path.join(t, "script.lock")), r.stdout[-400:])
+        r = py("faceless_script.py", "validate", "--script", man, "--duration-seconds", "30", "--words-min", "19", "--words-max", "24")
+        vw = json.load(open(os.path.join(t, "script.lock"))).get("validated_with", {}) if r.returncode == 0 else {}
+        check("script.lock records the arguments of the pass that wrote it",
+              vw.get("words_min") == 19 and vw.get("words_max") == 24 and vw.get("duration_seconds") == 30.0, json.dumps(vw))
         bad = manifest()
         bad["blocks"][1]["vo_line"] = "Sailors dropped 3 ropes, you know, over the side and counted."
         bad["blocks"][2]["shots"][1] = "CLOSE-UP"
