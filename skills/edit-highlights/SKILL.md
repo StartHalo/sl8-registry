@@ -2,10 +2,10 @@
 name: edit-highlights
 description: >-
   Highlight clips from one long video (VOD, podcast, webinar, interview, demo): frame-sample the
-  source, transcribe it once with word timings (ElevenLabs Scribe v2 through ai-gen), choose
-  standalone moments with a hook, context, development and payoff, snap speech-safe boundaries to
-  word gaps, render each Reel locally with ffmpeg (pad or verified crop, 30 ms join fades, one
-  caption layer remapped to output time), then review the encoded file (probes, black and silence
+  source, transcribe it once with word timings (Scribe v2 via ai-gen), choose standalone moments
+  with a hook, context, development and payoff, snap speech-safe boundaries to word gaps, render
+  each Reel locally with ffmpeg (speaker or slide-region crop, text-size check, 30 ms join fades,
+  captions remapped to output time), then review the encoded file (probes, black and silence
   detection, boundary frames and re-transcription). Also a recommend-only list,
   customer-chosen moments and show-me-first approval. Use when: cut clips, shorts or Reels from a
   long recording; find the best moments in a podcast or webinar; turn a VOD into vertical
@@ -14,16 +14,16 @@ description: >-
   footage (media-video-production); overlay titles (media-motion-graphics); measuring files
   (media-qc).
 license: Apache-2.0 for the wording kept from Creative Claw create-reels 5.4.2 (Creative Claw Co.), shown in quotation marks; SL8 wording and SL8-authored scripts elsewhere; points from Everygen (no licence stated) and VideoZero guides restated and cited
-compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with libass, libx264, aac and libmp3lame; python3 3.11 (standard library only); fonts-noto pack; scribe-v2 facts as of 2026-10-05; siblings edit-captions, edit-cut-reframe, edit-beat-montage and voice-dub ship in the same Video 1.5.0 bundle"
+compatibility: "sl8-video >=1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with libass, libx264, aac and libmp3lame; python3 3.11 (cut_reel.py and words.py standard library only; frame.py numpy, Pillow and opencv-python-headless from python-imaging 1.2.0); fonts-noto pack; scribe-v2 facts as of 2026-10-05; siblings edit-captions, edit-cut-reframe, edit-beat-montage and voice-dub ship in the same Video 1.5.0 bundle"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-11-02a
   house-rules: HR-1.1
   upstream: [creative-claw/creativeclawcreatereels-b6e06c, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, everygen/ryurefreshedsource-5dc49d, hyperframes/mediause-ec397d, videozero/videozeroeditorialguiderouter-041880]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF25-a1
   attribution: Method from the SL8 capability assessment (WF25-a1), adapted from Creative Claw's create-reels skill (Apache-2.0, wording changed for this machine) with points from fal, Everygen, HyperFrames (Apache-2.0) and VideoZero; scripts written by SL8 from the recorded cut contract
-  deltas: VID-D360..VID-D379, VID-D604..VID-D605, VID-D627..VID-D630
+  deltas: VID-D360..VID-D379, VID-D604..VID-D605, VID-D627..VID-D630, VID-D800..VID-D805
 ---
 
 # Highlight clips
@@ -45,6 +45,8 @@ python3 $H/cut_reel.py --preflight                          # tools, filters, en
 python3 $H/words.py normalize <envelope> --duration <s> --out artifacts/<p>/plan/words.json
 python3 $H/words.py bounds artifacts/<p>/plan/words.json --start <s> --end <s>
 python3 $H/words.py overlap artifacts/<p>/plan/candidates.json   # exit 1 when two candidates overlap
+python3 $H/frame.py faces <src> --start <s> --end <s> --width <W> --height <H>    # a speaker crop proposal
+python3 $H/frame.py text <full-size frame> --framing '<json>' --size <W>x<H>     # exit 1: text too small
 python3 $H/cut_reel.py artifacts/<p>/plan/cut_<k>.json --check --work work/<p>/reel_<k>
 python3 $H/cut_reel.py artifacts/<p>/plan/cut_<k>.json -o artifacts/<p>/reels/<title>.mp4 --work work/<p>/reel_<k>
 ```
@@ -214,11 +216,27 @@ Checklist and recovery table: [references/review.md](references/review.md).
     offset and crop rectangle against the probed display size and refuses a bad field before any
     frame check is spent. Boundaries move by up to half an output frame; never claim sample-exact
     cuts. One transcript per job and one render per range set.
-14. **Framing.** Honour the requested aspect; never stretch. Per range: `pad` (the default for
-    slides, several people, fast movement or uncertain framing; `"background": "blur"` optional),
-    `center_crop` once the frames show the subject inside it, or `crop` at the output aspect with
-    static x,y or up to 20 keyframes from your frame observations (there is no face or speaker
-    tracking). For a speaker, keep the face in the top third of the crop with a little room above
+14. **Framing.** Honour the requested aspect; never stretch. Default for a vertical Reel from a wider
+    source: fill the phone screen at a readable size (a kit or brief may name another). Per range, in this order:
+    - **The speaker:** a `crop` at the output aspect that follows the face.
+      `python3 $H/frame.py faces <src> --start <s> --end <s> --width <W> --height <H> --work work/<p>/faces_<k>`
+      proposes it (static, or up to 20 keyframes) from OpenCV's face cascade; check it on the
+      candidate's frames. Exit 1 (no steady face) or 2 (no detector): place the crop from your frame observations.
+    - **The slide region being discussed** (the chart, bullet or quote the words refer to): a `crop`
+      at the output aspect over that region, when its text passes the size check below.
+    - `pad` (`"background": "blur"` optional) only when neither fits: several people at once, fast
+      movement, or a slide the point needs whole; name it and the reason in the delivery. A full
+      16:9 slide shrunk into a band with blur fill makes its text about a third of its size on a
+      phone (VID-T36-v3, 2026-11-02), so it is the last choice, not the default. `center_crop` once
+      the frames show the subject inside it.
+    - **Readable size check**, every range that shows on-screen text (slides, a demo, burned-in
+      text): a full-size frame (`ffmpeg -v error -ss <t> -i <src> -frames:v 1 work/<p>/t_<k>_<n>.png`,
+      no scale), then `python3 $H/frame.py text work/<p>/t_<k>_<n>.png --framing '<the range framing>' --size <W>x<H>`.
+      Default floor: cap height at least 1.5% of the output height (about 29 px of 1920; an SL8
+      starting value; `--min-fraction` sets another). Exit 1 is unreadable: tighten the slide crop or
+      take the speaker, or deliver it and name the text unreadable. Record the figure in `plan_<k>.json`.
+
+    For a speaker, keep the face in the top third of the crop with a little room above
     it, and keep the whole head and chin in frame. Where the speaker changes or the source switches
     camera, the crop jumps instead of panning: end the range there and start a new contiguous one
     with its own crop (prefer a split inside a word gap when one lies within the same second; a word
@@ -292,7 +310,8 @@ Checklist and recovery table: [references/review.md](references/review.md).
     or the fallback: pad framing, or the boundary moved out to the nearest natural gap); a defect
     that remains is delivered and named (HR15). A timeout or lost response is not a failure: check the
     known output first. Deliver each Reel as `artifacts/<p>/reels/<title>.mp4` with its report and
-    sheet, a descriptive title, and one summary row in chat (title, source range, length, defects).
+    sheet, a descriptive title, and one summary row in chat (title, source range, length, framing and
+    the text-size figure, defects).
     Name every unresolved defect and every default used, say that perceptual items were not
     listened to, and close with the file count and credits spent; write `artifacts/<p>/PROGRESS.md`.
 
@@ -301,7 +320,8 @@ Checklist and recovery table: [references/review.md](references/review.md).
 - **The fallback method for stream, gaming and reaction VODs** (WF25-a2: dead-air removal, automatic
   per-shot reframe, styled variant captions, up to 16 clips) is not offered on this machine yet. Local
   alternative: this method with pad framing and pauses kept (VID-L363).
-- Chunked transcription (step 6), page-link sources (step 5), styled captions (step 15).
+- Chunked transcription (step 6), page-link sources (step 5), styled captions (step 15), a stacked
+  layout (slide region above the speaker in one frame; step 14 takes one or the other).
 
 ## House rules (HR-1.1)
 

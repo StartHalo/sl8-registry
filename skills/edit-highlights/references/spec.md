@@ -7,6 +7,7 @@
 - [plan and cut spec](#plan-and-cut-spec)
 - [Caption defaults](#caption-defaults)
 - [Report](#report)
+- [frame.py](#framepy)
 
 ## Project files
 
@@ -115,3 +116,19 @@ it), `captions` (count, words used, words dropped for straddling a real cut, lin
 up to 8 times spread over the Reel for the step 18 frames),
 `loudnorm` (measured, type, output), `blackdetect` (0.1 s), `silencedetect` (-45 dB, 0.4 s),
 `sheet` (12 frames) and `notes`. The report prints figures; it never says pass.
+
+## frame.py
+
+SL8-authored framing help for step 14 (python-imaging's numpy, Pillow and OpenCV). It proposes and
+measures; the agent decides.
+
+| Command | Prints (one JSON line) | Exit |
+|---|---|---|
+| `faces <src> --start --end --width --height [--fps 2] [--work]` (at most 80 sampled frames, the rate lowered for a long range, in a fresh temp folder under `--work`, deleted afterwards) | `framing` (a `crop` at the output aspect, full source height: static `x`,`y` when the face centre moves under 10% of the crop width, else up to 20 keyframes, median-smoothed), `frames`, `faces`, `coverage`, `movement` (`static`, `follows`, `jumps`), `reversals` | 0 a proposal; 1 no steady face (under half the frames, or it jumps between two places); 2 no OpenCV or no face cascade |
+| `text <frame> --framing <json> --size WxH [--min-fraction 0.015]` | `visible_rect` and `scale` (pad: the whole frame at min(W/w, H/h); a crop: the crop at H/crop height; keyframed crops use the first keyframe), `lines`, `cap_px_source`, `cap_px_output`, `fraction`, `verdict` (`readable`, `unreadable`, `no text found`) | 0 readable or no text; 1 unreadable; 2 usage or a missing module |
+
+The text figure is an estimate: an Otsu threshold, ink rows grouped into lines, and cap height taken
+as 0.8 of the median line's ink height (on rendered Arial slides it read 20.8 px for a 26 px cap and
+71 px for a 69 px cap). It is an observation for the report (HR14). A full 1920x1080 slide padded
+into 1080x1920 scales by 0.5625, so 36 px slide text (cap 26 px) lands near 15 px, 0.8% of the
+height; the same text in a 606x1080 crop scales by 1.78 and lands near 46 px, 2.4%.
