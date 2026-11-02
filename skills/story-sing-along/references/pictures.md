@@ -49,8 +49,10 @@ frame already moves; the payoff comes in the last 20%.
 "kind":"intro|gap|end","after":"<way B only: what the hero does after the action>","replace":"<way B
 file, step 13>"}]}]}`. Required per shot: `seconds`, `framing`, `see`, `row`. `kind` marks a shot that
 spans an intro, gap or end row (its length may leave the 1-5 s range with a warning); `camera`
-defaults to locked; the rest are optional. **Shot 1 spans the intro bar plus line 1, the last shot
-the last line plus the end row** (a long end row gets its own `"kind":"end"` shot), so a plan that
+defaults to locked; the rest are optional. **An intro over 1.5 s gets its own wide `"kind":"intro"` shot
+(as any instrumental gap over 1.5 s), and shot 1 spans the intro only when it is 1.5 s or shorter;
+the last shot spans the last line plus the end row** (a long end row gets its own `"kind":"end"` shot),
+so every sung-line shot stays inside 1-5 s, and a plan that
 gives each line one bar of picture is short by those two bars and `shots` fails. `sing.py shots
 --write` adds `start_s`, `clip_t`, `length_s` and `render_s` to the file.
 

@@ -15,14 +15,14 @@ description: >-
 license: SL8 wording and an SL8-authored script; method from the Everygen nursery-rhymes pack (no licence stated), restated and cited; points from fal and Creative Claw (Apache-2.0), restated
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions (same Video bundle); ffmpeg 5.1 (libass, libx264, aac); python3 3.11; fonts 1.1.0 (Comic Neue) and fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-11-01a
+  version: 1.0.2
+  revision: 2026-11-02a
   house-rules: HR-1.0
   upstream: [everygen/nurseryrhymes-fcc8ba, fal/falaudiogeneration-ba1a03, creative-claw/cc-model-contracts-image-audio, fal/charactersheet-a2ae87, everygen/animated-421cf1, fal/videocompositing-6a3f7a, creative-claw/creativeclawcreatereels-b6e06c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen guidance captured 2026-10-26)
   approach: WF46-a1-s1
   attribution: Method from the SL8 capability assessment (WF46-a1-s1), restated in SL8 wording from Everygen's nursery-rhymes guidance, with points from fal's audio, character-sheet and compositing skills and Creative Claw's model contracts and reels skill (Apache-2.0); script written by SL8 from the described behaviour
-  deltas: STO-D400..STO-D419, STO-D446
+  deltas: STO-D400..STO-D419, STO-D446, STO-D449..STO-D450
 ---
 
 # Nursery-rhyme sing-along
@@ -159,9 +159,9 @@ state.json, lyric_map.json, captions.ass: kept for later changes), `song/`, `key
      as it came" with a new quote, stop) and end `partial`. Never a silent video.
 9. **Shot plan, in the same job the song lands** (`pictures.md`). Time the song:
    `python3 $G retime --timeline artifacts/<p>/plan/timeline.json --readback artifacts/<p>/plan/readback.json --out artifacts/<p>/plan/timeline.json`.
-   Write `shotplan.json` (shape in pictures.md: one shot per sung line by the verse template; shot 1 also
-   covers the intro bar and the last shot the end row; an instrumental gap over 1.5 s gets a wide travel
-   shot; clips of one verse or 8-15 s), then
+   Write `shotplan.json` (shape in pictures.md: one shot per sung line by the verse template, 1-5 s each;
+   an intro or instrumental gap over 1.5 s gets its own wide travel shot (a shorter intro joins shot
+   1); the last shot covers the end row; clips of one verse or 8-15 s), then
    `python3 $G shots --timeline artifacts/<p>/plan/timeline.json --plan artifacts/<p>/plan/shotplan.json --fix-last --write`
    (`--lullaby` for a lullaby). Re-quote the clips from the real `render_s` (step 5). Post one hand-over
    line and a plain table of each shot's `see`; never counts, times or totals.

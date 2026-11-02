@@ -6,13 +6,13 @@
   {
    "slug": "song-lyria",
    "use": "song prompt for fal-ai/lyria3/pro (sing.py song-prompt --route lyria appends one compact timed row per line)",
-   "prompt": "Original children's sing-along song, {mood} mood, {genre}, {bpm} BPM, in {key}, {time_signature} time. Compose fresh, original music that borrows from no known song. Instruments: {instruments}. Vocals: {voice}, every word sung clearly, a single note per syllable, each lyric line filling exactly one bar after one bar of music alone. {n_lines} sung lines in total plus the opening and closing bars, roughly {length_s} seconds long. {sound_note} Every timed row is sung once, at its time. Finish cleanly on one last note. Timed lyrics, one row per bar, each row its start time then the words:",
+   "prompt": "Original children's sing-along song, {mood} mood, {genre}, {bpm} BPM, in {key}, {time_signature} time. A brand-new original melody that borrows from no known song. Instruments: {instruments}. Vocals: {voice}, every word sung clearly, a single note per syllable, each lyric line filling exactly one bar after one bar of music alone. {n_lines} sung lines in total plus the opening and closing bars, roughly {length_s} seconds long. {sound_note} Every timed row is sung once, at its time. Finish cleanly on one last note. Timed lyrics, one row per bar, each row its start time then the words:",
    "from": "everygen/nurseryrhymes-fcc8ba@Lyria song prompt template with timed lyric rows"
   },
   {
    "slug": "song-minimax",
    "use": "style prompt for fal-ai/minimax-music/v2.6; the words go in the lyrics field with [Verse] and [Chorus] tags (sing.py song-prompt --route minimax)",
-   "prompt": "{mood} children's sing-along song, {genre}, {bpm} BPM, {instruments}, {voice}, every word sung clearly. Fresh, original music that borrows from no known song.",
+   "prompt": "{mood} children's sing-along song, {genre}, {bpm} BPM, {instruments}, {voice}, every word sung clearly. A brand-new original melody that borrows from no known song.",
    "from": "everygen/nurseryrhymes-fcc8ba@Lyria song prompt template with timed lyric rows"
   },
   {
