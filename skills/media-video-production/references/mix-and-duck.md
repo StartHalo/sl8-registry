@@ -6,8 +6,18 @@ Read this before stage 6. Below, `Q` is `$HOME/.agents/skills/media-qc/scripts/m
 ## Stages 6–7 — Music and the mix
 
 Settle `Music` per Step 0: a stated default, never a question. A bed from
-`media-audio-generation` is a paid stage: run the pre-spend steps in SKILL.md first. Then assemble
-in the sandbox with ffmpeg:
+`media-audio-generation` is a paid stage: run the pre-spend steps in SKILL.md first.
+
+**The default bed** (when the brief names no music and does not say "no music"): one instrumental
+on `fal-ai/minimax-music/v2.6` with `is_instrumental: true` and a prompt of style tags from the
+brief's tone (genre, mood, tempo, instruments), quoted at **38 credits** (media-audio-generation's
+facts row price-minimax-music). That route has no length field: trim the bed to the cut's runtime
+with a 1–2 s fade-out, and record that in the bed's manifest row. A bed shorter than the cut is
+reported with its length; the length-controlled route `fal-ai/elevenlabs/music` (`music_length_ms`,
+`force_instrumental: true`, quoted first: about 300 credits for 75 s) is the named alternative.
+Write the choice into `plan.json` `declared.music` and the delivery. A brief may name another route.
+
+Then assemble in the sandbox with ffmpeg:
 
 1. Concatenate the approved clips in plan order. First run `node $Q clipset artifacts/<project>/clips/`:
    a clip whose fps, size, pixel format or audio layout differs from the rest is named before the
