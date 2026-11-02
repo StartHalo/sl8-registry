@@ -15,14 +15,14 @@ description: >-
 license: Theme contract copied from Creative Claw 5.4.2 (Apache-2.0) with attribution; method and all other wording SL8's, restated from Creative Claw, HyperFrames (Apache-2.0) and fal agent skills (used with attribution) and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; Playwright on chrome-headless-shell 152; imagemagick 6.9; fontconfig (fc-scan); curl; fal endpoints as of 2026-10-20"
 metadata:
-  version: 1.0.3
-  revision: 2026-11-01b
+  version: 1.0.4
+  revision: 2026-11-02b
   house-rules: HR-1.0
   upstream: [creative-claw/cc-brand-theme, creative-claw/cc-mcp-tool-declarations, hyperframes/hyperframes-2afd9d, hyperframes/hyperframescli-e1e7eb, fal/brandedgraphics-96ba6e, fal/photoediting-ba8ff5, fal/fal-mcp-tools, fal/falmodelscatalog-4c46e7]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Creative Claw 5.4.2 installed 2026-10-25)
   approach: WF14-a1
   attribution: Method from the SL8 capability assessment (WF14-a1), after Creative Claw's brand themes workflow (Apache-2.0; its theme data contract is copied in references/theme-contract.md); rules restated from HyperFrames (Apache-2.0) and fal agent skills
-  deltas: MKT-D340..MKT-D359, MKT-D547, MKT-D552, MKT-D554..MKT-D555
+  deltas: MKT-D340..MKT-D359, MKT-D547, MKT-D552, MKT-D554..MKT-D555, MKT-D560
 ---
 
 # Brand kit
@@ -185,18 +185,22 @@ and do not rely on `--max-cost` alone, which caps one call, not the job.
 9. **Build the smallest exact patch** [9], shaped by the contract in theme-contract.md: name only
    the keys you change; a `colors`, `fonts` or `logos` key carries the whole collection, and
    `images` the whole array in deliberate order (the first is the thumbnail). Current arrays and
-   roles only, never a legacy free-form structure. `node $KIT validate --patch work/brand-<kit>/patch.json`.
+   roles only, never a legacy free-form structure. An entry carried forward from the earlier kit stays in its
+   collection only when its file opens or its URL answers (a signed or temporary URL counts as dead); one
+   that does not (a 404, a file that is gone) goes to `missing[]` as `{item, reason}`, never into the patch.
+   That removal is the one `--allow-remove` the customer did not ask for: name it in the hand-off. `node $KIT validate --patch work/brand-<kit>/patch.json`.
 10. **Write the kit** [10].
     `node $KIT merge --kit <name> --patch work/brand-<kit>/patch.json --expect-sha <sha>`, where `<sha>` is the one
     `show` printed (step 2), or a fresh `show` if the kit was edited since.
     One merge per job: every change goes in this one patch, so `theme.json.bak` stays the kit as it was
     before the job. It keeps `theme.json.bak`, refuses a patch that drops collection entries (add `--allow-remove`
-    only when the customer asked for the removal), and applies `--override` (replace the whole kit)
+    only when the customer asked for the removal, or for a dead earlier entry moved to `missing[]` in step 9), and applies `--override` (replace the whole kit)
     and `--set-default` only when the customer's request names them. Delete a kit only on the
     customer's explicit request: `node $KIT delete --kit <name> --by "<their words>"`.
 11. **Read it back and verify** [11]. `node $KIT verify --kit <name>`: every path opens, every
     remote URL answers (a signed or temporary one fails), every role is in its vocabulary, and the
-    missing and unconfirmed items are listed. Then compare each role with what the customer
+    missing and unconfirmed items are listed. Exit 1 is a defect, never a delivered kit: step 9 should
+    have moved every dead entry, so name each failing path in the hand-off as a defect of this job. Then compare each role with what the customer
     confirmed. `node $KIT contrast --kit <name>` reports fg-on-bg ratios against 4.5:1 (normal
     text) and 3:1 (large text, 24 px and up or 19 px bold): a warning for the customer, never a
     change to a brand colour. If a pair fails, say what would pass (lighter ink on a dark ground, darker
