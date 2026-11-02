@@ -14,8 +14,8 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from the Scrimba Explain companion kit and markup contract (no licence stated for the assessed units), restated and cited;points from fal agent skills (no licence stated, used with attribution) and HyperFrames (Apache-2.0)
 compatibility: "hyperframes-studio E2-narrow (HyperFrames CLI 0.8.61, chrome-headless-shell 152, GSAP 3.14.2 loaded from the jsDelivr address hyperframes-core's examples use, or from a local file passed with --gsap-file); ai-gen 2.2.0; ffmpeg 5.1.9; python3 with Pillow; poppler-utils; fonts 1.1.0 and fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-11-01d
+  version: 1.0.2
+  revision: 2026-11-02a
   house-rules: HR-1.1
   upstream: [explain-video-generator/explaincompanionkit-8081e1, explain-video-generator/explainer-markup-contract, explain-video-generator/explain-tool-declarations, fal/falaudiogeneration-ba1a03, fal/falvideoproduction-09f33d, fal/charactersheet-a2ae87, hyperframes/hf-docs-prompting, hyperframes/hyperframes-2afd9d, hyperframes/hf-docs-render-contract, hyperframes/mediause-ec397d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; markup contract snapshot 2026-10-11)
@@ -211,7 +211,7 @@ Every script prints figures and exits non-zero on a failed check. The grammar is
     ar ara, and others); for one it does not list, read `ai-gen info`. Diarization and sound tags are on by
     default and would pollute the words; identifiers and names go in `keyterms`. Then
     `python3 $X/validate_extra.py $J` (the job files agree: manifest files and sizes, attachments, chunk sizes,
-    one `say-NN.words.json` per MP3 with times that never go backwards; exit 1 names each problem), and
+    one `say-NN.words.json` per MP3 with times that never go backwards, read from the ai-gen envelope's words as align.py reads them, spacing tokens skipped; exit 1 names each problem), and
     `python3 $X/align.py $J` writes `timeline.json`: each link starts on its label's first word. A say
     without word times (an STT without them, a failed call, alignment under 0.6) gets an even
     spread, is listed under `even`, and its pointer check is declared not run (P14). Says under
