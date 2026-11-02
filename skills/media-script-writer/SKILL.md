@@ -1,28 +1,28 @@
 ---
 name: media-script-writer
 description: >-
-  Writes the script for a generated video before anything is generated: premise, want
-  against need, acts, a turn, escalation and resolution, delivered as a timed shot table.
-  Every row carries a cut length and a generated length the route can render, a
+  Writes the script for a generated video before anything is generated, in one of two
+  modes: Cinematic (premise, want against need, a turn, escalation, resolution) or Ad
+  (hook, problem, demo, proof, offer and tagline beats on a clock), delivered as a timed
+  shot table. Every row carries a cut length and a generated length the route can render, a
   voiceover or dialogue line held to a word cap computed from the speaking voice's
   registry rate, and a continuity cell naming what carries in from the row above. No
-  model calls; text and timing arithmetic only. Use when: write a script, story, short
-  film, brand film, narrative video, VO script, shot list, storyboard copy, beat sheet,
-  AI video screenplay, timed narration, or turn a brief into shots. NOT for: ad scripts
-  built on hook, problem, demo, proof, offer and tagline beats (Ad mode is not on this
-  machine); wording one shot's visual prompt (media-shot-craft); generating clips
-  (media-video-generation); generating the voiceover (media-audio-generation);
-  assembling a finished video (media-video-production).
+  model calls; text and timing arithmetic only. Use when: write a script, ad script,
+  commercial, promo, product ad, story, short film, brand film, narrative video, VO
+  script, shot list, storyboard copy, beat sheet, AI video screenplay, timed narration,
+  or turn a brief into shots. NOT for: wording one shot's visual prompt
+  (media-shot-craft); generating clips (media-video-generation); generating the voiceover
+  (media-audio-generation); assembling a finished video (media-video-production).
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.0 (sl8-image 1.0.0, Base 2.0.2); ai-gen 2.2.0 (no calls made here); python3; media-audio-generation 1.0.0 voice registry (rate_wps)"
 metadata:
-  version: 1.1.2
-  revision: 2026-10-31b
+  version: 1.1.3
+  revision: 2026-11-02a
   house-rules: HR-1.1
   upstream: fal-agent/fal-script-writer  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D50..VID-D59, VID-D107, VID-D168..VID-D173, VID-D633..VID-D634, VID-D755
+  deltas: VID-D50..VID-D59, VID-D107, VID-D168..VID-D173, VID-D633..VID-D634, VID-D755, VID-D792..VID-D797
 ---
 # Script Writer
 
@@ -35,10 +35,9 @@ independently by a model that has never seen the shot before it, so an unbroken
 take, an "as previously", or a page of two-hander dialogue are all instructions
 nothing downstream can execute. What ships is a **shot table**: discrete
 generatable rows, a duration on each, a word-counted voiceover line, and an
-explicit statement of what carries from the row above. One mode —
-**Cinematic** (acts, a turn, a resolution); the **Ad** mode (beats, a clock, an
-offer) is not on this machine, so an ad brief is written as a Cinematic piece and
-the delivery says so — and it feeds media-video-production when the ask is a whole
+explicit statement of what carries from the row above. Two modes, chosen once
+and never mixed — **Cinematic** (acts, a turn, a resolution) and **Ad** (beats,
+a clock, an offer) — and both feed media-video-production when the ask is a whole
 assembled video, or media-video-generation (one row, one clip) and
 media-audio-generation (one clip per row, length-constrained) when it is not.
 
@@ -57,24 +56,26 @@ media-audio-generation (one clip per row, length-constrained) when it is not.
 
 ## Step 0 — Intake, once
 
-**No person is present to answer, so ask nothing** (HR12): take the four items
+**No person is present to answer, so ask nothing** (HR12): take the five items
 below from the brief, fill every blank from the defaults table, and go to
 Step 1. Conditional questions that come up later each have a written default —
 see the roster at the end of this step.
 
-1. **Target duration** — `15s`, `30s`, `60s`, `90s`, or free
+1. **Mode** — `Cinematic / narrative` or `Ad / commercial`.
+2. **Target duration** — `15s`, `30s`, `60s`, `90s`, or free
    text in seconds.
-2. **Voice** — `VO over visuals` (default), `On-camera
+3. **Voice** — `VO over visuals` (default), `On-camera
    dialogue`, or `No words — visuals and music only`.
-3. **Delivery aspect** — `16:9`, `9:16`, `1:1`.
-4. **The brief** (free text) — product or premise, audience, tone, must-say
+4. **Delivery aspect** — `16:9`, `9:16`, `1:1`.
+5. **The brief** (free text) — product or premise, audience, tone, must-say
    lines, and any claim the user wants stated.
 
 Fill any blank from this table, never re-ask, and list every fill at delivery.
 
 | Unanswered | Use | Unless |
 |---|---|---|
-| `Length` | `60s` | a platform is named → its native length |
+| `Mode` | `Cinematic` | the brief asks for an ad, commercial, spot or promo for a product or service → `Ad` |
+| `Length` | `30s` for an ad, `60s` for cinematic | a platform is named → its native length |
 | `Voice` | `VO over visuals` | the brief quotes a character speaking |
 | `Aspect` | `16:9` | a vertical platform is named — TikTok, Shorts, Reels, Stories → `9:16`; a bare "social media" with no platform keeps `16:9` and is the first fill named at delivery |
 | `Rate` (never asked) | the speaking voice's `rate_wps` from the voice registry (Step 1) | — |
@@ -135,7 +136,7 @@ taken, so the pipeline never stalls. The delivery names every default taken.
 
 | Question | Fires when | Default taken |
 |---|---|---|
-| `Length` / `Voice` / `Aspect` (the intake) | the brief leaves any of the four items open | fill from the defaults table |
+| `Mode` / `Length` / `Voice` / `Aspect` (the intake) | the brief leaves any of the five items open | fill from the defaults table |
 | `Scope` | Step 0b finds the beat list over-subscribed against the shot budget, or a required moment with no room | take the drafted cut list and proceed; the dropped beats and the reason go in the delivery |
 | `Assumptions` | three or more inventions, or an invented benefit or offer | proceed with the drafted list, marked unconfirmed at delivery |
 | `Claim substantiation` | supplied copy carries a regulated or superlative claim and the brief asserts no sign-off (Step 3) | the claim does not ship — Step 3 states exactly what is delivered instead |
@@ -218,7 +219,7 @@ allowed lengths cover your **longest** `Cut` — Veo 3.1 Fast caps at 8s, so any
 row cut longer than that excludes it — then take every row's `Gen` from that
 one route's schema, and say which routes you checked.
 
-## Step 2 — Cinematic mode
+## Step 2A — Cinematic mode
 
 Write four one-sentence lines first — the reason the shots are in that order,
 and part of the delivery.
@@ -250,6 +251,47 @@ in every row, so every downstream skill can take the table as-is.
 |---|---|---|---|---|---|---|---|---|
 | 3 | INT. GARAGE — NIGHT | 8s | 8s | MAYA, 30s, oil-stained grey coveralls, kneels beside a stripped motorbike under one caged worklight; she stops turning the wrench and looks at the empty doorway. Slow push-in, waist to chest. | VO (MAYA): *He never once came down here.* | 6 | WARDROBE grey coveralls, LOCATION garage, PROP stripped motorbike, TIME night — all restated in this row | worklight hum, distant rain |
 
+## Step 2B — Ad mode
+
+Six beats, budgeted at 30s and the seed rate 2.82 (Step 1). At any other length: drop the beats
+the `Cut it when` column names, scale each surviving `Cut` by `target / 30` in
+whole seconds — trimming or padding **Demo** so the column still sums exactly —
+then recompute every `Words` cap with the Step 1 formula at the speaking voice's rate. When supplied
+verbatim copy fixes a row's word count instead, invert that arithmetic and
+derive the duration from the words: `Cut = ceil(W / (rate x 0.9))`.
+
+| Beat | Job | 30s cut | Words | Cut it when | Fold into |
+|---|---|---|---|---|---|
+| Hook | Stop the scroll. One image, one idea. | 2s | 5 | never | — |
+| Problem | The cost of not having it, shown not stated. | 4s | 10 | length ≤ 15s | the hook, as the "before" half |
+| Demo | The product doing the thing. The only mandatory beat. | 9s | 22 | never | — |
+| Proof | Why believe it — but see Step 3. | 6s | 15 | no substantiated claim exists | drop entirely, extend Demo |
+| Offer | What to do, where, by when. | 5s | 12 | brand film with no CTA | the tagline frame |
+| Tagline | Logo, line, hold. | 4s | 10 | never | — |
+
+Durations sum to 30s; words sum to 74, inside the 76-word budget at 2.82. The closing logo
+frame (Step 1) is the Tagline beat, about 4 s by default; its extra second comes from Demo.
+
+**Beats are not shots.** At fast pacing — TikTok, frenetic — a beat, usually
+Demo, splits into several rows of 1–2.5 second cuts (a montage), each generated
+at the route floor and trimmed, each row still one action with its anchors
+restated. The beat's words divide across its rows and the caps apply per row.
+
+**When verbatim copy consumes the clock at full length** — nothing in `Cut it
+when` fires, yet must-say words leave no room for six beats — verbatim copy
+outranks beat count. Fold beats using their own `Fold into` cells, in the order
+Problem, then Proof, then Offer, until the remaining rows fit, and name every
+fold in the delivery.
+
+**The hook is not an intro.** Five words and one legible image; a logo sting in
+the first two seconds spends the hook on a beat the tagline already owns.
+
+### Ad output template — fill and hand over as-is
+
+| # | Beat | Cut | Gen | Visual (shot seed) | VO | W | On-screen text | Carries in |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Hook | 2s | 4s | Overhead macro, matte-black kettle on pale oak, a single drip hangs off the spout and falls into a white cup. Locked off, no camera move. | Ninety seconds. That's it. | 4 | **90 SECONDS** lower third | opens the film — nothing carries in. PRODUCT matte-black kettle and SURFACE pale oak established here and restated in every later row |
+
 ## Step 3 — Continuity, and claims
 
 **The `Carries in` column is the only continuity that exists.** Write it as
@@ -271,7 +313,7 @@ Anything else reading as "same as the last shot" is a defect; Step 5 greps for i
 statistic, a percentage, a superlative (`best`, `#1`, `fastest`), a comparative
 (`twice as long as`), an award, a rating, a review or an endorsement — not as a
 placeholder, not as an example, not in on-screen text where it reads as fine
-print.
+print. In Ad mode, if Proof has nothing substantiated to say, cut it per the beat table.
 
 **A claim the user typed is not a claim the user can make.** Where supplied copy
 touches health, safety, medical, financial or environmental territory, or any
@@ -281,7 +323,7 @@ it:
 
 - **The brief asserts a sign-off** — "legal signed off on this exact wording",
   "we hold the study". That counts as answered; record the assertion as the
-  source in check 7.
+  source in check 8.
 - **A later reply to `Claim substantiation`** (the roster in Step 0): the
   delivery lists each such line verbatim, and a reply that the user holds
   evidence for it is recorded as its source in the revision.
@@ -307,11 +349,12 @@ revision. Never stall the run waiting on one.
    emotion — and print its validator lines per row. If it is not there,
    this item's minimums stand and the delivery says the craft reference was
    unavailable.
-4. Fill `Gen`.
+4. Fill `On-screen text` (Ad mode) with the literal string to burn, or `—`; under six
+   words, echoing the VO rather than duplicating it. Then fill `Gen`.
 
 ## Step 5 — Verification: arithmetic, not taste
 
-Run all of these and answer each explicitly. Checks 6 to 8 are conditional; an
+Run all of these and answer each explicitly. Checks 6 to 9 are conditional; an
 inapplicable check is `n/a`, which is a pass.
 
 1. **Every row has a numeric `Cut`.** No blanks, no ranges, no "approx".
@@ -325,11 +368,14 @@ inapplicable check is `n/a`, which is a pass.
    "continues", "same as above", "as before", or names the previous shot's final
    frame** — unless tagged `FRAME` and planned in Step 3. Grep the `Carries in`
    column only; a whole-document grep flags the sentence reporting this check.
-7. *(any claim present)* **Every number, superlative and comparative traces to a
+7. *(Ad mode only)* **Hook `Cut` <= 2.0s and hook words <= 5**, and no logo or brand
+   name occupies row 1's visual. The restriction is the image only — the VO may
+   name the brand, since a must-say line is allowed to open the film.
+8. *(any claim present)* **Every number, superlative and comparative traces to a
    user-supplied line Step 3 records as substantiated** — a sign-off asserted in
    the brief, or a recorded reply to `Claim substantiation`. List them with their
    sources; a line Step 3 withheld appears nowhere, including on-screen text.
-8. *(on-camera dialogue only)* **No row has two speaking characters**, and every
+9. *(on-camera dialogue only)* **No row has two speaking characters**, and every
    on-camera line sits in a row of at least 3s. Count the rows with dialogue: if
    it is most of them, the piece should have been VO.
 
@@ -345,7 +391,7 @@ overflow, the delivery also lists what cutting each must-say line would buy
 
 Write the delivery to `artifacts/<project>/script.md` — the file under
 `artifacts/` is what the person and the next job read; scratch arithmetic stays
-in `work/<project>/` — in order: target; the four cinematic lines; the filled table; the Step 5 numbers; then the hand-off. Name every
+in `work/<project>/` — in order: mode and target; the four cinematic lines or the beat budget; the filled table; the Step 5 numbers; then the hand-off. Name every
 field filled from the defaults table, and everything invented.
 
 **If the brief is a whole finished video, hand off once, not several times.** A request
@@ -383,7 +429,8 @@ the individual hand-offs are correct:
   overlapping dialogue do not survive generation.
 - **Never put text in a shot seed.** On-screen text lives outside the table, named
   in the hand-off, and is burned in the edit (media-motion-graphics); models render lettering unreliably, and a misspelled
-  brand name in frame is a reshoot.
+  brand name in frame is a reshoot. In Ad mode the table's `On-screen text` column carries
+  those strings to the hand-off; the shot seed holds none.
 - **Must-say lines are load-bearing.** They go in verbatim and count against the
   budget like everything else — never paraphrase one, never raise the rate to
   fit one, whatever the brief instructs. If they alone exceed the target's
@@ -397,7 +444,8 @@ the individual hand-offs are correct:
   to rows and run Step 5 on it, reporting failures rather than rewriting the
   voice. A mood with no product or character → invent nothing silently: draft
   the open items and deliver them as `Assumptions`, marked unconfirmed (the
-  roster). More than about a dozen rows for 30 seconds at default
+  roster). Under 8 seconds in Ad mode → hook and tagline only, and say the other
+  beats do not fit. More than about a dozen rows for 30 seconds at default
   pacing, or a generated total past roughly three times the finished length at
   fast pacing → the cutting is faster than generated clips hold up under;
   consolidate and say why.
