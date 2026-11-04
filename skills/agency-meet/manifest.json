@@ -1,0 +1,7 @@
+{
+  "name": "agency-meet",
+  "version": "v1.0.0",
+  "description": "Run or file a meeting with the customer, the pull side of the account. The customer sees status, reviews a deliverable, changes the plan or decides. Afterwards every point becomes an event or a task the same day, and the recap goes out. Use for a live meeting, pasted notes, a transcript, or \"we're meeting now\".",
+  "generated_at": "2026-11-04T05:15:35.700Z",
+  "skill_md_sha256": "d0e44573f8c452618573c88fc3b1a2ff051430de91b485a08d407ccc5d3b0dff"
+}
