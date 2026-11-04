@@ -1,0 +1,7 @@
+{
+  "name": "agency-evaluate",
+  "version": "v1.0.0",
+  "description": "Check, once and independently, anything that will reach the customer (deliverables and every email) before it goes. Returns pass or fail with a note. Use before closing any deliverable or comms task, and to re-check anything checked more than a week ago.",
+  "generated_at": "2026-11-04T05:15:21.986Z",
+  "skill_md_sha256": "3bada41c978824bf09b08273d8c2a5afb4522062071fa7b163db5165661a2600"
+}
