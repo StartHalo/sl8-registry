@@ -1,0 +1,7 @@
+{
+  "name": "agency-store-reads",
+  "version": "v1.0.0",
+  "description": "Read public app-store data with plain GETs - an app's exact lifetime Google Play installs (ours or a competitor's), Play and App Store listing fields (title, subtitle, short description, ratings, screenshots), search rank per keyword and country on both stores, iTunes lookup - and which apps carry which search words. Use for a daily install figure, an ASO baseline or read-out, or a competitor comparison.",
+  "generated_at": "2026-11-04T05:16:18.605Z",
+  "skill_md_sha256": "96b60cf9b42eaca19ae26f366743876092c7c67cf679502f8135ec11bbaed0bb"
+}
