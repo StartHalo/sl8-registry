@@ -1,0 +1,152 @@
+<title>Product Document Name</title>
+<meta name="doc-short" content="Product Document Name">
+<meta name="doc-status" content="Prepared for <Customer> · version <N> · <date>">
+<meta name="doc-file" content="Client-Product-Document-Name-v1">
+<meta name="doc-size" content="a4">
+<!-- Starter report. Replace every <angle-bracket> text; delete pages you do not need; copy a
+     finding page per finding. Rules and build: the agency-report-pdf skill (SKILL.md next to build_report.py).
+     Build: python3 <skill>/build_report.py <this file> -->
+
+__ICONS__
+
+<div class="doc">
+
+<!-- COVER (first page) -->
+<section class="sheet cover" data-section="Cover">
+  <div class="edge"></div>
+  <div class="inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div class="brandline"><img src="__LOGO__" alt="Slate Agency logo">Slate Agency</div>
+      <div class="prepared"><span class="muted">Prepared for</span><b>&lt;Client · Product&gt;</b><span class="muted">&lt;Date&gt;</span></div>
+    </div>
+    <div style="margin-top:24mm;display:grid;gap:6mm">
+      <span class="docname">&lt;Product Document Name&gt;</span>
+      <h1>&lt;The answer or the question, as a claim of eight words or fewer&gt;</h1>
+      <p class="lede" style="max-width:140mm;font-size:12pt">&lt;One sentence: what this is built on and what the reader gets.&gt;</p>
+    </div>
+    <div class="meta" style="margin-top:4mm">
+      <div><h4>Document</h4>&lt;Type&gt;</div><div><h4>Version</h4>1</div><div><h4>Date</h4>&lt;Date&gt;</div><div><h4>Prepared by</h4>Slate Agency</div>
+    </div>
+    <div class="grid g3" style="margin-top:6mm">
+      <div class="tile"><div class="stat"><span class="n">&lt;12&gt;</span><span class="t">&lt;what the number counts&gt;</span></div></div>
+      <div class="tile"><div class="stat"><span class="n">&lt;4&gt;</span><span class="t">&lt;what the number counts&gt;</span></div></div>
+      <div class="tile"><div class="stat"><span class="n">1</span><span class="t">decision asked of &lt;Client&gt;</span></div></div>
+    </div>
+    <div class="card line" style="margin-top:2mm">
+      <h4>In this report</h4>
+      <div class="grid g2" style="gap:1.2mm 8mm;font-size:8.5pt">
+        <span><b>2</b> · The answer on one page</span><span><b>5</b> · What we do not know</span>
+        <span><b>3</b> · How we built it</span><span><b>6</b> · The decision</span>
+        <span><b>4</b> · Finding 1</span><span><b>7</b> · Sources</span>
+      </div>
+    </div>
+    <div class="push" style="display:flex;justify-content:space-between;align-items:flex-end">
+      <span class="status">Version &lt;N&gt; · &lt;date&gt;</span>
+      <span class="src" style="text-align:right">Every figure links to its source.<br>Confidence is marked on each one.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ANSWER (page 2) -->
+<section class="sheet" data-section="The answer">
+  <div class="head"><p class="eyebrow">The answer on one page</p><h2>&lt;Title: the answer as one claim&gt;</h2></div>
+  <div class="pyr">
+    <div class="top"><b>Slate's recommendation</b>&lt;The answer in one sentence the reader can act on.&gt;</div>
+    <div class="grid g3" style="gap:2.5mm">
+      <div class="card tint"><h4>1 · &lt;Bucket&gt;</h4><h3>&lt;Argument&gt;</h3><p class="small">&lt;Its count: n of N.&gt;</p></div>
+      <div class="card tint"><h4>2 · &lt;Bucket&gt;</h4><h3>&lt;Argument&gt;</h3><p class="small">&lt;Its count.&gt;</p></div>
+      <div class="card tint"><h4>3 · &lt;Bucket&gt;</h4><h3>&lt;Argument&gt;</h3><p class="small">&lt;Its count.&gt;</p></div>
+    </div>
+  </div>
+  <div class="card dark" style="padding:6mm"><p class="eyebrow">The decision we ask for</p><h2 style="font-size:15pt">&lt;The decision in one line&gt;</h2></div>
+</section>
+
+<!-- METHOD -->
+<section class="sheet" data-section="How we built it">
+  <div class="head"><p class="eyebrow">How we built it</p><h2>&lt;Title: why the reader can trust this&gt;</h2></div>
+  <div class="steps">
+    <div class="step"><span class="n">&lt;12&gt;</span><b>Choose</b><span>&lt;what was studied and why&gt;</span></div>
+    <div class="step"><span class="n">&lt;100&gt;</span><b>Gather</b><span>&lt;sources and read date&gt;</span></div>
+    <div class="step"><span class="n">&lt;10&gt;</span><b>Score</b><span>&lt;the measures&gt;</span></div>
+    <div class="step"><span class="n">&lt;n&gt;</span><b>Check</b><span>&lt;who checked what&gt;</span></div>
+  </div>
+  <div class="card line">
+    <h4>How sure each figure is</h4>
+    <div class="legend" style="font-size:7.8pt"><span><span class="tag v">Verified</span> primary source</span><span><span class="tag r">Reported</span> press or founder</span><span><span class="tag u">Unverified</span> one weak source</span><span><span class="tag i">Inferred</span> our reading</span><span><span class="tag s">Slate</span> our recommendation</span></div>
+  </div>
+</section>
+
+<!-- FINDING (copy per finding) -->
+<section class="sheet" data-section="Finding 1 · &lt;bucket&gt;">
+  <div class="head"><p class="eyebrow">Finding 1 · &lt;bucket&gt;</p><h2>&lt;n of N did X: the finding as a full sentence&gt;</h2></div>
+  <div class="card white">
+    <h4>&lt;What the chart counts&gt; <span class="tag i">Inferred from &lt;N&gt; cases</span></h4>
+    <div class="bars">
+      <div class="bar"><span class="bl">&lt;Group&gt;</span><span class="bt"><i style="width:60%"></i></span><span class="bn">6</span><span class="bw">&lt;names&gt;</span></div>
+      <div class="bar"><span class="bl">&lt;Group&gt;</span><span class="bt"><i class="grey" style="width:30%"></i></span><span class="bn">3</span><span class="bw">&lt;names&gt;</span></div>
+    </div>
+    <p class="src">&lt;Source, read date&gt;<sup><a href="#s1">1</a></sup></p>
+  </div>
+  <div class="card tint"><div class="irow"><svg class="ico"><use href="#i-target"/></svg><p style="font-size:9.5pt;color:var(--ink)"><b>For &lt;Product&gt;:</b> &lt;what this finding means for the client, one or two sentences&gt;</p></div></div>
+</section>
+
+<!-- GAPS -->
+<section class="sheet" data-section="What we do not know">
+  <div class="head"><p class="eyebrow">What we do not know</p><h2>&lt;n gaps decide the plan&gt;</h2></div>
+  <div class="grid g3">
+    <div class="card line"><h4>&lt;Gap&gt;</h4><p class="small">&lt;What is unknown&gt;</p><p class="src push">Closed by: &lt;who or what&gt;</p></div>
+    <div class="card line"><h4>&lt;Gap&gt;</h4><p class="small">&lt;What is unknown&gt;</p><p class="src push">Closed by: &lt;who or what&gt;</p></div>
+    <div class="card soft"><h4>&lt;Gap&gt;</h4><p class="small">&lt;What is unknown&gt;</p><p class="src push">Closed by: &lt;who or what&gt;</p></div>
+  </div>
+</section>
+
+<!-- DECISION -->
+<section class="sheet" data-section="The decision">
+  <div class="card dark" style="padding:7mm;gap:4mm">
+    <p class="eyebrow">The decision we ask for</p>
+    <h2 style="font-size:19pt">&lt;Agree X, so the client can do Y&gt;</h2>
+    <div class="grid g3" style="gap:3mm">
+      <div class="card"><h4>&lt;Part&gt;</h4><p class="small">&lt;one line&gt;</p></div>
+      <div class="card"><h4>&lt;Part&gt;</h4><p class="small">&lt;one line&gt;</p></div>
+      <div class="card"><h4>Yours to set</h4><p class="small">&lt;what the client decides&gt;</p></div>
+    </div>
+  </div>
+  <div class="head"><p class="eyebrow">What we need from &lt;Client&gt;</p><h2>&lt;n answers let the plan start from your numbers&gt;</h2></div>
+  <div class="grid g2" style="gap:3mm">
+    <div class="card irow"><span class="num-badge ghost">1</span><div><h3>&lt;Ask&gt;</h3><p class="small">&lt;detail&gt;</p></div></div>
+    <div class="card irow"><span class="num-badge ghost">2</span><div><h3>&lt;Ask&gt;</h3><p class="small">&lt;detail&gt;</p></div></div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="sheet" data-section="Sources">
+  <div class="head"><p class="eyebrow">Sources</p><h2>The sources behind every figure</h2><p class="small muted">Read on &lt;date&gt;.</p></div>
+  <div class="card white fill">
+    <ol class="sources">
+      <li id="s1">&lt;Publisher, "Title", date.&gt; <a href="https://example.com">example.com/…</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- BACK (last page) -->
+<section class="sheet back" data-section="Back">
+  <div class="inner">
+    <div class="brandline"><img src="__LOGO__" alt="Slate Agency logo">Slate Agency</div>
+    <div style="margin-top:14mm;display:grid;gap:4mm">
+      <p class="eyebrow">In one sentence</p>
+      <h2 style="font-size:22pt;line-height:1.15">&lt;The whole report in one sentence.&gt;</h2>
+    </div>
+    <div class="grid g3" style="margin-top:6mm">
+      <div class="card"><h4>How it was made</h4><p class="small">&lt;sources, method, checks&gt;</p></div>
+      <div class="card"><h4>What it is not</h4><p class="small">&lt;the limit&gt;</p></div>
+      <div class="card"><h4>Companion</h4><p class="small">&lt;the other document, by name&gt;</p></div>
+    </div>
+    <div class="push" style="display:grid;gap:3mm">
+      <p class="small">Prepared for &lt;Client&gt; by Slate Agency. It contains &lt;Client&gt;'s plans and is not for distribution outside &lt;Client&gt;.</p>
+      <p class="src">&lt;Product Document Name&gt; · Version 1 · &lt;Date&gt;</p>
+    </div>
+  </div>
+  <div class="band"></div>
+</section>
+
+</div>

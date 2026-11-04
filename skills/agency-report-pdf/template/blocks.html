@@ -1,0 +1,79 @@
+<!-- The block templates report.json is rendered with (build_report.py). One <template id> per block
+     type; {{field}} is filled from the block. A layout not here: a "page" block whose body is the
+     inner HTML of a sheet copied from report.src.html. -->
+
+<template id="cover">
+<section class="sheet cover" data-section="Cover">
+  <div class="edge"></div>
+  <div class="inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div class="brandline"><img src="__LOGO__" alt="Slate Agency logo">Slate Agency</div>
+      <div class="prepared">{{logo}}<span class="muted">Prepared for</span><b>{{client}}</b><span class="muted">{{date}}</span></div>
+    </div>
+    <div style="margin-top:24mm;display:grid;gap:6mm">
+      <span class="docname">{{docname}}</span>
+      <h1>{{claim}}</h1>
+      <p class="lede" style="max-width:140mm;font-size:12pt">{{lede}}</p>
+    </div>
+    <div class="push" style="display:flex;justify-content:space-between;align-items:flex-end">
+      <span class="status">Version {{version}} · {{date}}</span>
+      <span class="src" style="text-align:right">Every figure links to its source.<br>Confidence is marked on each one.</span>
+    </div>
+  </div>
+</section>
+</template>
+
+<template id="page">
+<section class="sheet" data-section="{{section}}">
+  <div class="head"><p class="eyebrow">{{eyebrow}}</p><h2>{{title}}</h2></div>
+  {{body}}
+</section>
+</template>
+
+<template id="fix">
+<section class="sheet" data-section="Fix {{n}}">
+  <div class="head"><p class="eyebrow">Fix {{n}} · {{where}}</p><h2>{{title}}</h2></div>
+  <div class="card white">
+    <h4>{{spot}} {{tag}}</h4>
+    <img src="__SHOT_{{shot}}__" alt="{{alt}}" style="max-width:100%;max-height:105mm;object-fit:contain;align-self:center;border:1px solid #e4e1d8">
+    <p class="src">{{caption}}</p>
+  </div>
+  <div class="card line"><p class="small"><b>Now:</b> {{now}}</p><p class="small"><b>Fix:</b> {{fix}}</p></div>
+</section>
+</template>
+
+<template id="fix-code">
+<section class="sheet" data-section="Fix {{n}}">
+  <div class="head"><p class="eyebrow">Fix {{n}} · {{where}}</p><h2>{{title}}</h2></div>
+  <div class="card white">
+    <h4>{{spot}} {{tag}}</h4>
+    <pre style="font-family:var(--mono);font-size:8pt;white-space:pre-wrap;word-break:break-all;margin:0;padding:3mm;background:#f5f3ee;border:1px solid #e4e1d8">{{code}}</pre>
+    <p class="src">{{caption}}</p>
+  </div>
+  <div class="card line"><p class="small"><b>Now:</b> {{now}}</p><p class="small"><b>Fix:</b> {{fix}}</p></div>
+</section>
+</template>
+
+<template id="sources">
+<section class="sheet" data-section="Sources">
+  <div class="head"><p class="eyebrow">Sources</p><h2>The sources behind every figure</h2><p class="small muted">Read on {{read}}.</p></div>
+  <div class="card white fill"><ol class="sources">{{items}}</ol></div>
+</section>
+</template>
+
+<template id="back">
+<section class="sheet back" data-section="Back">
+  <div class="inner">
+    <div class="brandline"><img src="__LOGO__" alt="Slate Agency logo">Slate Agency</div>
+    <div style="margin-top:14mm;display:grid;gap:4mm">
+      <p class="eyebrow">In one sentence</p>
+      <h2 style="font-size:22pt;line-height:1.15">{{sentence}}</h2>
+    </div>
+    <div class="push" style="display:grid;gap:3mm">
+      <p class="small">Prepared for {{client}} by Slate Agency. It contains {{client}}'s plans and is not for distribution outside {{client}}.</p>
+      <p class="src">{{docname}} · Version {{version}} · {{date}}</p>
+    </div>
+  </div>
+  <div class="band"></div>
+</section>
+</template>

@@ -1,0 +1,21 @@
+{
+  "title": "[Product Document Name]",
+  "short": "[Product Document Name]",
+  "status": "Prepared for [Customer] · version [Version] · [Date]",
+  "file": "[Customer]-[Product]-[Document-Name]-v1",
+  "size": "a4",
+  "blocks": [
+    {"type": "cover", "client": "[Customer · Product]", "logo": "", "date": "[Date]", "docname": "[Product Document Name]",
+     "claim": "[The answer as a claim of eight words or fewer]",
+     "lede": "[One sentence: what this is built on and what the reader gets.]", "version": "1"},
+    {"type": "page", "section": "The answer", "eyebrow": "The answer on one page", "title": "[The answer as one claim]",
+     "body": "<div class=\"card tint\"><p class=\"small\">[The answer in a few lines the reader can act on.]<sup><a href=\"#s1\">1</a></sup></p></div>"},
+    {"type": "fix", "n": "1", "where": "[Page, e.g. /signup.html]", "title": "[What the visitor gets once it is fixed, as a sentence]",
+     "spot": "[The exact spot]", "tag": "<span class=\"tag v\">Verified</span>",
+     "shot": "[Name of shots/name.png, without .png]", "alt": "[What the screenshot shows]", "caption": "[Page, view, read date]<sup><a href=\"#s1\">1</a></sup>",
+     "now": "[What the page does now.]", "fix": "[The fix, stated as an outcome a developer can do without asking.]"},
+    {"type": "sources", "read": "[Date]", "items": ["[Publisher, \"Title\", date.] <a href=\"https://example.com\">example.com/…</a>"]},
+    {"type": "back", "sentence": "[The whole report in one sentence.]", "client": "[Customer]", "docname": "[Product Document Name]",
+     "version": "1", "date": "[Date]"}
+  ]
+}
