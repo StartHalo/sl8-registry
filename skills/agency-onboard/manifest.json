@@ -1,0 +1,7 @@
+{
+  "name": "agency-onboard",
+  "version": "v1.0.0",
+  "description": "Start a new customer's engagement in job 1. Writes work/agency/CUSTOMER.md from bot/user.md and public sources, opens the three standing lanes (discovery, plan, comms) with their seed tasks, and logs the goal. Use in job 1, when there is no log yet.",
+  "generated_at": "2026-11-04T05:14:33.309Z",
+  "skill_md_sha256": "425f169543d72a4aafcbeb6e226f7b399f97a59872e603397b66b6e383a04337"
+}
