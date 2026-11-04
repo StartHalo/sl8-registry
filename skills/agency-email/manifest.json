@@ -1,0 +1,7 @@
+{
+  "name": "agency-email",
+  "version": "v1.0.0",
+  "description": "How every email to a customer is written, so it reads like a good agency's short business email - one purpose, the point in the first line, their questions answered, every ask needed now numbered, prose under 150 words, files named, plain words, a closing and the Slate Agency signature, never an internal person's name. Use when writing any comms draft (work/comms/TASK.md), and as the checker's checklist for an email. agency-comms decides what to send and when; this skill is how it reads.",
+  "generated_at": "2026-11-04T05:15:09.719Z",
+  "skill_md_sha256": "1beadff9aec261525b7d868904859d5f37ab5be52bffe9aaeffd4be15a84c447"
+}
