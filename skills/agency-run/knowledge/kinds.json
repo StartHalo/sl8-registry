@@ -1,0 +1,11 @@
+{
+  "_about": "v5 task-kind catalogue (docs/v5/lld.md section 6). Eight kinds (seven in use; new-skill replays in old logs only), approved 28 Oct (C11); every kind but customer and comms needs done_when (D62). The kind decides the checks; the task names its skill. Read by agency (agency-run/scripts/agency.py).",
+  "work": {"needs": ["do", "done_when"], "out_in": "work/", "evaluate": false, "skill": "named on the task (default: agency-task)"},
+  "deliverable": {"needs": ["do", "refs", "done_when", "out"], "out_in": "work/", "evaluate": true, "skill": "named on the task (agency-report-pdf, or an agency's own skill, ...)", "sent": "its pass copies it into artifacts/<customer id>/ (D64)"},
+  "read": {"needs": ["do", "done_when"], "logs": "a read event with a number when it counts something", "evaluate": false, "skill": "named on the task (agency-store-reads, agency-web-reads, ...)"},
+  "customer": {"needs": ["do"], "owner": "customer", "optional": ["due (only if they gave a date)"], "evaluate": false, "skill": "none"},
+  "comms": {"needs": ["do", "to", "out"], "evaluate": true, "skill": "agency-comms", "note": "out is the email text in work/ (subject on the first line); refs are exactly what goes out (R2); to is the customer's address (D67: nothing goes to khalid)"},
+  "plan": {"needs": ["do", "done_when"], "evaluate": false, "skill": "agency-plan"},
+  "meeting": {"needs": ["do", "done_when"], "evaluate": false, "skill": "agency-meet", "out": "transcript to work/meetings/, recap and action items to artifacts/<customer id>/meetings/ (sent as a comms task)"},
+  "new-skill": {"needs": ["do", "refs", "done_when"], "evaluate": false, "skill": "none", "history": "replays in old logs only: the tool refuses a new one; nothing is built on the machine (A15)"}
+}
