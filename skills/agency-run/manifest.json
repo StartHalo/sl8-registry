@@ -1,0 +1,7 @@
+{
+  "name": "agency-run",
+  "version": "v1.0.0",
+  "description": "One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and outcome.json. Use whenever a job starts with no other instruction, or the prompt says \"run\" or \"work on it\".",
+  "generated_at": "2026-11-04T05:13:51.286Z",
+  "skill_md_sha256": "fd3dcaadf7ba175c9f1004c3fcaed0c2d6b0c209ef9343c0a37d0b3227091e59"
+}
