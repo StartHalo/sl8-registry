@@ -1,0 +1,7 @@
+{
+  "name": "agency-comms",
+  "version": "v1.0.0",
+  "description": "Decide what the customer should hear and when, have it written with agency-email, get it checked, and send it. Runs last in every session, and for every comms-kind task (updates, deliverable notices, questions, follow-ups, meeting recaps).",
+  "generated_at": "2026-11-04T05:14:57.348Z",
+  "skill_md_sha256": "e4b19aafa0162de511609f3718b8f3d38ede827d7371d1973103b2eb944341d1"
+}
