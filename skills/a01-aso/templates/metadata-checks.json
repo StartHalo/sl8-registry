@@ -1,0 +1,8 @@
+{
+  "mode": "[LIVE/DRAFT/SIMULATED]",
+  "copy_version": "[ID]",
+  "fields": {
+    "apple_keywords": {"text": "[exact final string]", "count": 0, "unit": "UTF-8 bytes", "limit": 100, "pass": false},
+    "play_short": {"text": "[exact final string]", "count": 0, "unit": "characters", "limit": 80, "pass": false}
+  }
+}

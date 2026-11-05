@@ -1,0 +1,57 @@
+candidate_id,term,feature_fit,decision,reason,target_field,revisit_trigger
+I01,habit tracker,Supported,Test,Explicit core function; fixture category language,title,Collect actual local query/rank evidence; recheck product fit next cycle
+I02,daily habits,Supported,Test,Matches recurring completion and review language,description,Collect actual local query/rank evidence; recheck product fit next cycle
+I03,morning routine,Supported,Test,Supported routine group and R01,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I04,routine planner,Supported,Test,Groups verified routines; no calendar scheduling claim,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I05,habit reminders,Supported,Test,Reminder setting exists; reliability issue separately tracked,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I06,daily checklist,Supported,Test,Today screen and R01,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I07,streak tracker,Supported,Test,Progress screen and R02,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I08,goal tracker,Supported,Test,Habit-level goals only; describe scope,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I09,habit calendar,Supported,Test,Calendar history demonstrated,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I10,build consistency,Supported,Test,R04 language; no promised outcome,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I11,habit builder,Supported,Test,Product-derived idea; demand unknown,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I12,progress tracker,Supported,Test,Describes supported history,keyword/description,Collect actual local query/rank evidence; recheck product fit next cycle
+I13,evening routine,Supported,Test,R06 mentions supported group,description,Collect actual local query/rank evidence; recheck product fit next cycle
+I14,RitualLoop,Supported,Keep,Preserve verified own brand; value not quantified,title,Collect actual local query/rank evidence; recheck product fit next cycle
+I15,personal goals,Supported,Later,Broad intent; no demand/category evidence,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I16,water reminder,Supported as generic habit,Later,Can create a water habit but no specialized hydration feature,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I17,meditation timer,Unsupported,Reject,No timer,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I18,adhd treatment,Unsupported,Reject,No treatment evidence or product function,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I19,calorie counter,Unsupported,Reject,No nutrition tracking,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I20,budget planner,Unsupported,Reject,No financial features,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I21,family habit tracker,Unsupported,Reject,R05 expectation not supported,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I22,gym workout plans,Unsupported,Reject,No exercise programs,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I23,task management,Unsupported as full work suite,Reject,Would suggest absent project-management capabilities,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I24,free habit tracker,Unverified,Later,Free tier/pricing not verified; do not claim,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I25,best habit app,Unsupported,Reject,Unsubstantiated superiority claim,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I26,habit tracker competitorbrand,Unsupported,Reject,Competing brand targeting excluded,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I27,sleep routine,Supported as generic routine,Later,No sleep measurement; investigate intent first,none,Collect actual local query/rank evidence; recheck product fit next cycle
+I28,routine checklist,Supported,Test,Supported routine completion; suggestion fixture,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G01,habit tracker,Supported,Test,Explicit core function; fixture category language,title,Collect actual local query/rank evidence; recheck product fit next cycle
+G02,daily habits,Supported,Test,Matches recurring completion and review language,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G03,morning routine,Supported,Test,Supported routine group and R01,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+G04,routine planner,Supported,Test,Groups verified routines; no calendar scheduling claim,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+G05,habit reminders,Supported,Test,Reminder setting exists; reliability issue separately tracked,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G06,daily checklist,Supported,Test,Today screen and R01,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G07,streak tracker,Supported,Test,Progress screen and R02,subtitle/description,Collect actual local query/rank evidence; recheck product fit next cycle
+G08,goal tracker,Supported,Test,Habit-level goals only; describe scope,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G09,habit calendar,Supported,Test,Calendar history demonstrated,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G10,build consistency,Supported,Test,R04 language; no promised outcome,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G11,habit builder,Supported,Test,Product-derived idea; demand unknown,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G12,progress tracker,Supported,Test,Describes supported history,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G13,evening routine,Supported,Test,R06 mentions supported group,description,Collect actual local query/rank evidence; recheck product fit next cycle
+G14,RitualLoop,Supported,Keep,Preserve verified own brand; value not quantified,title,Collect actual local query/rank evidence; recheck product fit next cycle
+G15,personal goals,Supported,Later,Broad intent; no demand/category evidence,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G16,water reminder,Supported as generic habit,Later,Can create a water habit but no specialized hydration feature,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G17,meditation timer,Unsupported,Reject,No timer,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G18,adhd treatment,Unsupported,Reject,No treatment evidence or product function,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G19,calorie counter,Unsupported,Reject,No nutrition tracking,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G20,budget planner,Unsupported,Reject,No financial features,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G21,family habit tracker,Unsupported,Reject,R05 expectation not supported,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G22,gym workout plans,Unsupported,Reject,No exercise programs,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G23,task management,Unsupported as full work suite,Reject,Would suggest absent project-management capabilities,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G24,free habit tracker,Unverified,Later,Free tier/pricing not verified; do not claim,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G25,best habit app,Unsupported,Reject,Unsubstantiated superiority claim,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G26,habit tracker competitorbrand,Unsupported,Reject,Competing brand targeting excluded,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G27,sleep routine,Supported as generic routine,Later,No sleep measurement; investigate intent first,none,Collect actual local query/rank evidence; recheck product fit next cycle
+G28,routine checklist,Supported,Test,Supported routine completion; suggestion fixture,description,Collect actual local query/rank evidence; recheck product fit next cycle

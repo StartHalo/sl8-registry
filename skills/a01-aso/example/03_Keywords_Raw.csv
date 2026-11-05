@@ -1,0 +1,57 @@
+candidate_id,mode,store,country,language,term,intent,source,captured,provider,demand_value,demand_scale,difficulty_value,current_rank,metric_limit
+I01,SIMULATED,Apple,US,en,habit tracker,habit,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I02,SIMULATED,Apple,US,en,daily habits,habit,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I03,SIMULATED,Apple,US,en,morning routine,routine,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I04,SIMULATED,Apple,US,en,routine planner,routine,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I05,SIMULATED,Apple,US,en,habit reminders,reminder,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I06,SIMULATED,Apple,US,en,daily checklist,checklist,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I07,SIMULATED,Apple,US,en,streak tracker,progress,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I08,SIMULATED,Apple,US,en,goal tracker,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I09,SIMULATED,Apple,US,en,habit calendar,progress,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I10,SIMULATED,Apple,US,en,build consistency,habit,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I11,SIMULATED,Apple,US,en,habit builder,habit,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I12,SIMULATED,Apple,US,en,progress tracker,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I13,SIMULATED,Apple,US,en,evening routine,routine,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I14,SIMULATED,Apple,US,en,RitualLoop,brand,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I15,SIMULATED,Apple,US,en,personal goals,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I16,SIMULATED,Apple,US,en,water reminder,reminder,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I17,SIMULATED,Apple,US,en,meditation timer,timer,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I18,SIMULATED,Apple,US,en,adhd treatment,medical,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I19,SIMULATED,Apple,US,en,calorie counter,nutrition,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I20,SIMULATED,Apple,US,en,budget planner,finance,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I21,SIMULATED,Apple,US,en,family habit tracker,sharing,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I22,SIMULATED,Apple,US,en,gym workout plans,fitness,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I23,SIMULATED,Apple,US,en,task management,work,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I24,SIMULATED,Apple,US,en,free habit tracker,pricing,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I25,SIMULATED,Apple,US,en,best habit app,superlative,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I26,SIMULATED,Apple,US,en,habit tracker competitorbrand,brand,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I27,SIMULATED,Apple,US,en,sleep routine,routine,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+I28,SIMULATED,Apple,US,en,routine checklist,checklist,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G01,SIMULATED,Play,US,en,habit tracker,habit,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G02,SIMULATED,Play,US,en,daily habits,habit,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G03,SIMULATED,Play,US,en,morning routine,routine,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G04,SIMULATED,Play,US,en,routine planner,routine,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G05,SIMULATED,Play,US,en,habit reminders,reminder,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G06,SIMULATED,Play,US,en,daily checklist,checklist,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G07,SIMULATED,Play,US,en,streak tracker,progress,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G08,SIMULATED,Play,US,en,goal tracker,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G09,SIMULATED,Play,US,en,habit calendar,progress,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G10,SIMULATED,Play,US,en,build consistency,habit,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G11,SIMULATED,Play,US,en,habit builder,habit,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G12,SIMULATED,Play,US,en,progress tracker,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G13,SIMULATED,Play,US,en,evening routine,routine,SIM-R01/R02/R04/R06; authored review fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G14,SIMULATED,Play,US,en,RitualLoop,brand,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G15,SIMULATED,Play,US,en,personal goals,progress,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G16,SIMULATED,Play,US,en,water reminder,reminder,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G17,SIMULATED,Play,US,en,meditation timer,timer,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G18,SIMULATED,Play,US,en,adhd treatment,medical,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G19,SIMULATED,Play,US,en,calorie counter,nutrition,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G20,SIMULATED,Play,US,en,budget planner,finance,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G21,SIMULATED,Play,US,en,family habit tracker,sharing,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G22,SIMULATED,Play,US,en,gym workout plans,fitness,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G23,SIMULATED,Play,US,en,task management,work,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G24,SIMULATED,Play,US,en,free habit tracker,pricing,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G25,SIMULATED,Play,US,en,best habit app,superlative,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G26,SIMULATED,Play,US,en,habit tracker competitorbrand,brand,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G27,SIMULATED,Play,US,en,sleep routine,routine,SIM-PRODUCT; operator-generated candidate to validate,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
+G28,SIMULATED,Play,US,en,routine checklist,checklist,SIM-SUGGEST; authored store suggestion fixture,2026-08-29,none,,,,,No paid export; demand/difficulty/rank unknown; independent store fixture
