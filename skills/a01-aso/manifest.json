@@ -1,0 +1,7 @@
+{
+  "name": "a01-aso",
+  "version": "v1.0.0",
+  "description": "The ASO agency's own skill - its lane (lanes/store-pages.md), its method (references/, stages S01-S08), and the files of one ASO cycle for one app on one store - intake, baseline, audit, reviews, keywords raw and decisions, metadata and its counts, creative and test plan, release record, observations, results, the per-store report and the roadmap - their order, a simulated example of good, and scripts/verify.py, which checks a live engagement folder. Use for every stage task of an aso/store-pages lane (one app in one country, per store).",
+  "generated_at": "2026-11-05T01:36:59.537Z",
+  "skill_md_sha256": "5b3e3e33e52015c7638ab9023fe47b43f7b787eb948e6bf75779598566481151"
+}

@@ -1,0 +1,9 @@
+review_id,mode,store,rating,paraphrase,theme,feature_fit,action,owner
+SIM-R01,SIMULATED,Apple,5,The morning checklist helps me remember small habits.,routine clarity,Supported,Use phrase as keyword/creative idea,SIM-OPERATOR
+SIM-R02,SIMULATED,Play,4,I like seeing a streak but care more about finishing today.,benefit hierarchy,Supported,Test completion-first message,SIM-ANALYST
+SIM-R03,SIMULATED,Apple,2,A reminder did not arrive yesterday.,notification reliability,Supported; defect unverified,Ask support for private reproduction details; product investigation,SIM-OWNER
+SIM-R04,SIMULATED,Play,5,Calendar history makes my consistency visible.,progress proof,Supported,Use genuine calendar screenshot,SIM-DESIGNER
+SIM-R05,SIMULATED,Apple,3,I expected shared routines with my family.,expectation mismatch,Unsupported,Avoid family-sharing claim,SIM-OPERATOR
+SIM-R06,SIMULATED,Play,4,Evening routines are easy to group.,routine intent,Supported,Include evening routine candidate,SIM-OPERATOR
+SIM-R07,SIMULATED,Apple,2,I wanted an ADHD treatment program.,medical intent mismatch,Unsupported,Reject treatment keywords and claims,SIM-OWNER
+SIM-R08,SIMULATED,Play,4,Simple daily reminders and checking off goals are enough.,simple workflow,Supported,Keep simple language,SIM-OPERATOR

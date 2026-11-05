@@ -1,0 +1,55 @@
+{
+  "mode": "SIMULATED",
+  "copy_version": "RL-COPY-2",
+  "fields": {
+    "apple_name": {
+      "text": "RitualLoop: Habit Tracker",
+      "count": 25,
+      "unit": "characters",
+      "limit": 30,
+      "pass": true
+    },
+    "apple_subtitle": {
+      "text": "Daily Routine & Streaks",
+      "count": 23,
+      "unit": "characters",
+      "limit": 30,
+      "pass": true
+    },
+    "apple_keywords": {
+      "text": "morning,reminder,checklist,goal,calendar,consistency,builder,progress,evening",
+      "count": 77,
+      "unit": "UTF-8 bytes",
+      "limit": 100,
+      "pass": true
+    },
+    "play_title": {
+      "text": "RitualLoop: Habit Tracker",
+      "count": 25,
+      "unit": "characters",
+      "limit": 30,
+      "pass": true
+    },
+    "play_short": {
+      "text": "Build daily habits, plan routines, track streaks and stay consistent.",
+      "count": 69,
+      "unit": "characters",
+      "limit": 80,
+      "pass": true
+    },
+    "apple_description": {
+      "text": "Build a routine around the habits that matter to you.\n\nCreate daily habits, organize morning and evening routines, and use a simple checklist to mark what you finish. Set habit reminders to help you remember your plan.\n\nSee your streaks and calendar history as you build consistency. Review your progress, adjust your routines, and keep going one day at a time.\n\nRitualLoop is a habit tracker for everyday routines.",
+      "count": 415,
+      "unit": "characters",
+      "limit": 4000,
+      "pass": true
+    },
+    "play_full": {
+      "text": "Make room for your daily habits with RitualLoop.\n\nCREATE YOUR ROUTINE\nAdd the habits you want to practice and group them into morning or evening routines. Use your daily checklist to see what is left and mark completed habits.\n\nSET REMINDERS\nChoose reminders for your habits so your plan is easier to remember.\n\nSEE YOUR PROGRESS\nTrack streaks and review your habit calendar. Look back at completed days and adjust your routine as your goals change.\n\nKEEP IT SIMPLE\nUse one place for daily habits, routine checklists and progress tracking. Start with a routine that fits your day.\n\nRitualLoop supports everyday habit planning.",
+      "count": 626,
+      "unit": "characters",
+      "limit": 4000,
+      "pass": true
+    }
+  }
+}
