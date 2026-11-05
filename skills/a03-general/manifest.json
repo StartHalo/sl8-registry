@@ -1,0 +1,7 @@
+{
+  "name": "a03-general",
+  "version": "v1.0.0",
+  "description": "The general agency's own skill - the lane library, one entry per type of lane no service agency owns (outbound email, referral, retention feature, search and AI pages), each with when it fits, how it moves the goal, its gauge, done and pause rules, score guidance, seed tasks and lessons. Use when a plan task picks, scores or opens lanes for a goal, and for every task of a lane opened from an entry here.",
+  "generated_at": "2026-11-05T04:04:32.536Z",
+  "skill_md_sha256": "98bd187b359727efb80aaced5f30bb25a45abfa2f2d805a9b24158cd900388a9"
+}
