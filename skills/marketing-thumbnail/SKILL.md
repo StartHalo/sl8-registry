@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Higgsfield's thumbnail skill (no licence stated), restated and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; Playwright on chrome-headless-shell 152; imagemagick 6.9; ffmpeg 5.1; fontconfig with the fonts 1.1.0 (Anton, Inter) and fonts-noto packs; fal endpoint facts as of 2026-10-05"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [higgsfield/thumbnailgeneration-e3191f, kling/klingaigenerateimage-572826, fal/characterdesign-c8e4b8, fal/charactersheet-a2ae87, openart/openart-model-schemas, higgsfield/faceless-generation-delivery]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF13-a2
@@ -108,17 +108,15 @@ English; a headline stays word for word in the customer's language.
    string by any character, make one clean render of the same concept and bake the hook with
    `--case preserve`. A cover that still fails after its retries
    returns a one-line failure note to the caller and never holds the video.
-6. **Character default** [6]. **A real person's face is refused on this machine for now.** A face
-   photo of a real person (the requester, staff, anyone named) needs SL8's consent text and privacy
-   note, which are not yet approved (owner decision pending, learnings MKT-L412 and MKT-L434). Until
-   then it is not used, uploaded or described into a prompt, and no real person is rendered from a
-   name (HR17). A supplied character image (illustrated, 3D, or a generated person who is no real
-   individual) is always a reference and gets its lock; mark it `"kind": "character"` in
-   `brief.characters`, and `thumb.mjs` refuses any other kind. Also set `look`: `illustrated` (with
+6. **Character default** [6]. Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A face photo the brief supplies
+   (the requester, staff) is a reference like a character image: mark it `"kind": "person"` with
+   `"look": "photo"` in `brief.characters`. A named real person the brief has not supplied is never imitated. A supplied character image (illustrated, 3D,
+   or a generated person who is no real individual) is always a reference and gets its lock; mark
+   it `"kind": "character"`, and `thumb.mjs` refuses any other kind. Also set `look`: `illustrated` (with
    `brief.medium` set to the character's own medium) gives it the design lock, so a mascot or 3D
    character is never turned into a photographic face; `photo` gives the identity lock. `thumb.mjs`
    stops when `look` is missing or an illustrated character has no medium. A concept with a person but no
-   character image and no explicit "generated person", or a refused real-face photo: proceed
+   character image and no explicit "generated person": proceed
    people-free (a
    subject-only framework: landscape, product, graphical, map), record it
    (`node $S/gate.mjs open --project <p> --slug people --kind text --default people-free --question "<row character-note>" --options '[{"id":"people-free","label":"no people"},{"id":"character","label":"send a character image"},{"id":"generated","label":"a generated person"}]' --resume-at 6`)
@@ -250,9 +248,9 @@ English; a headline stays word for word in the customer's language.
 
 **Real frame** (framework 4) [3, 17]. Find the moment:
 `ffmpeg -v error -i <video> -vf "fps=1/<step>,scale=480:-1,tile=4x3" -frames:v 1 work/<p>/frames.jpg`,
-look, then `ffmpeg -v error -y -ss <t> -i <video> -frames:v 1 work/<p>/frame.png`. A frame that
-shows a recognisable real person's face is refused for now (step 6): pick a moment without one, or
-say that none was usable and offer a generated concept instead. Crop to the ratio
+look, then `ffmpeg -v error -y -ss <t> -i <video> -frames:v 1 work/<p>/frame.png`. A frame of the
+customer's own video may show a real person's face (consent is the app's, HR17, HR-1.2; step 6);
+if no moment is usable, say so and offer a generated concept instead. Crop to the ratio
 around the subject with ffmpeg `crop`, say so when the crop is under 1280 px wide, run step 14 (d),
 and continue at step 16 or 17. No generation and no credits.
 
@@ -265,7 +263,7 @@ and continue at step 16 or 17. No generation and no credits.
   without defining it (MKT-L430).
 - **A hosted gallery or upload slot**: delivery is files under `artifacts/<p>/final/`.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (format and aspect declared by `thumb.mjs assemble` and measured with
 media-qc, with the long side as a floor on Nano Banana Pro and width and height on the GPT routes;
@@ -278,8 +276,8 @@ HR10 (headline baked and logo composited last; in-render text or logo only as a 
 HR11 (renders from the customer's originals; tweaks chain only on request), HR12 (stated defaults
 and gate files, no question tool), HR13 (`thumb.mjs check`, `bake_headline.mjs` font and size
 checks), HR14, HR15 (a headline that could not be baked is named as owed), HR16 (Seedream's
-rewrite), HR17 (a real person's face is refused until SL8's consent text is approved; no one rendered
-from a name), HR18 (baked UI is generic
+rewrite), HR17 (consent is the app's; a supplied face photo is a reference; no named real person the
+brief did not supply is rendered), HR18 (baked UI is generic
 and true), HR19, HR20 (waivers recorded), HR21 (fonts, browser and Playwright are baked; nothing
 installed), HR22 (facts rows `price-nbp`, `schema-nbp-*`, `schema-gpt2-*`, `beh-nbp-scores`,
 `beh-rewriters`) — see media-ai-gen/references/house-rules.md.

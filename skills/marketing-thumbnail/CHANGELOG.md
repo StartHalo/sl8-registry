@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-11-06
+### Added
+- Release marketing-thumbnail v1.0.1.
+
 ## [v1.0.0] — 2026-10-30
 ### Added
 - Initial release (marketing-thumbnail).
