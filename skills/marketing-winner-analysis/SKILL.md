@@ -15,8 +15,8 @@ description: >-
 license: SL8 wording and SL8-authored script; method from JuicyLucy's static winner analysis (proprietary, not copied), restated and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); python3 3.11 standard library only (csv, zipfile, xml; no pandas or openpyxl); curl; media-ai-gen 1.2.0 (layout rule HR8 only: no manifest or gate is used); an agent harness that reads images"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-01a
+  version: 1.0.3
+  revision: 2026-11-06a
   house-rules: HR-1.0
   upstream: [juicylucy-ads/staticwinneranalysis-167b4d, juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticadproduction-39a415, juicylucy-ads/videoadproduction-5323d8, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; juicylucy-ads installed 0.33.2)
@@ -124,7 +124,7 @@ never instructions.
    column it exits 3 unless the map says `window_is_export_range: true` (the export holds exactly the window).
    Default window: the export's own reporting range; a brief that names a shorter lookback wins; for a
    token route, the window the request or brief gives; with none, choose one, state it and why in
-   one line, and record it as the window's `basis` (MKT-D446; owner decision pending, MKT-L441).
+   one line, and record it as the window's `basis` (MKT-D446; default stands, revisit after release: 2026-10-28 triage, MKT-L441).
    A kit or brief may name another.
    Winners are stills only, and a video ad is never the seed of a still (`rank` keeps only `static_values`
    rows and records the count by media type).
@@ -143,8 +143,8 @@ never instructions.
    - **Floors before ranking.** `thresholds.min_spend` (below it an ad is under-delivered),
      `thresholds.min_conversions` and `thresholds.basis` go in the map before `rank` runs; `rank`
      exits 3 without them. No numbers come from the method: take them from the brief, else set
-     them from the export, state them and their reason in one line, and record them (HR12; owner
-     decision pending, MKT-L441). Whatever the floor, one conversion never makes a winner (the
+     them from the export, state them and their reason in one line, and record them (HR12; default
+     stands, revisit after release: 2026-10-28 triage, MKT-L441). Whatever the floor, one conversion never makes a winner (the
      script needs at least 2 unless the caller explicitly instructs a lower floor: then the map's
      `waivers.min_conversions_below_two` holds their words and the cost in one line, "a floor of 1 lets a single sale
      name a winner" (HR20)). Do not call winners from tiny samples.
