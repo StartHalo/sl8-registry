@@ -2,7 +2,7 @@
 // ugc.mjs: the scripted checks of marketing-ugc (HR13). SL8-authored; no vendor code. Free: it never
 // calls ai-gen or the network, and only runs ffprobe/ffmpeg on local files.
 //
-//   brief    --in artifacts/<p>/ugc/brief.json [--write]     resolve defaults, refuse real people (MKT-L521), pick the workflow and routes
+//   brief    --in artifacts/<p>/ugc/brief.json [--write]     resolve defaults, refuse imitation (HR17), pick the workflow and routes
 //   claims   --in artifacts/<p>/ugc/claims.json              every claim user-quoted or an observation
 //   script   --in artifacts/<p>/ugc/script.json --brief B [--claims C] [--rate W] [--hook-max N] [--write-text F]
 //                                                          six beats in order, word budget, hook length, claims; prints spoken_text (the TTS `text`)
@@ -103,19 +103,10 @@ function brief () {
     workflow = m.still ? 'broll-supplied' : 'broll-generated'
     if (!m.still && !(m.product ?? []).length) problems.push('faceless b-roll needs a product photo (media.product) or a usable still (media.still): without one no still is product-faithful')
   }
-  // HR17 and the owner's rule (Oct 28): a real person's face, footage or voice needs SL8's consent text
-  // and privacy note, which are not approved yet (learnings MKT-L521). Until then only a person SL8
-  // generated runs: media.<kind>_origin = "generated" plus media.<kind>_from (the manifest row or file).
-  const REFUSE = 'is refused on this machine for now: SL8 consent text not yet approved (MKT-L521)'
-  const synthetic = (k) => m[`${k}_origin`] === 'generated' && String(m[`${k}_from`] ?? '').trim()
-  if (m.portrait && !synthetic('portrait')) problems.push(`media.portrait: a real person's photo ${REFUSE}; use speaker "generated" (or set portrait_origin "generated" and portrait_from for an SL8-made portrait)`)
-  if (m.footage && !synthetic('footage')) problems.push(`media.footage: real creator footage ${REFUSE}; use speaker "generated"`)
-  if (m.audio && !synthetic('audio')) problems.push(`media.audio: a real voice recording ${REFUSE}; drop it and generate the voice (step 6)`)
+  // Consent for a person's face, footage or voice is handled by the app that runs the job (HR17, HR-1.2): a supplied
+  // real portrait, creator clip or voice recording is a valid source, and nothing here checks consent.
   const imitating = [b.product, b.tone, b.script_text].some((x) => IMITATE.test(String(x ?? '')))
   if (imitating) problems.push('product, tone or script_text asks for a likeness or a voice of someone ("looks like", "sounds like", "in the style of"): no one is imitated from a name or a description (HR17); describe the creator in generic terms')
-  const photos = [...(m.product ?? []), ...(m.still ? [m.still] : [])]
-  if (photos.length && typeof m.product_has_person !== 'boolean') problems.push('media.product_has_person is required (true or false): look at each supplied product photo and still and record whether a real person is in any of them (HR17)')
-  if (m.product_has_person === true && !synthetic('product')) problems.push(`media.product: a supplied photo with a real person in it ${REFUSE}; supply a photo without the person, or mark product_origin "generated" and product_from`)
   if (['portrait', 'portrait-text', 'footage'].includes(workflow)) {
     notes.push('talking-head render length is unmeasured beyond the VP-195 clip (about 4 s); the delivery says so (MKT-L530)')
     if (b.runtime_s > TALKING_HEAD_MAX_S && !b.long_render_gate) problems.push(`talking head runtime ${b.runtime_s} s > ${TALKING_HEAD_MAX_S} s: fabric's and sync-lipsync's longest input is unmeasured. Open a spend gate before the first long render (node $S/gate.mjs open --slug long-render ...) and set long_render_gate to its slug, or plan shorter renders`)

@@ -121,8 +121,8 @@ ai-gen run veed/fabric-1.0 --image artifacts/<project>/source/portrait.png \
 
 ## New speech on existing footage
 
-Only for a clip SL8 generated earlier and marked in the brief (`media.footage_origin: "generated"`):
-real creator footage is refused until SL8's consent text is approved (SKILL.md step 2, MKT-L521).
+For creator footage the brief supplies (`media.footage`) or a clip SL8 generated earlier. Consent for a
+person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2).
 
 ```bash
 ffprobe -v error -show_entries format=duration -of csv=p=0 artifacts/<project>/source/footage.mp4
