@@ -106,7 +106,7 @@ approval and the spend are one answer.
 **Hard gate: no scene with a recurring character is generated before that character's image
 exists and is confirmed.** One image each, in this order:
 1. the customer's image, or the material image confirmed in SKILL.md step 8 (no second one);
-2. the reference's own person, only with the rights statement recorded in step 7: ask the watch
+2. the reference's own person (step 7; consent is the app's, HR17, HR-1.2): ask the watch
    pass for the clearest front-facing moment, then
    `ffmpeg -v error -ss <t> -i work/<p>/ref.mp4 -frames:v 1 artifacts/<p>/material/char-frame.png`;
 3. a generated person from a described face shape, hair, build and clothes: default

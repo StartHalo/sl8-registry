@@ -15,7 +15,7 @@
   },
   {
    "slug": "voice-instruction-same-voice",
-   "use": "SKILL.md step 12: only with the customer's recorded statement that they hold the rights to the original narrator's voice (step 7)",
+   "use": "SKILL.md step 12: keeps the original narrator's voice (step 7; consent is the app's, HR17, HR-1.2)",
    "from": "pollo/advideoclone-19fd86@Voice-over replacement instruction template (inside the clone prompt)",
    "prompt": "New voice-over, in the original narrator's own voice, delivery and speed: \"<approved script>\"."
   },
