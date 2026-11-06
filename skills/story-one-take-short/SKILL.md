@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording; method from Everygen's Shorts Studio animated-short skill (no licence stated), restated and cited
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-video-generation 1.2.0 (facts rows); python3 3.11 (stdlib); ffmpeg 5.1 and ffprobe; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [everygen/animated-421cf1]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF54-a1-s1
@@ -63,11 +63,10 @@ exits 1 when a frame could not be cut and 2 when ffmpeg or ffprobe is missing (H
    - **Empty idea.** Spend nothing. With the customer present in a chat, ask once, in one short
      line, for the idea; in a bot job, end the job saying a one-line idea is needed. Never ask which
      model, never offer options, and never call a question tool (HR12).
-   - **Real people.** This skill casts invented characters only. A request to show or voice a
-     real, identifiable person (the customer, a celebrity, a public figure, anyone named) is
-     refused for now, because SL8's consent text for faces and voices is awaiting owner approval
-     (learnings STO-L361, HR17): say so in one line and offer the same idea with an invented
-     character.
+   - **Real people** (HR17). Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). This method casts
+     invented characters and takes no reference image (below), so a request to show a real,
+     identifiable person (the customer, a public figure) gets one line saying so and the same idea
+     with an invented character. A named real person the brief has not supplied is never imitated.
    - **Reference images** are not offered on this machine yet by this skill (the method takes none).
      Describe the look in words in the cast instead; a clip bound to supplied images is
      media-video-generation's reference-to-video route.
@@ -99,8 +98,8 @@ exits 1 when a frame could not be cut and 2 when ffmpeg or ffprobe is missing (H
    | G Fixed-camera oner | observational and repeating, or no payoff | no cuts; 3-4 repeats | 10-15 s |
    | H Toon-logic escalation | absurd or impossible on purpose | 7-8, ~2 s | 15 s |
 
-   H tops out at 8 shots at 15 s (the source's 9 fitted its 18 s). H's celebrity gags are not
-   offered on this machine yet (step 2, real people).
+   H tops out at 8 shots at 15 s (the source's 9 fitted its 18 s). H's celebrity gags are left
+   out: a named real person the brief has not supplied is never imitated (HR17, step 2).
 6. **Triage before writing [6]** (`show triage off-screen unrenderable silhouette count`). Ask
    whether a camera on a real set could film it: yes, write it straight; stageable, play it as comic
    contrast and let the reactions carry the impossible; impossible and the point, archetype H with a
@@ -227,7 +226,7 @@ exits 1 when a frame could not be cut and 2 when ffmpeg or ffprobe is missing (H
     figures from steps 18-19. Name the debt still owed (HR15): the SCORE, SFX and VOICE are not
     checked by ear on this machine, only that sound is present.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (duration, aspect, size and audio declared in `params.json` and measured by
 `probe` and media-qc), HR2 (raw OpenAPI before the first submit), HR3, HR4 (`resolution`,
@@ -238,7 +237,7 @@ lever; a rewritten mechanic waits behind a gate), HR8 (`artifacts/<p>/final/`, s
 render; nothing is lettered by the model), HR12 (stated defaults, no question tool; spend past the
 budget is a gate), HR13 (`assemble` and `probe` exit non-zero), HR14 (frames described, never a
 written PASS), HR15 (the unheard audio is named as debt), HR16 (any rewrite flag pinned off), HR17
-(invented characters only; real people refused until the consent text is approved), HR19, HR20,
+(consent is the app's; invented characters, no named real person the brief did not supply imitated), HR19, HR20,
 HR21, HR22 (prices and limits from media-video-generation's facts rows, checked live) — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR11 (nothing is edited from an earlier render), HR18 (no claims are made).
