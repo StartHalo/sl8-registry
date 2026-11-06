@@ -1,7 +1,7 @@
 {
   "name": "story-faceless-long",
-  "version": "v1.0.3",
+  "version": "v1.0.4",
   "description": "Long faceless narrated video, one to twenty minutes or more: a locked look, a validated script of fixed 10-second blocks (five shots joined by four hard cuts, one narration line each), one reference-to-video clip per block, measured narration takes, an optional music bed, scripted assembly to -16 LUFS, optional captions and a 16:9 cover. Explainer, History, Kids, Fairy Tale & Myth and Picture Story (stills) channels. Use when: a faceless explainer, history documentary, kids story, fairy tale or picture story of a minute or more is ordered from a topic or script. NOT for: a short under about a minute (story-faceless-short); one-take shorts (story-one-take-short); found footage (story-found-footage); ranking shorts (story-ranking-short); a song-first sing-along with karaoke captions (story-sing-along); a script only (story-youtube-script); a presenter on camera (voice-presenter-video); captions on an existing video (edit-captions); a shot-planned film (media-video-production).",
-  "generated_at": "2026-11-02T00:23:18.616Z",
-  "skill_md_sha256": "242e7d5f12ed521da7766dbcb63c4529bc23ebf96740596684210d9cae67b9d7"
+  "generated_at": "2026-11-06T23:41:19.043Z",
+  "skill_md_sha256": "34790fa46ba5612c992cf8aba5a3e1b116066fab5a7c05a1274d3d4295e8c979"
 }

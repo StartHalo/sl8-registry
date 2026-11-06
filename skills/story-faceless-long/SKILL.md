@@ -16,9 +16,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from the Higgsfield faceless-video skill (no licence stated), restated and cited; points from fal (attribution), Kling (MIT), Creative Claw (Apache-2.0), InVideo and Everygen (no licence stated), restated
 compatibility: "story-studio 1.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions 1.0.0; ffmpeg 5.1; python3 3.11 with Pillow; faster-whisper with small weights baked; fonts and display-fonts packs; fal endpoints as of 2026-10-28"
 metadata:
-  version: 1.0.3
-  revision: 2026-11-02a
-  house-rules: HR-1.1
+  version: 1.0.4
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [higgsfield/facelessvideo-103c40, higgsfield/faceless-intake-script, higgsfield/faceless-style-library, higgsfield/faceless-generation-delivery, fal/falvideoproduction-09f33d, fal/falaudiogeneration-ba1a03, fal/falvideogeneration-fe0127, invideo/invideo-model-registry, creative-claw/cc-video-model-guides, kling/klingaigenerateimage-572826, everygen/3danimatedexplainers-151f46]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield faceless-video captured 2026-10-11 and 2026-10-26)
   approach: WF53-a1
@@ -107,13 +107,10 @@ cover) follow the same 0/1/2 rule.
    alternative: none; the validator declines it). The documentary length warns in one line that it
    runs 60+ clips, can take hours and costs about 1,705 credits a 1080p block
    (`references/variants.md`).
-5. **Real people: refused for now** (HR17). No photo of an identifiable real person, a customer's
-   upload included, becomes a style donor, a roster image or a cover; no cloned voice and no voice
-   that imitates a real person; a real person, living or historical, is named only in the
-   narration and on screen is an anonymous figure (a back view, a silhouette, a role-color
-   mannequin, a hidden face). This holds until SL8's consent text and privacy note are approved
-   (STO-L301). Uploaded images are style donors only: their people, writing and logos are never
-   reused. No real brand, studio or franchise name appears in any prompt or on screen.
+5. **Real people** (HR17). Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). The format is faceless: a
+   real person, living or historical, is named only in the narration and on screen is an anonymous
+   figure (a back view, a silhouette, a role-color mannequin, a hidden face). A named real person the brief has not supplied is never imitated. Uploaded
+   images are style donors only: their people, writing and logos are never reused. No real brand, studio or franchise name appears in any prompt or on screen.
 6. **Declare and quote before the first paid call** (HR1, HR5). Write `artifacts/$P/plan.json` in
    the shape of `media-ai-gen/references/gates-and-manifest.md`: `{"schema": "sl8.media.plan/1",
    "project": …, "declared": {"aspect": "16:9", "fps": 24, "duration_s": <N x 10>, "audio":
@@ -374,7 +371,7 @@ cover) follow the same 0/1/2 rule.
   (`timeline.py build`), new framings and one-detail edits of the previous frame, `timeline.py bind`,
   then `assemble.py --stills`.
 
-## House rules (HR-1.1)
+## House rules (HR-1.2)
 
 Relies on: HR1 (plan.json declares every output; the assembler and media-qc measure it), HR2 and
 HR4 (the Seedance, voice, music and Scribe values are read from the schema before the first call
@@ -386,7 +383,7 @@ row per generation is the ledger), HR10 (the hook and any words are composited, 
 captions burned last), HR11 (every edit and retry starts from the original references), HR12
 (stated defaults; stage reviews and over-budget steps are spend gates; no question tool), HR13 and
 HR14 (gates are script exits; figures, not PASS), HR15, HR16 (prompts are complete; no rewriter is
-asked for), HR17 (real people refused until consent text is approved, step 5), HR18 (spoken facts
+asked for), HR17 (consent is the app's; faceless figures, no named real person the brief did not supply imitated, step 5), HR18 (spoken facts
 traced to two sources), HR19, HR20 (a brief's explicit waiver is recorded), HR21, HR22 (ids, limits
 and prices from the facts files) — see media-ai-gen/references/house-rules.md.
 Not applicable: none.
