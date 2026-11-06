@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's found-footage story guidance (no licence stated), restated and cited; points from fal (no licence stated, used with attribution) and HyperFrames (Apache-2.0), restated
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 with drawtext and libass; python3 3.11; fonts and display-fonts packs; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-11-02a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [everygen/foundfootagestories-179c12, everygen/animalclips-e048e4, everygen/cctv-e02220, fal/falaudiogeneration-ba1a03, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, fal/falmotiongraphics-dc3541, hyperframes/hyperframes-2afd9d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen guidance captured 2026-10-26)
   approach: WF37-a1-s1
@@ -60,9 +60,8 @@ when their step says so, and write every prompt from that text, never from memor
 - **The customer's own photos** (their pet, their porch) are not offered on this machine yet: subject
   and place pictures are generated from words; describe the photo's subject in the Subject or Place
   line instead (learnings STO-L345).
-- **Real people are refused for now.** A named real person, a customer's photo of a person, or a real
-  person's voice is declined in one line until SL8's consent wording is approved (learnings STO-L346);
-  people in the story are generic roles and the narrator is a stock voice (HR17).
+- **Real people** (HR17). Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). People in the story are generic
+  roles and the narrator is a stock voice, the method's casting. A named real person the brief has not supplied is never imitated.
 
 **Defaults** (each one a kit or brief may change; record every value in `work/<p>/plan.json`):
 
@@ -237,7 +236,7 @@ when their step says so, and write every prompt from that text, never from memor
   clips and a narration-only two-pass mix) is not offered on this machine yet; `--loud 3` gives a
   narration-only mix of the same clips.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (duration, aspect and audio declared by `footage.py params`, measured by `clipcheck`,
 `stitch` and media-qc), HR2, HR3, HR4 (voice settings, normalisation, Scribe flags, resolution,
@@ -248,6 +247,6 @@ shot picture is made from the place and subject pictures, never from another sho
 question tool; stops are gates and `partial`), HR13 (`footage.py` checks exit non-zero), HR14 (check
 lines report what was seen and the figures; no PASS for a measured value), HR15, HR16 (`prompt_expansion_mode`
 disabled on MiniMax; check `ai-gen info` for any rewrite field on the other routes and pin it off),
-HR17 (real people refused until the consent wording is approved; generic roles and stock voices),
+HR17 (consent is the app's; generic roles and stock voices; no named real person the brief did not supply imitated),
 HR18 (no invented facts about real events), HR19, HR20, HR21, HR22 (prices and fields from the dated
 facts rows named above) — see media-ai-gen/references/house-rules.md.
