@@ -25,6 +25,7 @@ const NBP = new Set(['fal-ai/nano-banana-pro', 'fal-ai/nano-banana-pro/edit'])
 const GPT_EDIT = 'openai/gpt-image-2/edit'
 const SEEDREAM_EDIT = 'bytedance/seedream/v5/lite/edit'
 const RATIOS = ['16:9', '9:16', '4:3', '3:4', '4:5', '1:1']
+const KINDS = ['character', 'person']
 
 // openai/gpt-image-2 sizes: multiples of 16, 655,360 to 8,294,400 px, long edge <= 3840 (facts schema-gpt2-size).
 const GPT_SIZE = {
@@ -84,9 +85,10 @@ function assembleOne (brief, v) {
   const chars = brief.characters ?? []
   const people = brief.people ?? []
   const anyone = chars.length + people.length > 0
-  // A real person's face is refused until SL8's consent text and privacy note are approved (learnings MKT-L412, MKT-L434).
-  const real = chars.filter((c) => c.kind !== 'character')
-  if (real.length) die(`characters ${real.map((c) => c.ref).join(', ')}: only "kind": "character" images are accepted; a real person's face photo is refused on this machine for now (SKILL.md step 6)`, 1)
+  // Consent for a person's face is handled by the app that runs the job (HR17, HR-1.2): a supplied photo of a real person
+  // (kind "person") is a reference like a character image (kind "character"); nothing here checks consent.
+  const unknown = chars.filter((c) => !KINDS.includes(c.kind))
+  if (unknown.length) die(`characters ${unknown.map((c) => c.ref).join(', ')}: set "kind" to "character" (an illustrated, 3D or generated character) or "person" (a supplied photo of a real person) (SKILL.md step 6)`, 1)
   // Each character image says whether it is photographic or an illustrated/3D design (MKT-D435 note): an illustrated one is never given the photo lock.
   chars.forEach((c, i) => {
     if (!['photo', 'illustrated'].includes(c.look)) die(`characters[${i}] (${c.ref}): set "look" to "photo" (a generated or photographic person) or "illustrated" (a mascot, cartoon or 3D character)`)
@@ -192,7 +194,7 @@ if (cmd === 'assemble') {
       ['grade last', brief.medium ? !/^GRADE:/m.test(p.prompt) : (brief.grade ? lines.at(-1).includes('Frame:') : lines.at(-1).startsWith('GRADE:'))],
       ['lighting on people', brief.medium ? !/^LIGHTING:/m.test(p.prompt) : (!anyone || /^LIGHTING:/m.test(p.prompt))],
       ['one lock per photo', (p.prompt.match(brief.medium ? /^CHARACTER \d+, from reference/gm : /^IDENTITY LOCK for CHARACTER/gm) ?? []).length === (brief.characters ?? []).length],
-      ['no real-person photo', (brief.characters ?? []).every((c) => c.kind === 'character')],
+      ['kind named', (brief.characters ?? []).every((c) => KINDS.includes(c.kind))],
       ['style reference not sent', !brief.style_reference || !refs.includes(brief.style_reference)],
       ['one image per call', p.num_images === 1],
       ['no-lettering line', (brief.text?.mode ?? 'none') !== 'none' || p.prompt.includes(ROW['no-text'])],
