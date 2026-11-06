@@ -16,8 +16,8 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from JuicyLucy static-localization and static-image-craft (proprietary), restated and cited; points from Creative Claw (Apache-2.0), fal and Higgsfield
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 (libraqm via harfbuzz), numpy, opencv; tesseract with per-language packs; imagemagick 6.9; fonts and fonts-noto packs; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-11-06a
   house-rules: HR-1.1
   upstream: [juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticimagecraft-1841a5, creative-claw/cc-image-model-guides, fal/charactersheet-a2ae87, higgsfield/product-image-presets]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
@@ -285,7 +285,7 @@ conventions and spend are gates; Track A is a text gate defaulting to no), HR13 
 HR15 (terminal failures and open gates are named in the hand-off), HR16 (no rewriting field is set),
 HR17, HR18 (claims only from the brand's facts), HR19, HR20 (a third attempt only by the customer's
 explicit instruction), HR21, HR22 — see media-ai-gen/references/house-rules.md.
-Departs by method from HR10 (owner decision pending, learnings MKT-L304): Track B sends the localized
+Departs by method from HR10 (settled: P1 "Our rule wins", Khalid 2026-10-28; learnings MKT-L304): Track B sends the localized
 headline, body and call to action through the edit model, because the method redraws the whole ad;
 steps 10, 15 and 19 are the control, and Track A (deterministic lettering) is the faithful
 alternative behind the customer's agreement.
