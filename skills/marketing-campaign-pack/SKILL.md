@@ -16,9 +16,9 @@ description: >-
 license: Adapted from fal agent skills (fal Codex plugin 1.1.0 marketing skill; no licence stated; used with attribution); JuicyLucy ad-platform points restated in SL8 wording and cited (proprietary, not copied)
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 and ffprobe; python3 3.11 with Pillow; imagemagick 6.9; tesseract; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-06a
-  house-rules: HR-1.0
+  version: 1.0.3
+  revision: 2026-11-06b
+  house-rules: HR-1.2
   upstream: [fal/marketing-85464f, fal/ugc-3c015f, fal/commercial-4335f5, fal/falprompting-c6c3f4, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, fal/modelrouting-3dbdaa, juicylucy-ads/adplatform-a2543e]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF15-a1
@@ -109,7 +109,7 @@ File shape, layer template and ratio table: [references/matrix.md](references/ma
      brief asks, with the same waiver recorded; step 12 then checks it against the reference.
    - Then run `python3 $C/campaign.py check …` (exit 0 required: it checks the roles, the seven fields,
      the seven layers, one shared layer 4, one-axis variants, the four guardrails (named, not judged), variants fixed on crop, route and references, creator-ad
-     consent and price, Seedance ratio and duration, and that each clip names a still at its ratio).
+     price, Seedance ratio and duration, and that each clip names a still at its ratio).
 7. **Resolve each route** [7]. The model choices, each a default (a kit or brief may name another):
 
    | Asset type | Default route |
@@ -198,9 +198,9 @@ File shape, layer template and ratio table: [references/matrix.md](references/ma
       a realistic face follow media-video-generation's moderation routing.
     - Record the row (`manifest.mjs add`, as step 9, with `"declared":{"aspect":"<crop>","format":"mp4","duration_s":<request>}`)
       and `node $Q declared …`; its length tolerance is at least 1 s, which holds the route's rounding.
-11. **Creator-ad clips** [11]. A real person's portrait or voice runs only with consent recorded in
-    the row (`"consent": "owner"` or `"written permission from <name>"`, HR17); without it, quote and
-    spend nothing for that row (`check` refuses a creator row with no `consent` or no price). Make or crop
+11. **Creator-ad clips** [11]. Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A real person's portrait or voice the brief
+    supplies runs like any other; a `consent` value the app gives is stored in the row as given and
+    never checked. `check` refuses a creator row with no price. Make or crop
     the portrait at the row's ratio before the call. Pick the route by what the row has:
     - Portrait and an audio file: `ai-gen run veed/fabric-1.0 --image <portrait> --audio-file <speech> --params-file work/<project>/<id>.params.json -o artifacts/<project>/<id>/ --queue --strict-params --max-cost <quote> --format json`
       (params `{"resolution": "480p"}`; speech seconds: `ffprobe -show_entries format=duration`, rounded up;
@@ -265,7 +265,7 @@ File shape, layer template and ratio table: [references/matrix.md](references/ma
 - **Lip-sync of existing creator footage** is not in this method (media-video-generation has no
   passed route for it either).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (each row's crop and format declared in the manifest row, measured with media-qc),
 HR2, HR3 (GPT Image gets `image_size`, never `--aspect-ratio`), HR4 (quality, resolution, audio and
@@ -274,7 +274,7 @@ budget before any paid step), HR6, HR7 (one regeneration per asset on the failin
 HR10 (copy, logos and UI composited from files by default), HR11, HR12 (stated defaults; missing
 intake or spend past the budget ends the job or opens a gate), HR13 (`campaign.py check`,
 `mediaqc.mjs`), HR14, HR15 (overlays and left-out rows named as debts), HR16 (pin any prompt-rewrite
-field off: the seven-layer prompt is complete), HR17 (consent per creator-ad row), HR18 (claims
+field off: the seven-layer prompt is complete), HR17 (consent is the app's; a row's `consent` is stored as given; no named real person the brief did not supply is imitated), HR18 (claims
 supplied, observable or removed), HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
 Departs by method from HR10 (settled: P1 "Our rule wins", Khalid 2026-10-28; learnings MKT-L382): a product photo passes
 through an edit route as a reference and is redrawn; step 12's check against the photo is the

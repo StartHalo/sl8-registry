@@ -115,9 +115,9 @@ def check(path):
             if not re.search(rx, g, re.I):
                 fails.append(f'{aid}: guardrails do not name {name}')
         route = str(a.get('route') or '')
+        # Consent is handled by the app that runs the job (HR17, HR-1.2): a row's `consent`, when given, is stored as given
+        # and never checked.
         if route.startswith(CREATOR_ROUTES) or not empty(a.get('portrait')):
-            if empty(a.get('consent')):
-                fails.append(f'{aid}: a creator-ad row needs consent (HR17); without it spend nothing for the row')
             if not isinstance(a.get('price'), dict) or not isinstance(a['price'].get('credits'), (int, float)):
                 fails.append(f'{aid}: a creator-ad row needs a numeric price (an unpriced route cannot run inside a budget)')
         gen = str(a.get('gen_aspect') or crop)  # the ratio the route makes when it cannot make the crop (4:5 is cut from 3:4)
