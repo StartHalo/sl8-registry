@@ -23,7 +23,7 @@ folder. Everything that happened is one event in the log; every command replays 
 | `work/agency/now.md` | output: the card | `agency status` | the agent |
 | `artifacts/<customer id>/<path>` | output: a checked file shared | a pass | the customer; `check` |
 | `work/outbox/<task>.eml` and its copy `artifacts/<customer id>/outbox/<task>.eml` | output: an email waiting for the owner (D57), who gets it from the copy (D78) | `send` | the owner; `check` |
-| `/home/user/outcome.json` | output: the job's handover (JM R7) | the agent at the close, from the events since this job's `session` start | the web app |
+| `/home/user/outcome.json` | output: the job's handover (JM R7) | the agent at the close, after this job's `session` end | the web app; `check` (D82) |
 
 `artifacts/<customer id>/outbox/` holds the owner's drafts with their Bcc header: any customer-facing view of `artifacts/`
 leaves `outbox/` out (D67).
@@ -126,7 +126,9 @@ SENT").
    it follows or waits on has yet to make).
 2. **Checked:** nothing in `artifacts/<customer id>/` that no pass, `sent` or email in `work/outbox/` covers; every task a
    send carried had a pass; every shared copy equal to its pass hash **(new)**, and a waiting email's copy equal to its
-   `work/outbox/` file (D78).
+   `work/outbox/` file (D78); and, once `outcome.json` exists, it isn't `partial` while this job (the events since the
+   previous job's `session` end) shared a file still there: a pass's copy, or the owner's copy of the email `send`
+   wrote for a comms task passed this job (D82).
 3. **Replays:** the log replays. A truncated last line (a lost machine) is reported **(new: today every command refuses
    the log)**; `check --fix` drops it and logs an `error`.
 

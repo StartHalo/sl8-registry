@@ -7,6 +7,7 @@ Fixtures (made-up data, customer "Fixture Co"):
                        paths, 4.4 sends, artifacts/X, nulls, a recurring read, a blocked plan task, a failed check
   fixtures/install/    an install in the new layout: params, lane_renamed (an old id used after it), sent files under
                        artifacts/<customer id>/, an owner upload, a bot migrations.json, and a truncated last line
+  fixtures/job6.jsonl  job 6 of the 5 Nov production test (a test install; addresses [test-address]), for outcome.json
 """
 import json, os, shutil, subprocess, sys, tarfile, tempfile
 
@@ -199,6 +200,29 @@ ok('check passes once it is sent', c == 0, o)
 open(os.path.join(h7, 'artifacts', 'fixtureco', 'outbox', 'X.eml'), 'w').write('no twin\n')
 c, o = run(h7, 'check')
 ok('check reports an owner copy with no email in work/outbox/ as a stray', c == 1 and 'outbox/X.eml is shared but no pass or sent event covers it' in o, o)
+
+# 8. outcome.json (A16, D82): job 6 of the 5 Nov production test shared two files and wrote "partial"
+h8 = home_from()
+put = lambda rel, text: (os.makedirs(os.path.dirname(os.path.join(h8, rel)), exist_ok=True),
+                         open(os.path.join(h8, rel), 'w').write(text))
+put('bot/user.md', open(USER).read().replace('fixtureco', 'larkspoon-test'))
+earlier = [{'ev': 'task_added', 'task': {'id': i, 'lane': l, 'kind': k}, 't': '2026-11-05T18:20:00Z', 'by': 'agent'}
+           for i, l, k in (('D4', 'discovery', 'deliverable'), ('P1', 'plan', 'plan'), ('D3', 'comms', 'customer'))]
+earlier.append({'ev': 'session', 'phase': 'end', 't': '2026-11-05T18:56:28Z', 'by': 'agent'})  # job 5's end
+put('work/agency/log.jsonl', ''.join(json.dumps(e) + '\n' for e in earlier) + open(os.path.join(FIX, 'job6.jsonl')).read())
+for rel in ('artifacts/larkspoon-test/discovery/summary.md', 'work/outbox/C1.eml', 'artifacts/larkspoon-test/outbox/C1.eml'):
+    put(rel, 'made up\n')
+both = ['artifacts/larkspoon-test/discovery/summary.md', 'artifacts/larkspoon-test/outbox/C1.eml']
+hh = agency.Home(h8)
+ok('job 6 replayed: delivered, naming the pass\'s copy and the email send wrote', getattr(agency, 'shared_this_job', None)
+   and agency.shared_this_job(hh, hh.events(), hh.plan()) == both)
+put('outcome.json', json.dumps({'status': 'partial', 'reason': 'nothing shared this job: the plan and the first email'}))
+c, o = run(h8, 'check')
+ok('check reports a partial outcome.json when this job shared files', c == 1 and all(f in o for f in both)
+   and 'FAIL outcome' in o, o)
+put('outcome.json', json.dumps({'status': 'delivered', 'deliverables': [{'path': '/home/user/' + f} for f in both]}))
+c, o = run(h8, 'check')
+ok('check accepts delivered', 'FAIL outcome' not in o, o)
 
 print(f'\nselftest: {"ok" if not fails else str(len(fails)) + " failed"}')
 sys.exit(1 if fails else 0)

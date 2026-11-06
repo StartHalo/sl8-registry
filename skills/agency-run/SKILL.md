@@ -3,7 +3,7 @@ name: agency-run
 description: One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and outcome.json. Use whenever a job starts with no other instruction, or the prompt says "run" or "work on it".
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Run a job
@@ -37,12 +37,12 @@ the tool is `agency` (its spec: `TOOL.md` here). Follow `knowledge/how-to-run.md
      what was done (task ids), how, which skills, any scripts you had to write (each is a skill gap).
    - Each lesson learned this run: a dated line in `work/lessons.md`, tagged `[core]` or `[<agency>]` (A15).
    - Log one `session` event (`phase: end`, `ref` the run file, `summary`: one line on what moved).
-   - `agency status` (it writes now.md), then `agency check`.
+   - Write `/home/user/outcome.json` in the shape the job contract gives (A16): `delivered` with each file
+     this job copied into `artifacts/<customer id>/` (a check pass or a `send`), `partial` with "nothing
+     shared this job: <what moved>", or `failed` with why.
+   - `agency status` (it writes now.md), then `agency check` (it compares outcome.json with the log).
    - **Any `.eml` in `work/outbox/` not yet sent:** end your last message by asking khalid to send
      it today, naming its copy in `artifacts/<customer id>/outbox/` (D57, D78). Never hold it.
-   - Write `/home/user/outcome.json` from this job's events, in the shape the job contract gives (A16):
-     `delivered` with the files shared this job, `partial` with "nothing shared this job: <what moved>",
-     or `failed` with why.
 
 If something fails, log an `error` with what happened, leave the task open with a note, and carry on
 with the next task. Never end a job with the check failing.
