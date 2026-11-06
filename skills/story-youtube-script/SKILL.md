@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored script; method from Higgsfield's retired youtube-script skill (no licence stated), restated and cited
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); claude 2.1.285, codex 0.159.2 or pi 0.99.2 (web search and fetch where the harness offers them); python3 3.11 standard library; makes no ai-gen call"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [higgsfield/retired-youtubescript-6a4c8b]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; vendor skill 2.1.0, retired)
   approach: WF55-a1
@@ -65,10 +65,9 @@ or unreadable input.
      here: say so in one line. For a timed shot table for generated video, point to media-script-writer.
      Never assume another writing skill is installed.
    - Never write as, or imitate, a named real creator (their greeting, sign-off, catchphrases).
-     This skill makes no face or voice. A script that a caller says will be spoken in a real
-     person's cloned voice or shown with their likeness is refused until SL8's consent text is
-     approved (learnings STO-L433); real people as documented subjects of a documentary or a case
-     are allowed, from sources.
+     This skill makes no face or voice. Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A script a caller
+     will speak in a real person's cloned voice or show with their likeness is written like any
+     other; real people as documented subjects of a documentary or a case are allowed, from sources.
 3. **Truth and money policy** (3). It holds for every later step.
    - Invent no first-person experience: no tests, purchases, spending, income, confessions,
      credentials, expertise, or audience and channel history. Where a genre wants personal proof,
@@ -172,14 +171,14 @@ or unreadable input.
     machine (nothing of the method has been run here). If the script will be voiced, say that its real
     length must be measured on the generated audio (HR15).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (the target length is declared and the word count measured by script_check.py),
 HR8 (the script under artifacts/, scratch under work/), HR12 (no question tool: a genre tie and
 missing intake take stated defaults, flagged in the delivery), HR13 (the measurable rules are a
 script), HR14 (figures are reported, never a written PASS), HR15 (the hand-off names the length
-still to measure on audio and the facts still to confirm), HR17 (no face or voice made; no named
-real creator imitated), HR18 (no invented statistic, rating, testimonial or first-person claim),
+still to measure on audio and the facts still to confirm), HR17 (no face or voice made; consent is the app's;
+no named real creator imitated), HR18 (no invented statistic, rating, testimonial or first-person claim),
 HR19, HR20, HR21 (standard library only, nothing installed) — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR2-HR7, HR9-HR11 and HR16 (no paid call, no generation, no media file, no
