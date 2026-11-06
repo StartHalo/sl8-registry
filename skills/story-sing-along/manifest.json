@@ -1,7 +1,7 @@
 {
   "name": "story-sing-along",
-  "version": "v1.0.3",
+  "version": "v1.0.4",
   "description": "Kids' nursery-rhyme sing-along video from a text brief, song first: original lyrics written by a rhyme formula to an exact line count, one timeline with one row per sung line, one sung song that becomes the clock, a character sheet and one mid-action start frame per clip, 9:16 multi-shot 3D cartoon clips cut on the sung lines, a trim-from-end stitch with the song as the only sound, and karaoke lyric captions built from the known words. Use when: a customer orders a nursery rhyme, toddler song, counting, countdown, lullaby, action or dance song video, a new song echoing a classic, or a change to a sing-along this skill delivered (caption words or style, a wrong shot, a range cut, a title, 16:9 or 1:1). NOT for: a narrated story or musical with a storyteller (not offered); a song or music bed alone (media-audio-generation); speech captions on another video (edit-captions); a general shot-planned film (media-video-production); a one-take short from an idea (story-one-take-short); file checks (media-qc).",
-  "generated_at": "2026-11-02T03:05:05.350Z",
-  "skill_md_sha256": "5c3e0b65fc1a72901ecb57adaa21f7675251b25d5f9e89ea3e5015dfe4eac99e"
+  "generated_at": "2026-11-06T23:42:35.827Z",
+  "skill_md_sha256": "d965b5a0f52cfff5be6199e1408f4667d28177532207a9223c5abf357dbd7419"
 }

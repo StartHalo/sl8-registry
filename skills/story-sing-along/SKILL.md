@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and an SL8-authored script; method from the Everygen nursery-rhymes pack (no licence stated), restated and cited; points from fal and Creative Claw (Apache-2.0), restated
 compatibility: "story-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; edit-captions (same Video bundle); ffmpeg 5.1 (libass, libx264, aac); python3 3.11; fonts 1.1.0 (Comic Neue) and fonts-noto; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.3
-  revision: 2026-11-02c
-  house-rules: HR-1.0
+  version: 1.0.4
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [everygen/nurseryrhymes-fcc8ba, fal/falaudiogeneration-ba1a03, creative-claw/cc-model-contracts-image-audio, fal/charactersheet-a2ae87, everygen/animated-421cf1, fal/videocompositing-6a3f7a, creative-claw/creativeclawcreatereels-b6e06c]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen guidance captured 2026-10-26)
   approach: WF46-a1-s1
@@ -53,9 +53,8 @@ filter, timeline), [pictures.md](references/pictures.md) (shots, look, cast, cli
 
 - **A topic, a theme or a classic to echo**, or nothing (step 2 picks one). Anything else the method
   decides: length, tempo, look, models, captions. A brief or kit may set any of them.
-- **Refused:** a real person's face or voice (a photo to turn into the hero, a voice to sing, a named
-  real person). Real people are not offered until the SL8 consent text is approved (STO-L417); offer a
-  cartoon hero. The method's kid-safe defaults: no injury, scary threat, weapons, brands, real people
+- **Real people** (HR17). Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). The hero is a cartoon (the method's
+  casting); a named real person the brief has not supplied is never imitated. The method's kid-safe defaults: no injury, scary threat, weapons, brands, real people
   or trademarked characters; a named classic gives its theme and engine only.
 - **Questions:** a bot job has nobody to answer, so every choice below has a stated default and a
   spend the brief did not approve opens a gate (`$S/gate.mjs`) and ends the job `partial` (HR12). In
@@ -89,7 +88,7 @@ state.json, lyric_map.json, captions.ass: kept for later changes), `song/`, `key
 2. **Intake.** A topic, theme or classic goes straight to step 3. With none, pick an idea yourself
    (the approach's own no-answer default) from a template and say it in one plain line; in an
    interactive session you may first offer three ideas in a parent's everyday words, one question at
-   most. Refuse real people's faces and voices (above).
+   most. A named real person the brief has not supplied is never imitated (above).
 3. **Plan the song** (`song.md`). Pick one template and one engine, the BPM (120 action, 92 lullaby,
    128 dance) and the length row (default about 30 s: 12 lines at 120 BPM). Write
    `artifacts/<p>/plan/lyrics.txt` (one sung line per line, a blank line between verses) by the rhyme
@@ -270,7 +269,7 @@ state.json, lyric_map.json, captions.ass: kept for later changes), `song/`, `key
 A narrated musical or story (a storyteller who breaks into song) is the assessment's other approach;
 it is **not offered on this machine yet** (STO-L411). This skill makes the song-only sing-along.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (format, size, length and one audio stream declared in `plan.json` and measured),
 HR2 (`ai-gen info` and the raw OpenAPI before the first submit of each route), HR3, HR4 (audio off on
@@ -281,7 +280,7 @@ words are burned last in one encode; no model draws text), HR11 (captions and ti
 the stitch, never over a burned final), HR12 (stated defaults, spend gates, no question tool), HR13
 (`sing.py` and media-qc exit non-zero), HR14 (frames are described, never passed), HR15 (the status line
 names what is unchecked), HR16 (H3's prompt expansion and minimax's `lyrics_optimizer` off; a rewritten prompt a route returns goes in the manifest row), HR17
-(no real person's face or voice), HR19, HR20, HR21, HR22 (route facts from the facts files of
+(consent is the app's; a cartoon hero; no named real person the brief did not supply imitated), HR19, HR20, HR21, HR22 (route facts from the facts files of
 media-image-generation, media-video-generation and media-audio-generation) — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR18 (a children's song makes no claims).
