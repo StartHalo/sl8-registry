@@ -1,7 +1,7 @@
 {
   "name": "marketing-branded-graphic",
-  "version": "v1.0.2",
+  "version": "v1.0.3",
   "description": "Finished static branded graphics and static ads (feed ad, story ad, banner, profile header, cover, brand card) with the real logo, palette, type and exact copy. Assets come from the customer's files or the official site, the canvas from the brief or the platform's spec; then the simplest method: code composition with no model call (Pillow, or HTML or SVG in headless Chromium), or a text-free ai-gen background with the logo and copy composited locally. The exported file is checked for copy, logo, size, format, fonts and contrast. Use when: a customer asks for a branded social graphic, static ad, banner, header, cover or brand card, a set of sizes of one, or a text-free on-brand background. NOT for: capturing or storing a brand kit (marketing-brand-kit); localizing an ad (marketing-ad-localization); thumbnails (marketing-thumbnail); a multi-asset campaign (marketing-campaign-pack); remaking a reference ad (marketing-ad-remake); product photo presets (image-product-presets); video.",
-  "generated_at": "2026-11-06T17:14:35.892Z",
-  "skill_md_sha256": "7604fe16bfd1f28e38a3dc1ec186c58e1095baf0d6639202eb78b2bd221c7418"
+  "generated_at": "2026-11-06T23:39:17.688Z",
+  "skill_md_sha256": "b91a7b25ca17e7c47191193e9e6a565f9f14509c643c2807564004bbd6c4b9f8"
 }

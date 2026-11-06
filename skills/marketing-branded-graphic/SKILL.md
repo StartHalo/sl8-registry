@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; two sentences quoted from fal's branded-graphics skill (adapted from fal agent skills; no licence stated; used with attribution); enrichment points restated and cited
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 and numpy; imagemagick 6.9; fontconfig (fc-query, fc-match); chrome-headless-shell 152 with Playwright; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-06a
-  house-rules: HR-1.1
+  version: 1.0.3
+  revision: 2026-11-06b
+  house-rules: HR-1.2
   upstream: [fal/brandedgraphics-96ba6e, creative-claw/creativeclawsetup-b53df6, heygen/retired-visualstyle-33a109, fal/marketing-85464f, kling/klingaigenerateimage-572826, higgsfield/websitebuilder-82f65c, creative-claw/creativeclawrenderhtml-1ac902, higgsfield/thumbnailgeneration-e3191f, fal/falvideoproduction-09f33d, hyperframes/hyperframescli-e1e7eb, videozero/videozeroeditorialguiderouter-041880, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; fal branded-graphics version 1, published 2026-10-15)
   approach: WF01-a1
@@ -262,10 +262,9 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
       (the same file `gate.mjs open` writes for a spend gate), and the reply lists the missing assets.
     - Resuming a project: `node $S/gate.mjs status --project <p>`. Exit 10 is an open spend gate:
       stop, never answer your own gate. An answered gate names `resume_at`: continue there.
-    - A real person's face or voice (a founder photo, a testimonial portrait) needs consent with SL8's
-      consent text and a privacy note. That text is not approved yet (learnings MKT-L373), so this
-      skill uses only people who are in the customer's supplied files as part of the brand's own
-      assets and generates none; a request for a real person's likeness ends `partial`.
+    - Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A real person's photo the customer supplies (a founder photo, a
+      testimonial portrait) is used like any supplied brand asset; this skill generates no likeness.
+      A named real person the brief has not supplied is never imitated. A request for a named person's likeness with no supplied photo ends `partial`.
 
 ## Not on this machine
 
@@ -276,7 +275,7 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
 - **A batch from a data table** (one graphic per row) is not offered on this machine yet: run this
   skill once per row, one project each.
 
-## House rules (HR-1.1)
+## House rules (HR-1.2)
 
 Relies on: HR1 (canvas and format declared in `brief.md` and, for a paid call, in the manifest row;
 measured by `graphic.py check` and `mediaqc.mjs image`), HR2, HR3, HR4 (quality, count and format pinned by
@@ -289,4 +288,5 @@ gate), HR13 (`graphic.py check`, `render.mjs shot`, `mediaqc.mjs`), HR14, HR15 (
 missing asset and unchecked item), HR16, HR18 (copy as supplied, claims flagged for confirmation),
 HR19, HR20, HR21, HR22 — see `$HOME/.agents/skills/media-ai-gen/references/house-rules.md`.
 Not applicable: HR17 (a branded graphic makes no likeness; people in a background are generic;
-a real person's likeness is refused until the consent text is approved, learnings MKT-L373).
+consent is the app's, and a supplied photo of a real person is used as a brand asset; no named real
+person the brief did not supply is imitated).
