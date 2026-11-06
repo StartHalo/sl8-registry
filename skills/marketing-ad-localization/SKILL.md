@@ -16,9 +16,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from JuicyLucy static-localization and static-image-craft (proprietary), restated and cited; points from Creative Claw (Apache-2.0), fal and Higgsfield
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 (libraqm via harfbuzz), numpy, opencv; tesseract with per-language packs; imagemagick 6.9; fonts and fonts-noto packs; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.2
-  revision: 2026-11-06a
-  house-rules: HR-1.1
+  version: 1.0.3
+  revision: 2026-11-06b
+  house-rules: HR-1.2
   upstream: [juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticimagecraft-1841a5, creative-claw/cc-image-model-guides, fal/charactersheet-a2ae87, higgsfield/product-image-presets]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: WF02-a1
@@ -193,9 +193,9 @@ Both scripts exit 0 pass or written, 1 a failed check or refusal, 2 a missing to
     original (it is attempt 2); only an adaptation run may replace the person:
     Default: `fal-ai/nano-banana-pro/edit` from the original with the `people-regenerate` row; the
     source names text-to-image `fal-ai/nano-banana-pro` for a whole new subject and scene; a kit or
-    brief may name another. Generic people only, never a real person (HR17). An ad that shows an identifiable real
-    person (a named spokesperson, a celebrity, a testimonial) is not remade until SL8's consent text
-    and privacy note are approved (learnings MKT-L318): list it as undelivered with that reason.
+    brief may name another. A replaced person is generic; a named real person the brief has not supplied is never imitated.
+    Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). An ad from the customer that shows an identifiable real person (their
+    spokesperson, a testimonial) is localized like any other ad, the person kept from the original.
 13. **When Track B cannot pass** (two rejected attempts, or a refusal at the cap): the ad is a
     terminal failure unless Track A was allowed in advance and the contract is not fresh-only. Not
     allowed in advance and not fresh-only: open a gate with the `track-a-question` row
@@ -272,7 +272,7 @@ Both scripts exit 0 pass or written, 1 a failed check or refusal, 2 a missing to
     `fal-ai/nano-banana-pro/edit`, `openai/gpt-image-2/edit`, `bytedance/seedream/v5/lite/edit`
     (the catalog id; facts `schema-seedream-id`) and Track A; quote every one first (HR5).
 
-## House rules (HR-1.1)
+## House rules (HR-1.2)
 
 Relies on: HR1 (each final's size and format declared from the contract and measured by
 `loc.py verify` and media-qc), HR2 (`aspect_ratio` values read from the raw OpenAPI), HR3, HR4
