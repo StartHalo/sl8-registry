@@ -18,7 +18,7 @@ Paths are under `/home/user` (the tool's root, `$HOME`).
 
 | File | What it is | Rule |
 |---|---|---|
-| `bot/user.md` | the engagement: customer, customer id, contact, reply address, Bcc, goal and date, scope, budget, meeting-notes place (A10) | read every job; the owner edits it, never you |
+| `bot/user.md` | the engagement: free text on the customer, the product, and the goal and scope (`## ` sections), and the labels Customer, Customer id, Reply address and Bcc; a meeting-notes place is optional (A10, D83) | read every job; the owner edits it, never you |
 | `bot/setup.md` | the agency: its lanes, references, skills and Taste (`<AGENCY>`) | read; refreshed to the latest bot release |
 | `work/agency/CUSTOMER.md` | who they are, people, their rules, standing instructions (A11) | yours; read every job; standing instructions win over the general guidance |
 | `work/agency/now.md` | the card, customer-safe | written only by `agency status`; never by hand |

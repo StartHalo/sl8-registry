@@ -123,6 +123,97 @@ c, o = run(h4, 'check', '--fix')
 ok('check --fix moves the stray file to work/recovered/ and logs it; the edited copy stays a FAIL',
    c == 1 and os.path.exists(os.path.join(h4, 'work', 'recovered', 'stray.md')) and 'stray' not in o.split('fixed:')[-1].split('\n', 1)[-1]
    and json.loads(lines(h4)[-1])['ev'] == 'error', o)
+# a stray outside artifacts/<customer id>/ (agency#88: `touch artifacts/x` in the 5 Nov production test)
+h4b = home_from('install')
+run(h4b, 'check', '--fix')
+os.makedirs(os.path.join(h4b, 'artifacts', 'notes'))
+for rel in ('x', 'notes/y.md'):
+    open(os.path.join(h4b, 'artifacts', rel), 'w').write('')
+c, o = run(h4b, 'check')
+ok('check reports a file under artifacts/ outside the customer folder (not the owner\'s uploads)',
+   c == 1 and 'artifacts/x is outside artifacts/fixtureco/' in o and 'artifacts/notes/y.md is outside' in o
+   and 'attachments' not in o, o)
+n = len(lines(h4b))
+c, o = run(h4b, 'check', '--fix')
+errs = [json.loads(l) for l in lines(h4b)[n:]]
+ok('check --fix moves each one to work/recovered/, path kept, with an error event each, and passes',
+   c == 0 and all(os.path.isfile(os.path.join(h4b, 'work', 'recovered', 'artifacts', r)) and
+                  not os.path.exists(os.path.join(h4b, 'artifacts', r)) for r in ('x', 'notes/y.md'))
+   and os.path.isfile(os.path.join(h4b, 'artifacts', 'attachments', 'upload.pdf'))
+   and [e['ev'] for e in errs] == ['error', 'error'] and 'artifacts/x' in errs[1]['text'] + errs[0]['text'], o)
+# --fix never overwrites: an earlier recovered file, and two strays with one target (review of agency#98, F1)
+h4c = home_from('install')
+run(h4c, 'check', '--fix')
+P = lambda *r: os.path.join(h4c, *r)
+for rel, text in (('work/recovered/artifacts/x', 'earlier'), ('artifacts/x', 'outside'),
+                  ('artifacts/fixtureco/artifacts/x', 'inside')):
+    os.makedirs(os.path.dirname(P(rel)), exist_ok=True)
+    open(P(rel), 'w').write(text)
+n = len(lines(h4c))
+c, o = run(h4c, 'check', '--fix')
+rec = sorted(open(os.path.join(dp, f)).read() for dp, _, fs in os.walk(P('work', 'recovered', 'artifacts')) for f in fs)
+dests = [json.loads(l)['text'].rsplit('moved to ', 1)[-1] for l in lines(h4c)[n:]]
+ok('check --fix keeps every file when targets collide, and each event names a destination that holds it',
+   c == 0 and rec == ['earlier', 'inside', 'outside'] and len(dests) == 2 and len(set(dests)) == 2
+   and all(os.path.isfile(P(d)) for d in dests), o)
+# a file where --fix needs a folder: that file is reported and left, the rest still move (F2)
+h4d = home_from('install')
+run(h4d, 'check', '--fix')
+P = lambda *r: os.path.join(h4d, *r)
+for rel in ('work/recovered/artifacts/notes', 'artifacts/notes/y.md', 'artifacts/z'):
+    os.makedirs(os.path.dirname(P(rel)), exist_ok=True)
+    open(P(rel), 'w').write('')
+n = len(lines(h4d))
+c, o = run(h4d, 'check', '--fix')
+texts = ' '.join(json.loads(l)['text'] for l in lines(h4d)[n:])
+ok('check --fix reports a stray it cannot move, keeps it, and moves the others',
+   c == 1 and 'Traceback' not in o and os.path.isfile(P('artifacts', 'notes', 'y.md'))
+   and os.path.isfile(P('work', 'recovered', 'artifacts', 'z')) and 'artifacts/notes/y.md not moved' in texts, o)
+# a symlinked folder under artifacts/, at the top or deeper, is a stray; --fix moves the link, not its target (F3)
+h4e = home_from('install')
+run(h4e, 'check', '--fix')
+P = lambda *r: os.path.join(h4e, *r)
+os.makedirs(P('work', 'elsewhere')); open(P('work', 'elsewhere', 'f.md'), 'w').write('kept')
+os.makedirs(P('artifacts', 'sub'))
+os.symlink(P('work', 'elsewhere'), P('artifacts', 'linked'))
+os.symlink(P('work', 'elsewhere'), P('artifacts', 'sub', 'linked'))
+c, o = run(h4e, 'check')
+ok('check reports a symlinked folder under artifacts/ outside the customer folder',
+   c == 1 and 'artifacts/linked is outside' in o and 'artifacts/sub/linked is outside' in o, o)
+c, o = run(h4e, 'check', '--fix')
+ok('check --fix moves each link itself and leaves its target',
+   c == 0 and os.path.islink(P('work', 'recovered', 'artifacts', 'linked'))
+   and os.path.islink(P('work', 'recovered', 'artifacts', 'sub', 'linked'))
+   and open(P('work', 'elsewhere', 'f.md')).read() == 'kept' and not os.path.lexists(P('artifacts', 'linked')), o)
+
+# params cover the free-text sections of user.md (A10, D83 2 A), and an upgrade from labels-only params is quiet
+h4f = home_from('install')
+run(h4f, 'check', '--fix')
+um = os.path.join(h4f, 'bot', 'user.md')
+params = lambda: [json.loads(l) for l in lines(h4f) if '"params"' in l]
+c, o = run(h4f, 'status')
+ok('the first status on 1.0.2 records the section digests of an unchanged labels-only user.md, with no plan review',
+   c == 0 and len(params()) == 2 and 'sections' in params()[-1] and 'plan review' not in o, o)
+free = ('<USER>\n## About the customer\n<!-- example: who they are -->\nA school app, three founders.\n\n'
+        '## About the product\nDismissal planning for schools.\n\n## Goal and scope\n1,000 installs by 2027-01-31; '
+        'both store pages.\n\nCustomer: Fixture Co\nCustomer id: fixtureco\n'
+        'Reply address: fixtureco-aso+agency@slateworkspace.com\nBcc: owner@example.com\n</USER>\n')
+open(um, 'w').write(free)
+c, o = run(h4f, 'status')
+ok('a move to the free-text user.md logs params with a plan review', c == 0 and len(params()) == 3
+   and 'take-in adds a plan review' in o, o)
+open(um, 'w').write(free.replace('three founders.', 'three  founders.\n<!-- a note -->'))
+c, o = run(h4f, 'status')
+ok('a change to whitespace or a comment in a section logs nothing', c == 0 and len(params()) == 3, o)
+open(um, 'w').write(free.replace('1,000 installs', '5,000 installs'))
+c, o = run(h4f, 'status')
+ok('an edit to the goal and scope text alone logs params with a plan review',
+   c == 0 and len(params()) == 4 and params()[-1]['params'] == params()[-2]['params']
+   and params()[-1]['sections'] != params()[-2]['sections'] and 'take-in adds a plan review' in o, o)
+open(um, 'w').write(free.replace('1,000 installs', '5,000 installs').replace('owner@example.com', 'other@example.com'))
+c, o = run(h4f, 'status')
+ok('an edit to a label logs params with a plan review',
+   c == 0 and len(params()) == 5 and params()[-1]['params']['bcc'] == 'other@example.com' and 'plan review' in o, o)
 
 # 4. refusals: nothing is built on the machine; dates; out outside work/; skill history
 h5 = home_from('install')

@@ -86,7 +86,8 @@ the agreed wait. "The fixes are live, take a look" gets the re-check and, in the
 is acceptance) and send the close (D67).
 
 **At take-in, two events come from the tool, not from you:** when `bot/user.md` differs from the
-last `params` event, `agency status` logs a new one; review the plan against it (a `plan` task, A10).
+last `params` event, `agency status` logs a new one; when it prints "take-in adds a plan review", review the plan
+against it (a `plan` task, A10).
 When the agency's release renames a lane (`lanes/migrations.json`), `agency status` logs a
 `lane_renamed` and the old id resolves to the new one (A7); nothing else is rewritten.
 
