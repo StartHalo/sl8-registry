@@ -15,8 +15,8 @@ description: >-
 license: SL8 wording and SL8-authored script; method from Pollo's hosted ad-video-clone skill (no licence stated), restated and cited, with points from Higgsfield (no licence stated), fal and Creative Claw (Apache-2.0)
 compatibility: "marketing-studio 1.0.0 built from sl8-video 1.5.0 (sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; media-video-generation 1.2.0; edit-captions 1.0.0; ffmpeg 5.1 with libmp3lame; python3 3.11; fal endpoints and facts rows as of 2026-10-27"
 metadata:
-  version: 1.0.3
-  revision: 2026-11-01b
+  version: 1.0.4
+  revision: 2026-11-06a
   house-rules: HR-1.0
   upstream: [pollo/advideoclone-19fd86, higgsfield/admultiplier-170646, fal/falvideogeneration-fe0127, creative-claw/cc-model-contracts-video, fal/modelrouting-3dbdaa]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Pollo hosted text captured 2026-10-20, unversioned)
@@ -289,7 +289,7 @@ and text gates, no question tool; spend over budget is a gate), HR13 (`remake.py
 HR14 (the watch pass and frames are reported as findings, never a PASS), HR15, HR16 (step 10),
 HR18 (no invented selling points), HR19, HR20, HR21, HR22 (limits and prices from the facts rows,
 re-read live) — see media-ai-gen/references/house-rules.md.
-Departs by method from HR10 (owner decision pending, learnings MKT-L320): the product's label,
+Departs by method from HR10 (settled: P1 "Our rule wins", Khalid 2026-10-28; learnings MKT-L320): the product's label,
 logo and brand name are redrawn by the video model, because the clone regenerates the whole frame.
 Step 17 is the control; exact text is never promised.
 HR17 is applied as in step 7: a real person's face or own voice from the reference is kept only on
