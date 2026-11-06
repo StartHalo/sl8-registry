@@ -15,8 +15,8 @@ description: >-
 license: SL8 wording and SL8-authored scripts; two sentences quoted from fal's branded-graphics skill (adapted from fal agent skills; no licence stated; used with attribution); enrichment points restated and cited
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; python3 3.11 with Pillow 11 and numpy; imagemagick 6.9; fontconfig (fc-query, fc-match); chrome-headless-shell 152 with Playwright; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
+  version: 1.0.2
+  revision: 2026-11-06a
   house-rules: HR-1.1
   upstream: [fal/brandedgraphics-96ba6e, creative-claw/creativeclawsetup-b53df6, heygen/retired-visualstyle-33a109, fal/marketing-85464f, kling/klingaigenerateimage-572826, higgsfield/websitebuilder-82f65c, creative-claw/creativeclawrenderhtml-1ac902, higgsfield/thumbnailgeneration-e3191f, fal/falvideoproduction-09f33d, hyperframes/hyperframescli-e1e7eb, videozero/videozeroeditorialguiderouter-041880, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; fal branded-graphics version 1, published 2026-10-15)
@@ -81,8 +81,8 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
    - Never infer colours from the company name or a model's output. Logo aggregators, an
      organisation avatar or a favicon are not the official site: do not use them.
    - Fonts. Default: the font file the customer supplied; else the site's own `@font-face` file,
-     kept as a local copy for this composition with its URL in `brief.md` (whether that is allowed
-     for every brand is an owner decision pending, learnings MKT-L363); else step 9's substitute.
+     kept as a local copy for this composition with its URL in `brief.md` (kept as written for every
+     brand, a kit or brief may override: Khalid 2026-10-28, Q3 A; learnings MKT-L363); else step 9's substitute.
      Write the font's file type in `brief.md`: TTF and OTF may use Pillow, a WOFF or WOFF2 file uses
      the HTML route (step 6), because Pillow and `fc-query` cannot read it.
    - An asset you cannot reach is recorded as missing; never invent it or call the result complete.
@@ -255,8 +255,8 @@ fields, type rules and the HTML page setup: [references/layout.md](references/la
     the files, the canvas and its source, the route and renderer, the model used (if any), every
     missing asset and substitute, any flagged call to action or claim, and every check not performed,
     or "none". When the logo itself is missing, no graphic is delivered as finished. Default: the job
-    ends `partial` with the missing assets listed and a request for them (whether a labelled draft
-    should be delivered instead is an owner decision pending, learnings MKT-L365).
+    ends `partial` with the missing assets listed and a request for them (default stands: partial stop
+    when the logo cannot be reached, revisit after release; 2026-10-28 triage, learnings MKT-L365).
     - A stop that is not a spend gate (no canvas, no logo) writes its own outcome:
       `printf '{"status":"partial","reason":"<what is missing and what the customer sends>"}\n' > artifacts/<p>/outcome.json`
       (the same file `gate.mjs open` writes for a spend gate), and the reply lists the missing assets.
