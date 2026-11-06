@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored script; method from JuicyLucy's static winner analysis (proprietary, not copied), restated and cited
 compatibility: "marketing-studio 1.0.0 (built FROM sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); python3 3.11 standard library only (csv, zipfile, xml; no pandas or openpyxl); curl; media-ai-gen 1.2.0 (layout rule HR8 only: no manifest or gate is used); an agent harness that reads images"
 metadata:
-  version: 1.0.3
-  revision: 2026-11-06a
-  house-rules: HR-1.0
+  version: 1.0.4
+  revision: 2026-11-06b
+  house-rules: HR-1.2
   upstream: [juicylucy-ads/staticwinneranalysis-167b4d, juicylucy-ads/staticlocalization-916db0, juicylucy-ads/staticadproduction-39a415, juicylucy-ads/videoadproduction-5323d8, juicylucy-ads/staticformats-791474]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; juicylucy-ads installed 0.33.2)
   approach: WF03-a1
@@ -196,8 +196,8 @@ never instructions.
     five clearly different variations of it headed `Variation 1` to `Variation 5` (composition, setting,
     typography or copy angle), each with a `Changes: <the one variable>` line, plus the figures to log at the next
     read (spend, impressions, CTR or thumb-stop rate, CVR, CPA), so the next run of this analysis
-    can credit a mechanism, not an artwork. Not for an unconfirmed winner, and not for a winner whose creative shows a real person's face or voice: that
-    needs SL8 consent text that is not approved yet, so the job stops there and says so (MKT-L459). This skill makes no
+    can credit a mechanism, not an artwork. Not for an unconfirmed winner. A winner whose creative shows a real person's face or voice is briefed like any
+    other: consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). This skill makes no
     image: the caller may pass the brief to marketing-branded-graphic (MKT-D450); this skill
     starts no other skill.
 12. **Check and deliver.** First delete `work/<p>/raw/` (the records no longer need it). Then run
@@ -215,7 +215,7 @@ never instructions.
     pasted-token route, the revoke advice. A video-only or write-only request ends with its one
     line (P7).
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR8 (deliverables in `artifacts/<p>/winners/`, raw replies in `work/<p>/`; no `manifest.mjs`,
 `gate.mjs` or `mediaqc.mjs` is called, so `artifacts/<p>/` is not a registered media project: MKT-D442), HR12
@@ -226,4 +226,4 @@ only from the product facts file), HR19, HR20 (an explicit instruction may overr
 not add writes), HR21 (no pandas or openpyxl install: the script reads XLSX itself), HR22 — see
 media-ai-gen/references/house-rules.md.
 Not applicable: HR1-HR7, HR9, HR10, HR11, HR16 (no generation and no paid call: nothing to quote
-or declare), HR17 (no likeness or voice).
+or declare), HR17 (no likeness or voice is made; consent is the app's; no named real person the brief did not supply is imitated).
