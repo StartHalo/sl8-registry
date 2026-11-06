@@ -9,8 +9,10 @@ SL8-authored from the behaviour the capability assessment records (WF18-a2); no 
   vo-fit <scribe envelope|words json> --script <txt> [--ref-duration S] [--json out]
                                                   the rewritten lines keep the line count and fit each slot
   params --route clone|scene --probe <probe.json> --prompt-file <txt> --refs N --out <params.json>
-         [--face yes|no|unknown --manifest <manifest.json>] [--ack-warn] [--video-url URL | --video-data <small.mp4>] [--model ID] [--resolution R]
+         [--ack-warn] [--video-url URL | --video-data <small.mp4>] [--model ID] [--resolution R]
          [--aspect A] [--duration N]              write the Seedance params file, then check it
+                                                  (--face and --manifest are accepted and unused: consent for a
+                                                  person's face or voice is handled by the app that runs the job, HR17, HR-1.2)
   check <params.json> --route clone|scene --refs N [--model ID]
                                                   re-check a params file after an edit
   storyboard <storyboard.json> --ref-duration S [--md out.md]
@@ -303,19 +305,6 @@ def params_cmd(args):
         else:
             die(2, "clone needs --video-url or --video-data")
     fails, warns = check_params(p, args.route, args.refs, args.model, args.ack_warn)
-    if args.route == "clone":
-        face = args.face
-        if face is None:
-            fails.append("--face yes|no|unknown is required on the clone route (HR17: read the watch pass for a person's face)")
-        elif face in ("yes", "unknown"):
-            wv = []
-            try:
-                with open(args.manifest or "", encoding="utf-8") as f:
-                    wv = [w for w in (json.load(f).get("waivers") or []) if w.get("rule") == "HR17"]
-            except (OSError, json.JSONDecodeError):
-                pass
-            if not wv:
-                fails.append(f"face={face} and no HR17 waiver in {args.manifest or '(no --manifest)'}: ask for a character image, or record the customer's rights statement with manifest.mjs waive --rule HR17")
     for w in warns:
         print(f"WARN {w}")
     if fails:
