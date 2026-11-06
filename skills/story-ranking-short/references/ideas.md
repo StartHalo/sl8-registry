@@ -37,5 +37,5 @@ End it with the `intake-ending` line from prompts.json.
 Kitchen disasters · pet chaos · office mishaps · parking attempts · DIY gone wrong · trick shots ·
 satisfying fixes · first-try skills · weather surprises · toddler logic · garden fails · gym fails.
 
-Never a real, named or recognisable person, a brand, or a customer's own staff as the subject: the
-skill refuses real people until SL8's consent text is approved (SKILL.md step 1).
+Subjects are generic people, never a brand or a named real person the brief has not supplied (HR17);
+consent for a person's face or voice is handled by the app that runs the job (HR-1.2, SKILL.md step 1).
