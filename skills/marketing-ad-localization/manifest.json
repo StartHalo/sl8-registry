@@ -1,7 +1,7 @@
 {
   "name": "marketing-ad-localization",
-  "version": "v1.0.2",
+  "version": "v1.0.3",
   "description": "Localized static ads: a customer's image ads remade in each target language, every one a fresh render from its own original (Nano Banana Pro edit by default) with locked target copy, filed under the source's folders and names. Two attempts per ad, a people check, a text-only retype fallback that keeps the source pixels when the customer agrees, and checks per ad, folder, language and project with verifier scripts, OCR as a lead. Use when: localize or translate static ads, banners or social image ads, adapt an image ad set for a new market, redo one ad in another language, or resume a run. NOT for: video ads or dubbing (voice-dub); video captions (edit-captions); a new ad from a brief (marketing-branded-graphic, marketing-campaign-pack); remaking a reference ad (marketing-ad-remake); brand capture (marketing-brand-kit); picking winners (marketing-winner-analysis); product presets (image-product-presets); photo edits (media-photo-editing); ai-gen use (media-ai-gen); file checks (media-qc).",
-  "generated_at": "2026-11-06T17:14:02.859Z",
-  "skill_md_sha256": "23eaf253fcc8d6502778a275aec0ca71e6231ae513cf233ea1d8a43981e7a90a"
+  "generated_at": "2026-11-06T23:39:47.503Z",
+  "skill_md_sha256": "8390271d550dd4f49adb1ec1b259d00ba10dd99dfae49ba566a5fb8e7203b301"
 }
