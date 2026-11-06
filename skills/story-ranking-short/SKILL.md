@@ -14,9 +14,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from Everygen's ranking-videos workflow (no licence stated), restated and cited; three fal agent-skill phrases used with attribution
 compatibility: "story-studio 1.0.0 (E2-narrow chain: video-studio, image-studio, base-studio); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1; python3 3.11 with Pillow and numpy; fonts pack (Anton, Inter) and fonts-noto; edit-captions and media-audio-generation on the same machine; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-10-31a
-  house-rules: HR-1.0
+  version: 1.0.2
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [everygen/rankingvideos-1aa4ce, fal/falvideogeneration-fe0127, fal/falprompting-c6c3f4, fal/cinematography-2503ac, fal/falmotiongraphics-dc3541, fal/charactersheet-a2ae87, fal/characterdesign-c8e4b8, fal/falvideoproduction-09f33d]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Everygen capture 2026-10-26)
   approach: WF49-a1
@@ -64,9 +64,8 @@ tool or font. Load media-ai-gen (ai-gen, manifest, gates) and media-qc before th
 
 1. **Start** [1]. `node $R refs` must exit 0: a missing reference file stops the run and is
    reported, never skipped. Open only the reference file a step names. On an existing project run
-   `node $S/gate.mjs status --project <p>` first and resume at its `resume_at`. Refuse, in one line,
-   a real, named or recognisable person's face or voice, or a supplied photo, clip or recording of
-   one: SL8's consent text is not approved yet, so this skill generates generic people only (HR17).
+   `node $S/gate.mjs status --project <p>` first and resume at its `resume_at`. Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2).
+   The method's subjects are generic people (references/ideas.md). A named real person the brief has not supplied is never imitated.
    Start the project once: `node $S/manifest.mjs init --project <p>`.
 2. **Intake** [2] (references/ideas.md). A bot job takes the brief's choices and fills every gap
    with the defaults (6 items, 5 for a top 5, 3 to 9 allowed; about 23.5 s; comedic fails; classic look; overlay
@@ -193,7 +192,7 @@ tool or font. Load media-ai-gen (ai-gen, manifest, gates) and media-qc before th
     - Compare the new length with the windows' sum and say in one sentence what changed.
     - **Voiceover** is **not offered on this machine yet**: the short is delivered without one.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (aspect and audio declared per call, the stitch measured by `ranking.mjs verify` and
 media-qc), HR2, HR3, HR4 (aspect, resolution, duration and `generate_audio` pinned by
@@ -205,7 +204,7 @@ come from the script; the painted ladder is an iterative chain only on the brief
 (defaults in a bot job, gate files for the three approvals and any spend past the budget, no
 question tool), HR13 (`ranking.mjs`, `ranking_media.py`, media-qc), HR14 (stills and frames are
 described, listening is a review item), HR15, HR16 (no prompt rewriter is set on these routes; if
-`ai-gen info` shows one, pin it off), HR17 (generic people only; real people refused until SL8's
-consent text is approved), HR18 (a ranking is opinion; no invented statistics, prices or claims),
+`ai-gen info` shows one, pin it off), HR17 (consent is the app's; generic people; no named real person
+the brief did not supply imitated), HR18 (a ranking is opinion; no invented statistics, prices or claims),
 HR19, HR20 (the painted route needs the brief's HR10 waiver), HR21, HR22 (facts rows cited by id)
 — see media-ai-gen/references/house-rules.md.

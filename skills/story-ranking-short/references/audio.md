@@ -27,7 +27,7 @@ Pick a different row for every item and fit it to the scene; a kit may bring its
 | a neighbour over the fence | gravelly | cheering | "Yes! Yes!" |
 | a best friend | loud, clear | screaming | "Noooo!" |
 
-Generic people only: never a real, named or recognisable person's voice (HR17; SKILL.md step 1).
+Generic voices: never the voice of a named real person the brief has not supplied (HR17; SKILL.md step 1).
 
 ## What this machine cannot judge
 `ranking_media.py cues` gives figures (the level of the first 0.3 s, the strongest low-band hit and
