@@ -15,9 +15,9 @@ description: >-
 license: SL8 wording and SL8-authored scripts; method from JuicyLucy static-ad-production, ad-naming and workspace conventions (proprietary), restated and cited
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; playwright with chrome-headless-shell 152; imagemagick 6.9; pillow with libraqm; tesseract (optional, for ocr-name); siblings marketing-brand-kit, marketing-winner-analysis, marketing-static-copywriting and marketing-ad-localization in the same Marketing 1.0.0 bundle; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
-  house-rules: HR-1.0
+  version: 1.0.1
+  revision: 2026-11-06a
+  house-rules: HR-1.2
   upstream: [juicylucy-ads/staticadproduction-39a415, juicylucy-ads/adnaming-d7bdfd, juicylucy-ads/juicylucy-b90136]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
   approach: companion; method WF01-a2; called by WF03-a1 step 11, beside WF01-a1 and WF02-a1
@@ -139,10 +139,10 @@ localization, stop the job.
     (HR18). Each direction makes the product, the audience, the offer and the call to action clear.
 14. **Characters** [15]. Only when the source idea depends on its own character, mascot or
     spokesperson and the brand kit has character files: pass the real file with `--ref` in step 17.
-    Otherwise no brand character. A drawn mascot or an invented character only: a real person's
-    face or voice (a spokesperson, founder, customer or creator, from the kit or a reference ad)
-    is refused until SL8's consent text and privacy note are approved (MKT-L486, HR17); the
-    master uses a generic person instead and the delivery says so.
+    Otherwise no brand character. Consent for a person's face or voice is handled by the app that runs the job, not by this skill (HR17, HR-1.2). A real
+    spokesperson, founder, customer or creator in the kit's files is passed like any character file;
+    a person who appears only in a reference ad is not copied, and the master uses a generic person
+    instead. A named real person the brief has not supplied is never imitated.
 15. **Modes and briefs** [16]. One mutation mode per master with what it keeps and alters
     (`references/method.md` § Mutation modes), all three across the set when the count allows, in
     `work/<p>/masters.json`. The masters needed are ad sets per language × ads per ad set, all
@@ -265,7 +265,7 @@ localization, stop the job.
   customer's statics or a headless screenshot that may be blocked.
 - **Uploading to or changing an ad platform** is not part of this method.
 
-## House rules (HR-1.0)
+## House rules (HR-1.2)
 
 Relies on: HR1 (aspect and format declared per master, measured by `statics.mjs verify` and
 media-qc), HR2, HR3, HR4 (resolution, count, web search, generation limit, safety tolerance and
@@ -274,7 +274,7 @@ quote), HR6, HR7 (one regeneration per master moving a named lever; a fresh full
 failed call; no third), HR8, HR9, HR10 (copy and logo composited from files by default), HR11 (every localized
 file renders from its approved master), HR12 (brand choice, publish day, continuation, repeat or
 explore are gates with defaults; spend past budget and the master review stop the job), HR13
-(`statics.mjs verify`, `mediaqc.mjs`), HR14, HR15, HR16, HR17 (generic people only; a real person refused until SL8's consent text is approved), HR18 (claims
+(`statics.mjs verify`, `mediaqc.mjs`), HR14, HR15, HR16, HR17 (consent is the app's; a real person from the kit's files is a valid reference, otherwise generic people; no named real person the brief did not supply is imitated), HR18 (claims
 only from the brand's product facts), HR19, HR20, HR21, HR22 — see
 media-ai-gen/references/house-rules.md.
 HR10 is applied over the method (MKT-D492, learnings MKT-L485): the vendor's model letters the
