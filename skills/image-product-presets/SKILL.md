@@ -14,8 +14,8 @@ description: >-
 license: SL8 wording; method and preset recipes from Higgsfield (no licence stated), restated and cited
 compatibility: "sl8-image >=1.5.0 (Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; node 22; python-imaging 1.0.0 (Pillow); imagemagick 6.9; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.0
-  revision: 2026-10-28a
+  version: 1.0.1
+  revision: 2026-11-06a
   house-rules: HR-1.0
   upstream: [higgsfield/product-image-presets, creative-claw/creativeclawproductphotoshoot-39bd86, creative-claw/cc-image-model-guides, fal/charactersheet-a2ae87, fal/commercial-4335f5]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27; Higgsfield recipes captured 2026-10-11)
@@ -191,7 +191,7 @@ HR14, HR15, HR16 (if `ai-gen info` shows a prompt-rewrite or enhance field, pin 
 file and rerun `check`: the prompt is complete), HR17 (people and hands in lifestyle presets are
 generic, never a real person), HR18 (the prompts forbid invented claims, prices and certifications;
 step 7 checks it), HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
-Departs by method from HR10 (owner decision pending, learnings IMG-L307): the product's own label
+Departs by method from HR10 (settled: P1 "Our rule wins", Khalid 2026-10-28; learnings IMG-L307): the product's own label
 and the card text pass through the edit model, because a preset redraws the product in a new scene.
 Step 7 is the control; a caller who needs exact text composites it afterwards with
 media-photo-editing.
