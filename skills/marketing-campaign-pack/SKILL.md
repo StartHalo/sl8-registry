@@ -16,8 +16,8 @@ description: >-
 license: Adapted from fal agent skills (fal Codex plugin 1.1.0 marketing skill; no licence stated; used with attribution); JuicyLucy ad-platform points restated in SL8 wording and cited (proprietary, not copied)
 compatibility: "marketing-studio >=1.0.0 (sl8-video 1.5.0, sl8-image 1.5.0, Base 2.1.0); ai-gen 2.2.0; media-ai-gen 1.2.0; media-qc 1.2.0; ffmpeg 5.1 and ffprobe; python3 3.11 with Pillow; imagemagick 6.9; tesseract; fal endpoints as of 2026-10-27"
 metadata:
-  version: 1.0.1
-  revision: 2026-11-01a
+  version: 1.0.2
+  revision: 2026-11-06a
   house-rules: HR-1.0
   upstream: [fal/marketing-85464f, fal/ugc-3c015f, fal/commercial-4335f5, fal/falprompting-c6c3f4, fal/falvideogeneration-fe0127, fal/falvideoproduction-09f33d, fal/modelrouting-3dbdaa, juicylucy-ads/adplatform-a2543e]
   upstream-pin: sl8-resesarch@559a1305 (assessment 2026-10-27)
@@ -276,6 +276,6 @@ intake or spend past the budget ends the job or opens a gate), HR13 (`campaign.p
 `mediaqc.mjs`), HR14, HR15 (overlays and left-out rows named as debts), HR16 (pin any prompt-rewrite
 field off: the seven-layer prompt is complete), HR17 (consent per creator-ad row), HR18 (claims
 supplied, observable or removed), HR19, HR20, HR21, HR22 — see media-ai-gen/references/house-rules.md.
-Departs by method from HR10 (owner decision pending, learnings MKT-L382): a product photo passes
+Departs by method from HR10 (settled: P1 "Our rule wins", Khalid 2026-10-28; learnings MKT-L382): a product photo passes
 through an edit route as a reference and is redrawn; step 12's check against the photo is the
 control.
