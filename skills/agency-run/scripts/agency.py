@@ -702,7 +702,28 @@ def check(h):
             elif rel in expect and sha256(h.p(rel)) != expect[rel]:
                 probs.append(f'checked: {rel} differs from what its pass checked (changed after it was shared): '
                              're-check its task')
+    if os.path.isfile(h.p('outcome.json')):  # A16 (D82): shared means copied into artifacts/ this job
+        try:
+            status = json.load(open(h.p('outcome.json'), encoding='utf-8')).get('status')
+        except (ValueError, AttributeError):
+            status = None
+            probs.append('outcome: outcome.json is not a JSON object with a status')
+        files = shared_this_job(h, events, plan)
+        if status == 'partial' and files:
+            probs.append(f'outcome: outcome.json says partial, but this job shared {", ".join(files)}: '
+                         'write delivered with them')
     return probs, stray
+
+
+def shared_this_job(h, events, plan):
+    """What this job copied into artifacts/<customer id>/ and is still there: each pass's copies, and the owner's copy
+    of the email `send` wrote for a comms task passed this job. A job is the events since the previous job's
+    `session` end."""
+    ends = [i for i, e in enumerate(events) if e['ev'] == 'session' and e.get('phase') == 'end']
+    passed = [e for e in events[ends[-2] + 1 if len(ends) > 1 else 0:]
+              if e['ev'] == 'task_done' and e.get('check') == 'pass']
+    files = coverage(passed, plan, h.art, h.shared)[0] | {h.art(f'work/outbox/{e["task"]}.eml') for e in passed}
+    return sorted(f for f in files if os.path.isfile(h.p(f)))
 
 
 def done_under_44(events, tid):
