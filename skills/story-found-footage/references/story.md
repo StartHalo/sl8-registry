@@ -92,9 +92,9 @@ story; the camera noticing what a person missed; a repeating pattern the viewer 
 - Stories are invented unless the customer says otherwise. For a story based on something that really
   happened, use only what the customer gave; a gap is never filled with a person, place, street or date
   that sounds real. An invented story is never passed off as true.
-- A real, identifiable person (a named person, or a customer's photo of a person) is refused for now:
-  people in the story stay generic roles, and the narrator is a stock voice. Consent wording for real
-  faces and voices is waiting on the owner (learnings STO-L346).
+- People in the story stay generic roles, and the narrator is a stock voice; a named real person the
+  brief has not supplied is never imitated. Consent for a person's face or voice is handled by the app
+  that runs the job, not by this skill (HR17, HR-1.2).
 
 ## The text the voice reads
 
