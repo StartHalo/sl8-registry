@@ -56,7 +56,8 @@ source names the fields but gives no schema (WF15-a1 gaps[0]).
 - A variant names `variant_of` and changes only `layers.6`; `check` fails any other difference, and
   any difference in `crop`, `format`, `route`, `references`, `portrait` or `speech`.
 - A creator-ad row adds `portrait` (at the row's ratio), `speech` (an audio file or the approved spoken
-  text) and `consent`; `check` fails a creator route with no `consent` or with `"price": "unknown"`.
+  text) and, optionally, `consent` (stored as the app gives it and never checked: consent is handled by the
+  app that runs the job, HR17, HR-1.2); `check` fails a creator route with `"price": "unknown"`.
 - `defects` collects what step 12 finds; `campaign.py manifest` lists every defect, or "none found".
 
 ## The seven prompt layers
