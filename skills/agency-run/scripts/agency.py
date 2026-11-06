@@ -12,7 +12,8 @@ artifacts/<customer id>/. Subcommands:
   task drop <id> --why TEXT    withdraws its shared files unless a send listed them
   view tail [N] | lane <id> | tasks [--open] | facts | skills
   status                       the operator's view on stdout; writes now.md, the customer-safe card
-  check [--fix]                the session check; --fix moves stray shared files to work/recovered/ and
+  check [--fix]                the session check; --fix moves stray shared files, and any file under artifacts/
+                               outside the customer folder and the uploads, to work/recovered/ and
                                drops a truncated last log line, logging each as an error
   send <task-id> [--urgent]    writes a checked comms task's email to work/outbox/<task>.eml and the same file,
                                for the owner, to artifacts/<customer id>/outbox/
@@ -79,6 +80,23 @@ def read_user(path):
     return out
 
 
+def read_sections(path):
+    """bot/user.md's free-text sections (A10, D83): {`## ` heading: sha256 of its text}, comments stripped and
+    whitespace collapsed, so `agency status` sees an edit to the goal and scope text as well as to a label."""
+    if not os.path.isfile(path):
+        return {}
+    text = re.sub(r'<!--.*?-->', '', open(path, encoding='utf-8').read(), flags=re.S)
+    out, head, body = {}, None, []
+    for l in text.splitlines() + ['## ']:
+        if l.startswith('## '):
+            if head:
+                out[head] = hashlib.sha256(' '.join(' '.join(body).split()).encode('utf-8')).hexdigest()
+            head, body = l[3:].strip(), []
+        elif head:
+            body.append(l)
+    return out
+
+
 class Home:
     """An install's files under its root ($HOME on a machine)."""
 
@@ -114,6 +132,9 @@ class Home:
 
     def user(self):
         return read_user(self.p('bot', 'user.md'))
+
+    def sections(self):
+        return read_sections(self.p('bot', 'user.md'))
 
     def cid(self):
         c = self.user().get('customer_id', '')
@@ -702,6 +723,16 @@ def check(h):
             elif rel in expect and sha256(h.p(rel)) != expect[rel]:
                 probs.append(f'checked: {rel} differs from what its pass checked (changed after it was shared): '
                              're-check its task')
+    for dp, ds, fs in os.walk(h.p('artifacts')):  # agency#88: only the customer's folder and the uploads belong here
+        if dp == h.p('artifacts'):
+            ds[:] = [d for d in ds if d not in (cid, 'attachments')]
+        links = [d for d in ds if os.path.islink(os.path.join(dp, d))]  # os.walk never enters a linked folder
+        for fn in sorted(fs + links):
+            rel = os.path.relpath(os.path.join(dp, fn), h.root).replace(os.sep, '/')
+            if not fn.startswith('.'):
+                stray.append(rel)
+                probs.append(f'checked: {rel} is outside artifacts/{cid}/: `agency check --fix` moves it to '
+                             'work/recovered/')
     if os.path.isfile(h.p('outcome.json')):  # A16 (D82): shared means copied into artifacts/ this job
         try:
             status = json.load(open(h.p('outcome.json'), encoding='utf-8')).get('status')
@@ -738,13 +769,21 @@ def cmd_check(h, a):
         cid_dir = None
         for rel in stray:  # A14: a file with no event (a lost machine) goes to work/recovered/
             cid_dir = cid_dir or f'artifacts/{h.cid()}/'
-            dest = 'work/recovered/' + rel[len(cid_dir):]
-            os.makedirs(os.path.dirname(h.p(dest)), exist_ok=True)
-            shutil.move(h.p(rel), h.p(dest))
-            h.write_line(json.dumps({'t': now(), 'ev': 'error', 'by': 'agent',
-                                     'text': f'check --fix: {rel} was shared with no event; moved to {dest}'},
-                                    ensure_ascii=False))
-            print(f'fixed: moved {rel} to {dest}')
+            inside = rel.startswith(cid_dir)
+            dest = 'work/recovered/' + (rel[len(cid_dir):] if inside else rel)  # outside: its path kept (agency#88)
+            free, n = dest, 0
+            while os.path.lexists(h.p(free)):  # never overwrite an earlier recovered file
+                n += 1
+                free = f'{dest}.{n}'
+            why = 'was shared with no event' if inside else f'is outside {cid_dir}'
+            try:
+                os.makedirs(os.path.dirname(h.p(free)), exist_ok=True)
+                shutil.move(h.p(rel), h.p(free), copy_function=shutil.copyfile)  # no copystat: gcsfuse refuses utime
+                text = f'check --fix: {rel} {why}; moved to {free}'
+            except OSError as x:  # e.g. a file where a folder is needed: this one stays, the rest still move
+                text = f'check --fix: {rel} {why}; {rel} not moved ({x.strerror or x})'
+            h.write_line(json.dumps({'t': now(), 'ev': 'error', 'by': 'agent', 'text': text}, ensure_ascii=False))
+            print('fixed: ' + text[len('check --fix: '):])
         probs, stray = check(h)
     for p in probs:
         print('FAIL', p)
@@ -998,10 +1037,16 @@ def cmd_status(h, a):
     Logs params when user.md changed, and a lane_renamed per migration of the bot not yet logged (A7, A10)."""
     events = h.events()
     u = h.user()
-    last = next((e for e in reversed(events) if e['ev'] == 'params'), None)
+    last, secs = next((e for e in reversed(events) if e['ev'] == 'params'), None), h.sections()
     if events and u and (last or {}).get('params') != u:  # from job 1's onboarding on
-        append(h, {'ev': 'params', 'params': u})
+        append(h, {'ev': 'params', 'params': u, 'sections': secs})
         print('logged params: bot/user.md changed; take-in adds a plan review')
+    elif events and u and last.get('sections', secs) != secs:  # a section's text changed (D83)
+        append(h, {'ev': 'params', 'params': u, 'sections': secs})
+        print('logged params: bot/user.md changed; take-in adds a plan review')
+    elif events and u and 'sections' not in last:  # params logged before 1.0.2: record the sections, nothing changed
+        append(h, {'ev': 'params', 'params': u, 'sections': secs})
+        print('logged params: the section digests of an unchanged bot/user.md; nothing to review')
     done = {(e.get('from'), e.get('to'), e.get('release')) for e in events if e['ev'] == 'lane_renamed'}
     for mf in [] if not events else sorted(glob.glob(h.p('.sl8', 'bot', '.claude', 'skills', '*', 'lanes', 'migrations.json'))):
         for m in json.load(open(mf, encoding='utf-8')):

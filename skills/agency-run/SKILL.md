@@ -3,7 +3,7 @@ name: agency-run
 description: One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and outcome.json. Use whenever a job starts with no other instruction, or the prompt says "run" or "work on it".
 metadata:
   status: core
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # Run a job
@@ -19,7 +19,8 @@ the tool is `agency` (its spec: `TOOL.md` here). Follow `knowledge/how-to-run.md
    - An upload in `artifacts/attachments/` → a `received` event whose `ref` is its path; copy it into
      `work/inputs/` when a task works on it.
    - Feedback → `work/agency/CUSTOMER.md`.
-   - `agency status` logs a `params` event when `bot/user.md` changed (add a plan review, A10) and a
+   - `agency status` logs a `params` event when `bot/user.md` changed (add a plan review when it prints "take-in adds a
+     plan review", A10) and a
      `lane_renamed` for a new release's lane migration (A7).
    - Test each active lane's `done` and `pause` rule; if one holds, `log lane_set` its state with why.
    - A new ask is judged by the parameters (`bot/user.md`), never by a lane's scope: inside them (no extra

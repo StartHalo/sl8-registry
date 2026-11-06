@@ -50,8 +50,8 @@ folder)**. Fixed paths: `bot/user.md`, `bot/setup.md`, `work/`, `work/agency/{lo
 | `agency task wait <task> --on WHO\|TASK [--due DATE]` | On a task id: `blocked`; otherwise `waiting`. `WHO` is `customer:<name>` for an ask of the customer |
 | `agency task drop <task> --why TEXT` | Logs `task_dropped`; withdraws its shared files unless a `sent` lists them or another task's pass covers them |
 | `agency view tail [N] \| lane ID \| tasks [--open] \| facts \| skills` | Read-only, plain text; `tasks --open` is the pick list (§7) |
-| `agency status` | Replays the log; prints the operator's full view; writes `now.md`, the customer-safe card (§9) **(new)**; logs `params` when `user.md` differs from the last one **(new)**; logs a `lane_renamed` for each entry of the bot's `lanes/migrations.json` not yet logged, matched on `from`, `to`, `release` **(new)** |
-| `agency check [--fix]` | The session check (§8); `--fix` **(new)** moves a shared file with no event to `work/recovered/` and drops a truncated last log line, logging each as an `error` |
+| `agency status` | Replays the log; prints the operator's full view; writes `now.md`, the customer-safe card (§9) **(new)**; logs `params` when `user.md` differs from the last one, in a label or in a `## ` section's text (a sha256 per section, D83) **(new)**; logs a `lane_renamed` for each entry of the bot's `lanes/migrations.json` not yet logged, matched on `from`, `to`, `release` **(new)** |
+| `agency check [--fix]` | The session check (§8); `--fix` **(new)** moves a shared file with no event, and a file under `artifacts/` outside `<customer id>/` and `attachments/` (its path kept, D83), to `work/recovered/` and drops a truncated last log line, logging each as an `error` |
 | `agency send <task>` | Sends exactly a checked comms task's refs, after its own checks: every ref in `work/` and unchanged since the pass (hashes); every shared copy equal to its hash **(new)**; a check older than 7 days is refused ("re-check first"); the cap (§10). With no email service it writes `work/outbox/<task>.eml` (From and Reply-To `Slate Agency <reply address>`, Bcc from `user.md` **(new: today `<customer>+agency@`, no Reply-To, Bcc from CUSTOMER.md or `AGENCY_BCC`)**; the files attached) and the same file in `artifacts/<customer id>/outbox/`, where the owner gets it (D78), and logs nothing. SMTP and Drive branches are removed **(new)** |
 | `agency send <task> --by khalid` | Logs the owner's send as `sent`; moves the `.eml` to `work/outbox/sent/` **(new)** and its copy to `artifacts/<customer id>/outbox/sent/` (D78). Refused if already sent |
 | `agency migrate <workspace or bundle.tar> [--goal G] [--dry-run]` **(new)** | Runs on the install's machine (contract §9: the owner copies the bundle into `work/import/`, D78); copies a v5 workspace into it byte for byte; refuses an install that already has a log; `--dry-run` prints what it would copy |
@@ -69,7 +69,7 @@ before it, lld §2). Common fields: `t`, `ev`, `by` (`agent` · `khalid` · `cus
 | `ev` | Required fields | Optional |
 |---|---|---|
 | `onboarded` | `customer` | |
-| `params` **(new)** | the `user.md` labels and values | |
+| `params` **(new)** | the `user.md` labels and values (`params`), and `sections`: a sha256 per `## ` section of its text (D83) | |
 | `fact` | `text`, `src` | |
 | `goal` | `goal` (the whole goal, §6) | |
 | `lane_opened` | `lane` (the whole lane) | |
@@ -124,7 +124,8 @@ SENT").
 1. **Valid:** every open task has a known kind and the fields its kind needs; the standing lanes exist; every active goal
    lane has its goal, scope, gauge, done, pause and rank; every `work/` ref of an open task exists (except an output a task
    it follows or waits on has yet to make).
-2. **Checked:** nothing in `artifacts/<customer id>/` that no pass, `sent` or email in `work/outbox/` covers; every task a
+2. **Checked:** nothing in `artifacts/<customer id>/` that no pass, `sent` or email in `work/outbox/` covers, and
+   nothing under `artifacts/` outside it and `attachments/` (agency#88, D83); every task a
    send carried had a pass; every shared copy equal to its pass hash **(new)**, and a waiting email's copy equal to its
    `work/outbox/` file (D78); and, once `outcome.json` exists, it isn't `partial` while this job (the events since the
    previous job's `session` end) shared a file still there: a pass's copy, or the owner's copy of the email `send`
