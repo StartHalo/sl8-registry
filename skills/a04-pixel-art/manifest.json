@@ -1,0 +1,7 @@
+{
+  "name": "a04-pixel-art",
+  "version": "v1.0.0",
+  "description": "The pixel art agency's own skill - the sprite-pack lane (style sheet, sprites drawn as character grids, a sheet per batch, checks) and scripts/png.py, which renders a grid spec to PNG and checks a PNG's size, palette and sprite count with no image library. Use when a plan task opens the sprite-pack lane, and for every task that draws, revises or checks a sprite.",
+  "generated_at": "2026-11-07T19:23:25.107Z",
+  "skill_md_sha256": "34d8653204f1cd62077f2d46df3fa81a2c85f2d05b4c5799233eae4541872db5"
+}
