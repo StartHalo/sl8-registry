@@ -16,13 +16,13 @@ description: >-
 license: Adapted from fal agent skills; no licence stated; used with attribution
 compatibility: "sl8-video >=1.0.1 (sl8-image 1.0.1, Base 2.0.2); ai-gen 2.2.0; ffmpeg and ffprobe; media-ai-gen 1.1.0 (manifest.mjs, gate.mjs); media-qc 1.1.0; fal endpoints as of the export 2026-10-05"
 metadata:
-  version: 1.1.3
-  revision: 2026-11-02a
+  version: 1.1.4
+  revision: 2026-11-07a
   house-rules: HR-1.2
   upstream: fal-agent/fal-audio-generation  # the pristine source only; not a skill on this machine
   upstream-pin: export 2026-10-05
   attribution: Adapted from fal (fal.ai/agent/skills export 2026-10-05)
-  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195, VID-D756, VID-D761, VID-D790..VID-D791
+  deltas: VID-D30..VID-D39, VID-D101, VID-D106, VID-D114, VID-D115, VID-D136..VID-D143, VID-D193..VID-D195, VID-D756, VID-D761, VID-D790..VID-D791, VID-D806..VID-D807
 ---
 # Audio Generation
 
