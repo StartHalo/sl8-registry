@@ -3,7 +3,7 @@ name: agency-onboard
 description: Start a new customer's engagement in job 1. Writes work/agency/CUSTOMER.md from bot/user.md and public sources, opens the three standing lanes (discovery, plan, comms) with their seed tasks, and logs the goal. Use in job 1, when there is no log yet.
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Onboard a customer
@@ -30,5 +30,6 @@ Job 1 (no log yet). The engagement is `bot/user.md` (A10); this skill turns it i
 5. **The goal:** from `bot/user.md`, log it (`goal`, whole object), log the
    starting figure as a `read`, and add a `plan` task: "plan G1", done when `work/plan/G1.md` is
    written and its lanes are opened and ranked. Park it on the discovery summary
-   (`task wait <plan id> --on <summary id>`): discovery comes before the plan (D51).
-6. **The card:** `agency status` (it writes now.md), then `agency check`.
+   (`task wait <plan id> --on <summary id>`): discovery comes before the plan (D51). The goal lanes the plan opens
+   each need a `title`; the tool titles the standing ones.
+6. **The dashboard:** `agency status`, then `agency check`.
