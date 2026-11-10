@@ -22,7 +22,7 @@ artifacts/<customer id>/. Subcommands:
   --version                    the core's version (../VERSION)
 Stdlib only. Events are never edited; every read replays the log (there is no plan file).
 """
-import argparse, copy, datetime as dt, glob, hashlib, html as H, json, math, mimetypes, os, re, shutil, sys, tarfile, tempfile
+import argparse, copy, datetime as dt, glob, hashlib, html as H, json, math, mimetypes, os, re, shutil, subprocess, sys, tarfile, tempfile
 from email.message import EmailMessage
 from email.utils import formatdate
 
@@ -42,6 +42,59 @@ DAYS = ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
 PICK = {'plan': -1, 'discovery': 100, 'comms': 101}  # plan reviews first, then goal lanes by rank
 CAP = 3  # emails we start in 7 days, per agency (D74, D75)
 DATE = r'\d{4}-\d\d-\d\d'
+STANDING_TITLES = {'discovery': 'Discovery', 'plan': 'Plan', 'comms': 'Messages'}  # TOOL.md §6 (D85 4 A)
+LIMITS = {'lane': 60, 'stage': 40, 'task': 120, 'note': 200}  # R1
+JOB = r'[A-Za-z0-9_-]{1,64}'  # SL8_JOB, the execution id the runner exports (TOOL.md §5, `job`)
+TASK_ID = re.compile(r'\bT\d+\b', re.A)
+STAGE_CODE = re.compile(r'\bS\d\d?\b', re.A)
+CUSTOMER_FORM = re.compile(r'(?:^|[^A-Za-z0-9_])customer:')
+INTERNAL_PATHS = (re.compile(r'(?:^|[^A-Za-z0-9_.-])(?:work|bot|artifacts|projects|\.agency|\.sl8|\.claude)/\S'),
+                  re.compile(r'/home/user(?:/|\b)', re.A),
+                  re.compile(r'(?:^|[^A-Za-z0-9_.-])(?:CUSTOMER\.md|log\.jsonl|now\.md|user\.md|setup\.md|outcome\.json)\b', re.A))
+RAW_DATE = re.compile(r'\b\d{4}-\d\d-\d\d(?:T[\d:.]+Z?)?\b', re.A)
+OWNER_NAME = re.compile(r'\bkhalid\b', re.I | re.A)
+PLACEHOLDER = ('…', '...')  # the fix templates' stand-in, never a title
+
+
+def title_rules(text, ids, limit=120):
+    """The title rules (TOOL.md §11; one set with Slate's customer-safe check, cases in tests/fixtures/title-rules.json):
+    R1 empty or over its limit, R2 a plan id, R3 a stage code, R4 `customer:` or an internal path, R5 a raw date,
+    R6 the owner's name. Lengths count Unicode code points (Slate's port counts the same: [...text].length).
+    Returns the rules found, in order."""
+    if not isinstance(text, str):
+        return ['R1']
+    found = ['R1'] if not text.strip() or len(text) > limit else []
+    wordy = sorted((re.escape(i) for i in ids if i and re.search(r'[\d-]', i)), key=len, reverse=True)
+    if TASK_ID.search(text) or text.strip() in set(ids) or (
+            wordy and re.search(r'(?<![A-Za-z0-9-])(?:' + '|'.join(wordy) + r')(?![A-Za-z0-9-])', text)):
+        found.append('R2')
+    if STAGE_CODE.search(text):
+        found.append('R3')
+    if CUSTOMER_FORM.search(text) or any(r.search(text) for r in INTERNAL_PATHS):
+        found.append('R4')
+    if RAW_DATE.search(text):
+        found.append('R5')
+    if OWNER_NAME.search(text):
+        found.append('R6')
+    return found
+
+
+def plan_ids(plan):
+    """Every id the plan holds (goals, lanes and their old ids, tasks): R2 finds them in a title."""
+    return {str(x['id']) for k in ('goals', 'lanes', 'tasks') for x in plan[k] if x.get('id')} | set(plan['renamed'])
+
+
+def stages_problem(st):
+    """What is wrong with a lane's `stages` (TOOL.md §6), or None."""
+    if not isinstance(st, list) or not 1 <= len(st) <= 20:
+        return 'stages is a list of 1 to 20 {"id": "S01", "name": "…"}'
+    for s in st:
+        if not isinstance(s, dict) or not re.fullmatch(r'S\d\d', str(s.get('id')), re.A):
+            return f'a stage id is S01, S02, …, not {s.get("id") if isinstance(s, dict) else s!r}'
+        if 'R1' in title_rules(s.get('name'), [], LIMITS['stage']):
+            return f'stage {s["id"]} needs a name of 1–{LIMITS["stage"]} chars'
+    ids = [s['id'] for s in st]
+    return None if ids == sorted(set(ids)) else 'stage ids are unique and ascending'
 
 
 def now():
@@ -316,6 +369,61 @@ def bad_date(v):
     return v is not None and not (re.fullmatch(DATE, str(v)) and day(v))
 
 
+def names(plan, e):
+    """The protocol 1.1 fields (TOOL.md §5, §11; D85): R1 on the titles and stage names an event writes, a goal lane's
+    title, the day note's R1-R6, and the ids `caused_by` and `received.task` name."""
+    ev = e['ev']
+    lane = e.get('lane') if ev == 'lane_opened' else None
+    fields = lane if isinstance(lane, dict) else e.get('set') if ev == 'lane_set' and isinstance(e.get('set'), dict) else None
+    if isinstance(lane, dict) and lane.get('id') not in STANDING and 'title' not in lane:
+        raise ValueError(f'lane_opened needs a title (1–{LIMITS["lane"]} chars): add "title": "…" '
+                         '(written so the customer could read it)')
+    if fields is not None:
+        if 'title' in fields and fields['title'] is None:
+            raise ValueError('a lane\'s title cannot be removed: set a new one')
+        if 'title' in fields and 'R1' in title_rules(fields['title'], [], LIMITS['lane']):
+            raise ValueError(f'a lane title is 1–{LIMITS["lane"]} chars, not {fields["title"]!r}')
+        if 'title' in fields and str(fields['title']).strip() in PLACEHOLDER:
+            raise ValueError('replace "…" with the lane\'s title')
+        if fields.get('stages') is not None and stages_problem(fields['stages']):
+            raise ValueError(stages_problem(fields['stages']))
+        for st in fields.get('stages') or []:  # a stage name reaches the customer's card: R1-R6 (a new field)
+            found = title_rules(st['name'], plan_ids(plan), LIMITS['stage'])
+            if found or st['name'].strip() in PLACEHOLDER:
+                raise ValueError(f'stage {st["id"]}\'s name {st["name"]!r} breaks {", ".join(found) or "R1"}: '
+                                 'name it in plain words (no ids, stage codes, paths, dates or the owner\'s name)')
+    task = e.get('task') if ev in ('task_added', 'task_refined') and isinstance(e.get('task'), dict) else None
+    if task is not None:
+        if 'title' in task and (task['title'] is None or 'R1' in title_rules(task['title'], [], LIMITS['task'])):
+            raise ValueError(f'a task title is 1–{LIMITS["task"]} chars, not {task["title"]!r}')
+        if 'title' in task and str(task['title']).strip() in PLACEHOLDER:
+            raise ValueError('replace "…" with the task\'s title')
+        if task.get('caused_by') is not None and not find(plan['tasks'], task['caused_by']):
+            raise ValueError(f'caused_by names unknown task {task["caused_by"]}')
+    if ev == 'received' and e.get('task') is not None and not find(plan['tasks'], e['task']):
+        raise ValueError(f'unknown task {e["task"]}: received.task names the task the reply answers')
+    if ev == 'session' and 'note' in e:
+        found = title_rules(e['note'], plan_ids(plan), LIMITS['note'])
+        if found:
+            raise ValueError(f'the day note breaks {", ".join(found)} (1–{LIMITS["note"]} chars; no ids, stage codes, '
+                             'paths, `customer:` forms, raw dates or the owner\'s name): say what moved in plain words')
+
+
+def approve_problem(h, trial, e):
+    """A task's `approve` names a file that exists: the customer's under artifacts/<customer id>/ (only what a pass or
+    a send shared), the owner's under work/ (an unapproved sample never enters the customer's folder)."""
+    task = e.get('task') if e['ev'] in ('task_added', 'task_refined') and isinstance(e.get('task'), dict) else {}
+    if task.get('approve') is None:
+        return None
+    path, owner = str(task['approve']), (find(trial['tasks'], task.get('id')) or {}).get('owner')
+    if owner not in ('customer', 'khalid'):
+        return 'approve is for a task of the customer or the owner (owner customer or khalid)'
+    root = f'artifacts/{h.cid()}/' if owner == 'customer' else 'work/'
+    if not path.startswith(root) or '..' in path.split('/') or not os.path.isfile(h.p(path)):
+        return f'approve of a {owner} task names a file under {root} that exists, not {path}'
+    return None
+
+
 def validate(plan, e):
     """Refuse an event that would leave the plan invalid (lld section 7, the log tool)."""
     if e['ev'] not in EVENTS:
@@ -329,9 +437,12 @@ def validate(plan, e):
         raise ValueError('a lane_renamed needs from, to and release')
     for v in ([e['task'].get('due')] if e['ev'] in ('task_added', 'task_refined') and isinstance(e.get('task'), dict)
               else [e.get('due')] if e['ev'] == 'task_waiting'
-              else [e['goal'].get('by')] if e['ev'] == 'goal' and isinstance(e.get('goal'), dict) else []):
+              else [e['goal'].get('by')] if e['ev'] == 'goal' and isinstance(e.get('goal'), dict)
+              else [e['lane'].get('due')] if e['ev'] == 'lane_opened' and isinstance(e.get('lane'), dict)
+              else [e['set'].get('due')] if e['ev'] == 'lane_set' and isinstance(e.get('set'), dict) else []):
         if bad_date(v):
             raise ValueError(f'{v!r} is not a date: write it YYYY-MM-DD')
+    names(plan, e)
     if e['ev'] in ('task_added', 'task_refined') and isinstance(e.get('task'), dict) \
             and e['task'].get('kind') == 'new-skill':
         raise ValueError('a new-skill task is refused: nothing is built on the machine; write the lesson to '
@@ -369,16 +480,78 @@ def validate(plan, e):
 def append(h, e):
     e.setdefault('t', now())
     e.setdefault('by', 'agent')
+    job = os.environ.get('SL8_JOB', '')
+    if re.fullmatch(JOB, job):  # the job this event belongs to: the tool's own stamp, never the agent's (D85)
+        e['job'] = job
+    lane = e.get('lane')
+    if e['ev'] == 'lane_opened' and isinstance(lane, dict) and lane.get('id') in STANDING and not lane.get('title'):
+        lane['title'] = STANDING_TITLES[lane['id']]
     events = h.events()
     if e['ev'] == 'sent':
         if not e.get('id'):
             raise ValueError('a sent event needs an id')
         if any(x.get('ev') == 'sent' and x.get('id') == e['id'] for x in events):
             raise ValueError(f'already sent: {e["id"]} (nothing is sent twice)')
-    validate(replay(events), e)
+    trial = validate(replay(events), e)
+    bad = approve_problem(h, trial, e)
+    if bad:
+        raise ValueError(bad)
     h.drop_truncated()  # the first command that appends drops a truncated last line, logging it
     h.write_line(json.dumps(e, ensure_ascii=False))
+    if e['ev'].startswith('task_'):
+        report_plan(h)
     return e
+
+
+def live_steps(events, plan, job):
+    """The tasks this job touched (started, waited or done with its `job`), by first touch, as the live list's steps
+    (TOOL.md §12): each with its id as an opaque key (never shown), its title and its status."""
+    order, last = [], {}
+    for e in events:
+        if e.get('ev') in ('task_started', 'task_waiting', 'task_done') and e.get('job') == job and isinstance(e.get('task'), str):
+            if e['task'] not in last:
+                order.append(e['task'])
+            last[e['task']] = e['ev']
+    steps = []
+    for tid in order:
+        t = find(plan['tasks'], tid) or {}
+        st = t.get('state')
+        if st == 'dropped' or not isinstance(t.get('title'), str) or not t['title'].strip():
+            continue
+        status = ('in_progress' if st == 'running' else
+                  'completed' if st == 'done' or (t.get('every') and last[tid] == 'task_done') else 'pending')
+        steps.append({'key': tid, 'title': t['title'][:LIMITS['task']], 'status': status})
+    if len(steps) > 30:  # the running step, then the most recent
+        keep = {s['key'] for s in steps if s['status'] == 'in_progress'}
+        for s in reversed(steps):
+            if len(keep) >= 30:
+                break
+            keep.add(s['key'])
+        steps = [s for s in steps if s['key'] in keep]
+    return steps
+
+
+def report_plan(h):
+    """Reports the live list to Slate's emitter (`node $SL8_DIR/emit.mjs agency-plan`, the steps as JSON on stdin) when it
+    changed; only on a Slate job (SL8_JOB set, the emitter there). Best effort: a missing, failing or slow emitter
+    (2 s) never stops a command."""
+    try:
+        job = os.environ.get('SL8_JOB', '')
+        d = os.environ.get('SL8_DIR') or os.path.join(os.environ.get('HOME', ''), '.sl8')
+        emit = os.path.join(d, 'emit.mjs')
+        if not re.fullmatch(JOB, job) or not os.path.isfile(emit):
+            return
+        body = json.dumps({'steps': live_steps(h.events(), h.plan(), job)}, ensure_ascii=False)
+        digest = hashlib.sha256(f'{job}\n{body}'.encode('utf-8')).hexdigest()  # per job: a new job's first report goes
+        seen = os.path.join(d, 'agency-plan.last')
+        if os.path.isfile(seen) and open(seen, encoding='utf-8').read().strip() == digest:
+            return
+        r = subprocess.run(['node', emit, 'agency-plan'], input=body.encode('utf-8'), timeout=2,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if r.returncode == 0:
+            open(seen, 'w', encoding='utf-8').write(digest)
+    except Exception:  # noqa: BLE001 — the live list never takes a command down
+        pass
 
 
 def files_in(h, path):
@@ -408,6 +581,8 @@ def cmd_log(h, a):
     e = json.loads(a.json, parse_constant=lambda c: (_ for _ in ()).throw(ValueError(f'{c} is not a number'))) if a.json else {}
     if not isinstance(e, dict):
         raise ValueError('the event is a JSON object')
+    if 'job' in e:
+        raise ValueError('job is written by the tool only, from the job it runs in: leave it out')
     e['ev'] = a.ev
     append(h, e)
     print(f'logged {a.ev}')
@@ -762,8 +937,46 @@ def done_under_44(events, tid):
                for e in events)
 
 
+def title_warnings(plan, events):
+    """`check`'s title findings (TOOL.md §11): R2-R6 in the titles of the active goal lanes, their stage names and the open
+    tasks, and in the last day note; R1 for an active goal lane with no title. Each with the command that fixes it.
+    The standing lanes are exempt: their titles are the tool's own."""
+    ids, out = plan_ids(plan), []
+    cmd = lambda ev, obj: f"agency log {ev} '{json.dumps(obj, ensure_ascii=False)}'"
+    lane_fix = lambda l, k, v: cmd('lane_set', {'lane': l, 'set': {k: v}, 'why': 'a readable name'})
+    for l in plan['lanes']:
+        if l['id'] in STANDING or l.get('standing') or l.get('state') != 'active':
+            continue
+        if not l.get('title'):
+            out.append(f'lane {l["id"]}: R1: {lane_fix(l["id"], "title", "…")}')
+        else:
+            out += [f'lane {l["id"]}: {r}: {lane_fix(l["id"], "title", "…")}'
+                    for r in title_rules(l['title'], ids, LIMITS['lane']) if r != 'R1']
+        for s in l.get('stages') if isinstance(l.get('stages'), list) else []:
+            out += [f'lane {l["id"]} stage {s.get("id")}: {r}: rename it in the bot\'s lanes/stages.json, or log a lane_set of '
+                    'the lane\'s whole stages list with it renamed'
+                    for r in title_rules(s.get('name'), ids, LIMITS['stage']) if r != 'R1']
+    for t in plan['tasks']:
+        if t.get('state') in OPEN and isinstance(t.get('title'), str):
+            out += [f'task {t["id"]}: {r}: {cmd("task_refined", {"task": {"id": t["id"], "title": "…"}})}'
+                    for r in title_rules(t['title'], ids, LIMITS['task']) if r != 'R1']
+    note = next((e for e in reversed(events) if e.get('ev') == 'session' and 'note' in e), None)
+    if note:
+        out += [f'the last day note: {r}: write the next one in plain words (agency-run, close)'
+                for r in title_rules(note['note'], ids, LIMITS['note'])]
+    return out
+
+
 def cmd_check(h, a):
     probs, stray = check(h)
+    try:  # title findings warn and never change the exit code (D85 4 A: Factory's run checks keep passing)
+        for w in stage_library(h)[1]:
+            print('WARN stages:', w)
+        events = h.events()
+        for w in title_warnings(replay(events), events):
+            print('WARN title:', w)
+    except Exception:  # noqa: BLE001 — a log that does not replay is check's FAIL, above
+        pass
     if a.fix and (stray or h.truncated is not None):
         h.drop_truncated()
         cid_dir = None
@@ -994,6 +1207,75 @@ def stage(plan, lane):
     return max(done) if done else None
 
 
+def stage_name(plan, lane, clean=False):
+    """The stage's name from the lane's `stages`, else its id, else None (TOOL.md §6). With `clean` (the card), a name
+    that breaks any of R1-R6 gives the id instead."""
+    s = stage(plan, lane)
+    stages = (find(plan['lanes'], lane) or {}).get('stages')
+    name = next((x['name'] for x in stages if isinstance(x, dict) and x.get('id') == s and x.get('name')), s) \
+        if s and isinstance(stages, list) else s
+    return s if clean and name != s and title_rules(name, plan_ids(plan), LIMITS['stage']) else name
+
+
+def stage_library(h):
+    """The bot's stage names: {library id: stages} from each of its skills' lanes/stages.json, and `check`'s warnings.
+    A library id twice in one file, or in two files with different stages, is skipped (N7); identical copies count
+    as one. A file or entry that is not valid is skipped too. Nothing here fails `check` (bot data, D85 4 A)."""
+    lib, warns, twice = {}, [], set()
+    for f in sorted(glob.glob(h.p('.sl8', 'bot', '.claude', 'skills', '*', 'lanes', 'stages.json'))):
+        rel = os.path.relpath(f, h.root).replace(os.sep, '/')
+
+        def pairs(items):
+            keys = [k for k, _ in items]
+            twice.update(k for k in keys if keys.count(k) > 1)
+            return dict(items)
+        try:
+            data = json.load(open(f, encoding='utf-8'), object_pairs_hook=pairs)
+        except ValueError as x:
+            warns.append(f'{rel} does not parse ({x})')
+            continue
+        if not isinstance(data, dict):
+            warns.append(f'{rel} is not an object of library id → stages')
+            continue
+        for k, v in data.items():
+            bad = stages_problem(v)
+            if bad:
+                warns.append(f'{k}: {rel}: {bad}')
+                continue
+            if k in lib and lib[k] != v:
+                twice.add(k)
+            lib.setdefault(k, v)
+    warns += [f'{k}: defined more than once' for k in sorted(twice & set(lib))]
+    return {k: v for k, v in lib.items() if k not in twice}, warns
+
+
+def library_key(name, lib, agency):
+    """A lane's `library` as a key of the stage library: `<agency>/<entry>`; an older bare name is that entry in the
+    bot's agency (its <AGENCY> id), or, with no id, the one key ending in /<name>; else None (how-to-plan)."""
+    if not isinstance(name, str) or not name:
+        return None
+    if '/' in name or agency:
+        key = name if '/' in name else f'{agency}/{name}'
+        return key if key in lib else None
+    ends = [k for k in lib if k.endswith('/' + name)]
+    return ends[0] if len(ends) == 1 else None
+
+
+def open_asks(plan, outbox):
+    """What waits on someone outside the agency (TOOL.md §9; the one rule the card and Slate share). customer: the
+    waiting tasks of kind customer or `on: customer:<name>`; owner: the open tasks the owner owns, the tasks waiting
+    `on: khalid`, and the emails in work/outbox/ (`outbox`, file names) waiting for the owner to send."""
+    out = {'owner': [], 'customer': []}
+    for t in plan['tasks']:
+        st, on = t.get('state'), str(t.get('on') or '')
+        if st == 'waiting' and (t.get('kind') == 'customer' or on.startswith('customer:')):
+            out['customer'].append(t['id'])
+        if (st in OPEN and t.get('owner') == 'khalid') or (st == 'waiting' and on == 'khalid'):
+            out['owner'].append(t['id'])
+    out['owner'] += ['work/outbox/' + f for f in outbox]
+    return out
+
+
 def card(h, plan, events, pick, other, to_ask, stamp):
     """now.md: the customer-safe card (TOOL.md section 9), read by the owner and the customer."""
     words = {'met': 'on track', 'green': 'on track', 'amber': 'behind', 'red': 'well behind'}
@@ -1015,12 +1297,13 @@ def card(h, plan, events, pick, other, to_ask, stamp):
     if lanes:
         out.append('Our work:')
     for l in lanes:
-        s, n = stage(plan, l['id']), nxt.get(l['id'])
+        s, n = stage_name(plan, l['id'], clean=True), nxt.get(l['id'])
         out.append(f'  {l.get("title") or l["id"]} · {l.get("state")}' + (f' · {s}' if s else '')
                    + (f' · now: {n.get("title", "")}' if n else ''))
     since = {e['task']['id']: e['t'] for e in events if e['ev'] == 'task_added'}
     since.update({e['task']: e['t'] for e in events if e['ev'] == 'task_waiting'})
-    asked = [t for t in to_ask + other if t.get('kind') == 'customer' and t.get('state') == 'waiting']
+    customer = set(open_asks(plan, [])['customer'])
+    asked = [t for t in to_ask + other if t['id'] in customer]
     if asked:
         out.append('We\'re waiting on you for:')
     for t in asked:
@@ -1054,6 +1337,24 @@ def cmd_status(h, a):
                 append(h, {'ev': 'lane_renamed', 'from': m.get('from'), 'to': m.get('to'), 'release': m.get('release')})
                 done.add((m.get('from'), m.get('to'), m.get('release')))
                 print(f'logged lane_renamed {m.get("from")} → {m.get("to")} ({m.get("release")})')
+    if events:  # names an older core left out (D85 4 A): written once, only where absent, never changed
+        lib, probs = stage_library(h)
+        for p in probs:
+            print(f'stages: {p}; no stage names written from it')
+        plan = h.plan()
+        for l in plan['lanes']:
+            if l['id'] in STANDING and not l.get('title'):
+                append(h, {'ev': 'lane_set', 'lane': l['id'], 'set': {'title': STANDING_TITLES[l['id']]},
+                           'why': 'the standing lane\'s title'})
+                print(f'logged lane_set {l["id"]}: title')
+        agency = re.search(r'(?ms)<AGENCY>.*?^id:\s*(\S+)', open(h.p('bot', 'setup.md'), encoding='utf-8').read()) \
+            if os.path.isfile(h.p('bot', 'setup.md')) else None
+        for l in plan['lanes']:
+            key = library_key(l.get('library'), lib, agency.group(1) if agency else None)
+            if key and not l.get('stages'):
+                append(h, {'ev': 'lane_set', 'lane': l['id'], 'set': {'stages': lib[key]},
+                           'why': f'the stage names of {key}'})
+                print(f'logged lane_set {l["id"]}: stages')
     plan, events, stamp = h.plan(), h.events(), dt.datetime.now(dt.timezone.utc)
     today = stamp.date()
     pick, to_send, to_ask, other = open_tasks(h, plan)
@@ -1073,7 +1374,8 @@ def cmd_status(h, a):
                    key=lambda l: l.get('rank') or 99)
     out.append('Lanes, by rank:')
     for l in lanes:
-        n, s = nxt.get(l['id']), stage(plan, l['id'])
+        n, s, name = nxt.get(l['id']), stage(plan, l['id']), stage_name(plan, l['id'])
+        s = f'{s} {name}' if s and name != s else s
         out.append(f'  {l.get("rank", "-")} {l["id"]} ({l.get("goal", "")}) · {l.get("state")}' + (f' · {s}' if s else '')
                    + (f' · next {title(n)}' + (f' ({n["state"]})' if n['state'] != 'ready' else '') if n
                       else ' · no open task: review it' if l.get('state') == 'active' else ''))
@@ -1100,6 +1402,7 @@ def cmd_status(h, a):
         out.append(f'Last sent: {sent.get("id")} {sent["t"][:10]} by {sent.get("by", "agent")}: {sent.get("subject", "")}')
     write_atomic(h.p('work', 'agency', 'now.md'), card(h, plan, events, pick, other, to_ask, stamp).encode('utf-8'))
     print('\n'.join(out) + '\nThe card (work/agency/now.md, customer-safe) is written.')
+    report_plan(h)  # at orient: the empty list, so the job's live list is the agency's from the start
 
 
 def cmd_migrate(h, a):

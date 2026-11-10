@@ -19,9 +19,10 @@ USER = os.path.join(FIX, 'install', 'bot', 'user.md')
 fails = []
 
 
-def run(home, *args, stdin=None, tool=TOOL):
+def run(home, *args, stdin=None, tool=TOOL, env=None):
+    base = {k: v for k, v in os.environ.items() if k not in ('SL8_JOB', 'SL8_DIR')}
     r = subprocess.run([sys.executable, tool, *args], capture_output=True, text=True, input=stdin,
-                       env={**os.environ, 'HOME': home})
+                       env={**base, 'HOME': home, **(env or {})})
     return r.returncode, r.stdout + r.stderr
 
 
@@ -62,9 +63,13 @@ c, o = run(h, 'migrate', src)
 ok('migrate refuses an install that already has a log', c == 1 and 'already has a log' in o, o)
 c, o = run(h, 'check')
 ok('check passes on the migrated old shapes (new-skill, skill_built, .agency/, artifacts/X)', c == 0 and 'check: ok' in o, o)
+n = len(lines(h))
 c, o = run(h, 'status')
 card = open(os.path.join(h, 'work', 'agency', 'now.md')).read()
-ok('status replays the old shapes and logs params once', c == 0 and json.loads(lines(h)[-1])['ev'] == 'params', o)
+new = [json.loads(l) for l in lines(h)[n:]]
+ok('status replays the old shapes, logs params once, then the standing titles (1.1.0)',
+   c == 0 and [e['ev'] for e in new] == ['params'] + ['lane_set'] * len(new[1:])
+   and {e['lane'] for e in new[1:]} <= {'discovery', 'plan', 'comms'}, o)
 ok('the card is customer-safe', all(x not in card for x in ('khalid', 'customer:', 'Printed by', 'standing', 'Focus',
                                                             'T1', 'C1 ', 'FOLLOW', 'NOT SENT', 'review it')), card)
 ok('the card has the goal, our work with its stage, the wait and the last email',
@@ -314,6 +319,403 @@ ok('check reports a partial outcome.json when this job shared files', c == 1 and
 put('outcome.json', json.dumps({'status': 'delivered', 'deliverables': [{'path': '/home/user/' + f} for f in both]}))
 c, o = run(h8, 'check')
 ok('check accepts delivered', 'FAIL outcome' not in o, o)
+
+# 9. core 1.1.0, protocol 1.1 (D85; protocol design §4.1-§4.8, AC2.1-AC2.11)
+J = {'SL8_JOB': 'exec_test-1'}
+A01 = os.path.join(HERE, '..', '..', '..', 'agencies', 'aso', 'skills', 'a01-aso', 'lanes', 'stages.json')
+STAGES = json.load(open(A01))['aso/store-pages'] if os.path.isfile(A01) else []
+log = lambda h, ev, obj, env=None: run(h, 'log', ev, json.dumps(obj), env=env)
+last = lambda h: json.loads(lines(h)[-1])
+raw = lambda h, *evs: open(os.path.join(h, 'work', 'agency', 'log.jsonl'), 'a').write(''.join(json.dumps(e) + '\n' for e in evs))
+card_of = lambda h: open(os.path.join(h, 'work', 'agency', 'now.md')).read()
+W = lambda i, **k: {'task': {'id': i, 'lane': 'aso-pages', 'kind': 'work', 'title': f'Work {i[1:]}', 'do': 'x',
+                              'done_when': 'y', **k}}
+
+
+def fresh(name='install'):
+    h = home_from(name)
+    run(h, 'check', '--fix')
+    return h
+
+
+def stages_in(h, skill='a01-aso', data=None):
+    d = os.path.join(h, '.sl8', 'bot', '.claude', 'skills', skill, 'lanes')
+    os.makedirs(d, exist_ok=True)
+    json.dump(data or {'aso/store-pages': STAGES}, open(os.path.join(d, 'stages.json'), 'w'))
+
+
+ok('A01 ships lanes/stages.json with its eight stages', [s['id'] for s in STAGES] == [f'S0{i}' for i in range(1, 9)]
+   and STAGES[2]['name'] == 'Keywords' and STAGES[7]['name'] == 'Report and roadmap', A01)
+
+# AC2.1: every new field's validation, refusals included
+h9 = fresh()
+os.makedirs(os.path.join(h9, 'work', 'k')); open(os.path.join(h9, 'work', 'k', 'sample.md'), 'w').write('s')
+long = 'x' * 61
+for name, ev, obj in (
+        ('job from the agent', 'fact', {'text': 'x', 'src': 'y', 'job': 'exec_1'}),
+        ('a goal lane_opened without a title', 'lane_opened', {'lane': {'id': 'x2', 'goal': 'G1', 'state': 'planned'}}),
+        ('a lane title over 60 characters', 'lane_opened', {'lane': {'id': 'x2', 'goal': 'G1', 'state': 'planned', 'title': long}}),
+        ('a lane_set that nulls a title', 'lane_set', {'lane': 'aso-pages', 'set': {'title': None}, 'why': 'x'}),
+        ('a lane_set with an empty title', 'lane_set', {'lane': 'aso-pages', 'set': {'title': ' '}, 'why': 'x'}),
+        ('a task title over 120 characters', 'task_added', W('W1', title='x' * 121)),
+        ('a lane due that is not YYYY-MM-DD', 'lane_set', {'lane': 'aso-pages', 'set': {'due': 'Friday'}, 'why': 'x'}),
+        ('received.task unknown', 'received', {'from': 'customer:ana', 'channel': 'email', 'ref': 'artifacts/attachments/upload.pdf', 'task': 'NOPE'}),
+        ('caused_by unknown', 'task_added', W('W1', caused_by='NOPE')),
+        ('approve on our own task', 'task_added', W('W1', owner='us', approve='work/aso/report.md')),
+        ('a customer approve outside artifacts/<customer id>/', 'task_added',
+         {'task': {'id': 'A9', 'lane': 'discovery', 'kind': 'customer', 'title': 'Approve it', 'do': 'x', 'owner': 'customer', 'approve': 'work/aso/report.md'}}),
+        ('a customer approve that does not exist', 'task_added',
+         {'task': {'id': 'A9', 'lane': 'discovery', 'kind': 'customer', 'title': 'Approve it', 'do': 'x', 'owner': 'customer', 'approve': 'artifacts/fixtureco/none.md'}}),
+        ('an owner approve outside work/', 'task_added', W('K9', owner='khalid', approve='artifacts/fixtureco/aso/report.md')),
+        ('an owner approve that does not exist', 'task_added', W('K9', owner='khalid', approve='work/k/none.md')),
+        ('stage ids that are not Snn', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S1', 'name': 'Intake'}]}, 'why': 'x'}),
+        ('stages out of order', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S02', 'name': 'A'}, {'id': 'S01', 'name': 'B'}]}, 'why': 'x'}),
+        ('a repeated stage id', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S01', 'name': 'A'}, {'id': 'S01', 'name': 'B'}]}, 'why': 'x'}),
+        ('a stage name over 40 characters', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S01', 'name': 'x' * 41}]}, 'why': 'x'}),
+        ('more than 20 stages', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': f'S{i:02}', 'name': 'x'} for i in range(1, 22)]}, 'why': 'x'}),
+        ('a note with an id and a stage code', 'session', {'phase': 'end', 'note': 'It finished aso-fixture-S01.'}),
+        ('a note with a raw date', 'session', {'phase': 'end', 'note': 'Asked again on 2026-11-05.'}),
+        ('a note with the owner\'s name', 'session', {'phase': 'end', 'note': 'Khalid sends it today.'}),
+        ('a note with a path', 'session', {'phase': 'end', 'note': 'The report is in work/aso/report.md.'}),
+        ('a note over 200 characters', 'session', {'phase': 'end', 'note': 'x' * 201})):
+    n = len(lines(h9))
+    c, o = log(h9, ev, obj)
+    ok(f'refused: {name}', c == 1 and len(lines(h9)) == n and 'refused' in o, o)
+c, o = log(h9, 'lane_opened', {'lane': {'id': 'x2', 'goal': 'G1', 'state': 'planned'}})
+ok('the refusal of an untitled lane is one line with its fix', 'needs a title (1–60 chars): add "title"' in o, o)
+for name, ev, obj, want in (
+        ('received.task of a known task', 'received', {'from': 'customer:ana', 'channel': 'email', 'ref': 'artifacts/attachments/upload.pdf', 'task': 'D2'}, ('task', 'D2')),
+        ('caused_by a known task', 'task_added', W('W1', caused_by='D2'), None),
+        ('a customer approve of a shared file', 'task_added',
+         {'task': {'id': 'A9', 'lane': 'discovery', 'kind': 'customer', 'title': 'Approve it', 'do': 'x', 'owner': 'customer', 'approve': 'artifacts/fixtureco/aso/report.md'}}, None),
+        ('an owner approve of a work/ sample', 'task_added', W('K9', owner='khalid', approve='work/k/sample.md'), None),
+        ('a lane due', 'lane_set', {'lane': 'aso-pages', 'set': {'due': '2026-12-01'}, 'why': 'x'}, None),
+        ('stages', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': STAGES}, 'why': 'x'}, None),
+        ('a clean note', 'session', {'phase': 'end', 'note': 'It moved the keyword research on and asked for the console export.'}, None)):
+    c, o = log(h9, ev, obj)
+    ok(f'accepted: {name}', c == 0 and (not want or last(h9)[want[0]] == want[1]), o)
+plan9 = agency.replay([json.loads(l) for l in lines(h9)])
+ok('the new fields replay onto the plan', agency.find(plan9['tasks'], 'W1')['caused_by'] == 'D2'
+   and agency.find(plan9['tasks'], 'K9')['approve'] == 'work/k/sample.md'
+   and agency.find(plan9['lanes'], 'aso-pages')['due'] == '2026-12-01'
+   and agency.find(plan9['lanes'], 'aso-pages')['stages'] == STAGES)
+
+# AC2.2: R1-R6 verdicts equal title-rules.json
+rules = json.load(open(os.path.join(FIX, 'title-rules.json')))['cases']
+bad = [(c_['text'], c_['expect'], agency.title_rules(c_['text'], c_['ids'], c_.get('limit', 120)))
+       for c_ in rules if sorted(agency.title_rules(c_['text'], c_['ids'], c_.get('limit', 120))) != c_['expect']] \
+    if hasattr(agency, 'title_rules') else ['no title_rules']
+ok(f'R1-R6 give every verdict in title-rules.json ({len(rules)} cases)', len(rules) >= 40 and not bad, json.dumps(bad))
+
+# AC2.3: check warns about titles in history and in a new title, exempts standing lanes, and exits 0
+h10 = fresh()
+raw(h10, {'t': '2026-10-25T10:00:00Z', 'ev': 'task_added', 'by': 'agent', 'task': {**W('D3')['task'], 'title': 'Ask for the console export'}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'task_added', 'by': 'agent', 'task': {**W('H1')['task'], 'title': 'S01 Intake: scope, product truth'}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'task_added', 'by': 'agent', 'task': {**W('H2')['task'], 'title': 'After D3, the audit'}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'task_added', 'by': 'agent', 'task': {**W('H3')['task'], 'title': 'Read by 2026-11-05'}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'task_added', 'by': 'agent', 'task': {**W('H4')['task'], 'title': 'Ask Khalid to send it'}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_set', 'by': 'agent', 'lane': 'comms', 'set': {'title': 'comms'}, 'why': 'x'})
+c, o = log(h10, 'task_added', {'task': {**W('N1')['task'], 'title': 'S01 Intake again'}})
+ok('a new title with "S01 " is accepted (check warns; it is not refused)', c == 0, o)
+c, o = run(h10, 'check')
+warns = [l for l in o.splitlines() if l.startswith('WARN title:')]
+ok('check warns R3, R2, R5, R6 on history and the new title, with a fix command each, and exits 0',
+   c == 0 and 'check: ok' in o and len(warns) == 5
+   and all(any(f'task {i}: {r}:' in w and "agency log task_refined" in w for w in warns)
+           for i, r in (('H1', 'R3'), ('H2', 'R2'), ('H3', 'R5'), ('H4', 'R6'), ('N1', 'R3'))), o)
+ok('check exempts the standing lanes', 'lane comms' not in o, o)
+
+# AC2.4: job is stamped only with SL8_JOB set, on every event append() writes
+h11 = fresh()
+log(h11, 'fact', {'text': 'a', 'src': 'b'})
+no_job = 'job' not in last(h11)
+log(h11, 'fact', {'text': 'a', 'src': 'b'}, env={'SL8_JOB': 'not valid!'})
+bad_job = 'job' not in last(h11)
+log(h11, 'fact', {'text': 'a', 'src': 'b'}, env=J)
+fact_job = last(h11).get('job')
+log(h11, 'task_added', W('W5'), env=J)
+run(h11, 'task', 'start', 'W5', env=J)
+start_job = last(h11).get('job')
+n = len(lines(h11))
+run(h11, 'status', env=J)
+status_new = [json.loads(l) for l in lines(h11)[n:]]
+ok('job: none without SL8_JOB or with a bad one; the execution id on log, task and status events',
+   no_job and bad_job and fact_job == start_job == 'exec_test-1' and status_new and all(e.get('job') == 'exec_test-1' for e in status_new),
+   json.dumps(status_new))
+
+# AC2.5: the live list through a fake emitter (§4.4): the tasks this job touched, by first touch
+EMIT = ("import fs from 'node:fs';let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{"
+        "if(process.env.EMIT_MODE==='fail')process.exit(3);"
+        "if(process.env.EMIT_MODE==='sleep'){setTimeout(()=>{},5000);return}"
+        "fs.appendFileSync(process.env.HOME+'/.sl8/posts.jsonl',JSON.stringify({mode:process.argv[2],body:JSON.parse(s)})+'\\n')})")
+h12 = fresh()
+os.makedirs(os.path.join(h12, '.sl8'), exist_ok=True)
+posts = lambda: [json.loads(l) for l in open(os.path.join(h12, '.sl8', 'posts.jsonl'))] if os.path.isfile(os.path.join(h12, '.sl8', 'posts.jsonl')) else []
+for i in ('W6', 'W7', 'W8'):
+    log(h12, 'task_added', W(i))
+log(h12, 'task_added', W('R1', every='mon'))
+run(h12, 'task', 'start', 'W8', env={'SL8_JOB': 'exec_earlier'})  # an earlier job's touch is not this job's
+open(os.path.join(h12, '.sl8', 'emit.mjs'), 'w').write(EMIT)
+run(h12, 'status', env=J)
+p0 = posts()
+log(h12, 'task_added', W('W9'), env=J)
+p1 = posts()
+run(h12, 'task', 'start', 'W6', env=J)
+p2 = posts()
+log(h12, 'fact', {'text': 'a', 'src': 'b'}, env=J)
+p3 = posts()
+run(h12, 'task', 'wait', 'W6', '--on', 'customer:ana', env=J)
+run(h12, 'task', 'start', 'W7', env=J)
+run(h12, 'task', 'done', 'W7', env=J)
+run(h12, 'task', 'start', 'R1', env=J)
+run(h12, 'task', 'done', 'R1', env=J)
+run(h12, 'task', 'start', 'W9', env=J)
+run(h12, 'task', 'drop', 'W9', '--why', 'not needed', env=J)
+p4 = posts()
+n4 = len(p4)
+run(h12, 'status', env=J)
+run(h12, 'task', 'start', 'W6')  # no SL8_JOB: nothing posted
+ok('status at orient posts the empty list once', [p['body'] for p in p0] == [{'steps': []}] and p0[0]['mode'] == 'agency-plan', json.dumps(p0))
+ok('a task event that touches nothing, and a non-task event, post nothing', len(p1) == 1 and len(p3) == len(p2) == 2, json.dumps(p3))
+ok('task start posts the task by its title and its id as the key, in progress',
+   p2[-1]['body'] == {'steps': [{'key': 'W6', 'title': 'Work 6', 'status': 'in_progress'}]}, json.dumps(p2))
+ok('wait, done, a recurring task done and a drop post the list as it stands; an unchanged list posts nothing',
+   p4[-1]['body'] == {'steps': [{'key': 'W6', 'title': 'Work 6', 'status': 'pending'},
+                                {'key': 'W7', 'title': 'Work 7', 'status': 'completed'},
+                                {'key': 'R1', 'title': 'Work 1', 'status': 'completed'}]}
+   and len(posts()) == n4 and os.path.isfile(os.path.join(h12, '.sl8', 'agency-plan.last')), json.dumps(p4[-3:]))
+for mode, name in ((None, 'no emitter'), ('fail', 'a failing emitter'), ('sleep', 'an emitter that sleeps 5 s')):
+    hh = fresh()
+    if mode:
+        os.makedirs(os.path.join(hh, '.sl8'), exist_ok=True)
+        open(os.path.join(hh, '.sl8', 'emit.mjs'), 'w').write(EMIT)
+    log(hh, 'task_added', W('W6'))
+    t0 = __import__('time').monotonic()
+    c, o = run(hh, 'task', 'start', 'W6', env={**J, **({'EMIT_MODE': mode} if mode else {})})
+    took = __import__('time').monotonic() - t0
+    ok(f'with {name}, task start exits 0 within 2.5 s ({took:.1f} s)', c == 0 and took < 2.5 and last(hh)['ev'] == 'task_started', o)
+
+# AC2.6: the card's waiting list is open_asks.customer, `on: customer:` asks included; open_asks per fixture
+h13 = fresh()
+log(h13, 'task_added', W('W6', title='The console export'))
+run(h13, 'task', 'wait', 'W6', '--on', 'customer:ana')
+run(h13, 'status')
+ok('the card lists an ask made with `on: customer:<name>`', '  The console export (asked ' in card_of(h13).split("We're waiting on you for:")[-1], card_of(h13))
+for name, want in (('larkspoon', {'owner': [], 'customer': ['T8', 'T9', 'T11', 'T13']}),
+                   ('brightloom', {'owner': [], 'customer': []}),
+                   ('quillfeather', {'owner': ['K1'], 'customer': ['A1']})):
+    hh = agency.Home(os.path.join(FIX, 'installs', name))
+    got = agency.open_asks(hh.plan(), []) if hasattr(agency, 'open_asks') else None
+    ok(f'open_asks on {name} equals its hand-checked asks', got == want, json.dumps(got))
+plan13 = agency.replay([json.loads(l) for l in lines(h13)]) if hasattr(agency, 'open_asks') else None
+ok('open_asks counts an email waiting for the owner', plan13 is not None and
+   agency.open_asks(plan13, ['C9.eml']) == {'owner': ['work/outbox/C9.eml'], 'customer': ['W6']})
+
+# AC2.9: the card names the stage; without stages it shows the id as today
+h14 = fresh()
+run(h14, 'status')
+before = card_of(h14)
+log(h14, 'lane_set', {'lane': 'aso-pages', 'set': {'stages': STAGES}, 'why': 'x'})
+run(h14, 'status')
+intake = card_of(h14)
+log(h14, 'task_added', W('aso-store-pages-S03', title='Keyword research'))
+run(h14, 'task', 'done', 'aso-store-pages-S03')
+run(h14, 'status')
+ok('the card shows the stage id with no stages, then "Intake", then "Keywords" at S03',
+   'Store pages that convert · active · S01' in before and 'Store pages that convert · active · Intake' in intake
+   and 'active · Keywords' in card_of(h14) and 'S03' not in card_of(h14), before + intake + card_of(h14))
+
+# AC2.10: the backfill (§4.8): standing titles and library stage names, once, only where absent
+LARK = os.path.join(FIX, 'installs', 'larkspoon')
+h15 = home_from(os.path.join('installs', 'larkspoon'))
+stages_in(h15)
+n = len(lines(h15))
+c, o = run(h15, 'status')
+new15 = [json.loads(l) for l in lines(h15)[n:]]
+sets = [e for e in new15 if e['ev'] == 'lane_set']
+ok('one status on Larkspoon appends three standing titles and two stages lane_sets, a line each',
+   c == 0 and [(e['lane'], list(e['set'])) for e in sets] == [('discovery', ['title']), ('plan', ['title']), ('comms', ['title']),
+                                                            ('aso-larkspoon-us', ['stages']), ('aso-larkspoon-de', ['stages'])]
+   and [e['set'].get('title') for e in sets[:3]] == ['Discovery', 'Plan', 'Messages']
+   and all(e['set'].get('stages', STAGES) == STAGES for e in sets) and o.count('logged lane_set') == 5, o)
+ok('the card then says "Report and roadmap", not "S08"', 'active · Report and roadmap' in card_of(h15) and 'S08' not in card_of(h15), card_of(h15))
+n = len(lines(h15))
+c, o = run(h15, 'status')
+ok('a second status appends nothing', c == 0 and len(lines(h15)) == n and 'logged lane_set' not in o, o)
+V11 = os.path.join(FIX, 'installs', 'larkspoon-v11', 'work', 'agency', 'log.jsonl')
+PV11 = os.path.join(FIX, 'installs', 'protocol-v11', 'work', 'agency', 'log.jsonl')
+strip = lambda es: [{k: v for k, v in e.items() if k != 't'} for e in es]
+ok('the committed larkspoon-v11 log is Larkspoon after one 1.1.0 status with the A01 stages.json',
+   os.path.isfile(V11) and strip(json.loads(l) for l in open(V11).read().splitlines())
+   == strip(json.loads(l) for l in open(os.path.join(LARK, 'work', 'agency', 'log.jsonl')).read().splitlines()) + strip(new15))
+h16 = home_from(os.path.join('installs', 'quillfeather'))
+stages_in(h16)
+raw(h16, {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_set', 'by': 'agent', 'lane': 'aso-reviews', 'set': {'library': 'aso/other'}, 'why': 'x'})
+n = len(lines(h16))
+c, o = run(h16, 'status')
+new = [json.loads(l) for l in lines(h16)[n:] if '"lane_set"' in l]
+ok('lanes without a library, or with one missing from stages.json, get nothing; only the standing titles',
+   c == 0 and [e['lane'] for e in new] == ['discovery', 'plan', 'comms'], o)
+h17 = home_from()
+c, o = log(h17, 'lane_opened', {'lane': {'id': 'plan', 'standing': True, 'state': 'active'}})
+ok('a standing lane_opened without a title is written with its standard title', c == 0 and last(h17)['lane'].get('title') == 'Plan', o)
+# N7 (PM ruling, design §4.8): a library twice in one stages.json, or in two with different stages, gets no stages
+# and one `WARN stages:` line (exit unchanged); identical copies count as one
+h18 = home_from(os.path.join('installs', 'larkspoon'))
+stages_in(h18)
+stages_in(h18, 'a09-copy', {'aso/store-pages': STAGES[:2]})
+c, o = run(h18, 'status')
+ok('a library in two stages.json files with different stages gets no stages from status',
+   c == 0 and '"stages"' not in ''.join(lines(h18)), o)
+c, o = run(h18, 'check')
+ok('check prints one WARN stages line for it and its exit is unchanged',
+   o.count('WARN stages: aso/store-pages: defined more than once') == 1 and 'FAIL valid: stages' not in o
+   and c == run(home_from(os.path.join('installs', 'larkspoon')), 'check')[0], o)
+h18b = home_from(os.path.join('installs', 'larkspoon'))
+stages_in(h18b)
+stages_in(h18b, 'a09-copy')
+c, o = run(h18b, 'status')
+c2, o2 = run(h18b, 'check')
+ok('identical copies in two stages.json files count as one', c == 0 and o.count(': stages') == 2 and 'WARN stages' not in o2, o + o2)
+h18c = home_from(os.path.join('installs', 'larkspoon'))
+d = os.path.join(h18c, '.sl8', 'bot', '.claude', 'skills', 'a01-aso', 'lanes')
+os.makedirs(d)
+open(os.path.join(d, 'stages.json'), 'w').write('{"aso/store-pages": %s, "aso/store-pages": %s}' % (json.dumps(STAGES), json.dumps(STAGES[:1])))
+c, o = run(h18c, 'status')
+c2, o2 = run(h18c, 'check')
+ok('a library twice in one stages.json gets no stages and one WARN stages line',
+   c == 0 and '"stages"' not in ''.join(lines(h18c)) and o2.count('WARN stages: aso/store-pages: defined more than once') == 1, o + o2)
+
+# AC2.11: an old goal lane without a title: check warns R1 with its fix and exits 0; status does not title it
+h19 = fresh()
+lane = {'goal': 'G1', 'scope': 's', 'rank': 2, 'why': 'w', 'gauge': 'g', 'done': 'd', 'pause': 'p'}
+raw(h19, {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_opened', 'by': 'agent', 'lane': {'id': 'old-lane', 'state': 'active', **lane}},
+    {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_opened', 'by': 'agent', 'lane': {'id': 'old-paused', 'state': 'paused', **lane, 'rank': 3}})
+c, o = run(h19, 'check')
+warns = [l for l in o.splitlines() if l.startswith('WARN')]
+fix = warns[0].split(': R1: ', 1)[-1] if warns else ''
+ok('check prints one R1 line for the active untitled goal lane, with its lane_set fix, and exits 0',
+   c == 0 and len(warns) == 1 and warns[0].startswith('WARN title: lane old-lane: R1: agency log lane_set ')
+   and 'old-paused' not in o, o)
+n = len(lines(h19))
+run(h19, 'status')
+ok('status appends no title for it', not any('"old-lane"' in l for l in lines(h19)[n:]))
+args = __import__('shlex').split(fix.replace('…', 'Store pages, the second app'))
+c, o = run(h19, *args[1:])
+c2, o2 = run(h19, 'check')
+ok('after its fix line, check prints nothing for it', c == 0 and 'WARN' not in o2 and c2 == 0, o + o2)
+
+# AC2.7: replay both ways. 1.1.0 replays every 1.0.x log to the plan 1.0.2 gives, and 1.0.2 replays larkspoon-v11
+OLD = os.environ.get('AGENCY_CORE_102')  # a 1.0.2 agency.py; else the repo's main at 2011631, when git has it
+if not OLD:
+    g = subprocess.run(['git', '-C', HERE, 'show', '2011631:v5/skills/agency-run/scripts/agency.py'], capture_output=True, text=True)
+    if g.returncode == 0:
+        d = tempfile.mkdtemp(prefix='agency-102-')
+        for sub in ('scripts', 'knowledge'):
+            os.makedirs(os.path.join(d, sub))
+        shutil.copy(os.path.join(HERE, '..', 'knowledge', 'kinds.json'), os.path.join(d, 'knowledge'))
+        open(os.path.join(d, 'VERSION'), 'w').write('1.0.2\n')
+        OLD = os.path.join(d, 'scripts', 'agency.py')
+        open(OLD, 'w').write(g.stdout)
+if not OLD:
+    print('SKIP replay both ways: no 1.0.2 agency.py (set AGENCY_CORE_102, or run inside the agency repo)')
+else:
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('agency102', OLD)
+    old = importlib.util.module_from_spec(spec); spec.loader.exec_module(old)
+    logs = [os.path.join(FIX, 'workspace', 'log.jsonl'), os.path.join(FIX, 'install', 'work', 'agency', 'log.jsonl'),
+            os.path.join(h8, 'work', 'agency', 'log.jsonl')] + [os.path.join(FIX, 'installs', n, 'work', 'agency', 'log.jsonl')
+                                                for n in ('larkspoon', 'brightloom', 'quillfeather')]
+    for p in logs:
+        evs = [json.loads(l) for l in open(p).read().splitlines()[:-1 if 'install/work' in p else None] if l.strip()]
+        ok(f'1.1.0 replays {os.path.relpath(p, FIX) if p.startswith(FIX) else "job6.jsonl (after jobs 1-5)"} to the plan 1.0.2 gives', agency.replay(evs) == old.replay(evs))
+    evs = [json.loads(l) for l in open(V11)]
+    ok('1.0.2 replays larkspoon-v11 (backfill events included) to the plan 1.1.0 gives, stages and titles carried',
+       old.replay(evs) == agency.replay(evs) and agency.find(old.replay(evs)['lanes'], 'plan').get('title') == 'Plan'
+       and agency.find(old.replay(evs)['lanes'], 'aso-larkspoon-us').get('stages') == STAGES)
+    hv = home_from(os.path.join('installs', 'larkspoon-v11'))
+    c, o = run(hv, 'status', tool=OLD)
+    ok('the 1.0.2 tool runs status on larkspoon-v11', c == 0 and 'Store pages, Larkspoon the US' in card_of(hv), o)
+    ok('shared_this_job is unchanged on the fixtures', agency.shared_this_job(hh := agency.Home(h8), hh.events(), hh.plan())
+       == old.shared_this_job(old.Home(h8), old.Home(h8).events(), old.Home(h8).plan()))
+    evs = [json.loads(l) for l in open(PV11)] if os.path.isfile(PV11) else []
+    ok('1.0.2 replays protocol-v11 (every new field) to the plan 1.1.0 gives', evs and old.replay(evs) == agency.replay(evs))
+    hv = home_from(os.path.join('installs', 'protocol-v11'))
+    c, o = run(hv, 'status', tool=OLD)
+    c2, o2 = run(hv, 'check', tool=OLD)
+    ok('the 1.0.2 tool runs status and check on protocol-v11', c == 0 and c2 == 0, o + o2)
+
+# 10. the review of agency#124 (S1-S4, N1-N4)
+# S3: protocol-v11, written by 1.1.0 with SL8_JOB (make_protocol_v11.py), carries every §4.1 field
+pv = [json.loads(l) for l in open(PV11)] if os.path.isfile(PV11) else []
+has = lambda f: any(f(e) for e in pv)
+tk = lambda e: e.get('task') if isinstance(e.get('task'), dict) else {}
+ok('protocol-v11 carries job, lane title, stages, lane and task due, caused_by, both approves, received.task and a note',
+   pv and all(e.get('job') == 'exec_fixture-1' for e in pv)
+   and has(lambda e: e['ev'] == 'lane_set' and 'stages' in e.get('set', {}))
+   and has(lambda e: e['ev'] == 'lane_opened' and e['lane'].get('due') and e['lane'].get('title'))
+   and has(lambda e: tk(e).get('due')) and has(lambda e: tk(e).get('caused_by'))
+   and {tk(e).get('owner') for e in pv if tk(e).get('approve')} == {'customer', 'khalid'}
+   and has(lambda e: e['ev'] == 'received' and e.get('task')) and has(lambda e: e['ev'] == 'session' and e.get('note')))
+# N4: the copies of A01's stages.json in the fixtures equal its source (drift)
+for name in ('larkspoon-v11', 'protocol-v11'):
+    f = os.path.join(FIX, 'installs', name, '.sl8', 'bot', '.claude', 'skills', 'a01-aso', 'lanes', 'stages.json')
+    ok(f'{name}\'s stages.json equals A01\'s source', os.path.isfile(f) and json.load(open(f)) == json.load(open(A01)))
+# S1: a stage name the customer reads passes R1-R6 at write, and the card prints a name only when it is clean
+h20 = fresh()
+for name in ('Khalid signs off', 'S01 Intake', 'Read work/aso/report.md', 'Due 2026-11-05', 'Finish aso-pages'):
+    n = len(lines(h20))
+    c, o = log(h20, 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S01', 'name': name}]}, 'why': 'x'})
+    ok(f'refused: a stage name {name!r}', c == 1 and len(lines(h20)) == n, o)
+raw(h20, {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_set', 'by': 'agent', 'lane': 'aso-pages',
+          'set': {'stages': [{'id': 'S01', 'name': 'Khalid signs off'}]}, 'why': 'written by hand'})
+run(h20, 'status')
+ok('the card prints the stage id, not a stage name that breaks R2-R6', 'active · S01' in card_of(h20)
+   and 'Khalid' not in card_of(h20), card_of(h20))
+c, o = run(h20, 'check')
+ok('check warns about that stage name with no fix template to run literally',
+   c == 0 and 'stage S01: R6:' in o and '[…]' not in o, o)
+# N2: a title that is only the fix template's placeholder is refused
+for name, ev, obj in (('a lane title "…"', 'lane_set', {'lane': 'aso-pages', 'set': {'title': '…'}, 'why': 'x'}),
+                      ('a task title "..."', 'task_refined', {'task': {'id': 'D2', 'title': '...'}}),
+                      ('a stage name "…"', 'lane_set', {'lane': 'aso-pages', 'set': {'stages': [{'id': 'S01', 'name': ' … '}]}, 'why': 'x'})):
+    n = len(lines(h20))
+    c, o = log(h20, ev, obj)
+    ok(f'refused: {name}', c == 1 and len(lines(h20)) == n, o)
+# S2: an older bare library name: <agency>/<name> by the bot's <AGENCY> id, else the one key ending in /<name>
+def bare(setup=None, extra=None):
+    hb = home_from(os.path.join('installs', 'quillfeather'))
+    stages_in(hb)
+    if extra:
+        stages_in(hb, 'a09-other', extra)
+    if setup:
+        open(os.path.join(hb, 'bot', 'setup.md'), 'w').write(f'<AGENCY>\nid: {setup}\n</AGENCY>\n')
+    raw(hb, {'t': '2026-10-25T10:00:00Z', 'ev': 'lane_set', 'by': 'agent', 'lane': 'aso-listing',
+             'set': {'library': 'store-pages'}, 'why': 'an older bare name'})
+    run(hb, 'status')
+    return [json.loads(l) for l in lines(hb) if '"stages"' in l]
+got = bare('aso')
+ok('a bare library name resolves through the bot\'s <AGENCY> id', len(got) == 1 and got[0]['lane'] == 'aso-listing'
+   and got[0]['set']['stages'] == STAGES, json.dumps(got))
+ok('without <AGENCY>, a bare name resolves to the one key ending in /<name>', len(bare()) == 1)
+ok('a bare name whose <AGENCY> id has no such key gets nothing', bare('conversion') == [])
+ok('a bare name two keys end in, with no <AGENCY>, gets nothing',
+   bare(extra={'pixel-art/store-pages': STAGES[:1]}) == [])
+# S4: the last-report hash is tied to the job: a new job's first report is never skipped
+h21 = fresh()
+os.makedirs(os.path.join(h21, '.sl8'), exist_ok=True)
+open(os.path.join(h21, '.sl8', 'emit.mjs'), 'w').write(EMIT)
+run(h21, 'status', env=J)
+run(h21, 'status', env={'SL8_JOB': 'exec_test-2'})
+run(h21, 'status', env={'SL8_JOB': 'exec_test-2'})
+pp = [json.loads(l)['body'] for l in open(os.path.join(h21, '.sl8', 'posts.jsonl'))]
+ok('a new job reports its empty list at orient though the last job\'s list was empty too; once per job', pp == [{'steps': []}] * 2, json.dumps(pp))
+# N1: an invalid stages.json entry is skipped with its own warning, not also "defined more than once"
+h22 = home_from(os.path.join('installs', 'larkspoon'))
+stages_in(h22, data={'aso/store-pages': STAGES, 'aso/bad': [{'id': 'S1', 'name': 'x'}]})
+c, o = run(h22, 'check')
+ok('an invalid stages.json entry warns once, and not as defined more than once',
+   o.count('WARN stages: aso/bad:') == 1 and 'defined more than once' not in o, o)
 
 print(f'\nselftest: {"ok" if not fails else str(len(fails)) + " failed"}')
 sys.exit(1 if fails else 0)

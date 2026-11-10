@@ -71,7 +71,7 @@ ties**. Every other candidate gets one line: not now, and why.
 |---|---|
 | `id` | the lane's id |
 | `goal` | the goal it serves |
-| `title` | its name |
+| `title` | its name, required: 1–60 chars the customer could read, with no ids, stage codes or dates (the tool refuses a lane without one) |
 | `scope` | one or two plain lines a customer could read: what it covers and what not (which apps, markets, documents, how often) (D48); a path by its steps (entry → form → welcome), not the request's list of pages |
 | `why` | the sums that link it to the goal |
 | `gauge` | the number that shows it working, with a weekly target |
@@ -80,6 +80,7 @@ ties**. Every other candidate gets one line: not now, and why.
 | `rank` | its place across all goals |
 | `score` | the three scores and their reasons |
 | `library` | the entry it came from: `<agency>/<entry>`, the path `<AGENCY>` `lanes:` gives for it; an older bare name is that entry in this agency |
+| `due` | the plan's date for it, `YYYY-MM-DD`, when the plan has one |
 | `state` | `active` |
 
 Then add its seed tasks from the library entry, each made executable for this customer:
