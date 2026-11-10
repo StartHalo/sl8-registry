@@ -1,0 +1,40 @@
+{"t": "2026-10-12T08:30:00Z", "customer": "quillfeather", "ev": "onboarded", "by": "agent"}
+{"t": "2026-10-12T08:31:00Z", "lane": {"id": "discovery", "standing": true, "state": "active"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-12T08:31:00Z", "lane": {"id": "plan", "standing": true, "state": "active"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-12T08:31:00Z", "lane": {"id": "comms", "standing": true, "state": "active"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-12T08:40:00Z", "task": {"id": "D1", "lane": "discovery", "kind": "work", "title": "Quillfeather profile", "do": "Build the profile from public sources", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-12T08:41:00Z", "task": "D1", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"t": "2026-10-13T16:00:00Z", "task": "D1", "ev": "task_done", "by": "agent"}
+{"t": "2026-10-14T10:00:00Z", "goal": {"id": "G1", "text": "5,000 monthly installs across both stores", "metric": "monthly installs", "from": 1800, "to": 5000, "by": "2027-01-31", "state": "active"}, "ev": "goal", "by": "agent"}
+{"t": "2026-10-14T10:05:00Z", "what": "monthly installs", "value": 1800, "src": "both store consoles", "ev": "read", "by": "agent"}
+{"t": "2026-10-14T10:10:00Z", "task": {"id": "P1", "lane": "plan", "kind": "plan", "title": "Plan the first quarter", "do": "Plan the first quarter", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-14T10:11:00Z", "task": "P1", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"t": "2026-10-15T12:00:00Z", "task": "P1", "ev": "task_done", "by": "agent"}
+{"t": "2026-10-15T12:05:00Z", "lane": {"id": "aso-listing", "goal": "G1", "title": "Store listing refresh", "scope": "both store pages, US", "rank": 1, "state": "active", "why": "the plan ranked it", "gauge": "monthly installs", "done": "its store pages are live", "pause": "the customer asks us to hold"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-15T12:06:00Z", "lane": {"id": "aso-reviews", "goal": "G1", "title": "Review replies", "scope": "store reviews, both stores", "rank": 2, "state": "active", "why": "the plan ranked it", "gauge": "monthly installs", "done": "its store pages are live", "pause": "the customer asks us to hold"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-15T12:07:00Z", "lane": {"id": "aso-german", "goal": "G1", "title": "German store pages", "scope": "both store pages, Germany", "rank": 3, "state": "planned", "why": "the plan ranked it", "gauge": "monthly installs", "done": "its store pages are live", "pause": "the customer asks us to hold"}, "ev": "lane_opened", "by": "agent"}
+{"t": "2026-10-16T09:00:00Z", "task": {"id": "aso-listing-S01", "lane": "aso-listing", "kind": "read", "title": "Read both store pages", "do": "Read both store pages", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-16T09:05:00Z", "task": "aso-listing-S01", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"t": "2026-10-17T15:00:00Z", "task": "aso-listing-S01", "ev": "task_done", "by": "agent"}
+{"t": "2026-10-19T09:00:00Z", "task": {"id": "aso-listing-S02", "lane": "aso-listing", "kind": "work", "title": "Keyword research for the US store", "do": "Keyword research for the US store", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-19T09:05:00Z", "task": "aso-listing-S02", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"t": "2026-10-20T09:00:00Z", "task": {"id": "R1", "lane": "aso-reviews", "kind": "work", "title": "Reply to this month's store reviews", "do": "Reply to this month's store reviews", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-20T09:05:00Z", "task": "R1", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"t": "2026-10-21T10:00:00Z", "what": "monthly installs", "value": 1950, "src": "both store consoles", "ev": "read", "by": "agent"}
+{"t": "2026-10-22T16:00:00Z", "task": "R1", "ev": "task_done", "by": "agent"}
+{"t": "2026-10-22T16:05:00Z", "task": {"id": "R2", "lane": "aso-reviews", "kind": "work", "title": "Write reply templates for common questions", "do": "Write reply templates for common questions", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-23T17:00:00Z", "task": "aso-listing-S02", "ev": "task_done", "by": "agent"}
+{"t": "2026-10-24T11:00:00Z", "lane": "aso-reviews", "set": {"state": "paused"}, "why": "the customer holds replies until their support team is staffed", "ev": "lane_set", "by": "agent"}
+{"t": "2026-10-26T09:00:00Z", "task": {"id": "L1", "lane": "aso-listing", "kind": "work", "title": "Ask both stores for a featured slot", "do": "Ask both stores for a featured slot", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-27T10:00:00Z", "task": "L1", "why": "neither store takes requests this quarter", "ev": "task_dropped", "by": "agent"}
+{"t": "2026-10-27T11:00:00Z", "task": {"id": "K1", "lane": "aso-listing", "kind": "work", "title": "Approve the new screenshots", "do": "Approve the new screenshots", "done_when": "the evaluator would pass it", "owner": "khalid"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-27T11:05:00Z", "task": {"id": "L2", "lane": "aso-listing", "kind": "work", "title": "Upload the new screenshots to both stores", "do": "Upload the new screenshots to both stores", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-28T10:00:00Z", "what": "monthly installs", "value": 2240, "src": "both store consoles", "ev": "read", "by": "agent"}
+{"t": "2026-10-29T09:00:00Z", "task": {"id": "aso-listing-S03", "lane": "aso-listing", "kind": "work", "title": "Write the new US store page copy", "do": "Write the new US store page copy", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-30T09:00:00Z", "task": {"id": "A1", "lane": "aso-listing", "kind": "customer", "owner": "customer", "title": "Give us access to the Play Console", "do": "Ask Noor to add us as a user"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-10-30T09:10:00Z", "task": "A1", "on": "customer:Noor", "due": "2026-11-12", "ev": "task_waiting", "by": "agent"}
+{"t": "2026-11-02T09:00:00Z", "task": {"id": "aso-german-S01", "lane": "aso-german", "kind": "work", "title": "German keyword list for both stores", "do": "German keyword list for both stores", "done_when": "the evaluator would pass it"}, "ev": "task_added", "by": "agent"}
+{"t": "2026-11-04T10:00:00Z", "what": "monthly installs", "value": 2310, "src": "both store consoles", "ev": "read", "by": "agent"}
+{"t": "2026-11-05T10:00:00Z", "task": "L2", "on": "K1", "ev": "task_waiting", "by": "agent"}
+{"t": "2026-11-05T10:30:00Z", "task": "aso-listing-S03", "refs_read": [], "ev": "task_started", "by": "agent"}
+{"ev": "params", "params": {"customer": "Quillfeather", "customer_id": "quillfeather", "contact": "Noor Lindqvist (noor@quillfeather.example)", "reply_address": "quillfeather+agency@slateworkspace.com", "bcc": "owner@example.com", "goal": "5,000 monthly installs across both stores by 2027-01-31", "scope": "ASO for the Quillfeather journaling app on Google Play and the App Store", "budget": "$0", "meeting_notes": "none"}, "t": "2026-11-07T02:28:41Z", "by": "agent"}
