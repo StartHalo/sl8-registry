@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.1.0] — 2026-11-10
+### Added
+- Release agency-comms v1.1.0.
+
 ## [v1.0.0] — 2026-11-04
 ### Added
 - Initial release (agency-comms).
