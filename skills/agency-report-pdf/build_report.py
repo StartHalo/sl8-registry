@@ -38,11 +38,28 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DS = os.path.join(HERE, 'assets')
 
 
-def find_chrome():
-    """The Playwright Chromium moves between versions (chromium-1194 became chromium-1243), so search."""
-    cands = [os.environ.get('CHROME_PATH', ''), '/opt/pw-browsers/chromium']
-    cands += sorted(glob.glob('/opt/pw-browsers/chromium-*/chrome-linux*/chrome'), reverse=True)
-    cands += [shutil.which(n) or '' for n in ('chromium', 'chromium-browser', 'google-chrome')]
+def chrome_candidates(env=None, root='', home=None, which=shutil.which):
+    """Every place a browser may be, best first. `root` prefixes the absolute paths (tests fake a machine under it).
+    The Playwright Chromium moves between versions (chromium-1194 became chromium-1243), so search."""
+    env = os.environ if env is None else env
+    home = os.path.expanduser('~') if home is None else home
+    cands = [env.get('CHROME_PATH', ''), root + '/opt/pw-browsers/chromium']
+    cands += sorted(glob.glob(root + '/opt/pw-browsers/chromium-*/chrome-linux*/chrome'), reverse=True)
+    cands += [which(n) or '' for n in ('chromium', 'chromium-browser', 'google-chrome')]
+    # Studio images (the chrome-headless pack): Chrome Headless Shell, linked onto the PATH and kept under /opt/sl8
+    cands += [env.get('CHROMIUM_PATH', ''), root + '/usr/local/bin/chrome-headless-shell', which('chrome-headless-shell') or '']
+    cands += sorted(p for p in glob.glob(root + '/opt/sl8/chrome-headless-shell/**/chrome-headless-shell', recursive=True) if os.path.isfile(p))
+    # a browser Playwright downloaded itself (its default cache, or PLAYWRIGHT_BROWSERS_PATH)
+    pw = env.get('PLAYWRIGHT_BROWSERS_PATH', '')
+    for base in ([pw] if pw and pw != '0' else []) + [home + '/.cache/ms-playwright']:
+        for pat in ('chromium-*/chrome-linux*/chrome', 'chromium_headless_shell-*/chrome-*/headless_shell',
+                    'chromium_headless_shell-*/chrome-*/chrome-headless-shell'):
+            cands += sorted((p for p in glob.glob(base + '/' + pat) if os.path.isfile(p)), reverse=True)
+    return cands
+
+
+def find_chrome(**kw):
+    cands = chrome_candidates(**kw)
     return next((p for p in cands if p and os.path.exists(p)), None) or sys.exit('no Chromium found: set CHROME_PATH')
 
 

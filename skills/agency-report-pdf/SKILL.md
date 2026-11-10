@@ -3,7 +3,7 @@ name: agency-report-pdf
 description: Build a branded report or fix sheet as an HTML page and a PDF (A4 or US Letter, running header and footer) from one report.json of blocks, with screenshots embedded and a page-fit check that fails the build when any page overflows. Use when a task's deliverable is a written report, a fix sheet, a one-pager or any print document for the customer, and for each new version of one.
 metadata:
   status: proven
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # report-pdf
@@ -33,7 +33,7 @@ A task's deliverable is a written report, a fix sheet, a one-pager or any print 
 ## Inputs
 
 The task's refs (read notes, facts with sources); the screenshots as PNGs (agency-screenshots
-writes them). Needs Python 3, Chromium (the pre-installed Playwright one is found by itself; else
+writes them). Needs Python 3, Chromium (the pre-installed Playwright one or a Studio image's Headless Shell is found by itself; else
 set `CHROME_PATH`), `pdfinfo` and `pdftoppm` (poppler).
 
 ## Steps
