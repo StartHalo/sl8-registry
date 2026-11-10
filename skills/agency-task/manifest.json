@@ -1,7 +1,7 @@
 {
   "name": "agency-task",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Do one task end to end by its kind and skill, or refine a task that can't be done as written. Use for each task the runner picks, and for work-kind tasks with no other skill.",
-  "generated_at": "2026-11-04T05:14:07.502Z",
-  "skill_md_sha256": "da4b229600d6f1e3566ca43264526a0fc3fed6d43601374a49e1736137f753e0"
+  "generated_at": "2026-11-10T21:58:30.800Z",
+  "skill_md_sha256": "2cfe6b616e9c2b6deef9022f578ecaa09f93b04a6fe88c9b8d8da33aec8ea798"
 }
