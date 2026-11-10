@@ -3,7 +3,7 @@ name: agency-task
 description: Do one task end to end by its kind and skill, or refine a task that can't be done as written. Use for each task the runner picks, and for work-kind tasks with no other skill.
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Do one task
@@ -13,6 +13,7 @@ metadata:
    - If something is missing, refine it first: `agency log task_refined '{"task":{"id":…,…}}'`.
    - If only the customer can supply it, add the customer task or comms question, and move
      on.
+   - A task you add because of another one (a follow-up, a fix) names it: `"caused_by": "<task id>"`.
 2. **Start:** `agency task start <id>`. It prints what to read; read it all, after the Taste and the
    references that `bot/setup.md`'s `<AGENCY>` names.
 3. **Do it** with the named skill. If none fits, work it out yourself and keep notes in `work/`;
@@ -25,4 +26,4 @@ metadata:
    pass lets it be done.
 6. **Close:** `agency task done <id> --out <path> [--check pass] [--why "<evaluator note path>"]`. A
    customer task is closed when they tell you it's done, or when you see it done in a read. A pass
-   copies the checked output into `artifacts/<customer id>/` (D64).
+   fingerprints the checked output; the send copies it into `artifacts/<customer id>/` (D91).
