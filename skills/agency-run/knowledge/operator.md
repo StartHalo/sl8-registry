@@ -21,10 +21,10 @@ Paths are under `/home/user` (the tool's root, `$HOME`).
 | `bot/user.md` | the engagement: free text on the customer, the product, and the goal and scope (`## ` sections), and the labels Customer, Customer id, Reply address and Bcc; a meeting-notes place is optional (A10, D83) | read every job; the owner edits it, never you |
 | `bot/setup.md` | the agency: its lanes, references, skills and Taste (`<AGENCY>`) | read; refreshed to the latest bot release |
 | `work/agency/CUSTOMER.md` | who they are, people, their rules, standing instructions (A11) | yours; read every job; standing instructions win over the general guidance |
-| `work/agency/now.md` | the card, customer-safe | written only by `agency status`; never by hand |
+| `work/agency/dashboard.json` | the whole state and the job's result; its card is customer-safe | written only by `agency`; never by hand |
 | `work/agency/log.jsonl` | every event, in order: the truth; the tool replays it on every read | written only by `agency` |
 | `work/` | everything you make or read; deliverables are built here; it persists | long material lives here, pointed to; scratch goes in `/tmp` |
-| `artifacts/<customer id>/` | the customer's folder: only checked work | only `agency` writes here, at a pass |
+| `artifacts/<customer id>/` | the customer's folder: only checked work | only `agency` writes here, at the send |
 | `artifacts/attachments/` | the owner's uploads | read; log a `received`, copy into `work/inputs/` to work on it |
 | `~/.claude/skills/agency-run/knowledge/` | `how-to-run.md` and `how-to-plan.md` (your method), `standard.md`, `capabilities.md`, `kinds.json` | read |
 

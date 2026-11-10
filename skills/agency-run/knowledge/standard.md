@@ -13,7 +13,7 @@ Everything here follows from these, in this order:
 2. **Clarity:** exactly what is to be done: input, output, scope, acceptance (done when) and steps;
    achievable. A rule is repeated only where it adds value.
 3. **One source of truth:** each fact in one place (the log). A derived view is printed when asked,
-   or written only at a status check (`agency status` writes now.md).
+   or written only by the tool (it writes dashboard.json).
 4. **Auditable:** every action leaves a trace (an event, a check note, a run file) an independent
    agent can read to see if something is wrong; an audit can run any time.
 5. **Communicate, don't wait:** what matters is said now; nothing checked is held.
@@ -30,7 +30,7 @@ Everything here follows from these, in this order:
 3. **The tasks run** in pick order, each to its done when; anything for the customer is checked.
 4. **Comms after every run** (D52): what the customer needs to hear is worked out from what
    happened, and sent.
-5. **Shared in `artifacts/`** (D53, D64): every checked piece is there, copied at its pass.
+5. **Shared in `artifacts/`** (D53, D64): every sent piece is there, copied at its send (D91).
    2026-10-30 · UC1 run 2026-10-30-uc1: `artifacts/` holds only what the customer may see; dropped or
    out-of-scope versions leave it when dropped.
 6. **Closed:** the goal is met and the customer accepted it (or the engagement ends), the close is sent, nothing open is forgotten.
@@ -40,7 +40,7 @@ Everything here follows from these, in this order:
 - A scope the customer could read: what it covers and what it doesn't.
 - One gauge with a weekly target, a done rule and a pause rule you can test.
 - A line in the plan's sums saying how it moves the goal.
-- Tasks for the next move only; each seed skipped or merged has a why.
+- Every stage's task up front, each following the stage before; each seed skipped or merged has a why.
 - 2026-10-30 · UC1 run 2026-10-30-uc1: the scope names the steps of the path, not the request's list
   of pages; a page touched only in passing is out unless the request names it.
 
