@@ -3,7 +3,7 @@ name: agency-web-reads
 description: Read a customer's live website with GET requests only (or as a browser renders it, for pages built by scripts) - each page's redirect chain and status codes, title, meta description, canonical, h1, JSON-LD types, and the site files (robots.txt, sitemap URLs, llms.txt) - and keep the raw replies as evidence. Use for a baseline or re-read of a site before and after changes, an SEO or AI-search check, or to source a claim about the site.
 metadata:
   status: proven
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # web-reads
