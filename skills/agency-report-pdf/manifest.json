@@ -1,7 +1,7 @@
 {
   "name": "agency-report-pdf",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Build a branded report or fix sheet as an HTML page and a PDF (A4 or US Letter, running header and footer) from one report.json of blocks, with screenshots embedded and a page-fit check that fails the build when any page overflows. Use when a task's deliverable is a written report, a fix sheet, a one-pager or any print document for the customer, and for each new version of one.",
-  "generated_at": "2026-11-04T05:15:49.712Z",
-  "skill_md_sha256": "2e24046699f733c5ec424c3b0ba6f17e9ce6502fadd73eddea49f241a70534a2"
+  "generated_at": "2026-11-10T21:55:39.575Z",
+  "skill_md_sha256": "25b105f22a76a318f276a7db5e5644854ae83539609f7e12c892014e393a3b91"
 }
