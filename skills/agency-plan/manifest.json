@@ -1,7 +1,7 @@
 {
   "name": "agency-plan",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Turn a goal into ranked lanes with seed tasks, or review the lanes when something changed (a read-out, a flat gauge, a new fact, a customer's new ask, twelve weeks). Use for every plan-kind task.",
-  "generated_at": "2026-11-04T05:14:20.300Z",
-  "skill_md_sha256": "82ddb276e254e3c512d6178de37fb084e6711e92ea2e293338a5d057a1103a75"
+  "generated_at": "2026-11-10T21:57:32.142Z",
+  "skill_md_sha256": "7a51841ab16d9151884d65de0b9f0e2a040e85d79518482fb98c60a2f604c1ba"
 }
