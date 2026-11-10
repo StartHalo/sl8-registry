@@ -1,7 +1,7 @@
 {
   "name": "agency-web-reads",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "description": "Read a customer's live website with GET requests only (or as a browser renders it, for pages built by scripts) - each page's redirect chain and status codes, title, meta description, canonical, h1, JSON-LD types, and the site files (robots.txt, sitemap URLs, llms.txt) - and keep the raw replies as evidence. Use for a baseline or re-read of a site before and after changes, an SEO or AI-search check, or to source a claim about the site.",
-  "generated_at": "2026-11-04T05:16:34.241Z",
-  "skill_md_sha256": "06d0fc6f34a6a158ae8b20b198e392cafeff0f5161bc87b71cb8d6c788af8229"
+  "generated_at": "2026-11-10T21:56:35.129Z",
+  "skill_md_sha256": "e18232c82f2f4d9b9a2d6287702d3d2a4d2401ca9221a4829a0654b3f9017eff"
 }
