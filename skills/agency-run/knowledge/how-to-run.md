@@ -1,7 +1,7 @@
 # How to run a customer
 
 The method for every job. Tool: `agency` (`agency -h` lists its commands; its spec is
-`~/.claude/skills/agency-run/TOOL.md`). Codes in its messages and in events (D31, R4, K1 …) name the
+TOOL.md in the `@starthalo/agency` package). Codes in its messages and in events (D31, R4, K1 …) name the
 decisions behind a rule; you don't need them to work.
 
 ## The session
@@ -33,19 +33,19 @@ output it builds on), its skill, and where its output goes. The tool refuses a t
 
 **Guidance lines:**
 - A customer task is `ready` until the email that asks for it goes out, then `waiting` with a date (log it at that
-  moment: `task wait <id> --on customer --due <date>`, 3 working days unless agreed, D67); when the
+  moment: `task wait <id> --on customer` (the tool sets 3 working days; give `--due` only for a date she named, D67); when the
   date passes, comms follows up. It is never picked: comms asks for it.
 - A task is done with its evaluator pass first, then sent. Only deliverable and comms tasks take a
-  pass (`--check pass` is refused on other kinds); the pass shares their output in `artifacts/<customer id>/`. An evaluator fail is recorded with
+  pass (`--check pass` is refused on other kinds); the pass fingerprints their output and the send shares it in `artifacts/<customer id>/` (D91). An evaluator fail is recorded with
   `task done <id> --check fail --why <note>`; the task stays open. Closing on a check made earlier,
   give its date: `--checked YYYY-MM-DD`.
-- A recurring task (`every: daily` or a weekday) stays one task. Close each run with `task done`
+- A recurring task (`every: daily`, a weekday or `monthly`) stays one task. Close each run with `task done`
   (a `read` naming the task also counts). The pick list leaves it out until its next day; a missed
   run comes back in the next session. A job that sends something each week (a weekly update) is a
   recurring `work` task that drafts it and adds that week's comms task; the tool refuses `every` on
   comms and deliverable tasks (D61).
 - **A check that fails twice:** stop picking the task this session: `task wait <id> --on <who or
-  what supplies the missing piece>` (the wait shows on the card; the finding is in the check note).
+  what supplies the missing piece>` (the wait shows in the dashboard; the finding is in the check note).
   Start it again when that arrives (take-in).
 - **A blocked task** comes back on the pick list, marked "released", once the task it waits on is
   done or dropped (or, if that one recurs, has run since). Start it then; if its blocker was dropped,
@@ -66,7 +66,7 @@ output it builds on), its skill, and where its output goes. The tool refuses a t
   customer has becomes a `customer` task; a message becomes `comms`.
 - Work the pick list until it is empty before the close; only a task cut off (it waits on someone, or the job's 6 hours run out) keeps where it stopped in a `work/` file named in its notes.
 - **Stopped by something outside** (the network, a missing account): log an `error`, then
-  `task wait <id> --on <what>`, so the pick list moves on and the wait shows on the card.
+  `task wait <id> --on <what> --due <when it can be checked>`; it returns to the pick list that day.
 - An event's `t` is when it happened; the log is in the order you learned things, so a meeting
   filed late sits after newer events.
 - When an event follows someone's decision, its `why` names it ("the customer's reset, 21 Oct").
@@ -96,14 +96,10 @@ When the agency's release renames a lane (`lanes/migrations.json`), `agency stat
 You decide, with the customer directly (D67). The rules are in the agency-comms skill, once (D56: a rule
 repeated only where it adds value). Standing instructions in `work/agency/CUSTOMER.md` win over them.
 
-## The card (now.md)
+## The dashboard (dashboard.json)
 
-`agency status` prints your full view from the log (D58): the goals with figure, date, source and
-health; the lanes by rank with their next task; what waits on whom; what to ask; what is ready to
-send (and any `.eml` khalid is to send today); the last session and send. It writes
-`work/agency/now.md`, the card the owner and the customer see, with only what the customer may read
-(TOOL.md §9). Run it at orient and at the close; never write now.md by hand (it is refused). To
-change the card, log the event that changes the truth.
+The tool rewrites `work/agency/dashboard.json` after every event; `agency status` also prints your full view and the customer-safe card.
+Never write the dashboard by hand (it is refused). To change it, log the event that changes the truth (D92).
 
 A figure nobody has given yet is "unknown", with who can give it (a `customer` task). A `read`
 updates a goal only when its `what` is the goal's `metric`, word for word, with a number; a `goal`

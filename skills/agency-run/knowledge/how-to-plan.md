@@ -89,8 +89,8 @@ Then add its seed tasks from the library entry, each made executable for this cu
   ship as one piece.
 - **Merging or skipping a seed** is written with why in the plan file's lane section, so the next
   review can see it.
-- **The tasks for the next move only.** When they are done and the goal isn't, the review adds the
-  next ones (how-to-run, "Facts and replanning").
+- **Every stage, up front.** Each stage's task is written when the lane opens and follows the stage before;
+  `task start` refuses one whose `follows` is not done.
 
 **A one-off engagement** (one video, one review) still gets a goal from its parameters: the piece accepted,
 and released if it ships, by a date. It is one lane with its seed tasks; the plan file can be a few

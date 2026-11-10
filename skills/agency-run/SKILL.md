@@ -1,15 +1,15 @@
 ---
 name: agency-run
-description: One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and outcome.json. Use whenever a job starts with no other instruction, or the prompt says "run" or "work on it".
+description: One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and the session end. Use whenever a job starts with no other instruction, or the prompt says "run" or "work on it".
 metadata:
   status: core
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Run a job
 
 Paths are under `/home/user`. `knowledge/` is this skill's folder (`~/.claude/skills/agency-run/knowledge/`);
-the tool is `agency` (its spec: `TOOL.md` here). Follow `knowledge/how-to-run.md`. In short:
+the tool is `agency` (its spec: TOOL.md in the `@starthalo/agency` package). Follow `knowledge/how-to-run.md`. In short:
 
 1. **Orient:** `knowledge/operator.md`, `work/agency/CUSTOMER.md`, `agency status` (your view, from the
    log), `agency view tail 30`. No log yet: this is job 1, run the agency-onboard skill first.
@@ -41,10 +41,9 @@ the tool is `agency` (its spec: `TOOL.md` here). Follow `knowledge/how-to-run.md
    - Each lesson learned this run: a dated line in `work/lessons.md`, tagged `[core]` or `[<agency>]` (A15).
    - Log one `session` event (`phase: end`, `ref` the run file, `summary`: one line on what moved, `note`: one
      sentence for the owner on what moved, in plain words: no ids, stage codes, paths or dates; 200 chars).
-   - Write `/home/user/outcome.json` in the shape the job contract gives (A16): `delivered` with each file
-     this job copied into `artifacts/<customer id>/` (a check pass or a `send`), `partial` with "nothing
-     shared this job: <what moved>", or `failed` with why.
-   - `agency status` (it writes now.md), then `agency check` (it compares outcome.json with the log).
+   - Give that event `outcome`: `delivered` if this job's sends shared a file, else `partial` with what moved, or
+     `failed` with why, in `reason`; then `agency status` and `agency check`. The tool writes the result into
+     `dashboard.json` (D92).
    - **Any `.eml` in `work/outbox/` not yet sent:** end your last message by asking khalid to send
      it today, naming its copy in `artifacts/<customer id>/outbox/` (D57, D78). Never hold it.
 

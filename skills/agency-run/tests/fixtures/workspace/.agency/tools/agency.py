@@ -1,1 +1,0 @@
-# old equipment (not migrated)
