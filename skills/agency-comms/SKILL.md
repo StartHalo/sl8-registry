@@ -3,7 +3,7 @@ name: agency-comms
 description: Decide what the customer should hear and when, have it written with agency-email, get it checked, and send it. Runs last in every session, and for every comms-kind task (updates, deliverable notices, questions, follow-ups, meeting recaps).
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Comms
@@ -44,7 +44,7 @@ outside this engagement, and logged as a `decision` (D67).
    folders of them) that go to them. Nothing internal: no notes, checks or sums. A weekly update is
    a recurring `work` task that adds that week's comms task; a comms task never recurs (D61).
 5. **Check** it with the agency-evaluate skill, and `agency task done <id> --check pass`. The pass
-   fingerprints the draft and the refs and copies the refs into `artifacts/<customer id>/` (the share, D64); `send`
+   fingerprints the draft and the refs; `send` copies the refs into `artifacts/<customer id>/` (D91) and
    refuses anything changed since (D60). Re-check anything checked more than a week ago.
 6. **Send:** `agency send <id>`. It writes the checked text as `work/outbox/<id>.eml` and the same file in
    `artifacts/<customer id>/outbox/` (D78), from and Reply-To the reply address in `bot/user.md`, Bcc from
@@ -54,4 +54,6 @@ outside this engagement, and logged as a `decision` (D67).
    - **A send made another way** (khalid's own mail, WhatsApp, a folder share) is logged as `sent`
      with `by: khalid` and the tasks it carried (`tasks`); each carried task is checked after the fact.
 7. **Asks:** only after the email went, each customer task it asked becomes `waiting`:
-   `agency task wait <id> --on customer --due <date>`, the date as how-to-run's guidance lines set it (D67).
+   `agency task wait <id> --on customer` (the tool sets the date; how-to-run says when to give `--due`, D67).
+   An ask to approve a file names it in `approve`: the file's `artifacts/<customer id>/…` path (passed; this email shares it) for the customer, the
+   sample in `work/` for the owner; an ask of the owner waits `--on khalid`.
