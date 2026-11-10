@@ -13,6 +13,7 @@ import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
+import { browserPath } from './find-browser.mjs';
 
 const VIEWS = {
   desktop: { viewport: { width: 1280, height: 800 }, deviceScaleFactor: 2 },
@@ -51,7 +52,7 @@ if (o.help || !o.urls.length) {
 const out = resolve(o.out); mkdirSync(out, { recursive: true });
 const { chromium } = await playwright();
 let exe = process.env.CHROMIUM_PATH;
-if (!exe) { try { if (!existsSync(chromium.executablePath())) throw 0; } catch { if (existsSync('/opt/pw-browsers/chromium')) exe = '/opt/pw-browsers/chromium'; } }
+if (!exe) { try { if (!existsSync(chromium.executablePath())) throw 0; } catch { exe = existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : browserPath(); } }
 const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
 const browser = await chromium.launch({ args: ['--no-sandbox'], ...(exe ? { executablePath: exe } : {}),
   ...(proxy ? { proxy: { server: proxy, bypass: 'localhost,127.0.0.1' } } : {}) });

@@ -3,7 +3,7 @@ name: agency-screenshots
 description: Take screenshots of web pages at desktop (1280x800) and phone (390x844) width with the machine's pre-installed Playwright and Chromium - first screen or full page, optional red outlines with labels on chosen elements - plus an index of what was taken and when. Use to show a customer's site as it is (before and after a change), to evidence a finding, or to see text that only appears in a real browser.
 metadata:
   status: proven
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # screenshots
@@ -14,7 +14,7 @@ on scroll appear), goes back to the top and captures. Read-only: it never types,
 ## Needs
 
 Node 22+ and Playwright with Chromium. The machine's global Playwright is found by itself (else
-`npm install playwright` next to the script); the Chromium at `/opt/pw-browsers/chromium` is used
+`npm install playwright` next to the script); the Chromium at `/opt/pw-browsers/chromium` or a Studio image's Headless Shell is used
 when Playwright's own is missing; `CHROMIUM_PATH` overrides. The session proxy in `HTTPS_PROXY`
 is passed to the browser.
 
