@@ -3,7 +3,7 @@ name: agency-plan
 description: Turn a goal into ranked lanes with seed tasks, or review the lanes when something changed (a read-out, a flat gauge, a new fact, a customer's new ask, twelve weeks). Use for every plan-kind task.
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Plan
@@ -17,8 +17,9 @@ The method is `~/.claude/skills/agency-run/knowledge/how-to-plan.md`. Follow it 
 3. Candidates from the lanes `bot/setup.md`'s `<AGENCY>` names (Taste first), or from comparables when no entry fits.
 4. A score from 1 to 3 for impact, confidence and control, with a reason for each.
 5. **One rank across all goals, with no ties.**
-6. Open each lane with its whole definition, its `scope` (what it covers and what not, in words the
-   customer could read: D48) and its seed tasks, made executable.
+6. Open each lane with its whole definition, its `title` (required; the customer's words), its `due` when the plan
+   has a date, its `scope` (what it covers and what not, in words the
+   customer could read: D48) and the seed task of every stage, each with `follows`, made executable.
 
 **A review:**
 1. Re-read the gauges and the facts since the last review.
