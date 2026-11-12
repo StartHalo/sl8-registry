@@ -1,0 +1,7 @@
+{
+ "pixel-art/sprite-pack": [
+  {"id": "S01", "name": "Style sheet and palette"},
+  {"id": "S02", "name": "Batch 1"},
+  {"id": "S04", "name": "The full sheet"}
+ ]
+}

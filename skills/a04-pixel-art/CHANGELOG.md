@@ -8,6 +8,10 @@ Versions are tagged in the `StartHalo/sl8-registry` repo as `<skill-name>/vMAJOR
 ### Changed
 - (next version's changes)
 
+## [v1.0.1] — 2026-11-12
+### Added
+- Release a04-pixel-art v1.0.1.
+
 ## [v1.0.0] — 2026-11-07
 ### Added
 - Initial release (a04-pixel-art).
