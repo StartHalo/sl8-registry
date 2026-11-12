@@ -1,0 +1,28 @@
+{
+ "general/outbound-email": [
+  {"id": "S01", "name": "Market size and rates"},
+  {"id": "S02", "name": "The first wave's list"},
+  {"id": "S03", "name": "The wave's emails"},
+  {"id": "S05", "name": "Sender details"},
+  {"id": "S06", "name": "Sending tool checked"},
+  {"id": "S07", "name": "The wave sent"}
+ ],
+ "general/referral": [
+  {"id": "S01", "name": "The method"},
+  {"id": "S03", "name": "Offer launched, customers called"},
+  {"id": "S04", "name": "The counts"}
+ ],
+ "general/retention-feature": [
+  {"id": "S01", "name": "What the app has"},
+  {"id": "S02", "name": "What leaders and users show"},
+  {"id": "S03", "name": "Feature spec"},
+  {"id": "S05", "name": "Built"},
+  {"id": "S06", "name": "The return figure before"}
+ ],
+ "general/search-and-ai-pages": [
+  {"id": "S01", "name": "Starting count"},
+  {"id": "S02", "name": "Unanswered questions"},
+  {"id": "S03", "name": "The first pages"},
+  {"id": "S05", "name": "Pages published"}
+ ]
+}

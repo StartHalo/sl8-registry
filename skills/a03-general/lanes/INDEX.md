@@ -19,7 +19,8 @@ and open the chosen ones with their seed tasks. A lane opened from an entry name
 2. **Lane object:** write its `scope` for this customer (what it covers and what not), take `why` from "How it moves the goal", `gauge` from "Gauge", `done` and
    `pause` from "Done when / Pause when", and `score` from "Score guidance" (adjusted to this
    customer, with a reason). The rank is set across all of the customer's goal lanes, no ties.
-3. **Seed tasks:** add them with `task_added`, giving each a real id (the `S` ids are placeholders),
+3. **Seed tasks:** add them with `task_added`, giving each the id `<lane>-S0<n>` for its `S<n>` (a comms seed too, so ids never clash; the
+   lane's own seeds are its stages, named in `lanes/stages.json`),
    setting `lane` to the id you opened the lane with (comms seeds stay `comms`), pointing every
    `follows` at the new ids, giving comms seeds `out: work/comms/<task id>.md`, and replacing
    anything in angle brackets. A `customer` task stays `ready` until the email that
@@ -30,7 +31,8 @@ and open the chosen ones with their seed tasks. A lane opened from an entry name
 
 1. When it fits · 2. How it moves the goal · 3. Gauge · 4. Done when / Pause when · 5. Score
 guidance (impact, confidence, control, 1 to 3, with who controls the work) · 6. Seed tasks (a JSON
-array valid against the core's `kinds.json`, in `~/.claude/skills/agency-run/knowledge/`) · 7. References · 8. Lessons from our work (each
+array valid against the core's `kinds.json`, in `~/.claude/skills/agency-run/knowledge/`; the lane's own seeds, but a
+recurring one, are its stages, each named in `lanes/stages.json` under `general/<entry>`, 1–40 chars) · 7. References · 8. Lessons from our work (each
 with where and when it was learned, e.g. "a B2B customer's records, Oct 2026").
 
 Scores: **impact** 3 = can close much of the gap; **confidence** 3 = a figure from a comparable,
