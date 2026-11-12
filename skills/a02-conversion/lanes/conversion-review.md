@@ -48,6 +48,9 @@ question lets each lane be counted.
 
 ## 6. Seed tasks
 
+Give each seed the id `<lane>-S0<n>` for its `S<n>` (the comms one too, so ids never clash) and point `follows` at the
+new ids: the lane's own seeds are its stages, named in `lanes/stages.json`.
+
 ```json
 [
   {"id": "S1", "lane": "conversion-review", "kind": "read", "title": "Read the path to a trial or demo",

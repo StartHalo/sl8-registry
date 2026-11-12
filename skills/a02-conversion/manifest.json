@@ -1,7 +1,7 @@
 {
   "name": "a02-conversion",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "The conversion agency's own skill - its lane (lanes/conversion-review.md) - the path from the customer's site to a trial, a demo or a sign-up read page by page, a fix sheet with each problem on its exact page, its screenshot and a fix their developer can make without asking, and a weekly re-read that counts the fixes live. Use for every task of a conversion/conversion-review lane.",
-  "generated_at": "2026-11-05T01:40:04.695Z",
+  "generated_at": "2026-11-12T00:44:22.279Z",
   "skill_md_sha256": "79546541d2d68bb50abccb9790f30beff0d8f073d4ea225269d2fa735a9abea4"
 }
