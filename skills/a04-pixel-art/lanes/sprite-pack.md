@@ -14,18 +14,18 @@ We do all the work; the customer only reacts.
 
 ## 2. How it moves the goal
 
-sprites accepted = sprites delivered − sprites sent back. Each batch is drawn, checked and shared in the
+sprites accepted = sprites delivered − sprites sent back. Each batch is drawn, checked and sent in the
 same job, so every job moves the count unless the pack is done.
 
 ## 3. Gauge
 
-- **Lead:** sprites shared, of N in the pack (our record: the pass events).
+- **Lead:** sprites sent, of N in the pack (our record: the `sent` events).
 - **Lag:** sprites accepted (the customer's reply; no reply in 7 days counts as accepted).
 - **Weekly target:** the whole pack in the first job if it has 8 or fewer sprites, otherwise 8 per job.
 
 ## 4. Done when / Pause when
 
-- **Done when:** every sprite on the pack list is shared and the full sheet has passed; then keep
+- **Done when:** every sprite on the pack list is sent and the full sheet has passed; then keep
   (the customer adds sprites, within `user.md`) or close.
 - **Pause when:** never for lack of input: the brief is complete by design. A sprite the customer
   sends back is redrawn in the next job.
@@ -40,7 +40,8 @@ same job, so every job moves the count unless the pack is done.
 ## 6. Seed tasks
 
 Ids are stage numbers: open the lane as `sprite-pack` and name its tasks `sprite-pack-S01`, `sprite-pack-S02`...
-(the comms seed is `comms-S03`), so the stage the lane has reached is the highest done `S` number.
+(the comms seed is `comms-S03`), so the stage the lane has reached is the highest done `S` number; the stage names
+are in `lanes/stages.json`.
 
 ```json
 [
