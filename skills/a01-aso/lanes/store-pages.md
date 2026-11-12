@@ -57,14 +57,15 @@ test gives a verdict. Size: unknown until read.
 
 ## 6. Seed tasks
 
-The seed is S01 only. Ids are per app·country: open the lane as `aso-<app>-<country>` and name its
-tasks `<lane>-S01`, `<lane>-S02`..., so several lanes never clash. When a stage's task is done, add
-the next stage's task from the table below (with its customer ask, if any); `references/stages.md` holds each stage's steps and gate. E is
+The seed is every stage's task, written when the lane opens, each following the stage before. Ids are per app·country: open the lane as `aso-<app>-<country>` and name its
+tasks `<lane>-S01`, `<lane>-S02`..., so several lanes never clash. Each task comes
+from the table below (with its customer ask, if any), titled by its stage name without its
+code ("Audit: …"; the names are in `lanes/stages.json`, which `agency status` copies onto the lane); `references/stages.md` holds each stage's steps and gate. E is
 `work/aso/<app>-<country>/<store>/cycle-<n>/`; the files are the `a01-aso` skill's.
 
 ```json
 [
-  {"id": "aso-<app>-<country>-S01", "lane": "aso-<app>-<country>", "kind": "work", "title": "S01 Intake: scope, product truth, access",
+  {"id": "aso-<app>-<country>-S01", "lane": "aso-<app>-<country>", "kind": "work", "title": "Intake: scope, product truth, access",
    "do": "references/stages.md S01, for each store this app is on in this country: fill 01_Intake.md; ask the customer to show the claimed features in the current build and for console access or a 28-day export",
    "refs": ["work/agency/CUSTOMER.md", "work/discovery/", ".sl8/bot/.claude/skills/a01-aso/references/stages.md"], "skill": "a01-aso", "owner": "us",
    "done_when": "01_Intake.md per store, verify.py ok; every missing input is a customer task",

@@ -1,0 +1,12 @@
+{
+ "aso/store-pages": [
+  {"id": "S01", "name": "Intake"},
+  {"id": "S02", "name": "Audit"},
+  {"id": "S03", "name": "Keywords"},
+  {"id": "S04", "name": "Metadata"},
+  {"id": "S05", "name": "Creatives and test plan"},
+  {"id": "S06", "name": "Release"},
+  {"id": "S07", "name": "Measurement"},
+  {"id": "S08", "name": "Report and roadmap"}
+ ]
+}
