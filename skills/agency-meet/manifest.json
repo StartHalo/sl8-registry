@@ -1,7 +1,7 @@
 {
   "name": "agency-meet",
-  "version": "v1.1.0",
-  "description": "Run or file a meeting with the customer, the pull side of the account. The customer sees status, reviews a deliverable, changes the plan or decides. Afterwards every point becomes an event or a task the same day, and the recap goes out. Use for a live meeting, pasted notes, a transcript, or \"we're meeting now\".",
-  "generated_at": "2026-11-10T21:55:12.733Z",
-  "skill_md_sha256": "f2ef848a2275ef3a92ba258adbd5784b1b61ffed9bbb08cb7d315dc4e2c7b71a"
+  "version": "v1.2.0",
+  "description": "Run or file a meeting with the customer, the pull side of the account. The customer sees status, reviews a deliverable, changes the plan or decides. Afterwards every point becomes an event or a task the same day; no recap email. Use for a meeting's hand-off (\"From our meeting on …\"), a live meeting, pasted notes, a transcript, or \"we're meeting now\".",
+  "generated_at": "2026-11-26T18:38:58.905Z",
+  "skill_md_sha256": "5db0b3b3e3304edf5b9d17397c25acaa9877bdd5a7dbe232efef4f58669d0c89"
 }
