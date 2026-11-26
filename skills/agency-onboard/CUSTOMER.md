@@ -16,8 +16,8 @@ and date. Discovery keeps this current; detail lives in `work/discovery/`.>
 The standard, set once (K3); every email follows it without asking.
 
 - **From and Reply-To:** `Slate Agency <reply address>`, the reply address in `bot/user.md`. Replies come back to it.
-- **Signed:** Slate Agency. **Bcc:** the Bcc in `bot/user.md`, always (Q2).
-- **Files:** attached (D70). The send copies them into `artifacts/<customer id>/` (D91).
+- **Signed:** Slate Agency. **Bcc:** the Bcc in `bot/user.md` when it gives one (optional, #499).
+- **Files:** attached (D70); each is a landed deliverable (D99).
 - **Meeting notes:** where `bot/user.md` says they are kept; read only.
 - **Shape:** a short note on what changed and what's in their folder, with 3–4 lines per file on
   what it covers. Evidence at the end of every report.
