@@ -1,7 +1,7 @@
 {
   "name": "agency-run",
-  "version": "v1.2.0",
-  "description": "One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with comms and the session end. Use whenever a job starts with no other instruction, or the prompt says \"run\" or \"work on it\".",
-  "generated_at": "2026-11-10T21:54:36.884Z",
-  "skill_md_sha256": "4bf4665bc50646694cff1353c57077be6ecb6ac9951d9a9c07db622648895ead"
+  "version": "v2.0.0",
+  "description": "One job for this customer, start to finish. Orient, check, take in the request, do ready tasks in rank order, record, end with the session end. Use whenever a job starts with no other instruction, or the prompt says \"run\" or \"work on it\".",
+  "generated_at": "2026-11-26T18:38:25.854Z",
+  "skill_md_sha256": "d8d897acf17155099ae022c6791fc73b67c89cb89538853b1c22dc4e30b41e18"
 }

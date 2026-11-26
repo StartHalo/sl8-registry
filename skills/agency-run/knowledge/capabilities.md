@@ -27,11 +27,11 @@ never by writing a document. Re-test when a line is older than the work needs. N
 | Read WhatsApp | **no** | 2026-10-13 | No access; khalid shares notes |
 | Read Notion meeting notes and pages | yes, read-only | 2026-10-13 | Notion connector |
 | Independent check of a draft by a separate agent | yes | 2026-10-13 | A fresh agent with the draft, the sources and the rules; caught invented claims the builder missed in every test |
-| Put files in a customer's shared Google Drive folder | **retired** (contract §11, D75) | n/a, retired 2026-11-03 | Drive is retired: files go attached to the email (D70), and the send copies them into `artifacts/<customer id>/` (D91) |
+| Put files in a customer's shared Google Drive folder | **retired** (contract §11, D75) | n/a, retired 2026-11-03 | Drive is retired: files land in `artifacts/<customer id>/` at their pass (D99) and an email attaches them (D70) |
 | Render a motion film from code (titles, cuts, music) | yes | 2026-10-28 | the b2b-product-video-motion-video skill |
 | Listen to a mix and judge it | **no, measure only** | 2026-10-28 | b2b-product-video-motion-video's mix check (loudness, peaks, balance above 300 Hz); a style call is the customer's |
 | Draw one consistent child character across shots (AI image or video) | **unproven** | 2026-10-13 | No tool we can run has been tested |
-| Send anything to a client | **v5: yes, by the agency-comms skill** once the email service is set up (D31); until then `send` writes `work/outbox/<task>.eml` for khalid to send (D57) | not yet on a machine (phase 1) | `agency send`; email from the reply address in `bot/user.md`, signed Slate Agency, Bcc from `bot/user.md`, files attached |
+| Send anything to a client | **v5: yes, by the agency-comms skill** once the email service is set up (D31); until then `send` writes `work/outbox/<task>.eml` for Slate to send (D57) | not yet on a machine (phase 1) | `agency send`; email from the reply address in `bot/user.md`, signed Slate Agency, Bcc from `bot/user.md`, files attached |
 
 ## Search and AI assistants' answers, 18 Oct 2026
 

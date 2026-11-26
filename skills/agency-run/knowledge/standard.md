@@ -25,15 +25,14 @@ Everything here follows from these, in this order:
 
 1. **The request** has a goal (from X to Y), a date, the customer's way of doing it, and a scope.
    What's missing is asked once.
-2. **Discovery, then plan** (D51): the facts the goal needs are found first; then the plan sets the
-   lanes and their first tasks.
+2. **Plan, discovery first** (D105): the plan's first lane finds out what the goal needs, in job one,
+   and its summary lands; then the lanes and their first tasks.
 3. **The tasks run** in pick order, each to its done when; anything for the customer is checked.
-4. **Comms after every run** (D52): what the customer needs to hear is worked out from what
-   happened, and sent.
-5. **Shared in `artifacts/`** (D53, D64): every sent piece is there, copied at its send (D91).
-   2026-10-30 · UC1 run 2026-10-30-uc1: `artifacts/` holds only what the customer may see; dropped or
-   out-of-scope versions leave it when dropped.
-6. **Closed:** the goal is met and the customer accepted it (or the engagement ends), the close is sent, nothing open is forgotten.
+4. **The dashboard says it** (D102): what landed and what each lane waits on; a message only when a
+   task calls for one.
+5. **In their folder** (D99, D100): every checked deliverable lands at its pass, and every version stays.
+   2026-10-30 · UC1 run 2026-10-30-uc1: `artifacts/` holds only what the customer may see.
+6. **Closed:** the goal is met and the customer accepted it (or the engagement ends), the job's note says so, nothing open is forgotten.
 
 ## The ideal lane
 
@@ -52,15 +51,13 @@ Everything here follows from these, in this order:
 
 ## The ideal communication
 
-The plan in a few lines once it's made; each deliverable in the next email; progress weekly on a
-running lane; an answer to every question; the close. At most 2-3 emails we start a week, the rest aggregated unless urgent, each with every ask needed (D74). Short, sourced, no
+When a message is written (D102): the plan in a few lines; each deliverable named; an update when the
+owner asks for one (D108); an answer to every question; the close. At most 2-3 emails we start a week, the rest aggregated unless urgent (D74); asks are customer tasks, never held for an email (D102). Short, sourced, no
 internal words, signed "Slate Agency".
 
-- 2026-10-30 · UC1 run 2026-10-30-uc1: the first customer email carries the plan and the first checked
-  deliverable; questions ride along, never alone (since D74: 2-3 emails a week, aggregated).
-- 2026-10-30 · UC1 run 2026-10-30-uc1: a new ask is answered in the next email: agreed
-  and done inside the parameters, or told plainly as outside this engagement (D67 replaces "passed to
-  khalid"); khalid's name never appears in what the customer reads.
+- 2026-10-30 · UC1 run 2026-10-30-uc1: a new ask is answered: taken on inside the parameters, or said
+  plainly as outside this engagement (D67), in the job's note (D107); khalid's name never appears in
+  what the customer reads.
 
 ## Skills
 
@@ -79,7 +76,7 @@ verdict in a real run, then proven.
 
 Graded **met / partly / missed**, each with evidence (log lines, files):
 
-- **Complete:** the request reached done. Discovery and plan came first, every task is done or
+- **Complete:** the request reached done. Discovery came first, in the plan's first lane, every task is done or
   dropped with why, the customer received the work in `artifacts/`, nothing waits unseen.
 - **Quality:** the customer has no questions left. Every check passed, the work meets its skill's
   bar, the emails meet the communication standard, nothing invented.

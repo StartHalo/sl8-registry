@@ -3,19 +3,25 @@
 Used by the agency-plan skill when a goal arrives, and for every review. Keep it simple: two or three lanes
 done well beat a long list.
 
-## 0. Discovery first (D51)
+## 0. Discovery is the first lane (D105)
 
-A plan needs discovery: who they are, the figures we can read, what comparable companies did. Before
-planning, check that `work/agency/CUSTOMER.md` and `work/discovery/` cover what this goal needs. If not, add the
-discovery tasks and park the plan task on them (`task wait <plan id> --on <discovery task id>`); it
-comes back on the pick list when they are done.
+A goal's first plan opens one discovery lane, rank 1, before any other: the tasks this agency needs to
+find out what this goal needs, from `<AGENCY>`'s lanes and Taste and from what `work/agency/CUSTOMER.md`
+lacks (the agency-discover skill does research tasks; an agency whose lane starts with its own intake or
+audit uses those tasks here and skips them in that lane, with why). Its last task is a summary deliverable,
+`work/discovery/summary.md`, the first row of What the customer will receive. None of its tasks waits on
+the owner: what only they can give is a customer task beside it. Give the lane its own id, never
+`discovery`, and a title in the customer's words; an old engagement's standing `discovery` lane is kept
+and worked as an ordinary lane. Then add a `plan` task, "lanes for G1", that `follows` the summary, and
+stop: it opens the other lanes from what discovery found. Both run in job one, so job one ends with the
+summary in the customer's folder.
 
 ## 1. The goal
 
 From X to Y, by a date if one was given, in the words of whoever set it. Read the starting figure
 yourself and log it as a `read`. Every goal gets its own plan file, `work/plan/<goal>.md`: the goal,
-the sums, the customer's way, the candidates scored, the lanes kept and a not-now line for the rest
-(D47).
+the sums, what the customer will receive, the customer's way, the candidates scored, the lanes kept and
+a not-now line for the rest (D47).
 
 **The customer's way.** A business usually comes with its goal and a way of doing it in mind ("ASO
 assessment and reporting"). When they (or the parameters) name it, log it as a `decision` in their
@@ -33,6 +39,14 @@ customer's own rates or a named benchmark. Examples:
 
 Compare the gap with the pace they have without us. If the inputs can't reach Y, say so and say what
 would have to change. No number without a basis. Write the sums to `work/plan/<goal>.md`.
+
+## 2a. What the customer will receive
+
+In `work/plan/<goal>.md`, after the goal and the sums, a table headed `What the customer will receive`:
+name, format, what makes it acceptable, order. Its first row is discovery's summary. Each row becomes one
+`deliverable` task with the row's name as its `title` and its acceptance line as its `done_when`; every
+other task exists because a row needs it. An acceptance line never includes the customer's approval: an
+approval is its own customer task, so the deliverable lands first and they approve what they can open.
 
 ## 3. Candidates
 
@@ -83,10 +97,10 @@ ties**. Every other candidate gets one line: not now, and why.
 | `due` | the plan's date for it, `YYYY-MM-DD`, when the plan has one |
 | `state` | `active` |
 
-Then add its seed tasks from the library entry, each made executable for this customer:
-- **One task per thing the customer receives.** A seed that covers several items (apps, pages,
-  products) becomes one task per item when each is built and checked on its own; one task when they
-  ship as one piece.
+Then add its seed tasks from the library entry, each made executable for this customer, a deliverable's title still its row's name word for word:
+- **One deliverable task per row** of What the customer will receive, titled as the row, and it wins over the seed:
+  a row that would cover two stores (or apps, pages) becomes one row per store, each with its own deliverable task.
+  What ships inside another deliverable (a roadmap in the report) is part of that row, never a row or a task of its own.
 - **Merging or skipping a seed** is written with why in the plan file's lane section, so the next
   review can see it.
 - **Every stage, up front.** Each stage's task is written when the lane opens and follows the stage before;
@@ -98,9 +112,8 @@ lines.
 
 ## 6. Tell them
 
-The plan in a few lines (the goal, the lanes and why, what we need from them), in the run's email
-with the first checked deliverable (agency-comms). If
-the goal itself looks out of reach, say so in it.
+The plan file and the dashboard say it (D102); a message is a comms task when the owner asks for one.
+If the goal itself looks out of reach, say so in the job's note.
 
 ## 7. Review
 

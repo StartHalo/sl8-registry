@@ -24,46 +24,40 @@ output it builds on), its skill, and where its output goes. The tool refuses a t
 | `deliverable` | what the customer will get | built in `work/`; done only with an evaluator pass |
 | `read` | a live figure | logs a `read` with a number; a read on a goal's metric updates the goal |
 | `customer` | what only they can do | `due` only if they gave a date |
-| `comms` | any email: update, notice, question, follow-up, recap | `to`, `out` (the email text), `refs` (exactly what goes out); evaluated |
+| `comms` | any email: update, notice, question, follow-up | `to`, `out` (the email text), `refs` (exactly what goes out); evaluated |
 | `plan` | planning a goal, reviewing lanes | the agency-plan skill |
-| `meeting` | a meeting | transcript to `work/meetings/`; the recap goes out as a comms task |
+| `meeting` | a meeting | the agency-meet skill: notes and transcript read in `meetings/<folder>/`, every point an event or a task; no recap email (D98, D107) |
 
 **States:** `ready` → `running` → `done`; or `waiting` (on someone: `task wait <id> --on customer`),
 `blocked` (on another task: `task wait <id> --on <task id>`), `dropped` (with why).
 
 **Guidance lines:**
-- A customer task is `ready` until the email that asks for it goes out, then `waiting` with a date (log it at that
-  moment: `task wait <id> --on customer` (the tool sets 3 working days; give `--due` only for a date she named, D67); when the
-  date passes, comms follows up. It is never picked: comms asks for it.
-- A task is done with its evaluator pass first, then sent. Only deliverable and comms tasks take a
-  pass (`--check pass` is refused on other kinds); the pass fingerprints their output and the send shares it in `artifacts/<customer id>/` (D91). An evaluator fail is recorded with
+- A customer task waits on the owner from when it is added: `task wait <id> --on customer` (3 working days;
+  `--due` only for a date they named, D67); it is never picked. When its date passes, wait it again with a
+  new date and say so in the job's note: one follow-up for each overdue ask.
+- A task is done with its evaluator pass. Only deliverable and comms tasks take a pass (`--check pass` is
+  refused on other kinds); a deliverable's pass lands its output in `artifacts/<customer id>/` (D99). An evaluator fail is recorded with
   `task done <id> --check fail --why <note>`; the task stays open. Closing on a check made earlier,
   give its date: `--checked YYYY-MM-DD`.
 - A recurring task (`every: daily`, a weekday or `monthly`) stays one task. Close each run with `task done`
   (a `read` naming the task also counts). The pick list leaves it out until its next day; a missed
-  run comes back in the next session. A job that sends something each week (a weekly update) is a
-  recurring `work` task that drafts it and adds that week's comms task; the tool refuses `every` on
-  comms and deliverable tasks (D61).
+  run comes back in the next session. An update is written only when the owner asks for one (D108); the
+  tool refuses `every` on comms and deliverable tasks (D61).
 - **A check that fails twice:** stop picking the task this session: `task wait <id> --on <who or
   what supplies the missing piece>` (the wait shows in the dashboard; the finding is in the check note).
   Start it again when that arrives (take-in).
 - **A blocked task** comes back on the pick list, marked "released", once the task it waits on is
   done or dropped (or, if that one recurs, has run since). Start it then; if its blocker was dropped,
   refine or drop it first.
-- **Feedback or a change request on something sent:** log it as `received`; add a new deliverable
-  task for the next version (`follows` the old one, output in a new `v2/` folder) and its own comms
-  task. A sent task is never reopened. A new version says what it removed since the one they have,
-  and why; the customer only ever sees the latest (drop an unsent older one: its files leave
-  `artifacts/<customer id>/`). A question, a correction or "too long" about something we
-  sent is also a quality miss: add a dated line to the Lessons of the skill that made it.
-- **A finished deliverable no send has carried** shows under "to send" as NOT SENT: carry it in the
-  next comms task, or drop it with why (superseded, not needed).
+- **Feedback or a change request on something landed:** log it as `received`; add a new deliverable
+  task for the next version (`follows` the old one, output in a new `v2/` folder). A done task is never
+  reopened, and every passed version stays in their folder (D100). A new version says what it removed
+  since the one they have, and why. A question, a correction or "too long" about something we gave
+  them is also a quality miss: add a dated line to the Lessons of the skill that made it.
 - **You decide** most things (which lane, what a task becomes, what to send): log it as a `decision`
   with `by: agent` and the reason.
 - **A task that needs a human sense** (listening, a style call): measure what you can, say what you
-  could not judge in the email, and add a `[core]` line to `work/lessons.md`.
-- **A step that was khalid's under 4.4:** a fact we can read becomes a `read`; a fact only the
-  customer has becomes a `customer` task; a message becomes `comms`.
+  could not judge in the check note and the job's note, and add a `[core]` line to `work/lessons.md`.
 - Work the pick list until it is empty before the close; only a task cut off (it waits on someone, or the job's 6 hours run out) keeps where it stopped in a `work/` file named in its notes.
 - **Stopped by something outside** (the network, a missing account): log an `error`, then
   `task wait <id> --on <what> --due <when it can be checked>`; it returns to the pick list that day.
@@ -76,14 +70,14 @@ output it builds on), its skill, and where its output goes. The tool refuses a t
 
 ## Facts and replanning
 
-A new goal is planned only after the discovery it needs (D51; how-to-plan §0). After logging a fact, ask: does it change a goal, or which lane should come first? If yes, add a
+A new goal's plan opens its discovery lane first (D105; how-to-plan §0). After logging a fact, ask: does it change a goal, or which lane should come first? If yes, add a
 `plan` task to review the lanes. The pick list puts plan tasks first. Other reasons to review: a lane's
 read-out, a gauge flat for two weeks, a customer's new ask, every twelve weeks, **an active goal lane
 with no open task left, and a goal that reached its target or passed its date**. **The route to
 met:** acceptance is the customer saying the work is fine, or acting on it and raising nothing within
-the agreed wait. "The fixes are live, take a look" gets the re-check and, in the email with it,
-"shall we close this?". At acceptance, log it as `received` (and as a `read` when the goal's metric
-is acceptance) and send the close (D67).
+the agreed wait. "The fixes are live, take a look" gets the re-check and the ask
+"shall we close this?" (a customer task). At acceptance, log it as `received` (and as a `read` when the
+goal's metric is acceptance) (D67).
 
 **At take-in, two events come from the tool, not from you:** when `bot/user.md` differs from the
 last `params` event, `agency status` logs a new one; when it prints "take-in adds a plan review", review the plan
@@ -91,10 +85,10 @@ against it (a `plan` task, A10).
 When the agency's release renames a lane (`lanes/migrations.json`), `agency status` logs a
 `lane_renamed` and the old id resolves to the new one (A7); nothing else is rewritten.
 
-## Comms: what goes out
+## Messages
 
-You decide, with the customer directly (D67). The rules are in the agency-comms skill, once (D56: a rule
-repeated only where it adds value). Standing instructions in `work/agency/CUSTOMER.md` win over them.
+Write one only when a task calls for it (D102); the rules are in the agency-comms skill, and standing
+instructions in `work/agency/CUSTOMER.md` win over them.
 
 ## The dashboard (dashboard.json)
 
