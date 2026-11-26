@@ -3,7 +3,7 @@ name: agency-evaluate
 description: Check, once and independently, anything that will reach the customer (deliverables and every email) before it goes. Returns pass or fail with a note. Use before closing any deliverable or comms task, and to re-check anything checked more than a week ago.
 metadata:
   status: core
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Evaluate
@@ -51,7 +51,7 @@ stays unchecked and does not go: log an `error` saying so, and say it at the clo
      accepted, with why: then `agency task done <id> --check pass --why work/checks/…`.
      A done deliverable re-checked later gets the same command again.
    - `fail` otherwise: `agency task done <id> --check fail --why work/checks/…`; the task stays open.
-   - **Any edit after a pass** is re-read by the same checker before it is sent (`send` refuses a
-     file changed since its pass, D60).
+   - **Any edit after a pass** is a new version: a new path and a new pass (the tool refuses a
+     different file where one landed, D100).
 6. **An email checks its files too:** a comms task passes only if each deliverable it carries has a
    pass (`send` refuses a file whose task failed its check).
