@@ -3,16 +3,16 @@ name: agency-task
 description: Do one task end to end by its kind and skill, or refine a task that can't be done as written. Use for each task the runner picks, and for work-kind tasks with no other skill.
 metadata:
   status: core
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Do one task
 
 1. **Executable?** A clear scope, achievable, a clear `do`, its refs or `follows`, its skill, a
-   "done when" you can test (D62), and an output place.
+   "done when" you can test (D62; a deliverable's is its plan row's acceptance line), and an output place.
    - If something is missing, refine it first: `agency log task_refined '{"task":{"id":…,…}}'`.
-   - If only the customer can supply it, add the customer task or comms question, and move
-     on.
+   - If only the owner can supply it, add the customer task, wait it (`agency task wait <id> --on
+     customer`), and move on.
    - A task you add because of another one (a follow-up, a fix) names it: `"caused_by": "<task id>"`.
 2. **Start:** `agency task start <id>`. It prints what to read; read it all, after the Taste and the
    references that `bot/setup.md`'s `<AGENCY>` names.
@@ -25,5 +25,5 @@ metadata:
 5. **Verify** against "done when". For a deliverable or a comms task, run the agency-evaluate skill. Only a
    pass lets it be done.
 6. **Close:** `agency task done <id> --out <path> [--check pass] [--why "<evaluator note path>"]`. A
-   customer task is closed when they tell you it's done, or when you see it done in a read. A pass
-   fingerprints the checked output; the send copies it into `artifacts/<customer id>/` (D91).
+   customer task is closed when they tell you it's done, or when you see it done in a read. A
+   deliverable's pass lands the checked output in `artifacts/<customer id>/` (D99); a new version goes to a new path (`v2/`).
